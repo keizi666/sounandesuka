@@ -5,6 +5,7 @@ import { areaPanel } from './area';
 import { environmentPanel } from './environment';
 import { pointsPanel } from './points';
 import { trailsPanel } from './trails';
+import { weatherPanel } from './weather';
 
 function todo(id: Panel['id'], label: string): Panel {
   return {
@@ -22,7 +23,7 @@ export const PANELS: Panel[] = [
   trailsPanel,
   pointsPanel,
   environmentPanel,
-  todo('weather', '天候'),
+  weatherPanel,
   todo('party', '人と計画'),
   todo('choices', '分岐点'),
   todo('endings', '結末'),
