@@ -8,6 +8,8 @@ export interface PurityRule {
   id: string;
   /** true なら文字列を残したソースで検査する（import 先の判定用） */
   needsStrings?: boolean;
+  /** このパスのファイルでは許す */
+  allowIn?: RegExp;
   pattern: RegExp;
   message: string;
 }
@@ -40,6 +42,13 @@ export const PURITY_RULES: readonly PurityRule[] = [
   { id: 'storage', pattern: /\b(?:localStorage|sessionStorage|indexedDB)\b/g, message: 'ブラウザの保存領域は禁止（保存は app 層）' },
   { id: 'fetch', pattern: /\bfetch\b/g, message: 'fetch は禁止（sim は通信しない）' },
   { id: 'xhr', pattern: /\b(?:XMLHttpRequest|WebSocket|EventSource)\b/g, message: '通信 API は禁止（sim は通信しない）' },
+  {
+    id: 'transcendental',
+    allowIn: /(?:^|\/)core\/dmath\.ts$/,
+    pattern: /\bMath\s*\.\s*(?:sin|cos|tan|asin|acos|atan|atan2|sinh|cosh|tanh|asinh|acosh|atanh|exp|expm1|log|log1p|log2|log10|pow|cbrt|hypot)\b/g,
+    message: '超越関数は core/dmath.ts の関数を使う（NFR-04 決定論）',
+  },
+  { id: 'exponent-op', pattern: /\*\*/g, message: '** 演算子は使わず dpow を使う（NFR-04 決定論）' },
 ];
 
 export interface MaskedSource {
@@ -140,6 +149,7 @@ export function findViolations(source: string, file: string): PurityViolation[] 
   const lines = source.split('\n');
   const out: PurityViolation[] = [];
   for (const rule of PURITY_RULES) {
+    if (rule.allowIn?.test(file.replaceAll('\\', '/'))) continue;
     const text = rule.needsStrings ? masked.noComments : masked.codeOnly;
     rule.pattern.lastIndex = 0;
     for (const m of text.matchAll(rule.pattern)) {

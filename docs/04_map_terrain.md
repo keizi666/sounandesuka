@@ -199,11 +199,11 @@
 
 ```jsonc
 "radio": { "stations": [
-  { "id": "town_se", "x": 3500, "z": 3500, "elevM": 420, "antennaM": 40, "rangeM": 12000 },
-  { "id": "pass_ne", "x": 3000, "z": -4000, "elevM": 900, "antennaM": 30, "rangeM": 10000 } ] }
+  { "id": "town_se", "x": 3500, "z": 3500, "elevM": 1150, "antennaM": 40, "rangeM": 12000 },
+  { "id": "pass_ne", "x": 3000, "z": -4000, "elevM": 1250, "antennaM": 30, "rangeM": 10000 } ] }
 ```
 
-- 各セル（地上 1.5 m）から各局（局標高 + アンテナ高）へ 32 m 間隔で見通しを判定。地形の外（箱庭の外）は `baseElevation` の平地とみなす。
+- 各セル（地上 1.5 m）から各局（局標高 + アンテナ高）へ 32 m 間隔で見通しを判定。地形の外（箱庭の外）は `baseElevation` の平地とみなす。したがって局は平地より高い位置（`elevM ≥ baseElevation`）に置く。
 - 遮られなければ `strength = 1 - dist/rangeM`、遮られたら `max(0, 0.25 - 遮蔽量m/200)`（回折の近似）。全局の max。
 - 森林セルは ×0.8。
 - 見通し判定のサンプル間隔は `max(32, 2 × cell)` m。

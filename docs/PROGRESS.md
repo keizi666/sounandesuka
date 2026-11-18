@@ -12,9 +12,17 @@
 - [x] `docs/PROGRESS.md` と `docs/DECISIONS.md`
 - [x] 受け入れ: `npm run typecheck && npm run test && npm run check:sim-purity` が通る。`npm run dev` で空の画面が出る
 
+## P1 乱数・時刻・地形 — 完了（2026-11-18）
+
+- [x] `core/rng.ts`（xoshiro128**、名前付きストリーム、既知ベクトルのテスト）
+- [x] `core/clock.ts`（TimeRef、日付、太陽高度、次の日の出）
+- [x] `core/dmath.ts`（超越関数の窓口）
+- [x] `terrain/noise.ts` `generate.ts` `flow.ts` `derive.ts` `sample.ts` `coverage.ts` `polyline.ts` `map.ts`
+- [x] 受け入れ: rng の一致と既知ベクトル / docs/04 §3.3 の 3 項目 / Node で 1 秒以内（約 0.35 秒）/ docs/04 §7 の電波の検証 / `npm run sim -- --dump-terrain` で PGM 出力
+- [ ] 要検討: マップの急峻さ（DECISIONS「要検討」）。P6 の前に決める
+
 ## これから
 
-- [ ] P1 乱数・時刻・地形
 - [ ] P2 登山道と移動
 - [ ] P3 気象
 - [ ] P4 生理

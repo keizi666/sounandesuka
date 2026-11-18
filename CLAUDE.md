@@ -44,7 +44,7 @@
 
 1. `src/sim/**` は **three も DOM も import しない**。Node（vitest / tsx）でそのまま動くこと。
 2. シミュレーション状態 `World` は **プレーンな JSON 互換オブジェクト**のみ（クラスインスタンス・関数・Map/Set を入れない）。`structuredClone` と `JSON.stringify` で往復できること。
-3. 乱数は `World.rng` の **サブシステム別ストリーム**だけを使う。`Math.random()` と `Date.now()` は `src/sim/**` で禁止（`npm run check:sim-purity` スクリプトで検査する。ESLint を導入した場合はルールでも検査してよい）。
+3. 乱数は `World.rng` の **サブシステム別ストリーム**だけを使う。`Math.random()` と `Date.now()` は `src/sim/**` で禁止。超越関数（`Math.sin`・`Math.exp`・`Math.pow` など）と `**` は `src/sim/core/dmath.ts` 経由でだけ使う（`npm run check:sim-purity` スクリプトで検査する。ESLint を導入した場合はルールでも検査してよい）。
 4. 調整用の数値定数はすべて `src/sim/tuning.ts` に集約し、コード中に魔法の数値を書かない。
 5. 画面に出す日本語文字列は `src/i18n/ja.ts` に集約する（シナリオ JSON 内の文章は除く）。
 6. シミュレーションの固定刻みは **ゲーム内 10 秒**。描画は前後 2 状態を補間する。

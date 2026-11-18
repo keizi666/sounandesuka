@@ -20,8 +20,22 @@ describe('sim-purity の検出', () => {
     ['localStorage.setItem("a", "b");', 'storage'],
     ['const x = new XMLHttpRequest();', 'xhr'],
     ['const ua = navigator.userAgent;', 'navigator'],
+    ['const s = Math.sin(a);', 'transcendental'],
+    ['const p = Math.pow(a, 0.6);', 'transcendental'],
+    ['const h = Math.hypot(a, b);', 'transcendental'],
+    ['const q = a ** 2;', 'exponent-op'],
   ])('%s → %s', (src, rule) => {
     expect(rules(src)).toContain(rule);
+  });
+
+  it('超越関数は core/dmath.ts の中でだけ許す', () => {
+    const src = 'export const s = Math.sin(1);';
+    expect(findViolations(src, 'src/sim/core/dmath.ts')).toEqual([]);
+    expect(findViolations(src, 'src/sim/climber/physiology.ts').map((v) => v.rule)).toEqual(['transcendental']);
+  });
+
+  it('sqrt・floor・abs などの正確な演算は許す', () => {
+    expect(rules('const a = Math.sqrt(x) + Math.floor(y) + Math.abs(z) + Math.min(1, 2);')).toEqual([]);
   });
 
   it('テンプレート文字列の式の中も検査する', () => {
