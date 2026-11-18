@@ -33,6 +33,7 @@ function areaTool(ed: Ed): MapTool | null {
       const inside = p.px > r.x && p.px < r.x + r.w && p.py > r.y && p.py < r.y + r.h;
       if (!nearCorner && !inside) return false;
       mode = nearCorner ? 'resize' : 'move';
+      ed.checkpoint('範囲');
       start = { pLat: p.lat, pLon: p.lon, lat: ed.p.map.geo!.centerLat, lon: ed.p.map.geo!.centerLon };
       return true;
     },
@@ -53,7 +54,7 @@ function areaTool(ed: Ed): MapTool | null {
       ed.view.redraw();
     },
     up() {
-      if (mode) ed.change('範囲', () => {}, true);
+      if (mode) ed.touched(true);
       mode = null;
     },
   };

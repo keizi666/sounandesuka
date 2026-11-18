@@ -1,0 +1,159 @@
+/**
+ * 地図の道具に共通の処理: 当たり判定（ノード・エッジ・危険箇所）、塗りのブラシ、ID の一括書き換え、ルートの自動補完。
+ */
+import { decodeGrid, encodeGrid } from '../../sim/terrain/codec';
+import { shortestPath } from '../../sim/terrain/trails';
+import type { EdgeDef, GridOverride, MapDef, MapRuntime, NodeDef, ScenarioDef } from '../../sim/types';
+import type { TileMapView } from './TileMapView';
+
+export function edgePoints(map: MapDef, rt: MapRuntime | null, e: EdgeDef): { x: number; z: number }[] {
+  const s = rt?.trails[e.id]?.samples;
+  if (s) return s.map((p) => ({ x: p.x, z: p.z }));
+  const node = (id?: string): NodeDef | undefined => map.nodes.find((n) => n.id === id);
+  return [node(e.from), ...e.waypoints.map((w) => ({ x: w[0], z: w[1] })), node(e.to)].filter((p): p is { x: number; z: number } => Boolean(p));
+}
+
+export function hitNode(v: TileMapView, map: MapDef, px: number, py: number, radiusPx = 9): NodeDef | null {
+  let best: NodeDef | null = null;
+  let bd = radiusPx;
+  for (const n of map.nodes) {
+    const p = v.xzToPx(n.x, n.z);
+    const d = Math.hypot(p.px - px, p.py - py);
+    if (d < bd) {
+      bd = d;
+      best = n;
+    }
+  }
+  return best;
+}
+
+function segDist(px: number, py: number, ax: number, ay: number, bx: number, by: number): { d: number; t: number } {
+  const dx = bx - ax;
+  const dy = by - ay;
+  const l2 = dx * dx + dy * dy || 1;
+  const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / l2));
+  return { d: Math.hypot(px - (ax + dx * t), py - (ay + dy * t)), t };
+}
+
+/** 画面上でいちばん近いエッジと、その上の点（頂点の番号と比率） */
+export function hitEdge(v: TileMapView, map: MapDef, rt: MapRuntime | null, px: number, py: number, radiusPx = 7): { edge: EdgeDef; index: number; t: number } | null {
+  let best: { edge: EdgeDef; index: number; t: number } | null = null;
+  let bd = radiusPx;
+  for (const e of map.edges) {
+    const pts = edgePoints(map, rt, e).map((q) => v.xzToPx(q.x, q.z));
+    for (let i = 1; i < pts.length; i += 1) {
+      const r = segDist(px, py, pts[i - 1]!.px, pts[i - 1]!.py, pts[i]!.px, pts[i]!.py);
+      if (r.d < bd) {
+        bd = r.d;
+        best = { edge: e, index: i - 1, t: r.t };
+      }
+    }
+  }
+  return best;
+}
+
+export function hitHazard(v: TileMapView, map: MapDef, px: number, py: number): MapDef['hazards'][number] | null {
+  for (const h of map.hazards) {
+    if (!('x' in h)) continue;
+    const p = v.xzToPx(h.x, h.z);
+    if (Math.hypot(p.px - px, p.py - py) < Math.max(8, h.radius * v.pxPerM())) return h;
+  }
+  return null;
+}
+
+/** 塗り直しのグリッドに円を塗る（value 0 で消す） */
+export function paintCircle(grid: GridOverride | undefined, map: MapDef, x: number, z: number, radiusM: number, value: number): GridOverride {
+  const n = map.resolution;
+  const d = grid ? decodeGrid(grid, n * n) : new Uint8Array(n * n);
+  const cell = map.size / (n - 1);
+  const half = map.size / 2;
+  const cx = (x + half) / cell;
+  const cz = (z + half) / cell;
+  const r = radiusM / cell;
+  for (let iz = Math.max(0, Math.floor(cz - r)); iz <= Math.min(n - 1, Math.ceil(cz + r)); iz += 1)
+    for (let ix = Math.max(0, Math.floor(cx - r)); ix <= Math.min(n - 1, Math.ceil(cx + r)); ix += 1)
+      if ((ix - cx) ** 2 + (iz - cz) ** 2 <= r * r) d[iz * n + ix] = value & 255;
+  return encodeGrid(d);
+}
+
+/** ノード ID を変え、マップとシナリオの参照を一括で書き換える（docs/16 §5） */
+export function renameNode(map: MapDef, scenario: ScenarioDef, from: string, to: string): ScenarioDef {
+  for (const n of map.nodes) if (n.id === from) n.id = to;
+  for (const e of map.edges) {
+    if (e.from === from) e.from = to;
+    if (e.to === from) e.to = to;
+  }
+  return JSON.parse(JSON.stringify(scenario).split(`"${from}"`).join(`"${to}"`)) as ScenarioDef;
+}
+
+export function renameEdge(map: MapDef, scenario: ScenarioDef, from: string, to: string): ScenarioDef {
+  for (const e of map.edges) if (e.id === from) e.id = to;
+  for (const n of map.nodes)
+    for (const c of n.confusers ?? []) {
+      if (c.edge === from) c.edge = to;
+      c.whenIntending = c.whenIntending.map((x) => (x === from ? to : x));
+    }
+  for (const h of map.hazards) if ('onEdge' in h && h.onEdge === from) h.onEdge = to;
+  return JSON.parse(JSON.stringify(scenario).split(`"${from}"`).join(`"${to}"`)) as ScenarioDef;
+}
+
+/** ルートの末尾にノードを足す（隣接していなければ最短経路で補う） */
+export function appendToRoute(rt: MapRuntime, route: string[], id: string): string[] | null {
+  const last = route[route.length - 1];
+  if (!last) return [id];
+  if (last === id) return route;
+  const path = shortestPath(rt, last, id);
+  if (!path) return null;
+  return [...route, ...path.slice(1)];
+}
+
+/** エッジを頂点 index の位置で 2 つに分け、間にノードを入れる */
+export function splitEdge(map: MapDef, e: EdgeDef, at: { x: number; z: number }, nodeId: string, newEdgeId: string): void {
+  const pts = e.waypoints;
+  // 最も近い waypoint で分ける
+  let k = 0;
+  let bd = Infinity;
+  pts.forEach((w, i) => {
+    const d = Math.hypot(w[0] - at.x, w[1] - at.z);
+    if (d < bd) {
+      bd = d;
+      k = i;
+    }
+  });
+  const node: NodeDef = { id: nodeId, name: nodeId, type: 'junction', x: at.x, z: at.z, snap: false, source: 'manual' };
+  map.nodes.push(node);
+  const second: EdgeDef = { ...structuredClone(e), id: newEdgeId, from: nodeId, waypoints: pts.slice(k + 1), name: `${e.name}（2）` };
+  e.to = nodeId;
+  e.waypoints = pts.slice(0, k);
+  if (e.courseTimeMin) {
+    e.courseTimeMin = undefined;
+    second.courseTimeMin = undefined;
+  }
+  map.edges.push(second);
+}
+
+/** 2 本のエッジを共有ノードでつなぐ（ノードの次数が 2 のとき） */
+export function mergeEdges(map: MapDef, a: EdgeDef, b: EdgeDef): boolean {
+  const shared = [a.from, a.to].find((x) => x && (x === b.from || x === b.to));
+  if (!shared) return false;
+  const deg = map.edges.filter((e) => e.from === shared || e.to === shared).length;
+  if (deg !== 2) return false;
+  const node = map.nodes.find((n) => n.id === shared)!;
+  const aPts = a.to === shared ? a.waypoints : [...a.waypoints].reverse();
+  const aStart = a.to === shared ? a.from : a.to!;
+  const bPts = b.from === shared ? b.waypoints : [...b.waypoints].reverse();
+  const bEnd = b.from === shared ? b.to : b.from;
+  a.from = aStart;
+  a.to = bEnd;
+  a.waypoints = [...aPts, [node.x, node.z], ...bPts];
+  map.edges.splice(map.edges.indexOf(b), 1);
+  map.nodes.splice(map.nodes.indexOf(node), 1);
+  return true;
+}
+
+export function reverseEdge(e: EdgeDef): void {
+  if (!e.to) return;
+  [e.from, e.to] = [e.to, e.from];
+  e.waypoints = [...e.waypoints].reverse();
+  if (e.courseTimeMin) e.courseTimeMin = [e.courseTimeMin[1], e.courseTimeMin[0]];
+}

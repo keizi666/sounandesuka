@@ -16,6 +16,9 @@ export interface Ed {
   runtime(): MapRuntime | null;
   /** 変更を記録して反映する（Undo の単位）。mapChanged ならマップの実行時データを作り直す */
   change(label: string, mutate: () => void, mapChanged?: boolean): void;
+  /** ドラッグ中の連続した変更: 始めに checkpoint で Undo 位置を記録し、終わりに touched で反映する */
+  checkpoint(label: string): void;
+  touched(mapChanged: boolean): void;
   /** 表示だけを更新（パネル・地図） */
   refresh(): void;
   select(kind: SelKind, id: string | null): void;

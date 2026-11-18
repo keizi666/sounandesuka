@@ -72,3 +72,8 @@ export function timeRef(label: string, value: string | null | undefined, set: (v
     if (/^D\d+ \d{1,2}:\d{2}$/.test(v.trim())) set(v.trim());
   }, { placeholder: 'D0 13:30', hint: '「D0 13:30」の形（D0 = 開始日、D1 = 翌日）' });
 }
+
+/** null を除いて子を入れ替える */
+export function fill(host: HTMLElement, ...kids: (Node | string | null | undefined | false)[]): void {
+  host.replaceChildren(...kids.filter((k): k is Node | string => k !== null && k !== undefined && k !== false));
+}

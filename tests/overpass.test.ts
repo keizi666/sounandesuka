@@ -59,6 +59,12 @@ describe('Overpass の取り込み', () => {
     const w = toPeak.waypoints;
     for (let i = 1; i < w.length; i += 1) expect(Math.hypot(w[i]![0] - w[i - 1]![0], w[i]![1] - w[i - 1]![1])).toBeLessThan(10.5);
   });
+  it('way に nodes がない応答（out geom）でも、座標が同じ点を共有点として分割できる', () => {
+    const f = fixture();
+    for (const e of f.elements) delete e.nodes;
+    const g = osmToGraph(f, lat0, lon0, size, () => 1500);
+    expect(g.edges).toHaveLength(4);
+  });
   it('タグから class・markers・廃道', () => {
     expect(trailAttrs({ sac_scale: 'hiking' }, 30).cls).toBe('T1');
     expect(trailAttrs({}, 20).cls).toBe('T2');

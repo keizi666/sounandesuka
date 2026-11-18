@@ -35,7 +35,7 @@ export function overpassQuery(lat0: number, lon0: number, size: number): string 
   node["information"="guidepost"](${bb});
   node["highway"="trailhead"](${bb});
 );
-out geom tags;`;
+out body geom;`;
 }
 
 export async function fetchOsm(lat0: number, lon0: number, size: number): Promise<OsmJson> {
@@ -125,36 +125,38 @@ export function osmToGraph(osm: OsmJson, lat0: number, lon0: number, size: numbe
     if (pt && pt !== 'waterfall') nodes.push({ id: '', name: NAME(e.tags), type: pt.type, x: p.x, z: p.z, shelter: pt.shelter, snap: false, source: 'osm', osmId: `w${e.id}` });
   }
   // 道: OSM ノード ID ごとの出現回数（共有点の検出）
-  const ways = osm.elements.filter((e) => e.type === 'way' && e.geometry && e.nodes && /^(path|footway|track|steps|bridleway)$/.test(e.tags?.['highway'] ?? ''));
-  const count = new Map<number, number>();
-  for (const w of ways) w.nodes!.forEach((id, i) => count.set(id, (count.get(id) ?? 0) + (i === 0 || i === w.nodes!.length - 1 ? 2 : 1)));
-  // 分岐点（OSM ノード ID → 箱庭ノード）
-  const junction = new Map<number, NodeDef>();
-  const nodeFor = (osmId: number, p: { x: number; z: number }, onBorder: boolean): NodeDef => {
+  const ways = osm.elements.filter((e) => e.type === 'way' && e.geometry && /^(path|footway|track|steps|bridleway)$/.test(e.tags?.['highway'] ?? ''));
+  // 点の ID: OSM のノード ID（out body のとき）、なければ座標（同じ点は同じ座標になる）
+  const pid = (w: OsmElement, i: number): string => (w.nodes?.[i] !== undefined ? `n${w.nodes[i]}` : `c${w.geometry![i]!.lat.toFixed(7)},${w.geometry![i]!.lon.toFixed(7)}`);
+  const count = new Map<string, number>();
+  for (const w of ways) w.geometry!.forEach((_, i) => count.set(pid(w, i), (count.get(pid(w, i)) ?? 0) + (i === 0 || i === w.geometry!.length - 1 ? 2 : 1)));
+  // 分岐点（点の ID → 箱庭ノード）
+  const junction = new Map<string, NodeDef>();
+  const nodeFor = (osmId: string, p: { x: number; z: number }, onBorder: boolean): NodeDef => {
     let nd = junction.get(osmId);
     if (nd) return nd;
     // 取り込んだ地点から 25 m 以内ならその地点
     const near = nodes.find((x) => Math.hypot(x.x - p.x, x.z - p.z) < 25);
-    nd = near ?? { id: '', name: onBorder ? '登山口（境界）' : '', type: onBorder ? 'trailhead' : 'junction', x: p.x, z: p.z, snap: false, source: 'osm', osmId: `n${osmId}` };
+    nd = near ?? { id: '', name: onBorder ? '登山口（境界）' : '', type: onBorder ? 'trailhead' : 'junction', x: p.x, z: p.z, snap: false, source: 'osm', osmId: osmId.startsWith('n') ? osmId : undefined };
     if (!near) nodes.push(nd);
     junction.set(osmId, nd);
     return nd;
   };
   const edges: EdgeDef[] = [];
-  let borderSeq = -1;
+  let borderSeq = 0;
   for (const w of ways) {
-    const pts = w.geometry!.map((g, i) => ({ ...toXZ(lat0, lon0, g), id: w.nodes![i]! }));
+    const pts = w.geometry!.map((g, i) => ({ ...toXZ(lat0, lon0, g), id: pid(w, i) }));
     // エリア内の連続区間に分ける（境界で切る）
-    const runs: { x: number; z: number; id: number; border?: boolean }[][] = [];
-    let cur: { x: number; z: number; id: number; border?: boolean }[] = [];
+    const runs: { x: number; z: number; id: string; border?: boolean }[][] = [];
+    let cur: { x: number; z: number; id: string; border?: boolean }[] = [];
     for (let i = 0; i < pts.length; i += 1) {
       const p = pts[i]!;
       const prev = pts[i - 1];
       if (inside(p)) {
-        if (cur.length === 0 && prev && !inside(prev)) cur.push({ ...clipToBox(prev, p, half), id: borderSeq--, border: true });
+        if (cur.length === 0 && prev && !inside(prev)) cur.push({ ...clipToBox(prev, p, half), id: `b${borderSeq++}`, border: true });
         cur.push(p);
       } else if (cur.length > 0) {
-        cur.push({ ...clipToBox(pts[i - 1]!, p, half), id: borderSeq--, border: true });
+        cur.push({ ...clipToBox(pts[i - 1]!, p, half), id: `b${borderSeq++}`, border: true });
         runs.push(cur);
         cur = [];
       }

@@ -192,6 +192,18 @@ export class EditorApp implements Ed {
     this.refresh();
   }
 
+  checkpoint(label: string): void {
+    this.undoStack.push(this.snapshot(label));
+    if (this.undoStack.length > UNDO_MAX) this.undoStack.shift();
+    this.redoStack = [];
+  }
+
+  touched(mapChanged: boolean): void {
+    if (mapChanged) this.rtVersion += 1;
+    this.dirty();
+    this.refresh();
+  }
+
   undo(): void {
     const s = this.undoStack.pop();
     if (!s) return;
