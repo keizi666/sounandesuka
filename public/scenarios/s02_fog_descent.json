@@ -1,0 +1,736 @@
+{
+  "id": "s02_fog_descent",
+  "version": 1,
+  "title": "霧の下山路",
+  "subtitle": "6月・2人・道迷い",
+  "theme": "lost",
+  "difficulty": 3,
+  "season": "summer",
+  "estMinutes": 18,
+  "mapId": "hakoniwa",
+  "seed": 614,
+  "startDate": "2026-06-14",
+  "startAt": "D0 08:00",
+  "timeLimit": "D1 14:00",
+  "sun": {
+    "sunrise": "04:25",
+    "sunset": "19:00",
+    "maxElevDeg": 76
+  },
+  "moon": {
+    "illumination": 0.6
+  },
+  "briefing": {
+    "text": "佐藤さん（45歳）と同僚の田中さん（40歳）は、箱庭岳を周回する日帰り登山に出かけた。山頂から北の鞍部を経て、西尾根を下って登山口に戻る計画。佐藤さんは登山歴3年、田中さんは今回が3回目の登山。寝坊して出発が1時間遅れた。ヘッドランプは佐藤さんだけが持っている。",
+    "forecast": [
+      {
+        "label": "午前",
+        "text": "くもり時々晴れ",
+        "icon": "sunny_cloudy"
+      },
+      {
+        "label": "午後",
+        "text": "くもり",
+        "icon": "cloudy"
+      },
+      {
+        "label": "夜",
+        "text": "霧雨",
+        "icon": "drizzle"
+      }
+    ]
+  },
+  "plan": {
+    "route": [
+      "TH_SAWA",
+      "J_FOREST",
+      "EBOSHI",
+      "HUT_RIDGE",
+      "SUMMIT",
+      "SADDLE_N",
+      "W_SHOULDER",
+      "J_FOREST",
+      "TH_SAWA"
+    ],
+    "goalNodes": [
+      "TH_SAWA",
+      "TH_KITA"
+    ],
+    "plannedFinish": "D0 16:30",
+    "submittedPlan": false,
+    "reportIfNotBackBy": "D0 22:00"
+  },
+  "party": [
+    {
+      "id": "sato",
+      "name": "佐藤",
+      "age": 45,
+      "sex": "m",
+      "weightKg": 72,
+      "packKg": 7,
+      "experience": 0.4,
+      "fitness": 0.9,
+      "navSkill": 0.35,
+      "riskTolerance": 0.6,
+      "color": "#2f6fd6",
+      "leader": true,
+      "habits": {
+        "eatEveryMin": 150,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.5,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "basic",
+        "cloWorn": 0.6,
+        "cloPack": 0.4,
+        "gloves": "none",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 3,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 45,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": true,
+        "compass": false,
+        "foodKcal": 800,
+        "waterL": 1.0,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false
+      }
+    },
+    {
+      "id": "tanaka",
+      "name": "田中",
+      "age": 40,
+      "sex": "f",
+      "weightKg": 55,
+      "packKg": 5,
+      "experience": 0.15,
+      "fitness": 0.85,
+      "navSkill": 0.1,
+      "riskTolerance": 0.4,
+      "color": "#e0a21b",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 45,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "basic",
+        "cloWorn": 0.6,
+        "cloPack": 0.3,
+        "gloves": "none",
+        "hat": false,
+        "bivy": "none",
+        "headlamp": {
+          "has": false,
+          "batteryH": 0,
+          "inPack": false,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": false,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 800,
+        "waterL": 1.0,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false
+      }
+    }
+  ],
+  "weather": {
+    "refElevM": 1000,
+    "lapseRateCPer100m": 0.6,
+    "keyframes": [
+      {
+        "at": "D0 08:00",
+        "tempC": 19,
+        "windMs": 2,
+        "windDirDeg": 180,
+        "precipMmH": 0,
+        "cloudCover": 0.5,
+        "cloudBaseM": 2600,
+        "visibilityM": 20000
+      },
+      {
+        "at": "D0 11:00",
+        "tempC": 21,
+        "windMs": 3,
+        "windDirDeg": 190,
+        "precipMmH": 0,
+        "cloudCover": 0.7,
+        "cloudBaseM": 2300,
+        "visibilityM": 15000
+      },
+      {
+        "at": "D0 13:00",
+        "tempC": 20,
+        "windMs": 4,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.9,
+        "cloudBaseM": 2000,
+        "visibilityM": 8000,
+        "inCloudVisibilityM": 50
+      },
+      {
+        "at": "D0 14:30",
+        "tempC": 18,
+        "windMs": 4,
+        "windDirDeg": 200,
+        "precipMmH": 0.5,
+        "cloudCover": 1.0,
+        "cloudBaseM": 1800,
+        "visibilityM": 5000,
+        "inCloudVisibilityM": 40
+      },
+      {
+        "at": "D0 17:00",
+        "tempC": 16,
+        "windMs": 3,
+        "windDirDeg": 210,
+        "precipMmH": 1.0,
+        "cloudCover": 1.0,
+        "cloudBaseM": 1650,
+        "visibilityM": 4000,
+        "inCloudVisibilityM": 40
+      },
+      {
+        "at": "D0 20:00",
+        "tempC": 14,
+        "windMs": 3,
+        "windDirDeg": 210,
+        "precipMmH": 1.5,
+        "cloudCover": 1.0,
+        "cloudBaseM": 1600,
+        "visibilityM": 3000,
+        "inCloudVisibilityM": 40
+      },
+      {
+        "at": "D1 02:00",
+        "tempC": 13,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 1.0,
+        "cloudCover": 1.0,
+        "cloudBaseM": 1600,
+        "visibilityM": 3000,
+        "inCloudVisibilityM": 40
+      },
+      {
+        "at": "D1 06:00",
+        "tempC": 13,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0.2,
+        "cloudCover": 0.9,
+        "cloudBaseM": 1900,
+        "visibilityM": 8000
+      },
+      {
+        "at": "D1 09:00",
+        "tempC": 17,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.6,
+        "cloudBaseM": 2500,
+        "visibilityM": 20000
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_late",
+      "trigger": {
+        "after": "D0 08:00"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "予定より1時間遅れて出発した"
+        }
+      ]
+    },
+    {
+      "id": "ev_tanaka_slow",
+      "trigger": {
+        "all": [
+          {
+            "after": "D0 15:00"
+          },
+          {
+            "var": "c.tanaka.fatigue",
+            "op": ">",
+            "value": 55
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "田中さんの足取りが重くなってきた。下りで膝が痛むらしい",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_pin_fork",
+      "trigger": {
+        "atNode": "SADDLE_N"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "pin",
+          "x": -380,
+          "z": -860,
+          "label": "北の鞍部の分岐"
+        }
+      ]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_summit",
+      "title": "山頂で",
+      "trigger": {
+        "atNode": "SUMMIT"
+      },
+      "situation": "箱庭岳の山頂に着いた。予定より{leader.timeBehindMin:0}分遅れている。周りは霧で、さっきまで見えていた北の稜線が見えない。田中さんは「早く下りたいね」と言っている。",
+      "knowledge": [
+        "周回コースの下り（西尾根）は初めて歩く道",
+        "来た道を戻れば登山口まで約3時間40分",
+        "西尾根経由なら約3時間20分",
+        "日の入りは19:00",
+        "稜線小屋は山頂から約35分"
+      ],
+      "options": [
+        {
+          "id": "sameway",
+          "label": "来た道（知っている道）を戻る",
+          "detail": "少し遠いが、道を知っている。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "知ってる道で戻ろう",
+              "to": "tanaka"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "SUMMIT",
+                "HUT_RIDGE",
+                "EBOSHI",
+                "J_FOREST",
+                "TH_SAWA"
+              ]
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "hut",
+          "label": "稜線小屋に泊まる",
+          "detail": "予約はないが、空きはあるはず。家族への連絡は小屋の電話で。",
+          "actions": [
+            {
+              "type": "goToNode",
+              "node": "HUT_RIDGE",
+              "then": "stay"
+            },
+            {
+              "type": "setFlag",
+              "flag": "familyNotified"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.timeBehindMin",
+                  "op": ">",
+                  "value": 90
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "loop",
+          "label": "計画どおり周回して西尾根を下る",
+          "detail": "こちらのほうが少し早い。道標もあるはず。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1.0,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_saddle",
+      "title": "霧の北の鞍部",
+      "trigger": {
+        "all": [
+          {
+            "atNode": "SADDLE_N"
+          },
+          {
+            "var": "leader.local.visibilityM",
+            "op": "<",
+            "value": 200
+          }
+        ]
+      },
+      "situation": "北の鞍部の分岐。霧で道標の文字がかすんで読めない。右手（西）には、はっきりした踏み跡が下っている。左手の踏み跡は岩の間で細い。",
+      "knowledge": [
+        "西尾根道は「尾根の上」を下るはず",
+        "スマホの地図アプリには現在地が出る（電池 {leader.phone.batteryPct:0}%）",
+        "鞍部には避難小屋がある"
+      ],
+      "options": [
+        {
+          "id": "check",
+          "label": "立ち止まって、地図アプリで方向を確かめる",
+          "detail": "数分のロス。電池を少し使う。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "ちょっと待って、地図を見るから",
+              "to": "tanaka"
+            },
+            {
+              "type": "stopAndCheck"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": ">",
+                  "value": 0.7
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "follow",
+          "label": "踏み跡のはっきりしている方へ進む",
+          "detail": "よく歩かれている方が正しい道のはず。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "shelter",
+          "label": "避難小屋で霧が晴れるのを待つ",
+          "detail": "晴れなければ、ここで一晩過ごすことになる。",
+          "actions": [
+            {
+              "type": "stayInShelter",
+              "until": "weatherClears"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.2
+          }
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "lostAware": {
+      "situation": "さっきまであった踏み跡が、いつの間にか消えている。周りは霧と笹やぶ。田中さんが不安そうに「この道で合ってる？」と聞いてきた。"
+    },
+    "darkness": {
+      "situation": "あたりが暗くなってきた。ヘッドランプは佐藤さんの1つだけ。田中さんの足元はほとんど見えない。"
+    },
+    "waterfall": {
+      "situation": "沢を下っていくと、行く手が切れ落ちていた。下から水の落ちる音がする。滝だ。"
+    }
+  },
+  "thoughts": [
+    {
+      "key": "s02_trace",
+      "when": {
+        "state": "OFFROUTE_UNAWARE"
+      },
+      "lines": [
+        "踏み跡ははっきりしてる。大丈夫だろう",
+        "思ったより下りが急だな。こんな道だったか"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s02_partner",
+      "when": {
+        "all": [
+          {
+            "var": "c.tanaka.anxiety",
+            "op": ">",
+            "value": 60
+          }
+        ]
+      },
+      "lines": [
+        "田中さんを不安にさせたくない。自分が落ち着かないと",
+        "誘ったのは自分だ"
+      ]
+    }
+  ],
+  "endings": [
+    {
+      "kind": "SAFE_SHELTER",
+      "when": {
+        "beenAt": "HUT_RIDGE"
+      },
+      "title": "思いがけない山小屋泊",
+      "text": "小屋の夕食は温かかった。田中さんは「次はもっと早く出よう」と笑った。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "title": "避難小屋で朝を待つ",
+      "text": "狭い避難小屋で、2人は肩を寄せて朝を待った。翌朝、霧が晴れると、分岐の道標ははっきり「西尾根」を指していた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "無事下山",
+      "text": "登山口に着いたのは予定より遅かったが、2人とも無事だった。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "title": "ビバークの末に",
+      "text": "濡れた笹の中で一晩を過ごし、明るくなってから来た道を登り返して登山道に戻った。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助",
+      "text": "2人は救助隊に発見された。沢に下りなかったことが、発見を早めた。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重篤な状態で救助",
+      "text": "発見されたとき、1人は意識がはっきりしなかった。"
+    },
+    {
+      "kind": "MISSING",
+      "title": "行方不明",
+      "text": "計画書は出されていなかった。捜索隊は「どの道を下ったのか」から調べ始めなければならなかった。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "沢の奥で",
+      "text": "捜索隊が2人を見つけたのは、登山道から遠く離れた沢の中だった。"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_late",
+      "when": {
+        "chose": {
+          "cp": "cp_summit",
+          "option": "loop"
+        }
+      },
+      "title": "遅れたときに「知らない道」を選ばない",
+      "text": "予定より遅れ、霧が出ている状況で初めての道を選んだ。疲れと時間の焦りがある時ほど、知っている道や小屋という選択肢が効いてくる。"
+    },
+    {
+      "id": "l_check",
+      "when": {
+        "chose": {
+          "cp": "cp_saddle",
+          "option": "follow"
+        }
+      },
+      "title": "分岐では必ず立ち止まる",
+      "text": "はっきりした踏み跡が正しい道とは限らない。廃道や作業道、獣道のほうが明瞭なこともある。分岐では止まって、地図と現在地を確かめる。"
+    },
+    {
+      "id": "l_descend",
+      "when": {
+        "chose": {
+          "cp": "generic:lostAware",
+          "option": "descend"
+        }
+      },
+      "title": "迷ったら沢へ下らない",
+      "text": "「下れば道に出る」は山では成り立たないことが多い。沢は下るほど険しくなり、滝で行き詰まり、電波も届かず、上空から見つけてもらいにくい。迷ったら、分かるところまで登り返す。"
+    },
+    {
+      "id": "l_plan",
+      "when": {
+        "var": "rec.wasLost",
+        "op": "==",
+        "value": true
+      },
+      "title": "登山計画書と下山連絡",
+      "text": "計画書を出していなかったため、捜索はルートの特定から始まった。計画書と「何時までに連絡がなければ通報」という取り決めが、捜索の早さを変える。"
+    },
+    {
+      "id": "l_lamp",
+      "when": {
+        "var": "rec.darkMinutesMoving",
+        "op": ">",
+        "value": 30
+      },
+      "title": "ヘッドランプは一人一つ",
+      "text": "暗闇の中を{rec.darkMinutesMoving:0}分行動した。明かりのない人は足元が見えず、転倒や道迷いの危険が大きく増える。日帰りでもヘッドランプと予備電池は全員が持つ。"
+    }
+  ],
+  "balanceTargets": {
+    "recommended": {
+      "goodMin": 0.9,
+      "fatalMax": 0.02,
+      "lostMax": 0.15
+    },
+    "bias": {
+      "lostMin": 0.4,
+      "badMin": 0.12,
+      "fatalMax": 0.3
+    },
+    "risky": {
+      "lostMin": 0.5,
+      "badMin": 0.25
+    }
+  },
+  "speech": [
+    {
+      "key": "s02_doubt",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "state": "OFFROUTE_UNAWARE"
+      },
+      "lines": [
+        "ねえ、この道で合ってる？",
+        "さっきから踏み跡が細くない？"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "大丈夫、たぶんこっちだよ",
+          "もう少し行けば道標があるはず"
+        ]
+      },
+      "priority": 20,
+      "cooldownMin": 30
+    },
+    {
+      "key": "s02_dark",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "not": {
+              "state": "SHELTERED"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "足元が全然見えない……",
+        "ライト、こっちにも当てて！"
+      ],
+      "tone": "normal",
+      "priority": 20,
+      "cooldownMin": 40
+    },
+    {
+      "key": "s02_waterfall",
+      "who": "leader",
+      "when": {
+        "near": {
+          "x": -1200,
+          "z": -575,
+          "r": 80
+        }
+      },
+      "lines": [
+        "止まって！ この先、落ちてる！"
+      ],
+      "tone": "shout",
+      "priority": 25,
+      "once": true
+    }
+  ]
+}

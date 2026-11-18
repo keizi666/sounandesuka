@@ -1,0 +1,2618 @@
+{
+ "id": "s04_tomuraushi_2009",
+ "version": 1,
+ "title": "トムラウシ 2009年7月16日",
+ "subtitle": "夏・ツアー登山・18人・強風と低体温症（史実にもとづく再構成）",
+ "theme": "hypothermia",
+ "difficulty": 5,
+ "season": "summer",
+ "estMinutes": 25,
+ "mapId": "tomuraushi",
+ "seed": 20090716,
+ "startDate": "2009-07-16",
+ "startAt": "D0 04:45",
+ "timeLimit": "D1 12:00",
+ "sun": {
+  "sunrise": "04:00",
+  "sunset": "19:05",
+  "maxElevDeg": 66
+ },
+ "region": {
+  "name": "北海道 大雪山系 トムラウシ山",
+  "real": true
+ },
+ "briefing": {
+  "text": "旭岳からトムラウシ山へ大雪山系を縦走するツアー登山の3日目。ツアー客15人（50代〜60代）、ガイド3人、シェルパ1人。前日は一日中の雨のなかを約16km、10時間近く歩き、ヒサゴ沼避難小屋に泊まった。衣類は乾ききっていない。今日は山頂を巻き、短縮コース登山口へ下りる予定。",
+  "forecast": [
+   {
+    "label": "朝",
+    "text": "くもり（雨が残る）",
+    "icon": "cloudy_rain"
+   },
+   {
+    "label": "昼から",
+    "text": "回復",
+    "icon": "sunny_cloudy"
+   },
+   {
+    "label": "山の風",
+    "text": "強い西風が残る（出発時に確認できた情報ではない）"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "HISAGO_HUT",
+   "HISAGO_JCT",
+   "AMANUMA",
+   "NIHON_TEIEN",
+   "ROCK_GARDEN",
+   "KITANUMA_FORD",
+   "KITANUMA_JCT",
+   "TOMU_JCT",
+   "MINAMINUMA",
+   "TOMU_PARK",
+   "MAETOMU",
+   "KAMUI",
+   "TANSHUKU_TH"
+  ],
+  "goalNodes": [
+   "TANSHUKU_TH"
+  ],
+  "plannedFinish": "D0 15:30",
+  "submittedPlan": true,
+  "reportIfNotBackBy": "D0 20:00"
+ },
+ "groups": [
+  {
+   "id": "main",
+   "members": "all",
+   "leader": "g_B",
+   "cohesion": "tight"
+  }
+ ],
+ "party": [
+  {
+   "id": "s_A",
+   "name": "リーダーA",
+   "role": "ツアーリーダー",
+   "age": 61,
+   "sex": "m",
+   "weightKg": 64,
+   "packKg": 9,
+   "experience": 0.6,
+   "fitness": 1.0,
+   "navSkill": 0.6,
+   "riskTolerance": 0.6,
+   "color": "#b03a2e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "tarp",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 40,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.3,
+    "glycogenKcal": 950,
+    "fatigue": 30,
+    "coreC": 37.0,
+    "rainwearOn": true,
+    "waterDeficitL": 0.3
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ],
+   "notes": "報告書の記号で表記。ツェルト所持の記述あり"
+  },
+  {
+   "id": "g_B",
+   "name": "ガイドB",
+   "role": "メインガイド",
+   "age": 32,
+   "sex": "m",
+   "weightKg": 65,
+   "packKg": 9,
+   "experience": 0.6,
+   "fitness": 1.2,
+   "navSkill": 0.7,
+   "riskTolerance": 0.6,
+   "color": "#1f5fa8",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.7,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 60,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": true,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": true,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.3,
+    "glycogenKcal": 1050,
+    "fatigue": 30,
+    "coreC": 37.0,
+    "rainwearOn": true,
+    "waterDeficitL": 0.3
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ],
+   "leader": true
+  },
+  {
+   "id": "g_C",
+   "name": "ガイドC",
+   "role": "サブガイド",
+   "age": 38,
+   "sex": "m",
+   "weightKg": 65,
+   "packKg": 9,
+   "experience": 0.55,
+   "fitness": 1.15,
+   "navSkill": 0.6,
+   "riskTolerance": 0.6,
+   "color": "#2e86c1",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.3,
+    "glycogenKcal": 950,
+    "fatigue": 30,
+    "coreC": 37.0,
+    "rainwearOn": true,
+    "waterDeficitL": 0.3
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ],
+   "notes": "このルートは初めて"
+  },
+  {
+   "id": "s_D",
+   "name": "シェルパD",
+   "role": "シェルパ",
+   "age": 62,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 9,
+   "experience": 0.8,
+   "fitness": 1.05,
+   "navSkill": 0.7,
+   "riskTolerance": 0.5,
+   "color": "#7d6608",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.6,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.3,
+    "glycogenKcal": 950,
+    "fatigue": 30,
+    "coreC": 37.0,
+    "rainwearOn": true,
+    "waterDeficitL": 0.3
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ],
+   "notes": "雪渓の先で引き返す（記録）"
+  },
+  {
+   "id": "f_A",
+   "name": "女性客A",
+   "role": "ツアー客",
+   "age": 68,
+   "sex": "f",
+   "weightKg": 50,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.8,
+   "navSkill": 0.2,
+   "riskTolerance": 0.4,
+   "color": "#c0392b",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 1500,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": true
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 750,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ],
+   "notes": "食料を多めに持参した記述あり"
+  },
+  {
+   "id": "f_B",
+   "name": "女性客B",
+   "role": "ツアー客",
+   "age": 55,
+   "sex": "f",
+   "weightKg": 52,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.9,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#d35400",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "m_C",
+   "name": "男性客C",
+   "role": "ツアー客",
+   "age": 65,
+   "sex": "m",
+   "weightKg": 63,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.85,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#af601a",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "m_D",
+   "name": "男性客D",
+   "role": "ツアー客",
+   "age": 69,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 9,
+   "experience": 0.45,
+   "fitness": 0.8,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#9a7d0a",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "m_E",
+   "name": "男性客E",
+   "role": "ツアー客",
+   "age": 64,
+   "sex": "m",
+   "weightKg": 64,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.85,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#7d3c98",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "m_F",
+   "name": "男性客F",
+   "role": "ツアー客",
+   "age": 61,
+   "sex": "m",
+   "weightKg": 66,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.85,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#6c3483",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "f_G",
+   "name": "女性客G",
+   "role": "ツアー客",
+   "age": 64,
+   "sex": "f",
+   "weightKg": 52,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.8,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#1e8449",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 30,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ],
+   "notes": "この人の携帯から最初の110番通報（記録）"
+  },
+  {
+   "id": "f_H",
+   "name": "女性客H",
+   "role": "ツアー客",
+   "age": 61,
+   "sex": "f",
+   "weightKg": 53,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.85,
+   "navSkill": 0.2,
+   "riskTolerance": 0.4,
+   "color": "#117a65",
+   "habits": {
+    "eatEveryMin": null,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.9,
+    "cloPack": 0.8,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 550,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ],
+   "notes": "当日ほとんど食べていない、雨具は使用5年（記録）"
+  },
+  {
+   "id": "f_I",
+   "name": "女性客I",
+   "role": "ツアー客",
+   "age": 59,
+   "sex": "f",
+   "weightKg": 54,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.85,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#148f77",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "f_J",
+   "name": "女性客J",
+   "role": "ツアー客",
+   "age": 68,
+   "sex": "f",
+   "weightKg": 52,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.75,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#a04000",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "f_K",
+   "name": "女性客K",
+   "role": "ツアー客",
+   "age": 62,
+   "sex": "f",
+   "weightKg": 52,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.8,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#b9770e",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "f_L",
+   "name": "女性客L",
+   "role": "ツアー客",
+   "age": 69,
+   "sex": "f",
+   "weightKg": 50,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.75,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#ca6f1e",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "m_M",
+   "name": "男性客M",
+   "role": "ツアー客",
+   "age": 66,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.8,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#5b2c6f",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "f_N",
+   "name": "女性客N",
+   "role": "ツアー客",
+   "age": 62,
+   "sex": "f",
+   "weightKg": 52,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.8,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#0e6655",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "f_O",
+   "name": "女性客O",
+   "role": "ツアー客",
+   "age": 64,
+   "sex": "f",
+   "weightKg": 51,
+   "packKg": 9,
+   "experience": 0.4,
+   "fitness": 0.8,
+   "navSkill": 0.2,
+   "riskTolerance": 0.5,
+   "color": "#1a5276",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.0,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 50,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 700,
+    "waterL": 1.0,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0.35,
+    "glycogenKcal": 650,
+    "fatigue": 35,
+    "coreC": 36.9,
+    "rainwearOn": true,
+    "waterDeficitL": 0.5
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  }
+ ],
+ "weather": {
+  "refElevM": 1900,
+  "lapseRateCPer100m": 0.6,
+  "cloudThicknessM": 2500,
+  "keyframes": [
+   {
+    "at": "D0 04:45",
+    "tempC": 9.5,
+    "windMs": 17,
+    "windDirDeg": 250,
+    "precipMmH": 3.0,
+    "cloudCover": 1.0,
+    "cloudBaseM": 1600,
+    "visibilityM": 3000,
+    "inCloudVisibilityM": 60,
+    "gustiness": 0.4
+   },
+   {
+    "at": "D0 06:00",
+    "tempC": 9.0,
+    "windMs": 18,
+    "windDirDeg": 260,
+    "precipMmH": 3.0,
+    "cloudCover": 1.0,
+    "cloudBaseM": 1650,
+    "visibilityM": 3000,
+    "inCloudVisibilityM": 60,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 08:00",
+    "tempC": 8.5,
+    "windMs": 18,
+    "windDirDeg": 265,
+    "precipMmH": 1.5,
+    "cloudCover": 1.0,
+    "cloudBaseM": 1750,
+    "visibilityM": 4000,
+    "inCloudVisibilityM": 70,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 10:00",
+    "tempC": 7.5,
+    "windMs": 17,
+    "windDirDeg": 270,
+    "precipMmH": 1.5,
+    "cloudCover": 1.0,
+    "cloudBaseM": 1800,
+    "visibilityM": 4000,
+    "inCloudVisibilityM": 70,
+    "gustiness": 0.4
+   },
+   {
+    "at": "D0 12:00",
+    "tempC": 6.5,
+    "windMs": 16,
+    "windDirDeg": 270,
+    "precipMmH": 1.0,
+    "cloudCover": 1.0,
+    "cloudBaseM": 1850,
+    "visibilityM": 5000,
+    "inCloudVisibilityM": 80,
+    "gustiness": 0.4
+   },
+   {
+    "at": "D0 14:00",
+    "tempC": 6.0,
+    "windMs": 15,
+    "windDirDeg": 275,
+    "precipMmH": 0.5,
+    "cloudCover": 0.95,
+    "cloudBaseM": 1900,
+    "visibilityM": 6000,
+    "inCloudVisibilityM": 80,
+    "gustiness": 0.35
+   },
+   {
+    "at": "D0 16:00",
+    "tempC": 5.0,
+    "windMs": 14,
+    "windDirDeg": 280,
+    "precipMmH": 0.2,
+    "cloudCover": 0.9,
+    "cloudBaseM": 1950,
+    "visibilityM": 8000,
+    "gustiness": 0.35
+   },
+   {
+    "at": "D0 18:00",
+    "tempC": 4.0,
+    "windMs": 13,
+    "windDirDeg": 280,
+    "precipMmH": 0.0,
+    "cloudCover": 0.9,
+    "cloudBaseM": 2000,
+    "visibilityM": 10000,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 00:00",
+    "tempC": 3.5,
+    "windMs": 11,
+    "windDirDeg": 290,
+    "precipMmH": 0.0,
+    "cloudCover": 0.8,
+    "cloudBaseM": 2100,
+    "visibilityM": 15000
+   },
+   {
+    "at": "D1 04:00",
+    "tempC": 4.0,
+    "windMs": 8,
+    "windDirDeg": 290,
+    "precipMmH": 0.0,
+    "cloudCover": 0.6,
+    "cloudBaseM": 2400,
+    "visibilityM": 20000
+   },
+   {
+    "at": "D1 08:00",
+    "tempC": 7.0,
+    "windMs": 6,
+    "windDirDeg": 290,
+    "precipMmH": 0.0,
+    "cloudCover": 0.4,
+    "cloudBaseM": 3000,
+    "visibilityM": 30000
+   }
+  ]
+ },
+ "events": [
+  {
+   "id": "ev_sherpa",
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "HISAGO_JCT"
+     },
+     {
+      "chose": {
+       "cp": "cp_ridge",
+       "option": "go"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "雪渓にステップを刻んだシェルパDが、ここからヒサゴ沼避難小屋へ引き返した"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "s_D",
+       "then": [
+        {
+         "type": "goToNode",
+         "node": "HISAGO_HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ford_fall",
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "KITANUMA_FORD"
+     },
+     {
+      "any": [
+       {
+        "chose": {
+         "cp": "cp_ford",
+         "option": "wade"
+        }
+       },
+       {
+        "chose": {
+         "cp": "cp_ford",
+         "option": "wade_care"
+        }
+       }
+      ]
+     },
+     {
+      "chance": 0.6
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "soak",
+     "who": "g_C",
+     "level": "full",
+     "snowmelt": true
+    },
+    {
+     "type": "log",
+     "text": "流れの中で客を支えていたガイドCが転倒し、全身ずぶ濡れになった",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_no_signal",
+   "trigger": {
+    "atNode": "KITANUMA_JCT"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "北沼分岐では携帯の電波が届かない"
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_depart",
+   "title": "ヒサゴ沼避難小屋の朝",
+   "group": "main",
+   "priority": 20,
+   "trigger": {
+    "after": "D0 04:45"
+   },
+   "situation": "午前4時45分。夜半からの風雨がまだ残っている。昨日の雨で衣類や靴下は湿ったままの人が多い。ラジオの予報は「曇り、昼から回復」。予定では5時に出発し、山頂を巻いて短縮コース登山口まで約10時間半の行程。",
+   "knowledge": [
+    "予報（平地）は昼から回復",
+    "この先は風を遮るもののない稜線が続く",
+    "日程に予備日はない。遅れれば帰りの便に間に合わない",
+    "小屋には非常食・毛布・断熱マットがある"
+   ],
+   "options": [
+    {
+     "id": "delay30",
+     "label": "30分遅らせて出発する",
+     "detail": "風雨が少し落ち着くのを待つ。昼からは回復するはず。",
+     "actions": [
+      {
+       "type": "rest",
+       "minutes": 30
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1.0,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.5
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    },
+    {
+     "id": "stay",
+     "label": "出発を見合わせ、天候が回復するまで小屋にとどまる",
+     "detail": "下山は1日遅れる。会社と家族への連絡手段を探す必要がある。",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "until": "weatherClears"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "late",
+     "label": "3時間様子を見てから出発する",
+     "detail": "昼から回復するなら、遅く出ても間に合う。",
+     "actions": [
+      {
+       "type": "rest",
+       "minutes": 180
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_ridge",
+   "title": "主稜線に出る",
+   "group": "main",
+   "trigger": {
+    "atNode": "HISAGO_JCT"
+   },
+   "situation": "雪渓を登り切って主稜線に出ると、西からの風に体を持っていかれそうになる。風速は{leader.local.windMs:0}m/s。突風のたびに耐風姿勢でしゃがむ。",
+   "knowledge": [
+    "ここからヒサゴ沼避難小屋までは下り約20分",
+    "この先、北沼まで通常2時間半",
+    "小屋に戻れば風雨はしのげる"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "このまま進む",
+     "detail": "風は強いが、歩けないほどではない。昼から回復する予報だ。",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1.0
+     }
+    },
+    {
+     "id": "back",
+     "label": "避難小屋へ引き返す",
+     "detail": "まだ全員が元気なうちに戻る。",
+     "actions": [
+      {
+       "type": "goToNode",
+       "node": "HISAGO_HUT",
+       "then": "stay"
+      },
+      {
+       "type": "stayInShelter",
+       "until": "weatherClears"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_rock",
+   "title": "ロックガーデン",
+   "group": "main",
+   "trigger": {
+    "atNode": "ROCK_GARDEN"
+   },
+   "situation": "出発から約3時間。普段の倍近い時間がかかっている。巨岩帯の登りで、風に倒される人が続く。足元のふらつく人も出始めた（グループ内の最低体温 {group.main.min.coreC:1}℃ と推定）。",
+   "knowledge": [
+    "北沼まであと1時間ほど",
+    "戻れば小屋までは追い風で約3時間",
+    "昼から回復するという予報をまだ信じている"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "進む",
+     "detail": "ここまで来たら、戻るより先へ進んで下る方が早い。",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1.0
+     }
+    },
+    {
+     "id": "back",
+     "label": "ヒサゴ沼避難小屋へ引き返す",
+     "detail": "遠いが、確実に風雨をしのげる場所がある。",
+     "actions": [
+      {
+       "type": "goToNode",
+       "node": "HISAGO_HUT",
+       "then": "stay"
+      },
+      {
+       "type": "stayInShelter",
+       "until": "weatherClears"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.35
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_ford",
+   "title": "北沼の渡渉",
+   "group": "main",
+   "trigger": {
+    "atNode": "KITANUMA_FORD"
+   },
+   "situation": "北沼からあふれた水が、幅約2mの流れになって登山道を横切っている。雪解け水で、深さは膝下ほど。",
+   "knowledge": [
+    "ガイドが流れの中に立って一人ずつ渡すことになる",
+    "渡った後は吹きさらしの場所で全員を待つことになる",
+    "替えの靴下・手袋はザックの中"
+   ],
+   "options": [
+    {
+     "id": "wade",
+     "label": "ガイドが支えて全員を渡す",
+     "actions": [
+      {
+       "type": "soak",
+       "level": "knees",
+       "snowmelt": true
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1.0
+     }
+    },
+    {
+     "id": "wade_care",
+     "label": "渡った人から順に靴下と手袋を替え、行動食をとって風下で待つ",
+     "detail": "時間はかかるが、濡れたままにしない。",
+     "actions": [
+      {
+       "type": "soak",
+       "level": "knees",
+       "snowmelt": true
+      },
+      {
+       "type": "changeDry"
+      },
+      {
+       "type": "eat",
+       "kcal": 250
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_kjct",
+   "title": "北沼分岐で動けなくなった人",
+   "group": "main",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "KITANUMA_JCT"
+     },
+     {
+      "any": [
+       {
+        "var": "group.main.incapacitatedCount",
+        "op": ">=",
+        "value": 1
+       },
+       {
+        "var": "group.main.min.coreC",
+        "op": "<",
+        "value": 35.0
+       }
+      ]
+     }
+    ]
+   },
+   "situation": "北沼分岐。歩けなくなった人が出た（グループ内で行動不能 {group.main.incapacitatedCount:0} 人、最低体温 {group.main.min.coreC:1}℃と推定）。周りは吹きさらしで、風を遮るものがない。ここには携帯の電波が届かない。",
+   "knowledge": [
+    "ガイドは3人、ツェルトとテントがある",
+    "短縮登山口まではまだ5時間以上かかる",
+    "ここで救助を呼ぶ手段はない"
+   ],
+   "options": [
+    {
+     "id": "wait",
+     "label": "全員でその場にとどまり、回復を待つ",
+     "detail": "少し休めば歩けるようになるかもしれない。",
+     "actions": [
+      {
+       "type": "rest",
+       "minutes": 60
+      },
+      {
+       "type": "setFlag",
+       "flag": "waited"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1.0
+     }
+    },
+    {
+     "id": "bivouac_all",
+     "label": "すぐにテントとツェルトを張り、全員で風を避け、着込んで食べる",
+     "detail": "全員が入れる広さはない。ハイマツの陰や岩陰も使う。",
+     "actions": [
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 300
+      },
+      {
+       "type": "bivouac",
+       "until": "dawn",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "split_now",
+     "label": "動けない人にリーダーAが付き添い、他はすぐに下山を始める",
+     "actions": [
+      {
+       "type": "splitParty",
+       "groups": [
+        {
+         "id": "biv1",
+         "members": "incapacitated",
+         "leader": "s_A",
+         "actions": [
+          {
+           "type": "bivouac",
+           "until": "rescue",
+           "findLee": true
+          }
+         ]
+        },
+        {
+         "id": "descend",
+         "members": "rest",
+         "leader": "g_B",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "continueRoute"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_split",
+   "title": "パーティを分ける",
+   "group": "main",
+   "trigger": {
+    "elapsedSince": {
+     "flag": "waited",
+     "min": 60
+    }
+   },
+   "situation": "1時間近く待ったが、回復しない。待っている間に、震えの止まらない人、奇声を上げる人、吐く人が出てきた（グループ内の最低体温 {group.main.min.coreC:1}℃、35℃を下回った人 {group.main.below35Count:0} 人と推定）。",
+   "knowledge": [
+    "ガイドの一人も震えている",
+    "歩ける人と歩けない人が混在している",
+    "下れば電波の届く場所があるはず"
+   ],
+   "options": [
+    {
+     "id": "record",
+     "label": "3つに分かれる：リーダーAが動けない人に付き添い、ガイドBが弱った人たちとビバーク、ガイドCが残りを連れて下山",
+     "actions": [
+      {
+       "type": "splitParty",
+       "groups": [
+        {
+         "id": "biv1",
+         "members": "incapacitated",
+         "leader": "s_A",
+         "actions": [
+          {
+           "type": "bivouac",
+           "until": "rescue",
+           "findLee": true
+          }
+         ]
+        },
+        {
+         "id": "biv2",
+         "members": "weak",
+         "leader": "g_B",
+         "actions": [
+          {
+           "type": "bivouac",
+           "until": "rescue",
+           "findLee": true
+          }
+         ]
+        },
+        {
+         "id": "descend",
+         "members": "rest",
+         "leader": "g_C",
+         "cohesion": "loose",
+         "actions": [
+          {
+           "type": "continueRoute"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1.0
+     }
+    },
+    {
+     "id": "together",
+     "label": "分かれずに、全員で風を避けてビバークする",
+     "detail": "テントとツェルトに入れる人は入り、他は身を寄せ合う。",
+     "actions": [
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 300
+      },
+      {
+       "type": "bivouac",
+       "until": "dawn",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "descend_tight",
+     "label": "動けない人にリーダーAが付き添い、ガイドBとCで残り全員をまとめて下山させる",
+     "actions": [
+      {
+       "type": "splitParty",
+       "groups": [
+        {
+         "id": "biv1",
+         "members": "incapacitated",
+         "leader": "s_A",
+         "actions": [
+          {
+           "type": "bivouac",
+           "until": "rescue",
+           "findLee": true
+          }
+         ]
+        },
+        {
+         "id": "descend",
+         "members": "rest",
+         "leader": "g_B",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "continueRoute"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_tjct",
+   "title": "列が伸びる",
+   "group": "descend",
+   "trigger": {
+    "atNode": "TOMU_JCT"
+   },
+   "situation": "トムラウシ分岐。振り返ると、列が長く伸びている。すぐ後ろに見えるのは {group.descend.count:0} 人のうち数人だけだ。",
+   "knowledge": [
+    "先頭を歩くガイドも体が冷えきっている",
+    "立ち止まると自分も動けなくなりそうだ"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "先へ進む",
+     "detail": "早く電波の届く所まで下りて救助を呼ぶ。",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1.0
+     }
+    },
+    {
+     "id": "wait",
+     "label": "風下で待って全員をそろえる",
+     "actions": [
+      {
+       "type": "rest",
+       "minutes": 20
+      },
+      {
+       "type": "setCohesion",
+       "cohesion": "tight"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_call",
+   "title": "電波が届いた",
+   "group": "descend",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "MAETOMU"
+     },
+     {
+      "var": "leader.radio",
+      "op": ">=",
+      "value": 0.15
+     }
+    ]
+   },
+   "situation": "前トム平。携帯の電波が届いている。",
+   "knowledge": [
+    "上には動けない人たちが残っている",
+    "自分たちも体が冷え切っている"
+   ],
+   "options": [
+    {
+     "id": "call",
+     "label": "110番に通報する",
+     "actions": [
+      {
+       "type": "callRescue",
+       "via": "phone"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1.0
+     }
+    },
+    {
+     "id": "push",
+     "label": "まず下りることを優先する",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_biv2_signal",
+   "title": "電波を探しに",
+   "group": "biv2",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 16:20"
+     },
+     {
+      "var": "group.biv2.count",
+      "op": ">=",
+      "value": 2
+     }
+    ]
+   },
+   "situation": "ビバーク地点では電波が届かない。下山したグループが救助を呼べたかどうかは分からない。",
+   "knowledge": [
+    "南沼の方へ行けば電波が届くかもしれない",
+    "離れている間、弱った人たちだけになる"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "ガイドBが一人で南沼方面へ行き、救助を要請して戻る",
+     "actions": [
+      {
+       "type": "seekSignal",
+       "who": "g_B",
+       "returnAfter": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1.0
+     }
+    },
+    {
+     "id": "stay",
+     "label": "離れずに付き添い続ける",
+     "actions": [
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  }
+ ],
+ "genericOverrides": {
+  "hypothermia": {
+   "enabled": false
+  },
+  "straggler": {
+   "situation": "後ろを振り返ると、ついてきている人が減っている。"
+  }
+ },
+ "thoughts": [
+  {
+   "key": "s04_forecast",
+   "when": {
+    "before": "D0 09:00"
+   },
+   "lines": [
+    "昼からは回復するはずだ",
+    "この風さえ収まれば"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s04_cold",
+   "when": {
+    "var": "leader.coreC",
+    "op": "<",
+    "value": 35.5
+   },
+   "lines": [
+    "手の感覚がない",
+    "何をしようとしていたか思い出せない"
+   ],
+   "priority": 6
+  }
+ ],
+ "endings": [
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "chose": {
+     "cp": "cp_depart",
+     "option": "stay"
+    }
+   },
+   "title": "停滞の一日",
+   "text": "一行はヒサゴ沼避難小屋にとどまった。強い西風は夜半まで続き、翌朝に弱まった。下山は1日遅れた。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "title": "引き返した一行",
+   "text": "一行は稜線から避難小屋に引き返し、濡れた衣類を替えて風雨をしのいだ。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "title": "全員が下山",
+   "text": "一行は時間をかけて全員で下山した。"
+  },
+  {
+   "kind": "RESCUED",
+   "title": "救助",
+   "text": "一行は翌朝、救助隊とヘリコプターによって収容された。"
+  },
+  {
+   "kind": "RESCUED_CRITICAL",
+   "title": "重篤な状態での収容",
+   "text": "救助されたうちの何人かは、意識がない状態で搬送された。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "低体温症",
+   "text": "このシミュレーションでは {rec.deathCount:0} 人が低体温症などで亡くなった。実際の事故では、ツアー客7人とガイド1人の計8人が低体温症で亡くなっている。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_depart",
+   "when": {
+    "chose": {
+     "cp": "cp_depart",
+     "option": "delay30"
+    }
+   },
+   "title": "山の天気と平地の予報",
+   "text": "「昼から回復」は平地の予報だった。前夜からの風雨が残る朝、稜線では回復が遅れ、風だけが強く残ることがある。予備日のない日程が「行く」判断を後押ししていた。"
+  },
+  {
+   "id": "l_ridge",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_ridge",
+       "option": "go"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_rock",
+       "option": "go"
+      }
+     }
+    ]
+   },
+   "title": "引き返す節目を決めておく",
+   "text": "調査報告書では、ガイド自身が天沼かヒサゴ沼分岐で引き返すべきだったと振り返っている。ロックガーデンまでに通常の倍の時間がかかっていたことも、引き返しの判断材料になりえた。"
+  },
+  {
+   "id": "l_ford",
+   "when": {
+    "chose": {
+     "cp": "cp_ford",
+     "option": "wade"
+    }
+   },
+   "title": "冷たい水で手足を濡らさない",
+   "text": "雪解け水での渡渉と、その後の吹きさらしでの待機は体温を大きく奪う。渡った直後に乾いた靴下・手袋に替え、食べ、風を避けるだけで、その後の推移は変わりうる。"
+  },
+  {
+   "id": "l_wait",
+   "when": {
+    "chose": {
+     "cp": "cp_kjct",
+     "option": "wait"
+    }
+   },
+   "title": "吹きさらしで待たない",
+   "text": "調査報告書は、北沼分岐で強風下に長時間待機したことで、ほぼ全員が低体温症になったと分析している。止まるなら、すぐに風を避けてビバークの態勢をとる。"
+  },
+  {
+   "id": "l_split",
+   "when": {
+    "chose": {
+     "cp": "cp_split",
+     "option": "record"
+    }
+   },
+   "title": "パーティを分ける危うさ",
+   "text": "分かれたグループのそれぞれで、リーダー自身が低体温症になり、列が伸び、行動不能になった人がその場に残された。分かれるなら、各グループが自立できる人数・装備・判断力を持っているかを確かめる。"
+  },
+  {
+   "id": "l_energy",
+   "when": {
+    "var": "rec.minCoreC",
+    "op": "<",
+    "value": 35.0
+   },
+   "title": "食べること、乾かすこと",
+   "text": "前日の濡れを乾かしきれず、行動中にほとんど食べないまま強風のなかを長時間歩くと、体は熱を作り続けられなくなる。行動中のこまめな補給と、夜のうちに衣類を乾かす工夫は、夏山でも低体温症を防ぐ基本になる。"
+  },
+  {
+   "id": "l_34",
+   "when": {
+    "var": "rec.minCoreC",
+    "op": "<",
+    "value": 34.0
+   },
+   "title": "山の中で回復できるのは34℃まで",
+   "text": "調査報告書は、深部体温34℃程度までなら風雨を避けて保温すれば回復が見込めるが、それ以下では山中での回復は難しいとしている。「歩けば温まる」が通用しない段階は、外から見て気づくより早く来る。"
+  }
+ ],
+ "historical": {
+  "event": "2009年7月16日 トムラウシ山遭難事故",
+  "sources": [
+   {
+    "title": "トムラウシ山遭難事故調査報告書",
+    "publisher": "日本山岳ガイド協会 トムラウシ山遭難事故調査特別委員会",
+    "year": 2010
+   },
+   {
+    "title": "北海道トムラウシ山における山岳遭難救助事故について（最終報）",
+    "publisher": "消防庁",
+    "year": 2009
+   }
+  ],
+  "labelsNote": "人物は調査報告書の記号（リーダーA、ガイドB、女性客Jなど）で表記し、実名は使わない。",
+  "disclaimer": "このシナリオは、公開された調査報告書などをもとに当日の経過を再構成したものです。年齢・性別・役割・行動の経過は記録にもとづきますが、体重・体力・装備の細部・体温などはシミュレーションの推定値であり、実際の値ではありません。シミュレーションの結果は実際の出来事を説明するものではありません。亡くなられた方々に哀悼の意を表します。 ※印のセリフ・思考は架空です。記録に残る発言には「記録」と表示しています。",
+  "recordedChoices": {
+   "cp_depart": "delay30",
+   "cp_ridge": "go",
+   "cp_rock": "go",
+   "cp_ford": "wade",
+   "cp_kjct": "wait",
+   "cp_split": "record",
+   "cp_tjct": "go",
+   "cp_call": "call",
+   "cp_biv2_signal": "go"
+  },
+  "reference": [
+   {
+    "at": "D0 05:30",
+    "label": "ヒサゴ沼避難小屋を出発（予定より30分遅れ）",
+    "node": "HISAGO_HUT"
+   },
+   {
+    "at": "D0 06:10",
+    "label": "天沼付近。強い西風のなか耐風姿勢で前進",
+    "node": "AMANUMA"
+   },
+   {
+    "at": "D0 08:30",
+    "label": "日本庭園〜ロックガーデン。風で転倒する人が続く",
+    "node": "ROCK_GARDEN"
+   },
+   {
+    "at": "D0 10:00",
+    "label": "北沼渡渉。ガイドCが転倒してずぶ濡れに",
+    "node": "KITANUMA_FORD"
+   },
+   {
+    "at": "D0 10:30",
+    "label": "北沼分岐に到着。女性客Jの容態が急変",
+    "node": "KITANUMA_JCT",
+    "who": "f_J"
+   },
+   {
+    "at": "D0 11:30",
+    "label": "約1時間の待機ののち、パーティが分かれる",
+    "node": "KITANUMA_JCT"
+   },
+   {
+    "at": "D0 13:30",
+    "label": "南沼キャンプ指定地付近で歩行困難になる人が出る",
+    "node": "MINAMINUMA"
+   },
+   {
+    "at": "D0 15:00",
+    "label": "ガイドCと女性客Gが前トム平付近に到着",
+    "node": "MAETOMU"
+   },
+   {
+    "at": "D0 15:54",
+    "label": "女性客Gの携帯から最初の110番通報",
+    "node": "MAETOMU",
+    "who": "f_G"
+   },
+   {
+    "at": "D0 16:38",
+    "label": "ガイドBが会社にメールで救助を要請",
+    "who": "g_B"
+   },
+   {
+    "at": "D0 17:21",
+    "label": "ガイドCが自分の携帯から110番に発信、その後倒れる",
+    "who": "g_C"
+   },
+   {
+    "at": "D0 18:30",
+    "label": "トムラウシ公園上部で女性客Bらが第3のビバーク",
+    "node": "TOMU_PARK"
+   },
+   {
+    "at": "D0 20:00",
+    "label": "第2ビバーク地点で女性客Iが意識を失う",
+    "who": "f_I"
+   },
+   {
+    "at": "D1 04:00",
+    "label": "ヘリコプター・地上部隊による捜索・収容が始まる"
+   }
+  ]
+ },
+ "sources": [
+  "経過・人数・年齢: トムラウシ山遭難事故調査報告書（2010）、消防庁 最終報（2009）",
+  "気象: 同報告書（山の気温6℃・風速15〜20m/s）、16日09時8.5℃・18時4℃・平均風速15〜18m/sとする気象解説資料",
+  "マップのexpectedElevMは候補を並べ替えるための概略値"
+ ],
+ "balanceTargets": {
+  "historical": {
+   "fatalMin": 0.85,
+   "deathCountMedian": [
+    4,
+    10
+   ]
+  },
+  "recommended": {
+   "fatalMax": 0.05
+  },
+  "bias": {
+   "fatalMin": 0.5
+  }
+ },
+ "speech": [
+  {
+   "key": "s04_crouch",
+   "who": "g_C",
+   "when": {
+    "all": [
+     {
+      "var": "leader.local.windMs",
+      "op": ">",
+      "value": 20
+     },
+     {
+      "before": "D0 10:30"
+     }
+    ]
+   },
+   "lines": [
+    "（突風のたびに、しゃがむよう声をかけている）"
+   ],
+   "tone": "normal",
+   "priority": 20,
+   "cooldownMin": 30,
+   "documented": true,
+   "source": "稜線で突風のたびにしゃがむよう繰り返し指示したとの記述（Wikipedia『トムラウシ山遭難事故』、調査報告書にもとづく）。発言の文言は記録がないため内容のみ表示"
+  }
+ ]
+}

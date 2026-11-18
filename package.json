@@ -1,0 +1,34 @@
+{
+  "name": "hakoniwa-sim",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "箱庭遭難シミュレータ — 山岳遭難の推移を 3D のジオラマで観察する Web アプリとシナリオエディター",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.sim.json",
+    "test": "vitest run",
+    "sim": "tsx tools/sim.ts",
+    "mc": "tsx tools/mc.ts",
+    "sim:check": "tsx tools/simcheck.ts",
+    "validate": "tsx tools/validate.ts",
+    "check:sim-purity": "tsx tools/purity.ts",
+    "geo:smoke": "tsx tools/geo-smoke.ts"
+  },
+  "dependencies": {
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/three": "^0.187.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
+  }
+}

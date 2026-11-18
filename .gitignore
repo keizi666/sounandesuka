@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+*.log
+*.pgm
+.DS_Store
+Thumbs.db
+.vite/

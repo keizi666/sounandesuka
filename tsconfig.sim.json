@@ -1,0 +1,10 @@
+{
+  // src/sim だけを DOM・Node の型なしで検査する（CLAUDE.md 鉄則 1 の二重の守り）。
+  // document / window / fetch / process などを使うと型エラーになる。
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "types": []
+  },
+  "include": ["src/sim"]
+}

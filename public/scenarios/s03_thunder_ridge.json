@@ -1,0 +1,746 @@
+{
+  "id": "s03_thunder_ridge",
+  "version": 1,
+  "title": "稜線の雷雲",
+  "subtitle": "8月・3人・落雷",
+  "theme": "lightning",
+  "difficulty": 2,
+  "season": "summer",
+  "estMinutes": 12,
+  "mapId": "hakoniwa",
+  "seed": 809,
+  "startDate": "2026-08-09",
+  "startAt": "D0 04:30",
+  "timeLimit": "D1 10:00",
+  "sun": {
+    "sunrise": "04:55",
+    "sunset": "18:35",
+    "maxElevDeg": 70
+  },
+  "moon": {
+    "illumination": 0.1
+  },
+  "briefing": {
+    "text": "大学の山岳サークルの同期だった木下さん（34歳）、青山さん（33歳）、森さん（36歳）の3人は、久しぶりに箱庭岳を縦走する。早朝に出発し、昼過ぎには北登山口に下りる計画。木下さんは今も月に一度は山に行くが、青山さんと森さんは数年ぶりの登山。",
+    "forecast": [
+      {
+        "label": "朝",
+        "text": "晴れ",
+        "icon": "sunny"
+      },
+      {
+        "label": "昼",
+        "text": "晴れ時々くもり",
+        "icon": "sunny_cloudy"
+      },
+      {
+        "label": "午後",
+        "text": "所により雷雨",
+        "icon": "thunder"
+      },
+      {
+        "label": "注意報",
+        "text": "雷注意報（山沿い・午後）"
+      }
+    ]
+  },
+  "plan": {
+    "route": [
+      "TH_SAWA",
+      "J_FOREST",
+      "EBOSHI",
+      "HUT_RIDGE",
+      "SUMMIT",
+      "SADDLE_N",
+      "MIKAERI",
+      "TH_KITA"
+    ],
+    "goalNodes": [
+      "TH_KITA",
+      "TH_SAWA"
+    ],
+    "plannedFinish": "D0 13:30",
+    "submittedPlan": true,
+    "reportIfNotBackBy": "D0 20:00"
+  },
+  "party": [
+    {
+      "id": "kinoshita",
+      "name": "木下",
+      "age": 34,
+      "sex": "m",
+      "weightKg": 64,
+      "packKg": 8,
+      "experience": 0.6,
+      "fitness": 1.1,
+      "navSkill": 0.6,
+      "riskTolerance": 0.7,
+      "color": "#c23b7a",
+      "leader": true,
+      "habits": {
+        "eatEveryMin": 90,
+        "drinkEveryMin": 40,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": 60
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.5,
+        "cloPack": 0.4,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "tarp",
+        "headlamp": {
+          "has": true,
+          "batteryH": 8,
+          "inPack": false,
+          "spareBatteryH": 4
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 90,
+          "gpsApp": true,
+          "trackRecording": true,
+          "satelliteSos": true
+        },
+        "map": true,
+        "compass": true,
+        "foodKcal": 1500,
+        "waterL": 2.0,
+        "stove": false,
+        "crampons": false,
+        "helmet": true,
+        "trekkingPoles": true,
+        "whistle": true
+      }
+    },
+    {
+      "id": "aoyama",
+      "name": "青山",
+      "age": 33,
+      "sex": "f",
+      "weightKg": 52,
+      "packKg": 6,
+      "experience": 0.3,
+      "fitness": 0.95,
+      "navSkill": 0.2,
+      "riskTolerance": 0.5,
+      "color": "#3a9b6b",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 45,
+        "delaysRainwear": 0.4,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "basic",
+        "cloWorn": 0.5,
+        "cloPack": 0.3,
+        "gloves": "none",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 4,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 85,
+          "gpsApp": false,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 1000,
+        "waterL": 1.5,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false
+      }
+    },
+    {
+      "id": "mori",
+      "name": "森",
+      "age": 36,
+      "sex": "m",
+      "weightKg": 75,
+      "packKg": 9,
+      "experience": 0.2,
+      "fitness": 0.85,
+      "navSkill": 0.2,
+      "riskTolerance": 0.6,
+      "color": "#5a5fd0",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.6,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "poncho",
+        "cloWorn": 0.5,
+        "cloPack": 0.0,
+        "gloves": "none",
+        "hat": false,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 3,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 60,
+          "gpsApp": false,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1.5,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false
+      }
+    }
+  ],
+  "weather": {
+    "refElevM": 1000,
+    "lapseRateCPer100m": 0.65,
+    "keyframes": [
+      {
+        "at": "D0 04:30",
+        "tempC": 20,
+        "windMs": 2,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3200,
+        "visibilityM": 30000,
+        "thunder": 0
+      },
+      {
+        "at": "D0 08:00",
+        "tempC": 24,
+        "windMs": 3,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.4,
+        "cloudBaseM": 2800,
+        "visibilityM": 25000,
+        "thunder": 0
+      },
+      {
+        "at": "D0 10:00",
+        "tempC": 26,
+        "windMs": 4,
+        "windDirDeg": 210,
+        "precipMmH": 0,
+        "cloudCover": 0.6,
+        "cloudBaseM": 2600,
+        "visibilityM": 20000,
+        "thunder": 0.1
+      },
+      {
+        "at": "D0 11:30",
+        "tempC": 22,
+        "windMs": 6,
+        "windDirDeg": 230,
+        "precipMmH": 2,
+        "cloudCover": 0.95,
+        "cloudBaseM": 2100,
+        "visibilityM": 6000,
+        "inCloudVisibilityM": 80,
+        "thunder": 0.3,
+        "gustiness": 0.5
+      },
+      {
+        "at": "D0 13:00",
+        "tempC": 21,
+        "windMs": 4,
+        "windDirDeg": 230,
+        "precipMmH": 1,
+        "cloudCover": 0.8,
+        "cloudBaseM": 2300,
+        "visibilityM": 10000,
+        "thunder": 0.2
+      },
+      {
+        "at": "D0 15:00",
+        "tempC": 22,
+        "windMs": 3,
+        "windDirDeg": 220,
+        "precipMmH": 0.5,
+        "cloudCover": 0.6,
+        "cloudBaseM": 2600,
+        "visibilityM": 15000,
+        "thunder": 0.1
+      },
+      {
+        "at": "D0 18:00",
+        "tempC": 20,
+        "windMs": 2,
+        "windDirDeg": 210,
+        "precipMmH": 0,
+        "cloudCover": 0.4,
+        "cloudBaseM": 3000,
+        "visibilityM": 25000,
+        "thunder": 0
+      }
+    ],
+    "thunderCells": [
+      {
+        "id": "cb1",
+        "from": "D0 10:30",
+        "peakAt": "D0 11:40",
+        "to": "D0 13:00",
+        "path": [
+          [
+            2200,
+            -1500
+          ],
+          [
+            -1800,
+            900
+          ]
+        ],
+        "radiusM": 1400,
+        "peak": 1.0,
+        "heavyRainMmH": 25,
+        "hail": true
+      },
+      {
+        "id": "cb2",
+        "from": "D0 13:30",
+        "peakAt": "D0 14:20",
+        "to": "D0 15:30",
+        "path": [
+          [
+            1800,
+            1800
+          ],
+          [
+            -1800,
+            -1000
+          ]
+        ],
+        "radiusM": 1100,
+        "peak": 0.6,
+        "heavyRainMmH": 12,
+        "hail": false
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_cumulus",
+      "trigger": {
+        "after": "D0 09:30"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "南東の空で積雲がもくもくと立ち上がり始めた",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_first_thunder",
+      "trigger": {
+        "var": "leader.local.thunder",
+        "op": ">",
+        "value": 0.2
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "遠くで雷鳴が聞こえた",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_hail",
+      "trigger": {
+        "var": "leader.local.precipType",
+        "op": "==",
+        "value": "hail"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "ひょうが降ってきた。体温が奪われ、足元の岩が白くなる",
+          "important": true
+        }
+      ]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_eboshi_t",
+      "title": "烏帽子ノ頭",
+      "trigger": {
+        "atNode": "EBOSHI"
+      },
+      "situation": "烏帽子ノ頭に着いた。日差しが強く暑い。南東の空に入道雲が育ち始めている。木下さんのスマホに雷注意報の通知が来た。",
+      "knowledge": [
+        "ここから先は森林限界を超えた稜線が約3時間続く",
+        "稜線小屋まで約40分、北の鞍部の避難小屋まで約2時間20分",
+        "予報では雷雨は「午後」"
+      ],
+      "options": [
+        {
+          "id": "plan",
+          "label": "予定どおり進む",
+          "detail": "予報は午後から。昼までに稜線を抜ければいい。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1.0,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.6
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "fast",
+          "label": "ペースを上げて、稜線を早く抜ける",
+          "detail": "青山さんと森さんには少しきつい。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 1.15
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "back",
+          "label": "ここで引き返す",
+          "detail": "まだ雲は遠い。樹林帯に戻れば安全。",
+          "actions": [
+            {
+              "type": "turnBack"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_hut_t",
+      "title": "稜線小屋で",
+      "trigger": {
+        "atNode": "HUT_RIDGE"
+      },
+      "situation": "稜線小屋に着いた。南の空の入道雲は大きくなり、底が黒い。ときどき遠くでゴロゴロと音がする。",
+      "knowledge": [
+        "山頂まで約45分、北の鞍部の避難小屋まで約1時間40分",
+        "その先、見返り峰を越えて樹林帯に入るまで約2時間20分",
+        "小屋で雷雲が通り過ぎるのを待つこともできる"
+      ],
+      "options": [
+        {
+          "id": "wait",
+          "label": "小屋で雷雲が過ぎるのを待つ",
+          "detail": "下山は遅くなるが、日没までは十分時間がある。",
+          "actions": [
+            {
+              "type": "stayInShelter",
+              "until": "weatherClears"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.local.thunder",
+                  "op": ">",
+                  "value": 0.2
+                },
+                "add": 0.6
+              }
+            ]
+          }
+        },
+        {
+          "id": "go",
+          "label": "雷はまだ遠い。急いで先へ進む",
+          "detail": "避難小屋まで行けば何とかなる。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 1.1
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1.0,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.6
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "down",
+          "label": "来た道を下る",
+          "detail": "稜線を40分戻ってから樹林帯へ。",
+          "actions": [
+            {
+              "type": "turnBack"
+            }
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "lightning": {
+      "situation": "稲妻が走り、ほとんど間を置かずに雷鳴が響いた。髪の毛が逆立つような感覚がある。3人は稜線の上にいる。",
+      "knowledge": [
+        "近くに建物はない",
+        "稜線の両側は急な斜面とハイマツ",
+        "森さんは金属製のストックを持っていないが、ザックにカラビナがついている"
+      ]
+    }
+  },
+  "thoughts": [
+    {
+      "key": "s03_heat",
+      "when": {
+        "all": [
+          {
+            "before": "D0 10:30"
+          },
+          {
+            "var": "leader.local.tempC",
+            "op": ">",
+            "value": 18
+          }
+        ]
+      },
+      "lines": [
+        "暑いな。早く稜線の風に当たりたい",
+        "雲が湧いてきた。でも予報は午後からだ"
+      ]
+    },
+    {
+      "key": "s03_count",
+      "when": {
+        "var": "leader.local.thunder",
+        "op": ">",
+        "value": 0.4
+      },
+      "lines": [
+        "光ってから音まで……5秒もない",
+        "ここは稜線のど真ん中だ"
+      ],
+      "priority": 6
+    }
+  ],
+  "endings": [
+    {
+      "kind": "SAFE_SHELTER",
+      "when": {
+        "beenAt": "HUT_RIDGE"
+      },
+      "title": "小屋の窓から",
+      "text": "小屋の窓越しに、稜線を稲妻が何度も打つのが見えた。雷雲が過ぎた後の空は、嘘のように青かった。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "無事下山",
+      "text": "3人は無事に下りてきた。下山後、森さんは「あの稲妻、近かったよな」と何度も言った。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助",
+      "text": "落雷の後、木下さんが衛星通信で救助を要請した。雷雲が去った後にヘリが飛んだ。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重傷で救助",
+      "text": "落雷による負傷者は、意識が戻らないままヘリで搬送された。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "稜線の落雷",
+      "text": "稜線上で落雷があった。周りに身を隠す場所はなかった。"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_early",
+      "when": {
+        "any": [
+          {
+            "chose": {
+              "cp": "cp_eboshi_t",
+              "option": "plan"
+            }
+          },
+          {
+            "chose": {
+              "cp": "cp_eboshi_t",
+              "option": "fast"
+            }
+          }
+        ]
+      },
+      "title": "夏の稜線は「午前中に抜ける」計画で",
+      "text": "夏の雷雨は、予報の「午後」より早く始まることが多い。積雲が立ち上がり始めた時点が、稜線に出るかどうかを決める最後の機会になる。"
+    },
+    {
+      "id": "l_metal",
+      "when": {
+        "chose": {
+          "cp": "generic:lightning",
+          "option": "remove_metal"
+        }
+      },
+      "title": "金属を外しても雷は避けられない",
+      "text": "雷は金属の有無よりも「高い所・突き出た所」に落ちる。金属を外すのに時間を使うより、すぐに稜線や山頂を離れて低い所へ移ることが大切。"
+    },
+    {
+      "id": "l_offridge",
+      "when": {
+        "chose": {
+          "cp": "generic:lightning",
+          "option": "off_ridge"
+        }
+      },
+      "title": "稜線を外れて低い所へ",
+      "text": "稜線を離れて斜面を下りたのは良い判断だった。木のそばは側撃の危険があるので、幹から離れ、仲間同士も間隔をあける。"
+    },
+    {
+      "id": "l_hut",
+      "when": {
+        "chose": {
+          "cp": "cp_hut_t",
+          "option": "wait"
+        }
+      },
+      "title": "建物の中が一番安全",
+      "text": "雷の間は、しっかりした建物の中が最も安全。夏の雷雨は1〜2時間で通り過ぎることが多い。待つ時間を計画に組み込んでおく。"
+    }
+  ],
+  "balanceTargets": {
+    "recommended": {
+      "goodMin": 0.92,
+      "fatalMax": 0.02
+    },
+    "bias": {
+      "fatalMin": 0.03,
+      "fatalMax": 0.25
+    },
+    "risky": {
+      "fatalMin": 0.08
+    }
+  },
+  "speech": [
+    {
+      "key": "s03_flash",
+      "who": "leader",
+      "when": {
+        "var": "leader.local.thunder",
+        "op": ">",
+        "value": 0.5
+      },
+      "lines": [
+        "稜線から下りるぞ！ 間をあけて！",
+        "姿勢を低く！ くっつかないで！"
+      ],
+      "tone": "shout",
+      "priority": 25,
+      "cooldownMin": 20
+    },
+    {
+      "key": "s03_count",
+      "who": "aoyama",
+      "when": {
+        "var": "leader.local.thunder",
+        "op": ">",
+        "value": 0.3
+      },
+      "lines": [
+        "今の、光ってから何秒だった？"
+      ],
+      "tone": "normal",
+      "priority": 15,
+      "once": true
+    },
+    {
+      "key": "s03_metal",
+      "who": "mori",
+      "when": {
+        "var": "leader.local.thunder",
+        "op": ">",
+        "value": 0.4
+      },
+      "lines": [
+        "カラビナ外したほうがいいのかな"
+      ],
+      "tone": "normal",
+      "priority": 15,
+      "once": true
+    }
+  ]
+}
