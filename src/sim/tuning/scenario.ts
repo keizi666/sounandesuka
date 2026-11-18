@@ -70,6 +70,9 @@ export const behavior = {
 export const choices = {
   defaultPriority: 10,
   defaultTimeoutSec: 30,
+  /** 汎用分岐点 hypothermia の 1 回目と 2 回目（docs/09 §7） */
+  genericHypothermiaC: 35.3,
+  genericHypothermia2C: 34.0,
 };
 
 /** docs/02 §5 結末 */

@@ -19,7 +19,7 @@
 - [x] `core/dmath.ts`（超越関数の窓口）
 - [x] `terrain/noise.ts` `generate.ts` `flow.ts` `derive.ts` `sample.ts` `coverage.ts` `polyline.ts` `map.ts`
 - [x] 受け入れ: rng の一致と既知ベクトル / docs/04 §3.3 の 3 項目 / Node で 1 秒以内（約 0.35 秒）/ docs/04 §7 の電波の検証 / `npm run sim -- --dump-terrain` で PGM 出力
-- [ ] 要検討: マップの急峻さ（DECISIONS「要検討」）。P6 の前に決める
+- [x] マップの急峻さ → P6 で地形を穏やかにした（DECISIONS）
 
 ## P2 登山道と移動 — 完了（2026-11-18）
 
@@ -49,9 +49,14 @@
 - [x] `tools/sim.ts`（--log）・`tools/validate.ts`・`tools/simcheck.ts`、`src/i18n/format.ts`
 - [x] 受け入れ: validate で 3 シナリオ・1 マップにエラーなし、壊した JSON 9 種で期待どおりのパス / `npm run sim -- s01_cold_front --policy recommended --log` が結末まで走る / sim:check 合格
 
+## P6 道迷い・危険・機器・救助 — 完了（2026-11-19）
+
+- [x] `climber/navigation.ts`・`offtrail.ts`（分岐の誤り・踏み外し・気づき・軌跡・沢下り・GPS・電波探し・風下探索）、`terrain/pathing.ts`（A*）
+- [x] `hazards/slip.ts`・`lightning.ts`、`climber/devices.ts`、`rescue/rescue.ts`、`scenario/generic.ts`、`climber/thoughts.ts`
+- [x] 受け入れ: s02 道迷い bias 59%・recommended 14% / 沢下り 100 回で鬼ヶ沢 100%・滝 72% / 山頂 30 分の被雷率 5〜25%・森林 2% 以下 / 圏外の通報失敗と電波探し後の成功 / 夜間ヘリ不可
+
 ## これから
 
-- [ ] P6 道迷い・危険・機器・救助
 - [ ] P7 記録・モンテカルロ・調整
 - [ ] P8 ジオラマ描画
 - [ ] P9 気象の描画

@@ -69,6 +69,8 @@ export function stageOf(coreC: number, tuning: Tuning = TUNING): ClimberBody['st
 }
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
+/** 動けなくなっても状態を変えない（すでに横になって待っている） */
+const LYING_OK = new Set(['INCAPACITATED', 'SHELTERED', 'BIVOUAC', 'WAITING_RESCUE']);
 
 function die(world: World, ctx: StaticContext, c: ClimberState, cause: 'hypothermia' | 'heat'): void {
   c.body.alive = false;
@@ -110,6 +112,12 @@ export function updateCapacity(world: World, ctx: StaticContext, c: ClimberState
 
   // 意識
   let conscious = b.coreC >= p.unconsciousBelowC;
+  // 頭部外傷による意識喪失（docs/06 §7 負傷の表）
+  const ku = c.memo.unconsciousUntilMin;
+  if (ku !== null) {
+    if (world.tMin < ku) conscious = false;
+    else c.memo.unconsciousUntilMin = null;
+  }
   if (conscious && b.coreC >= k.heatStrokeC) {
     // 熱中症: 一度失った意識は体温が下がるまで戻らない
     conscious = b.conscious && !(checkTick && chance(world.rng.hazard, p.heatStrokeUnconsciousP));
@@ -125,7 +133,7 @@ export function updateCapacity(world: World, ctx: StaticContext, c: ClimberState
     if (c.state !== 'UNCONSCIOUS') transition(world, ctx, c, 'UNCONSCIOUS', 'core');
   } else if (c.state === 'UNCONSCIOUS') {
     transition(world, ctx, c, c.M > 0 ? 'STAYING' : 'INCAPACITATED', 'regained');
-  } else if (c.M <= 0 && c.state !== 'INCAPACITATED' && c.state !== 'SHELTERED') {
+  } else if (c.M <= 0 && !LYING_OK.has(c.state)) {
     transition(world, ctx, c, 'INCAPACITATED', 'M0');
   }
 }

@@ -199,7 +199,7 @@
 
 ```jsonc
 "radio": { "stations": [
-  { "id": "town_se", "x": 3500, "z": 3500, "elevM": 1150, "antennaM": 40, "rangeM": 12000 },
+  { "id": "town_se", "x": 3500, "z": 3500, "elevM": 1150, "antennaM": 80, "rangeM": 12000 },
   { "id": "pass_ne", "x": 3000, "z": -4000, "elevM": 1250, "antennaM": 30, "rangeM": 10000 } ] }
 ```
 

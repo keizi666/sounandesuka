@@ -1,14 +1,20 @@
 /**
  * パーティとグループ（docs/07 §1.4、docs/03 §4 の 9）。
- * tight のグループは全員がそろって歩けるときだけ、最も遅い人に合わせて一緒に進む。
+ * tight のグループはリーダーが道を選んで進み、仲間は同じ位置・状態でついていく（最も遅い人の速度）。
  * 誰かが作業中・休憩中なら待ち、誰かが行動不能なら全員が止まる（STAYING）。
  * loose・グループ分割・リーダー交代の作り込みは P19。
  */
 import type { BehaviorState, ClimberState, StaticContext, World } from '../types';
+import { per10m } from './navigation';
+import { stepFree } from './offtrail';
 import { transition } from './state';
-import { walkStep } from './walk';
+import { walkStep, type WalkResult } from './walk';
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
+/** 歩いて移動する状態 */
+export const MOVING = new Set<BehaviorState>(['WALKING', 'OFFROUTE_UNAWARE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL', 'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL']);
+/** path があれば道外を移動する（風下・稜線の下へ移る）状態 */
+const SETTLING = new Set<BehaviorState>(['RESTING', 'BIVOUAC', 'WAITING_RESCUE']);
 
 export function groupMembers(world: World, groupId: string | null): ClimberState[] {
   return world.climbers.filter((c) => c.groupId === groupId);
@@ -30,15 +36,73 @@ export function partyLeader(world: World): ClimberState {
   return groupLeader(world, world.groups[0]?.id ?? null);
 }
 
-/** 移動の結果（生理の計算に使う） */
+/** 移動の結果（生理・危険の計算に使う） */
 export interface MoveOutcome {
   walking: boolean;
   grade: number;
   met: number;
+  movedM: number;
+  offTrail: boolean;
+}
+
+function canMove(c: ClimberState): boolean {
+  if (!c.body.alive || c.plan.busyUntilMin !== null) return false;
+  if (MOVING.has(c.state)) return true;
+  return SETTLING.has(c.state) && c.pos.mode === 'free' && c.nav.path.length > 0;
+}
+
+function moveOne(world: World, ctx: StaticContext, leader: ClimberState, dtSec: number, members: readonly ClimberState[]): WalkResult {
+  if (leader.pos.mode === 'free') return stepFree(world, ctx, leader, dtSec, members);
+  if (MOVING.has(leader.state)) return walkStep(world, ctx, leader, dtSec, members);
+  return { movedM: 0, grade: 0, metById: {} };
+}
+
+/** 10 m ごとの判定（道迷い）をリーダーについて行う */
+function navChecks(world: World, ctx: StaticContext, c: ClimberState, movedM: number): void {
+  c.nav.distAccumM += movedM;
+  while (c.nav.distAccumM >= 10) {
+    c.nav.distAccumM -= 10;
+    per10m(world, ctx, c);
+  }
+}
+
+/** 仲間をリーダーの位置・状態にそろえる */
+function follow(world: World, ctx: StaticContext, leader: ClimberState, m: ClimberState): void {
+  m.pos = { ...leader.pos };
+  m.x = leader.x;
+  m.z = leader.z;
+  m.elevM = leader.elevM;
+  m.headingRad = leader.headingRad;
+  m.speedMs = leader.speedMs;
+  m.plan.route = [...leader.plan.route];
+  m.plan.routeIndex = leader.plan.routeIndex;
+  m.plan.goalNodes = [...leader.plan.goalNodes];
+  m.plan.goTo = leader.plan.goTo ? { ...leader.plan.goTo } : null;
+  m.nav = { ...leader.nav, track: [...leader.nav.track], path: leader.nav.path.map((p) => [p[0], p[1]] as [number, number]) };
+  m.perception.awareLost = leader.perception.awareLost;
+  m.perception.knowsPosition = leader.perception.knowsPosition;
+  m.memo.atWaterfall = leader.memo.atWaterfall;
+  const after = leader.state;
+  if (after !== m.state && !TERMINAL.has(m.state)) {
+    transition(world, ctx, m, after, 'followLeader');
+    if (after === 'FINISHED') ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: m.id, important: true });
+  }
+  if (leader.body.shelterNodeId && !m.body.shelterNodeId) {
+    m.body.shelterNodeId = leader.body.shelterNodeId;
+    m.plan.bivouacUntil = leader.plan.bivouacUntil;
+    m.memo.sheltered = true;
+  }
+  if (after === 'RESTING' || after === 'BIVOUAC' || after === 'WAITING_RESCUE') {
+    m.plan.restUntilMin = leader.plan.restUntilMin;
+    m.plan.bivouacUntil = leader.plan.bivouacUntil;
+    m.body.leeShelter = leader.body.leeShelter;
+    m.body.inBivy = after !== 'RESTING' && m.def.gear.bivy !== 'none';
+    m.body.groundInsulation = after !== 'RESTING';
+  }
 }
 
 /**
- * 歩いている人を進める（8d）。返り値は登山者 ID ごとの移動の結果（歩いていない人は含めない）。
+ * 移動（8d）。返り値は登山者 ID ごとの移動の結果（動かなかった人は含めない）。
  * hold が true なら誰も動かない（判断時間制限モードで分岐点の回答待ち）。
  */
 export function moveParty(world: World, ctx: StaticContext, dtSec: number, hold: boolean): Record<string, MoveOutcome> {
@@ -50,53 +114,31 @@ export function moveParty(world: World, ctx: StaticContext, dtSec: number, hold:
     const g = world.groups.find((x) => x.id === c.groupId);
     if (!g || g.cohesion === 'loose') {
       done.add(c.id);
-      if (c.state === 'WALKING' && c.plan.busyUntilMin === null && c.body.alive) {
-        const r = walkStep(world, ctx, c, dtSec, [c]);
-        out[c.id] = { walking: r.movedM > 0, grade: r.grade, met: r.metById[c.id]! };
-      }
+      if (!canMove(c)) continue;
+      const wasFree = c.pos.mode === 'free';
+      const r = moveOne(world, ctx, c, dtSec, [c]);
+      if (r.movedM > 0) out[c.id] = { walking: true, grade: r.grade, met: r.metById[c.id] ?? 0, movedM: r.movedM, offTrail: wasFree };
+      navChecks(world, ctx, c, r.movedM);
       continue;
     }
-    const members = groupMembers(world, g.id).filter((m) => !TERMINAL.has(m.state));
-    for (const m of members) done.add(m.id);
+    const members = groupMembers(world, g.id).filter((m) => !TERMINAL.has(m.state) && m.body.alive);
+    for (const m of groupMembers(world, g.id)) done.add(m.id);
+    if (members.length === 0) continue;
     const leader = groupLeader(world, g.id);
-    if (leader.state !== 'WALKING' || TERMINAL.has(leader.state)) continue;
+    if (!canMove(leader)) continue;
     // 動けない人がいれば全員止まる
     if (members.some((m) => m.state === 'INCAPACITATED' || m.state === 'UNCONSCIOUS')) {
-      for (const m of members) if (m.state === 'WALKING') transition(world, ctx, m, 'STAYING', 'groupStopped');
+      for (const m of members) if (MOVING.has(m.state)) transition(world, ctx, m, 'STAYING', 'groupStopped');
       continue;
     }
-    // 全員が歩ける状態でなければ待つ
-    if (members.some((m) => m.state !== 'WALKING' || m.plan.busyUntilMin !== null)) continue;
-    const r = walkStep(world, ctx, leader, dtSec, members);
-    // walkStep の中で状態が変わりうる（到着・ルート終端）
-    const after = leader.state as BehaviorState;
+    // 作業中・休憩中の人がいれば待つ
+    if (members.some((m) => m !== leader && (m.plan.busyUntilMin !== null || (m.state === 'RESTING' && leader.state !== 'RESTING')))) continue;
+    const wasFree = leader.pos.mode === 'free';
+    const r = moveOne(world, ctx, leader, dtSec, members);
+    navChecks(world, ctx, leader, r.movedM);
     for (const m of members) {
-      out[m.id] = { walking: r.movedM > 0, grade: r.grade, met: r.metById[m.id]! };
-      if (m === leader) continue;
-      m.pos = { ...leader.pos };
-      m.x = leader.x;
-      m.z = leader.z;
-      m.elevM = leader.elevM;
-      m.headingRad = leader.headingRad;
-      m.speedMs = leader.speedMs;
-      m.metAct = r.metById[m.id]!;
-      m.plan.route = [...leader.plan.route];
-      m.plan.routeIndex = leader.plan.routeIndex;
-      m.plan.goalNodes = [...leader.plan.goalNodes];
-      m.plan.goTo = leader.plan.goTo ? { ...leader.plan.goTo } : null;
-      if (after !== m.state) {
-        transition(world, ctx, m, after, 'followLeader');
-        if (after === 'FINISHED') ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: m.id, important: true });
-      }
-      if (leader.body.shelterNodeId && !m.body.shelterNodeId) {
-        m.body.shelterNodeId = leader.body.shelterNodeId;
-        m.plan.bivouacUntil = leader.plan.bivouacUntil;
-        m.memo.sheltered = true;
-      }
-      if (after === 'RESTING') {
-        m.plan.restUntilMin = leader.plan.restUntilMin;
-        m.plan.bivouacUntil = leader.plan.bivouacUntil;
-      }
+      if (r.movedM > 0) out[m.id] = { walking: true, grade: r.grade, met: r.metById[m.id] ?? 0, movedM: r.movedM, offTrail: wasFree };
+      if (m !== leader) follow(world, ctx, leader, m);
     }
   }
   return out;

@@ -151,11 +151,13 @@ export function createClimberState(
       track: [],
       falseEdgeId: null,
       distAccumM: 0,
+      path: [],
+      trackCheckM: 0,
     },
     local: initialLocalWeather(),
     lastThoughtMin: null,
     thoughtHistory: {},
-    memo: { lastEatMin: tMin, lastDrinkMin: tMin, lastPrecipMin: null, clearSinceMin: null, bivouacked: false, sheltered: false },
+    memo: { lastEatMin: tMin, lastDrinkMin: tMin, lastPrecipMin: null, clearSinceMin: null, bivouacked: false, sheltered: false, traumaDeathAtMin: null, unconsciousUntilMin: null, atWaterfall: false, trailVanishedAtMin: null, nextThoughtMin: null },
   };
 }
 

@@ -1,12 +1,13 @@
 /**
  * 分岐点（docs/09 §5）: 発火・選択肢の可否・自律バイアス・解決。
- * 汎用分岐点（generic.ts）は P6。group 指定の分岐点は P19（今はパーティ全体のリーダーで評価）。
+ * シナリオの分岐点に、汎用分岐点（generic.ts）を加える。group 指定の分岐点は P19（今はパーティ全体のリーダーで評価）。
  */
 import { applyActions } from '../climber/actions';
 import { groupLeader, groupMembers } from '../climber/party';
 import { chooseByPolicy, type WeightedOption } from '../policy';
-import type { ChoicePointDef, ClimberState, StaticContext, World } from '../types';
+import type { ChoicePointDef, ClimberState, GenericChoiceKey, StaticContext, World } from '../types';
 import { evalCondition } from './conditions';
+import { genericChoicePoints, genericTrigger } from './generic';
 import { cpOnce, cpPriority } from './load';
 import type { VarScope } from './vars';
 
@@ -14,12 +15,25 @@ export function scopeFor(world: World, ctx: StaticContext, leader: ClimberState)
   return { world, map: ctx.map, scenario: ctx.scenario, leader };
 }
 
-/** 分岐点の定義（シナリオのもの。P6 で汎用分岐点を加える） */
-export function choicePoints(ctx: StaticContext): { cp: ChoicePointDef; key: string }[] {
-  return ctx.scenario.choices.map((cp, i) => ({ cp, key: `choices[${i}]` }));
+export interface ChoiceItem {
+  cp: ChoicePointDef;
+  key: string;
+  generic?: GenericChoiceKey;
 }
 
-export function findChoicePoint(ctx: StaticContext, cpId: string): { cp: ChoicePointDef; key: string } | undefined {
+const itemsCache = new WeakMap<StaticContext['scenario'], ChoiceItem[]>();
+
+/** 分岐点の定義（シナリオのものと汎用分岐点） */
+export function choicePoints(ctx: StaticContext): ChoiceItem[] {
+  let items = itemsCache.get(ctx.scenario);
+  if (!items) {
+    items = [...ctx.scenario.choices.map((cp, i) => ({ cp, key: `choices[${i}]` })), ...genericChoicePoints(ctx)];
+    itemsCache.set(ctx.scenario, items);
+  }
+  return items;
+}
+
+export function findChoicePoint(ctx: StaticContext, cpId: string): ChoiceItem | undefined {
   return choicePoints(ctx).find((x) => x.cp.id === cpId);
 }
 
@@ -54,13 +68,17 @@ export function evaluateOptions(world: World, ctx: StaticContext, cp: ChoicePoin
  */
 export function checkChoices(world: World, ctx: StaticContext): boolean {
   if (world.pendingChoice) return false;
-  let best: { cp: ChoicePointDef; key: string } | null = null;
+  let best: ChoiceItem | null = null;
   for (const item of choicePoints(ctx)) {
     const { cp, key } = item;
-    const once = cpOnce(cp);
-    if (once && world.firedChoices.includes(cp.id)) continue;
     const leader = groupLeader(world, groupIdOf(world, cp));
     if (!leader.body.alive) continue;
+    if (item.generic) {
+      if (genericTrigger(world, ctx, item.generic, leader) && (!best || cpPriority(cp) > cpPriority(best.cp))) best = item;
+      continue;
+    }
+    const once = cpOnce(cp);
+    if (once && world.firedChoices.includes(cp.id)) continue;
     const v = evalCondition(cp.trigger, scopeFor(world, ctx, leader), `${key}.trigger`);
     if (!once) {
       const prev = world.latches[key] ?? false;

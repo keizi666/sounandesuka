@@ -7,6 +7,7 @@ import { chance } from '../core/rng';
 import { nearestIndex } from '../terrain/sample';
 import type { Action, ClimberState, StaticContext, UntilRef, World } from '../types';
 import { shelterFromWind } from '../weather/local';
+import { checkPosition as navCheck, findLeeSpot, pathOffRidge } from './navigation';
 import { dawnRef, ensureRouteAhead, enterShelter, goToNode, leaveShelter, setRoute, turnBack } from './route';
 import { transition } from './state';
 
@@ -37,8 +38,8 @@ function targetsOf(world: World, who: Action['who'], group: readonly ClimberStat
   return c && c.body.alive ? [c] : [];
 }
 
-/** 救助要請（P5: 通報の成否まで。出動と収容は P6 の rescue.ts） */
-function callRescue(world: World, ctx: StaticContext, c: ClimberState, via: 'auto' | 'phone' | 'satellite'): void {
+/** 救助要請（通報の成否。出動と収容は rescue.ts） */
+export function callRescue(world: World, ctx: StaticContext, c: ClimberState, via: 'auto' | 'phone' | 'satellite'): void {
   const rt = ctx.tuning.radio;
   const ph = c.inv.phone;
   const radio = ctx.map.radio[nearestIndex(ctx.map, c.x, c.z)] ?? 0;
@@ -74,8 +75,16 @@ function startBivouac(world: World, ctx: StaticContext, c: ClimberState, until: 
   leaveShelter(world, ctx, c);
   c.body.inBivy = c.def.gear.bivy !== 'none';
   c.body.groundInsulation = true;
-  // 風下の避難地点への移動は P6（findLeeSpot）。P5 はその場の風下の度合いを使う
   c.body.leeShelter = findLee ? shelterFromWind(ctx.map, c.x, c.z, c.local.windDirDeg, ctx.tuning) : 0;
+  if (findLee) {
+    // 風下の避難地点へ移ってから落ち着く（docs/04 §8）
+    const spot = findLeeSpot(ctx, c.x, c.z, c.local.windDirDeg);
+    if (spot && spot.shelter > c.body.leeShelter && (spot.x - c.x) * (spot.x - c.x) + (spot.z - c.z) * (spot.z - c.z) > ctx.map.cell * ctx.map.cell) {
+      c.pos = { mode: 'free', x: c.x, z: c.z };
+      c.nav.path = [[spot.x, spot.z]];
+      c.body.leeShelter = spot.shelter;
+    }
+  }
   c.plan.bivouacUntil = resolveUntil(world, ctx, until);
   c.memo.bivouacked = true;
   transition(world, ctx, c, state, 'action');
@@ -101,10 +110,59 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       turnBack(ctx, c);
       transition(world, ctx, c, 'WALKING', 'action');
       return;
-    case 'goToNode':
+    case 'goToNode': {
       leaveShelter(world, ctx, c);
-      if (goToNode(ctx, c, a.node, a.then)) transition(world, ctx, c, 'WALKING', 'action');
+      const node = a.node === '$nearestShelter' ? nearestShelterNode(ctx, c) : a.node;
+      if (node && goToNode(ctx, c, node, a.then)) transition(world, ctx, c, 'WALKING', 'action');
       return;
+    }
+    case 'checkPosition': {
+      const r = navCheck(world, ctx, c);
+      startTask(world, c, 'checkPos', r.minutes);
+      return;
+    }
+    case 'backtrack':
+      if (c.pos.mode !== 'free') c.pos = { mode: 'free', x: c.x, z: c.z };
+      c.nav.path = [];
+      c.nav.trackCheckM = 0;
+      transition(world, ctx, c, 'BACKTRACKING', 'action');
+      return;
+    case 'navigateToTrail':
+      if (!c.perception.knowsPosition) {
+        ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, data: { needsPosition: true } });
+        return;
+      }
+      if (c.pos.mode !== 'free') c.pos = { mode: 'free', x: c.x, z: c.z };
+      c.nav.path = [];
+      transition(world, ctx, c, 'NAVIGATING_TO_TRAIL', 'action');
+      return;
+    case 'descendDrainage':
+      if (c.pos.mode !== 'free') c.pos = { mode: 'free', x: c.x, z: c.z };
+      c.nav.path = [];
+      transition(world, ctx, c, 'DESCENDING_DRAINAGE', 'action');
+      return;
+    case 'seekSignal':
+      leaveShelter(world, ctx, c);
+      if (c.pos.mode !== 'free') c.pos = { mode: 'free', x: c.x, z: c.z };
+      c.nav.path = [];
+      transition(world, ctx, c, 'SEEKING_SIGNAL', 'action');
+      return;
+    case 'lightningPosture':
+      c.plan.postureUntilMin = world.tMin + a.minutes;
+      c.plan.restUntilMin = world.tMin + a.minutes;
+      transition(world, ctx, c, 'RESTING', 'lightningPosture');
+      return;
+    case 'moveOffRidge': {
+      const path = pathOffRidge(ctx, c, a.minDropM);
+      if (path && path.length > 0) {
+        c.pos = { mode: 'free', x: c.x, z: c.z };
+        c.nav.path = path;
+      }
+      c.plan.restUntilMin = null;
+      c.plan.bivouacUntil = 'weatherClears';
+      transition(world, ctx, c, 'RESTING', 'offRidge');
+      return;
+    }
     case 'stayInShelter': {
       const node = c.pos.mode === 'node' ? c.pos.nodeId : null;
       if (!node || !enterShelter(world, ctx, c, node, resolveUntil(world, ctx, a.until))) {
@@ -146,6 +204,7 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
     case 'stopAndCheck': {
       const node = c.pos.mode === 'node' ? c.pos.nodeId : (c.plan.route[c.plan.routeIndex] ?? null);
       c.plan.stopCheckedNode = node;
+      navCheck(world, ctx, c);
       c.plan.restUntilMin = world.tMin + bt.stopAndCheckMin;
       transition(world, ctx, c, 'RESTING', 'stopAndCheck');
       return;
@@ -197,8 +256,8 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
   }
 }
 
-/** フラグと narrate・say のように、全員に適用すると重複するアクション */
-const ONCE_PER_LIST = new Set(['setFlag', 'clearFlag', 'narrate']);
+/** フラグ・narrate・救助要請のように、全員に適用すると重複するアクション（リーダーが 1 回だけ行う） */
+const ONCE_PER_LIST = new Set(['setFlag', 'clearFlag', 'narrate', 'callRescue']);
 
 /**
  * アクション列を先頭から順に適用する。group はその分岐点・イベントの対象グループ、leader はそのリーダー。
@@ -240,4 +299,20 @@ export function untilReached(world: World, ctx: StaticContext, c: ClimberState, 
     return held || world.tMin >= limit;
   }
   return world.tMin >= parseTimeRef(until);
+}
+
+/** 開いている小屋のうち直線距離で最も近いノード */
+export function nearestShelterNode(ctx: StaticContext, c: ClimberState, maxM = Infinity): string | null {
+  let best: string | null = null;
+  let bestD = maxM;
+  for (const nd of Object.values(ctx.map.nodes)) {
+    const open = ctx.scenario.nodeOverrides?.[nd.id]?.open ?? nd.shelter?.open ?? false;
+    if (!nd.shelter || !open) continue;
+    const d = Math.sqrt((nd.x - c.x) * (nd.x - c.x) + (nd.z - c.z) * (nd.z - c.z));
+    if (d < bestD) {
+      bestD = d;
+      best = nd.id;
+    }
+  }
+  return best;
 }

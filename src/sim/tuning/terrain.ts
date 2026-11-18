@@ -57,6 +57,8 @@ export const trails = {
 /** docs/04 §7 電波圏 */
 export const radio = {
   rxHeightM: 1.5,
+  /** 足元のこの距離以内の地形は見通しの判定から外す（数歩動けばよけられる小さな高まり） */
+  nearFieldIgnoreM: 50,
   minSampleM: 32,
   /** 見通し判定のサンプル間隔 = max(minSampleM, sampleCells × cell) */
   sampleCells: 2,

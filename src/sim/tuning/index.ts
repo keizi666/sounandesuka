@@ -3,6 +3,7 @@
  * プレーンな JSON 互換の値だけを入れる。分野ごとのファイルに分け、ここでまとめる。
  */
 import { capacity, movement, physiology } from './climber';
+import { devices, lightning, nav, rescue, slip, thoughts } from './hazards';
 import { behavior, choices, endings } from './scenario';
 import { derive, radio, terrain, trails } from './terrain';
 import { ground, sun, weather } from './world';
@@ -21,6 +22,12 @@ export const TUNING = {
   behavior,
   choices,
   endings,
+  nav,
+  slip,
+  lightning,
+  devices,
+  rescue,
+  thoughts,
 };
 
 export type Tuning = typeof TUNING;

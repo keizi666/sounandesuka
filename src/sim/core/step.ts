@@ -7,7 +7,14 @@
  */
 import { finishTask, autonomous, stepState } from '../climber/behavior';
 import { updateCapacity } from '../climber/capacity';
-import { moveParty, type MoveOutcome } from '../climber/party';
+import { drainDevices } from '../climber/devices';
+import { awarenessCheck } from '../climber/navigation';
+import { groupLeader, moveParty, type MoveOutcome } from '../climber/party';
+import { maybeThink } from '../climber/thoughts';
+import { lightningCheck } from '../hazards/lightning';
+import { injuryTimers, slipCheck } from '../hazards/slip';
+import { stepRescue } from '../rescue/rescue';
+import { chance } from './rng';
 import { updateTimeBehind, updateWeatherImpression } from '../climber/perception';
 import { integrateBody, thermalEnvFor, updateAnxiety } from '../climber/physiology';
 import { autoResolve, checkChoices } from '../scenario/choices';
@@ -65,6 +72,9 @@ export function stepWorld(world: World, ctx: StaticContext): void {
     if (minuteTick) {
       updateTimeBehind(world, ctx, c);
       autonomous(world, ctx, c);
+      // 気づき（道迷いの判断はグループのリーダー）
+      if (c.state === 'OFFROUTE_UNAWARE' && groupLeader(world, c.groupId) === c) awarenessCheck(world, ctx, c);
+      maybeThink(world, ctx, c);
     }
     finishTask(world, ctx, c);
     stepState(world, ctx, c);
@@ -73,7 +83,8 @@ export function stepWorld(world: World, ctx: StaticContext): void {
   const moves = moveParty(world, ctx, DT_SEC, hold);
   // 8e〜h. 危険・生理・機器・判断力
   for (const c of world.climbers) stepBody(world, ctx, c, moves[c.id]);
-  // 8e・8g 危険・機器、10 救助は P6
+  // 10. 救助
+  stepRescue(world, ctx, DT_SEC / 60);
   // 11. 結末
   checkEnding(world, ctx);
   finish(world, ctx, evStart);
@@ -101,10 +112,21 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
   } else {
     c.metAct = move!.met;
   }
-  // 8f. 生理
   const dtMin = DT_SEC / 60;
+  // 8e. 危険（10 m ごとの転倒、落雷、負傷の経過）
+  if (move && move.movedM > 0) {
+    const checks = Math.floor(move.movedM / 10);
+    const extra = chance(world.rng.hazard, (move.movedM - checks * 10) / 10) ? 1 : 0;
+    for (let k = 0; k < checks + extra && c.body.alive; k += 1) slipCheck(world, ctx, c, move.grade);
+  }
+  lightningCheck(world, ctx, c, dtMin);
+  injuryTimers(world, ctx, c);
+  if (!c.body.alive) return;
+  // 8f. 生理
   integrateBody(c, thermalEnvFor(world, ctx, c), { metAct: c.metAct, grade: move?.grade ?? 0, walking }, dtMin, t);
   updateAnxiety(world, c, dtMin, t);
+  // 8g. 機器
+  drainDevices(world, ctx, c, dtMin);
   // 8h. 判断力・運動能力・段階・生死
   const checkTick = world.tick % (t.physiology.arrestCheckMin * TICKS_PER_MIN) === 0;
   updateCapacity(world, ctx, c, checkTick);

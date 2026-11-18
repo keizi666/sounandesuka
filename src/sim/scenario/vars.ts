@@ -39,6 +39,8 @@ export const CLIMBER_FIELDS = [
   'radio',
   'timeBehindMin',
   'phone.batteryPct',
+  'phone.gpsApp',
+  'nearestShelterM',
   'name',
   'id',
 ] as const;
@@ -96,6 +98,17 @@ function climberField(c: ClimberState, field: string, scope: VarScope): VarValue
       return scope.map.radio[nearestIndex(scope.map, c.x, c.z)] ?? 0;
     case 'phone.batteryPct':
       return c.inv.phone.batteryPct;
+    case 'phone.gpsApp':
+      return c.inv.phone.gpsApp && c.inv.phone.has;
+    case 'nearestShelterM': {
+      let best = Infinity;
+      for (const nd of Object.values(scope.map.nodes)) {
+        const open = scope.scenario.nodeOverrides?.[nd.id]?.open ?? nd.shelter?.open ?? false;
+        if (!nd.shelter || !open) continue;
+        best = Math.min(best, Math.sqrt((nd.x - c.x) * (nd.x - c.x) + (nd.z - c.z) * (nd.z - c.z)));
+      }
+      return best;
+    }
     case 'name':
       return c.def.name;
     case 'id':

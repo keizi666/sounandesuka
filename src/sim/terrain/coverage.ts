@@ -30,6 +30,7 @@ export function stationStrength(
   let obstruction = -Infinity;
   for (let k = 1; k < steps; k += 1) {
     const f = k / steps;
+    if (f * dist < rt.nearFieldIgnoreM) continue;
     const terr = sampleElevOr(g, x + dx * f, z + dz * f, outsideElevM);
     const o = terr - (h0 + (h1 - h0) * f);
     if (o > obstruction) {

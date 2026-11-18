@@ -10,7 +10,9 @@ import type { ClimberState, MapRuntime, StaticContext, World } from '../types';
 import { groundAt } from '../weather/ground';
 import { capSpeedByMet, isChainAt, trailSpeedMs, walkMet, type MoveEnv } from './movement';
 import { syncPosition } from './position';
-import { arriveAt } from './route';
+import { chooseLegAtNode, onWrongNode } from './navigation';
+import { arriveAt, setRoute } from './route';
+import { shortestPath } from '../terrain/trails';
 import { transition } from './state';
 
 /** 速度に効く周りの状態を World から集める */
@@ -57,12 +59,30 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
         transition(world, ctx, c, 'STAYING', 'routeEnd');
         break;
       }
-      const r = edgeBetween(map, c.pos.nodeId, next);
+      let r = edgeBetween(map, c.pos.nodeId, next);
+      if ('error' in r) {
+        // 次のノードが隣でない（道迷いの後など）: 最短経路でつなぎ直す
+        const link = shortestPath(map, c.pos.nodeId, next, ctx.tuning);
+        if (link && link.length > 1) {
+          setRoute(ctx, c, [...link, ...c.plan.route.slice(c.plan.routeIndex + 1)]);
+          r = edgeBetween(map, c.pos.nodeId, c.plan.route[c.plan.routeIndex]!);
+        }
+      }
       if ('error' in r) throw new Error(`${c.id}: ${r.error}`);
-      const len = map.trails[r.leg.edgeId]!.lengthM;
-      c.pos = { mode: 'edge', edgeId: r.leg.edgeId, s: r.leg.dir === 1 ? 0 : len, dir: r.leg.dir };
+      let leg = r.leg;
+      if (c.state === 'WALKING') {
+        // 分岐での道間違い（docs/07 §3.2）
+        const ch = chooseLegAtNode(world, ctx, c, c.pos.nodeId, leg);
+        if ('falseEdge' in ch) {
+          c.pos = { mode: 'edge', edgeId: ch.falseEdge, s: 0, dir: 1 };
+          continue;
+        }
+        leg = ch.leg;
+      }
+      const len = map.trails[leg.edgeId]!.lengthM;
+      c.pos = { mode: 'edge', edgeId: leg.edgeId, s: leg.dir === 1 ? 0 : len, dir: leg.dir };
     }
-    if (c.pos.mode !== 'edge') break; // 道外の移動は P6
+    if (c.pos.mode !== 'edge') break; // 道外の移動は offtrail.ts
     const pos = c.pos;
     const trail = map.trails[pos.edgeId]!;
     const smp = trail.samples;
@@ -98,8 +118,12 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
     const atEnd = pos.dir === 1 ? pos.s >= trail.lengthM - EPS : pos.s <= EPS;
     if (atEnd) {
       const node = pos.dir === 1 ? trail.def.to : trail.def.from;
-      if (node === undefined) break; // 偽の道の末端（P6）
-      if (arriveAt(world, ctx, c, node)) break;
+      if (node === undefined) break; // 偽の道の末端（navigation.per10m が道外へ出す）
+      const expected = c.plan.route[c.plan.routeIndex];
+      const via = pos.edgeId;
+      arriveAt(world, ctx, c, node);
+      if (node !== expected && c.state === 'WALKING' && c.nav.offrouteSinceMin !== null) onWrongNode(world, ctx, c, node, via);
+      break;
     }
   }
   const restT = Math.max(0, t);

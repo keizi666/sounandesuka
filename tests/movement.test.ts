@@ -135,7 +135,7 @@ describe('World（docs/03 §3）', () => {
     const types: string[] = [];
     for (let i = 0; i < 1000 && w.climbers[0]!.state !== 'FINISHED'; i += 1) {
       stepWorld(w, ctx);
-      types.push(...ctx.events.map((e) => e.type));
+      types.push(...ctx.events.map((e) => e.type).filter((t) => t !== 'THOUGHT'));
       ctx.events.length = 0;
     }
     expect(types).toEqual(['NODE_ARRIVE', 'STATE', 'FINISHED', 'ENDED']);

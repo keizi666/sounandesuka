@@ -44,6 +44,8 @@ export function finishTask(world: World, ctx: StaticContext, c: ClimberState): v
     c.inv.waterL -= l;
     b.waterDeficitL = Math.max(0, b.waterDeficitL - l);
     ctx.events.push({ tMin: world.tMin, type: 'DRINK', climberId: c.id, data: { liters: l } });
+  } else if (what === 'checkPos') {
+    // 位置確認の結果はアクションの時点で決まっている（knowsPosition）
   } else if (what === 'lamp') {
     c.inv.headlamp.on = true;
     ctx.events.push({ tMin: world.tMin, type: 'LAMP', climberId: c.id, data: { on: true } });
@@ -123,6 +125,14 @@ export function stepState(world: World, ctx: StaticContext, c: ClimberState): vo
       if (done) {
         c.plan.restUntilMin = null;
         c.plan.bivouacUntil = null;
+        c.plan.postureUntilMin = null;
+        if (c.pos.mode === 'free') {
+          // 稜線を外れて待っていた等: 登山道へ戻る
+          c.perception.knowsPosition = true;
+          c.nav.path = [];
+          transition(world, ctx, c, 'NAVIGATING_TO_TRAIL', 'restEnd');
+          return;
+        }
         ensureRouteAhead(ctx, c);
         transition(world, ctx, c, 'WALKING', 'restEnd');
       }
@@ -132,11 +142,21 @@ export function stepState(world: World, ctx: StaticContext, c: ClimberState): vo
     case 'BIVOUAC':
       if (untilReached(world, ctx, c, c.plan.bivouacUntil)) {
         leaveShelter(world, ctx, c);
+        if (c.pos.mode === 'free') {
+          c.perception.knowsPosition = true;
+          c.nav.path = [];
+          transition(world, ctx, c, 'NAVIGATING_TO_TRAIL', 'stayEnd');
+          return;
+        }
         ensureRouteAhead(ctx, c);
         transition(world, ctx, c, 'WALKING', 'stayEnd');
       }
       return;
     case 'WAITING_RESCUE':
+      if (world.rescue.status === 'none') {
+        // 通報できていない（未帰還通報もまだ）: その場で待つ
+      }
+      return;
     case 'STAYING':
     default:
       return;

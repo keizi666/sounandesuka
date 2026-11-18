@@ -153,7 +153,7 @@ function checkActions(v: Collector, path: string, actions: readonly Action[] | u
     checkWho(v, `${p}.who`, a.who, r);
     switch (a.type) {
       case 'goToNode':
-        if (!r.nodes.has(a.node)) v.err(`${p}.node`, 'undefinedNode', `未定義のノード "${a.node}"`);
+        if (a.node !== '$nearestShelter' && !r.nodes.has(a.node)) v.err(`${p}.node`, 'undefinedNode', `未定義のノード "${a.node}"`);
         break;
       case 'setRoute':
         a.route.forEach((n, j) => r.nodes.has(n) || v.err(`${p}.route[${j}]`, 'undefinedNode', `未定義のノード "${n}"`));

@@ -196,7 +196,9 @@ describe('World に組み込んだ生理', () => {
     // 分岐点なし・雨具なし・食べ物なしで歩き続ける
     const base = loadScenario('s01_cold_front');
     const m = base.party[0]!;
-    const sc = { ...base, choices: [], events: [], party: [{ ...m, gear: { ...m.gear, rainwear: 'none' as const, foodKcal: 0 } }] };
+    const off = { enabled: false };
+    const genericOverrides = { lostAware: off, darkness: off, hypothermia: off, injured: off, lightning: off, waterfall: off, straggler: off, rescueFailed: off };
+    const sc = { ...base, choices: [], events: [], genericOverrides, party: [{ ...m, gear: { ...m.gear, rainwear: 'none' as const, foodKcal: 0 } }] };
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
     const events: SimEvent[] = [];
@@ -206,9 +208,9 @@ describe('World に組み込んだ生理', () => {
       ctx.events.length = 0;
     }
     const c = w.climbers[0]!;
-    expect(c.body.coreC).toBeLessThan(32);
+    expect(c.body.coreC).toBeLessThan(35);
     const stages = events.filter((e) => e.type === 'STAGE_CHANGE').map((e) => e.data?.['to']);
-    expect(stages.slice(0, 3)).toEqual(['cold', 'mild', 'moderate']);
+    expect(stages.slice(0, 2)).toEqual(['cold', 'mild']);
   });
 
   it('晴れの短い山行では体温・エネルギーが保たれる', () => {

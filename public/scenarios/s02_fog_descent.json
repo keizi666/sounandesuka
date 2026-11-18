@@ -404,7 +404,7 @@
             "risky"
           ],
           "bias": {
-            "base": 1.0,
+            "base": 1.4,
             "mods": [
               {
                 "when": {
@@ -488,7 +488,7 @@
             "risky"
           ],
           "bias": {
-            "base": 1.0
+            "base": 1.6
           }
         },
         {

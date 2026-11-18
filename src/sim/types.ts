@@ -542,6 +542,10 @@ export interface ClimberNavState {
   track: [number, number][];     // 逸脱以降の 10m ごとの点（BACKTRACKING 用）
   falseEdgeId: EdgeId | null;
   distAccumM: number;            // 10m 判定用の端数
+  /** 道外で次に向かう点の列（先頭が今の目標）。経路探索・風下探索・効用による 1 歩 */
+  path: [number, number][];
+  /** 軌跡を見失う判定（100 m ごと）用の距離の端数 */
+  trackCheckM: number;
 }
 
 export interface ClimberState {
@@ -576,6 +580,16 @@ export interface ClimberMemo {
   clearSinceMin: number | null;
   bivouacked: boolean;
   sheltered: boolean;
+  /** 重度外傷で死亡する時刻（負傷時に抽選。生き延びるなら null） */
+  traumaDeathAtMin: number | null;
+  /** 頭部外傷による意識喪失が戻る時刻 */
+  unconsciousUntilMin: number | null;
+  /** 滝の手前で止まった（汎用分岐点 waterfall） */
+  atWaterfall: boolean;
+  /** 偽の道が消えた直後（気づき +0.15 の判定用） */
+  trailVanishedAtMin: number | null;
+  /** 次の思考の吹き出しを出す時刻 */
+  nextThoughtMin: number | null;
 }
 
 export interface GlobalWeather {
