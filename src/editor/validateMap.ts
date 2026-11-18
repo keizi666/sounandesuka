@@ -35,7 +35,8 @@ export function validateEditor(p: EditorProject, m: MapRuntime | null): Issue[] 
       for (let i = 1; i < t.samples.length; i += 1) {
         const a = t.samples[i - 1]!;
         const b = t.samples[i]!;
-        const h = Math.hypot(b.x - a.x, b.z - a.z);
+        // 歩く距離 s（つづら折りの係数込み）に対する傾斜で見る
+        const h = b.s - a.s;
         if (h > 0 && (Math.atan(Math.abs(b.elevM - a.elevM) / h) * 180) / Math.PI > 38) steep += h;
       }
       if (steep > 30) warn(`map.edges.${e.id}`, 'steep', `道 ${e.name || e.id} に傾斜 38° を超える区間が ${Math.round(steep)} m あります`);

@@ -170,7 +170,7 @@ export function createLayers(ed: Ed, state: LayerState): MapLayer[] {
           for (let i = 1; i < samples.length; i += 1) {
             const a = samples[i - 1]!;
             const b = samples[i]!;
-            const h = Math.hypot(b.x - a.x, b.z - a.z);
+            const h = b.s - a.s;
             if (h > 0 && (Math.atan(Math.abs(b.elevM - a.elevM) / h) * 180) / Math.PI > lim) {
               const pa = v.xzToPx(a.x, a.z);
               const pb = v.xzToPx(b.x, b.z);

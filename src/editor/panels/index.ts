@@ -6,6 +6,9 @@ import { environmentPanel } from './environment';
 import { pointsPanel } from './points';
 import { trailsPanel } from './trails';
 import { weatherPanel } from './weather';
+import { partyPanel } from './party';
+import { choicesPanel } from './choices';
+import { endingsPanel } from './endings';
 
 function todo(id: Panel['id'], label: string): Panel {
   return {
@@ -24,9 +27,9 @@ export const PANELS: Panel[] = [
   pointsPanel,
   environmentPanel,
   weatherPanel,
-  todo('party', '人と計画'),
-  todo('choices', '分岐点'),
-  todo('endings', '結末'),
+  partyPanel,
+  choicesPanel,
+  endingsPanel,
   todo('test', '試走'),
   todo('json', 'JSON'),
 ];
