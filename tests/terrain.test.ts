@@ -8,8 +8,11 @@ import { hakoniwa, loadHakoniwaDef } from './helpers/map';
 const RAD = 180 / Math.PI;
 
 describe('箱庭岳の地形生成（docs/04 §3.3）', () => {
-  it('Node で 1 秒以内に生成できる（派生レイヤー・電波を含む）', { retry: 2 }, () => {
-    expect(hakoniwa().ms).toBeLessThan(1000);
+  // 並列実行で CPU が混むと揺れるため、再試行のたびに測り直す
+  it('Node で 1 秒以内に生成できる（派生レイヤー・電波を含む）', { retry: 3 }, () => {
+    const t0 = performance.now();
+    buildMapRuntime(loadHakoniwaDef());
+    expect(performance.now() - t0).toBeLessThan(1000);
   });
 
   it('同じ定義からは同じ高さマップになる（決定論）', () => {
