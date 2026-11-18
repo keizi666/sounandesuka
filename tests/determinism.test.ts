@@ -108,5 +108,5 @@ describe('速さ（docs/13 P7）', () => {
     for (let i = 0; i < 5; i += 1) ticks += runHeadless(map, sc, { policy: 'risky', seed: 10 + i }).ticks;
     const per24h = ((performance.now() - t0) / ticks) * 8640;
     expect(per24h).toBeLessThan(150);
-  });
+  }, { retry: 2 }); // 並列実行で CPU が混むと揺れるため、再試行を許す
 });

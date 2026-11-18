@@ -245,7 +245,7 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
         type: 'SPEECH',
         climberId: c.id,
         text: a.text,
-        data: { to: a.to ?? null, tone: a.tone ?? 'normal', documented: a.documented ?? false },
+        data: { key: 'say', to: a.to ?? null, tone: a.tone ?? 'normal', distortLevel: c.body.coreC < 34 ? 2 : c.body.coreC < 35 ? 1 : 0, documented: a.documented ?? false, source: a.source ?? null },
       });
       return;
     case 'abortTrip':

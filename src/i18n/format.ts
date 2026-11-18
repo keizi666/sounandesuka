@@ -3,6 +3,7 @@
  */
 import { clockMinOf, dateAt, formatClock, formatTimeRef } from '../sim/core/clock';
 import type { TextLabels } from '../sim/scenario/text';
+import { classify, distort, type SpeechClass } from '../sim/climber/speech';
 import type { ScenarioDef, SimEvent } from '../sim/types';
 import { JA } from './ja';
 
@@ -25,6 +26,48 @@ export function formatDateTime(scenario: ScenarioDef, tMin: number): string {
 }
 
 export { formatClock, formatTimeRef };
+
+export interface SpeechView {
+  /** 原文 */
+  text: string;
+  /** 吹き出しに出す文（変形・※つき） */
+  display: string;
+  /** ログの文（原文と注記） */
+  log: string;
+  cls: SpeechClass;
+  tone: string;
+  level: number;
+  to: string | null;
+  delaySec: number;
+  thought: boolean;
+}
+
+function pickLine(lines: readonly string[] | undefined, r: number): string {
+  if (!lines || lines.length === 0) return '';
+  return lines[Math.min(lines.length - 1, Math.floor(r * lines.length))] ?? '';
+}
+
+/** SPEECH / THOUGHT イベントの表示文（docs/07 §7.4〜7.5）。UI・ログ・振り返りで共通に使う */
+export function speechView(e: SimEvent, scenario: ScenarioDef): SpeechView | null {
+  if (e.type !== 'SPEECH' && e.type !== 'THOUGHT') return null;
+  const d = e.data ?? {};
+  const r = Number(d['r'] ?? 0.5);
+  const key = String(d['key'] ?? '');
+  const thought = e.type === 'THOUGHT';
+  const text = e.text ?? pickLine(thought ? JA.thoughts[key] : JA.speech[key], r);
+  if (!text) return null;
+  const level = Number(d['distortLevel'] ?? 0);
+  const cls = classify({ documented: Boolean(d['documented']), source: (d['source'] as string | null) ?? null, distortLevel: level }, scenario);
+  let display = text;
+  if (!thought && level === 2) display = pickLine(JA.speech['confused'], r);
+  else if (!thought && level === 1) display = distort(text, 1, false, r);
+  const fictional = cls === 'fictional' || (thought && scenario.historical !== undefined);
+  if (fictional) display = `※${display}`;
+  const note = level === 1 ? '（ろれつが回らない）' : level === 2 ? '（意味の通らない発語）' : '';
+  const tag = cls === 'documented' ? '（記録）' : fictional ? (thought ? '（架空の思考）' : '（架空のセリフ）') : '';
+  const log = thought ? `（${fictional ? '※' : ''}${text}）${tag}` : `${fictional ? '※' : ''}「${text}」${note}${tag}`;
+  return { text, display, log, cls: fictional ? 'fictional' : cls, tone: String(d['tone'] ?? 'normal'), level, to: (d['to'] as string | null) ?? null, delaySec: Number(d['delaySec'] ?? 0), thought };
+}
 
 export interface FormatCtx {
   scenario: ScenarioDef;
@@ -130,9 +173,12 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'GUST_FALL':
       return fill(L.gustFall, { who });
     case 'SPEECH':
-      return `${who}「${e.text ?? ''}」`;
-    case 'THOUGHT':
-      return `${who}（${e.text ?? ''}）`;
+    case 'THOUGHT': {
+      const v = speechView(e, f.scenario);
+      if (!v) return null;
+      const to = v.to ? ` → ${f.scenario.party.find((p) => p.id === v.to)?.name ?? v.to}` : '';
+      return `${who}${to} ${v.log}`;
+    }
     case 'SCRIPT_LOG':
       if (e.text) return e.text;
       if (d['unimplementedAction'] || d['unimplementedEffect']) return fill(L.unimplemented, { what: s('unimplementedAction') || s('unimplementedEffect') });

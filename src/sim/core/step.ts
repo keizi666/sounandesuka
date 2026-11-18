@@ -10,6 +10,7 @@ import { updateCapacity } from '../climber/capacity';
 import { drainDevices } from '../climber/devices';
 import { awarenessCheck } from '../climber/navigation';
 import { groupLeader, moveParty, type MoveOutcome } from '../climber/party';
+import { maybeSpeak } from '../climber/speech';
 import { maybeThink } from '../climber/thoughts';
 import { lightningCheck } from '../hazards/lightning';
 import { injuryTimers, slipCheck } from '../hazards/slip';
@@ -58,7 +59,9 @@ export function stepWorld(world: World, ctx: StaticContext): void {
     runEvents(world, ctx);
     if (!world.ended && checkChoices(world, ctx)) {
       if (ctx.mode === 'interactive') return finish(world, ctx, evStart);
-      autoResolve(world, ctx, ctx.mode === 'headless' ? 'policy' : 'bias');
+      // 判断時間制限モード: UI が答えるか時間切れになるまで立ち止まって待つ
+      if (ctx.mode === 'timed') hold = true;
+      else autoResolve(world, ctx, ctx.mode === 'headless' ? 'policy' : 'bias');
     }
   } else {
     hold = true; // 判断時間制限モード: 登山者は立ち止まって待つ
@@ -79,6 +82,8 @@ export function stepWorld(world: World, ctx: StaticContext): void {
     finishTask(world, ctx, c);
     stepState(world, ctx, c);
   }
+  // セリフ（thoughts ストリームのみ。結果に影響しない）
+  if (minuteTick) maybeSpeak(world, ctx);
   // 8d・9. 移動（tight のグループは一緒に）
   const moves = moveParty(world, ctx, DT_SEC, hold);
   // 8e〜h. 危険・生理・機器・判断力
