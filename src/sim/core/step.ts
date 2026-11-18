@@ -10,6 +10,8 @@ import { updateCapacity } from '../climber/capacity';
 import { drainDevices } from '../climber/devices';
 import { awarenessCheck } from '../climber/navigation';
 import { groupLeader, moveParty, type MoveOutcome } from '../climber/party';
+import { applyActions } from '../climber/actions';
+import { groupsMinute } from '../climber/groups';
 import { maybeSpeak } from '../climber/speech';
 import { maybeThink } from '../climber/thoughts';
 import { lightningCheck } from '../hazards/lightning';
@@ -75,13 +77,18 @@ export function stepWorld(world: World, ctx: StaticContext): void {
     if (minuteTick) {
       updateTimeBehind(world, ctx, c);
       autonomous(world, ctx, c);
-      // 気づき（道迷いの判断はグループのリーダー）
-      if (c.state === 'OFFROUTE_UNAWARE' && groupLeader(world, c.groupId) === c) awarenessCheck(world, ctx, c);
+      // 気づき（道迷いの判断はグループのリーダー。loose のグループでは各自）
+      const isLead = groupLeader(world, c.groupId) === c;
+      if (c.state === 'OFFROUTE_UNAWARE' && (isLead || looseGroup(world, c.groupId))) awarenessCheck(world, ctx, c);
+      // loose で先頭とはぐれて迷いに気づいた人は、来た道を戻る（分岐点はリーダーにしか出ない）
+      if (!isLead && c.state === 'LOST_AWARE' && looseGroup(world, c.groupId)) applyActions(world, ctx, [{ type: 'backtrack' }], [c], c);
       maybeThink(world, ctx, c);
     }
     finishTask(world, ctx, c);
     stepState(world, ctx, c);
   }
+  // グループ: loose の人数確認、リーダー交代の通知
+  if (minuteTick) groupsMinute(world, ctx);
   // セリフ（thoughts ストリームのみ。結果に影響しない）
   if (minuteTick) maybeSpeak(world, ctx);
   // 8d・9. 移動（tight のグループは一緒に）
@@ -93,6 +100,11 @@ export function stepWorld(world: World, ctx: StaticContext): void {
   // 11. 結末
   checkEnding(world, ctx);
   finish(world, ctx, evStart);
+}
+
+function looseGroup(world: World, gid: string | null): boolean {
+  for (const g of world.groups) if (g.id === gid) return g.cohesion === 'loose';
+  return false;
 }
 
 function finish(world: World, ctx: StaticContext, evStart: number): void {
@@ -108,7 +120,8 @@ function dtMinOf(): number {
 }
 
 function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveOutcome | undefined): void {
-  if (!c.body.alive) {
+  // 死亡した人と、救助隊に収容された人（接触の時点で結果が確定する。docs/08 §5.2）は体の計算を進めない
+  if (!c.body.alive || c.state === 'RESCUED') {
     c.speedMs = 0;
     c.metAct = 0;
     return;

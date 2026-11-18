@@ -15,7 +15,7 @@ export function firstTrueTime(ed: Ed, cond: Condition): string {
   const hasChance = JSON.stringify(cond).includes('"chance"');
   let found: number | null = null;
   try {
-    runHeadless(rt, ed.p.scenario, {
+    runHeadless(rt, structuredClone(ed.p.scenario), {
       policy: 'recommended',
       record: false,
       onTick(w, ctx) {
@@ -37,7 +37,7 @@ export function worldAtChoice(ed: Ed, cpId: string): World | null {
   if (!rt) return null;
   let snap: World | null = null;
   try {
-    runHeadless(rt, ed.p.scenario, {
+    runHeadless(rt, structuredClone(ed.p.scenario), {
       policy: 'bias',
       record: false,
       onTick(w, _ctx, evs) {

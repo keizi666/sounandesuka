@@ -176,6 +176,16 @@ export const physiology = {
   specificHeatJ: 3470,
   kMass: 2.8,
   hotRelax: 0.02,
+  /** 浸水（docs/06 §4.1）: 濡れの増分、追加の熱損失（W）、水中にいる時間（分） */
+  soak: {
+    feet: { wetAdd: 0.15, lossW: 150, waterMin: 2 },
+    knees: { wetAdd: 0.25, lossW: 300, waterMin: 2 },
+    waist: { wetAdd: 0.5, lossW: 700, waterMin: 2 },
+    full: { wetAdd: 1, lossW: 1200, waterMin: 2 },
+  } as Record<string, { wetAdd: number; lossW: number; waterMin: number }>,
+  soakRefSpanC: 27,
+  soakMinWaterC: 2,
+  soakColdExtremitiesMin: 60,
   poorRecoveryBelowC: 34,
   poorRecoveryF: 0.3,
   staffedRecoveryCPerH: 1.0,
@@ -187,6 +197,14 @@ export const physiology = {
   groundInsulationR: 0.15,
   groundBelowAirC: 1,
   /** 環境（docs/06 §3.1） */
+  /** テント（docs/06 §9 C12: 風 ×0.1、気温 +3℃）。同じ場所の仲間 tentCapacity 人まで入れる */
+  tentTempUpC: 3,
+  tentWindF: 0.1,
+  tentCapacity: 6,
+  tentDistM: 30,
+  /** エマージェンシーシート（横になっているとき） */
+  rescueSheetClo: 0.3,
+  rescueSheetWindF: 0.5,
   bivyTempUpC: 3,
   bivyWindF: 0.08,
   bivyCondensePerH: 0.01,
@@ -213,6 +231,8 @@ export const physiology = {
   dryWindK: 0.1,
   dryWarmAboveC: 5,
   dryColdF: 0.5,
+  /** 雲・霧の中（湿度ほぼ 100%）での乾きやすさ */
+  inCloudDryF: 0.2,
   /** エネルギー docs/06 §5.1 */
   glycoFracHigh: 0.65,
   glycoFracLow: 0.45,

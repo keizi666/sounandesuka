@@ -4,7 +4,7 @@
  */
 import { dexp, dpow } from '../core/dmath';
 import { TUNING, type Tuning } from '../tuning';
-import type { ClimberState, PrecipType, StaticContext, World } from '../types';
+import type { ClimberState, PrecipType, StaticContext, World, SoakLevel } from '../types';
 import { groundAt } from '../weather/ground';
 
 /** 体が置かれた熱環境（docs/06 §3.1 の表を適用した後の値） */
@@ -28,6 +28,8 @@ export interface ThermalEnv {
   /** 地面に座る・倒れている */
   groundContact: boolean;
   groundTempC: number;
+  /** 乾きやすさ（既定 1）。雲・霧の中は湿度が高く、ほとんど乾かない */
+  dryF?: number;
   /** 営業小屋（食事と体温回復の上限） */
   staffed: boolean;
 }
@@ -158,7 +160,7 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   if (env.forcedDryPerH > 0) b.wetness -= (env.forcedDryPerH / 60) * dtMin;
   else if (input <= 0 && sweatW <= 0) {
     const warm = env.tairC > p.dryWarmAboveC ? 1 : p.dryColdF;
-    b.wetness -= ((p.dryPerH * (1 + p.dryWindK * env.windMs) * warm) / 60) * dtMin;
+    b.wetness -= ((p.dryPerH * (1 + p.dryWindK * env.windMs) * warm * (env.dryF ?? 1)) / 60) * dtMin;
   }
   b.wetness = Math.min(1, Math.max(0, b.wetness));
   if (env.precipMmH > 0 && env.wetInputF > 0) b.rainExposureMin += dtMin;
@@ -193,6 +195,27 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   b.fatigue = Math.min(100, Math.max(0, b.fatigue));
 
   return { netW: net, shiverMet: shiver };
+}
+
+/**
+ * 浸水（docs/06 §4.1）: 冷水に浸かって濡れ、水中にいた時間ぶんの熱を一度に失う。
+ * 追加損失は水温 10℃ を基準に (37 − 水温) / 27 で補正し、体の熱容量で深部体温の低下に換算する。
+ */
+export function applySoak(c: ClimberState, level: SoakLevel, waterTempC: number, tMin: number, tuning: Tuning = TUNING): void {
+  const p = tuning.physiology;
+  const s = p.soak[level];
+  const b = c.body;
+  if (!b.alive || !s) return;
+  b.wetness = level === 'full' ? 1 : Math.min(1, b.wetness + s.wetAdd);
+  const joule = s.lossW * s.waterMin * 60 * ((37 - waterTempC) / p.soakRefSpanC);
+  b.coreC = Math.max(p.coreMin, b.coreC - joule / (c.def.weightKg * p.specificHeatJ * p.kMass));
+  b.coldExtremitiesUntilMin = Math.max(b.coldExtremitiesUntilMin ?? 0, tMin + p.soakColdExtremitiesMin);
+}
+
+/** 水温: 雪解け水なら 2℃、それ以外は局地気温 − 2℃（下限 2℃） */
+export function soakWaterTempC(c: ClimberState, snowmelt: boolean, tuning: Tuning = TUNING): number {
+  const p = tuning.physiology;
+  return snowmelt ? p.soakMinWaterC : Math.max(p.soakMinWaterC, c.local.tempC - 2);
 }
 
 /** World の状態から熱環境を作る（docs/06 §3.1） */
@@ -230,6 +253,7 @@ export function thermalEnvFor(world: World, ctx: StaticContext, c: ClimberState)
     env.staffed = staffed;
     return env;
   }
+  if (l.inCloud) env.dryF = p.inCloudDryF;
   // 風下の効果とツェルト等は重ねて効く
   if (b.leeShelter > 0) {
     env.windMs *= 1 - b.leeShelter;
@@ -242,9 +266,36 @@ export function thermalEnvFor(world: World, ctx: StaticContext, c: ClimberState)
     env.condensePerH = p.bivyCondensePerH;
     env.extraClo = p.bivyClo[c.def.gear.bivy] ?? 0;
   }
+  const lying = c.state === 'BIVOUAC' || c.state === 'WAITING_RESCUE' || c.state === 'INCAPACITATED' || c.state === 'UNCONSCIOUS' || c.state === 'STAYING';
+  if (lying && world.climbers.length > 1 && inTent(world, c, p)) {
+    // テント（同じ場所でビバーク中の仲間が張ったもの）
+    env.tairC = Math.max(env.tairC, l.tempC + p.tentTempUpC);
+    env.windMs = Math.min(env.windMs, l.windMs * p.tentWindF);
+    env.wetInputF = 0;
+  } else if (lying && c.def.gear.rescueSheet && !b.inBivy) {
+    env.windMs *= p.rescueSheetWindF;
+    env.extraClo += p.rescueSheetClo;
+  }
   env.groundContact =
     c.state === 'BIVOUAC' || c.state === 'STAYING' || c.state === 'WAITING_RESCUE' || c.state === 'INCAPACITATED' || c.state === 'UNCONSCIOUS' || c.state === 'DEAD';
   return env;
+}
+
+/**
+ * テントに入れるか: 同じグループで近くにいる、ビバーク中・救助待ちの動ける仲間がテントを持っていること。
+ * 入れるのは体温の低い順に tentCapacity 人まで。
+ */
+function inTent(world: World, c: ClimberState, p: Tuning['physiology']): boolean {
+  let pitched = false;
+  let colder = 0;
+  const d2 = p.tentDistM * p.tentDistM;
+  for (const o of world.climbers) {
+    if (o.groupId !== c.groupId || !o.body.alive) continue;
+    if ((o.x - c.x) * (o.x - c.x) + (o.z - c.z) * (o.z - c.z) > d2) continue;
+    if (o.def.gear.tent && o.body.conscious && (o.state === 'BIVOUAC' || o.state === 'WAITING_RESCUE')) pitched = true;
+    if (o !== c && (o.body.coreC < c.body.coreC || (o.body.coreC === c.body.coreC && o.id < c.id))) colder += 1;
+  }
+  return pitched && colder < p.tentCapacity;
 }
 
 /** 不安の目標値（docs/06 §5.4）へ τ=20 分で近づける */

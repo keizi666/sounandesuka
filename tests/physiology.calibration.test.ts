@@ -5,6 +5,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { hoursUntilAbove, hoursUntilBelow, runCalib, WALK_3KMH } from './helpers/calib';
+import { applySoak } from '../src/sim/climber/physiology';
 
 const C2_ENV = { tairC: 5, windMs: 10, precipMmH: 4, precipType: 'rain' as const, groundTempC: 4 };
 const minCore = (s: { coreC: number }[]): number => Math.min(...s.map((x) => x.coreC));
@@ -120,5 +121,62 @@ describe('生理の較正（docs/06 §9）', () => {
     const end = samples[samples.length - 1]!;
     expect(start.wetness).toBeGreaterThanOrEqual(0.3);
     expect(start.coreC - end.coreC).toBeGreaterThanOrEqual(0.3);
+  });
+});
+
+describe('較正 C10〜C13（トムラウシ型、docs/06 §9）', () => {
+  /** 5 時間の低速歩行 → 足首の浸水 → 1 時間立って待機。35℃ 未満になった時刻（歩き始めから） */
+  function tomuraushi(def: Partial<Parameters<typeof runCalib>[0]['def']>, glycogenKcal: number): { h35: number; body: ReturnType<typeof runCalib>['climber']['body'] } {
+    const env = { tairC: 7.8, windMs: 18, precipMmH: 2, precipType: 'rain' as const };
+    const base = { def, gear: { cloWorn: 0.9, rainwear: 'goretex' as const } };
+    const walk = runCalib({ ...base, hours: 5, env, body: { rainwearOn: true, wetness: 0.35, glycogenKcal }, metAct: 4 });
+    let h35 = hoursUntilBelow(walk.samples, 35);
+    applySoak(walk.climber, 'feet', 2, 300);
+    const wait = runCalib({ ...base, hours: 4, env: { ...env, tairC: 7 }, body: { ...walk.climber.body }, state: 'STAYING', metAct: 1.4 });
+    if (h35 === Infinity) h35 = 5 + hoursUntilBelow(wait.samples, 35);
+    const at6 = runCalib({ ...base, hours: 1, env: { ...env, tairC: 7 }, body: { ...walk.climber.body }, state: 'STAYING', metAct: 1.4 });
+    return { h35, body: at6.climber.body };
+  }
+  const elderly = { age: 68, sex: 'f' as const, weightKg: 52 };
+
+  it('C10: 68 歳女性 52 kg → 35℃ 到達が歩き始めから 4.5〜6.5 時間', () => {
+    const r = tomuraushi(elderly, 550);
+    expect(r.h35).toBeGreaterThanOrEqual(4.5);
+    expect(r.h35).toBeLessThanOrEqual(6.5);
+  });
+
+  it('C11: C10 の終了状態から、6℃・風 15・wetness 0.6 で地面に倒れたまま → 28℃ 到達が 2.5〜5 時間後', () => {
+    const r = tomuraushi(elderly, 550);
+    const { samples } = runCalib({
+      hours: 8,
+      def: elderly,
+      gear: { cloWorn: 0.9, rainwear: 'goretex' },
+      env: { tairC: 6, windMs: 15, precipMmH: 0.5, precipType: 'rain', groundContact: true, groundTempC: 5 },
+      body: { ...r.body, coreC: Math.min(r.body.coreC, 35), wetness: 0.6 },
+      state: 'INCAPACITATED',
+      metAct: 1.0,
+    });
+    const h28 = hoursUntilBelow(samples, 28);
+    expect(h28).toBeGreaterThanOrEqual(2.5);
+    expect(h28).toBeLessThanOrEqual(5);
+  });
+
+  it('C12: 34℃ から、テント内（風 ×0.1、気温 +3℃）で横臥・マットあり → 6 時間後も 30℃ 以上', () => {
+    const { samples } = runCalib({
+      hours: 6,
+      def: elderly,
+      gear: { cloWorn: 0.9, rainwear: 'goretex' },
+      env: { tairC: 9, windMs: 1.5, precipMmH: 0, wetInputF: 0, groundContact: true, groundTempC: 5 },
+      body: { coreC: 34, wetness: 0.6, rainwearOn: true, glycogenKcal: 200, groundInsulation: true },
+      state: 'BIVOUAC',
+      metAct: 1.0,
+    });
+    expect(samples[samples.length - 1]!.coreC).toBeGreaterThanOrEqual(30);
+  });
+
+  it('C13: 同条件の 32 歳男性 65 kg（glycogen 1000）は C10 より 1 時間以上遅い', () => {
+    const a = tomuraushi(elderly, 550);
+    const b = tomuraushi({ age: 32, sex: 'm', weightKg: 65 }, 1000);
+    expect(b.h35 - a.h35).toBeGreaterThanOrEqual(1);
   });
 });

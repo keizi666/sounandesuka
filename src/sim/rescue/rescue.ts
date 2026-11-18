@@ -94,10 +94,45 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
     transition(world, ctx, c, 'RESCUED', by);
     ctx.events.push({ tMin: world.tMin, type: 'RESCUED', climberId: c.id, important: true, data: { by } });
   }
-  world.rescue.status = 'contacted';
   if (safeInHut(found)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, data: { foundSafe: true } });
-  world.rescue.heli.state = 'done';
-  world.rescue.ground.state = 'done';
+  // 別の場所にまだ人が残っていれば（パーティが分かれた場合）、収容した人から場所を聞いて、近い順に向かう。
+  // 地上隊は今の場所から登山道の速さで歩き、ヘリは吊り上げの後に次の場所が飛べるかを見る
+  const r = world.rescue;
+  let next: ClimberState | undefined;
+  let bd = Infinity;
+  for (const c of world.climbers) {
+    if (TERMINAL.has(c.state) || safeInHut(c)) continue;
+    const d = (c.x - found.x) * (c.x - found.x) + (c.z - found.z) * (c.z - found.z);
+    if (d < bd) {
+      bd = d;
+      next = c;
+    }
+  }
+  if (next) {
+    r.status = 'dispatched';
+    r.locationEstimate = { x: next.x, z: next.z, radiusM: rt.preciseM };
+    const travelMin = ((Math.sqrt(bd) * rt.groundPathF) / 1000 / rt.groundTrailKmh) * 60;
+    r.ground = { readyAtMin: world.tMin + travelMin, x: next.x, z: next.z, state: 'moving' };
+    r.heli = { readyAtMin: null, nextCheckMin: world.tMin + rt.heliHoistMin, state: 'waiting' };
+    return;
+  }
+  r.status = 'contacted';
+  r.heli.state = 'done';
+  r.ground.state = 'done';
+}
+
+/** 通報された位置にいちばん近い、まだ収容されていない人 */
+function nearestMissing(world: World, ctx: StaticContext, tgt: { x: number; z: number }): ClimberState | undefined {
+  let best: ClimberState | undefined;
+  let bd = Infinity;
+  for (const c of missing(world, ctx)) {
+    const d = (c.x - tgt.x) * (c.x - tgt.x) + (c.z - tgt.z) * (c.z - tgt.z);
+    if (d < bd) {
+      bd = d;
+      best = c;
+    }
+  }
+  return best;
 }
 
 /** 捜索で見つかるか。見つかった人を返す */
@@ -136,7 +171,7 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
   if (r.status !== 'dispatched' && r.status !== 'searching') return;
   if (missing(world, ctx).length === 0) return;
   // 計画ルートからの捜索範囲は時間とともに広がる
-  if (r.via === 'overdue') r.searchRadiusM += (rt.searchGrowMPerH / 60) * dtMin;
+  if (r.via === 'overdue' || r.locationEstimate === null) r.searchRadiusM += (rt.searchGrowMPerH / 60) * dtMin;
   const precise = (r.locationEstimate?.radiusM ?? Infinity) <= rt.preciseM;
   const tgt = target(world);
 
@@ -155,7 +190,7 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
       h.state = 'waiting';
       h.nextCheckMin = world.tMin + rt.heliRecheckMin;
     } else if (h.state === 'flying' && world.tMin >= (h.readyAtMin ?? Infinity)) {
-      const c = missing(world, ctx)[0];
+      const c = nearestMissing(world, ctx, tgt);
       if (c) return contact(world, ctx, c, 'heli');
     } else if (h.state === 'searching') {
       const c = search(world, ctx, rt.heliFindPerH, 'heli', dtMin);
@@ -181,7 +216,7 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
   } else if (g.state === 'moving' && world.tMin >= (g.readyAtMin ?? Infinity)) {
     g.state = 'searching';
     if (precise) {
-      const c = missing(world, ctx)[0];
+      const c = nearestMissing(world, ctx, tgt);
       if (c) return contact(world, ctx, c, 'ground');
     }
   } else if (g.state === 'searching') {

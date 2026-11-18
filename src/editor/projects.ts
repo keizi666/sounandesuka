@@ -78,6 +78,19 @@ async function importFile(host: ProjectsHost, f: File): Promise<void> {
       if (!map) throw new Error(`マップ ${s.mapId} が見つかりません（バンドルで読み込んでください）`);
       p = createFictionalProject(s.title, map);
       p.scenario = s;
+    } else if ((j as MapDef).skeleton) {
+      // スケルトンマップ（docs/16 §8）: 範囲の中心を聞いて実在の山のプロジェクトにし、後で登山道タブで結合する
+      const sk = j as MapDef;
+      const ans = prompt(`${sk.areaHint?.text ?? 'スケルトンマップです。'}
+
+範囲の中心を「緯度,経度」で入力してください（後から地図で動かせます）`, '43.526,142.846');
+      if (!ans) return;
+      const [lat, lon] = ans.split(',').map((x) => Number(x.trim()));
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) throw new Error('緯度・経度が読めません');
+      const g = gridFor(sk.areaHint?.sizeM ?? sk.size ?? 6144);
+      p = createRealProject(sk.name, lat!, lon!, g.size, g.resolution);
+      p.map = { ...p.map, skeleton: true, areaHint: sk.areaHint, nodes: sk.nodes, edges: sk.edges, hazards: sk.hazards ?? [], vegetation: { ...p.map.vegetation, ...sk.vegetation } };
+      p.scenario.plan = { ...p.scenario.plan, route: [], goalNodes: [] };
     } else if ((j as MapDef).nodes && (j as MapDef).terrain) {
       const map = j as MapDef;
       p = createFictionalProject(map.name, map);

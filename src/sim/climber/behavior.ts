@@ -33,6 +33,9 @@ export function finishTask(world: World, ctx: StaticContext, c: ClimberState): v
     b.wetness *= ctx.tuning.behavior.changeDryWetnessF;
     b.cloWorn += b.cloPack;
     b.cloPack = 0;
+    // 強い雨の中での着替えは、その間に冷える（docs/06 §4.1）
+    const bt = ctx.tuning.behavior;
+    if (!b.shelterNodeId && !b.inBivy && c.local.precipMmH >= bt.changeDryChillPrecipMmH) b.coreC -= bt.changeDryChillC;
     ctx.events.push({ tMin: world.tMin, type: 'GEAR', climberId: c.id, data: { changeDry: true } });
   } else if (what.startsWith('eat:')) {
     const kcal = Math.min(Number(what.slice(4)), c.inv.foodKcal);
@@ -53,6 +56,16 @@ export function finishTask(world: World, ctx: StaticContext, c: ClimberState): v
 }
 
 /** 自律ミクロ行動（docs/07 §4）。1 ゲーム分に 1 回呼ぶ */
+/** tight で人数の多いグループの、リーダー以外の人か */
+function followsLargeGroup(world: World, c: ClimberState, minSize: number): boolean {
+  let g: World['groups'][number] | undefined;
+  for (const x of world.groups) if (x.id === c.groupId) g = x;
+  if (!g || g.cohesion !== 'tight' || g.leader === c.id) return false;
+  let n = 0;
+  for (const o of world.climbers) if (o.groupId === c.groupId && o.body.alive) n += 1;
+  return n >= minSize;
+}
+
 export function autonomous(world: World, ctx: StaticContext, c: ClimberState): void {
   const bt = ctx.tuning.behavior;
   const b = c.body;
@@ -65,6 +78,8 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   if (c.plan.busyUntilMin !== null) return;
   const indoors = b.shelterNodeId !== null;
   const atNode = world.recentEvents.some((e) => e.type === 'NODE_ARRIVE' && e.climberId === c.id);
+  // 大人数の tight のグループでは、歩いている間は各自で止まらず、リーダーの休憩に合わせて食べる・飲む・着る（列を止めない）
+  const waitForRest = c.state === 'WALKING' && followsLargeGroup(world, c, bt.groupSyncMinSize);
 
   // 雨具を着る
   if (!indoors && l.precipMmH >= bt.rainwearPrecipMmH && !b.rainwearOn && c.def.gear.rainwear !== 'none') {
@@ -76,11 +91,11 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   }
   // 防寒着を足す
   const resting = c.state !== 'WALKING';
-  if (b.cloPack > 0 && (b.coreC < bt.layerCoreBelowC || (l.windChillC < bt.layerWindChillBelowC && resting))) {
+  if (!waitForRest && b.cloPack > 0 && (b.coreC < bt.layerCoreBelowC || (l.windChillC < bt.layerWindChillBelowC && resting))) {
     if (chance(rng, bt.layerP * J)) return startTask(world, c, `layer:${b.cloPack}`, taskMinutes(c, bt.layerMin, ctx));
   }
   // 食べる
-  if (c.inv.foodKcal > 0) {
+  if (!waitForRest && c.inv.foodKcal > 0) {
     const every = c.def.habits.eatEveryMin;
     const habitDue = every !== null && c.memo.lastEatMin !== null && world.tMin - c.memo.lastEatMin >= every;
     const low = b.glycogenKcal < bt.eatLowGlycogenKcal;
@@ -93,7 +108,7 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
     }
   }
   // 飲む
-  if (c.inv.waterL > 0 && b.waterDeficitL > bt.drinkDeficitL && chance(rng, bt.drinkP * J)) {
+  if (!waitForRest && c.inv.waterL > 0 && b.waterDeficitL > bt.drinkDeficitL && chance(rng, bt.drinkP * J)) {
     c.memo.lastDrinkMin = world.tMin;
     return startTask(world, c, `drink:${Math.min(bt.drinkL, c.inv.waterL, b.waterDeficitL)}`, bt.drinkMin);
   }
@@ -105,7 +120,7 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
     return;
   }
   // 疲れて休む
-  if (c.state === 'WALKING' && b.fatigue > bt.restFatigue && chance(rng, bt.restP)) {
+  if (!waitForRest && c.state === 'WALKING' && b.fatigue > bt.restFatigue && chance(rng, bt.restP)) {
     c.plan.restUntilMin = world.tMin + bt.restMin;
     transition(world, ctx, c, 'RESTING', 'fatigue');
     return;

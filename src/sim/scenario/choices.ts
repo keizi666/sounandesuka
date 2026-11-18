@@ -1,6 +1,7 @@
 /**
  * 分岐点（docs/09 §5）: 発火・選択肢の可否・自律バイアス・解決。
- * シナリオの分岐点に、汎用分岐点（generic.ts）を加える。group 指定の分岐点は P19（今はパーティ全体のリーダーで評価）。
+ * シナリオの分岐点に、汎用分岐点（generic.ts）を加える。分岐点はグループ単位で評価・適用する（docs/09 §3.1）:
+ * group 指定のあるものはそのグループ、ないものは人がいる最初のグループ。汎用分岐点は人がいるグループごとに判定する。
  */
 import { applyActions } from '../climber/actions';
 import { groupLeader, groupMembers } from '../climber/party';
@@ -37,13 +38,37 @@ export function findChoicePoint(ctx: StaticContext, cpId: string): ChoiceItem | 
   return choicePoints(ctx).find((x) => x.cp.id === cpId);
 }
 
+function hasLiving(world: World, gid: string | null): boolean {
+  for (const c of world.climbers) if (c.groupId === gid && c.body.alive) return true;
+  return false;
+}
+
+/** 人がいる最初のグループ（分割で最初のグループが空になることがある） */
+function firstLiveGroup(world: World): string | null {
+  for (const g of world.groups) if (hasLiving(world, g.id)) return g.id;
+  return world.groups[0]?.id ?? null;
+}
+
 function groupIdOf(world: World, cp: ChoicePointDef): string | null {
-  return cp.group ?? world.groups[0]?.id ?? null;
+  return cp.group ?? firstLiveGroup(world);
+}
+
+/** 回答待ちの分岐点ならそのグループ、そうでなければ分岐点の既定のグループ */
+function activeGroupId(world: World, cp: ChoicePointDef): string | null {
+  const p = world.pendingChoice;
+  return p && p.cpId === cp.id && p.groupId !== undefined ? p.groupId : groupIdOf(world, cp);
+}
+
+/** 回答待ちの分岐点の対象グループのリーダー（UI の文の展開に使う） */
+export function choiceLeader(world: World, ctx: StaticContext): ClimberState {
+  const p = world.pendingChoice;
+  const found = p ? findChoicePoint(ctx, p.cpId) : undefined;
+  return groupLeader(world, found ? activeGroupId(world, found.cp) : firstLiveGroup(world));
 }
 
 /** 選択肢ごとの可否と重み */
 export function evaluateOptions(world: World, ctx: StaticContext, cp: ChoicePointDef, key: string): { available: WeightedOption[]; unavailable: string[] } {
-  const leader = groupLeader(world, groupIdOf(world, cp));
+  const leader = groupLeader(world, activeGroupId(world, cp));
   const scope = scopeFor(world, ctx, leader);
   const available: WeightedOption[] = [];
   const unavailable: string[] = [];
@@ -69,14 +94,28 @@ export function evaluateOptions(world: World, ctx: StaticContext, cp: ChoicePoin
 export function checkChoices(world: World, ctx: StaticContext): boolean {
   if (world.pendingChoice) return false;
   let best: ChoiceItem | null = null;
+  let bestGid: string | null | undefined;
+  const firstGid = world.groups[0]?.id ?? null;
+  const single = world.groups.length === 1;
   for (const item of choicePoints(ctx)) {
     const { cp, key } = item;
-    const leader = groupLeader(world, groupIdOf(world, cp));
-    if (!leader.body.alive) continue;
     if (item.generic) {
-      if (genericTrigger(world, ctx, item.generic, leader) && (!best || cpPriority(cp) > cpPriority(best.cp))) best = item;
+      // 汎用分岐点は、人がいるグループごとに判定する
+      for (const g of world.groups) {
+        if (!single && !hasLiving(world, g.id)) continue;
+        const gl = groupLeader(world, g.id);
+        if (!gl.body.alive) continue;
+        const suffix = g.id === firstGid ? '' : `@${g.id}`;
+        if (genericTrigger(world, ctx, item.generic, gl, suffix) && (!best || cpPriority(cp) > cpPriority(best.cp))) {
+          best = item;
+          bestGid = g.id;
+        }
+      }
       continue;
     }
+    if (cp.group !== undefined && !hasLiving(world, cp.group)) continue;
+    const leader = groupLeader(world, groupIdOf(world, cp));
+    if (!leader.body.alive) continue;
     const once = cpOnce(cp);
     if (once && world.firedChoices.includes(cp.id)) continue;
     const v = evalCondition(cp.trigger, scopeFor(world, ctx, leader), `${key}.trigger`);
@@ -85,10 +124,17 @@ export function checkChoices(world: World, ctx: StaticContext): boolean {
       world.latches[key] = v;
       if (!v || prev) continue;
     } else if (!v) continue;
-    if (!best || cpPriority(cp) > cpPriority(best.cp)) best = item;
+    if (!best || cpPriority(cp) > cpPriority(best.cp)) {
+      best = item;
+      bestGid = undefined;
+    }
   }
   if (!best) return false;
   world.pendingChoice = { cpId: best.cp.id, firedAtMin: world.tMin, realDeadlineMs: null };
+  if (bestGid !== undefined && bestGid !== firstGid) {
+    world.pendingChoice.groupId = bestGid;
+    world.latches[`${best.cp.id}@${bestGid}:fired`] = true;
+  }
   if (!world.firedChoices.includes(best.cp.id)) world.firedChoices.push(best.cp.id);
   ctx.events.push({ tMin: world.tMin, type: 'CHOICE_FIRED', important: true, data: { cp: best.cp.id } });
   return true;
@@ -111,9 +157,9 @@ export function resolveChoice(world: World, ctx: StaticContext, optionId: string
   if (!found) throw new Error(`分岐点 ${pending.cpId} が見つかりません`);
   const opt = found.cp.options.find((o) => o.id === optionId);
   if (!opt) throw new Error(`分岐点 ${pending.cpId} に選択肢 ${optionId} がありません`);
+  const gid = activeGroupId(world, found.cp);
   world.pendingChoice = null;
   world.decisions.push({ cpId: pending.cpId, optionId, tMin: world.tMin, by });
-  const gid = groupIdOf(world, found.cp);
   const leader = groupLeader(world, gid);
   for (const f of opt.flags ?? []) if (world.flags[f] === undefined) world.flags[f] = world.tMin;
   ctx.events.push({ tMin: world.tMin, type: 'CHOICE_RESOLVED', important: true, data: { cp: pending.cpId, option: optionId, by } });

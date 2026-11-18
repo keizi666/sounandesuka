@@ -2,6 +2,20 @@
 
 /** docs/07 §4 自律ミクロ行動、docs/09 §6 アクション */
 export const behavior = {
+  /** グループ（docs/07 §1.4、docs/09 §3.1） */
+  /** weak の基準。docs/09 §3.1 の初版は 35.0 だったが、s04 では分割の時点で全員が 35℃ 未満になり下山組ができないため 34.0 にした（DECISIONS P19） */
+  weakCoreBelowC: 34,
+  weakMBelow: 0.5,
+  headcountEveryMin: 30,
+  headcountPBase: 0.5,
+  stragglerDistM: 100,
+  /** tight のグループで、この距離より離れた仲間は自分で歩いて合流する */
+  regroupDistM: 30,
+  /** この人数以上の tight のグループでは、歩行中の食事・水分・重ね着・疲労休憩をリーダーの休憩に合わせる */
+  groupSyncMinSize: 4,
+  /** 強い雨の中で着替えたときの冷え（℃） */
+  changeDryChillC: 0.1,
+  changeDryChillPrecipMmH: 1,
   /** 雨具を着る */
   rainwearPrecipMmH: 1,
   rainwearP: 0.25,

@@ -2,6 +2,7 @@
  * World の生成（docs/03 §3）。World はプレーンな JSON 互換オブジェクトだけで作る。
  * 気象・生理などの中身は後のフェーズで更新処理が入る。ここでは初期値をそろえる。
  */
+import { initialGroups } from '../climber/groups';
 import { TUNING, type Tuning } from '../tuning';
 import type {
   ClimberDef,
@@ -170,6 +171,7 @@ export function createWorld(map: MapRuntime, scenario: ScenarioDef, seed: number
   const weather = initialGlobalWeather();
   // 時間ノイズのシードは weather ストリームから 1 回だけ引く
   weather.noiseSeed = nextU32(rng.weather);
+  const ig = initialGroups(scenario, DEFAULT_GROUP_ID);
   const world: World = {
     version: 1,
     scenarioId: scenario.id,
@@ -181,7 +183,7 @@ export function createWorld(map: MapRuntime, scenario: ScenarioDef, seed: number
     sun: sunStateAt(scenario, tMin, 0),
     weather,
     ground: createGround(),
-    climbers: scenario.party.map((def) => createClimberState(def, scenario, map, tMin, DEFAULT_GROUP_ID)),
+    climbers: scenario.party.map((def) => createClimberState(def, scenario, map, tMin, ig.of[def.id] ?? DEFAULT_GROUP_ID)),
     flags: {},
     firedChoices: [],
     firedEvents: [],
@@ -198,7 +200,7 @@ export function createWorld(map: MapRuntime, scenario: ScenarioDef, seed: number
       searchRadiusM: 0,
     },
     visitedNodes: { [startNode]: tMin },
-    groups: [{ id: DEFAULT_GROUP_ID, leader: leader.id, cohesion: 'tight', lastHeadcountMin: null }],
+    groups: ig.groups,
     ended: null,
     recentEvents: [],
     weatherMemo: { raining: false, rainStoppedAtMin: null, precipType: 'none', sunUp: false, dark: false },

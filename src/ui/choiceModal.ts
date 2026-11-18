@@ -4,8 +4,7 @@
  */
 import { JA } from '../i18n/ja';
 import { fill, formatDateTime, TEXT_LABELS } from '../i18n/format';
-import { partyLeader } from '../sim/climber/party';
-import { evaluateOptions, findChoicePoint } from '../sim/scenario/choices';
+import { choiceLeader, evaluateOptions, findChoicePoint } from '../sim/scenario/choices';
 import { expandText } from '../sim/scenario/text';
 import { resolveVar } from '../sim/scenario/vars';
 import type { StaticContext, World } from '../sim/types';
@@ -54,7 +53,7 @@ export function showChoice(
   const pending = world.pendingChoice!;
   const found = findChoicePoint(ctx, pending.cpId)!;
   const t = texts(ctx, pending.cpId);
-  const leader = partyLeader(world);
+  const leader = choiceLeader(world, ctx);
   const scope = { world, map: ctx.map, scenario: ctx.scenario, leader };
   const expand = (s: string): string => expandText(s, (p) => resolveVar(p, scope), TEXT_LABELS);
   const { available, unavailable } = evaluateOptions(world, ctx, found.cp, found.key);

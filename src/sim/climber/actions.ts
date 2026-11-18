@@ -1,6 +1,6 @@
 /**
  * アクションの適用（docs/09 §6）。対象は既定でグループの全員（who で指定可）。
- * 道迷い・救助の出動・雷・グループ分割など P6 以降のアクションは、今は SCRIPT_LOG を出すだけ（DECISIONS）。
+ * グループの分割・離脱・まとまり方は groups.ts、浸水は physiology.ts。
  */
 import { parseTimeRef } from '../core/clock';
 import { chance } from '../core/rng';
@@ -10,6 +10,8 @@ import { shelterFromWind } from '../weather/local';
 import { checkPosition as navCheck, findLeeSpot, pathOffRidge } from './navigation';
 import { dawnRef, ensureRouteAhead, enterShelter, goToNode, leaveShelter, setRoute, turnBack } from './route';
 import { transition } from './state';
+import { detach, goToMember, setCohesion, soloErrand, splitParty } from './groups';
+import { applySoak, soakWaterTempC } from './physiology';
 
 /** 細かい作業の所要時間（寒冷ストレス・手袋なしで延びる。docs/06 §7、§8） */
 export function taskMinutes(c: ClimberState, base: number, ctx: StaticContext): number {
@@ -248,6 +250,16 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
         data: { key: 'say', to: a.to ?? null, tone: a.tone ?? 'normal', distortLevel: c.body.coreC < 34 ? 2 : c.body.coreC < 35 ? 1 : 0, documented: a.documented ?? false, source: a.source ?? null },
       });
       return;
+    case 'soak':
+      soak(world, ctx, c, a.level, a.snowmelt ?? false);
+      return;
+    case 'setCohesion':
+      setCohesion(world, c, a.cohesion);
+      return;
+    case 'goToMember':
+      leaveShelter(world, ctx, c);
+      goToMember(world, ctx, c, a.member);
+      return;
     case 'abortTrip':
       return; // パーティ全体の処理は applyActions で行う
     default:
@@ -256,8 +268,15 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
   }
 }
 
+/** 冷水に浸かる（docs/06 §4.1） */
+export function soak(world: World, ctx: StaticContext, c: ClimberState, level: 'feet' | 'knees' | 'waist' | 'full', snowmelt: boolean): void {
+  if (!c.body.alive) return;
+  applySoak(c, level, soakWaterTempC(c, snowmelt, ctx.tuning), world.tMin, ctx.tuning);
+  ctx.events.push({ tMin: world.tMin, type: 'SOAK', climberId: c.id, important: level === 'full' || level === 'waist', data: { level } });
+}
+
 /** フラグ・narrate・救助要請のように、全員に適用すると重複するアクション（リーダーが 1 回だけ行う） */
-const ONCE_PER_LIST = new Set(['setFlag', 'clearFlag', 'narrate', 'callRescue']);
+const ONCE_PER_LIST = new Set(['setFlag', 'clearFlag', 'narrate', 'callRescue', 'setCohesion']);
 
 /**
  * アクション列を先頭から順に適用する。group はその分岐点・イベントの対象グループ、leader はそのリーダー。
@@ -275,6 +294,23 @@ export function applyActions(
       ctx.events.push({ tMin: world.tMin, type: 'ENDED', important: true, data: { kind: 'ABORTED' } });
       return;
     }
+    const apply = (acts: readonly Action[], g: readonly ClimberState[], l: ClimberState): void => applyActions(world, ctx, acts, g, l);
+    if (a.type === 'splitParty') {
+      splitParty(world, ctx, a.groups, group, apply);
+      continue;
+    }
+    if (a.type === 'detach') {
+      for (const c of targetsOf(world, a.who ?? 'leader', group, leader)) detach(world, ctx, c, a.then, apply);
+      continue;
+    }
+    // 1 人だけが電波を探しに行くときは、グループから一時的に離れる（残りの人はその場にとどまる）
+    if (a.type === 'seekSignal' && a.who !== undefined && a.who !== 'all' && a.who !== 'leader') {
+      for (const c of targetsOf(world, a.who, group, leader)) {
+        if (world.climbers.some((o) => o !== c && o.groupId === c.groupId && o.body.alive)) soloErrand(world, c, a.returnAfter ?? false);
+        applyOne(world, ctx, a, c);
+      }
+      continue;
+    }
     // say は既定でリーダーが言う
     const who = a.who ?? (a.type === 'say' ? 'leader' : undefined);
     const targets = ONCE_PER_LIST.has(a.type) ? [leader] : targetsOf(world, who, group, leader);
@@ -285,7 +321,8 @@ export function applyActions(
 /** until の判定（docs/09 §6） */
 export function untilReached(world: World, ctx: StaticContext, c: ClimberState, until: UntilRef | null): boolean {
   if (until === null) return false;
-  if (until === 'rescue') return world.rescue.status === 'contacted';
+  // 救助隊がその人を収容するまで（収容で RESCUED になる。ほかの人に接触しただけでは終わらない）
+  if (until === 'rescue') return false;
   if (until === 'dawn') return true; // 設定時に時刻へ変換済みのはず
   if (until === 'weatherClears') {
     const b = ctx.tuning.behavior;

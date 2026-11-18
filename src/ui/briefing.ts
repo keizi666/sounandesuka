@@ -29,9 +29,6 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
   const notes = [
     el('p', { class: 'note' }, JA.disclaimer.fictional),
     s.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,
-    s.historical ? el('p', { class: 'note strong' }, s.historical.disclaimer) : null,
-    s.historical ? el('p', { class: 'note' }, `出典: ${s.historical.sources.map((x) => `${x.title}（${x.publisher ?? ''} ${x.year ?? ''}）`).join(' / ')}`) : null,
-    s.historical ? el('p', { class: 'note' }, '※印のセリフは架空です。記録に残る発言には「記録」と表示しています。') : null,
     loaded.attribution.length > 0 ? el('p', { class: 'note' }, `${JA.ui.attribution}: ${loaded.attribution.map((a) => a.text).join(' / ')}`) : null,
   ];
   const party = s.party.map((p) =>
@@ -46,6 +43,15 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
   app.root.append(
     el('main', { class: 'briefing' }, [
       el('header', {}, [el('button', { onclick: () => app.go({ name: 'select' }) }, JA.ui.back), el('h1', {}, `${JA.ui.briefing}: ${s.title}`)]),
+      // 史実シナリオでは、最初に注記と出典を出す（docs/09 §11）
+      s.historical
+        ? el('section', { class: 'historical-note' }, [
+            el('p', { class: 'note strong' }, s.historical.disclaimer),
+            el('p', { class: 'note' }, `出典: ${s.historical.sources.map((x) => `${x.title}（${x.publisher ?? ''} ${x.year ?? ''}）`).join(' / ')}`),
+            el('p', { class: 'note' }, s.historical.labelsNote),
+            el('p', { class: 'note' }, '※印のセリフは架空です。記録に残る発言には「記録」と表示しています。'),
+          ])
+        : null,
       el('div', { class: 'cols' }, [
         el('section', {}, [el('h2', {}, JA.ui.plan), canvas, el('ol', {}, rows), el('p', {}, `${JA.ui.courseTime} ${Math.round(total)} 分 ・ ${JA.ui.plannedFinish} ${formatClock(parseTimeRef(s.plan.plannedFinish))}`)]),
         el('section', {}, [

@@ -622,6 +622,7 @@ export interface PendingChoice {
   cpId: string;                  // シナリオ ID または "generic:<key>"
   firedAtMin: number;
   realDeadlineMs: number | null; // 判断時間制限モード用（UI 側で管理してもよい）
+  groupId?: string | null;       // どのグループの分岐点か（汎用分岐点をグループごとに出すため）
 }
 
 export interface World {

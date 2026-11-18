@@ -2,7 +2,7 @@
  * パーティとグループ（docs/07 §1.4、docs/03 §4 の 9）。
  * tight のグループはリーダーが道を選んで進み、仲間は同じ位置・状態でついていく（最も遅い人の速度）。
  * 誰かが作業中・休憩中なら待ち、誰かが行動不能なら全員が止まる（STAYING）。
- * loose・グループ分割・リーダー交代の作り込みは P19。
+ * loose のグループは各自の速度で歩く。tight に戻したとき離れている仲間は、自分で歩いて合流する。
  */
 import type { BehaviorState, ClimberState, StaticContext, World } from '../types';
 import { per10m } from './navigation';
@@ -33,6 +33,10 @@ export function groupLeader(world: World, groupId: string | null): ClimberState 
 
 /** パーティ全体のリーダー（最初のグループのリーダー） */
 export function partyLeader(world: World): ClimberState {
+  // 分割で最初のグループが空になったら、人がいる最初のグループ
+  for (const g of world.groups) {
+    for (const c of world.climbers) if (c.groupId === g.id && c.body.alive) return groupLeader(world, g.id);
+  }
   return groupLeader(world, world.groups[0]?.id ?? null);
 }
 
@@ -134,10 +138,26 @@ export function moveParty(world: World, ctx: StaticContext, dtSec: number, hold:
     }
     // 作業中・休憩中の人がいれば待つ
     if (members.some((m) => m !== leader && (m.plan.busyUntilMin !== null || (m.state === 'RESTING' && leader.state !== 'RESTING')))) continue;
+    // 離れている仲間（loose から tight に戻した直後など）は自分で歩いて合流し、その間リーダーは待つ
+    // （一度も loose になっていないグループは、転倒で少し離れてもこれまでどおりリーダーにそろえる）
+    const far2 = ctx.tuning.behavior.regroupDistM * ctx.tuning.behavior.regroupDistM;
+    let together = members;
+    let waiting = false;
+    const scattered = world.latches[`scattered:${g.id}`] === true;
+    for (const m of scattered ? members : []) {
+      if (m === leader || (m.x - leader.x) * (m.x - leader.x) + (m.z - leader.z) * (m.z - leader.z) <= far2) continue;
+      if (together === members) together = members.filter((x) => x === leader || (x.x - leader.x) * (x.x - leader.x) + (x.z - leader.z) * (x.z - leader.z) <= far2);
+      if (!canMove(m)) continue;
+      waiting = true;
+      const mf = m.pos.mode === 'free';
+      const rm = moveOne(world, ctx, m, dtSec, [m]);
+      if (rm.movedM > 0) out[m.id] = { walking: true, grade: rm.grade, met: rm.metById[m.id] ?? 0, movedM: rm.movedM, offTrail: mf };
+    }
+    if (waiting) continue;
     const wasFree = leader.pos.mode === 'free';
-    const r = moveOne(world, ctx, leader, dtSec, members);
+    const r = moveOne(world, ctx, leader, dtSec, together);
     navChecks(world, ctx, leader, r.movedM);
-    for (const m of members) {
+    for (const m of together) {
       if (r.movedM > 0) out[m.id] = { walking: true, grade: r.grade, met: r.metById[m.id] ?? 0, movedM: r.movedM, offTrail: wasFree };
       if (m !== leader) follow(world, ctx, leader, m);
     }

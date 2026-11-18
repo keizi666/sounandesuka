@@ -89,6 +89,7 @@ export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options:
     options: [
       opt('wait', [{ type: 'rest', minutes: 20 }, { type: 'setCohesion', cohesion: 'tight' }], 0.5, { tags: ['recommended'] }),
       opt('go', [{ type: 'continueRoute' }], 0.8, { tags: ['risky'] }),
+      opt('back', [{ type: 'goToMember', member: '$straggler' }], 0.3),
     ],
   },
   rescueFailed: {
@@ -140,9 +141,10 @@ function rising(world: World, latch: string, v: boolean): boolean {
 /** 汎用分岐点を今発火させるか（一度きり・立ち上がりの扱いもここで行う） */
 const LATCH: Record<GenericChoiceKey, string> = Object.fromEntries(KEYS.map((k) => [k, `generic:${k}`])) as Record<GenericChoiceKey, string>;
 
-export function genericTrigger(world: World, ctx: StaticContext, key: GenericChoiceKey, leader: ClimberState): boolean {
-  const L = LATCH[key];
-  const fired = key === 'darkness' || key === 'lightning' || key === 'hypothermia' ? world.firedChoices.includes(L) : false;
+/** suffix は最初のグループなら ''、それ以外は '@<グループ ID>'（ラッチをグループごとに分ける） */
+export function genericTrigger(world: World, ctx: StaticContext, key: GenericChoiceKey, leader: ClimberState, suffix = ''): boolean {
+  const L = LATCH[key] + suffix;
+  const fired = key === 'darkness' || key === 'lightning' || key === 'hypothermia' ? (suffix === '' ? world.firedChoices.includes(L) : world.latches[`${L}:fired`] === true) : false;
   switch (key) {
     case 'lostAware':
       return rising(world, L, leader.state === 'LOST_AWARE');
@@ -167,7 +169,12 @@ export function genericTrigger(world: World, ctx: StaticContext, key: GenericCho
       return rising(world, L, leader.memo.atWaterfall);
     case 'rescueFailed':
       return rising(world, L, world.recentEvents.some((e) => e.type === 'RESCUE_CALL_FAILED'));
-    case 'straggler':
-      return false; // P19
+    case 'straggler': {
+      // loose のグループでリーダーが遅れに気づいたとき（groups.ts の人数確認）
+      const k = `stragglerPending:${leader.groupId ?? ''}`;
+      if (!world.latches[k]) return false;
+      world.latches[k] = false;
+      return true;
+    }
   }
 }

@@ -34,12 +34,16 @@ export function overpassQuery(lat0: number, lon0: number, size: number): string 
   node["waterway"="waterfall"](${bb});
   node["information"="guidepost"](${bb});
   node["highway"="trailhead"](${bb});
+  node["place"="locality"](${bb});
+  node["tourism"="camp_site"](${bb});
+  way["natural"="water"]["name"](${bb});
 );
 out body geom;`;
 }
 
-export async function fetchOsm(lat0: number, lon0: number, size: number): Promise<OsmJson> {
-  const res = await fetch(OVERPASS_URL, { method: 'POST', body: new URLSearchParams({ data: overpassQuery(lat0, lon0, size) }) });
+/** headers は Node のツールから呼ぶとき用（Overpass は User-Agent のない自動クライアントを断る） */
+export async function fetchOsm(lat0: number, lon0: number, size: number, headers?: Record<string, string>): Promise<OsmJson> {
+  const res = await fetch(OVERPASS_URL, { method: 'POST', body: new URLSearchParams({ data: overpassQuery(lat0, lon0, size) }), headers });
   if (res.status === 429) throw new Error('Overpass API が混雑しています（429）。しばらくしてからやり直してください。');
   if (!res.ok) throw new Error(`OpenStreetMap のデータを取得できませんでした（${res.status}）`);
   return (await res.json()) as OsmJson;

@@ -13,6 +13,8 @@ import { sampleElevAt } from './elev';
 import { appendToRoute, edgePoints, hitEdge, hitNode, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
 import type { MapTool } from '../map/TileMapView';
 import { nextId } from '../store/project';
+import { buildVertexGraph, joinSkeleton, namedPoints } from '../geo/skeleton';
+import { defaultBinding } from '../geo/skeletonBind';
 import { standardLegMin, suggestPaceAdj } from '../pace';
 import type { Panel } from './types';
 
@@ -250,11 +252,39 @@ function edgeInspector(ed: Ed, e: EdgeDef): HTMLElement {
   ]);
 }
 
+/** スケルトンマップを、取り込んだ OSM の登山道に結合する（docs/16 §8）。名前の合う地点に結び、残りは計画ルートの順に補間する */
+function joinSkeletonMap(ed: Ed): void {
+  const geo = ed.p.map.geo;
+  const rt = ed.runtime();
+  const osm = ed.p.raw.osm as OsmJson | undefined;
+  if (!geo || !rt) return ed.toast('先にタブ 1 で標高を取得してください');
+  if (!osm) return ed.toast('先に「OpenStreetMap から取り込む」を押して、登山道のデータを取得してください（下書きは除外してかまいません）');
+  const elevAt = (x: number, z: number): number => sampleElevAt(rt, x, z);
+  const og = osmToGraph(osm, geo.centerLat, geo.centerLon, ed.p.map.size, elevAt);
+  const graph = buildVertexGraph(og.nodes, og.edges);
+  const sk = { ...ed.p.map, nodes: ed.p.map.nodes.filter((n) => n.osmName !== undefined || n.expectedElevM !== undefined), edges: ed.p.map.edges.filter((e) => !ed.p.editorState.draftEdgeIds.includes(e.id)) };
+  const bind = defaultBinding(sk, namedPoints(osm, geo.centerLat, geo.centerLon, ed.p.map.size), elevAt);
+  const r = joinSkeleton(sk, bind, graph, elevAt, { snapM: 500, order: ed.p.scenario.plan.route });
+  if (r.nodes.length < sk.nodes.length) {
+    busy = `結合できませんでした: ${r.warnings.join(' / ')}`;
+    return ed.refresh();
+  }
+  ed.change('スケルトンの結合', () => {
+    ed.p.map.nodes = r.nodes.map((n) => ({ ...n, source: 'osm' as const }));
+    ed.p.map.edges = r.edges.map((e) => ({ ...e, source: 'osm' as const }));
+    ed.p.map.skeleton = false;
+    ed.p.editorState.draftEdgeIds = [];
+  }, true);
+  busy = `結合しました。名前で結び付けた地点: ${r.matched.length}、登山道の上に補間で置いた地点（地点タブの「地点を動かす」で必ず確認）: ${r.interpolated.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name ?? id).join('、') || 'なし'}${r.warnings.length ? ` ／ ${r.warnings.join(' / ')}` : ''}`;
+  ed.refresh();
+}
+
 async function quickRun(ed: Ed): Promise<void> {
   const rt = ed.runtime();
   if (!rt) return;
   try {
-    const r = runHeadless(rt, ed.p.scenario, { policy: 'recommended' });
+    // sim は分岐点の一覧をシナリオのオブジェクトごとにキャッシュするので、編集中のものは写しを渡す
+    const r = runHeadless(rt, structuredClone(ed.p.scenario), { policy: 'recommended' });
     ed.setLastRun(r);
     const lead = r.world.climbers[0]!;
     busy = `推奨方針で試走: ${r.ending.kind}（${lead.state}、${Math.round(r.world.tMin - (r.record?.samples[0]?.t ?? 0))} 分）`;
@@ -316,6 +346,13 @@ export const trailsPanel: Panel = {
       modes,
       check('急傾斜（38° 超）を赤で表示', false, (v) => (ed as EditorApp).setShowSteep(v)),
       geo ? section('取り込み', [osmBtn, el('p', { class: 'note' }, '© OpenStreetMap contributors（ODbL）。応答は保存し、同じ範囲を再取得しません。'), el('hr'), select('GPX の用途', gpxUse, [['trail', '登山道として追加'], ['route', '計画ルートとして使う'], ['false', '偽の道（迷った軌跡）として追加']], (v) => (gpxUse = v)), gpxIn]) : null,
+      ed.p.map.skeleton
+        ? section('スケルトンマップの結合', [
+            el('p', { class: 'note' }, ed.p.map.areaHint?.text ?? '座標を持たない骨組みのマップです。'),
+            el('p', { class: 'note' }, '手順: ①タブ 1 で範囲を置いて標高を取得 → ②上の「OpenStreetMap から取り込む」（下書きは「すべて除外」でよい）→ ③シナリオを { } タブで読み込む（計画ルートの順に補間するため）→ ④結合。'),
+            button('結合する（名前の候補＋補間）', () => joinSkeletonMap(ed), 'primary'),
+          ])
+        : null,
       busy ? el('p', { class: 'note' }, busy) : null,
       draftList,
       section('計画ルート', [

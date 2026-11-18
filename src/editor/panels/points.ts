@@ -10,7 +10,8 @@ import type { MapTool } from '../map/TileMapView';
 import { nextId } from '../store/project';
 import type { Panel } from './types';
 
-type Mode = 'select' | 'node' | 'waterfall' | 'protectionZone' | 'chain' | 'rockfallZone';
+type Mode = 'select' | 'move' | 'node' | 'waterfall' | 'protectionZone' | 'chain' | 'rockfallZone';
+let dragging: NodeDef | null = null;
 let mode: Mode = 'select';
 let newType: NodeType = 'junction';
 let sectionStart: { edge: string; s: number } | null = null;
@@ -43,9 +44,30 @@ function sOnEdge(ed: Ed, edgeId: string, x: number, z: number): number {
 
 function tool(ed: Ed): MapTool {
   return {
-    cursor: mode === 'select' ? 'pointer' : 'crosshair',
+    cursor: mode === 'select' ? 'pointer' : mode === 'move' ? 'move' : 'crosshair',
+    down(p) {
+      if (mode !== 'move') return false;
+      dragging = hitNode(ed.view, ed.p.map, p.px, p.py, 12);
+      if (!dragging) return false;
+      ed.checkpoint('地点を動かす');
+      return true;
+    },
+    move(p, drag) {
+      if (!drag || !dragging) return;
+      dragging.x = Math.round(p.x * 10) / 10;
+      dragging.z = Math.round(p.z * 10) / 10;
+      ed.view.redraw();
+    },
+    up() {
+      if (dragging) {
+        ed.p.editorState.selection = { kind: 'node', id: dragging.id };
+        dragging = null;
+        ed.touched(true);
+      }
+    },
     click(p) {
       const map = ed.p.map;
+      if (mode === 'move') return;
       if (mode === 'select') {
         const n = hitNode(ed.view, map, p.px, p.py);
         if (n) return ed.select('node', n.id);
@@ -192,7 +214,7 @@ export const pointsPanel: Panel = {
     fill(
       ed.inspector,
       el('h2', {}, '地点と危険箇所'),
-      select<Mode>('道具', mode, [['select', '選択'], ['node', '地点を置く'], ['waterfall', '滝を置く'], ['protectionZone', '保護範囲を置く'], ['chain', '鎖場（道の上を 2 回クリック）'], ['rockfallZone', '落石帯（道の上を 2 回クリック）']], (m) => {
+      select<Mode>('道具', mode, [['select', '選択'], ['move', '地点を動かす（ドラッグ）'], ['node', '地点を置く'], ['waterfall', '滝を置く'], ['protectionZone', '保護範囲を置く'], ['chain', '鎖場（道の上を 2 回クリック）'], ['rockfallZone', '落石帯（道の上を 2 回クリック）']], (m) => {
         mode = m;
         sectionStart = null;
         ed.refresh();

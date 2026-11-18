@@ -20,7 +20,9 @@
     "check:sim-purity": "tsx tools/purity.ts",
     "geo:smoke": "tsx tools/geo-smoke.ts",
     "assets:hq": "tsx tools/make-hq-assets.ts",
-    "fixture:bundle": "tsx tools/make-fixture-bundle.ts"
+    "fixture:bundle": "tsx tools/make-fixture-bundle.ts",
+    "make:s04": "tsx tools/make-s04.ts",
+    "mc:s04": "tsx tools/mc-s04.ts"
   },
   "dependencies": {
     "three": "^0.187.0"

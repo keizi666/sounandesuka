@@ -1,10 +1,12 @@
 /**
  * スクリプトイベント（docs/09 §8）と、リーダーの局地気象・暗さの変化から出るイベント（RAIN_START など）。
  */
-import { applyActions } from '../climber/actions';
+import { applyActions, soak } from '../climber/actions';
+import { chance, nextFloat } from '../core/rng';
+import { injure } from '../hazards/slip';
 import { groupMembers, partyLeader } from '../climber/party';
 import { nearestIndex } from '../terrain/sample';
-import type { ScriptEffect, StaticContext, World } from '../types';
+import type { ClimberState, ScriptEffect, StaticContext, Who, World } from '../types';
 import { evalCondition } from './conditions';
 import { eventOnce } from './load';
 import { fireChoiceById, scopeFor } from './choices';
@@ -17,6 +19,14 @@ function radioAtLeader(world: World, ctx: StaticContext): number {
 /** 電波が必要な効果（予報の更新）が届かない間は、イベントごと保留する */
 function blockedBySignal(world: World, ctx: StaticContext, effects: readonly ScriptEffect[]): boolean {
   return effects.some((e) => e.type === 'forecastUpdate' && (e.requiresSignal ?? true)) && radioAtLeader(world, ctx) < ctx.tuning.radio.messageOnlyMin;
+}
+
+/** 効果の対象（leader / all / 登山者 ID）。ID はグループに関係なく指せる */
+function whoOf(world: World, who: Who, party: readonly ClimberState[], leader: ClimberState): ClimberState[] {
+  if (who === 'leader') return [leader];
+  if (who === 'all') return party.filter((c) => c.body.alive);
+  const c = world.climbers.find((x) => x.id === who);
+  return c && c.body.alive ? [c] : [];
 }
 
 function applyEffect(world: World, ctx: StaticContext, ef: ScriptEffect, evId: string): void {
@@ -51,11 +61,24 @@ function applyEffect(world: World, ctx: StaticContext, ef: ScriptEffect, evId: s
     case 'say':
       applyActions(world, ctx, [{ type: 'say', who: ef.who === 'any' || ef.who.startsWith('role:') ? 'leader' : ef.who, text: ef.text, to: ef.to, tone: ef.tone, documented: ef.documented, source: ef.source }], party, leader);
       return;
-    case 'injure':
-    case 'rockfall':
     case 'soak':
-      // 負傷・落石・浸水は P6 / P19
-      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', data: { unimplementedEffect: ef.type, event: evId } });
+      for (const c of whoOf(world, ef.who, party, leader)) soak(world, ctx, c, ef.level, ef.snowmelt ?? false);
+      return;
+    case 'injure':
+      for (const c of whoOf(world, ef.who, party, leader)) injure(world, ctx, c, ef.injury, 'trauma');
+      return;
+    case 'rockfall':
+      // 落石: 確率 p で当たり、結果は転倒の表（T2 / EXPOSED）から引く
+      for (const c of whoOf(world, ef.who, party, leader)) {
+        if (!chance(world.rng.hazard, ef.p)) continue;
+        const table = ctx.tuning.slip.outcomes[ef.injuryTable]!;
+        let r = nextFloat(world.rng.hazard);
+        let k = 0;
+        while (k < table.length - 1 && r >= table[k]!) r -= table[k++]!;
+        const outcome = ['none', 'bruise', 'sprain', 'legFracture', 'headInjury', 'severeTrauma', 'death'] as const;
+        ctx.events.push({ tMin: world.tMin, type: 'FALL', climberId: c.id, important: true, data: { rockfall: true, injury: outcome[k]!, event: evId } });
+        injure(world, ctx, c, outcome[k]!, 'trauma');
+      }
       return;
   }
 }
