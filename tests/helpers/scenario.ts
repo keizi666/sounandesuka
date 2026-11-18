@@ -60,7 +60,12 @@ export function testScenario(route: NodeId[], over: Partial<ScenarioDef> = {}): 
     briefing: { text: '', forecast: [] },
     plan: { route, goalNodes: [route[route.length - 1]!], plannedFinish: 'D0 18:00', submittedPlan: true, reportIfNotBackBy: null },
     party: [standardClimber()],
-    weather: { refElevM: 1000, lapseRateCPer100m: 0.65, keyframes: [] },
+    // 晴れ・無風（コースタイムの検証条件）
+    weather: {
+      refElevM: 1000,
+      lapseRateCPer100m: 0.65,
+      keyframes: [{ at: 'D0 00:00', tempC: 15, windMs: 0, windDirDeg: 0, precipMmH: 0, cloudCover: 0, cloudBaseM: 5000, visibilityM: 30000 }],
+    },
     events: [],
     choices: [],
     endings: [],

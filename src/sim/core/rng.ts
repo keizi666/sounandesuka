@@ -39,13 +39,24 @@ export function hashString32(str: string): number {
   return h >>> 0;
 }
 
+/** splitmix32(s) の最初の出力と同じ値（関数を作らずに計算する） */
+function splitmixFirst(s: number): number {
+  let z = (s + 0x9e3779b9) >>> 0;
+  z = Math.imul(z ^ (z >>> 16), 0x21f0aaad);
+  z = Math.imul(z ^ (z >>> 15), 0x735a2d97);
+  return (z ^ (z >>> 15)) >>> 0;
+}
+
 /** 基準シードと部品からシードを派生させる（What-if・モンテカルロの runIndex など） */
 export function deriveSeed(base: number, ...parts: number[]): number {
   let h = base >>> 0;
-  for (const p of parts) {
-    h = splitmix32(h ^ (p >>> 0))();
-  }
-  return splitmix32(h)();
+  for (const p of parts) h = splitmixFirst((h ^ (p >>> 0)) >>> 0);
+  return splitmixFirst(h);
+}
+
+/** deriveSeed(base, part) と同じ値（可変長引数の配列を作らない速い版） */
+export function deriveSeed1(base: number, part: number): number {
+  return splitmixFirst(splitmixFirst(((base >>> 0) ^ (part >>> 0)) >>> 0));
 }
 
 /** シードから xoshiro128** の状態を作る */

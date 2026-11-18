@@ -119,9 +119,9 @@ describe('World（docs/03 §3）', () => {
       const w = createWorld(map, sc);
       expect(w.climbers).toHaveLength(sc.party.length);
       for (const c of w.climbers) expect(c.pos).toEqual({ mode: 'node', nodeId: sc.plan.route[0] });
-      // s01（05:30 出発・日の出 05:52）と s03（04:30・04:55）は薄明、s02（08:00）は明るい
-      expect(w.sun.isDark).toBe(false);
-      expect(w.sun.twilight).toBe(id !== 's02_fog_descent');
+      // s01（05:30 出発・日の出 05:52）と s03（04:30・04:55）は日の出前、s02（08:00）は明るい
+      if (id === 's02_fog_descent') expect(w.sun.isDark || w.sun.twilight).toBe(false);
+      else expect(w.sun.elevDeg).toBeLessThan(0);
     }
   });
 

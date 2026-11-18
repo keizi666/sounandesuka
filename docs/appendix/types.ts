@@ -567,6 +567,8 @@ export interface GlobalWeather {
   tempC: number; windMs: number; windDirDeg: number; precipMmH: number;
   cloudCover: number; cloudBaseM: number; visibilityM: number; inCloudVisibilityM: number;
   thunder: number; pressureHpa: number; gust: number;
+  /** 時間ノイズのシード（生成時に weather ストリームから 1 回引く。What-if の再シードで引き直す） */
+  noiseSeed: number;
   cells: { id: string; x: number; z: number; strength: number; radiusM: number }[];
   overrides: WeatherKeyframe[];
 }

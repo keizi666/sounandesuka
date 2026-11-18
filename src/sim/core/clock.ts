@@ -24,6 +24,18 @@ export function parseTimeRef(ref: TimeRef): number {
   return t;
 }
 
+const startCache = new WeakMap<ScenarioDef, number>();
+
+/** シナリオの開始時刻（tMin）。解析結果をキャッシュする */
+export function scenarioStartMin(scenario: ScenarioDef): number {
+  let t = startCache.get(scenario);
+  if (t === undefined) {
+    t = parseTimeRef(scenario.startAt);
+    startCache.set(scenario, t);
+  }
+  return t;
+}
+
 /** "05:52" → 352。書式が違えば例外 */
 export function parseHHMM(hhmm: string): number {
   const m = HHMM_RE.exec(hhmm);

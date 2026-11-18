@@ -16,9 +16,11 @@ import type {
   World,
 } from '../types';
 import { createGround } from '../weather/ground';
-import { sunStateAt } from '../weather/sun';
+import { updateGlobal } from '../weather/global';
+import { updateClimberLocal } from '../weather/local';
+import { sunStateAt, updateSun } from '../weather/sun';
 import { parseTimeRef } from './clock';
-import { createRngStreams } from './rng';
+import { createRngStreams, nextU32 } from './rng';
 
 /** パーティ全体を 1 つのグループとして扱うときの ID（groups の指定がない場合） */
 export const DEFAULT_GROUP_ID = 'party';
@@ -51,6 +53,7 @@ export function initialGlobalWeather(): GlobalWeather {
     thunder: 0,
     pressureHpa: 1013,
     gust: 1,
+    noiseSeed: 0,
     cells: [],
     overrides: [],
   };
@@ -158,16 +161,20 @@ export function createWorld(map: MapRuntime, scenario: ScenarioDef, seed: number
   const leader = scenario.party.find((p) => p.leader) ?? scenario.party[0];
   if (!leader) throw new Error('party が空です');
   const startNode = scenario.plan.route[0]!;
-  return {
+  const rng = createRngStreams(seed);
+  const weather = initialGlobalWeather();
+  // 時間ノイズのシードは weather ストリームから 1 回だけ引く
+  weather.noiseSeed = nextU32(rng.weather);
+  const world: World = {
     version: 1,
     scenarioId: scenario.id,
     mapId: map.def.id,
     seed,
     tick: 0,
     tMin,
-    rng: createRngStreams(seed),
+    rng,
     sun: sunStateAt(scenario, tMin, 0),
-    weather: initialGlobalWeather(),
+    weather,
     ground: createGround(),
     climbers: scenario.party.map((def) => createClimberState(def, scenario, map, tMin, DEFAULT_GROUP_ID)),
     flags: {},
@@ -189,6 +196,12 @@ export function createWorld(map: MapRuntime, scenario: ScenarioDef, seed: number
     groups: [{ id: DEFAULT_GROUP_ID, leader: leader.id, cohesion: 'tight', lastHeadcountMin: null }],
     ended: null,
   };
+  // 開始時点の気象・暗さ・局地気象をそろえる
+  const ctx = createStaticContext(map, scenario);
+  updateGlobal(world, ctx);
+  updateSun(world, ctx);
+  updateClimberLocal(world, ctx);
+  return world;
 }
 
 export function createStaticContext(
