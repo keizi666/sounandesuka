@@ -19,7 +19,7 @@ import type { WhatIfIn, WhatIfJob, WhatIfOut } from '../workers/whatif.worker';
 import { drawTimeline, timeAtX, type ChartMarks } from './charts';
 import { el } from './dom';
 import { drawMap2d } from './map2d';
-import { optionLabel, type SimResult } from './simScreen';
+import { attributionLine, optionLabel, type SimResult } from './simScreen';
 
 const WHATIF_N = 30;
 const KIND_COLOR: Record<EndingKind, string> = {
@@ -172,7 +172,7 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
         el('button', { onclick: () => app.go({ name: 'ending', loaded, result }) }, JA.ui.back),
         el('h1', {}, `${JA.ui.debrief}: ${s.title} ─ ${JA.endings[w.ended?.kind ?? 'MISSING']?.title ?? ''}`),
       ]),
-      el('div', { class: 'cols' }, [el('section', {}, [chart, el('p', { class: 'legend' }, '◆ 分岐点 ● 出来事 ▲ 実際の記録 ／ 上: 体温（35℃ 点線）／ 下: 気温（橙）・体感（橙点線）・風（紫）・降水（青）')]), el('section', {}, [mapCanvas])]),
+      el('div', { class: 'cols' }, [el('section', {}, [chart, el('p', { class: 'legend' }, '◆ 分岐点 ● 出来事 ▲ 実際の記録 ／ 上: 体温（35℃ 点線）／ 下: 気温（橙）・体感（橙点線）・風（紫）・降水（青）')]), el('section', { style: 'position:relative' }, [mapCanvas, attributionLine(loaded)])]),
       el('section', { class: 'decisions' }, [el('h2', {}, `${JA.ui.decisions}`), progress, ...decisionsEl]),
       refTable,
       el('section', { class: 'lessons' }, [el('h2', {}, JA.ui.lessons), ...lessons.map((l) => el('article', {}, [el('h3', {}, `■ ${l.title}`), el('p', {}, l.text)]))]),

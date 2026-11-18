@@ -81,7 +81,11 @@
   - `VITE_BASE=/hakoniwa/ npm run build`（Git Bash では `MSYS_NO_PATHCONV=1` も付ける）の成果物を `vite preview --base /hakoniwa/` で開き、タイトル→選択→ブリーフィング→開始まで動くことを確認。
   - 初回ロード（gzip）: JS 214KB + CSS 4KB + i18n 7KB + Worker 11KB + マップ・シナリオ 9KB = 約 245KB（基準 1.5MB 以下）。
   - リロード後に「続きから」で 08:50 の分岐点から再開できることを確認。
-- [ ] P13 可変マップとバンドル
+- [x] P13 可変マップとバンドル
+  - `sim/terrain/codec.ts`（base64・u16 高さマップ・RLE の塗り直しグリッドを自前で。sim は DOM も Node も使わない）、`terrain.type: "heightmap"` の復元、`vegetation.overrides`、`radio.paint`（+1 → 0.6 以上、-1 → 0）。`cell`/`half`・`smooth: false`・`paceAdj`・`nodeOverrides` は P2〜P6 で対応済み。
+  - バンドルの読み込み（index.json の `bundle`、ファイル選択、画面全体へのドラッグ＆ドロップ、読み込み時の検証）、シミュレーション画面と振り返りの地図に出典、実在の山の注記。
+  - `npm run fixture:bundle` で `tests/fixtures/hakoniwa385.hakoniwa.json`（385 頂点の高さマップ、小屋の周りの植生・電波の塗り直しつき）を作る。
+  - 受け入れ: 既存 3 シナリオ × 4 方針 × 5 シードの記録・World のハッシュが P13 の前後で一致。fixture バンドルで s01 相当が推奨・傾向どおりとも最後まで走り、ブラウザでもドロップで読み込んで 3D で開始できた。12,288 m・513 頂点のダミーで派生レイヤー（電波圏込み）が Node で 0.8 秒。`heightmap.test.ts` 合格。
 - [ ] P14 エディターの骨格とエリア・地形
 - [ ] P15 登山道・地点・環境
 - [ ] P16 天候エディター

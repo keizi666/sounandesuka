@@ -65,6 +65,8 @@ export const radio = {
   diffractionBase: 0.25,
   diffractionScaleM: 200,
   forestFactor: 0.8,
+  /** radio.paint の「強制あり」の最低値（docs/04 §4） */
+  paintOnValue: 0.6,
   callableMin: 0.3,
   messageOnlyMin: 0.15,
   /** 衛星 SOS が送れる空の見通し（docs/08 §4.1） */

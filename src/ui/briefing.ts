@@ -12,6 +12,7 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
   const { scenario: s, map } = loaded;
   const canvas = el('canvas', { width: 512, height: 512, class: 'map2d', 'aria-label': JA.ui.plan });
   drawMap2d(canvas, map, { route: s.plan.route });
+  // 出典は下の注記にまとめて出す（鉄則 9）
   let total = 0;
   const legs = (() => {
     try {

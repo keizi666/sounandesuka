@@ -33,6 +33,16 @@ const TIMED_SEC = 30;
 const AUTOSAVE_MS = 30000;
 const IMPORTANT_PAUSE = new Set(['DEATH', 'CARDIAC_ARREST', 'INJURY', 'LOST_AWARE', 'LIGHTNING_STRIKE', 'RESCUED', 'STAGE_CHANGE']);
 
+/** 外部データ由来の内容には出典を出す（鉄則 9）。実在の山のシナリオでは注記も添える */
+export function attributionLine(loaded: LoadedScenario): HTMLElement | null {
+  const a = loaded.attribution;
+  if (a.length === 0 && !loaded.scenario.region?.real) return null;
+  return el('p', { class: 'attribution' }, [
+    ...a.flatMap((x, i) => [i > 0 ? ' / ' : '', el('a', { href: x.url, target: '_blank', rel: 'noopener' }, x.text)]),
+    loaded.scenario.region?.real ? el('span', {}, ` ${JA.disclaimer.realMountainShort}`) : null,
+  ]);
+}
+
 export function optionLabel(loaded: LoadedScenario, cpId: string, optionId: string): string {
   const s = loaded.scenario;
   const cp = cpId.startsWith('generic:') ? null : s.choices.find((c) => c.id === cpId);
@@ -54,7 +64,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
 
   // ---- 画面 ----
   const canvas = el('canvas', { class: 'scene', 'aria-label': scenario.title });
-  const stage = el('div', { class: 'stage' }, [canvas]);
+  const stage = el('div', { class: 'stage' }, [canvas, attributionLine(loaded)]);
   const modalHost = el('div', { class: 'modal-host' });
   let cam: CameraMode = st.autoCamera ? 'follow' : 'overview';
   const view = new SceneView(canvas, map, scenario, { quality: effectiveQuality(st), figureScale: st.figureScale, vExag: st.vExag });

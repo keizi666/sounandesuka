@@ -59,6 +59,9 @@ main > header h1 { font-size: 1.3rem; margin: 8px 0; }
 .card .meta { color: var(--muted); font-size: 0.85em; }
 .drop { display: block; border: 2px dashed var(--line); border-radius: 10px; padding: 16px; text-align: center; color: var(--muted); cursor: pointer; }
 .drop input { display: block; margin: 8px auto; }
+.drop.over { border-color: var(--accent); color: var(--fg); }
+.attribution { position: absolute; left: 6px; bottom: 4px; font-size: 11px; color: rgba(255, 255, 255, 0.8); text-shadow: 0 1px 2px #000; pointer-events: auto; max-width: 70%; }
+.attribution a { color: inherit; }
 .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
 @media (max-width: 899px) { .cols { grid-template-columns: 1fr; } }
 canvas.map2d { width: 100%; max-width: 512px; aspect-ratio: 1; border-radius: 8px; background: #555; }

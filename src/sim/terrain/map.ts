@@ -9,6 +9,7 @@ import { generateProceduralHeights, isProcedural } from './generate';
 import { nearestOnPolyline, newNearest, preparePolyline } from './geom';
 import { gridGeom, sampleElev, vertexX, vertexZ, type HeightGrid } from './sample';
 import { buildTrails } from './trails';
+import { decodeHeights } from './codec';
 
 export interface BuildMapOptions {
   /** 電波圏を計算するか（既定 true） */
@@ -25,7 +26,8 @@ export interface BuildMapResult {
 export function buildHeights(def: MapDef, tuning: Tuning = TUNING): HeightGrid {
   const g = gridGeom(def.size, def.resolution);
   if (!isProcedural(def)) {
-    throw new Error(`terrain.type "${def.terrain.type}" の復元は P13 で実装します`);
+    if (def.terrain.type !== 'heightmap') throw new Error(`未対応の terrain.type "${String((def.terrain as { type?: string }).type)}"`);
+    return { ...g, heights: decodeHeights(def.terrain, g.n * g.n) };
   }
   return { ...g, heights: generateProceduralHeights(def, tuning) };
 }

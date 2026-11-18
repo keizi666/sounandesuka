@@ -9,6 +9,7 @@ import { VegClass, type MapDef } from '../types';
 import { computeRadioCoverage } from './coverage';
 import { flowAccumulation } from './flow';
 import { isProcedural, NOISE_SALT } from './generate';
+import { asInt8, decodeGrid } from './codec';
 import { createNoise2D, fbm } from './noise';
 import { vertexX, vertexZ, type HeightGrid } from './sample';
 
@@ -211,7 +212,11 @@ export function deriveLayers(def: MapDef, g: HeightGrid, opts: DeriveOptions = {
       veg[i] = v;
     }
   }
-  // vegetation.overrides（エディターの塗り直し）は P13 で適用する
+  // vegetation.overrides（エディターの塗り直し）: 0 = 自動、1..7 = VegClass + 1
+  if (vg.overrides) {
+    const ov = decodeGrid(vg.overrides, N);
+    for (let i = 0; i < N; i += 1) if (ov[i]! > 0) veg[i] = ov[i]! - 1;
+  }
 
   const skyView = computeSkyView(g, dt.skyViewRadiusM, outsideElevM);
   for (let i = 0; i < N; i += 1) if (isForest(veg[i]!)) skyView[i]! *= dt.skyViewForestFactor;
@@ -221,7 +226,15 @@ export function deriveLayers(def: MapDef, g: HeightGrid, opts: DeriveOptions = {
   else {
     radio = computeRadioCoverage(g, def.radio.stations, outsideElevM, tuning);
     for (let i = 0; i < N; i += 1) if (isForest(veg[i]!)) radio[i]! *= tuning.radio.forestFactor;
-    // radio.paint（エディターの塗り直し）は P13 で適用する
+    // radio.paint（エディターの塗り直し）: +1 → max(値, 0.6)、-1 → 0（docs/04 §4）
+    if (def.radio.paint) {
+      const p = decodeGrid(def.radio.paint, N);
+      for (let i = 0; i < N; i += 1) {
+        const v = asInt8(p[i]!);
+        if (v > 0) radio[i] = Math.max(radio[i]!, tuning.radio.paintOnValue);
+        else if (v < 0) radio[i] = 0;
+      }
+    }
   }
 
   return { slopeDeg, aspect, tpi, exposure, flowAcc, stream, veg, cliff, skyView, radio };
