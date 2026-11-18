@@ -219,7 +219,7 @@ export const JA = {
     wholeParty: 'パーティ',
     autoChose: '◆ 観察: 「{label}」になった',
     timeUp: '◆ 時間切れ: 「{label}」になった',
-    keyHelp: '左ドラッグ 移動 / 右ドラッグ 回転 / ホイール 拡大 / Space 一時停止 / 1〜4 速度 / G 情報モード / C カメラ',
+    keyHelp: '左ドラッグ 視点を回す / 右ドラッグ パン / ホイール 拡大 / Space 一時停止 / 1〜4 速度 / G 情報モード / C カメラ',
     resumeAsk: '前回の続きがあります',
     bundleBroken: 'バンドルを読み込めませんでした',
     bundleInvalid: 'バンドルのシナリオに誤りがあります',

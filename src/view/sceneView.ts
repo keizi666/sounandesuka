@@ -96,8 +96,8 @@ export class SceneView {
     this.controls = new OrbitControls(this.camera, canvas);
     this.controls.target.set(0, toSceneY(this.s, map.nodes[scenario.plan.route[0]!]?.elevM ?? this.s.baseElevM) * 0.8, 0);
     this.controls.enableDamping = true;
-    // マウスの左右を入れ替える（左ドラッグで平行移動、右ドラッグで回転。ユーザーの指定）
-    this.controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
+    // マウス: 左ドラッグで視点を回す（移動）、右ドラッグでパン、ホイールで拡大縮小（ユーザーの指定）
+    this.controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
     this.controls.minDistance = size * 0.01;
     this.controls.maxDistance = size * 3;
     this.controls.minPolarAngle = 15 * DEG;
