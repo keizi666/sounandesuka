@@ -101,21 +101,29 @@ export function interpolateKeyframes(kfs: readonly TimedKf[], tMin: number, tuni
   const a = kfs[i]!;
   const b = kfs[i + 1]!;
   const f = b.t > a.t ? (tMin - a.t) / (b.t - a.t) : 1;
-  const A = baseOf(a.kf, tuning);
-  const B = baseOf(b.kf, tuning);
-  const l = (x: number, y: number): number => x + (y - x) * f;
+  const A = a.kf;
+  const B = b.kf;
+  const d = tuning.weather;
+  const icA = A.inCloudVisibilityM ?? d.defaultInCloudVisibilityM;
+  const icB = B.inCloudVisibilityM ?? d.defaultInCloudVisibilityM;
+  const thA = A.thunder ?? 0;
+  const thB = B.thunder ?? 0;
+  const prA = A.pressureHpa ?? d.defaultPressureHpa;
+  const prB = B.pressureHpa ?? d.defaultPressureHpa;
+  const guA = A.gustiness ?? d.defaultGustiness;
+  const guB = B.gustiness ?? d.defaultGustiness;
   return {
-    tempC: l(A.tempC, B.tempC),
-    windMs: l(A.windMs, B.windMs),
+    tempC: A.tempC + (B.tempC - A.tempC) * f,
+    windMs: A.windMs + (B.windMs - A.windMs) * f,
     windDirDeg: lerpAngleDeg(A.windDirDeg, B.windDirDeg, f),
-    precipMmH: l(A.precipMmH, B.precipMmH),
-    cloudCover: l(A.cloudCover, B.cloudCover),
-    cloudBaseM: l(A.cloudBaseM, B.cloudBaseM),
-    visibilityM: l(A.visibilityM, B.visibilityM),
-    inCloudVisibilityM: l(A.inCloudVisibilityM, B.inCloudVisibilityM),
-    thunder: l(A.thunder, B.thunder),
-    pressureHpa: l(A.pressureHpa, B.pressureHpa),
-    gustiness: l(A.gustiness, B.gustiness),
+    precipMmH: A.precipMmH + (B.precipMmH - A.precipMmH) * f,
+    cloudCover: A.cloudCover + (B.cloudCover - A.cloudCover) * f,
+    cloudBaseM: A.cloudBaseM + (B.cloudBaseM - A.cloudBaseM) * f,
+    visibilityM: A.visibilityM + (B.visibilityM - A.visibilityM) * f,
+    inCloudVisibilityM: icA + (icB - icA) * f,
+    thunder: thA + (thB - thA) * f,
+    pressureHpa: prA + (prB - prA) * f,
+    gustiness: guA + (guB - guA) * f,
   };
 }
 

@@ -55,9 +55,13 @@
 - [x] `hazards/slip.ts`・`lightning.ts`、`climber/devices.ts`、`rescue/rescue.ts`、`scenario/generic.ts`、`climber/thoughts.ts`
 - [x] 受け入れ: s02 道迷い bias 59%・recommended 14% / 沢下り 100 回で鬼ヶ沢 100%・滝 72% / 山頂 30 分の被雷率 5〜25%・森林 2% 以下 / 圏外の通報失敗と電波探し後の成功 / 夜間ヘリ不可
 
+## P7 記録・モンテカルロ・調整 — 完了（2026-11-19）
+
+- [x] `record/recorder.ts`・`lessons.ts`、`core/snapshot.ts`（正規化 JSON・FNV-1a 64bit）、`mc.ts`、`tools/mc.ts`（--all で合否）
+- [x] 受け入れ: 決定論テスト（同シード同方針・保存復元あり/なし）/ 3 シナリオ × 方針の balanceTargets すべて OK / 1 人の 24 時間分の実行 約 47 ms（3 人は約 76 ms）
+
 ## これから
 
-- [ ] P7 記録・モンテカルロ・調整
 - [ ] P8 ジオラマ描画
 - [ ] P9 気象の描画
 - [ ] P10 UI

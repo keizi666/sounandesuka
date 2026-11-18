@@ -30,6 +30,9 @@ export const behavior = {
   drinkP: 0.3,
   drinkMin: 1,
   drinkL: 0.5,
+  /** 決まった間隔で休む習慣（50 分歩いて 10 分。P2 のコースタイム検証と同じ前提） */
+  habitRestEveryMin: 50,
+  habitRestMin: 10,
   /** 疲れて休む */
   restFatigue: 75,
   restP: 0.5,

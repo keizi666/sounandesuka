@@ -18,7 +18,7 @@ export function pickByBias(world: World, opts: readonly WeightedOption[]): Choic
 
 /**
  * 方針で選ぶ。opts は選べる（available を満たす）選択肢だけ。
- * recommended / risky はタグの付いた最初の選択肢、なければ bias。historical は記録の選択、なければ bias。
+ * recommended はタグの付いた最初の選択肢、risky はタグの付いたものから重みで、なければ bias。historical は記録の選択、なければ bias。
  */
 export function chooseByPolicy(
   world: World,
@@ -29,11 +29,14 @@ export function chooseByPolicy(
 ): ChoiceOptionDef {
   if (opts.length === 0) throw new Error(`分岐点 ${cpId} に選べる選択肢がありません`);
   switch (policy) {
-    case 'recommended':
-    case 'risky': {
-      const tag = policy === 'recommended' ? 'recommended' : 'risky';
-      const o = opts.find((x) => x.option.tags?.includes(tag));
+    case 'recommended': {
+      const o = opts.find((x) => x.option.tags?.includes('recommended'));
       return o ? o.option : pickByBias(world, opts);
+    }
+    case 'risky': {
+      // 危険タグの選択肢のうちから自律バイアスの重みで選ぶ（仕様は「risky を優先」まで。DECISIONS）
+      const risky = opts.filter((x) => x.option.tags?.includes('risky'));
+      return pickByBias(world, risky.length > 0 ? risky : opts);
     }
     case 'random':
       return opts[Math.floor(nextFloat(world.rng.choice) * opts.length)]!.option;

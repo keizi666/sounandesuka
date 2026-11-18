@@ -26,7 +26,7 @@ export const nav = {
   /** 道の途中での踏み外し（10 m ごと）: drift / 10 × cue × (1 − k × navEff) × (1 + fatigue / 100) */
   driftNavK: 0.8,
   /** 踏み外しの全体倍率（バランス調整用） */
-  driftScale: 0.65,
+  driftScale: 0.45,
   /** 気づき（毎分） */
   awareBase: 0.01,
   awareNavK: 0.04,
@@ -86,8 +86,11 @@ export const nav = {
 
 /** docs/08 §1 転倒・滑落 */
 export const slip = {
-  /** 転倒率の全体倍率（docs/08 §1.2 の表のままでは 1 人 1 日に約 0.6 回けがをするため、P7 で合わせる） */
-  rateScale: 0.2,
+  /**
+   * 転倒率の地形クラスごとの倍率。docs/08 §1.2 の表のままでは登山道の上でも 1 人 1 日に約 0.6 回けがをするため、
+   * 平常の登山道は大きく下げ、道外・崖はほぼそのまま残す（P7 の調整、DECISIONS）
+   */
+  classScale: { T1: 0.05, T2: 0.05, EXPOSED: 0.08, OFF: 0.3, OFF_STEEP: 0.5, CLIFF: 1.0 } as Record<string, number>,
   base100: { T1: 0.0015, T2: 0.004, EXPOSED: 0.01, OFF: 0.012, OFF_STEEP: 0.04, CLIFF: 0.35 } as Record<string, number>,
   offSteepDeg: 30,
   offCliffDeg: 45,

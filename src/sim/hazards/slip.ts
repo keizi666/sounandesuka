@@ -37,7 +37,7 @@ export function slipP10(world: World, ctx: StaticContext, c: ClimberState, cls: 
   const gr = groundAt(world.ground, c.elevM);
   const slope = ctx.map.slopeDeg[nearestIndex(ctx.map, c.x, c.z)]!;
   const crampons = c.def.gear.crampons;
-  let p = ((st.base100[cls] ?? 0) * st.rateScale) / 10;
+  let p = ((st.base100[cls] ?? 0) * (st.classScale[cls] ?? 1)) / 10;
   if (gr.wet > 0.5) p *= st.wetF;
   if (gr.icy) p *= crampons ? st.icyCramponsF : st.icyF;
   else if (gr.snowCm > 5 && slope > st.snowSlopeDeg) p *= crampons ? st.snowCramponsF : st.snowF;
@@ -94,7 +94,8 @@ function fallDownslope(world: World, ctx: StaticContext, c: ClimberState, distM:
   c.z = Math.max(-ctx.map.half, Math.min(ctx.map.half, c.z));
   c.elevM = sampleElev(ctx.map, c.x, c.z);
   c.pos = { mode: 'free', x: c.x, z: c.z };
-  c.nav.path = [];
+  // 仲間はリーダーと nav を共有しているので、新しいオブジェクトにしてから書き換える
+  c.nav = { ...c.nav, path: [] };
   if (c.state === 'WALKING') {
     c.perception.knowsPosition = true;
     c.perception.knowsPositionAt = { x: c.x, z: c.z };

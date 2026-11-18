@@ -151,9 +151,9 @@ describe('電波と救助（docs/08 §4〜5）', () => {
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
     const c = w.climbers[0]!;
-    // 鬼ヶ沢の滝の下（圏外）
-    c.x = -1300;
-    c.z = -540;
+    // 鬼ヶ沢の上流（圏外。600 m 以内の尾根に電波がある）
+    c.x = -900;
+    c.z = -640;
     c.pos = { mode: 'free', x: c.x, z: c.z };
     c.state = 'LOST_AWARE';
     expect(map.radio[nearestIndex(map, c.x, c.z)]!).toBeLessThan(0.15);
@@ -169,7 +169,7 @@ describe('電波と救助（docs/08 §4〜5）', () => {
       ctx.events.length = 0;
     }
     expect(called).toBe(true);
-    expect(map.radio[nearestIndex(map, c.x, c.z)]!).toBeGreaterThanOrEqual(0.15);
+    expect(map.radio[nearestIndex(map, c.x, c.z)]!).toBeGreaterThanOrEqual(0.3);
     expect(['dispatched', 'contacted']).toContain(w.rescue.status);
   });
 

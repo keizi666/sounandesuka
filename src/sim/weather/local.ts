@@ -129,7 +129,21 @@ export function sampleLocal(
   };
 }
 
-/** 全登山者の局地気象を更新する（docs/03 §4 の 8a） */
+/** 全登山者の局地気象を更新する（docs/03 §4 の 8a）。同じ地点にいる人は同じ値を使う */
 export function updateClimberLocal(world: World, ctx: StaticContext): void {
-  for (const c of world.climbers) c.local = sampleLocal(world, ctx, c.x, c.z, c.elevM);
+  let px = NaN;
+  let pz = NaN;
+  let pe = NaN;
+  let prev: LocalWeather | null = null;
+  for (const c of world.climbers) {
+    if (prev && c.x === px && c.z === pz && c.elevM === pe) {
+      c.local = { ...prev };
+      continue;
+    }
+    c.local = sampleLocal(world, ctx, c.x, c.z, c.elevM);
+    prev = c.local;
+    px = c.x;
+    pz = c.z;
+    pe = c.elevM;
+  }
 }

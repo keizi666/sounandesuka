@@ -69,7 +69,9 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   // 雨具を着る
   if (!indoors && l.precipMmH >= bt.rainwearPrecipMmH && !b.rainwearOn && c.def.gear.rainwear !== 'none') {
     const urgent = b.wetness > bt.rainwearUrgentWetness || atNode;
-    const p = urgent ? bt.rainwearUrgentP * J : bt.rainwearP * (1 - c.def.habits.delaysRainwear) * J;
+    // 「着いてから着る」と決めた（フラグ rainwearLater）間は、急ぐ理由がなければ着ない
+    const later = world.flags['rainwearLater'] !== undefined && !urgent;
+    const p = later ? 0 : urgent ? bt.rainwearUrgentP * J : bt.rainwearP * (1 - c.def.habits.delaysRainwear) * J;
     if (chance(rng, p)) return startTask(world, c, 'rainwear', taskMinutes(c, bt.rainwearMin, ctx));
   }
   // 防寒着を足す
@@ -95,6 +97,13 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
     c.memo.lastDrinkMin = world.tMin;
     return startTask(world, c, `drink:${Math.min(bt.drinkL, c.inv.waterL, b.waterDeficitL)}`, bt.drinkMin);
   }
+  // 決まった間隔で休む（グループはリーダーの習慣に合わせる）
+  if (c.state === 'WALKING' && c.memo.walkSinceRestMin >= bt.habitRestEveryMin) {
+    c.memo.walkSinceRestMin = 0;
+    c.plan.restUntilMin = world.tMin + bt.habitRestMin;
+    transition(world, ctx, c, 'RESTING', 'habit');
+    return;
+  }
   // 疲れて休む
   if (c.state === 'WALKING' && b.fatigue > bt.restFatigue && chance(rng, bt.restP)) {
     c.plan.restUntilMin = world.tMin + bt.restMin;
@@ -103,7 +112,10 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   }
   // ヘッドランプ
   const lamp = c.inv.headlamp;
-  if (world.sun.isDark && lamp.has && !lamp.on && lamp.batteryH > 0 && chance(rng, bt.lampP)) {
+  const moving = c.state === 'WALKING' || c.pos.mode === 'free' || c.state === 'OFFROUTE_UNAWARE';
+  if (lamp.on && !moving && !indoors) lamp.on = false; // 止まっている間は消して電池を節約
+  if (lamp.on && indoors) lamp.on = false;
+  if (world.sun.isDark && moving && lamp.has && !lamp.on && lamp.batteryH > 0 && chance(rng, bt.lampP)) {
     if (lamp.inPack) return startTask(world, c, 'lamp', taskMinutes(c, bt.lampInPackMin, ctx));
     lamp.on = true;
     ctx.events.push({ tMin: world.tMin, type: 'LAMP', climberId: c.id, data: { on: true } });

@@ -133,14 +133,16 @@ const OUTDOOR_EXCLUDE = new Set(['SHELTERED', 'BIVOUAC', 'WAITING_RESCUE', 'FINI
 /** 立ち上がり（偽→真）を検出する */
 function rising(world: World, latch: string, v: boolean): boolean {
   const prev = world.latches[latch] ?? false;
-  world.latches[latch] = v;
+  if (prev !== v) world.latches[latch] = v;
   return v && !prev;
 }
 
 /** 汎用分岐点を今発火させるか（一度きり・立ち上がりの扱いもここで行う） */
+const LATCH: Record<GenericChoiceKey, string> = Object.fromEntries(KEYS.map((k) => [k, `generic:${k}`])) as Record<GenericChoiceKey, string>;
+
 export function genericTrigger(world: World, ctx: StaticContext, key: GenericChoiceKey, leader: ClimberState): boolean {
-  const L = `generic:${key}`;
-  const fired = world.firedChoices.includes(L);
+  const L = LATCH[key];
+  const fired = key === 'darkness' || key === 'lightning' || key === 'hypothermia' ? world.firedChoices.includes(L) : false;
   switch (key) {
     case 'lostAware':
       return rising(world, L, leader.state === 'LOST_AWARE');
@@ -161,7 +163,8 @@ export function genericTrigger(world: World, ctx: StaticContext, key: GenericCho
     case 'lightning':
       return !fired && leader.local.thunder > 0.5 && lightningExposure(world, ctx, leader) >= ctx.tuning.lightning.exposureRidge;
     case 'waterfall':
-      return rising(world, L, leader.memo.atWaterfall && leader.state === 'STAYING');
+      // 滝の手前で止まった瞬間だけ（高巻きに出た後に何度も出さない）
+      return rising(world, L, leader.memo.atWaterfall);
     case 'rescueFailed':
       return rising(world, L, world.recentEvents.some((e) => e.type === 'RESCUE_CALL_FAILED'));
     case 'straggler':

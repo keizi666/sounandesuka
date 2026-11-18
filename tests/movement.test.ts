@@ -3,14 +3,18 @@ import { capSpeedByMet, CLEAR_DAY, paceOf, toblerKmh, trailSpeedMs, walkMet } fr
 import { transition } from '../src/sim/climber/state';
 import { DT_SEC, stepWorld } from '../src/sim/core/step';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
+import { TUNING } from '../src/sim/tuning';
 import type { MapRuntime, ScenarioDef, World } from '../src/sim/types';
+
+// コースタイムは休憩を含まない歩行時間なので、決まった間隔で休む習慣を切って測る
+const NO_HABIT = { ...TUNING, behavior: { ...TUNING.behavior, habitRestEveryMin: Infinity } };
 import { hakoniwa } from './helpers/map';
 import { loadScenario, standardClimber, testScenario } from './helpers/scenario';
 
 /** 1 人が FINISHED になるまで回し、かかった分を返す。restPattern があれば 50 分歩いて 10 分休み、休憩ごとに 250 kcal 食べて 0.5 L 飲む */
 function walkMinutes(map: MapRuntime, sc: ScenarioDef, restPattern = false): { minutes: number; world: World } {
   const w = createWorld(map, sc);
-  const ctx = createStaticContext(map, sc);
+  const ctx = createStaticContext(map, sc, { tuning: NO_HABIT });
   const t0 = w.tMin;
   let walked = 0;
   for (let i = 0; i < 20_000 && w.climbers[0]!.state !== 'FINISHED'; i += 1) {

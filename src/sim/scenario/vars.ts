@@ -149,9 +149,15 @@ function aggregate(cs: ClimberState[], rest: string[], scope: VarScope): VarValu
   return undefined;
 }
 
+const splitCache = new Map<string, string[]>();
+
 /** パスを解決する。未知のパスは undefined（validate でエラーにする） */
 export function resolveVar(path: string, scope: VarScope): VarValue | undefined {
-  const parts = path.split('.');
+  let parts = splitCache.get(path);
+  if (!parts) {
+    parts = path.split('.');
+    splitCache.set(path, parts);
+  }
   const [head, ...rest] = parts;
   const w = scope.world;
   switch (head) {

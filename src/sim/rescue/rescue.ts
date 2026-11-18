@@ -13,14 +13,14 @@ import { sampleLocal } from '../weather/local';
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
 
-/** 救助を待つ人（下山・救助・死亡済みでなく、営業小屋の中でもない） */
-function missing(world: World, ctx: StaticContext): ClimberState[] {
-  return world.climbers.filter((c) => {
-    if (TERMINAL.has(c.state) && c.state !== 'DEAD') return false;
-    if (c.state === 'DEAD') return false;
-    const sh = c.body.shelterNodeId ? ctx.map.nodes[c.body.shelterNodeId]?.shelter : undefined;
-    return !(sh && sh.kind === 'staffed');
-  });
+/** まだ下山していない人（下山・救助・死亡済みでない）。小屋の中の人も含む */
+function missing(world: World, _ctx: StaticContext): ClimberState[] {
+  return world.climbers.filter((c) => !TERMINAL.has(c.state));
+}
+
+/** 小屋の中で元気にしている人（見つかっても収容せず、無事を確認するだけ） */
+function safeInHut(c: ClimberState): boolean {
+  return c.body.shelterNodeId !== null && c.body.injury === 'none' && c.body.coreC >= 35;
 }
 
 /** ヘリが飛べるか（docs/08 §5.2） */
@@ -35,14 +35,23 @@ export function heliFlyable(world: World, ctx: StaticContext, x: number, z: numb
   return l.visibilityM > rt.heliMinVisM && elev < world.weather.cloudBaseM - rt.heliCloudMarginM && l.windMs < rt.heliMaxWindMs && l.thunder < rt.heliMaxThunder;
 }
 
+const routePtsCache = new WeakMap<StaticContext['scenario'], Float64Array>();
+
 /** 計画ルート（の登山道の点）までの最短距離 */
 function distToPlannedRoute(ctx: StaticContext, x: number, z: number): number {
+  let pts = routePtsCache.get(ctx.scenario);
+  if (!pts) {
+    const arr: number[] = [];
+    for (const leg of resolveRoute(ctx.map, ctx.scenario.plan.route)) for (const s of ctx.map.trails[leg.edgeId]!.samples) arr.push(s.x, s.z);
+    pts = Float64Array.from(arr);
+    routePtsCache.set(ctx.scenario, pts);
+  }
   let best = Infinity;
-  for (const leg of resolveRoute(ctx.map, ctx.scenario.plan.route)) {
-    for (const s of ctx.map.trails[leg.edgeId]!.samples) {
-      const d = (s.x - x) * (s.x - x) + (s.z - z) * (s.z - z);
-      if (d < best) best = d;
-    }
+  for (let i = 0; i < pts.length; i += 2) {
+    const dx = pts[i]! - x;
+    const dz = pts[i + 1]! - z;
+    const d = dx * dx + dz * dz;
+    if (d < best) best = d;
   }
   return Math.sqrt(best);
 }
@@ -78,7 +87,7 @@ function findFactor(ctx: StaticContext, c: ClimberState, base: 'heli' | 'ground'
 function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'heli' | 'ground'): void {
   const rt = ctx.tuning.rescue;
   for (const c of world.climbers) {
-    if (TERMINAL.has(c.state)) continue;
+    if (TERMINAL.has(c.state) || safeInHut(c)) continue;
     const dx = c.x - found.x;
     const dz = c.z - found.z;
     if (dx * dx + dz * dz > rt.contactRadiusM * rt.contactRadiusM) continue;
@@ -86,6 +95,7 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
     ctx.events.push({ tMin: world.tMin, type: 'RESCUED', climberId: c.id, important: true, data: { by } });
   }
   world.rescue.status = 'contacted';
+  if (safeInHut(found)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, data: { foundSafe: true } });
   world.rescue.heli.state = 'done';
   world.rescue.ground.state = 'done';
 }

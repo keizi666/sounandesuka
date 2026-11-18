@@ -74,11 +74,12 @@ function follow(world: World, ctx: StaticContext, leader: ClimberState, m: Climb
   m.elevM = leader.elevM;
   m.headingRad = leader.headingRad;
   m.speedMs = leader.speedMs;
-  m.plan.route = [...leader.plan.route];
+  // 配列はリーダーと共有する（仲間は自分で書き換えない。JSON に保存すると別々の配列になるが値は同じ）
+  m.plan.route = leader.plan.route;
   m.plan.routeIndex = leader.plan.routeIndex;
-  m.plan.goalNodes = [...leader.plan.goalNodes];
-  m.plan.goTo = leader.plan.goTo ? { ...leader.plan.goTo } : null;
-  m.nav = { ...leader.nav, track: [...leader.nav.track], path: leader.nav.path.map((p) => [p[0], p[1]] as [number, number]) };
+  m.plan.goalNodes = leader.plan.goalNodes;
+  m.plan.goTo = leader.plan.goTo;
+  if (m.nav !== leader.nav) m.nav = leader.nav;
   m.perception.awareLost = leader.perception.awareLost;
   m.perception.knowsPosition = leader.perception.knowsPosition;
   m.memo.atWaterfall = leader.memo.atWaterfall;

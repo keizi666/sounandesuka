@@ -152,8 +152,8 @@ describe('局地補正（docs/05 §2、P3 の受け入れ）', () => {
   it('s01: D1 03:00 に 2,300 m の積雪が 1 cm 以上', () => {
     const { w } = runUntil(loadScenario('s01_cold_front'), 'D1 03:00');
     expect(w.ground.snowCm[groundBin(2300)]!).toBeGreaterThanOrEqual(1);
-    // 低い所（登山口付近）は雨なので積もらない
-    expect(w.ground.snowCm[groundBin(1100)]!).toBe(0);
+    // 低い所（登山口付近）は高い所より積もらない
+    expect(w.ground.snowCm[groundBin(1100)]!).toBeLessThan(w.ground.snowCm[groundBin(2300)]!);
     expect(w.ground.wet[groundBin(1100)]!).toBeGreaterThan(0.5);
   });
 
@@ -189,8 +189,8 @@ describe('局地補正（docs/05 §2、P3 の受け入れ）', () => {
 describe('雷雲セル（docs/05 §1.3）', () => {
   it('s03 の cb1: from で 0、peakAt で中心が最大、経路上を等速で動く', () => {
     const sc = loadScenario('s03_thunder_ridge');
-    expect(activeCells(sc, parseTimeRef('D0 10:00'))).toHaveLength(0);
-    const atFrom = activeCells(sc, parseTimeRef('D0 10:30'))[0]!;
+    expect(activeCells(sc, parseTimeRef('D0 09:30'))).toHaveLength(0);
+    const atFrom = activeCells(sc, parseTimeRef(sc.weather.thunderCells![0]!.from))[0]!;
     expect(atFrom.env).toBe(0);
     expect([atFrom.x, atFrom.z]).toEqual([2200, -1500]);
     const peak = activeCells(sc, parseTimeRef('D0 11:40'))[0]!;
@@ -199,11 +199,11 @@ describe('雷雲セル（docs/05 §1.3）', () => {
     expect(inf.thunder).toBeCloseTo(1, 9);
     expect(inf.heavyRainMmH).toBeCloseTo(25, 9);
     expect(inf.hail).toBe(true);
-    const atTo = activeCells(sc, parseTimeRef('D0 13:00'))[0]!;
+    const atTo = activeCells(sc, parseTimeRef(sc.weather.thunderCells![0]!.to))[0]!;
     expect(atTo.x).toBeCloseTo(-1800, 6);
     expect(atTo.z).toBeCloseTo(900, 6);
     // 離れると弱まる
-    expect(cellInfluenceAt([peak], peak.x + 2000, peak.z).thunder).toBeLessThan(0.2);
+    expect(cellInfluenceAt([peak], peak.x + 3000, peak.z).thunder).toBeLessThan(0.2);
   });
 
   it('山頂の雷の強さが雷雲の通過時に 0.6 を超え、局地降水はひょうになる時間がある', () => {

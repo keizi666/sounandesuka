@@ -98,6 +98,10 @@ function finish(world: World, ctx: StaticContext, evStart: number): void {
   }));
 }
 
+function dtMinOf(): number {
+  return DT_SEC / 60;
+}
+
 function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveOutcome | undefined): void {
   if (!c.body.alive) {
     c.speedMs = 0;
@@ -111,6 +115,7 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
     c.metAct = t.physiology.stateMet[c.state] ?? t.movement.restMet;
   } else {
     c.metAct = move!.met;
+    if (c.state === 'WALKING') c.memo.walkSinceRestMin += dtMinOf();
   }
   const dtMin = DT_SEC / 60;
   // 8e. 危険（10 m ごとの転倒、落雷、負傷の経過）

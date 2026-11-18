@@ -10,11 +10,18 @@ export const MIN_PER_DAY = 1440;
 export const TIME_REF_RE = /^D(\d) ([01]\d|2[0-3]):([0-5]\d)$/;
 const HHMM_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
+// 解析結果のキャッシュ（文字列 → 値。純粋な関数の結果なので決定論は保たれる）
+const timeRefCache = new Map<string, number | null>();
+const hhmmCache = new Map<string, number>();
+
 /** "D0 05:30" → 330。書式が違えば null */
 export function tryParseTimeRef(ref: string): number | null {
+  const hit = timeRefCache.get(ref);
+  if (hit !== undefined) return hit;
   const m = TIME_REF_RE.exec(ref);
-  if (!m) return null;
-  return Number(m[1]) * MIN_PER_DAY + Number(m[2]) * 60 + Number(m[3]);
+  const v = m ? Number(m[1]) * MIN_PER_DAY + Number(m[2]) * 60 + Number(m[3]) : null;
+  if (timeRefCache.size < 10000) timeRefCache.set(ref, v);
+  return v;
 }
 
 /** "D0 05:30" → 330。書式が違えば例外 */
@@ -38,9 +45,13 @@ export function scenarioStartMin(scenario: ScenarioDef): number {
 
 /** "05:52" → 352。書式が違えば例外 */
 export function parseHHMM(hhmm: string): number {
+  const hit = hhmmCache.get(hhmm);
+  if (hit !== undefined) return hit;
   const m = HHMM_RE.exec(hhmm);
   if (!m) throw new Error(`時刻の書式が不正です: "${hhmm}"（例: "05:52"）`);
-  return Number(m[1]) * 60 + Number(m[2]);
+  const v = Number(m[1]) * 60 + Number(m[2]);
+  if (hhmmCache.size < 1000) hhmmCache.set(hhmm, v);
+  return v;
 }
 
 /** その日の 0:00 からの分（0 ≤ 値 < 1440） */

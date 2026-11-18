@@ -300,9 +300,9 @@
     "thunderCells": [
       {
         "id": "cb1",
-        "from": "D0 10:30",
+        "from": "D0 10:00",
         "peakAt": "D0 11:40",
-        "to": "D0 13:00",
+        "to": "D0 13:30",
         "path": [
           [
             2200,
@@ -313,7 +313,7 @@
             900
           ]
         ],
-        "radiusM": 1400,
+        "radiusM": 1800,
         "peak": 1.0,
         "heavyRainMmH": 25,
         "hail": true

@@ -36,6 +36,12 @@ export function climberOutcome(c: ClimberState, ctx: StaticContext): EndingKind 
   }
   // 制限時刻に山中にいる
   if (c.state === 'SHELTERED' && b.shelterNodeId) return 'SAFE_SHELTER';
+  // 小屋泊・ビバークの後、元気に下山している途中なら「翌朝以降に安全に下山」と同じ扱い
+  const healthy = b.coreC >= 35 && b.injury === 'none' && !c.perception.awareLost && c.pos.mode !== 'free';
+  if (healthy && (c.state === 'WALKING' || c.state === 'RESTING')) {
+    if (c.memo.bivouacked) return 'SELF_RESCUE';
+    if (c.memo.sheltered) return 'SAFE_SHELTER';
+  }
   return 'MISSING';
 }
 

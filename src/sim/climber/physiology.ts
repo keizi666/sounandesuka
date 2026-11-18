@@ -45,9 +45,16 @@ export interface BodyStepResult {
 }
 
 /** 体表面積 m² */
+const areaCache = new Map<number, number>();
 export function bodyArea(weightKg: number, tuning: Tuning = TUNING): number {
   const p = tuning.physiology;
-  return p.areaBase * dpow(weightKg / p.areaRefKg, p.areaExp);
+  if (tuning !== TUNING) return p.areaBase * dpow(weightKg / p.areaRefKg, p.areaExp);
+  let a = areaCache.get(weightKg);
+  if (a === undefined) {
+    a = p.areaBase * dpow(weightKg / p.areaRefKg, p.areaExp);
+    areaCache.set(weightKg, a);
+  }
+  return a;
 }
 
 /** 震えの MET（docs/06 §2.3） */

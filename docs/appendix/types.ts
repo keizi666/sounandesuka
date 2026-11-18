@@ -590,6 +590,8 @@ export interface ClimberMemo {
   trailVanishedAtMin: number | null;
   /** 次の思考の吹き出しを出す時刻 */
   nextThoughtMin: number | null;
+  /** 前の休憩から歩いた時間（分）。決まった間隔で休む習慣に使う */
+  walkSinceRestMin: number;
 }
 
 export interface GlobalWeather {
