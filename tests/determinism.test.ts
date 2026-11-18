@@ -99,7 +99,7 @@ describe('記録と教訓（docs/12 §1、docs/09 §10）', () => {
 });
 
 describe('速さ（docs/13 P7）', () => {
-  it('1 人の 24 時間分の通し実行が十分速い（束ねた Node で約 47 ms。テスト環境では 150 ms 以下を確認）', () => {
+  it('1 人の 24 時間分の通し実行が十分速い（束ねた Node で約 47 ms。テスト環境では 150 ms 以下を確認）', { retry: 2 }, () => {
     const { map } = hakoniwa();
     const sc = loadScenario('s01_cold_front');
     runHeadless(map, sc, { policy: 'risky', seed: 1 }); // 温める
@@ -108,5 +108,5 @@ describe('速さ（docs/13 P7）', () => {
     for (let i = 0; i < 5; i += 1) ticks += runHeadless(map, sc, { policy: 'risky', seed: 10 + i }).ticks;
     const per24h = ((performance.now() - t0) / ticks) * 8640;
     expect(per24h).toBeLessThan(150);
-  }, { retry: 2 }); // 並列実行で CPU が混むと揺れるため、再試行を許す
+  }); // 並列実行で CPU が混むと揺れるため、再試行を許す（it の第 2 引数）
 });

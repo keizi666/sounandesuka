@@ -18,7 +18,8 @@
     "sim:check": "tsx tools/simcheck.ts",
     "validate": "tsx tools/validate.ts",
     "check:sim-purity": "tsx tools/purity.ts",
-    "geo:smoke": "tsx tools/geo-smoke.ts"
+    "geo:smoke": "tsx tools/geo-smoke.ts",
+    "assets:hq": "tsx tools/make-hq-assets.ts"
   },
   "dependencies": {
     "three": "^0.187.0"

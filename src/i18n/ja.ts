@@ -218,8 +218,9 @@ export const JA = {
     wholeParty: 'パーティ',
     autoChose: '◆ 観察: 「{label}」になった',
     timeUp: '◆ 時間切れ: 「{label}」になった',
-    keyHelp: 'Space 一時停止 / 1〜4 速度 / G 情報モード / C カメラ',
+    keyHelp: '左ドラッグ 移動 / 右ドラッグ 回転 / ホイール 拡大 / Space 一時停止 / 1〜4 速度 / G 情報モード / C カメラ',
     resumeAsk: '前回の続きがあります',
+    slowHint: '描画が重いようです。設定で画質を下げると滑らかになります。',
   },
 
   settingsUi: {

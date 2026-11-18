@@ -29,6 +29,8 @@ export interface HistoryEntry {
 const SAVE_PREFIX = 'hks.v1.save.';
 const HISTORY_KEY = 'hks.v1.history';
 const HISTORY_MAX = 50;
+/** 保存時刻（解凍せずに新しい順に並べるため） */
+const SAVED_AT_PREFIX = 'hks.v1.savedAt.';
 
 async function gzip(text: string): Promise<string> {
   const cs = new CompressionStream('gzip');
@@ -76,7 +78,9 @@ function setWithEviction(key: string, value: string): boolean {
 
 export async function saveResume(d: ResumeData): Promise<boolean> {
   try {
-    return setWithEviction(SAVE_PREFIX + d.scenarioId, await gzip(JSON.stringify(d)));
+    const ok = setWithEviction(SAVE_PREFIX + d.scenarioId, await gzip(JSON.stringify(d)));
+    if (ok) localStorage.setItem(SAVED_AT_PREFIX + d.scenarioId, d.savedAt);
+    return ok;
   } catch {
     return false;
   }
@@ -94,16 +98,18 @@ export async function loadResume(scenarioId: string): Promise<ResumeData | null>
 
 export function clearResume(scenarioId: string): void {
   localStorage.removeItem(SAVE_PREFIX + scenarioId);
+  localStorage.removeItem(SAVED_AT_PREFIX + scenarioId);
 }
 
-/** 自動保存のあるシナリオ */
+/** 自動保存のあるシナリオ（新しい順） */
 export function resumableScenarios(): string[] {
   const out: string[] = [];
   for (let i = 0; i < localStorage.length; i += 1) {
     const k = localStorage.key(i);
     if (k?.startsWith(SAVE_PREFIX)) out.push(k.slice(SAVE_PREFIX.length));
   }
-  return out;
+  const at = (id: string): string => localStorage.getItem(SAVED_AT_PREFIX + id) ?? '';
+  return out.sort((a, b) => at(b).localeCompare(at(a)));
 }
 
 export function addHistory(e: HistoryEntry): void {

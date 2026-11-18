@@ -5,7 +5,8 @@
  */
 import { JA } from '../i18n/ja';
 import { loadEntry, loadIndex } from './data';
-import { loadSettings, type Settings } from './settings';
+import { loadSettings, saveSettings, type Settings } from './settings';
+import { detectQuality } from './quality';
 import { showBriefing } from '../ui/briefing';
 import { showDebrief } from '../ui/debrief';
 import { showEnding } from '../ui/ending';
@@ -40,9 +41,15 @@ export function startApp(root: HTMLElement): void {
     root.replaceChildren(el('div', { class: 'fatal' }, [el('h1', {}, JA.app.title), el('p', {}, JA.ui.noWebgl)]));
     return;
   }
+  const settings = loadSettings();
+  if (settings.detectedQuality === null) {
+    settings.detectedQuality = detectQuality();
+    saveSettings(settings);
+  }
+  document.documentElement.dataset['textSize'] = settings.textSize;
   const app: AppContext = {
     root,
-    settings: loadSettings(),
+    settings,
     go(screen) {
       cleanup?.();
       cleanup = null;

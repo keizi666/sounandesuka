@@ -20,6 +20,9 @@ export interface EnvUniforms {
   uOverlay: { value: THREE.Texture | null };
   uOverlayOn: { value: number };
   uMapHalf: { value: number };
+  /** 高品質の追加アセット（docs/10 §10）。届くまでは 0 */
+  uDetail: { value: THREE.Texture | null };
+  uDetailOn: { value: number };
 }
 
 export function createEnvUniforms(): EnvUniforms {
@@ -37,6 +40,8 @@ export function createEnvUniforms(): EnvUniforms {
     uOverlay: { value: null },
     uOverlayOn: { value: 0 },
     uMapHalf: { value: 1 },
+    uDetail: { value: null },
+    uDetailOn: { value: 0 },
   };
 }
 
@@ -54,6 +59,8 @@ uniform vec3 uFogColor;
 uniform sampler2D uOverlay;
 uniform float uOverlayOn;
 uniform float uMapHalf;
+uniform sampler2D uDetail;
+uniform float uDetailOn;
 varying float vElev;
 varying vec3 vWorldPos;
 varying float vSlopeUp;
@@ -92,6 +99,11 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
       ${
         terrain
           ? `float hkN = hk_noise(vWorldPos.xz * 900.0) * 0.6 + hk_noise(vWorldPos.xz * 3500.0) * 0.4;
+      if (uDetailOn > 0.5) {
+        vec3 hkD1 = texture2D(uDetail, vWorldPos.xz * 1.6).rgb;
+        vec3 hkD2 = texture2D(uDetail, vWorldPos.xz * 7.0).rgb;
+        hkN = hkD1.r * 0.55 + hkD2.g * 0.3 + hkD1.b * 0.15 * (1.0 - vSlopeUp);
+      }
       diffuseColor.rgb *= 0.86 + 0.28 * hkN;
       if (uOverlayOn > 0.5) {
         vec4 hkOv = texture2D(uOverlay, vWorldPos.xz / (uMapHalf * 2.0) + 0.5);

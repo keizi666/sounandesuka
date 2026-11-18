@@ -203,10 +203,22 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
 
   // ---- ループ ----
   let lastFrame = performance.now();
+  // 描画が重い（平均 30fps 未満が 5 秒続く）ときは画質を下げる提案を 1 回だけ出す
+  let slowSince = 0;
+  let suggested = effectiveQuality(st) === 'low';
   loop = new Loop(world, ctx, {
     render: (w, prev, alpha, t) => {
       view.render(w, prev, alpha, t);
       const now = performance.now();
+      if (!suggested && !document.hidden) {
+        if (now - lastFrame > 1000 / 30 && now - lastFrame < 500) {
+          slowSince ||= now;
+          if (now - slowSince > 5000) {
+            suggested = true;
+            toast(JA.ui.slowHint, 6000);
+          }
+        } else slowSince = 0;
+      }
       const dt = loop.paused || w.pendingChoice ? 0 : (now - lastFrame) / 1000;
       lastFrame = now;
       const r = canvas.getBoundingClientRect();

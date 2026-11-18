@@ -14,6 +14,7 @@ import { buildStructures, buildTrails } from './trails';
 import { buildVegetation, placeTrees, type Vegetation } from './vegetation';
 import { createWeatherFx, type WeatherFx } from './weatherFx';
 import { Overlay } from './overlay';
+import { loadHqAssets, type HqState } from './assets';
 
 export type Quality = 'low' | 'mid' | 'high';
 export type CameraMode = 'overview' | 'follow' | 'eye';
@@ -64,6 +65,8 @@ export class SceneView {
   private trackLine: THREE.Line;
   private trackCount = 0;
   mode: CameraMode = 'overview';
+  /** 高品質の追加アセットの状態 */
+  hq: HqState = 'none';
   selected: string | null = null;
   godView = true;
   private followTarget = new THREE.Vector3();
@@ -93,6 +96,8 @@ export class SceneView {
     this.controls = new OrbitControls(this.camera, canvas);
     this.controls.target.set(0, toSceneY(this.s, map.nodes[scenario.plan.route[0]!]?.elevM ?? this.s.baseElevM) * 0.8, 0);
     this.controls.enableDamping = true;
+    // マウスの左右を入れ替える（左ドラッグで平行移動、右ドラッグで回転。ユーザーの指定）
+    this.controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
     this.controls.minDistance = size * 0.01;
     this.controls.maxDistance = size * 3;
     this.controls.minPolarAngle = 15 * DEG;
@@ -131,6 +136,11 @@ export class SceneView {
     this.sun.shadow.bias = -0.0004;
     this.scene.add(this.sun, this.sun.target, this.hemi);
     this.fx = createWeatherFx(this.scene, map, this.s, opts.quality);
+    // 高品質だけ、開始後に追加アセットを裏で読み込む（届くまでは基本の見た目）
+    if (opts.quality === 'high') {
+      this.hq = 'loading';
+      window.setTimeout(() => void loadHqAssets(this.env, this.renderer).then((st) => (this.hq = st)), 1000);
+    }
   }
 
   /** レイヤーの表示切替（docs/11 §2.3） */
