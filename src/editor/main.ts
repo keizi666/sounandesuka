@@ -1,13 +1,36 @@
-// シナリオエディターのエントリポイント（editor.html）。中身は P14 以降で作る。
+// シナリオエディターのエントリポイント（editor.html、docs/15）
 import '../style.css';
+import './editor.css';
 import { JA } from '../i18n/ja';
+import { EditorApp } from './EditorApp';
+import { showProjects, type ProjectsHost } from './projects';
+import { getProject } from './store/idb';
 
-const app = document.querySelector<HTMLDivElement>('#app');
-if (app) {
+const root = document.querySelector<HTMLDivElement>('#app');
+let current: EditorApp | null = null;
+
+if (root) {
   document.title = JA.editor.title;
-  const h1 = document.createElement('h1');
-  h1.textContent = JA.editor.title;
-  const p = document.createElement('p');
-  p.textContent = JA.editor.preparing;
-  app.replaceChildren(h1, p);
+  root.className = 'editor-root';
+  const host: ProjectsHost = {
+    root,
+    open(id) {
+      void getProject(id).then((p) => {
+        if (!p) return void showProjects(host);
+        history.replaceState(null, '', `?project=${encodeURIComponent(id)}`);
+        current?.dispose();
+        current = new EditorApp(root, p, () => {
+          current?.dispose();
+          current = null;
+          history.replaceState(null, '', location.pathname);
+          void showProjects(host);
+        });
+        // 開発時のデバッグ用
+        if (import.meta.env.DEV) (window as unknown as Record<string, unknown>)['__ed'] = current;
+      });
+    },
+  };
+  const id = new URLSearchParams(location.search).get('project');
+  if (id) host.open(id);
+  else void showProjects(host);
 }

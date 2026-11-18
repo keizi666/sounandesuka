@@ -14,6 +14,8 @@ import { decodeHeights } from './codec';
 export interface BuildMapOptions {
   /** 電波圏を計算するか（既定 true） */
   radio?: boolean;
+  /** 高さを計算済みならそれを使う（エディターで地形以外を編集したとき、手続き生成をやり直さない） */
+  heights?: Float32Array;
   tuning?: Tuning;
 }
 
@@ -35,7 +37,7 @@ export function buildHeights(def: MapDef, tuning: Tuning = TUNING): HeightGrid {
 export function buildMapRuntime(def: MapDef, opts: BuildMapOptions = {}): BuildMapResult {
   const tuning = opts.tuning ?? TUNING;
   const warnings: string[] = [];
-  const grid = buildHeights(def, tuning);
+  const grid = opts.heights && opts.heights.length === def.resolution * def.resolution ? { ...gridGeom(def.size, def.resolution), heights: opts.heights } : buildHeights(def, tuning);
   const layers = deriveLayers(def, grid, { radio: opts.radio ?? true, tuning });
   const nodes: Record<NodeId, NodeDef & { elevM: number }> = {};
   for (const nd of def.nodes) {
