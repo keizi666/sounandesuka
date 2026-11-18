@@ -193,11 +193,14 @@ describe('意識と生死（docs/06 §7）', () => {
 describe('World に組み込んだ生理', () => {
   it('s01 で何もしない（雨具を着ない・食べない）と、寒冷前線の雨で低体温症が進む', () => {
     const { map } = hakoniwa();
-    const sc = loadScenario('s01_cold_front');
+    // 分岐点なし・雨具なし・食べ物なしで歩き続ける
+    const base = loadScenario('s01_cold_front');
+    const m = base.party[0]!;
+    const sc = { ...base, choices: [], events: [], party: [{ ...m, gear: { ...m.gear, rainwear: 'none' as const, foodKcal: 0 } }] };
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
     const events: SimEvent[] = [];
-    while (w.tMin < 20 * 60) {
+    while (w.tMin < 20 * 60 && !w.ended) {
       stepWorld(w, ctx);
       events.push(...ctx.events);
       ctx.events.length = 0;
@@ -213,7 +216,7 @@ describe('World に組み込んだ生理', () => {
     const sc = testScenario(['TH_SAWA', 'J_FOREST', 'EBOSHI']);
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
-    for (let i = 0; i < 6 * 60 * 5 && w.climbers[0]!.state !== 'FINISHED'; i += 1) stepWorld(w, ctx);
+    for (let i = 0; i < 6 * 60 * 5 && !w.ended; i += 1) stepWorld(w, ctx);
     const c = w.climbers[0]!;
     expect(c.state).toBe('FINISHED');
     expect(c.body.coreC).toBeGreaterThan(36.5);

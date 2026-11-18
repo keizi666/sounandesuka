@@ -1,0 +1,144 @@
+/**
+ * 行動の状態機械（docs/07 §2）のうち P5 の分（RESTING / SHELTERED / BIVOUAC / STAYING / WAITING_RESCUE）と、
+ * 自律ミクロ行動（docs/07 §4）。ミクロ行動は 1 ゲーム分に 1 回、behavior ストリームで判定する。
+ * 作業中（plan.busyUntilMin）は歩かず、終わったら効果を適用する。
+ */
+import { chance } from '../core/rng';
+import type { ClimberState, StaticContext, World } from '../types';
+import { startTask, taskMinutes, untilReached } from './actions';
+import { ensureRouteAhead, leaveShelter } from './route';
+import { transition } from './state';
+
+const ACTIVE = new Set(['WALKING', 'RESTING', 'SHELTERED', 'BIVOUAC', 'STAYING', 'WAITING_RESCUE', 'LOST_AWARE']);
+
+/** 作業が終わったら効果を適用する */
+export function finishTask(world: World, ctx: StaticContext, c: ClimberState): void {
+  if (c.plan.busyUntilMin === null || world.tMin < c.plan.busyUntilMin - 1e-9) return;
+  const what = c.plan.busyWith ?? '';
+  c.plan.busyUntilMin = null;
+  c.plan.busyWith = null;
+  const b = c.body;
+  if (what === 'rainwear') {
+    b.rainwearOn = true;
+    ctx.events.push({ tMin: world.tMin, type: 'GEAR', climberId: c.id, important: true, data: { rainwearOn: true } });
+  } else if (what === 'unwear') {
+    b.rainwearOn = false;
+    ctx.events.push({ tMin: world.tMin, type: 'GEAR', climberId: c.id, data: { rainwearOn: false } });
+  } else if (what.startsWith('layer:')) {
+    const clo = Math.min(Number(what.slice(6)), b.cloPack);
+    b.cloPack -= clo;
+    b.cloWorn += clo;
+    ctx.events.push({ tMin: world.tMin, type: 'GEAR', climberId: c.id, data: { layerClo: clo } });
+  } else if (what === 'changeDry') {
+    b.wetness *= ctx.tuning.behavior.changeDryWetnessF;
+    b.cloWorn += b.cloPack;
+    b.cloPack = 0;
+    ctx.events.push({ tMin: world.tMin, type: 'GEAR', climberId: c.id, data: { changeDry: true } });
+  } else if (what.startsWith('eat:')) {
+    const kcal = Math.min(Number(what.slice(4)), c.inv.foodKcal);
+    c.inv.foodKcal -= kcal;
+    b.gutKcal += kcal;
+    ctx.events.push({ tMin: world.tMin, type: 'EAT', climberId: c.id, data: { kcal } });
+  } else if (what.startsWith('drink:')) {
+    const l = Math.min(Number(what.slice(6)), c.inv.waterL);
+    c.inv.waterL -= l;
+    b.waterDeficitL = Math.max(0, b.waterDeficitL - l);
+    ctx.events.push({ tMin: world.tMin, type: 'DRINK', climberId: c.id, data: { liters: l } });
+  } else if (what === 'lamp') {
+    c.inv.headlamp.on = true;
+    ctx.events.push({ tMin: world.tMin, type: 'LAMP', climberId: c.id, data: { on: true } });
+  }
+}
+
+/** 自律ミクロ行動（docs/07 §4）。1 ゲーム分に 1 回呼ぶ */
+export function autonomous(world: World, ctx: StaticContext, c: ClimberState): void {
+  const bt = ctx.tuning.behavior;
+  const b = c.body;
+  if (!b.alive || !b.conscious || !ACTIVE.has(c.state)) return;
+  if (b.coreC < ctx.tuning.physiology.stageModerateC) return; // 中等度以上では自律行動できない
+  const l = c.local;
+  const rng = world.rng.behavior;
+  const J = c.J;
+  if (l.precipMmH >= bt.rainStartMmH) c.memo.lastPrecipMin = world.tMin;
+  if (c.plan.busyUntilMin !== null) return;
+  const indoors = b.shelterNodeId !== null;
+  const atNode = world.recentEvents.some((e) => e.type === 'NODE_ARRIVE' && e.climberId === c.id);
+
+  // 雨具を着る
+  if (!indoors && l.precipMmH >= bt.rainwearPrecipMmH && !b.rainwearOn && c.def.gear.rainwear !== 'none') {
+    const urgent = b.wetness > bt.rainwearUrgentWetness || atNode;
+    const p = urgent ? bt.rainwearUrgentP * J : bt.rainwearP * (1 - c.def.habits.delaysRainwear) * J;
+    if (chance(rng, p)) return startTask(world, c, 'rainwear', taskMinutes(c, bt.rainwearMin, ctx));
+  }
+  // 防寒着を足す
+  const resting = c.state !== 'WALKING';
+  if (b.cloPack > 0 && (b.coreC < bt.layerCoreBelowC || (l.windChillC < bt.layerWindChillBelowC && resting))) {
+    if (chance(rng, bt.layerP * J)) return startTask(world, c, `layer:${b.cloPack}`, taskMinutes(c, bt.layerMin, ctx));
+  }
+  // 食べる
+  if (c.inv.foodKcal > 0) {
+    const every = c.def.habits.eatEveryMin;
+    const habitDue = every !== null && c.memo.lastEatMin !== null && world.tMin - c.memo.lastEatMin >= every;
+    const low = b.glycogenKcal < bt.eatLowGlycogenKcal;
+    if (habitDue || low) {
+      const p = habitDue ? bt.eatHabitP : J < bt.eatForgetBelowJ ? bt.eatForgetP : bt.eatLowP * J;
+      if (chance(rng, p)) {
+        c.memo.lastEatMin = world.tMin;
+        return startTask(world, c, `eat:${Math.min(bt.eatKcal, c.inv.foodKcal)}`, taskMinutes(c, bt.eatMin, ctx));
+      }
+    }
+  }
+  // 飲む
+  if (c.inv.waterL > 0 && b.waterDeficitL > bt.drinkDeficitL && chance(rng, bt.drinkP * J)) {
+    c.memo.lastDrinkMin = world.tMin;
+    return startTask(world, c, `drink:${Math.min(bt.drinkL, c.inv.waterL, b.waterDeficitL)}`, bt.drinkMin);
+  }
+  // 疲れて休む
+  if (c.state === 'WALKING' && b.fatigue > bt.restFatigue && chance(rng, bt.restP)) {
+    c.plan.restUntilMin = world.tMin + bt.restMin;
+    transition(world, ctx, c, 'RESTING', 'fatigue');
+    return;
+  }
+  // ヘッドランプ
+  const lamp = c.inv.headlamp;
+  if (world.sun.isDark && lamp.has && !lamp.on && lamp.batteryH > 0 && chance(rng, bt.lampP)) {
+    if (lamp.inPack) return startTask(world, c, 'lamp', taskMinutes(c, bt.lampInPackMin, ctx));
+    lamp.on = true;
+    ctx.events.push({ tMin: world.tMin, type: 'LAMP', climberId: c.id, data: { on: true } });
+    return;
+  }
+  // 雨具を脱ぐ（登りで暑い）
+  const dryLong = c.memo.lastPrecipMin === null || world.tMin - c.memo.lastPrecipMin >= bt.unwearDryMin;
+  if (b.rainwearOn && dryLong && c.state === 'WALKING' && b.coreC > bt.unwearCoreAboveC && chance(rng, bt.unwearP * J)) {
+    return startTask(world, c, 'unwear', bt.unwearMin);
+  }
+}
+
+/** WALKING 以外の状態の 1 ティック（終了条件の判定） */
+export function stepState(world: World, ctx: StaticContext, c: ClimberState): void {
+  switch (c.state) {
+    case 'RESTING': {
+      const until = c.plan.restUntilMin;
+      const done = until !== null ? world.tMin >= until - 1e-9 : untilReached(world, ctx, c, c.plan.bivouacUntil);
+      if (done) {
+        c.plan.restUntilMin = null;
+        c.plan.bivouacUntil = null;
+        ensureRouteAhead(ctx, c);
+        transition(world, ctx, c, 'WALKING', 'restEnd');
+      }
+      return;
+    }
+    case 'SHELTERED':
+    case 'BIVOUAC':
+      if (untilReached(world, ctx, c, c.plan.bivouacUntil)) {
+        leaveShelter(world, ctx, c);
+        ensureRouteAhead(ctx, c);
+        transition(world, ctx, c, 'WALKING', 'stayEnd');
+      }
+      return;
+    case 'WAITING_RESCUE':
+    case 'STAYING':
+    default:
+      return;
+  }
+}

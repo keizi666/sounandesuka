@@ -138,6 +138,6 @@ describe('World（docs/03 §3）', () => {
       types.push(...ctx.events.map((e) => e.type));
       ctx.events.length = 0;
     }
-    expect(types).toEqual(['NODE_ARRIVE', 'STATE', 'FINISHED']);
+    expect(types).toEqual(['NODE_ARRIVE', 'STATE', 'FINISHED', 'ENDED']);
   });
 });

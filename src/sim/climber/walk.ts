@@ -1,13 +1,16 @@
 /**
  * 計画ルートに沿った登山道上の歩行（WALKING の 1 ティック）。
  * 10 m のサンプル区間ごとに勾配から速度を求め、区間の境目をまたぐときは時間を分けて進む。
+ * まとまって歩くグループ（tight）は、全員の速度の最小で進む（docs/07 §1.1 末尾）。
+ * ノードに着いたらそのティックの歩行を終える（次のティックで分岐点を判定するため）。
  */
 import { datan2 } from '../core/dmath';
 import { edgeBetween, segmentIndexAt } from '../terrain/trails';
 import type { ClimberState, MapRuntime, StaticContext, World } from '../types';
 import { groundAt } from '../weather/ground';
-import { capSpeedByMet, isChainAt, trailSpeedMs, type MoveEnv } from './movement';
+import { capSpeedByMet, isChainAt, trailSpeedMs, walkMet, type MoveEnv } from './movement';
 import { syncPosition } from './position';
+import { arriveAt } from './route';
 import { transition } from './state';
 
 /** 速度に効く周りの状態を World から集める */
@@ -26,33 +29,24 @@ export function moveEnvFor(world: World, c: ClimberState): MoveEnv {
 
 const EPS = 1e-9;
 
-/** ノードに着いたときの処理。true なら歩行を終える */
-function arriveAt(world: World, ctx: StaticContext, c: ClimberState, nodeId: string): boolean {
-  c.pos = { mode: 'node', nodeId };
-  if (world.visitedNodes[nodeId] === undefined) world.visitedNodes[nodeId] = world.tMin;
-  ctx.events.push({ tMin: world.tMin, type: 'NODE_ARRIVE', climberId: c.id, data: { node: nodeId } });
-  if (c.plan.route[c.plan.routeIndex] === nodeId) c.plan.routeIndex += 1;
-  if (c.plan.goalNodes.includes(nodeId)) {
-    transition(world, ctx, c, 'FINISHED', 'goal');
-    ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: c.id, data: { node: nodeId } });
-    return true;
-  }
-  return false;
-}
-
 export interface WalkResult {
   movedM: number;
   /** 歩いた時間で重みを付けた平均勾配（上りが正） */
   grade: number;
+  /** 各メンバーの平均 MET（id → MET） */
+  metById: Record<string, number>;
 }
 
-/** WALKING の 1 ティック分（dtSec 秒）進む */
-export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSec: number): WalkResult {
+/**
+ * 先頭 c を dtSec 秒進める。members は一緒に歩く人（c を含む）。速度は全員の上限の最小。
+ * 位置・ルートの更新は c だけに行い、呼び出し側が他のメンバーに写す。
+ */
+export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSec: number, members: readonly ClimberState[] = [c]): WalkResult {
   const map: MapRuntime = ctx.map;
-  const env = moveEnvFor(world, c);
+  const envs = members.map((m) => moveEnvFor(world, m));
+  const metTime = members.map(() => 0);
   let t = dtSec;
   let moved = 0;
-  let metTime = 0;
   let headX = 0;
   let headZ = 0;
   let gradeTime = 0;
@@ -80,16 +74,24 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
     const grade = span > 0 ? ((b.elevM - a.elevM) / span) * pos.dir : 0;
     const target = pos.dir === 1 ? b.s : a.s;
     const dist = Math.abs(target - pos.s);
-    const cand = trailSpeedMs(c, trail.def, isChainAt(map, pos.edgeId, pos.s), grade, env, ctx.tuning);
-    const { vMs, met } = capSpeedByMet(cand, grade, c, env.windMs, ctx.tuning);
-    if (vMs <= EPS) break;
+    const chain = isChainAt(map, pos.edgeId, pos.s);
+    let vMs = Infinity;
+    for (let k = 0; k < members.length; k += 1) {
+      const m = members[k]!;
+      const env = envs[k]!;
+      const cand = trailSpeedMs(m, trail.def, chain, grade, env, ctx.tuning);
+      vMs = Math.min(vMs, capSpeedByMet(cand, grade, m, env.windMs, ctx.tuning).vMs);
+    }
+    if (!(vMs > EPS)) break;
     const dt = Math.min(t, dist / vMs);
     const d = vMs * dt;
     pos.s += pos.dir * d;
     if (dist - d <= EPS) pos.s = target;
     t -= dt;
     moved += d;
-    metTime += met * dt;
+    for (let k = 0; k < members.length; k += 1) {
+      metTime[k] = metTime[k]! + walkMet(vMs, grade, members[k]!.def, envs[k]!.windMs, ctx.tuning) * dt;
+    }
     gradeTime += grade * dt;
     headX += (b.x - a.x) * pos.dir;
     headZ += (b.z - a.z) * pos.dir;
@@ -101,10 +103,14 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
     }
   }
   const restT = Math.max(0, t);
+  const metById: Record<string, number> = {};
+  for (let k = 0; k < members.length; k += 1) {
+    metById[members[k]!.id] = (metTime[k]! + ctx.tuning.movement.restMet * restT) / dtSec;
+  }
   c.speedMs = moved / dtSec;
-  c.metAct = (metTime + ctx.tuning.movement.restMet * restT) / dtSec;
+  c.metAct = metById[c.id]!;
   if (headX !== 0 || headZ !== 0) c.headingRad = datan2(headX, -headZ);
   syncPosition(map, c);
   const walkedT = dtSec - restT;
-  return { movedM: moved, grade: walkedT > 0 ? gradeTime / walkedT : 0 };
+  return { movedM: moved, grade: walkedT > 0 ? gradeTime / walkedT : 0, metById };
 }

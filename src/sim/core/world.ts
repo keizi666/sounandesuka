@@ -17,6 +17,7 @@ import type {
 } from '../types';
 import { createGround } from '../weather/ground';
 import { updateGlobal } from '../weather/global';
+import { initWeatherMemo } from '../scenario/events';
 import { updateClimberLocal } from '../weather/local';
 import { sunStateAt, updateSun } from '../weather/sun';
 import { parseTimeRef } from './clock';
@@ -132,6 +133,7 @@ export function createClimberState(
       postureUntilMin: null,
       busyUntilMin: null,
       busyWith: null,
+      goTo: null,
     },
     perception: {
       routeBelief: null,
@@ -153,6 +155,7 @@ export function createClimberState(
     local: initialLocalWeather(),
     lastThoughtMin: null,
     thoughtHistory: {},
+    memo: { lastEatMin: tMin, lastDrinkMin: tMin, lastPrecipMin: null, clearSinceMin: null, bivouacked: false, sheltered: false },
   };
 }
 
@@ -195,12 +198,16 @@ export function createWorld(map: MapRuntime, scenario: ScenarioDef, seed: number
     visitedNodes: { [startNode]: tMin },
     groups: [{ id: DEFAULT_GROUP_ID, leader: leader.id, cohesion: 'tight', lastHeadcountMin: null }],
     ended: null,
+    recentEvents: [],
+    weatherMemo: { raining: false, rainStoppedAtMin: null, precipType: 'none', sunUp: false, dark: false },
+    latches: {},
   };
   // 開始時点の気象・暗さ・局地気象をそろえる
   const ctx = createStaticContext(map, scenario);
   updateGlobal(world, ctx);
   updateSun(world, ctx);
   updateClimberLocal(world, ctx);
+  initWeatherMemo(world, ctx);
   return world;
 }
 

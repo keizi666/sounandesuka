@@ -521,6 +521,8 @@ export interface ClimberPlanState {
   postureUntilMin: number | null;
   busyUntilMin: number | null; // 雨具着用など所要時間中
   busyWith: string | null;
+  /** goToNode の行き先と到着後の行動 */
+  goTo: { node: NodeId; then: 'stay' | 'continue' } | null;
 }
 
 export interface ClimberPerception {
@@ -561,6 +563,19 @@ export interface ClimberState {
   local: LocalWeather;
   lastThoughtMin: number | null;
   thoughtHistory: Record<string, number>;
+  memo: ClimberMemo;
+}
+
+/** 自律行動・結末判定のための覚え書き */
+export interface ClimberMemo {
+  lastEatMin: number | null;
+  lastDrinkMin: number | null;
+  /** 最後に降水（≥ 0.5 mm/h）を受けた時刻 */
+  lastPrecipMin: number | null;
+  /** until: "weatherClears" の判定用。条件を満たし始めた時刻 */
+  clearSinceMin: number | null;
+  bivouacked: boolean;
+  sheltered: boolean;
 }
 
 export interface GlobalWeather {
@@ -615,6 +630,12 @@ export interface World {
   visitedNodes: Record<NodeId, number>;
   groups: { id: string; leader: ClimberId; cohesion: 'tight' | 'loose'; lastHeadcountMin: number | null }[];
   ended: { kind: EndingKind; atMin: number } | null;
+  /** 直前のティックに出たイベント（条件 event / atNode の判定用） */
+  recentEvents: { type: SimEventType; climberId: string | null; node: string | null }[];
+  /** リーダーの局地気象・暗さの変化を検出するための前回値 */
+  weatherMemo: { raining: boolean; rainStoppedAtMin: number | null; precipType: PrecipType; sunUp: boolean; dark: boolean };
+  /** once: false の分岐点・イベントの立ち上がり検出（前回の真偽） */
+  latches: Record<string, boolean>;
 }
 
 // ---------- イベント（ループで回収。World に残さない） ----------

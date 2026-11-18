@@ -42,9 +42,15 @@
 - [x] stepWorld に生理を組み込み（状態ごとの MET、地面との接触）
 - [x] 受け入れ: 較正 C1〜C9 すべて合格（`tests/physiology.calibration.test.ts`）。最終定数は DECISIONS
 
+## P5 シナリオ・分岐点・結末 — 完了（2026-11-19）
+
+- [x] `scenario/`: vars・conditions・text・load・choices・events・endings・validate、`policy.ts`、`headless.ts`
+- [x] `climber/`: actions・behavior（状態と自律ミクロ行動）・route・party（一緒に歩く）・perception（遅れ）
+- [x] `tools/sim.ts`（--log）・`tools/validate.ts`・`tools/simcheck.ts`、`src/i18n/format.ts`
+- [x] 受け入れ: validate で 3 シナリオ・1 マップにエラーなし、壊した JSON 9 種で期待どおりのパス / `npm run sim -- s01_cold_front --policy recommended --log` が結末まで走る / sim:check 合格
+
 ## これから
 
-- [ ] P5 シナリオ・分岐点・結末
 - [ ] P6 道迷い・危険・機器・救助
 - [ ] P7 記録・モンテカルロ・調整
 - [ ] P8 ジオラマ描画

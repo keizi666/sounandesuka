@@ -1,10 +1,15 @@
-// npm run sim — ヘッドレス実行（P5 で実装）。P1 では --dump-terrain だけ使える。
+// npm run sim — ヘッドレスで 1 回実行する
+//   npm run sim -- <scenarioId> [--policy recommended|bias|random|risky|historical] [--seed N] [--log]
 //   npm run sim -- --dump-terrain [--map hakoniwa] [--layer heights|hillshade|slope|veg|radio|flow|tpi|sky] [--out file.pgm] [--png]
 import { parseArgs } from 'node:util';
 import { DEG, dcos, dsin, datan2 } from '../src/sim/core/dmath';
 import { buildMapRuntime } from '../src/sim/terrain/map';
-import type { MapRuntime } from '../src/sim/types';
+import { formatEvent, formatTimeRef } from '../src/i18n/format';
+import { JA } from '../src/i18n/ja';
+import { runHeadless } from '../src/sim/headless';
+import type { MapRuntime, PolicyName } from '../src/sim/types';
 import { normalizeToBytes, writePgm, writePng } from './lib/image';
+import { loadScenarioById, mapRuntimeFor } from './lib/scenarios';
 import { loadMapDef } from './lib/maps';
 
 const LAYERS = ['heights', 'hillshade', 'slope', 'veg', 'radio', 'flow', 'tpi', 'sky'] as const;
@@ -68,9 +73,12 @@ function dumpTerrain(mapId: string, layer: Layer, out: string | undefined, png: 
   for (const w of warnings) console.warn(`警告: ${w}`);
 }
 
-const { values } = parseArgs({
+const { values, positionals } = parseArgs({
   allowPositionals: true,
   options: {
+    policy: { type: 'string', default: 'recommended' },
+    seed: { type: 'string' },
+    log: { type: 'boolean' },
     'dump-terrain': { type: 'boolean' },
     map: { type: 'string', default: 'hakoniwa' },
     layer: { type: 'string', default: 'heights' },
@@ -86,6 +94,32 @@ if (values['dump-terrain']) {
     process.exit(1);
   }
   dumpTerrain(values.map ?? 'hakoniwa', layer, values.out, values.png ?? false);
+} else if (positionals[0]) {
+  runScenario(positionals[0], values.policy as PolicyName, values.seed !== undefined ? Number(values.seed) : undefined, values.log ?? false);
 } else {
-  console.log('npm run sim: シナリオの実行は未実装です（P5 で実装）。地形の確認は --dump-terrain');
+  console.log('使い方: npm run sim -- <scenarioId> [--policy recommended] [--seed N] [--log]  /  npm run sim -- --dump-terrain');
+}
+
+function runScenario(id: string, policy: PolicyName, seed: number | undefined, log: boolean): void {
+  const scenario = loadScenarioById(id);
+  const map = mapRuntimeFor(scenario.mapId);
+  const t0 = performance.now();
+  const r = runHeadless(map, scenario, { policy, seed, collectEvents: log });
+  const ms = performance.now() - t0;
+  const nodeName = (n: string): string => map.nodes[n]?.name ?? n;
+  if (log) {
+    for (const e of r.events) {
+      const text = formatEvent(e, { scenario, nodeName });
+      if (text) console.log(`${formatTimeRef(e.tMin)} ${e.important ? '★' : ' '} ${text}`);
+    }
+  }
+  const k = r.ending.kind;
+  console.log(`\n${scenario.id}  policy=${policy}  seed=${seed ?? scenario.seed}  ${r.ticks} ticks  ${ms.toFixed(0)} ms`);
+  console.log(`結末: ${k}  ${r.ending.title ?? JA.endings[k]?.title ?? ''}  （${formatTimeRef(r.world.ended!.atMin)}）`);
+  for (const c of r.world.climbers) {
+    const b = c.body;
+    const cause = b.deathCause ? (JA.labels.deathCause[b.deathCause] ?? '') : '';
+    console.log(`  ${c.def.name}: ${JA.labels.state[c.state] ?? c.state}  core ${b.coreC.toFixed(1)}℃  ${cause}`);
+  }
+  console.log('選択:', r.world.decisions.map((d) => `${d.cpId}=${d.optionId}`).join(' '));
 }

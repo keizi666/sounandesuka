@@ -1,11 +1,18 @@
 /**
  * 1 ティックの処理（docs/03 §4）。順番は固定（変えると決定論テストが壊れる）。
- * P4 時点では時刻・太陽・気象・地面・局地気象・移動・生理。後のフェーズで番号の位置に処理を足していく。
+ *  1 時刻 / 2 太陽 / 3 全体気象 / 4 地面 / 5 気象・暗さの変化イベント / 6 スクリプトイベント / 7 分岐点
+ *  8 登山者（a 局地気象 b 認知 c 自律行動 d 移動 e 危険 f 生理 g 機器 h 判断力・生死）
+ *  9 パーティ（8d に含む） / 10 救助 / 11 結末 / 12 記録（ループ側）
+ * 条件の event・atNode は、直前のティックに出たイベント（world.recentEvents）で判定する。
  */
+import { finishTask, autonomous, stepState } from '../climber/behavior';
 import { updateCapacity } from '../climber/capacity';
+import { moveParty, type MoveOutcome } from '../climber/party';
+import { updateTimeBehind, updateWeatherImpression } from '../climber/perception';
 import { integrateBody, thermalEnvFor, updateAnxiety } from '../climber/physiology';
-import { transition } from '../climber/state';
-import { walkStep } from '../climber/walk';
+import { autoResolve, checkChoices } from '../scenario/choices';
+import { checkEnding } from '../scenario/endings';
+import { runEvents, weatherEvents } from '../scenario/events';
 import type { ClimberState, StaticContext, World } from '../types';
 import { updateGlobal } from '../weather/global';
 import { updateGround } from '../weather/ground';
@@ -18,59 +25,85 @@ export const DT_SEC = 10;
 /** 1 ゲーム分あたりのティック数 */
 export const TICKS_PER_MIN = 60 / DT_SEC;
 
-export function stepWorld(world: World, ctx: StaticContext): void {
-  if (world.ended) return;
-  if (world.pendingChoice && ctx.mode === 'interactive') return;
+/** 1〜4: 時刻・太陽・全体気象・地面だけを進める。1 ゲーム分の区切りなら true */
+export function stepEnvironment(world: World, ctx: StaticContext): boolean {
   // 1. 時刻（足し算の誤差をためないよう、開始時刻とティック数から求める）
   world.tick += 1;
   world.tMin = scenarioStartMin(ctx.scenario) + world.tick / TICKS_PER_MIN;
-  // 2. 太陽高度・暗さ
+  const minuteTick = world.tick % TICKS_PER_MIN === 0;
+  // 2〜4. 太陽・全体気象・地面
   updateSun(world, ctx);
-  // 3. 全体気象
   updateGlobal(world, ctx);
-  // 4. 地面（1 ゲーム分ごと）
-  if (world.tick % TICKS_PER_MIN === 0) updateGround(world, ctx);
-  // 6〜7. イベント・分岐点（P5）
-  // 8a. 局地気象
-  updateClimberLocal(world, ctx);
-  // 8b〜. 登山者（配列順）
-  for (const c of world.climbers) stepClimber(world, ctx, c);
-  // 9〜12. パーティ・救助・結末・記録（P5〜P7）
+  if (minuteTick) updateGround(world, ctx);
+  return minuteTick;
 }
 
-function stepClimber(world: World, ctx: StaticContext, c: ClimberState): void {
+export function stepWorld(world: World, ctx: StaticContext): void {
+  if (world.ended) return;
+  if (world.pendingChoice && ctx.mode === 'interactive') return;
+  const evStart = ctx.events.length;
+  const minuteTick = stepEnvironment(world, ctx);
+  // 5. 気象・暗さの変化（リーダーの前のティックの局地気象）
+  weatherEvents(world, ctx);
+  // 6〜7. スクリプトイベントと分岐点（回答待ちの間は評価しない）
+  let hold = false;
+  if (!world.pendingChoice) {
+    runEvents(world, ctx);
+    if (!world.ended && checkChoices(world, ctx)) {
+      if (ctx.mode === 'interactive') return finish(world, ctx, evStart);
+      autoResolve(world, ctx, ctx.mode === 'headless' ? 'policy' : 'bias');
+    }
+  } else {
+    hold = true; // 判断時間制限モード: 登山者は立ち止まって待つ
+  }
+  if (world.ended) return finish(world, ctx, evStart);
+  // 8a〜c. 局地気象・認知・自律行動・状態の終了判定
+  updateClimberLocal(world, ctx);
+  for (const c of world.climbers) {
+    if (!c.body.alive) continue;
+    updateWeatherImpression(c);
+    if (minuteTick) {
+      updateTimeBehind(world, ctx, c);
+      autonomous(world, ctx, c);
+    }
+    finishTask(world, ctx, c);
+    stepState(world, ctx, c);
+  }
+  // 8d・9. 移動（tight のグループは一緒に）
+  const moves = moveParty(world, ctx, DT_SEC, hold);
+  // 8e〜h. 危険・生理・機器・判断力
+  for (const c of world.climbers) stepBody(world, ctx, c, moves[c.id]);
+  // 8e・8g 危険・機器、10 救助は P6
+  // 11. 結末
+  checkEnding(world, ctx);
+  finish(world, ctx, evStart);
+}
+
+function finish(world: World, ctx: StaticContext, evStart: number): void {
+  world.recentEvents = ctx.events.slice(evStart).map((e) => ({
+    type: e.type,
+    climberId: e.climberId ?? null,
+    node: typeof e.data?.['node'] === 'string' ? (e.data['node'] as string) : null,
+  }));
+}
+
+function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveOutcome | undefined): void {
   if (!c.body.alive) {
     c.speedMs = 0;
     c.metAct = 0;
     return;
   }
   const t = ctx.tuning;
-  let walking = false;
-  let grade = 0;
-  // 8d. 状態ごとの行動（移動）
-  switch (c.state) {
-    case 'WALKING': {
-      const r = walkStep(world, ctx, c, DT_SEC);
-      walking = r.movedM > 0;
-      grade = r.grade;
-      break;
-    }
-    case 'RESTING':
-      if (c.plan.restUntilMin !== null && world.tMin >= c.plan.restUntilMin - 1e-9) {
-        c.plan.restUntilMin = null;
-        transition(world, ctx, c, 'WALKING', 'restEnd');
-      }
-      break;
-    default:
-      break;
-  }
+  const walking = move?.walking ?? false;
   if (!walking) {
     c.speedMs = 0;
     c.metAct = t.physiology.stateMet[c.state] ?? t.movement.restMet;
+  } else {
+    c.metAct = move!.met;
   }
   // 8f. 生理
   const dtMin = DT_SEC / 60;
-  integrateBody(c, thermalEnvFor(world, ctx, c), { metAct: c.metAct, grade, walking }, dtMin, t);
+  integrateBody(c, thermalEnvFor(world, ctx, c), { metAct: c.metAct, grade: move?.grade ?? 0, walking }, dtMin, t);
   updateAnxiety(world, c, dtMin, t);
   // 8h. 判断力・運動能力・段階・生死
   const checkTick = world.tick % (t.physiology.arrestCheckMin * TICKS_PER_MIN) === 0;

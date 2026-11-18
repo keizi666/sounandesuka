@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseTimeRef } from '../src/sim/core/clock';
-import { stepWorld } from '../src/sim/core/step';
+import { stepEnvironment } from '../src/sim/core/step';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
 import {
   activeCells,
@@ -63,7 +63,7 @@ describe('時間ノイズ（docs/05 §1.2）', () => {
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
     for (let i = 0; i < 3000; i += 1) {
-      stepWorld(w, ctx);
+      stepEnvironment(w, ctx);
       expect(w.weather.gust).toBeGreaterThanOrEqual(1);
       expect(w.weather.gust).toBeLessThanOrEqual(1 + 1.6 * 0.45 + 1e-9);
     }
@@ -77,7 +77,7 @@ function runUntil(sc: ScenarioDef, until: string): { w: World; ctx: ReturnType<t
   const ctx = createStaticContext(map, sc);
   const end = parseTimeRef(until);
   while (w.tMin < end - 1e-9) {
-    stepWorld(w, ctx);
+    stepEnvironment(w, ctx);
     ctx.events.length = 0;
   }
   return { w, ctx };
@@ -105,7 +105,7 @@ describe('局地補正（docs/05 §2、P3 の受け入れ）', () => {
       const w = createWorld(map, sc);
       const ctx = createStaticContext(map, sc);
       for (let i = 0; i < 6 * 60 * 12; i += 1) {
-        stepWorld(w, ctx);
+        stepEnvironment(w, ctx);
         ctx.events.length = 0;
         if (i % 60 !== 0) continue;
         const ls = sampleLocal(w, ctx, S.x, S.z, S.elevM);
@@ -126,7 +126,7 @@ describe('局地補正（docs/05 §2、P3 の受け入れ）', () => {
     const S = map.nodes['SUMMIT']!;
     let checked = 0;
     while (w.tMin < to) {
-      stepWorld(w, ctx);
+      stepEnvironment(w, ctx);
       ctx.events.length = 0;
       if (w.tMin < from || w.tick % 6 !== 0) continue;
       // 山頂と、主稜線の 2,200 m 付近（山頂と稜線小屋の間）
@@ -215,7 +215,7 @@ describe('雷雲セル（docs/05 §1.3）', () => {
     let maxThunder = 0;
     let hail = false;
     while (w.tMin < parseTimeRef('D0 15:30')) {
-      stepWorld(w, ctx);
+      stepEnvironment(w, ctx);
       ctx.events.length = 0;
       const l = sampleLocal(w, ctx, S.x, S.z, S.elevM);
       maxThunder = Math.max(maxThunder, l.thunder);
@@ -227,14 +227,14 @@ describe('雷雲セル（docs/05 §1.3）', () => {
 });
 
 describe('決定論', () => {
-  it('同じシードなら気象・地面・登山者の局地気象が一致する', () => {
+  it('同じシードなら気象・地面が一致する', () => {
     const { map } = hakoniwa();
     const sc = loadScenario('s03_thunder_ridge');
     const run = (): string => {
       const w = createWorld(map, sc);
       const ctx = createStaticContext(map, sc);
-      for (let i = 0; i < 3000; i += 1) stepWorld(w, ctx);
-      return JSON.stringify([w.weather, w.ground, w.climbers.map((c) => c.local)]);
+      for (let i = 0; i < 3000; i += 1) stepEnvironment(w, ctx);
+      return JSON.stringify([w.weather, w.ground]);
     };
     expect(run()).toBe(run());
     const other = createWorld(map, sc, 999);
