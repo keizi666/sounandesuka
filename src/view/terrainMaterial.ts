@@ -23,6 +23,9 @@ export interface EnvUniforms {
   /** 高品質の追加アセット（docs/10 §10）。届くまでは 0 */
   uDetail: { value: THREE.Texture | null };
   uDetailOn: { value: number };
+  /** 樹木の揺れ: 時刻（秒）と、揺れの大きさ */
+  uTime: { value: number };
+  uSway: { value: number };
 }
 
 export function createEnvUniforms(): EnvUniforms {
@@ -42,6 +45,8 @@ export function createEnvUniforms(): EnvUniforms {
     uMapHalf: { value: 1 },
     uDetail: { value: null },
     uDetailOn: { value: 0 },
+    uTime: { value: 0 },
+    uSway: { value: 0.01 },
   };
 }
 
@@ -61,6 +66,8 @@ uniform float uOverlayOn;
 uniform float uMapHalf;
 uniform sampler2D uDetail;
 uniform float uDetailOn;
+uniform float uTime;
+uniform float uSway;
 varying float vElev;
 varying vec3 vWorldPos;
 varying float vSlopeUp;
@@ -72,7 +79,21 @@ float hk_noise(vec2 p) {
 `;
 
 /** 頂点シェーダに標高と世界座標を渡す処理を入れる */
-function patchVertex(shader: { vertexShader: string }): void {
+function patchVertex(shader: { vertexShader: string }, sway: boolean): void {
+  if (sway) {
+    // 高いところほど大きく、木ごとに位相をずらして揺らす（形は高さ 1 に正規化してある）
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      `#include <begin_vertex>
+      #ifdef USE_INSTANCING
+        float hkPh = instanceMatrix[3].x * 730.0 + instanceMatrix[3].z * 910.0;
+        float hkH = clamp(position.y, 0.0, 1.2);
+        float hkS = hkH * hkH * (sin(uTime * 1.6 + hkPh) * 0.6 + sin(uTime * 3.7 + hkPh * 1.7 + position.x * 9.0) * 0.4);
+        transformed.x += uSway * hkS;
+        transformed.z += uSway * 0.6 * hkH * hkH * sin(uTime * 2.3 + hkPh * 0.7);
+      #endif`,
+    );
+  }
   shader.vertexShader = shader.vertexShader
     .replace('#include <common>', `#include <common>\n${COMMON}`)
     .replace(
@@ -105,6 +126,13 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
         hkN = hkD1.r * 0.55 + hkD2.g * 0.3 + hkD1.b * 0.15 * (1.0 - vSlopeUp);
       }
       diffuseColor.rgb *= 0.86 + 0.28 * hkN;
+      // 大きな色むら（植生のまだら）と、急な面の岩肌（地層の縞）
+      float hkBig = hk_noise(vWorldPos.xz * 11.0) * 0.6 + hk_noise(vWorldPos.xz * 37.0) * 0.4;
+      diffuseColor.rgb *= 0.88 + 0.24 * hkBig;
+      float hkSteep = smoothstep(0.8, 0.56, vSlopeUp);
+      float hkStrata = hk_noise(vec2(vWorldPos.y * 240.0 + hk_noise(vWorldPos.xz * 30.0) * 4.0, vWorldPos.x * 12.0 + vWorldPos.z * 9.0));
+      vec3 hkRock = mix(vec3(0.17, 0.16, 0.145), vec3(0.33, 0.31, 0.28), hkStrata) * (0.8 + 0.4 * hkN);
+      diffuseColor.rgb = mix(diffuseColor.rgb, hkRock, hkSteep * 0.8);
       if (uOverlayOn > 0.5) {
         vec4 hkOv = texture2D(uOverlay, vWorldPos.xz / (uMapHalf * 2.0) + 0.5);
         diffuseColor.rgb = mix(diffuseColor.rgb, hkOv.rgb, hkOv.a);
@@ -119,6 +147,25 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
       diffuseColor.rgb *= 1.0 - 0.15 * hkWet;`,
     )
     .replace(
+      '#include <normal_fragment_maps>',
+      `#include <normal_fragment_maps>
+      ${
+        terrain
+          ? `{
+        // 細かな凹凸（法線を揺らす）。遠くでは弱めてちらつきを抑える
+        float hkE = 0.0025;
+        vec2 hkP = vWorldPos.xz;
+        float hkB0 = hk_noise(hkP * 170.0) * 0.65 + hk_noise(hkP * 560.0) * 0.35;
+        float hkBx = hk_noise((hkP + vec2(hkE, 0.0)) * 170.0) * 0.65 + hk_noise((hkP + vec2(hkE, 0.0)) * 560.0) * 0.35;
+        float hkBz = hk_noise((hkP + vec2(0.0, hkE)) * 170.0) * 0.65 + hk_noise((hkP + vec2(0.0, hkE)) * 560.0) * 0.35;
+        float hkFade = smoothstep(5.0, 0.6, distance(cameraPosition, vWorldPos));
+        vec3 hkG = vec3(hkB0 - hkBx, 0.0, hkB0 - hkBz) * 1.6 * hkFade;
+        normal = normalize(normal + (viewMatrix * vec4(hkG, 0.0)).xyz);
+      }`
+          : ''
+      }`,
+    )
+    .replace(
       '#include <dithering_fragment>',
       `#include <dithering_fragment>
       // 雲の中は灰白色に霞む（俯瞰でも稜線が雲に隠れて見える）
@@ -128,13 +175,13 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
     );
 }
 
-export function injectEnv(material: THREE.Material, env: EnvUniforms, terrain = false): void {
+export function injectEnv(material: THREE.Material, env: EnvUniforms, terrain = false, sway = false): void {
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, env);
-    patchVertex(shader);
+    patchVertex(shader, sway);
     patchFragment(shader, terrain);
   };
-  material.customProgramCacheKey = () => (terrain ? 'hk-terrain' : 'hk-env');
+  material.customProgramCacheKey = () => (terrain ? 'hk-terrain' : sway ? 'hk-sway' : 'hk-env');
 }
 
 export function createTerrainMaterial(env: EnvUniforms): THREE.MeshStandardMaterial {

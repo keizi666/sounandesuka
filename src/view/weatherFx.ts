@@ -95,7 +95,10 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
     fragmentShader: `uniform sampler2D uTex; uniform float uDark; uniform float uNight; varying float vAlpha;
       void main(){ vec4 t = texture2D(uTex, gl_PointCoord); vec3 c = mix(vec3(0.93), vec3(0.45,0.47,0.5), uDark);
         c *= 1.0 - 0.82 * uNight; c *= 0.9 + 0.1 * (1.0 - gl_PointCoord.y);
-        gl_FragColor = vec4(c, t.a * vAlpha); if (gl_FragColor.a < 0.02) discard; }`,
+        gl_FragColor = vec4(pow(max(c, 0.0), vec3(2.2)), t.a * vAlpha); if (gl_FragColor.a < 0.02) discard;
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+        }`,
   });
   const clouds = new THREE.Points(cloudGeo, cloudMat);
   clouds.frustumCulled = false;
@@ -149,7 +152,10 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
       void main(){ if (vShow < 0.5) discard; vec2 d = gl_PointCoord - 0.5;
         float a = vSnow > 0.5 ? smoothstep(0.5, 0.2, length(d)) : (abs(d.x) < 0.18 ? 0.55 : 0.0);
         if (a < 0.02) discard; vec3 c = mix(vec3(0.75,0.82,0.9), vec3(1.0), vSnow) * (1.0 - 0.7 * uNight);
-        gl_FragColor = vec4(c, a); }`,
+        gl_FragColor = vec4(pow(max(c, 0.0), vec3(2.2)), a);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+        }`,
   });
   const precip = new THREE.Points(pGeo, precipMat);
   precip.frustumCulled = false;
@@ -194,7 +200,10 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
         void main(){ vec4 t = texture2D(uTex, gl_PointCoord);
           // 下は暗い灰色、上は日を受けて白い
           vec3 c = mix(vec3(0.5,0.52,0.57), vec3(0.97), smoothstep(0.05, 0.7, vShade)) * (1.0 - 0.8 * uNight);
-          gl_FragColor = vec4(c, t.a * uAlpha * 1.3); if (gl_FragColor.a < 0.02) discard; }`,
+          gl_FragColor = vec4(pow(max(c, 0.0), vec3(2.2)), t.a * uAlpha * 1.3); if (gl_FragColor.a < 0.02) discard;
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+        }`,
     });
     const pts = new THREE.Points(g, mat);
     pts.frustumCulled = false;
@@ -238,6 +247,8 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
       env.uWet.value = wet;
       env.uCloudBase.value = w.cloudCover >= 0.6 ? w.cloudBaseM : 99999;
       env.uCloudCover.value = w.cloudCover;
+      env.uTime.value = t;
+      env.uSway.value = 0.006 + 0.05 * Math.min(1, w.windMs / 22);
 
       // 雲
       const cu = cloudMat.uniforms;

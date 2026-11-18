@@ -4,17 +4,21 @@
  */
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { DEG } from '../sim/core/dmath';
 import type { MapRuntime, ScenarioDef, World } from '../sim/types';
 import { createFigure, type Figure } from './climberFigure';
 import { makeScale, toSceneY, UNIT, type ViewScale } from './scale';
 import { buildDiorama, buildTerrain } from './terrainMesh';
 import { createEnvUniforms, type EnvUniforms } from './terrainMaterial';
-import { buildStructures, buildTrails } from './trails';
+import { buildStructures } from './structures';
+import { buildTrails } from './trails';
 import { buildVegetation, placeTrees, type Vegetation } from './vegetation';
 import { createWeatherFx, type WeatherFx } from './weatherFx';
 import { Overlay } from './overlay';
 import { loadHqAssets, type HqState } from './assets';
+import { createPost, type Post } from './post';
+import { createSky, skyColors, type Sky } from './sky';
 
 export type Quality = 'low' | 'mid' | 'high';
 export type CameraMode = 'overview' | 'follow' | 'eye';
@@ -71,6 +75,10 @@ export class SceneView {
   godView = true;
   private followTarget = new THREE.Vector3();
   private lastSunElev = 999;
+  private lastShadowAt = 0;
+  private sky: Sky;
+  private post: Post | null = null;
+  private sunDir = new THREE.Vector3(0, 1, 0);
   private lastNight = -1;
 
   constructor(
@@ -83,9 +91,10 @@ export class SceneView {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: opts.quality !== 'low' });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, q.pixelRatio));
     this.renderer.shadowMap.enabled = q.shadow > 0;
-    this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.shadowMap.autoUpdate = false;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.0;
     this.s = makeScale(map, opts.vExag);
     this.env.uScaleY.value = UNIT * this.s.vExag;
     this.env.uBaseElev.value = this.s.baseElevM;
@@ -136,6 +145,15 @@ export class SceneView {
     this.sun.shadow.bias = -0.0004;
     this.scene.add(this.sun, this.sun.target, this.hemi);
     this.fx = createWeatherFx(this.scene, map, this.s, opts.quality);
+    // 空・環境光（質感のための映り込み）・後処理
+    this.sky = createSky(size * 30);
+    this.scene.add(this.sky.mesh);
+    if (opts.quality !== 'low') {
+      const pmrem = new THREE.PMREMGenerator(this.renderer);
+      this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+      pmrem.dispose();
+      this.post = createPost(this.renderer, this.scene, this.camera, opts.quality === 'high');
+    }
     // 高品質だけ、開始後に追加アセットを裏で読み込む（届くまでは基本の見た目）
     if (opts.quality === 'high') {
       this.hq = 'loading';
@@ -169,6 +187,7 @@ export class SceneView {
 
   resize(w: number, h: number): void {
     this.renderer.setSize(w, h, false);
+    this.post?.setSize(w, h);
     this.camera.aspect = w / Math.max(1, h);
     this.camera.updateProjectionMatrix();
   }
@@ -206,7 +225,16 @@ export class SceneView {
     this.updateCamera(world);
     this.veg.update(this.camera);
     this.controls.update();
-    this.renderer.render(this.scene, this.camera);
+    this.sky.mesh.position.copy(this.camera.position);
+    // 人形の影が付いてくるよう、影は 0.4 秒ごとにも更新する
+    if (timeSec - this.lastShadowAt > 0.4 || timeSec < this.lastShadowAt) {
+      this.lastShadowAt = timeSec;
+      this.renderer.shadowMap.needsUpdate = true;
+    }
+    if (this.post) {
+      this.post.setTilt(this.mode === 'eye' ? 0 : 1);
+      this.post.render();
+    } else this.renderer.render(this.scene, this.camera);
   }
 
   private updateCamera(world: World): void {
@@ -241,14 +269,20 @@ export class SceneView {
     const clock = ((world.tMin % 1440) + 1440) % 1440;
     const az = ((clock / 1440) * 2 - 0.5) * Math.PI;
     this.sun.position.set(Math.cos(az) * size * 2, Math.max(0.05, Math.sin(el * DEG)) * size * 2.5, Math.sin(az) * size * 2);
-    const warm = 1 - Math.min(1, el / 25);
-    this.sun.color.setRGB(1, 1 - 0.35 * warm, 1 - 0.6 * warm);
+    const warm = 1 - Math.min(1, Math.max(0, el) / 22);
+    this.sun.color.setRGB(1, 1 - 0.32 * warm, 1 - 0.58 * warm);
     const cloud = world.weather.cloudCover;
-    this.sun.intensity = 2.4 * sunUp * (1 - 0.65 * cloud);
-    this.hemi.intensity = 0.15 + 0.75 * Math.min(1, sunUp * 3) * (1 - 0.3 * cloud);
+    const dayK = Math.min(1, sunUp * 3.5);
+    // 曇りは直射が弱まり、代わりに空全体からの柔らかい光が増える
+    this.sun.intensity = 3.0 * Math.pow(sunUp, 0.6) * (1 - 0.78 * cloud * cloud) * (el > 0 ? 1 : 0);
+    const sc = skyColors(el, cloud);
+    this.hemi.color.copy(sc.top).lerp(sc.horizon, 0.6);
+    this.hemi.groundColor.copy(sc.ground);
+    this.hemi.intensity = 0.1 + dayK * (0.75 + 0.55 * cloud);
+    this.scene.environmentIntensity = 0.04 + dayK * (0.32 + 0.2 * cloud);
     const night = world.sun.isDark ? 1 : world.sun.twilight ? 0.5 : 0;
     this.env.uNight.value = night;
-    this.windows.emissiveIntensity = night > 0 ? 1.5 : 0;
+    this.windows.emissiveIntensity = night > 0 ? 2.4 : 0;
     // 登山道の線（照明を受けない素材）も夜は暗くする
     if (this.lastNight !== night) {
       this.lastNight = night;
@@ -259,12 +293,11 @@ export class SceneView {
         m.color.setHex(m.userData['base'] as number).multiplyScalar(1 - 0.8 * night);
       });
     }
-    // 空の色
-    const day = new THREE.Color(0x8fb6d8).lerp(new THREE.Color(0xa7acb2), cloud);
-    const dusk = new THREE.Color(0xd9925a);
-    const nightC = new THREE.Color(0x0a0f1c);
-    const sky = el > 6 ? day : el > -6 ? dusk.clone().lerp(day, Math.max(0, el / 6)).lerp(nightC, Math.max(0, -el / 6)) : nightC;
-    this.scene.background = sky;
+    // 空
+    this.sunDir.copy(this.sun.position).normalize();
+    this.sky.update(this.camera, sc, this.sunDir, this.sun.color, cloud);
+    this.scene.background = null;
+    this.renderer.setClearColor(sc.horizon);
     // 影は太陽が 0.5° 動いたときだけ更新
     if (Math.abs(el - this.lastSunElev) > 0.5) {
       this.renderer.shadowMap.needsUpdate = true;
