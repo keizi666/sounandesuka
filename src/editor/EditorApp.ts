@@ -15,6 +15,7 @@ import { openPreview3d, type Preview3d } from './preview3d';
 import { putProject } from './store/idb';
 import { hasTerrain, mapWithHeights } from './store/project';
 import { validateEditor } from './validateMap';
+import { wizardBar } from './wizard';
 import { exportBundle, playIn3d } from './panels/exportActions';
 
 const UNDO_MAX = 50;
@@ -47,6 +48,7 @@ export class EditorApp implements Ed {
   private center: HTMLElement;
   private cachedIssues: Issue[] | null = null;
   private actionBtns: HTMLButtonElement[] = [];
+  private wizardEl: HTMLElement | null = null;
 
   constructor(
     host: HTMLElement,
@@ -258,6 +260,10 @@ export class EditorApp implements Ed {
     for (const b of this.actionBtns) b.disabled = nErr > 0;
     const pn = PANELS.find((x) => x.id === this.p.editorState.tab)!;
     pn.render(this);
+    // はじめての流れ（次にやること）
+    this.wizardEl?.remove();
+    this.wizardEl = wizardBar(this);
+    if (this.wizardEl) this.center.append(this.wizardEl);
     this.view.tool = pn.tool?.(this) ?? null;
     this.view.setCursor(this.view.tool?.cursor ?? 'grab');
     this.view.redraw();

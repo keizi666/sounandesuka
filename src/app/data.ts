@@ -61,6 +61,24 @@ export interface LoadedScenario {
   attribution: HakoniwaBundle['attribution'];
 }
 
+/** エディターのプロジェクト（同一オリジンの IndexedDB）をバンドルにして読む（docs/18 §6.3） */
+export async function loadEditorProject(id: string): Promise<LoadedScenario> {
+  const [{ getProject }, { toBundle }] = await Promise.all([import('../editor/store/idb'), import('../editor/store/project')]);
+  const p = await getProject(id);
+  if (!p) throw new Error('エディターのプロジェクトが見つかりません');
+  const b = toBundle(p);
+  return { scenario: b.scenario, map: await buildRuntime(b.map), attribution: b.attribution };
+}
+
+export async function listEditorProjects(): Promise<{ id: string; name: string; updatedAt: string; real: boolean }[]> {
+  try {
+    const { listProjects } = await import('../editor/store/idb');
+    return await listProjects();
+  } catch {
+    return [];
+  }
+}
+
 export async function loadEntry(e: ScenarioIndexEntry): Promise<LoadedScenario> {
   if (e.bundle) {
     const b = await loadBundleFile(e.bundle);

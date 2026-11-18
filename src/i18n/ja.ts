@@ -221,6 +221,7 @@ export const JA = {
     timeUp: '◆ 時間切れ: 「{label}」になった',
     keyHelp: '左ドラッグ 視点を回す / 右ドラッグ パン / ホイール 拡大 / Space 一時停止 / 1〜4 速度 / G 情報モード / C カメラ',
     resumeAsk: '前回の続きがあります',
+    editorScenarios: 'エディターで作ったシナリオ',
     bundleBroken: 'バンドルを読み込めませんでした',
     bundleInvalid: 'バンドルのシナリオに誤りがあります',
     slowHint: '描画が重いようです。設定で画質を下げると滑らかになります。',

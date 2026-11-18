@@ -4,7 +4,7 @@
  * 開発用: ?scenario=<id> で直接シミュレーション画面を開く（&observe=1 で観察のみ、&debug=1 でデバッグパネル）。
  */
 import { JA } from '../i18n/ja';
-import { loadEntry, loadIndex } from './data';
+import { loadEditorProject, loadEntry, loadIndex } from './data';
 import { loadSettings, saveSettings, type Settings } from './settings';
 import { detectQuality } from './quality';
 import { showBriefing } from '../ui/briefing';
@@ -81,6 +81,14 @@ export function startApp(root: HTMLElement): void {
     },
   };
   const params = new URLSearchParams(location.search);
+  const bundleRef = params.get('bundle');
+  if (bundleRef?.startsWith('editor:')) {
+    root.replaceChildren(el('p', { class: 'loading' }, JA.ui.loading));
+    void loadEditorProject(bundleRef.slice(7))
+      .then((loaded) => app.go({ name: 'briefing', loaded }))
+      .catch((e: unknown) => root.replaceChildren(el('div', { class: 'fatal' }, [el('h1', {}, JA.app.title), el('p', { class: 'error' }, String(e)), el('a', { href: location.pathname }, JA.ui.toTitle)])));
+    return;
+  }
   const direct = params.get('scenario');
   if (direct) {
     root.replaceChildren(el('p', { class: 'loading' }, JA.ui.loading));

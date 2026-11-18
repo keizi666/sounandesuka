@@ -20,6 +20,10 @@
 .preview3d { position: absolute; inset: 0; background: #111; z-index: 3; }
 .preview3d canvas { width: 100%; height: 100%; display: block; }
 .preview3d .note { position: absolute; left: 8px; top: 4px; margin: 0; }
+.wizard { position: absolute; left: 8px; right: 8px; top: 8px; z-index: 4; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; background: rgba(38, 43, 51, 0.94); border: 1px solid var(--accent); border-radius: 8px; padding: 6px 10px; font-size: 0.9em; }
+.wizard .chips { display: flex; flex-wrap: wrap; gap: 2px; flex-basis: 100%; }
+.wizard .chip.done { color: var(--ok); }
+.wizard .chip.cur { background: var(--accent); color: #1d1a12; }
 .ed-bottom { max-height: 42vh; overflow: auto; background: var(--panel); border-top: 1px solid var(--line); }
 .ed-bottom:empty { display: none; }
 .ed-inspector { overflow-y: auto; padding: 8px 10px; background: var(--panel); border-left: 1px solid var(--line); font-size: 0.92em; }

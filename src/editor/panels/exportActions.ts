@@ -52,6 +52,7 @@ export async function exportBundle(ed: Ed): Promise<void> {
   if (hasErrors(ed)) return;
   if (!(await confirmRights(ed))) return;
   const b = toBundle(ed.p);
+  localStorage.setItem(`hks.ed.exported.${ed.p.id}`, '1');
   download(`${b.scenario.id}.hakoniwa.json`, JSON.stringify(b));
 }
 

@@ -1,6 +1,6 @@
 /** シナリオ選択（FR-01、FR-74）。カード一覧と、バンドルのファイル読み込み（ドラッグ＆ドロップ可） */
 import type { AppContext } from '../app/App';
-import { buildRuntime, loadEntry, loadIndex } from '../app/data';
+import { buildRuntime, listEditorProjects, loadEditorProject, loadEntry, loadIndex } from '../app/data';
 import { JA } from '../i18n/ja';
 import { fill } from '../i18n/format';
 import { validateScenario } from '../sim/scenario/validate';
@@ -35,6 +35,7 @@ export function showScenarioSelect(app: AppContext): () => void {
     const f = (e.target as HTMLInputElement).files?.[0];
     if (f) void openBundle(app, f);
   } });
+  const mine = el('section', {});
   const drop = el('label', { class: 'drop' }, [JA.ui.loadFile, input, el('small', {}, JA.ui.dropHint)]);
   // 画面のどこに落としても読み込む
   const onOver = (e: DragEvent): void => {
@@ -53,9 +54,25 @@ export function showScenarioSelect(app: AppContext): () => void {
     el('main', { class: 'select' }, [
       el('header', {}, [el('button', { onclick: () => app.go({ name: 'title' }) }, JA.ui.back), el('h1', {}, JA.ui.selectTitle)]),
       list,
+      mine,
       drop,
     ]),
   );
+  void listEditorProjects().then((ps) => {
+    if (ps.length === 0) return;
+    mine.replaceChildren(
+      el('h2', {}, JA.ui.editorScenarios),
+      el('div', { class: 'cards' }, ps.map((p) =>
+        el('button', { class: 'card', onclick: async () => {
+          try {
+            app.go({ name: 'briefing', loaded: await loadEditorProject(p.id) });
+          } catch (e) {
+            toast(String(e), 6000);
+          }
+        } }, [el('h2', {}, p.name), el('p', { class: 'meta' }, `${p.real ? '実在の山' : '箱庭岳'} ・ ${new Date(p.updatedAt).toLocaleDateString('ja-JP')}`)]),
+      )),
+    );
+  });
   void loadIndex().then((idx) => {
     list.replaceChildren(
       ...idx.map((e) =>
