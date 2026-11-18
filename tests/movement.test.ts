@@ -7,7 +7,7 @@ import type { MapRuntime, ScenarioDef, World } from '../src/sim/types';
 import { hakoniwa } from './helpers/map';
 import { loadScenario, standardClimber, testScenario } from './helpers/scenario';
 
-/** 1 人が FINISHED になるまで回し、かかった分を返す。restPattern があれば 50 分歩いて 10 分休む */
+/** 1 人が FINISHED になるまで回し、かかった分を返す。restPattern があれば 50 分歩いて 10 分休み、休憩ごとに 250 kcal 食べて 0.5 L 飲む */
 function walkMinutes(map: MapRuntime, sc: ScenarioDef, restPattern = false): { minutes: number; world: World } {
   const w = createWorld(map, sc);
   const ctx = createStaticContext(map, sc);
@@ -19,6 +19,8 @@ function walkMinutes(map: MapRuntime, sc: ScenarioDef, restPattern = false): { m
       walked = 0;
       c.plan.restUntilMin = w.tMin + 10;
       transition(w, ctx, c, 'RESTING', 'test');
+      c.body.gutKcal += 250;
+      c.body.waterDeficitL = Math.max(0, c.body.waterDeficitL - 0.5);
     }
     const wasWalking = c.state === 'WALKING';
     stepWorld(w, ctx);

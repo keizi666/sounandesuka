@@ -35,9 +35,15 @@
 - [x] `weather/ground.ts`（標高ビンの積雪・濡れ・凍結）、`weather/sun.ts`（雲による暗さ）
 - [x] 受け入れ: 補間のテスト / SUMMIT と TH_SAWA の気温差が減率どおり（誤差 0）/ SUMMIT の風が J_FOREST の 2 倍以上（s01 で最小 4.75 倍）/ s01 の 15:00 以降 2,200 m 以上はみぞれ・雪 / D1 03:00 の 2,300 m の積雪 42.7 cm
 
+## P4 生理 — 完了（2026-11-18）
+
+- [x] `climber/physiology.ts`（熱収支・震え・発汗・濡れ・エネルギー・水分・疲労・不安、熱環境）
+- [x] `climber/capacity.ts`（J・M・段階・意識・心停止・死亡）
+- [x] stepWorld に生理を組み込み（状態ごとの MET、地面との接触）
+- [x] 受け入れ: 較正 C1〜C9 すべて合格（`tests/physiology.calibration.test.ts`）。最終定数は DECISIONS
+
 ## これから
 
-- [ ] P4 生理
 - [ ] P5 シナリオ・分岐点・結末
 - [ ] P6 道迷い・危険・機器・救助
 - [ ] P7 記録・モンテカルロ・調整

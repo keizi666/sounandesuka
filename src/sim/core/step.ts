@@ -1,7 +1,9 @@
 /**
  * 1 ティックの処理（docs/03 §4）。順番は固定（変えると決定論テストが壊れる）。
- * P3 時点では時刻・太陽・気象・地面・局地気象・移動。後のフェーズで番号の位置に処理を足していく。
+ * P4 時点では時刻・太陽・気象・地面・局地気象・移動・生理。後のフェーズで番号の位置に処理を足していく。
  */
+import { updateCapacity } from '../climber/capacity';
+import { integrateBody, thermalEnvFor, updateAnxiety } from '../climber/physiology';
 import { transition } from '../climber/state';
 import { walkStep } from '../climber/walk';
 import type { ClimberState, StaticContext, World } from '../types';
@@ -37,20 +39,40 @@ export function stepWorld(world: World, ctx: StaticContext): void {
 }
 
 function stepClimber(world: World, ctx: StaticContext, c: ClimberState): void {
+  if (!c.body.alive) {
+    c.speedMs = 0;
+    c.metAct = 0;
+    return;
+  }
+  const t = ctx.tuning;
+  let walking = false;
+  let grade = 0;
+  // 8d. 状態ごとの行動（移動）
   switch (c.state) {
-    case 'WALKING':
-      walkStep(world, ctx, c, DT_SEC);
+    case 'WALKING': {
+      const r = walkStep(world, ctx, c, DT_SEC);
+      walking = r.movedM > 0;
+      grade = r.grade;
       break;
+    }
     case 'RESTING':
-      c.speedMs = 0;
-      c.metAct = ctx.tuning.movement.restMet;
       if (c.plan.restUntilMin !== null && world.tMin >= c.plan.restUntilMin - 1e-9) {
         c.plan.restUntilMin = null;
         transition(world, ctx, c, 'WALKING', 'restEnd');
       }
       break;
     default:
-      c.speedMs = 0;
-      c.metAct = ctx.tuning.movement.restMet;
+      break;
   }
+  if (!walking) {
+    c.speedMs = 0;
+    c.metAct = t.physiology.stateMet[c.state] ?? t.movement.restMet;
+  }
+  // 8f. 生理
+  const dtMin = DT_SEC / 60;
+  integrateBody(c, thermalEnvFor(world, ctx, c), { metAct: c.metAct, grade, walking }, dtMin, t);
+  updateAnxiety(world, c, dtMin, t);
+  // 8h. 判断力・運動能力・段階・生死
+  const checkTick = world.tick % (t.physiology.arrestCheckMin * TICKS_PER_MIN) === 0;
+  updateCapacity(world, ctx, c, checkTick);
 }

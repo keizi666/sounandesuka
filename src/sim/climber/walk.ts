@@ -40,8 +40,14 @@ function arriveAt(world: World, ctx: StaticContext, c: ClimberState, nodeId: str
   return false;
 }
 
+export interface WalkResult {
+  movedM: number;
+  /** 歩いた時間で重みを付けた平均勾配（上りが正） */
+  grade: number;
+}
+
 /** WALKING の 1 ティック分（dtSec 秒）進む */
-export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSec: number): void {
+export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSec: number): WalkResult {
   const map: MapRuntime = ctx.map;
   const env = moveEnvFor(world, c);
   let t = dtSec;
@@ -49,6 +55,7 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
   let metTime = 0;
   let headX = 0;
   let headZ = 0;
+  let gradeTime = 0;
   while (t > EPS) {
     if (c.pos.mode === 'node') {
       const next = c.plan.route[c.plan.routeIndex];
@@ -83,6 +90,7 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
     t -= dt;
     moved += d;
     metTime += met * dt;
+    gradeTime += grade * dt;
     headX += (b.x - a.x) * pos.dir;
     headZ += (b.z - a.z) * pos.dir;
     const atEnd = pos.dir === 1 ? pos.s >= trail.lengthM - EPS : pos.s <= EPS;
@@ -97,4 +105,6 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
   c.metAct = (metTime + ctx.tuning.movement.restMet * restT) / dtSec;
   if (headX !== 0 || headZ !== 0) c.headingRad = datan2(headX, -headZ);
   syncPosition(map, c);
+  const walkedT = dtSec - restT;
+  return { movedM: moved, grade: walkedT > 0 ? gradeTime / walkedT : 0 };
 }

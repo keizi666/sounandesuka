@@ -3,6 +3,7 @@
  * 速度は実距離（s）あたり。勾配も実距離に対する値（シヌオシティ考慮後）。
  */
 import { dexp } from '../core/dmath';
+import { dehydrationF } from './capacity';
 import { TUNING, type Tuning } from '../tuning';
 import type { ClimberDef, ClimberState, EdgeDef, MapRuntime } from '../types';
 
@@ -104,12 +105,13 @@ export function walkMet(vMs: number, grade: number, def: ClimberDef, windMs: num
   return (vo2 / m.vo2Rest) * load * wind;
 }
 
-/** 使える最大 MET（docs/06 §2.2） */
+/** 使える最大 MET（docs/06 §2.2、脱水 §5.2） */
 export function usableMet(c: ClimberState, tuning: Tuning = TUNING): number {
   const m = tuning.movement;
   const maxMet = m.maxMetBase + m.maxMetPerFitness * c.def.fitness;
   const gly = c.body.glycogenKcal < m.lowGlycogenKcal ? m.lowGlycogenMetF : 1;
-  return maxMet * gly * c.M * (1 - (m.fatigueMetK * c.body.fatigue) / 100);
+  const dehyd = dehydrationF(c.body.waterDeficitL, tuning).met;
+  return maxMet * gly * dehyd * c.M * (1 - (m.fatigueMetK * c.body.fatigue) / 100);
 }
 
 /** 候補速度の MET が持続上限を超えるなら、二分探索で速度を下げる */
