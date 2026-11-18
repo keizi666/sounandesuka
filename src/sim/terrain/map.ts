@@ -1,6 +1,6 @@
 /**
  * MapDef → MapRuntime（高さ・派生レイヤー・スナップ済みノード）。
- * 登山道（trails / adjacency）は P2 で埋める。World には入れない静的データ（docs/03 §3）。
+ * World には入れない静的データ（docs/03 §3）。
  */
 import { TUNING, type Tuning } from '../tuning';
 import type { MapDef, MapRuntime, NodeDef, NodeId } from '../types';
@@ -8,6 +8,7 @@ import { deriveLayers } from './derive';
 import { generateProceduralHeights, isProcedural } from './generate';
 import { nearestOnPolyline, newNearest, preparePolyline } from './geom';
 import { gridGeom, sampleElev, vertexX, vertexZ, type HeightGrid } from './sample';
+import { buildTrails } from './trails';
 
 export interface BuildMapOptions {
   /** 電波圏を計算するか（既定 true） */
@@ -54,6 +55,7 @@ export function buildMapRuntime(def: MapDef, opts: BuildMapOptions = {}): BuildM
     trails: {},
     adjacency: {},
   };
+  buildTrails(map, tuning);
   return { map, warnings };
 }
 

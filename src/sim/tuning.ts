@@ -12,6 +12,16 @@ export const TUNING = {
     noonPlusMidnightDepthDeg: 108,
     /** 夜の伏角の下限（度） */
     minNightDepthDeg: 10,
+    /** 太陽高度がこれ未満で暗い（度）。0 未満〜これ以上が薄明 */
+    darkBelowDeg: -6,
+    /** 雲量 1 で暗さの判定に使う太陽高度を下げる量（度） */
+    cloudDarkeningDeg: 3,
+  },
+
+  /** docs/06 §6 判断力・運動能力（P4 で本実装） */
+  capacity: {
+    j0Base: 0.4,
+    j0PerExperience: 0.6,
   },
 
   /** docs/04 §3 地形生成 */
@@ -58,6 +68,70 @@ export const TUNING = {
     krummholzMaxSlopeDeg: 35,
     skyViewRadiusM: 500,
     skyViewForestFactor: 0.6,
+  },
+
+  /** docs/04 §5 登山道 */
+  trails: {
+    /** ポリラインの再サンプル間隔（水平距離 m） */
+    sampleStepM: 10,
+    /** courseTimeMin のないエッジでダイクストラに使う速度（実距離 m/分） */
+    fallbackSpeedMPerMin: 40,
+  },
+
+  /** docs/07 §1 移動、docs/06 §2 代謝 */
+  movement: {
+    toblerMaxKmh: 6,
+    toblerK: 3.5,
+    toblerOffset: 0.05,
+    /** pace = base + exp × experience + fit × (fitness − 1) */
+    paceBase: 0.75,
+    paceExp: 0.15,
+    paceFit: 0.1,
+    classF: { T1: 1.0, T2: 0.85, T3: 0.6, chain: 0.45 },
+    darkHeadlampF: 0.75,
+    darkNoLampBase: 0.25,
+    darkNoLampMoon: 0.2,
+    lowVisM: 30,
+    lowVisF: 0.8,
+    snowDeepCm: 20,
+    snowDeepF: 0.5,
+    snowCm: 5,
+    snowF: 0.75,
+    icyNoCramponsF: 0.6,
+    wetGround: 0.5,
+    wetF: 0.9,
+    fatigueSpeedK: 0.4,
+    sprainDownF: 0.8,
+    hurryF: 1.1,
+    hurryAnxiety: 60,
+    windSlowStartMs: 8,
+    windSlowSpanMs: 14,
+    windMinF: 0.25,
+    /** 風による運動負荷: 1 + k × max(0, wind − start) */
+    windMetStartMs: 5,
+    windMetK: 0.03,
+    /** ACSM 歩行式（VO2 ml/kg/min） */
+    vo2Rest: 3.5,
+    vo2PerSpeed: 0.1,
+    vo2PerClimb: 1.8,
+    descentGradeF: 0.33,
+    steepDescentGrade: 0.25,
+    steepDescentAddF: 0.5,
+    loadK: 0.6,
+    /** 最大 MET = base + k × fitness */
+    maxMetBase: 8,
+    maxMetPerFitness: 6,
+    lowGlycogenKcal: 300,
+    lowGlycogenMetF: 0.55,
+    fatigueMetK: 0.3,
+    /** 持続できる MET の上限 = この比 × usableMET */
+    sustainableMetRatio: 0.75,
+    metSearchIterations: 6,
+    restMet: 1.4,
+    /** 道外の基本速度（km/h）。速度係数は植生クラスで docs/04 §4 */
+    offTrailKmh: 3.0,
+    offTrailMinSlopeF: 0.15,
+    vegSpeed: [0.5, 0.45, 0.2, 0.7, 0.45, 0.35, 0.05],
   },
 
   /** docs/04 §7 電波圏 */

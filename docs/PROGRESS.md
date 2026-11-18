@@ -21,9 +21,15 @@
 - [x] 受け入れ: rng の一致と既知ベクトル / docs/04 §3.3 の 3 項目 / Node で 1 秒以内（約 0.35 秒）/ docs/04 §7 の電波の検証 / `npm run sim -- --dump-terrain` で PGM 出力
 - [ ] 要検討: マップの急峻さ（DECISIONS「要検討」）。P6 の前に決める
 
+## P2 登山道と移動 — 完了（2026-11-18）
+
+- [x] `terrain/trails.ts`（ポリライン化、隣接、ルート解決、ダイクストラ、エッジ上の位置）
+- [x] `climber/movement.ts`（Tobler と各係数、歩行 MET、MET 上限）、`climber/position.ts`（posToWorld）、`climber/walk.ts`、`climber/state.ts`
+- [x] `core/world.ts`（createWorld・createStaticContext）、`core/step.ts`（時刻・太陽・移動）、`weather/sun.ts`、`weather/ground.ts`（読み出しのみ）
+- [x] 受け入れ: 全エッジ両方向でコースタイム ±25%（実際は ±15%）/ s01 の計画ルートを標準登山者が 50 分歩行・10 分休憩で 9.1 時間
+
 ## これから
 
-- [ ] P2 登山道と移動
 - [ ] P3 気象
 - [ ] P4 生理
 - [ ] P5 シナリオ・分岐点・結末

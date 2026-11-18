@@ -3,6 +3,8 @@
 // P0 で src/sim/types.ts にコピーして使う。変更したら docs も直す。
 // =============================================================
 
+import type { Tuning } from './tuning';
+
 // ---------- 基本 ----------
 export type TimeRef = string; // "D0 05:30"
 export type NodeId = string;
@@ -640,7 +642,7 @@ export type RunMode = 'interactive' | 'timed' | 'observe' | 'headless';
 export interface StaticContext {
   map: MapRuntime;
   scenario: ScenarioDef;
-  tuning: Record<string, unknown>; // 実装時に Tuning 型へ
+  tuning: Tuning;
   mode: RunMode;
   policy: PolicyName;              // headless / observe で使用
   events: SimEvent[];              // stepWorld が push、ループが回収
