@@ -3,6 +3,7 @@
  * ここでは状態による見た目の切り替え（雨具・フード・濡れ・ヘッドランプ・ツェルト・目・死亡時の灰色化）を行う。
  * 死亡は横向きに倒れたまま静止し、人形とマーカーが静かに灰色になる（流血・損傷の表現はしない）。
  */
+import { attachPortraitFace } from './faceDecal';
 import * as THREE from 'three';
 import type { ClimberState } from '../sim/types';
 import { buildFigure } from './figureModel';
@@ -27,6 +28,8 @@ export function createFigure(c: ClimberState, heightScene: number, env?: EnvUnif
   const { root } = rig;
   root.scale.setScalar(heightScene);
   if (env) for (const m of rig.litMaterials) injectEnv(m, env, false, false, { rim: 1.1, noFade: true });
+  // 顔にアイコンの顔の絵を貼る（読めたら。夜・霧の色味は体と同じに）
+  attachPortraitFace(rig, c.def, env ? (m) => injectEnv(m, env, false, false, { noFade: true }) : undefined);
   const arrow = rig.marker.children[0] as THREE.Mesh;
   const arrowMat = arrow.material as THREE.MeshBasicMaterial;
   const arrowBase = arrowMat.color.clone();

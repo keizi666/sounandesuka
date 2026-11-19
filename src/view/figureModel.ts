@@ -162,7 +162,7 @@ function bodyPrims(sk: Skeleton, o: BodyOpts): Prim[] {
   // 首と頭
   cap(sk.neck, v(0, -0.02, 0), v(0, 0.04, 0), 0.036, 0.036, R.skin, 0.02);
   ell(sk.neck, v(0, 0.135, 0.008), v(D.headR * 0.98, D.headR * 1.04, D.headR * 0.98), R.skin, 0.02);
-  ell(sk.neck, v(0, 0.118, 0.122), v(0.016, 0.014, 0.014), R.skin, 0.016); // 鼻
+  // 鼻は付けない（顔はアイコンの絵を貼るので、立体の鼻があると二重になる）
   for (const sx of [-1, 1]) ell(sk.neck, v(sx * 0.113, 0.128, 0.004), v(0.014, 0.024, 0.02), R.skin, 0.012); // 耳
   if (o.helmet) {
     ell(sk.neck, v(0, 0.178, 0.004), v(0.134, 0.098, 0.136), R.hat, 0.006, { cutY: -0.035 });
@@ -320,6 +320,7 @@ export function buildFigure(def: ClimberDef): FigureRig {
     const eye = mesh(new THREE.SphereGeometry(0.0165, 12, 10), dark, sx * 0.044, 0.13, 0.108);
     eye.scale.set(0.82, 1.2, 0.5);
     eye.castShadow = false;
+    eye.userData['faceFeature'] = true;
     neck.add(eye);
     eyes.push(eye);
     const glint = mesh(new THREE.SphereGeometry(0.005, 6, 6), new THREE.MeshBasicMaterial({ color: 0xffffff }), 0.004, 0.006, 0.014);
@@ -328,14 +329,17 @@ export function buildFigure(def: ClimberDef): FigureRig {
     const brow = mesh(new THREE.BoxGeometry(0.03, 0.006, 0.004), dark, sx * 0.044, 0.164, 0.108);
     brow.rotation.z = sx * -0.1;
     brow.castShadow = false;
+    brow.userData['faceFeature'] = true;
     neck.add(brow);
     const cheek = mesh(new THREE.SphereGeometry(0.017, 10, 8), new THREE.MeshBasicMaterial({ color: 0xf2a08c, transparent: true, opacity: 0.55 }), sx * 0.07, 0.098, 0.094);
     cheek.scale.set(1, 0.7, 0.3);
     cheek.castShadow = false;
+    cheek.userData['faceFeature'] = true;
     neck.add(cheek);
   }
   const mouth = mesh(new THREE.BoxGeometry(0.02, 0.005, 0.004), dark, 0, 0.082, 0.119);
   mouth.castShadow = false;
+  mouth.userData['faceFeature'] = true;
   neck.add(mouth);
 
   // 帽子は体のメッシュの一部。表示の切替用に空の入れ物を持つ（フードをかぶると隠れる部分はない）
