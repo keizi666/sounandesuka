@@ -26,8 +26,10 @@ export function groupLeader(world: World, groupId: string | null): ClimberState 
   const members = groupMembers(world, groupId);
   const lead = g ? world.climbers.find((c) => c.id === g.leader) : undefined;
   if (lead && lead.body.alive && lead.body.conscious && lead.groupId === groupId) return lead;
-  const alive = members.filter((c) => c.body.alive && c.body.conscious);
-  const pool = alive.length > 0 ? alive : members.length > 0 ? members : world.climbers;
+  // 意識のある人 → 生きている人 → 全員、の順に選ぶ（亡くなった人をリーダーにしない）
+  const conscious = members.filter((c) => c.body.alive && c.body.conscious);
+  const living = members.filter((c) => c.body.alive);
+  const pool = conscious.length > 0 ? conscious : living.length > 0 ? living : members.length > 0 ? members : world.climbers;
   return pool.reduce((best, c) => (c.J > best.J ? c : best), pool[0]!);
 }
 

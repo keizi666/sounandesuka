@@ -1,0 +1,2126 @@
+{
+ "id": "s19_komarenge_2012",
+ "version": 1,
+ "title": "小蓮華山 2012年5月4日",
+ "subtitle": "残雪期・60〜70代の男性6人・吹雪と低体温症（史実にもとづく再構成）",
+ "theme": "hypothermia",
+ "difficulty": 5,
+ "season": "spring",
+ "snowpack": {
+  "lineM": 1400,
+  "depthCm": 150,
+  "fullM": 2200,
+  "trailCm": 8
+ },
+ "estMinutes": 25,
+ "mapId": "komarenge",
+ "seed": 20120504,
+ "startDate": "2012-05-04",
+ "startAt": "D0 05:25",
+ "timeLimit": "D1 12:00",
+ "sun": {
+  "sunrise": "04:47",
+  "sunset": "18:41",
+  "maxElevDeg": 69
+ },
+ "moon": {
+  "illumination": 0.95,
+  "rise": "16:20",
+  "set": "03:30"
+ },
+ "region": {
+  "name": "北アルプス・白馬岳（栂池〜小蓮華山）",
+  "real": true
+ },
+ "nodeOverrides": {
+  "OIKE": {
+   "open": false
+  },
+  "SANSO": {
+   "open": true
+  },
+  "TSUGA": {
+   "open": true
+  }
+ },
+ "briefing": {
+  "text": "5月4日、大型連休の朝。60〜70代の男性6人が栂池ヒュッテに泊まった。\n今日は白馬大池・小蓮華山を経て白馬山荘まで。コースタイムで約7時間、道はほとんど雪の上。\n白馬大池山荘はまだ営業前。船越ノ頭から先は、風をよける所のない稜線が続く。\n朝は晴れて風もない。防寒着とツエルトはザックの中。",
+  "forecast": [
+   {
+    "label": "朝",
+    "text": "晴れ",
+    "icon": "sunny"
+   },
+   {
+    "label": "午後",
+    "text": "くもり一時雨。上空に寒気（山は雪のおそれ）",
+    "icon": "cloudy_rain"
+   },
+   {
+    "label": "夜",
+    "text": "山は雪・強い西風",
+    "icon": "snow"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "TSUGA",
+   "TENGU",
+   "NORIKURA",
+   "OIKE",
+   "FUNAKOSHI",
+   "KOREN",
+   "MIKUNI",
+   "HAKUBA",
+   "SANSO"
+  ],
+  "goalNodes": [
+   "SANSO"
+  ],
+  "plannedFinish": "D0 13:00",
+  "submittedPlan": true,
+  "reportIfNotBackBy": "D0 19:00"
+ },
+ "groups": [
+  {
+   "id": "main",
+   "members": "all",
+   "leader": "D",
+   "cohesion": "tight"
+  }
+ ],
+ "party": [
+  {
+   "id": "A",
+   "name": "男性A",
+   "role": "山仲間",
+   "age": 78,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 12,
+   "experience": 0.5,
+   "fitness": 0.62,
+   "navSkill": 0.5,
+   "riskTolerance": 0.55,
+   "color": "#8e44ad",
+   "portrait": "senior_m:1",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 100,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 1.1,
+    "cloPack": 0.6,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 8,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 70,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 1600,
+    "waterL": 1,
+    "stove": false,
+    "crampons": true,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 5,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ],
+   "notes": "6 人の最年長（報道の年齢）"
+  },
+  {
+   "id": "B",
+   "name": "男性B",
+   "role": "山仲間",
+   "age": 75,
+   "sex": "m",
+   "weightKg": 63,
+   "packKg": 12,
+   "experience": 0.6,
+   "fitness": 0.68,
+   "navSkill": 0.5,
+   "riskTolerance": 0.55,
+   "color": "#2e86c1",
+   "portrait": "senior_m:2",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 100,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 1.1,
+    "cloPack": 0.6,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 8,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 70,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 1600,
+    "waterL": 1,
+    "stove": false,
+    "crampons": true,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 5,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "C",
+   "name": "男性C",
+   "role": "山仲間",
+   "age": 75,
+   "sex": "m",
+   "weightKg": 64,
+   "packKg": 12,
+   "experience": 0.6,
+   "fitness": 0.68,
+   "navSkill": 0.5,
+   "riskTolerance": 0.55,
+   "color": "#17a589",
+   "portrait": "senior_m:3",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 100,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 1.1,
+    "cloPack": 0.6,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 8,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 70,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 1600,
+    "waterL": 1,
+    "stove": false,
+    "crampons": true,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 5,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "D",
+   "name": "男性D",
+   "role": "山仲間",
+   "age": 66,
+   "sex": "m",
+   "weightKg": 66,
+   "packKg": 12,
+   "experience": 0.7,
+   "fitness": 0.82,
+   "navSkill": 0.6,
+   "riskTolerance": 0.55,
+   "color": "#b03a2e",
+   "portrait": "senior_m:4",
+   "leader": true,
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 100,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 1.1,
+    "cloPack": 0.6,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 8,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 70,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 1600,
+    "waterL": 1,
+    "stove": false,
+    "crampons": true,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 5,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ],
+   "notes": "先頭を歩く役はシミュレーションの推定（記録で明らかでない）。ツエルトを持つが、記録では風にあおられて下に敷いた形で見つかったため、シミュレーションでは風よけにならないものとして扱う"
+  },
+  {
+   "id": "E",
+   "name": "男性E",
+   "role": "山仲間",
+   "age": 63,
+   "sex": "m",
+   "weightKg": 68,
+   "packKg": 12,
+   "experience": 0.6,
+   "fitness": 0.86,
+   "navSkill": 0.5,
+   "riskTolerance": 0.55,
+   "color": "#d68910",
+   "portrait": "mid_m:5",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 100,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 1.1,
+    "cloPack": 0.6,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 8,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 70,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 1600,
+    "waterL": 1,
+    "stove": false,
+    "crampons": true,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 5,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  },
+  {
+   "id": "F",
+   "name": "男性F",
+   "role": "山仲間",
+   "age": 63,
+   "sex": "m",
+   "weightKg": 66,
+   "packKg": 12,
+   "experience": 0.6,
+   "fitness": 0.86,
+   "navSkill": 0.5,
+   "riskTolerance": 0.55,
+   "color": "#5d6d7e",
+   "portrait": "mid_m:6",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 100,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 1.1,
+    "cloPack": 0.6,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 8,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 70,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 1600,
+    "waterL": 1,
+    "stove": false,
+    "crampons": true,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 5,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "initial",
+    "gear"
+   ]
+  }
+ ],
+ "passersby": [
+  {
+   "edges": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "perHour": 3,
+   "from": "06:00",
+   "to": "12:00",
+   "voiceM": 60,
+   "whistleM": 150
+  },
+  {
+   "edges": [
+    "E6",
+    "E7"
+   ],
+   "perHour": 1.5,
+   "from": "07:00",
+   "to": "11:00",
+   "fromDay": 1,
+   "voiceM": 60,
+   "whistleM": 150
+  }
+ ],
+ "weather": {
+  "refElevM": 2700,
+  "lapseRateCPer100m": 0.6,
+  "cloudThicknessM": 3000,
+  "keyframes": [
+   {
+    "at": "D0 04:30",
+    "tempC": 1.5,
+    "windMs": 5,
+    "windDirDeg": 250,
+    "precipMmH": 0,
+    "cloudCover": 0.35,
+    "cloudBaseM": 3300,
+    "visibilityM": 30000,
+    "pressureHpa": 1000,
+    "gustiness": 0.25
+   },
+   {
+    "at": "D0 07:00",
+    "tempC": 3.5,
+    "windMs": 5,
+    "windDirDeg": 245,
+    "precipMmH": 0,
+    "cloudCover": 0.3,
+    "cloudBaseM": 3300,
+    "visibilityM": 30000,
+    "pressureHpa": 1000,
+    "gustiness": 0.25
+   },
+   {
+    "at": "D0 09:30",
+    "tempC": 5,
+    "windMs": 7,
+    "windDirDeg": 245,
+    "precipMmH": 0,
+    "cloudCover": 0.45,
+    "cloudBaseM": 3200,
+    "visibilityM": 25000,
+    "pressureHpa": 999,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D0 10:45",
+    "tempC": 4.5,
+    "windMs": 7,
+    "windDirDeg": 255,
+    "precipMmH": 0.3,
+    "cloudCover": 0.75,
+    "cloudBaseM": 2900,
+    "visibilityM": 15000,
+    "inCloudVisibilityM": 200,
+    "pressureHpa": 998,
+    "gustiness": 0.35
+   },
+   {
+    "at": "D0 11:40",
+    "tempC": 2.5,
+    "windMs": 10,
+    "windDirDeg": 260,
+    "precipMmH": 2.5,
+    "cloudCover": 0.95,
+    "cloudBaseM": 2500,
+    "visibilityM": 5000,
+    "inCloudVisibilityM": 120,
+    "pressureHpa": 997,
+    "gustiness": 0.4
+   },
+   {
+    "at": "D0 13:00",
+    "tempC": 2,
+    "windMs": 10,
+    "windDirDeg": 265,
+    "precipMmH": 2,
+    "cloudCover": 0.95,
+    "cloudBaseM": 2400,
+    "visibilityM": 5000,
+    "inCloudVisibilityM": 120,
+    "pressureHpa": 997,
+    "gustiness": 0.4
+   },
+   {
+    "at": "D0 13:30",
+    "tempC": 1.5,
+    "windMs": 11,
+    "windDirDeg": 270,
+    "precipMmH": 2,
+    "cloudCover": 1,
+    "cloudBaseM": 2350,
+    "visibilityM": 4000,
+    "inCloudVisibilityM": 100,
+    "pressureHpa": 997,
+    "gustiness": 0.4
+   },
+   {
+    "at": "D0 13:55",
+    "tempC": -0.5,
+    "windMs": 13,
+    "windDirDeg": 280,
+    "precipMmH": 3.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2000,
+    "visibilityM": 1500,
+    "inCloudVisibilityM": 40,
+    "pressureHpa": 997,
+    "gustiness": 0.5
+   },
+   {
+    "at": "D0 15:00",
+    "tempC": -1.5,
+    "windMs": 14,
+    "windDirDeg": 285,
+    "precipMmH": 3,
+    "cloudCover": 1,
+    "cloudBaseM": 1900,
+    "visibilityM": 1000,
+    "inCloudVisibilityM": 30,
+    "pressureHpa": 998,
+    "gustiness": 0.5
+   },
+   {
+    "at": "D0 18:00",
+    "tempC": -2,
+    "windMs": 14,
+    "windDirDeg": 285,
+    "precipMmH": 2.5,
+    "cloudCover": 1,
+    "cloudBaseM": 1900,
+    "visibilityM": 1000,
+    "inCloudVisibilityM": 30,
+    "pressureHpa": 999,
+    "gustiness": 0.5
+   },
+   {
+    "at": "D0 20:00",
+    "tempC": -3,
+    "windMs": 16,
+    "windDirDeg": 285,
+    "precipMmH": 2,
+    "cloudCover": 1,
+    "cloudBaseM": 1900,
+    "visibilityM": 1000,
+    "inCloudVisibilityM": 30,
+    "pressureHpa": 1000,
+    "gustiness": 0.5
+   },
+   {
+    "at": "D1 01:00",
+    "tempC": -4,
+    "windMs": 16,
+    "windDirDeg": 285,
+    "precipMmH": 1,
+    "cloudCover": 1,
+    "cloudBaseM": 2000,
+    "visibilityM": 1500,
+    "inCloudVisibilityM": 40,
+    "pressureHpa": 1002,
+    "gustiness": 0.55
+   },
+   {
+    "at": "D1 04:00",
+    "tempC": -4.5,
+    "windMs": 12,
+    "windDirDeg": 280,
+    "precipMmH": 0.3,
+    "cloudCover": 0.95,
+    "cloudBaseM": 2300,
+    "visibilityM": 3000,
+    "inCloudVisibilityM": 60,
+    "pressureHpa": 1004,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D1 06:30",
+    "tempC": -4,
+    "windMs": 9,
+    "windDirDeg": 260,
+    "precipMmH": 0,
+    "cloudCover": 0.6,
+    "cloudBaseM": 2900,
+    "visibilityM": 15000,
+    "pressureHpa": 1005,
+    "gustiness": 0.35
+   },
+   {
+    "at": "D1 09:00",
+    "tempC": -1,
+    "windMs": 8,
+    "windDirDeg": 250,
+    "precipMmH": 0,
+    "cloudCover": 0.15,
+    "cloudBaseM": 3500,
+    "visibilityM": 40000,
+    "pressureHpa": 1004,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 12:00",
+    "tempC": 1.5,
+    "windMs": 7,
+    "windDirDeg": 250,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 3500,
+    "visibilityM": 40000,
+    "pressureHpa": 1003,
+    "gustiness": 0.3
+   }
+  ]
+ },
+ "events": [
+  {
+   "id": "ev_stayed_end",
+   "trigger": {
+    "all": [
+     {
+      "flag": "stayed"
+     },
+     {
+      "after": "D0 17:00"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "夕方、山は吹雪のまま。6人は山荘に予約の取り消しを伝え、明日の天気を見て下りることにした"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "abortTrip"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_trace",
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "TENGU"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "天狗原から白馬乗鞍岳へ、雪の斜面にしっかりした踏み跡が続いている"
+    }
+   ]
+  },
+  {
+   "id": "ev_turntime",
+   "trigger": {
+    "all": [
+     {
+      "flag": "turnTime"
+     },
+     {
+      "after": "D0 10:30"
+     },
+     {
+      "not": {
+       "beenAt": "OIKE"
+      }
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "決めておいた 10 時半になった。白馬大池にまだ着いていないので、栂池へ引き返す",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "say",
+       "text": "10時半だ。約束どおり戻ろう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "turnBack"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_clouds",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 11:00"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "not": {
+       "var": "leader.state",
+       "op": "==",
+       "value": "FINISHED"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "白馬岳の方に、山の形をした雲がかかっている"
+    }
+   ]
+  },
+  {
+   "id": "ev_rain",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 11:40"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "急に空が暗くなり、大粒の雨と強い風が吹きつけてきた",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_storm",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 13:55"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "stormHit"
+    },
+    {
+     "type": "log",
+     "text": "雲が一気に厚くなり、西からの風が強まった。雨はみぞれに変わった",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_snow",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 15:00"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 2300
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "みぞれが雪に変わった。目を開けていられないほどの吹雪になった",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_sos",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 17:40"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "group.main.max.coreC",
+      "op": ">",
+      "value": 33
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 2550
+     },
+     {
+      "not": {
+       "var": "leader.rescueCalled",
+       "op": "==",
+       "value": true
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "携帯電話で家族に助けを求めた（記録では 17 時 40 分、家族が大町署に届け出た）",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "callRescue",
+       "via": "phone"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_depart",
+   "title": "栂池ヒュッテの朝",
+   "group": "main",
+   "priority": 20,
+   "trigger": {
+    "after": "D0 05:25"
+   },
+   "situation": "朝 5 時半。晴れて風もない。予報は午後から下り坂で、山は雪のおそれ。今日はどうする？",
+   "knowledge": [
+    "白馬山荘までコースタイムで約 7 時間",
+    "白馬大池山荘は営業前。途中に入れる小屋はない",
+    "船越ノ頭から先は吹きさらしの稜線"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "予定どおり白馬山荘へ",
+     "detail": "晴れているうちに稜線を越える。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "晴れているうちに行こう"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "stay",
+     "label": "今日は小屋で様子を見る",
+     "detail": "天気を見て、明日動く。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "午後から崩れるなら、今日はやめておこう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "stayed"
+      },
+      {
+       "type": "setFlag",
+       "flag": "familyNotified"
+      },
+      {
+       "type": "stayInShelter",
+       "until": "D1 12:00"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.2
+     }
+    },
+    {
+     "id": "norikura",
+     "label": "白馬乗鞍岳まで行って戻る",
+     "detail": "稜線には上がらない。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "乗鞍岳までにして、昼前に戻ろう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "shortTrip"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "TSUGA",
+        "TENGU",
+        "NORIKURA",
+        "TENGU",
+        "TSUGA"
+       ],
+       "goalNodes": [
+        "TSUGA"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_tengu",
+   "title": "天狗原",
+   "group": "main",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "TENGU"
+     },
+     {
+      "not": {
+       "flag": "shortTrip"
+      }
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "situation": "天狗原に着いた。予定より {leader.timeBehindMin:0} 分遅れている。ここで朝の弁当にする。この先は？",
+   "knowledge": [
+    "白馬大池まで、ふつうは 1 時間半",
+    "最年長は 78 歳。登りで少しずつ遅れる"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "朝食をとって進む",
+     "detail": "弁当を食べて、そのまま白馬山荘へ。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここで弁当にしよう。ゆっくりでいい"
+      },
+      {
+       "type": "eat",
+       "kcal": 400
+      },
+      {
+       "type": "rest",
+       "minutes": 30
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "turntime",
+     "label": "戻る時刻を決めて進む",
+     "detail": "10 時半に白馬大池に着かなければ戻る。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "10時半までに大池に着かなければ、引き返そう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnTime"
+      },
+      {
+       "type": "eat",
+       "kcal": 400
+      },
+      {
+       "type": "rest",
+       "minutes": 30
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_oike",
+   "title": "白馬大池",
+   "group": "main",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "OIKE"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     },
+     {
+      "not": {
+       "flag": "shortTrip"
+      }
+     }
+    ]
+   },
+   "situation": "雪に埋まった白馬大池。小蓮華山から戻ってきた二人が「天気が崩れそうなので引き返す」と言う。進むか？",
+   "knowledge": [
+    "予定より {leader.timeBehindMin:0} 分遅れている",
+    "白馬山荘まで、ふつうは 3 時間",
+    "白馬大池山荘は閉まっている"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "昼食をとって進む",
+     "detail": "弁当を食べてから白馬山荘へ。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "白馬へ行く",
+       "documented": true,
+       "source": "大池付近で話した登山者の記録（報道・ヤマレコの記録の整理による）"
+      },
+      {
+       "type": "eat",
+       "kcal": 400
+      },
+      {
+       "type": "rest",
+       "minutes": 20
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.timeBehindMin",
+         "op": ">",
+         "value": 150
+        },
+        "add": -0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "back",
+     "label": "栂池へ引き返す",
+     "detail": "今なら天気の崩れる前に戻れる。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここまでにしよう。栂池へ戻る"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "turnBack"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_koren",
+   "title": "小蓮華山の手前",
+   "group": "main",
+   "trigger": {
+    "all": [
+     {
+      "onEdge": "E5"
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 2700
+     },
+     {
+      "after": "D0 12:30"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "situation": "三国境から引き返してきた10人のパーティとすれ違った。一人が疲れて、ザックを仲間が担いでいる。進むか？",
+   "knowledge": [
+    "小雨と風。気温は {leader.local.tempC:0}℃",
+    "白馬山荘まで、ふつうは 1 時間半",
+    "栂池まで戻るには 4 時間以上かかる"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "白馬山荘へ進む",
+     "detail": "山荘の方が近い。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "山荘の方が近い。行こう"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "layer_go",
+     "label": "着込んで食べてから進む",
+     "detail": "雨具の下にもう一枚着る。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "今のうちに着込もう。何か食べて"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 300
+      },
+      {
+       "type": "setFlag",
+       "flag": "layered"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "back",
+     "label": "10人と一緒に引き返す",
+     "tags": [
+      "recommended"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "戻ろう。下りなら風を背にできる"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "setFlag",
+       "flag": "layered"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "turnBack"
+      }
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_storm",
+   "title": "吹雪に変わる",
+   "group": "main",
+   "trigger": {
+    "all": [
+     {
+      "flag": "stormHit"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "beenAt": "FUNAKOSHI"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "situation": "風が強まり、雨がみぞれに変わった。体感温度は {leader.local.windChillC:0}℃。どうする？",
+   "knowledge": [
+    "立ち止まると、すぐに体が冷える",
+    "白馬山荘まで、ふつうは 1 時間半。向かい風になる",
+    "栂池へ戻るなら風を背にできるが、4 時間以上かかる"
+   ],
+   "options": [
+    {
+     "id": "push",
+     "label": "このまま山荘へ急ぐ",
+     "detail": "止まると冷える。歩けば温まる。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "止まると冷える。急ごう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "pushed"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "lee",
+     "label": "風下で早めにビバーク",
+     "detail": "東の斜面へ下りて着込み、電話で救助を頼む。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "東側へ下りて風をよけよう。動けるうちに着込むんだ"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 300
+      },
+      {
+       "type": "setFlag",
+       "flag": "layered"
+      },
+      {
+       "type": "setFlag",
+       "flag": "earlyBivy"
+      },
+      {
+       "type": "callRescue",
+       "via": "phone"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "back",
+     "label": "着込んで引き返す",
+     "detail": "風を背にして、来た道を戻る。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "戻ろう。風を背にすれば歩ける"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 300
+      },
+      {
+       "type": "setFlag",
+       "flag": "layered"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "turnBack"
+      }
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "layer",
+     "label": "着込んで食べてから進む",
+     "detail": "風に背を向け、着られる物を全部着る。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "止まって着込もう。何か食べて"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 300
+      },
+      {
+       "type": "setFlag",
+       "flag": "layered"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.35
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_halt",
+   "title": "動けない人が出た",
+   "group": "main",
+   "priority": 30,
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "FUNAKOSHI"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     },
+     {
+      "not": {
+       "flag": "earlyBivy"
+      }
+     },
+     {
+      "any": [
+       {
+        "var": "group.main.incapacitatedCount",
+        "op": ">=",
+        "value": 1
+       },
+       {
+        "var": "group.main.min.coreC",
+        "op": "<",
+        "value": 35.4
+       }
+      ]
+     }
+    ]
+   },
+   "situation": "吹雪の稜線で、歩けなくなった人が出た（最低体温 {group.main.min.coreC:1}℃ と推定）。どこで風をしのぐ？",
+   "knowledge": [
+    "ツエルトは 1 張り",
+    "東側の斜面へ少し下りれば、西風は弱まる",
+    "雪は固く、雪洞はすぐには掘れない"
+   ],
+   "options": [
+    {
+     "id": "tarp",
+     "label": "その場でツエルトを広げる",
+     "detail": "吹きさらしのまま、身を寄せ合う。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ツエルトを出そう。みんな集まれ"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": false
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "lee",
+     "label": "風下へ下りて着込む",
+     "detail": "東の斜面へ下り、着込んで身を寄せ合う。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "風の当たらない東側へ下りよう。着られる物は全部着るんだ"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 300
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "push",
+     "label": "支え合って山荘へ進む",
+     "actions": [
+      {
+       "type": "say",
+       "text": "肩を貸す。山荘まで行こう"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  }
+ ],
+ "genericOverrides": {
+  "hypothermia": {
+   "enabled": false
+  },
+  "straggler": {
+   "situation": "吹雪の中で、後ろの人との間が開いてきた。"
+  },
+  "darkness": {
+   "situation": "日が暮れた。吹雪の中、ヘッドランプの光は白く散る。"
+  }
+ },
+ "thoughts": [
+  {
+   "key": "s19_warm",
+   "when": {
+    "all": [
+     {
+      "after": "D0 07:45"
+     },
+     {
+      "before": "D0 10:30"
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "lines": [
+    "汗ばむほどの陽気だ",
+    "踏み跡がしっかりしていて歩きやすい"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s19_late",
+   "who": "leader",
+   "when": {
+    "all": [
+     {
+      "var": "leader.timeBehindMin",
+      "op": ">",
+      "value": 90
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "before": "D0 13:00"
+     }
+    ]
+   },
+   "lines": [
+    "思ったより時間がかかっている",
+    "山荘に着くのは昼過ぎになりそうだ"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s19_cold",
+   "when": {
+    "all": [
+     {
+      "var": "leader.coreC",
+      "op": "<",
+      "value": 35.5
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "lines": [
+    "手の感覚がない",
+    "ザックを開けるのがおっくうだ"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s19_hut",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "after": "D0 14:30"
+     },
+     {
+      "before": "D0 22:00"
+     },
+     {
+      "flag": "stayed"
+     }
+    ]
+   },
+   "lines": [
+    "外は吹雪になった",
+    "今ごろは稜線にいるはずだった"
+   ],
+   "priority": 4
+  }
+ ],
+ "speech": [
+  {
+   "key": "s19_wind",
+   "who": "A",
+   "to": "leader",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "var": "leader.local.windMs",
+      "op": ">",
+      "value": 15
+     },
+     {
+      "var": "c.A.coreC",
+      "op": ">",
+      "value": 35
+     },
+     {
+      "var": "c.A.moving",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "少し待ってくれ",
+    "風で前に進めない"
+   ],
+   "replies": {
+    "who": "leader",
+    "lines": [
+     "ゆっくりでいい。離れるな",
+     "風に背を向けて、少し待とう"
+    ]
+   },
+   "tone": "shout",
+   "priority": 10,
+   "cooldownMin": 60
+  }
+ ],
+ "endings": [
+  {
+   "kind": "ABORTED",
+   "when": {
+    "flag": "stayed"
+   },
+   "title": "小屋で過ごした一日",
+   "text": "6人は栂池ヒュッテにとどまった。昼過ぎから稜線は吹雪になった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "shortTrip"
+   },
+   "title": "乗鞍岳まで",
+   "text": "6人は白馬乗鞍岳まで歩いて栂池へ戻った。稜線はその午後、吹雪になった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "all": [
+     {
+      "flag": "turnedBack"
+     },
+     {
+      "var": "rec.minCoreC",
+      "op": "<",
+      "value": 35
+     }
+    ]
+   },
+   "title": "冷え切って戻った",
+   "text": "6人は吹雪の中を栂池まで戻った。体は芯まで冷え、低体温症の手前だった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "turnedBack"
+   },
+   "title": "引き返した6人",
+   "text": "6人は途中で引き返し、栂池ヒュッテに戻った。その後、稜線は吹雪になった。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "var": "rec.minCoreC",
+    "op": "<",
+    "value": 35
+   },
+   "title": "吹雪の中、山荘へ",
+   "text": "6人は吹雪の稜線を越え、白馬山荘にたどり着いた。何人かは低体温症の手前まで冷えていた。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "title": "白馬山荘に着いた",
+   "text": "6人は天気が崩れる中を歩き、白馬山荘に着いた。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "title": "吹雪の夜を越えて",
+   "text": "6人は吹雪の中で夜を越し、朝になって自力で歩き出した。"
+  },
+  {
+   "kind": "RESCUED_CRITICAL",
+   "title": "重い状態での収容",
+   "text": "6人は翌朝、救助隊に収容された。体温が大きく下がり、意識のない人もいた。"
+  },
+  {
+   "kind": "RESCUED",
+   "title": "翌朝の救助",
+   "text": "6人は夜を越し、翌朝、救助隊に収容された。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "三国境の手前で",
+   "text": "このシミュレーションでは {rec.deathCount:0} 人が亡くなった。実際の事故では、6人全員が三国境付近の稜線で低体温症で亡くなっている。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_forecast",
+   "when": {
+    "chose": {
+     "cp": "cp_depart",
+     "option": "go"
+    }
+   },
+   "title": "「朝は晴れ」の日の午後",
+   "text": "前線と寒気が通る日は、朝の晴天から数時間で稜線が真冬に戻る。5月の北アルプスでは、雨のあとの吹雪がいちばん体温を奪う。"
+  },
+  {
+   "id": "l_turn",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_oike",
+       "option": "go"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_koren",
+       "option": "go"
+      }
+     }
+    ]
+   },
+   "title": "引き返す人がいた",
+   "text": "同じ日、先を行った二人と10人のパーティは、天気を見て引き返し、無事だった。遅れていること、他の人が戻ることは、引き返す合図になる。"
+  },
+  {
+   "id": "l_layer",
+   "when": {
+    "flag": "pushed"
+   },
+   "title": "着込むのは寒くなる前",
+   "text": "記録では、6人のザックに薄いダウンジャケットが入ったままだった。濡れて冷えてからでは手がかじかみ、判断も鈍って着られなくなる。風が強まったら、すぐ止まって着る。"
+  },
+  {
+   "id": "l_ridge",
+   "when": {
+    "chose": {
+     "cp": "cp_halt",
+     "option": "tarp"
+    }
+   },
+   "title": "吹きさらしで止まらない",
+   "text": "現場は風を遮るものがなく、ツエルトは風であおられて役に立たなかったとみられる。止まるなら、まず風下へ移る。"
+  },
+  {
+   "id": "l_34",
+   "when": {
+    "var": "rec.minCoreC",
+    "op": "<",
+    "value": 34
+   },
+   "title": "高齢者と低体温症",
+   "text": "年をとると寒さを感じにくく、体が熱を作る力も落ちる。仲間に医師がいても、冷え切ったあとでは手当てが間に合わない。"
+  }
+ ],
+ "balanceTargets": {
+  "historical": {
+   "fatalMin": 0.8,
+   "deathCountMedian": [
+    5,
+    6
+   ]
+  },
+  "recommended": {
+   "fatalMax": 0.03
+  },
+  "bias": {
+   "fatalMin": 0.1,
+   "fatalMax": 0.4
+  },
+  "risky": {
+   "fatalMin": 0.8,
+   "deathCountMedian": [
+    4,
+    6
+   ]
+  }
+ },
+ "historical": {
+  "event": "2012年5月4日 白馬岳（小蓮華山〜三国境）の遭難",
+  "sources": [
+   {
+    "title": "北アの遭難、生かされなかった防寒着 猛吹雪で判断力低下か",
+    "publisher": "日本経済新聞",
+    "year": 2012
+   },
+   {
+    "title": "6人の遭難に関する報道（毎日新聞 5月6日・9日、読売新聞 5月6日、日本経済新聞 5月6日・9日）",
+    "publisher": "各紙（ヤマレコ「資料から検証 白馬岳の低体温症遭難」での引用による）",
+    "year": 2012
+   },
+   {
+    "title": "資料から検証 白馬岳の低体温症遭難 1〜3",
+    "publisher": "ヤマレコ（tanigawa さんの日記。報道と当日の登山記録の整理）",
+    "year": 2012
+   },
+   {
+    "title": "北アルプスで男性6人が遭難、体の一部が10センチの氷漬けで発見され…（『山のリスクとどう向き合うか』より）",
+    "publisher": "文春オンライン（羽根田治）",
+    "year": 2023
+   },
+   {
+    "title": "氷漬けのザックが問いかけること。ゴールデンウィークの気象遭難の教訓とは？",
+    "publisher": "山と溪谷オンライン"
+   },
+   {
+    "title": "ERA5 再解析（Open-Meteo Historical Weather API、36.77N 137.77E）",
+    "publisher": "Open-Meteo / ECMWF",
+    "year": 2012
+   }
+  ],
+  "labelsNote": "人物は男性A〜F（年齢の順）で表記し、実名は使わない。年齢は報道による。先頭を歩く役（D）、体重・体力・装備の細部・服装はシミュレーションの推定。",
+  "disclaimer": "このシナリオは、報道と当日の登山者の記録をもとに経過を再構成したものです。年齢・人数・行程・目撃の時刻・天気の推移は記録にもとづきますが、体重・体力・装備の細部・体温などはシミュレーションの推定値であり、実際の値ではありません。シミュレーションの結果は実際の出来事を説明するものではありません。亡くなられた方々に哀悼の意を表します。※印のセリフ・思考は架空です。記録に残る発言には「記録」と表示しています。",
+  "recordedChoices": {
+   "cp_depart": "go",
+   "cp_tengu": "go",
+   "cp_oike": "go",
+   "cp_koren": "go",
+   "cp_storm": "push",
+   "cp_halt": "tarp"
+  },
+  "reference": [
+   {
+    "at": "D0 05:30",
+    "label": "6人が栂池ヒュッテを出発。弁当を2食分ずつ持つ",
+    "node": "TSUGA"
+   },
+   {
+    "at": "D0 09:00",
+    "label": "午前中は晴れ。栂池から大池へはしっかりした踏み跡（同日の登山者の記録）"
+   },
+   {
+    "at": "D0 10:50",
+    "label": "小蓮華山から引き返した男女2人が大池付近で6人と話す。6人は「白馬へ行く」",
+    "node": "OIKE"
+   },
+   {
+    "at": "D0 11:10",
+    "label": "白馬大池を出発（コースタイムより約2時間20分遅れ）",
+    "node": "OIKE"
+   },
+   {
+    "at": "D0 11:30",
+    "label": "周辺で急に天気が崩れ、大粒の雨と強い風（雪倉岳の登山者の記録）"
+   },
+   {
+    "at": "D0 13:00",
+    "label": "三国境まで行った10人のパーティが、天候悪化で引き返す",
+    "node": "MIKUNI"
+   },
+   {
+    "at": "D0 13:30",
+    "label": "小蓮華山の10分ほど手前で10人のパーティとすれ違う。1人が疲れ、そのザックを別の人が担いでいた",
+    "node": "KOREN"
+   },
+   {
+    "at": "D0 13:50",
+    "label": "すれ違って20分もしないうちに天気が急変（10人のパーティの話）"
+   },
+   {
+    "at": "D0 15:00",
+    "label": "標高2,500 m付近で風速15〜20 m/s（推測）、みぞれから雪に（白馬岳主稜の登山者の記録）"
+   },
+   {
+    "at": "D0 15:10",
+    "label": "三国境の手前で行動を止めたとみられる（15時すぎ。時刻は推定）",
+    "node": "MIKUNI"
+   },
+   {
+    "at": "D0 17:40",
+    "label": "1人から携帯電話で家族に救助を求める連絡。家族が大町署に届け出"
+   },
+   {
+    "at": "D0 18:00",
+    "label": "白馬山荘で気温 −2.5℃",
+    "node": "SANSO"
+   },
+   {
+    "at": "D1 07:40",
+    "label": "白馬岳から下ってきた登山者が、三国境付近で倒れている6人を見つけて通報",
+    "node": "MIKUNI"
+   },
+   {
+    "at": "D1 09:00",
+    "label": "ヘリコプターで収容。6人全員の死亡を確認（低体温症）"
+   }
+  ]
+ },
+ "sources": [
+  "経過・人数・年齢: 日本経済新聞（2012年5月9日）、毎日・読売・日経の報道（ヤマレコ「資料から検証 白馬岳の低体温症遭難」の整理による）、文春オンライン（羽根田治、2023）",
+  "気象: Open-Meteo ERA5 2012-05-04 36.77,137.77 を下書きにし、当日の登山者の記録（11時半すぎの雨と強風、14時の急変、15時の風速15〜20 m/s・みぞれから雪）と白馬山荘の18時 −2.5℃、現場の推定（−2〜−3℃・風速20 m）に合わせて風と降水を強めた",
+  "朝の予報の文言は推定（当日は前線を伴う低気圧の通過と寒気の流入で、午後から崩れる見込みだった）",
+  "積雪: 5月初めの残雪（栂池より上はほぼ雪の上。道の上はしっかりした踏み跡）。深さは推定",
+  "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+  "登山道・地点: © OpenStreetMap contributors"
+ ]
+}

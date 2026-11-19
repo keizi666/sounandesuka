@@ -201,7 +201,7 @@ export function groupsMinute(world: World, ctx: StaticContext): void {
     const members = groupMembers(world, g.id).filter((m) => m.body.alive && !TERMINAL.has(m.state));
     if (members.length === 0) continue;
     const leader = groupLeader(world, g.id);
-    if (leader.id !== g.leader) {
+    if (leader.id !== g.leader && leader.body.alive && leader.body.conscious) {
       const key = `leader:${g.id}:${leader.id}`;
       if (!world.latches[key]) {
         world.latches[key] = true;

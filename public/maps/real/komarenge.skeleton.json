@@ -1,0 +1,42 @@
+{
+  "id": "komarenge",
+  "name": "北アルプス 白馬岳（栂池〜天狗原〜白馬乗鞍岳〜白馬大池〜小蓮華山〜三国境〜白馬岳・白馬山荘）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "栂池自然園の入口（栂池ヒュッテ・栂池山荘）から天狗原・白馬乗鞍岳・白馬大池を経て、船越ノ頭で後立山連峰の主稜線に出て、小蓮華山・三国境・白馬岳・白馬山荘へ向かう範囲。一辺 8 km 程度（513 頂点）。5 月初めは道の大部分が雪の上で、天狗原への登りと乗鞍岳への登りは雪の斜面、白馬大池は雪に埋まっている。船越ノ頭から白馬岳までは森林限界の上の吹きさらしの稜線で、風を避けられる所はほとんどない。白馬大池山荘は 5 月初めは営業していない。白馬山荘は営業している。電波は稜線と栂池の上で入ることがある。",
+    "sizeM": 8192
+  },
+  "size": 8192,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2350, "forestLineNoise": 60, "broadleafLine": 1600, "krummholzBandM": 150 },
+  "nodes": [
+    { "id": "TSUGA", "name": "栂池ヒュッテ（栂池自然園の入口）", "type": "hut", "x": 0, "z": 0, "expectedElevM": 1860, "shelter": { "kind": "staffed", "open": true } },
+    { "id": "TENGU", "name": "天狗原", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 2180 },
+    { "id": "NORIKURA", "name": "白馬乗鞍岳", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2456 },
+    { "id": "OIKE", "name": "白馬大池山荘（5月は営業前で閉鎖）", "type": "hut", "x": 0, "z": 0, "expectedElevM": 2380, "shelter": { "kind": "staffed", "open": false } },
+    { "id": "FUNAKOSHI", "name": "船越ノ頭", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2612 },
+    { "id": "KOREN", "name": "小蓮華山", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2766 },
+    { "id": "MIKUNI", "name": "三国境", "type": "junction", "x": 0, "z": 0, "expectedElevM": 2751 },
+    { "id": "HAKUBA", "name": "白馬岳", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2932 },
+    { "id": "SANSO", "name": "白馬山荘", "type": "hut", "x": 0, "z": 0, "expectedElevM": 2832, "shelter": { "kind": "staffed", "open": true } }
+  ],
+  "edges": [
+    { "id": "E1", "name": "栂池〜天狗原（雪の斜面の登り）", "kind": "trail", "from": "TSUGA", "to": "TENGU", "class": "T2", "markers": 0.5, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "天狗原〜白馬乗鞍岳（急な雪の斜面）", "kind": "trail", "from": "TENGU", "to": "NORIKURA", "class": "T2", "markers": 0.4, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "白馬乗鞍岳〜白馬大池（広い雪原）", "kind": "trail", "from": "NORIKURA", "to": "OIKE", "class": "T2", "markers": 0.3, "drift": 0.012, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "白馬大池〜船越ノ頭（雷鳥坂）", "kind": "trail", "from": "OIKE", "to": "FUNAKOSHI", "class": "T2", "markers": 0.5, "drift": 0.008, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "船越ノ頭〜小蓮華山（主稜線）", "kind": "trail", "from": "FUNAKOSHI", "to": "KOREN", "class": "T2", "markers": 0.6, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "小蓮華山〜三国境（主稜線）", "kind": "trail", "from": "KOREN", "to": "MIKUNI", "class": "T2", "markers": 0.6, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "三国境〜白馬岳（主稜線の登り）", "kind": "trail", "from": "MIKUNI", "to": "HAKUBA", "class": "T2", "markers": 0.6, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "白馬岳〜白馬山荘", "kind": "trail", "from": "HAKUBA", "to": "SANSO", "class": "T1", "markers": 0.8, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

@@ -1,0 +1,27 @@
+{
+  "skeleton": "public/maps/real/komarenge.skeleton.json",
+  "mapId": "komarenge",
+  "center": [36.7712, 137.7877],
+  "size": 7168,
+  "resolution": 513,
+  "at": {
+    "TSUGA": [36.77359, 137.81892],
+    "TENGU": [36.78174, 137.81342],
+    "NORIKURA": [36.7815, 137.80142],
+    "OIKE": [36.78645, 137.79521],
+    "FUNAKOSHI": [36.77683, 137.7881],
+    "KOREN": [36.77378, 137.77599],
+    "MIKUNI": [36.76616, 137.76244],
+    "HAKUBA": [36.75849, 137.75854],
+    "SANSO": [36.75598, 137.75635]
+  },
+  "snapM": 120,
+  "paceAdj": { "E1": 0.8, "E2": 0.75, "E3": 0.8, "E4": 1.25, "E5": 1.25 },
+  "radio": [
+    { "id": "st_hakuba", "x": 5500, "z": 9000, "elevM": 900, "antennaM": 40, "rangeM": 26000 },
+    { "id": "st_tsugaike", "x": 5200, "z": 1800, "elevM": 1100, "antennaM": 30, "rangeM": 14000 },
+    { "id": "st_otari", "x": 9500, "z": -7000, "elevM": 600, "antennaM": 40, "rangeM": 24000 },
+    { "id": "st_asahi", "x": -15000, "z": -9000, "elevM": 1000, "antennaM": 40, "rangeM": 32000 },
+    { "id": "st_itoigawa", "x": -3000, "z": -22000, "elevM": 1000, "antennaM": 40, "rangeM": 32000 }
+  ]
+}

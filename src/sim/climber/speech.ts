@@ -52,7 +52,7 @@ function nearestMate(w: World, m: ClimberState): ClimberState | undefined {
 }
 
 const BUILTIN: Builtin[] = [
-  { key: 'gust_crouch', priority: 10, tone: 'shout', speaker: (w, x, c) => isLeader(w, c) && !isIndoors(x.map, c) && c.local.windMs * w.weather.gust > 20 && mates(w, c).some((m) => !isIndoors(x.map, m)) },
+  { key: 'gust_crouch', priority: 10, tone: 'shout', speaker: (w, x, c) => isLeader(w, c) && isMoving(c) && c.body.coreC > 34 && !isIndoors(x.map, c) && c.local.windMs * w.weather.gust > 20 && mates(w, c).some((m) => !isIndoors(x.map, m)) },
   // 「雨だ。急ごう」は歩いているときだけ（小屋の中・ビバーク・救助待ちでは言わない）
   { key: 'rain_start', priority: 10, speaker: (w, x, c) => ev(w, 'RAIN_START') && isLeader(w, c) && isMoving(c) && !isIndoors(x.map, c) },
   {
