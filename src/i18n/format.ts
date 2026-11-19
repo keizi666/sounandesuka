@@ -84,7 +84,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'NODE_ARRIVE':
       return fill(L.nodeArrive, { name: f.nodeName(s('node')) });
     case 'FINISHED':
-      return fill(L.finished, { who, node: d['node'] ? f.nodeName(s('node')) : '' });
+      return fill(d['hut'] ? L.finishedHut : L.finished, { who, node: d['node'] ? f.nodeName(s('node')) : '' });
     case 'STATE': {
       const to = s('to');
       if (['WALKING', 'RESTING', 'FINISHED', 'DEAD', 'SHELTERED'].includes(to)) return null;
@@ -146,6 +146,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       return fill(L.bivouac, { who });
     case 'RESCUE_CALLED':
       if (s('via') === 'overdue' && !e.climberId) return L.reportedOverdue;
+      if (s('via') === 'passerby') return null;
       return fill(L.rescueCalled, { who, via: JA.labels.via[s('via')] ?? s('via') });
     case 'RESCUE_CALL_FAILED':
       return fill(L.rescueFailed, { who });
@@ -190,6 +191,11 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (e.text) return e.text;
       if (d['phoneLost']) return fill(L.phoneLost, { who });
       if (d['noLead']) return L.noLead;
+      if (d['illnessOnset']) return fill(L.illnessOnset, { who });
+      if (d['illnessEased']) return fill(L.illnessEased, { who });
+      if (d['illnessRelapse']) return fill(L.illnessRelapse, { who });
+      if (d['medicated']) return fill(L.medicated, { who });
+      if (d['passerby']) return fill(L.passerby, { who });
       if (d['unimplementedAction'] || d['unimplementedEffect']) return fill(L.unimplemented, { what: s('unimplementedAction') || s('unimplementedEffect') });
       return null;
     case 'PIN':

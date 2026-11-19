@@ -90,7 +90,7 @@ function follow(world: World, ctx: StaticContext, leader: ClimberState, m: Climb
   const after = leader.state;
   if (after !== m.state && !TERMINAL.has(m.state)) {
     transition(world, ctx, m, after, 'followLeader');
-    if (after === 'FINISHED') ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: m.id, important: true, data: leader.pos.mode === 'node' ? { node: leader.pos.nodeId } : {} });
+    if (after === 'FINISHED') ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: m.id, important: true, data: leader.pos.mode === 'node' ? { node: leader.pos.nodeId, ...(ctx.map.nodes[leader.pos.nodeId]?.shelter ? { hut: true } : {}) } : {} });
   }
   if (leader.body.shelterNodeId && !m.body.shelterNodeId) {
     m.body.shelterNodeId = leader.body.shelterNodeId;

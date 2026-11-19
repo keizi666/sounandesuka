@@ -117,7 +117,12 @@ export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options:
     options: [
       opt('seek_signal', [{ type: 'seekSignal' }], 0.5, { tags: ['recommended'] }),
       opt('wait', [{ type: 'waitRescue' }], 0.5),
-      opt('descend', [{ type: 'descendDrainage' }], 0.4, { tags: ['risky'] }),
+      // 胸の痛みがある人・足を骨折した人は、沢を下ろうとは考えない
+      opt('descend', [{ type: 'descendDrainage' }], 0.4, {
+        tags: ['risky'],
+        available: { all: [{ var: 'leader.illnessActive', op: '==', value: false }, { var: 'leader.injury', op: '!=', value: 'legFracture' }] },
+        hideIfUnavailable: true,
+      }),
     ],
   },
 };

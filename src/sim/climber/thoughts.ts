@@ -18,7 +18,8 @@ interface Builtin {
 
 const BUILTIN: Builtin[] = [
   { key: 'fine_start', priority: 1, leaderOnly: true, when: (w, ctx, c) => w.tMin < scenarioStartMin(ctx.scenario) + 60 && c.perception.weatherImpression === 'fine' },
-  { key: 'behind', priority: 3, leaderOnly: true, when: (_w, _c, c) => c.perception.timeBehindMin > 45 },
+  // 予定の遅れを気にするのは、ふつうに歩いているときだけ（迷った・けが・急病のときは、それどころではない）
+  { key: 'behind', priority: 3, leaderOnly: true, when: (_w, _c, c) => c.perception.timeBehindMin > 45 && c.state === 'WALKING' && c.body.injury === 'none' && !(c.body.illness?.active ?? false) && !c.perception.awareLost },
   { key: 'phone_low', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 },
   { key: 'rain_delay', priority: 4, when: (_w, _c, c) => c.local.precipMmH >= 0.5 && !c.body.rainwearOn && c.def.gear.rainwear !== 'none' },
   { key: 'cold_hands', priority: 5, when: (_w, _c, c) => c.body.coreC < 35.8 },

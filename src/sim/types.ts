@@ -186,6 +186,24 @@ export interface ScenarioDef {
   historical?: HistoricalDef;
   nodeOverrides?: Record<NodeId, { open?: boolean }>;   // 小屋の営業状態などをシナリオごとに上書き
   sources?: string[];                                   // 例: "気象の下書き: Open-Meteo ERA5 2025-10-12 36.40,137.71"
+  /** 通りかかる登山者（人の少ない道では少ない）。困っている人に気づけば下山して通報してくれる */
+  passersby?: PasserbyDef[];
+}
+
+export interface PasserbyDef {
+  /** 通る道 */
+  edges: EdgeId[];
+  /** 1 時間に通る人（組）の数 */
+  perHour: number;
+  /** 通る時間帯（毎日。"HH:MM"） */
+  from?: string;
+  to?: string;
+  /** 何日目から（0 = 当日） */
+  fromDay?: number;
+  /** 気づく距離（m）: 見える・声が届く・笛が届く */
+  seeM?: number;
+  voiceM?: number;
+  whistleM?: number;
 }
 
 export interface ForecastEntry { label: string; text: string; icon?: string }
@@ -283,6 +301,7 @@ export interface GearDef {
   trekkingPoles: boolean;
   whistle: boolean;
   tent?: boolean;              // テント（ツェルトより風雨に強い）
+  meds?: boolean;              // 持病の薬（ニトログリセリンなど）
   rescueSheet?: boolean;       // エマージェンシーシート
 }
 
@@ -362,6 +381,8 @@ export type Action = { who?: Who } & (
   | { type: 'reportMissing' }                     // 家族・仲間が「帰らない」と警察に届け出る（未帰還の通報を今する）
   | { type: 'setPhone'; has: boolean }             // スマホをなくす（false）・見つける（true）
   | { type: 'addAnxiety'; amount: number }         // 動揺する（+）・落ち着く（−）。不安 0〜100
+  | { type: 'illness'; kind: IllnessKind | 'random'; weights?: Partial<Record<IllnessKind, number>> }  // 急病の発症（原因は本人には分からない）
+  | { type: 'medicate' }                            // 持病の薬を飲む（gear.meds があるとき）
   | { type: 'drinkAlcohol'; grams: number; liters?: number }   // 酒（純アルコールのグラム。缶ビール 350 mL で約 14 g）。liters は飲み物の量（水分になる）
   | { type: 'wearRainwear' }
   | { type: 'addLayer'; clo?: number }
@@ -484,7 +505,10 @@ export type BehaviorState =
 
 export type InjuryKind = 'none' | 'bruise' | 'sprain' | 'legFracture' | 'headInjury' | 'severeTrauma';
 export type PrecipType = 'none' | 'rain' | 'sleet' | 'snow' | 'hail';
-export type DeathCause = 'hypothermia' | 'fall' | 'lightning' | 'trauma' | 'heat';
+export type DeathCause = 'hypothermia' | 'fall' | 'lightning' | 'trauma' | 'heat' | 'illness' | 'anaphylaxis';
+
+/** 急病の原因（本人には分からない。src/sim/climber/illness.ts） */
+export type IllnessKind = 'angina' | 'mi' | 'dissection' | 'arrhythmia' | 'benign';
 
 export type ClimberPos =
   | { mode: 'edge'; edgeId: EdgeId; s: number; dir: 1 | -1 }
@@ -511,6 +535,8 @@ export interface ClimberBody {
   gutKcal: number;
   /** 体内のアルコール（g）。判断力と足元に響き、時間とともに抜ける。古い保存データにはない */
   alcoholG?: number;
+  /** 急病（胸の痛みなど）。active は症状が出ているか。restSinceMin は休み始めた時刻 */
+  illness?: { kind: IllnessKind; atMin: number; active: boolean; restSinceMin: number | null; meds: boolean };
   waterDeficitL: number;
   fatigue: number;
   anxiety: number;
@@ -640,7 +666,7 @@ export interface SunState { elevDeg: number; isDark: boolean; twilight: boolean;
 export interface RescueState {
   status: 'none' | 'dispatched' | 'searching' | 'contacted';
   calledAtMin: number | null;
-  via: 'phone' | 'satellite' | 'overdue' | 'script' | null;
+  via: 'phone' | 'satellite' | 'overdue' | 'script' | 'passerby' | null;
   locationEstimate: { x: number; z: number; radiusM: number } | null;
   heli: { readyAtMin: number | null; nextCheckMin: number | null; state: 'idle' | 'preparing' | 'waiting' | 'flying' | 'searching' | 'done' };
   ground: { readyAtMin: number | null; x: number; z: number; state: 'idle' | 'mobilizing' | 'moving' | 'searching' | 'done' };

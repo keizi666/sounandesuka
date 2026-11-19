@@ -20,6 +20,7 @@ import { stepRescue } from '../rescue/rescue';
 import { chance } from './rng';
 import { updateTimeBehind, updateWeatherImpression } from '../climber/perception';
 import { integrateBody, thermalEnvFor, updateAnxiety } from '../climber/physiology';
+import { stepIllness } from '../climber/illness';
 import { autoResolve, checkChoices } from '../scenario/choices';
 import { checkEnding } from '../scenario/endings';
 import { runEvents, weatherEvents } from '../scenario/events';
@@ -147,6 +148,11 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
   if (!c.body.alive) return;
   // 8f. 生理
   integrateBody(c, thermalEnvFor(world, ctx, c), { metAct: c.metAct, grade: move?.grade ?? 0, walking }, dtMin, t);
+  // 急病の経過（症状の治まり・ぶり返し、心停止）
+  if (c.body.illness) {
+    stepIllness(world, ctx, c, dtMin, walking, move?.grade ?? 0);
+    if (!c.body.alive) return;
+  }
   updateAnxiety(world, c, dtMin, t);
   // 8g. 機器
   drainDevices(world, ctx, c, dtMin);

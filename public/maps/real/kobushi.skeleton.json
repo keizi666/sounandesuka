@@ -1,0 +1,32 @@
+{
+  "id": "kobushi",
+  "name": "奥秩父 主脈（大弛峠〜国師ヶ岳〜東梓〜両門ノ頭〜甲武信ヶ岳）",
+  "skeleton": true,
+  "areaHint": { "text": "大弛峠から国師ヶ岳・東梓・両門ノ頭・富士見・水師を経て甲武信ヶ岳と甲武信小屋までが入る範囲。一辺 8 km 程度（513 頂点）。稜線はほぼ 2,200〜2,600 m の針葉樹林で、電波は山頂付近で入ることがある程度。", "sizeM": 8192 },
+  "size": 8192,
+  "resolution": 513,
+  "terrain": { "type": "heightmap", "encoding": "u16-base64", "minElevM": 0, "maxElevM": 0, "baseElevation": 0, "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" }, "data": "" },
+  "vegetation": { "forestLine": 2650, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 150 },
+  "nodes": [
+    { "id": "OHDARUMI", "name": "大弛峠・大弛小屋", "type": "hut", "x": 0, "z": 0, "osmName": "大弛峠", "expectedElevM": 2360, "shelter": { "kind": "staffed", "open": true } },
+    { "id": "KOKUSHI", "name": "国師ヶ岳", "type": "peak", "x": 0, "z": 0, "osmName": "国師ヶ岳", "expectedElevM": 2592 },
+    { "id": "HIGASHIAZUSA", "name": "東梓", "type": "peak", "x": 0, "z": 0, "osmName": "東梓", "expectedElevM": 2272 },
+    { "id": "RYOMON", "name": "両門ノ頭", "type": "peak", "x": 0, "z": 0, "osmName": "両門ノ頭", "expectedElevM": 2263 },
+    { "id": "FUJIMI", "name": "富士見", "type": "peak", "x": 0, "z": 0, "osmName": "富士見", "expectedElevM": 2373 },
+    { "id": "SUISHI", "name": "水師", "type": "peak", "x": 0, "z": 0, "osmName": "水師", "expectedElevM": 2396 },
+    { "id": "KOBUSHI", "name": "甲武信ヶ岳", "type": "peak", "x": 0, "z": 0, "osmName": "甲武信ヶ岳", "expectedElevM": 2475 },
+    { "id": "KOBUSHI_HUT", "name": "甲武信小屋", "type": "hut", "x": 0, "z": 0, "expectedElevM": 2360, "shelter": { "kind": "staffed", "open": true } }
+  ],
+  "edges": [
+    { "id": "E1", "name": "大弛峠〜国師ヶ岳", "kind": "trail", "from": "OHDARUMI", "to": "KOKUSHI", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "国師ヶ岳〜東梓（樹林の長い下り）", "kind": "trail", "from": "KOKUSHI", "to": "HIGASHIAZUSA", "class": "T2", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "東梓〜両門ノ頭", "kind": "trail", "from": "HIGASHIAZUSA", "to": "RYOMON", "class": "T2", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "両門ノ頭〜富士見", "kind": "trail", "from": "RYOMON", "to": "FUJIMI", "class": "T2", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "富士見〜水師", "kind": "trail", "from": "FUJIMI", "to": "SUISHI", "class": "T2", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "水師〜甲武信ヶ岳", "kind": "trail", "from": "SUISHI", "to": "KOBUSHI", "class": "T2", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "甲武信ヶ岳〜甲武信小屋", "kind": "trail", "from": "KOBUSHI", "to": "KOBUSHI_HUT", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

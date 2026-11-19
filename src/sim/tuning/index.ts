@@ -2,7 +2,7 @@
  * 調整用の数値定数（CLAUDE.md 鉄則 4）。sim のコード中に魔法の数値を書かず、ここに集約する。
  * プレーンな JSON 互換の値だけを入れる。分野ごとのファイルに分け、ここでまとめる。
  */
-import { capacity, movement, physiology } from './climber';
+import { capacity, illness, movement, physiology } from './climber';
 import { devices, lightning, nav, rescue, slip, thoughts } from './hazards';
 import { behavior, choices, endings } from './scenario';
 import { derive, radio, terrain, trails } from './terrain';
@@ -19,6 +19,7 @@ export const TUNING = {
   movement,
   capacity,
   physiology,
+  illness,
   behavior,
   choices,
   endings,

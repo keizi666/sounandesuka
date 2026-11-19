@@ -2,6 +2,7 @@
  * アクションの適用（docs/09 §6）。対象は既定でグループの全員（who で指定可）。
  * グループの分割・離脱・まとまり方は groups.ts、浸水は physiology.ts。
  */
+import { medicate, onsetIllness } from './illness';
 import { reportMissing } from '../rescue/rescue';
 import { parseTimeRef } from '../core/clock';
 import { chance } from '../core/rng';
@@ -198,6 +199,12 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       return;
     case 'setPhone':
       c.inv.phone.has = a.has;
+      return;
+    case 'illness':
+      onsetIllness(world, ctx, c, a.kind, a.weights);
+      return;
+    case 'medicate':
+      medicate(world, ctx, c);
       return;
     case 'addAnxiety':
       c.body.anxiety = Math.min(100, Math.max(0, c.body.anxiety + a.amount));

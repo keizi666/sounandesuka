@@ -4,6 +4,7 @@
 import { chance } from '../core/rng';
 import { TUNING, type Tuning } from '../tuning';
 import type { ClimberBody, ClimberState, StaticContext, World } from '../types';
+import { illnessM } from './illness';
 import { bacPct } from './physiology';
 import { transition } from './state';
 
@@ -51,7 +52,7 @@ export function computeM(c: ClimberState, tuning: Tuning = TUNING): number {
   const fCore = piecewise(k.coreM, b.coreC);
   const fInj = k.injuryM[b.injury];
   const fGly = b.glycogenKcal < k.veryLowGlycogenKcal ? k.veryLowGlycogenM : 1;
-  let m = fCore * fInj * fGly;
+  let m = illnessM(c, fCore * fInj * fGly);
   if (b.coreC >= k.heatStrokeC) m = Math.min(m, k.heatStrokeM);
   else if (b.coreC >= k.heatExhaustionC) m *= k.heatExhaustionSpeed;
   return Math.min(1, Math.max(0, m));

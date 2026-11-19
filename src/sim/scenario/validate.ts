@@ -21,7 +21,7 @@ const STATES = [
   'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL', 'STAYING', 'WAITING_RESCUE', 'INCAPACITATED', 'UNCONSCIOUS', 'FINISHED', 'RESCUED', 'DEAD',
 ];
 const ACTION_TYPES = [
-  'continueRoute', 'setRoute', 'turnBack', 'goToNode', 'stayInShelter', 'rest', 'eat', 'drink', 'drinkAlcohol', 'reportMissing', 'setPhone', 'addAnxiety', 'wearRainwear', 'addLayer', 'changeDry',
+  'continueRoute', 'setRoute', 'turnBack', 'goToNode', 'stayInShelter', 'rest', 'eat', 'drink', 'drinkAlcohol', 'reportMissing', 'setPhone', 'addAnxiety', 'illness', 'medicate', 'wearRainwear', 'addLayer', 'changeDry',
   'stopAndCheck', 'checkPosition', 'bivouac', 'stayPut', 'backtrack', 'navigateToTrail', 'descendDrainage', 'seekSignal', 'callRescue',
   'waitRescue', 'setPace', 'lightningPosture', 'moveOffRidge', 'removeMetal', 'setFlag', 'clearFlag', 'narrate', 'abortTrip', 'splitParty',
   'setCohesion', 'soak', 'detach', 'goToMember', 'say',
@@ -258,6 +258,8 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
     }
     s.plan.goalNodes.forEach((n, i) => nodes.has(n) || v.err(`plan.goalNodes[${i}]`, 'undefinedNode', `未定義のノード "${n}"`));
     Object.keys(s.nodeOverrides ?? {}).forEach((n) => nodes.has(n) || v.err(`nodeOverrides.${n}`, 'undefinedNode', `未定義のノード "${n}"`));
+    const edgeIds = new Set((map.edges ?? []).map((e) => e.id));
+    (s.passersby ?? []).forEach((p, pi) => p.edges.forEach((e, i) => edgeIds.has(e) || v.err(`passersby[${pi}].edges[${i}]`, 'undefinedEdge', `未定義のエッジ "${e}"`)));
     (s.plan.searchLeads ?? []).forEach((l, li) => {
       const p = `plan.searchLeads[${li}]`;
       checkTime(v, `${p}.at`, l.at);

@@ -322,3 +322,26 @@ export const physiology = {
   coreMin: 20,
   coreMax: 42,
 };
+
+/** 急病（src/sim/climber/illness.ts）。心停止の率は「毎時」。発症からの時間で減る（減り方の時定数 decayH）＋下限 */
+export const illness = {
+  defaultWeights: { angina: 0.3, mi: 0.2, dissection: 0.05, arrhythmia: 0.15, benign: 0.3 } as Record<string, number>,
+  onsetAnxiety: 30,
+  anginaEaseMin: 15,
+  anginaEaseMedsMin: 5,
+  benignEaseMin: 20,
+  arrhythmiaEaseMin: 30,
+  /** 不整脈が、休む時間を満たしたあと 10 分ごとに治まる確率 */
+  arrhythmiaEaseP: 0.5,
+  /** 治まったあと、この勾配より急な登りを歩くとぶり返す（毎時の率） */
+  relapseGrade: 0.05,
+  relapsePerH: 0.6,
+  /** 心筋梗塞: 安静で 48 時間のうちに約 40% が亡くなる程度（治療なし） */
+  arrestPerH: { angina: 0.003, mi: 0.061, dissection: 0.08, arrhythmia: 0.01, benign: 0 } as Record<string, number>,
+  arrestDecayH: { angina: 3, mi: 6, dissection: 12, arrhythmia: 2, benign: 1 } as Record<string, number>,
+  arrestFloorPerH: { angina: 0.0005, mi: 0.003, dissection: 0.005, arrhythmia: 0.001, benign: 0 } as Record<string, number>,
+  /** 症状が治まっているとき・歩いているとき・薬を飲んだときの倍率 */
+  easedArrestF: 0.3,
+  walkingArrestF: 3,
+  medsArrestF: 0.8,
+};

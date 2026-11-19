@@ -1,0 +1,19 @@
+{
+  "skeleton": "public/maps/real/kobushi.skeleton.json",
+  "mapId": "kobushi",
+  "center": [35.891, 138.696],
+  "size": 8192,
+  "resolution": 513,
+  "at": {
+    "OHDARUMI": [35.87317, 138.66303],
+    "KOKUSHI": [35.87084, 138.67296],
+    "HIGASHIAZUSA": [35.89604, 138.69208],
+    "RYOMON": [35.90299, 138.69997],
+    "FUJIMI": [35.90997, 138.70795],
+    "SUISHI": [35.90821, 138.71919],
+    "KOBUSHI": [35.90918, 138.72887]
+  },
+  "atXZ": { "KOBUSHI_HUT": [3136, -1806] },
+  "snapM": 60,
+  "radio": [{ "id": "st_kofu", "x": -2000, "z": 22000, "elevM": 500, "antennaM": 40, "rangeM": 30000 }]
+}

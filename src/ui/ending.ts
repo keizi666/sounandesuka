@@ -26,7 +26,7 @@ function hm(min: number): string {
   return `${h} 時間 ${Math.round(min - h * 60)} 分`;
 }
 
-const DEATH_CAUSE: Record<string, string> = { hypothermia: '低体温症', fall: '滑落', lightning: '落雷', trauma: '外傷', heat: '熱中症' };
+const DEATH_CAUSE: Record<string, string> = JA.labels.deathCause;
 
 function memberCard(c: ClimberState, outcome: string, minCoreC: number): HTMLElement {
   const b = c.body;

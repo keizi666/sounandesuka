@@ -138,7 +138,9 @@ export function arriveAt(world: World, ctx: StaticContext, c: ClimberState, node
   if (c.plan.route[c.plan.routeIndex] === nodeId) c.plan.routeIndex += 1;
   if (c.plan.goalNodes.includes(nodeId)) {
     transition(world, ctx, c, 'FINISHED', 'goal');
-    ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: c.id, important: true, data: { node: nodeId } });
+    // 小屋が目的地なら「着いた」（下山ではない）
+    const hut = ctx.map.nodes[nodeId]?.shelter !== undefined;
+    ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: c.id, important: true, data: hut ? { node: nodeId, hut: true } : { node: nodeId } });
     return true;
   }
   const g = c.plan.goTo;

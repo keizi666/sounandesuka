@@ -43,6 +43,8 @@ export const CLIMBER_FIELDS = [
   'phone.gpsApp',
   'phone.has',
   'headlamp.has',
+  'illness',
+  'illnessActive',
   'bac',
   'waterL',
   'foodKcal',
@@ -110,6 +112,10 @@ function climberField(c: ClimberState, field: string, scope: VarScope): VarValue
       return c.inv.phone.has;
     case 'headlamp.has':
       return c.inv.headlamp.has;
+    case 'illness':
+      return c.body.illness?.kind ?? 'none';
+    case 'illnessActive':
+      return c.body.illness?.active ?? false;
     case 'waterL':
       return c.inv.waterL;
     case 'foodKcal':

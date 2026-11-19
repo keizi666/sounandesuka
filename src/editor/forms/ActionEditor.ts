@@ -19,6 +19,8 @@ export const ACTION_LABELS: Partial<Record<ActionType, string>> = {
   reportMissing: '家族・仲間が警察に届け出る',
   setPhone: 'スマホをなくす／見つける',
   addAnxiety: '動揺する（不安を足す）',
+  illness: '急病の発症',
+  medicate: '持病の薬を飲む',
   wearRainwear: '雨具を着る',
   addLayer: '防寒着を足す',
   changeDry: '乾いた服に着替える',
@@ -67,6 +69,8 @@ export function defaultAction(t: ActionType, s: ScenarioDef, map: MapDef): Actio
       return { type: t, has: false };
     case 'addAnxiety':
       return { type: t, amount: 20 };
+    case 'illness':
+      return { type: t, kind: 'random' };
     case 'addLayer':
       return { type: t, clo: 0.3 };
     case 'bivouac':
