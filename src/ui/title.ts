@@ -17,7 +17,11 @@ export function showTitle(app: AppContext): () => void {
             const idx = await loadIndex();
             const e = idx.find((x) => x.id === id);
             const data = await loadResume(id);
-            if (!e || !data) return;
+            // 古い形式の保存は捨てられる。その場合はシナリオ選択へ進む
+            if (!e || !data) {
+              app.go({ name: 'select' });
+              return;
+            }
             app.go({ name: 'sim', loaded: await loadEntry(e), resume: data });
           },
         }, JA.ui.resume)

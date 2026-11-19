@@ -27,6 +27,11 @@ export interface HistoryEntry {
 }
 
 const SAVE_PREFIX = 'hks.v1.save.';
+/**
+ * 保存データの形式の番号。World の形が変わる変更（グループの追加など）をしたら上げる。
+ * 番号の違う保存は読み込まずに捨てる（古い形の World で再開すると途中で止まり、画面が真っ暗になる）。
+ */
+const SAVE_FORMAT = 2;
 const HISTORY_KEY = 'hks.v1.history';
 const HISTORY_MAX = 50;
 /** 保存時刻（解凍せずに新しい順に並べるため） */
@@ -78,7 +83,7 @@ function setWithEviction(key: string, value: string): boolean {
 
 export async function saveResume(d: ResumeData): Promise<boolean> {
   try {
-    const ok = setWithEviction(SAVE_PREFIX + d.scenarioId, await gzip(JSON.stringify(d)));
+    const ok = setWithEviction(SAVE_PREFIX + d.scenarioId, await gzip(JSON.stringify({ ...d, format: SAVE_FORMAT })));
     if (ok) localStorage.setItem(SAVED_AT_PREFIX + d.scenarioId, d.savedAt);
     return ok;
   } catch {
@@ -90,8 +95,14 @@ export async function loadResume(scenarioId: string): Promise<ResumeData | null>
   const raw = localStorage.getItem(SAVE_PREFIX + scenarioId);
   if (!raw) return null;
   try {
-    return JSON.parse(await gunzip(raw)) as ResumeData;
+    const d = JSON.parse(await gunzip(raw)) as ResumeData & { format?: number };
+    if (d.format !== SAVE_FORMAT || !Array.isArray(d.world?.groups)) {
+      clearResume(scenarioId);
+      return null;
+    }
+    return d;
   } catch {
+    clearResume(scenarioId);
     return null;
   }
 }

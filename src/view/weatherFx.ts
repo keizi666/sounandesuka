@@ -150,7 +150,7 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
       }`,
     fragmentShader: `varying float vSnow; varying float vShow; uniform float uNight;
       void main(){ if (vShow < 0.5) discard; vec2 d = gl_PointCoord - 0.5;
-        float a = vSnow > 0.5 ? smoothstep(0.5, 0.2, length(d)) : (abs(d.x) < 0.18 ? 0.55 : 0.0);
+        float a = vSnow > 0.5 ? (1.0 - smoothstep(0.2, 0.5, length(d))) : (abs(d.x) < 0.18 ? 0.55 : 0.0);
         if (a < 0.02) discard; vec3 c = mix(vec3(0.75,0.82,0.9), vec3(1.0), vSnow) * (1.0 - 0.7 * uNight);
         gl_FragColor = vec4(pow(max(c, 0.0), vec3(2.2)), a);
         #include <tonemapping_fragment>

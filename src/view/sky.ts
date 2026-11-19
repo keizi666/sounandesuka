@@ -70,7 +70,7 @@ export function createSky(radius: number): Sky {
         float h = clamp(d.y, -1.0, 1.0);
         // 地平に近いほど白っぽく霞む。地平より下は霞の色を少し暗くして続ける
         vec3 col = mix(uHorizon, uTop, pow(max(h, 0.0), 0.55));
-        col = mix(col, uHorizon * 0.82, smoothstep(0.0, -0.35, h));
+        col = mix(col, uHorizon * 0.82, (1.0 - smoothstep(-0.35, 0.0, h)));
         float s = max(dot(d, normalize(uSunDir)), 0.0);
         col += uSunColor * uSun * (pow(s, 900.0) * 6.0 + pow(s, 40.0) * 0.35 + pow(s, 6.0) * 0.12);
         // 星

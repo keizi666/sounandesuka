@@ -129,7 +129,7 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
       // 大きな色むら（植生のまだら）と、急な面の岩肌（地層の縞）
       float hkBig = hk_noise(vWorldPos.xz * 11.0) * 0.6 + hk_noise(vWorldPos.xz * 37.0) * 0.4;
       diffuseColor.rgb *= 0.88 + 0.24 * hkBig;
-      float hkSteep = smoothstep(0.8, 0.56, vSlopeUp);
+      float hkSteep = (1.0 - smoothstep(0.56, 0.8, vSlopeUp));
       float hkStrata = hk_noise(vec2(vWorldPos.y * 240.0 + hk_noise(vWorldPos.xz * 30.0) * 4.0, vWorldPos.x * 12.0 + vWorldPos.z * 9.0));
       vec3 hkRock = mix(vec3(0.17, 0.16, 0.145), vec3(0.33, 0.31, 0.28), hkStrata) * (0.8 + 0.4 * hkN);
       diffuseColor.rgb = mix(diffuseColor.rgb, hkRock, hkSteep * 0.8);
@@ -158,7 +158,7 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
         float hkB0 = hk_noise(hkP * 170.0) * 0.65 + hk_noise(hkP * 560.0) * 0.35;
         float hkBx = hk_noise((hkP + vec2(hkE, 0.0)) * 170.0) * 0.65 + hk_noise((hkP + vec2(hkE, 0.0)) * 560.0) * 0.35;
         float hkBz = hk_noise((hkP + vec2(0.0, hkE)) * 170.0) * 0.65 + hk_noise((hkP + vec2(0.0, hkE)) * 560.0) * 0.35;
-        float hkFade = smoothstep(5.0, 0.6, distance(cameraPosition, vWorldPos));
+        float hkFade = (1.0 - smoothstep(0.6, 5.0, distance(cameraPosition, vWorldPos)));
         vec3 hkG = vec3(hkB0 - hkBx, 0.0, hkB0 - hkBz) * 1.6 * hkFade;
         normal = normalize(normal + (viewMatrix * vec4(hkG, 0.0)).xyz);
       }`
