@@ -161,6 +161,10 @@ export const JA = {
   },
   ui: {
     loading: '読み込み中…',
+    loadingTitle: '準備しています',
+    loadingData: 'シナリオのデータを読み込んでいます',
+    loadingTerrain: '地形と電波の届く範囲を計算しています',
+    loadingScene: '3D の山と森を作っています',
     noWebgl: 'このブラウザは WebGL2 に対応していないため、3D の箱庭を表示できません。最新の Chrome / Edge / Firefox / Safari でお試しください。',
     start: 'はじめる',
     resume: '続きから',

@@ -1295,7 +1295,7 @@
   },
   "thoughts": [
     {
-      "key": "s02_trace",
+      "key": "s02_trace", "who": "sato",
       "when": {
         "state": "OFFROUTE_UNAWARE"
       },
@@ -1306,7 +1306,7 @@
       "priority": 5
     },
     {
-      "key": "s02_partner",
+      "key": "s02_partner", "who": "sato",
       "when": {
         "all": [
           {
@@ -1322,7 +1322,7 @@
       ]
     },
     {
-      "key": "s02_late_start",
+      "key": "s02_late_start", "who": "sato",
       "when": {
         "all": [
           {
@@ -1340,7 +1340,7 @@
       "priority": 5
     },
     {
-      "key": "s02_responsible",
+      "key": "s02_responsible", "who": "sato",
       "when": {
         "state": "LOST_AWARE"
       },
@@ -1351,7 +1351,7 @@
       "priority": 7
     },
     {
-      "key": "s02_family",
+      "key": "s02_family", "who": "sato",
       "when": {
         "all": [
           {

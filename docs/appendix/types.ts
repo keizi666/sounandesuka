@@ -441,7 +441,8 @@ export type ScriptEffect =
 
 export interface ScriptEventDef { id: string; trigger: Condition; once?: boolean; effects: ScriptEffect[] }
 
-export interface ThoughtDef { key: string; when: Condition; lines: string[]; priority?: number }
+/** 一人言・考え。who を書けばその人だけが考える（登山者 ID、'leader' はグループのリーダー、'role:…' は役割）。省略すると誰でも */
+export interface ThoughtDef { key: string; who?: SpeakerRef; when: Condition; lines: string[]; priority?: number }
 
 export type SpeechTone = 'normal' | 'shout' | 'whisper' | 'sound';
 export type SpeakerRef = ClimberId | 'leader' | 'any' | `role:${string}`;

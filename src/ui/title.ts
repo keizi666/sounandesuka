@@ -6,6 +6,7 @@ import { loadEntry, loadIndex } from '../app/data';
 import { loadResume, resumableScenarios } from '../app/storage';
 import { JA } from '../i18n/ja';
 import { el } from './dom';
+import { progressTo, showLoading } from './loading';
 import { openSettings } from './settingsDialog';
 
 export function showTitle(app: AppContext): () => void {
@@ -15,16 +16,24 @@ export function showTitle(app: AppContext): () => void {
       ? el('button', {
           class: 'primary',
           onclick: async () => {
+            const ld = showLoading(JA.ui.loadingTitle);
+            ld.step(JA.ui.loadingData, null);
             const id = resumables[0]!;
             const idx = await loadIndex();
             const e = idx.find((x) => x.id === id);
             const data = await loadResume(id);
             // 古い形式の保存は捨てられる。その場合はシナリオ選択へ進む
             if (!e || !data) {
+              ld.done();
               app.go({ name: 'select' });
               return;
             }
-            app.go({ name: 'sim', loaded: await loadEntry(e), resume: data });
+            try {
+              app.go({ name: 'sim', loaded: await loadEntry(e, progressTo(ld, { data: JA.ui.loadingData, terrain: JA.ui.loadingTerrain })), resume: data });
+            } catch (err) {
+              ld.done();
+              throw err;
+            }
           },
         }, [icon('playCircle'), JA.ui.resume])
       : null;

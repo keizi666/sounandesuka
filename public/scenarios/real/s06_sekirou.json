@@ -350,9 +350,9 @@
     }
   },
   "thoughts": [
-    { "key": "s06_smoke", "when": { "all": [{ "flag": "split" }, { "var": "c.kenichi.state", "op": "==", "value": "RESTING" }, { "not": { "flag": "goBackPhone" } }, { "not": { "flag": "goBackPhoneLong" } }] }, "lines": ["家じゃ吸えないからな。ここなら気兼ねなく吸える", "相模湖がよく見える。いい日だ"], "priority": 6 },
-    { "key": "s06_lostphone", "when": { "all": [{ "var": "c.kenichi.phone.has", "op": "==", "value": false }, { "elapsedSince": { "flag": "phoneDropped", "min": 18 } }] }, "lines": ["スマホがないと、電話も地図もバスも……", "由美はもう下に着いたかな。心配してるだろうな"], "priority": 7 },
-    { "key": "s06_hurry", "when": { "all": [{ "var": "c.kenichi.state", "op": "==", "value": "WALKING" }, { "after": "D0 15:30" }, { "flag": "split" }] }, "lines": ["急がないと。家族が待ってる", "こっちで合ってるよな。来た道とは違う気がするけど"], "priority": 6 }
+    { "key": "s06_smoke", "who": "kenichi", "when": { "all": [{ "flag": "split" }, { "var": "c.kenichi.state", "op": "==", "value": "RESTING" }, { "not": { "flag": "goBackPhone" } }, { "not": { "flag": "goBackPhoneLong" } }] }, "lines": ["家じゃ吸えないからな。ここなら気兼ねなく吸える", "相模湖がよく見える。いい日だ"], "priority": 6 },
+    { "key": "s06_lostphone", "who": "kenichi", "when": { "all": [{ "var": "c.kenichi.phone.has", "op": "==", "value": false }, { "elapsedSince": { "flag": "phoneDropped", "min": 18 } }] }, "lines": ["スマホがないと、電話も地図もバスも……", "由美はもう下に着いたかな。心配してるだろうな"], "priority": 7 },
+    { "key": "s06_hurry", "who": "kenichi", "when": { "all": [{ "var": "c.kenichi.state", "op": "==", "value": "WALKING" }, { "after": "D0 15:30" }, { "flag": "split" }] }, "lines": ["急がないと。家族が待ってる", "こっちで合ってるよな。来た道とは違う気がするけど"], "priority": 6 }
   ],
   "speech": [
     { "key": "s06_kids_start", "who": "riku", "to": "kai", "when": { "all": [{ "after": "D0 10:05" }, { "before": "D0 10:40" }] }, "lines": ["どっちが先に山頂に着くか競争な！", "海、遅いぞー"], "replies": { "who": "kai", "lines": ["ずるい、先に走った！", "待ってよー"] }, "priority": 12, "once": true },

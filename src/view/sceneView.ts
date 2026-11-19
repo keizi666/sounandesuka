@@ -656,6 +656,28 @@ export class SceneView {
     canvas.addEventListener('contextmenu', (e) => e.preventDefault());
   }
 
+  /**
+   * 追従の近い画に据える（シナリオの始まり）。登山者を中心に、斜め上（俯角 55°）から、操作できる最短距離の 12 倍ほど（登山者と周りの木々が見える近さ）で見下ろす。
+   * 見る向きは今のカメラの方位を保つ
+   */
+  frameClose(world: World, distFactor = 12): void {
+    const c = world.climbers.find((x) => x.id === this.selected) ?? world.climbers[0];
+    if (!c) return;
+    const target = new THREE.Vector3(c.x * UNIT, this.heightAt(c.x * UNIT, c.z * UNIT), c.z * UNIT);
+    const flat = this.camera.position.clone().sub(this.controls.target).setY(0);
+    if (flat.lengthSq() < 1e-12) flat.set(0, 0, 1);
+    flat.normalize();
+    const pitch = (55 * Math.PI) / 180;
+    const dist = this.controls.minDistance * distFactor;
+    const dir = flat.multiplyScalar(Math.cos(pitch)).add(new THREE.Vector3(0, Math.sin(pitch), 0));
+    this.controls.target.copy(target);
+    this.followTarget.copy(target);
+    this.camera.position.copy(target).addScaledVector(dir, dist);
+    this.camera.lookAt(target);
+    this.controls.update();
+    this.lastMode = 'follow';
+  }
+
   private updateCamera(world: World): void {
     const c = world.climbers.find((x) => x.id === this.selected) ?? world.climbers[0];
     if (!c) return;

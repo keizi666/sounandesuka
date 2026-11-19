@@ -6,6 +6,7 @@ import { fill } from '../i18n/format';
 import { validateScenario } from '../sim/scenario/validate';
 import type { HakoniwaBundle } from '../sim/types';
 import { el, toast } from './dom';
+import { progressTo, showLoading } from './loading';
 
 /** バンドル（*.hakoniwa.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
 async function openBundle(app: AppContext, file: File): Promise<void> {
@@ -78,9 +79,13 @@ export function showScenarioSelect(app: AppContext): () => void {
       ...idx.map((e) => {
         const card = el('button', { class: 'card', onclick: async () => {
           list.setAttribute('aria-busy', 'true');
+          const ld = showLoading(JA.ui.loadingTitle);
           try {
-            app.go({ name: 'briefing', loaded: await loadEntry(e) });
+            const loaded = await loadEntry(e, progressTo(ld, { data: JA.ui.loadingData, terrain: JA.ui.loadingTerrain }));
+            ld.done();
+            app.go({ name: 'briefing', loaded });
           } catch (err) {
+            ld.done();
             list.removeAttribute('aria-busy');
             toast(String(err), 6000);
           }

@@ -31,6 +31,31 @@ export function loadBundleFile(file: string): Promise<HakoniwaBundle> {
   return getJson<HakoniwaBundle>(`scenarios/${file}`);
 }
 
+/** 進み具合を知らせながら JSON を取る（大きなバンドル用。サイズが分からなければ frac は null） */
+async function getJsonWithProgress<T>(path: string, onProgress?: (frac: number | null) => void): Promise<T> {
+  const r = await fetch(assetUrl(path));
+  if (!r.ok) throw new Error(`${path} を読み込めませんでした（${r.status}）`);
+  const total = Number(r.headers.get('content-length') ?? 0);
+  if (!r.body || !onProgress) return (await r.json()) as T;
+  const reader = r.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let got = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    got += value.length;
+    onProgress(total > 0 ? got / total : null);
+  }
+  const buf = new Uint8Array(got);
+  let o = 0;
+  for (const c of chunks) {
+    buf.set(c, o);
+    o += c.length;
+  }
+  return JSON.parse(new TextDecoder().decode(buf)) as T;
+}
+
 const runtimeCache = new Map<string, Promise<MapRuntime>>();
 
 /** MapRuntime を作る（電波圏は Worker）。同じ定義はキャッシュする */
@@ -91,12 +116,19 @@ export async function bundleExists(e: ScenarioIndexEntry): Promise<boolean> {
   }
 }
 
-export async function loadEntry(e: ScenarioIndexEntry): Promise<LoadedScenario> {
+/** 読み込みの段階（data: データの取得、terrain: 地形と電波の計算）と進み具合 */
+export type LoadProgress = (stage: 'data' | 'terrain', frac: number | null) => void;
+
+export async function loadEntry(e: ScenarioIndexEntry, onProgress?: LoadProgress): Promise<LoadedScenario> {
   if (e.bundle) {
-    const b = await loadBundleFile(e.bundle);
+    const b = await getJsonWithProgress<HakoniwaBundle>(`scenarios/${e.bundle}`, onProgress && ((f) => onProgress('data', f)));
+    onProgress?.('terrain', null);
     return { scenario: b.scenario, map: await buildRuntime(b.map), attribution: b.attribution };
   }
+  onProgress?.('data', null);
   const scenario = await loadScenarioFile(e.file ?? `${e.id}.json`);
-  const map = await buildRuntime(await loadMapDef(scenario.mapId));
+  const def = await loadMapDef(scenario.mapId);
+  onProgress?.('terrain', null);
+  const map = await buildRuntime(def);
   return { scenario, map, attribution: [] };
 }

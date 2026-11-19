@@ -583,3 +583,17 @@ main.ending2.tone-bad { --tone: #ef4444; }
 .choice .option .opt-text strong { color: #fff; font-size: 1.08em; }
 .choice .option .opt-text > span { color: #b8bec7; }
 .choice .option.chosen .opt-text, .choice .option.chosen .opt-text strong, .choice .option.chosen .opt-text > span { color: #1d1a12; }
+
+/* ---- 読み込み中（src/ui/loading.ts） ---- */
+.loading-overlay { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; background: rgba(10, 12, 16, 0.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: opacity 0.25s; }
+.loading-overlay.out { opacity: 0; pointer-events: none; }
+.ld-card { width: min(360px, calc(100vw - 32px)); padding: 22px 22px 18px; border-radius: 14px; background: rgba(24, 28, 36, 0.92); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45); color: #e9ecf1; text-align: center; }
+.ld-spin { width: 36px; height: 36px; margin: 0 auto 10px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.15); border-top-color: var(--accent, #d4a64a); animation: ld-rot 0.9s linear infinite; will-change: transform; }
+.ld-title { margin: 0 0 4px; font-weight: 700; font-size: 1.05em; }
+.ld-step { margin: 0 0 12px; min-height: 1.4em; color: #a9b0bb; font-size: 0.9em; }
+.ld-bar { position: relative; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.ld-fill { position: absolute; inset: 0; background: var(--accent, #d4a64a); transform-origin: left center; transform: scaleX(0.02); transition: transform 0.2s; }
+.ld-bar.indeterminate .ld-fill { width: 35%; transform: none; animation: ld-slide 1.2s ease-in-out infinite; will-change: transform; }
+@keyframes ld-rot { to { transform: rotate(360deg); } }
+@keyframes ld-slide { 0% { transform: translateX(-110%); } 100% { transform: translateX(300%); } }
+@media (prefers-reduced-motion: reduce) { .ld-spin, .ld-bar.indeterminate .ld-fill { animation-duration: 3s; } }

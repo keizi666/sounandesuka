@@ -15,6 +15,7 @@ import { showScenarioSelect } from '../ui/scenarioSelect';
 import { showSimScreen, type SimResult } from '../ui/simScreen';
 import { showTitle } from '../ui/title';
 import { checkWebGL2, el } from '../ui/dom';
+import { nextPaint, progressTo, showLoading } from '../ui/loading';
 import type { LoadedScenario } from './data';
 import type { ResumeData } from './storage';
 
@@ -68,9 +69,26 @@ export function startApp(root: HTMLElement): void {
         case 'briefing':
           cleanup = showBriefing(app, screen.loaded);
           break;
-        case 'sim':
-          cleanup = showSimScreen(app, screen.loaded, screen.resume, screen.observe);
+        case 'sim': {
+          // 3D の山と森を作る間は画面が止まるので、先に読み込み中の表示を出してから作る
+          const ld = showLoading(JA.ui.loadingTitle);
+          ld.step(JA.ui.loadingScene, null);
+          let gone = false;
+          cleanup = () => {
+            gone = true;
+            ld.done();
+          };
+          void nextPaint().then(() => {
+            if (gone) return;
+            try {
+              const c = showSimScreen(app, screen.loaded, screen.resume, screen.observe);
+              cleanup = c;
+            } finally {
+              void nextPaint().then(() => ld.done());
+            }
+          });
           break;
+        }
         case 'ending':
           cleanup = showEnding(app, screen.loaded, screen.result);
           break;
@@ -95,7 +113,7 @@ export function startApp(root: HTMLElement): void {
     void loadIndex()
       .then((idx) => {
         const e = idx.find((x) => x.id === direct) ?? { id: direct, file: `${direct}.json`, title: direct, theme: 'mixed' as const, difficulty: 1 as const, season: 'autumn' as const, estMinutes: 0 };
-        return loadEntry(e);
+        return loadEntry(e, progressTo(showLoading(JA.ui.loadingTitle), { data: JA.ui.loadingData, terrain: JA.ui.loadingTerrain }));
       })
       .then((loaded) => app.go({ name: 'sim', loaded, observe: params.get('observe') === '1' }))
       .catch((e: unknown) => root.replaceChildren(el('div', { class: 'fatal' }, [el('h1', {}, JA.app.title), el('p', { class: 'error' }, String(e)), el('a', { href: location.pathname }, JA.ui.toTitle)])));

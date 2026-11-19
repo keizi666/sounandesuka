@@ -106,3 +106,21 @@ describe('イベントのログの文', () => {
     expect(e?.text).toBe('村井さんの記録');
   });
 });
+
+describe('一人言の持ち主（thoughts.who）', () => {
+  it('佐藤さんの考え（s02）は、田中さんには浮かばない', () => {
+    const { map } = hakoniwa();
+    const s = loadScenario('s02_fog_descent');
+    const satoOnly = new Set((s.thoughts ?? []).filter((t) => t.who === 'sato').map((t) => t.key));
+    let seen = 0;
+    for (const seed of [1, 2, 3, 4, 5, 6]) {
+      const r = runHeadless(map, s, { policy: 'bias', seed, collectEvents: true });
+      for (const e of r.events) {
+        if (e.type !== 'THOUGHT' || !satoOnly.has(String(e.data?.['key']))) continue;
+        seen += 1;
+        expect(e.climberId).toBe('sato');
+      }
+    }
+    expect(seen).toBeGreaterThan(0);
+  });
+});

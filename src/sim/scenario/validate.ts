@@ -317,7 +317,10 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
     checkCondition(v, `events[${i}].trigger`, e.trigger, r);
     checkEffects(v, `events[${i}].effects`, e.effects, r);
   });
-  (s.thoughts ?? []).forEach((t, i) => checkCondition(v, `thoughts[${i}].when`, t.when, r));
+  (s.thoughts ?? []).forEach((t, i) => {
+    checkCondition(v, `thoughts[${i}].when`, t.when, r);
+    if (t.who !== undefined && t.who !== 'any' && t.who !== 'leader' && !t.who.startsWith('role:') && !r.climbers.has(t.who)) v.err(`thoughts[${i}].who`, 'undefinedClimber', `未定義の登山者 "${t.who}"`);
+  });
   (s.speech ?? []).forEach((t, i) => {
     checkCondition(v, `speech[${i}].when`, t.when, r);
     checkWho(v, `speech[${i}].who`, t.who, r);

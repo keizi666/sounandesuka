@@ -74,7 +74,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   const figIcons = createFigureIcons(world.climbers);
   const stage = el('div', { class: 'stage' }, [canvas, figIcons.el, attributionLine(loaded)]);
   const modalHost = el('div', { class: 'modal-host' });
-  let cam: CameraMode = st.autoCamera ? 'follow' : 'overview';
+  // 始まりは追従（登山者の周りが見える近さ）
+  let cam: CameraMode = 'follow';
   dlog('シナリオ開始', { scenario: scenario.id, map: map.def.id, size: map.def.size, resolution: map.n, party: scenario.party.length, resume: !!resume, observe, timed, tMin: world.tMin, quality: effectiveQuality(st), settings: st });
   const view = new SceneView(canvas, map, scenario, { quality: effectiveQuality(st), figureScale: st.figureScale, vExag: st.vExag, clouds3d: st.clouds3d });
   // 環境音（雨・風・雷）。最初は止めておき、上のバーのボタンで出す（ブラウザの決まりで、操作のあとでないと鳴らせない）
@@ -84,6 +85,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   view.godView = st.godViewDefault;
   view.tiltShift = st.tiltShift;
   view.mode = cam;
+  view.frameClose(world);
   const party = new Map(scenario.party.map((p) => [p.id, p]));
   const bubbles = new BubbleLayer(stage, scenario, (id) => ({ name: party.get(id)?.name ?? id, color: party.get(id)?.color ?? '#888' }));
   const applyBubbleSettings = (): void => {

@@ -57,6 +57,14 @@ export function maybeThink(world: World, ctx: StaticContext, c: ClimberState): v
   for (const b of BUILTIN) if (!recent(b.key) && b.when(world, ctx, c)) cands.push({ key: b.key, priority: b.priority });
   (ctx.scenario.thoughts ?? []).forEach((th, i) => {
     if (recent(th.key)) return;
+    // 誰の考えか（ほかの人には浮かばない）
+    if (th.who !== undefined && th.who !== 'any') {
+      if (th.who === 'leader') {
+        if (world.groups.find((g) => g.id === c.groupId)?.leader !== c.id) return;
+      } else if (th.who.startsWith('role:')) {
+        if (c.def.role !== th.who.slice(5)) return;
+      } else if (th.who !== c.id) return;
+    }
     const scope = { world, map: ctx.map, scenario: ctx.scenario, leader: c };
     // thoughts の chance は思考専用のキーで固定する（結果に影響する events ストリームは使わない）
     if (evalCondition(th.when, scope, `thoughts[${i}].when`)) cands.push({ key: th.key, priority: (th.priority ?? 0) + t.scenarioPriorityBonus, lines: th.lines });
