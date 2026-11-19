@@ -17,6 +17,7 @@ import { buildVegetation, placeTrees, type Vegetation } from './vegetation';
 import { createWeatherFx, type WeatherFx } from './weatherFx';
 import { Overlay } from './overlay';
 import { loadHqAssets, type HqState } from './assets';
+import { reportProblem } from '../app/problem';
 import { createPost, type Post } from './post';
 import { createSky, skyColors, type Sky } from './sky';
 
@@ -78,6 +79,8 @@ export class SceneView {
   private lastShadowAt = 0;
   private sky: Sky;
   private post: Post | null = null;
+  private frames = 0;
+  private lastSunUp = false;
   private sunDir = new THREE.Vector3(0, 1, 0);
   private lastNight = -1;
 
@@ -94,6 +97,11 @@ export class SceneView {
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.shadowMap.autoUpdate = false;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    // シェーダーが通らないときは、理由を画面に出す
+    this.renderer.debug.onShaderError = (gl, program, vs, fs) => {
+      const log = [gl.getProgramInfoLog(program), gl.getShaderInfoLog(vs), gl.getShaderInfoLog(fs)].filter(Boolean).join(' / ').slice(0, 900);
+      reportProblem(`シェーダーのエラー（${this.gpuName()}）`, log);
+    };
     this.renderer.toneMappingExposure = 1.0;
     this.s = makeScale(map, opts.vExag);
     this.env.uScaleY.value = UNIT * this.s.vExag;
@@ -237,6 +245,45 @@ export class SceneView {
       this.post.setTilt(this.mode === 'eye' ? 0 : 1);
       this.post.render();
     } else this.renderer.render(this.scene, this.camera);
+    this.frames += 1;
+    if (this.frames === 4 || this.frames === 40) this.checkBlack();
+  }
+
+  private gpuName(): string {
+    const gl = this.renderer.getContext();
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    return ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : 'GPU 不明';
+  }
+
+  /**
+   * 昼なのに画面が真っ黒なら、描画に失敗している。後処理を使っていれば切って描き直し、それでも黒ければ知らせる。
+   * （GPU やドライバーによって後処理の中間バッファが使えないことがある）
+   */
+  private checkBlack(): void {
+    if (!this.lastSunUp) return;
+    const gl = this.renderer.getContext();
+    this.renderer.setRenderTarget(null);
+    const w = gl.drawingBufferWidth;
+    const h = gl.drawingBufferHeight;
+    const px = new Uint8Array(4);
+    let lit = 0;
+    for (const [fx, fy] of [[0.5, 0.5], [0.2, 0.8], [0.8, 0.8], [0.3, 0.3], [0.7, 0.4], [0.5, 0.92]] as const) {
+      gl.readPixels(Math.floor(w * fx), Math.floor(h * fy), 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+      if (px[0]! + px[1]! + px[2]! > 6) lit += 1;
+    }
+    if (lit > 0) return;
+    if (this.post) {
+      this.post.dispose();
+      this.post = null;
+      this.scene.environment = null;
+      this.frames = 0;
+      reportProblem('画面が真っ黒だったため、後処理（光のにじみ・ぼかし）を切りました', `GPU: ${this.gpuName()}
+この表示を開発者に伝えてください。`);
+    } else {
+      reportProblem('3D 画面が真っ黒です（後処理なしでも表示できません）', `GPU: ${this.gpuName()}
+WebGL エラー: ${gl.getError()}
+画面 ${w}×${h}`);
+    }
   }
 
   private updateCamera(world: World): void {
@@ -266,6 +313,7 @@ export class SceneView {
   private updateLight(world: World): void {
     const el = world.sun.elevDeg;
     const sunUp = Math.max(0, Math.sin(el * DEG));
+    this.lastSunUp = el > 5;
     const size = this.map.def.size * UNIT;
     // 太陽の方位: 6 時に東、12 時に南、18 時に西（日周の近似）
     const clock = ((world.tMin % 1440) + 1440) % 1440;
