@@ -75,9 +75,14 @@ export function createFigure(c: ClimberState, heightScene: number): Figure {
 
       // ヘッドランプ
       const on = cs.inv.headlamp.on && b.alive;
-      if (rig.lamp) (rig.lamp.material as THREE.MeshStandardMaterial).emissiveIntensity = on ? 6 : 0;
-      if (rig.lampBeam) (rig.lampBeam.material as THREE.MeshBasicMaterial).opacity = on ? 0.07 : 0;
-      if (spot) spot.intensity = on ? 3.0 : 0;
+      if (rig.lamp) (rig.lamp.material as THREE.MeshStandardMaterial).emissiveIntensity = on ? 2.5 : 0;
+      if (rig.lampBeam) (rig.lampBeam.material as THREE.MeshBasicMaterial).opacity = on ? 0.035 : 0;
+      if (spot) {
+        // 光は距離の 1.5 乗で弱まる。人形の拡大率によらず、足元の少し先がほんのり照らされる強さにする
+        const reach = root.scale.x * 1.6;
+        spot.intensity = on ? 0.55 * Math.pow(reach, 1.5) : 0;
+        spot.distance = root.scale.x * 7;
+      }
 
       // 選択の目印
       rig.ring.visible = selected;

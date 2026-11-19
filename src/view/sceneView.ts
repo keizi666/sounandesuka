@@ -82,6 +82,9 @@ export class SceneView {
   private sun = new THREE.DirectionalLight(0xffffff, 2.2);
   private hemi = new THREE.HemisphereLight(0xc9dcf0, 0x5a4a3a, 0.8);
   private figures = new Map<string, Figure>();
+  /** 俯瞰で登山者の位置を示す赤い円（画面上の大きさが一定） */
+  private locators = new Map<string, THREE.Sprite>();
+  private locatorTex: THREE.Texture | null = null;
   private veg: Vegetation;
   private windows: THREE.MeshStandardMaterial;
   private falseTrails: THREE.Object3D[];
@@ -259,6 +262,49 @@ export class SceneView {
     this.camera.updateProjectionMatrix();
   }
 
+  /** 赤い円の目印。遠くから見ても位置が分かるよう、画面上で一定の大きさに描く。近づいたら消す */
+  private updateLocator(id: string, fig: Figure, timeSec: number, alive: boolean): void {
+    let sp = this.locators.get(id);
+    if (!sp) {
+      if (!this.locatorTex) {
+        const c = document.createElement('canvas');
+        c.width = 128;
+        c.height = 128;
+        const g = c.getContext('2d')!;
+        g.lineWidth = 9;
+        g.strokeStyle = 'rgba(0,0,0,0.45)';
+        g.beginPath();
+        g.arc(64, 64, 52, 0, Math.PI * 2);
+        g.stroke();
+        g.lineWidth = 6;
+        g.strokeStyle = '#ffffff';
+        g.beginPath();
+        g.arc(64, 64, 52, 0, Math.PI * 2);
+        g.stroke();
+        this.locatorTex = new THREE.CanvasTexture(c);
+        this.locatorTex.colorSpace = THREE.SRGBColorSpace;
+      }
+      sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: this.locatorTex, color: 0xff2a1f, depthTest: false, depthWrite: false, transparent: true, sizeAttenuation: false, toneMapped: false }));
+      sp.renderOrder = 30;
+      this.locators.set(id, sp);
+      this.scene.add(sp);
+    }
+    const h = this.figureHeight();
+    sp.position.copy(fig.root.position);
+    sp.position.y += h * 0.5;
+    const dist = this.camera.position.distanceTo(sp.position);
+    // 人形が画面の高さの 1/9 より大きく見える距離では不要
+    const tanHalf = Math.tan((this.camera.fov * DEG) / 2);
+    const figFrac = h / (2 * dist * tanHalf);
+    const fade = 1 - THREE.MathUtils.smoothstep(figFrac, 0.07, 0.12);
+    sp.visible = fig.root.visible && this.mode !== 'eye' && fade > 0.01;
+    const pulse = 1 + 0.12 * Math.sin(timeSec * 3.2);
+    sp.scale.setScalar(0.085 * pulse);
+    const m = sp.material;
+    m.opacity = 0.95 * fade;
+    m.color.setHex(alive ? 0xff2a1f : 0x9a9a9a);
+  }
+
   /** 人形の高さ（シーン単位） */
   private figureHeight(): number {
     return (this.mode === 'eye' ? 1.7 : 1.7 * this.opts.figureScale) * UNIT * this.s.vExag;
@@ -288,6 +334,7 @@ export class SceneView {
       // 登山者の視点では、道迷い中の人形を推定位置に置く（真の位置は描かない）
       fig.root.visible = this.godView || !c.perception.awareLost;
       fig.update(c, timeSec, this.selected === c.id);
+      this.updateLocator(c.id, fig, timeSec, c.body.alive);
     }
     this.updateCamera(world);
     this.veg.update(this.camera);
@@ -447,28 +494,30 @@ export class SceneView {
     const az = ((clock / 1440) * 2 - 0.5) * Math.PI;
     const warm = 1 - Math.min(1, Math.max(0, el) / 22);
     const cloud = world.weather.cloudCover;
-    const dayK = Math.min(1, sunUp * 3.5);
-    // 夜の度合い（日没前後でなめらかに変わる）。夜は月明かりで地形が読める明るさを保つ
-    const nightK = 1 - THREE.MathUtils.smoothstep(el, -7, 3);
-    if (el > -1) {
+    // 明るさは「夜 → 薄明 → 昼」へ一方向に増える（途中で暗くならない）。
+    // dawn: 太陽高度 -9°（夜）から +9°（昼）で 0 → 1。空からの光はこれに沿って増える
+    const dawn = THREE.MathUtils.smoothstep(el, -9, 9);
+    const nightK = 1 - THREE.MathUtils.smoothstep(el, -9, 4);
+    if (el > 0) {
       this.sun.position.set(Math.cos(az) * size * 2, Math.max(0.05, Math.sin(el * DEG)) * size * 2.5, Math.sin(az) * size * 2);
       this.sun.color.setRGB(1, 1 - 0.32 * warm, 1 - 0.58 * warm);
       // 曇りは直射が弱まり、代わりに空全体からの柔らかい光が増える
-      this.sun.intensity = 3.0 * Math.pow(sunUp, 0.6) * (1 - 0.78 * cloud * cloud) + 0.12;
+      this.sun.intensity = 3.0 * Math.pow(sunUp, 0.6) * (1 - 0.78 * cloud * cloud);
     } else {
-      // 月（太陽と同じ光源を使い回す）: 高い位置から青白く照らす
+      // 月（太陽と同じ光源を使い回す）: 高い位置から青白く、弱く照らす。薄明が進むにつれて消える
       this.sun.position.set(-size * 1.2, size * 2.2, size * 0.9);
       this.sun.color.setRGB(0.62, 0.74, 1.0);
-      this.sun.intensity = (0.55 + 0.5 * world.sun.moonIllum) * (1 - 0.6 * cloud) * Math.min(1, (-1 - el) / 4 + 0.25);
+      this.sun.intensity = (0.22 + 0.2 * world.sun.moonIllum) * (1 - 0.6 * cloud) * (1 - THREE.MathUtils.smoothstep(el, -6, 0));
     }
     const sc = skyColors(el, cloud);
     this.hemi.color.copy(sc.top).lerp(sc.horizon, 0.6).lerp(MOON_SKY, nightK);
     this.hemi.groundColor.copy(sc.ground).lerp(MOON_GROUND, nightK);
-    this.hemi.intensity = 0.1 + dayK * (0.75 + 0.55 * cloud) + nightK * 0.7;
-    this.scene.environmentIntensity = 0.04 + dayK * (0.32 + 0.2 * cloud) + nightK * 0.12;
-    const night = world.sun.isDark ? 1 : world.sun.twilight ? 0.5 : 0;
-    this.env.uNight.value = night;
-    this.windows.emissiveIntensity = night > 0 ? 2.4 : 0;
+    this.hemi.intensity = THREE.MathUtils.lerp(0.3, 0.85 + 0.55 * cloud, dawn);
+    this.scene.environmentIntensity = THREE.MathUtils.lerp(0.05, 0.36 + 0.2 * cloud, dawn);
+    // 夜の色味（シェーダー側）もなめらかに変える。登山道の線の色は 0.1 刻みで更新する
+    this.env.uNight.value = nightK;
+    const night = Math.round(nightK * 10) / 10;
+    this.windows.emissiveIntensity = 2.4 * Math.min(1, nightK * 2);
     // 登山道の線（照明を受けない素材）も夜は暗くする
     if (this.lastNight !== night) {
       this.lastNight = night;
@@ -534,6 +583,8 @@ export class SceneView {
 
   dispose(): void {
     for (const f of this.figures.values()) f.dispose();
+    for (const sp of this.locators.values()) sp.material.dispose();
+    this.locatorTex?.dispose();
     this.overlay.dispose();
     this.controls.dispose();
     this.renderer.dispose();
