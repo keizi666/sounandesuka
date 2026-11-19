@@ -51,6 +51,10 @@ export interface Post {
   setSize(w: number, h: number): void;
   /** 上下のぼかしの強さ（0 = なし。登山者の視点では切る） */
   setTilt(v: number): void;
+  /** 段階の入切（不具合の切り分け用） */
+  setStages(st: { bloom: boolean; finish: boolean }): void;
+  /** 設定の説明（ログ用） */
+  describe(): Record<string, unknown>;
   dispose(): void;
 }
 
@@ -74,6 +78,13 @@ export function createPost(renderer: THREE.WebGLRenderer, scene: THREE.Scene, ca
       composer.setSize(w, h);
       const pr = renderer.getPixelRatio();
       (finish.uniforms['uTexel']!.value as THREE.Vector2).set(1 / Math.max(1, w * pr), 1 / Math.max(1, h * pr)).multiplyScalar(pr);
+    },
+    setStages(st) {
+      bloom.enabled = st.bloom;
+      finish.enabled = st.finish;
+    },
+    describe() {
+      return { samples: target.samples, type: 'HalfFloat', size: `${target.width}x${target.height}`, bloom: bloom.enabled, finish: finish.enabled, pixelRatio: renderer.getPixelRatio() };
     },
     setTilt(v) {
       finish.uniforms['uTilt']!.value = v * tilt;

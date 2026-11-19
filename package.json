@@ -1,6 +1,6 @@
 {
   "name": "hakoniwa-sim",
-  "version": "0.0.0",
+  "version": "0.20.0",
   "private": true,
   "type": "module",
   "description": "箱庭遭難シミュレータ — 山岳遭難の推移を 3D のジオラマで観察する Web アプリとシナリオエディター",

@@ -1,10 +1,15 @@
 // シナリオエディターのエントリポイント（editor.html、docs/15）
 import '../style.css';
 import './editor.css';
+import { installProblemReporter } from '../app/problem';
+import { logStartup } from '../app/version';
 import { JA } from '../i18n/ja';
 import { EditorApp } from './EditorApp';
 import { showProjects, type ProjectsHost } from './projects';
 import { getProject } from './store/idb';
+
+installProblemReporter();
+logStartup('editor');
 
 const root = document.querySelector<HTMLDivElement>('#app');
 let current: EditorApp | null = null;

@@ -2,6 +2,7 @@
  * シミュレーション画面（docs/11 §2〜3）。World・StaticContext・記録・描画・ループ・HUD・吹き出し・分岐点をつなぐ。
  * モード: 通常（分岐点で止まる）、判断時間制限（登山者は立ち止まって待ち、時間切れで傾向どおり）、観察のみ（傾向どおり自動）。
  */
+import { dlog, versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { Loop, type Speed } from '../app/loop';
@@ -67,6 +68,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   const stage = el('div', { class: 'stage' }, [canvas, attributionLine(loaded)]);
   const modalHost = el('div', { class: 'modal-host' });
   let cam: CameraMode = st.autoCamera ? 'follow' : 'overview';
+  dlog('シナリオ開始', { scenario: scenario.id, map: map.def.id, size: map.def.size, resolution: map.n, party: scenario.party.length, resume: !!resume, observe, timed, tMin: world.tMin, quality: effectiveQuality(st), settings: st });
   const view = new SceneView(canvas, map, scenario, { quality: effectiveQuality(st), figureScale: st.figureScale, vExag: st.vExag });
   view.godView = st.godViewDefault;
   view.mode = cam;
@@ -123,7 +125,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     },
     { god: view.godView, observe, timed },
   );
-  app.root.append(el('main', { class: 'sim' }, [hud.top, el('div', { class: 'body' }, [stage, hud.side]), hud.logEl, modalHost, el('p', { class: 'keyhelp' }, JA.ui.keyHelp)]));
+  app.root.append(el('main', { class: 'sim' }, [hud.top, el('div', { class: 'body' }, [stage, hud.side]), hud.logEl, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
 
   // ---- 保存 ----
   let lastSave = performance.now();

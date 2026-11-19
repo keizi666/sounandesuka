@@ -18,6 +18,7 @@ import { createWeatherFx, type WeatherFx } from './weatherFx';
 import { Overlay } from './overlay';
 import { loadHqAssets, type HqState } from './assets';
 import { reportProblem } from '../app/problem';
+import { dlog } from '../app/version';
 import { createPost, type Post } from './post';
 import { createSky, skyColors, type Sky } from './sky';
 
@@ -84,6 +85,8 @@ export class SceneView {
   private sky: Sky;
   private post: Post | null = null;
   private frames = 0;
+  private drawOk = false;
+  private blackStage = 0;
   private lastSunUp = false;
   private sunDir = new THREE.Vector3(0, 1, 0);
   private lastNight = -1;
@@ -95,6 +98,7 @@ export class SceneView {
     readonly opts: ViewOptions,
   ) {
     const q = QUALITY[opts.quality];
+    const tBuild = performance.now();
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: opts.quality !== 'low' });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, q.pixelRatio));
     this.renderer.shadowMap.enabled = q.shadow > 0;
@@ -168,6 +172,30 @@ export class SceneView {
       pmrem.dispose();
       this.post = createPost(this.renderer, this.scene, this.camera, opts.quality === 'high');
     }
+    {
+      const gl = this.renderer.getContext();
+      const cap = this.renderer.capabilities;
+      dlog('描画の初期化', {
+        gpu: this.gpuName(),
+        webgl2: typeof WebGL2RenderingContext !== 'undefined' && gl instanceof WebGL2RenderingContext,
+        glVersion: gl.getParameter(gl.VERSION),
+        quality: opts.quality,
+        pixelRatio: this.renderer.getPixelRatio(),
+        devicePixelRatio: window.devicePixelRatio,
+        maxSamples: cap.maxSamples,
+        maxTextureSize: cap.maxTextureSize,
+        colorBufferFloat: !!gl.getExtension('EXT_color_buffer_float'),
+        colorBufferHalfFloat: !!gl.getExtension('EXT_color_buffer_half_float'),
+        floatLinear: !!gl.getExtension('OES_texture_float_linear'),
+        shadows: this.renderer.shadowMap.enabled,
+        post: this.post ? this.post.describe() : null,
+        buildMs: Math.round(performance.now() - tBuild),
+        three: THREE.REVISION,
+        threeGlobal: (globalThis as { __THREE__?: string }).__THREE__,
+      });
+      canvas.addEventListener('webglcontextlost', () => reportProblem('WebGL のコンテキストが失われました', this.gpuName()));
+      canvas.addEventListener('webglcontextrestored', () => dlog('WebGL のコンテキストが戻りました'));
+    }
     // 高品質だけ、開始後に追加アセットを裏で読み込む（届くまでは基本の見た目）
     if (opts.quality === 'high') {
       this.hq = 'loading';
@@ -202,6 +230,7 @@ export class SceneView {
   resize(w: number, h: number): void {
     this.renderer.setSize(w, h, false);
     this.post?.setSize(w, h);
+    dlog('画面の大きさ', { css: `${Math.round(w)}x${Math.round(h)}`, buffer: `${this.renderer.domElement.width}x${this.renderer.domElement.height}`, post: this.post?.describe() ?? null });
     this.camera.aspect = w / Math.max(1, h);
     this.camera.updateProjectionMatrix();
   }
@@ -239,6 +268,7 @@ export class SceneView {
     this.updateCamera(world);
     this.veg.update(this.camera);
     this.controls.update();
+    this.keepCameraAboveGround();
     this.sky.mesh.position.copy(this.camera.position);
     // 人形の影が付いてくるよう、影は 0.4 秒ごとにも更新する
     if (timeSec - this.lastShadowAt > 0.4 || timeSec < this.lastShadowAt) {
@@ -250,7 +280,31 @@ export class SceneView {
       this.post.render();
     } else this.renderer.render(this.scene, this.camera);
     this.frames += 1;
-    if (this.frames === 4 || this.frames === 40) this.checkBlack();
+    if (this.frames <= 3 || this.frames === 60) {
+      const info = this.renderer.info;
+      dlog(`フレーム ${this.frames}`, { calls: info.render.calls, triangles: info.render.triangles, programs: info.programs?.length, textures: info.memory.textures, geometries: info.memory.geometries, sunUp: this.lastSunUp, post: !!this.post, glError: this.renderer.getContext().getError() });
+    }
+    // 昼の画面が一度でも正しく描けたと確かめられるまで、ときどき調べる（夜に始まるシナリオでは日の出後に効く）
+    if (!this.drawOk && this.frames % 30 === 4) this.checkBlack();
+  }
+
+  /** カメラが地面にめり込まないよう、地表（地図の外では台の面）より少し上に保つ */
+  private keepCameraAboveGround(): void {
+    if (this.mode === 'eye') return;
+    const p = this.camera.position;
+    const half = this.map.def.size * UNIT * 0.5;
+    const margin = this.map.def.size * UNIT * 0.012;
+    const inside = Math.abs(p.x) <= half && Math.abs(p.z) <= half;
+    // 縁の近くでは、縁の地面の高さも見る（崖のような側面にもぐらない）
+    const cx = Math.min(half, Math.max(-half, p.x));
+    const cz = Math.min(half, Math.max(-half, p.z));
+    const edgeDist = Math.hypot(p.x - cx, p.z - cz);
+    const ground = inside ? this.heightAt(p.x, p.z) : edgeDist < margin * 2 ? this.heightAt(cx, cz) : 0;
+    const minY = ground + margin;
+    if (p.y < minY) {
+      p.y = minY;
+      this.camera.lookAt(this.controls.target);
+    }
   }
 
   private gpuName(): string {
@@ -263,30 +317,75 @@ export class SceneView {
    * 昼なのに画面が真っ黒なら、描画に失敗している。後処理を使っていれば切って描き直し、それでも黒ければ知らせる。
    * （GPU やドライバーによって後処理の中間バッファが使えないことがある）
    */
-  private checkBlack(): void {
-    if (!this.lastSunUp) return;
+  /** 画面の数か所の色を読む。lit は黒でない点の数 */
+  private samplePixels(): { lit: number; samples: string[] } {
     const gl = this.renderer.getContext();
     this.renderer.setRenderTarget(null);
     const w = gl.drawingBufferWidth;
     const h = gl.drawingBufferHeight;
     const px = new Uint8Array(4);
     let lit = 0;
+    const samples: string[] = [];
     for (const [fx, fy] of [[0.5, 0.5], [0.2, 0.8], [0.8, 0.8], [0.3, 0.3], [0.7, 0.4], [0.5, 0.92]] as const) {
       gl.readPixels(Math.floor(w * fx), Math.floor(h * fy), 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
       if (px[0]! + px[1]! + px[2]! > 6) lit += 1;
+      samples.push(`${px[0]},${px[1]},${px[2]}`);
     }
-    if (lit > 0) return;
-    if (this.post) {
+    return { lit, samples };
+  }
+
+  private checkBlack(): void {
+    if (!this.lastSunUp) return;
+    const gl = this.renderer.getContext();
+    const first = this.samplePixels();
+    dlog('黒画面の検査', { frame: this.frames, stage: this.blackStage, post: this.post?.describe() ?? null, ...first });
+    if (first.lit > 0) {
+      this.drawOk = true;
+      return;
+    }
+    const gpu = this.gpuName();
+    this.blackStage += 1;
+    if (this.blackStage === 1 && this.post) {
+      // 後処理のどの段階が原因かを切り分ける。描ける組み合わせがあれば、それで続ける
+      const tries = [
+        { name: 'にじみなし', bloom: false, finish: true },
+        { name: '仕上げなし', bloom: true, finish: false },
+        { name: 'にじみ・仕上げなし', bloom: false, finish: false },
+      ];
+      for (const t of tries) {
+        this.post.setStages(t);
+        this.post.render();
+        const r = this.samplePixels();
+        dlog(`後処理の切り分け: ${t.name}`, r);
+        if (r.lit > 0) {
+          this.drawOk = true;
+          reportProblem(`後処理の一部を切りました（${t.name}）`, `この組み合わせでは描けます。GPU: ${gpu}`);
+          return;
+        }
+      }
       this.post.dispose();
       this.post = null;
+      this.renderer.render(this.scene, this.camera);
+      const r = this.samplePixels();
+      dlog('後処理なしで描画', r);
+      reportProblem('画面が真っ黒だったため、後処理（光のにじみ・ぼかし）を切りました', `GPU: ${gpu}`);
+    } else if (this.blackStage <= 2) {
+      this.blackStage = 2;
       this.scene.environment = null;
-      this.frames = 0;
-      reportProblem('画面が真っ黒だったため、後処理（光のにじみ・ぼかし）を切りました', `GPU: ${this.gpuName()}
-この表示を開発者に伝えてください。`);
-    } else {
-      reportProblem('3D 画面が真っ黒です（後処理なしでも表示できません）', `GPU: ${this.gpuName()}
-WebGL エラー: ${gl.getError()}
-画面 ${w}×${h}`);
+      this.sky.mesh.visible = false;
+      this.scene.background = new THREE.Color(0x9fb9d0);
+      reportProblem('まだ真っ黒なので、空の描画と環境光の映り込みを切りました', `GPU: ${gpu}`);
+    } else if (this.blackStage === 3) {
+      this.renderer.shadowMap.enabled = false;
+      this.sun.castShadow = false;
+      this.scene.traverse((o) => {
+        const m = (o as THREE.Mesh).material as THREE.Material | THREE.Material[] | undefined;
+        for (const x of Array.isArray(m) ? m : m ? [m] : []) x.needsUpdate = true;
+      });
+      reportProblem('まだ真っ黒なので、影を切りました', `GPU: ${gpu}`);
+    } else if (this.blackStage === 4) {
+      this.drawOk = true;
+      reportProblem('3D 画面が真っ黒です（後処理・空・影を切っても表示できません）', `GPU: ${gpu} / WebGL エラー: ${gl.getError()}`);
     }
   }
 
@@ -359,7 +458,7 @@ WebGL エラー: ${gl.getError()}
     // 空
     this.sunDir.copy(this.sun.position).normalize();
     this.sky.update(this.camera, sc, this.sunDir, this.sun.color, cloud);
-    this.scene.background = null;
+    if (this.sky.mesh.visible) this.scene.background = null;
     this.renderer.setClearColor(sc.horizon);
     // 影は太陽が 0.5° 動いたときだけ更新
     if (Math.abs(el - this.lastSunElev) > 0.5) {

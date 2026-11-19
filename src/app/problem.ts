@@ -2,6 +2,8 @@
  * 不具合の表示。実行時のエラーや描画の異常を、画面の上に帯で出す（コンソールを開かなくても原因が分かるように）。
  * 文面はそのままコピーして報告できる。
  */
+import { versionLabel } from './version';
+
 let box: HTMLDivElement | null = null;
 const seen = new Set<string>();
 
@@ -23,6 +25,10 @@ export function reportProblem(title: string, detail = ''): void {
       box = null;
     };
     box.append(close);
+    const ver = document.createElement('div');
+    ver.textContent = versionLabel();
+    ver.style.cssText = 'opacity:0.7;margin-bottom:6px';
+    box.append(ver);
     document.body.append(box);
   }
   const p = document.createElement('div');

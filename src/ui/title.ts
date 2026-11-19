@@ -1,4 +1,5 @@
 /** タイトル画面（docs/11 §1） */
+import { versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
 import { loadEntry, loadIndex } from '../app/data';
 import { loadResume, resumableScenarios } from '../app/storage';
@@ -30,6 +31,7 @@ export function showTitle(app: AppContext): () => void {
     el('main', { class: 'title' }, [
       el('h1', {}, JA.app.title),
       el('p', { class: 'note' }, JA.disclaimer.fictional),
+      el('p', { class: 'note version' }, versionLabel()),
       el('div', { class: 'menu' }, [
         resumeBtn,
         el('button', { class: resumeBtn ? '' : 'primary', onclick: () => app.go({ name: 'select' }) }, JA.ui.start),
