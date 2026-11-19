@@ -58,7 +58,72 @@
     ],
     "plannedFinish": "D0 16:30",
     "submittedPlan": false,
-    "reportIfNotBackBy": "D0 22:00"
+    "reportIfNotBackBy": "D0 22:00",
+    "searchLeads": [
+      {
+        "id": "shared",
+        "at": "D0 22:00",
+        "when": {
+          "flag": "planShared"
+        },
+        "route": [
+          "TH_SAWA",
+          "J_FOREST",
+          "EBOSHI",
+          "HUT_RIDGE",
+          "SUMMIT",
+          "SADDLE_N",
+          "W_SHOULDER",
+          "J_FOREST",
+          "TH_SAWA"
+        ],
+        "text": "家族が受け取っていたコース（西尾根を下る周回）をもとに、捜索が始まった"
+      },
+      {
+        "id": "car",
+        "at": "D1 06:00",
+        "when": {
+          "not": {
+            "flag": "planShared"
+          }
+        },
+        "route": [
+          "TH_SAWA",
+          "J_FOREST",
+          "EBOSHI",
+          "HUT_RIDGE",
+          "SUMMIT"
+        ],
+        "maxRadiusM": 600,
+        "findF": 0.5,
+        "text": "沢入口の駐車場で佐藤さんの車が見つかった。箱庭岳に登ったとみて、烏帽子尾根の捜索が始まった"
+      },
+      {
+        "id": "hut",
+        "at": "D1 09:00",
+        "when": {
+          "all": [
+            {
+              "not": {
+                "flag": "planShared"
+              }
+            },
+            {
+              "beenAt": "HUT_RIDGE"
+            }
+          ]
+        },
+        "route": [
+          "SUMMIT",
+          "SADDLE_N",
+          "W_SHOULDER",
+          "J_FOREST"
+        ],
+        "maxRadiusM": 1200,
+        "findF": 0.8,
+        "text": "稜線小屋の小屋番が「昨日の昼過ぎ、2人連れが山頂へ向かった。周回すると話していた」と証言した。捜索は北の鞍部と西尾根に移った"
+      }
+    ]
   },
   "party": [
     {
@@ -167,101 +232,15 @@
     "refElevM": 1000,
     "lapseRateCPer100m": 0.6,
     "keyframes": [
-      {
-        "at": "D0 08:00",
-        "tempC": 19,
-        "windMs": 2,
-        "windDirDeg": 180,
-        "precipMmH": 0,
-        "cloudCover": 0.5,
-        "cloudBaseM": 2600,
-        "visibilityM": 20000
-      },
-      {
-        "at": "D0 11:00",
-        "tempC": 21,
-        "windMs": 3,
-        "windDirDeg": 190,
-        "precipMmH": 0,
-        "cloudCover": 0.7,
-        "cloudBaseM": 2300,
-        "visibilityM": 15000
-      },
-      {
-        "at": "D0 13:00",
-        "tempC": 20,
-        "windMs": 4,
-        "windDirDeg": 200,
-        "precipMmH": 0,
-        "cloudCover": 0.9,
-        "cloudBaseM": 2000,
-        "visibilityM": 8000,
-        "inCloudVisibilityM": 50
-      },
-      {
-        "at": "D0 14:30",
-        "tempC": 18,
-        "windMs": 4,
-        "windDirDeg": 200,
-        "precipMmH": 0.5,
-        "cloudCover": 1.0,
-        "cloudBaseM": 1800,
-        "visibilityM": 5000,
-        "inCloudVisibilityM": 40
-      },
-      {
-        "at": "D0 17:00",
-        "tempC": 16,
-        "windMs": 3,
-        "windDirDeg": 210,
-        "precipMmH": 1.0,
-        "cloudCover": 1.0,
-        "cloudBaseM": 1650,
-        "visibilityM": 4000,
-        "inCloudVisibilityM": 40
-      },
-      {
-        "at": "D0 20:00",
-        "tempC": 14,
-        "windMs": 3,
-        "windDirDeg": 210,
-        "precipMmH": 1.5,
-        "cloudCover": 1.0,
-        "cloudBaseM": 1600,
-        "visibilityM": 3000,
-        "inCloudVisibilityM": 40
-      },
-      {
-        "at": "D1 02:00",
-        "tempC": 13,
-        "windMs": 2,
-        "windDirDeg": 220,
-        "precipMmH": 1.0,
-        "cloudCover": 1.0,
-        "cloudBaseM": 1600,
-        "visibilityM": 3000,
-        "inCloudVisibilityM": 40
-      },
-      {
-        "at": "D1 06:00",
-        "tempC": 13,
-        "windMs": 2,
-        "windDirDeg": 220,
-        "precipMmH": 0.2,
-        "cloudCover": 0.9,
-        "cloudBaseM": 1900,
-        "visibilityM": 8000
-      },
-      {
-        "at": "D1 09:00",
-        "tempC": 17,
-        "windMs": 2,
-        "windDirDeg": 220,
-        "precipMmH": 0,
-        "cloudCover": 0.6,
-        "cloudBaseM": 2500,
-        "visibilityM": 20000
-      }
+      {"at": "D0 08:00", "tempC": 19, "windMs": 2, "windDirDeg": 180, "precipMmH": 0, "cloudCover": 0.5, "cloudBaseM": 2600, "visibilityM": 20000},
+      {"at": "D0 11:00", "tempC": 21, "windMs": 3, "windDirDeg": 190, "precipMmH": 0, "cloudCover": 0.7, "cloudBaseM": 2300, "visibilityM": 15000},
+      {"at": "D0 13:00", "tempC": 20, "windMs": 4, "windDirDeg": 200, "precipMmH": 0, "cloudCover": 0.9, "cloudBaseM": 2000, "visibilityM": 8000, "inCloudVisibilityM": 50},
+      {"at": "D0 14:30", "tempC": 18, "windMs": 4, "windDirDeg": 200, "precipMmH": 0.5, "cloudCover": 1.0, "cloudBaseM": 1800, "visibilityM": 5000, "inCloudVisibilityM": 40},
+      {"at": "D0 17:00", "tempC": 16, "windMs": 3, "windDirDeg": 210, "precipMmH": 1.0, "cloudCover": 1.0, "cloudBaseM": 1650, "visibilityM": 4000, "inCloudVisibilityM": 40},
+      {"at": "D0 20:00", "tempC": 14, "windMs": 3, "windDirDeg": 210, "precipMmH": 1.5, "cloudCover": 1.0, "cloudBaseM": 1600, "visibilityM": 3000, "inCloudVisibilityM": 40},
+      {"at": "D1 02:00", "tempC": 13, "windMs": 2, "windDirDeg": 220, "precipMmH": 1.0, "cloudCover": 1.0, "cloudBaseM": 1600, "visibilityM": 3000, "inCloudVisibilityM": 40},
+      {"at": "D1 06:00", "tempC": 13, "windMs": 2, "windDirDeg": 220, "precipMmH": 0.2, "cloudCover": 0.9, "cloudBaseM": 1900, "visibilityM": 8000},
+      {"at": "D1 09:00", "tempC": 17, "windMs": 2, "windDirDeg": 220, "precipMmH": 0, "cloudCover": 0.6, "cloudBaseM": 2500, "visibilityM": 20000}
     ]
   },
   "events": [
@@ -319,10 +298,189 @@
   ],
   "choices": [
     {
+      "id": "cp_start",
+      "title": "1時間遅れの出発",
+      "priority": 20,
+      "trigger": {
+        "after": "D0 08:00"
+      },
+      "situation": "沢入口の登山口。寝坊して、予定より1時間遅い8時の出発になった。田中さんは「今日はよろしくね」と笑っている。",
+      "knowledge": [
+        "周回コースは休憩込みで約8時間半。このままだと下山は17時半ごろ",
+        "日の入りは19:00。ヘッドランプは佐藤さんの1つだけ",
+        "予報は午後から霧、夜は霧雨",
+        "西尾根の下りは、佐藤さんも初めて歩く道"
+      ],
+      "options": [
+        {
+          "id": "go",
+          "label": "予定どおり周回コースで出発する",
+          "detail": "急げば遅れは取り戻せるはず。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "少し急ぐけど、予定どおり回ろう",
+              "to": "tanaka"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1.2,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "rule",
+          "label": "「13時までに山頂に着かなければ、同じ道で戻る」と決めて、田中さんにも伝える",
+          "detail": "引き返す時刻を先に決めておく。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "13時までに山頂に着かなかったら、同じ道で戻ろう。いい？",
+              "to": "tanaka"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "turnaroundRule"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "short",
+          "label": "今日は周回をやめて、山頂から同じ道を戻る計画にする",
+          "detail": "知らない西尾根は、次の機会に。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "今日は山頂まで行って、同じ道で戻ろう",
+              "to": "tanaka"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "TH_SAWA",
+                "J_FOREST",
+                "EBOSHI",
+                "HUT_RIDGE",
+                "SUMMIT",
+                "HUT_RIDGE",
+                "EBOSHI",
+                "J_FOREST",
+                "TH_SAWA"
+              ],
+              "goalNodes": [
+                "TH_SAWA"
+              ]
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_line",
+      "title": "家族への連絡",
+      "priority": 19,
+      "trigger": {
+        "any": [
+          {
+            "chose": {
+              "cp": "cp_start",
+              "option": "go"
+            }
+          },
+          {
+            "chose": {
+              "cp": "cp_start",
+              "option": "rule"
+            }
+          },
+          {
+            "chose": {
+              "cp": "cp_start",
+              "option": "short"
+            }
+          }
+        ]
+      },
+      "situation": "登山口ではまだ電波が入る。家族には「箱庭岳に行く」とだけ言ってある。",
+      "options": [
+        {
+          "id": "send",
+          "label": "家族に、コースと下山予定（17時半）、「21時までに連絡がなければ通報して」と送る",
+          "actions": [
+            {
+              "type": "say",
+              "text": "家にコースを送っておくよ。田中さんも送っておいたら？",
+              "to": "tanaka"
+            }
+          ],
+          "flags": [
+            "planShared"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "skip",
+          "label": "送らない。日帰りだし、いつものことだ",
+          "actions": [
+            {
+              "type": "narrate",
+              "text": "スマホをポケットにしまった"
+            }
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        }
+      ]
+    },
+    {
       "id": "cp_summit",
       "title": "山頂で",
       "trigger": {
-        "atNode": "SUMMIT"
+        "all": [
+          {
+            "atNode": "SUMMIT"
+          },
+          {
+            "not": {
+              "chose": {
+                "cp": "cp_start",
+                "option": "short"
+              }
+            }
+          }
+        ]
       },
       "situation": "箱庭岳の山頂に着いた。予定より{leader.timeBehindMin:0}分遅れている。周りは霧で、さっきまで見えていた北の稜線が見えない。田中さんは「早く下りたいね」と言っている。",
       "knowledge": [
@@ -358,7 +516,22 @@
             "recommended"
           ],
           "bias": {
-            "base": 0.5
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "all": [
+                    {
+                      "flag": "turnaroundRule"
+                    },
+                    {
+                      "after": "D0 13:00"
+                    }
+                  ]
+                },
+                "add": 1.2
+              }
+            ]
           }
         },
         {
@@ -399,6 +572,11 @@
           "detail": "こちらのほうが少し早い。道標もあるはず。",
           "actions": [
             {
+              "type": "say",
+              "text": "西尾根の方が少し早い。道標もあるはずだ",
+              "to": "tanaka"
+            },
+            {
               "type": "continueRoute"
             }
           ],
@@ -415,6 +593,19 @@
                   "value": 0.5
                 },
                 "add": 0.4
+              },
+              {
+                "when": {
+                  "all": [
+                    {
+                      "flag": "turnaroundRule"
+                    },
+                    {
+                      "after": "D0 13:00"
+                    }
+                  ]
+                },
+                "add": -0.8
               }
             ]
           }
@@ -511,14 +702,592 @@
           }
         }
       ]
+    },
+    {
+      "id": "cp_tanaka_cold",
+      "title": "田中さんの震えが止まらない",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          {
+            "var": "c.tanaka.coreC",
+            "op": "<",
+            "value": 35.0
+          },
+          {
+            "var": "c.tanaka.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "not": {
+              "state": "SHELTERED"
+            }
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          },
+          {
+            "not": {
+              "state": "RESCUED"
+            }
+          }
+        ]
+      },
+      "situation": "田中さんの震えが止まらない。唇の色が悪く、話しかけても返事が遅い。気温は{leader.local.tempC:0}℃、霧雨で2人とも濡れている。",
+      "knowledge": [
+        "田中さんのザックには薄手の上着が残っている。手袋は持っていない",
+        "食べ物は少し残っている",
+        "登山口まではまだ遠い"
+      ],
+      "options": [
+        {
+          "id": "warm",
+          "label": "風の当たらない所で止まり、上着を着せて食べさせる（15分）",
+          "actions": [
+            {
+              "type": "say",
+              "text": "止まろう。上着を着て、チョコも食べて",
+              "to": "tanaka"
+            },
+            {
+              "type": "addLayer",
+              "who": "tanaka",
+              "clo": 0.3
+            },
+            {
+              "type": "eat",
+              "who": "tanaka",
+              "kcal": 200
+            },
+            {
+              "type": "rest",
+              "minutes": 15
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "bivy",
+          "label": "これ以上は歩かせられない。風を避けて、朝まで2人で寄り添う",
+          "actions": [
+            {
+              "type": "say",
+              "text": "今日はもう動かない。ここで朝を待とう",
+              "to": "tanaka"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "c.tanaka.coreC",
+                  "op": "<",
+                  "value": 34.0
+                },
+                "add": 0.6
+              }
+            ]
+          }
+        },
+        {
+          "id": "call",
+          "label": "田中さんのスマホで110番し、2人で寄り添って待つ",
+          "available": {
+            "var": "c.tanaka.radio",
+            "op": ">=",
+            "value": 0.15
+          },
+          "unavailableText": "電波が届いていない",
+          "actions": [
+            {
+              "type": "callRescue",
+              "who": "tanaka",
+              "via": "auto"
+            },
+            {
+              "type": "addLayer",
+              "who": "tanaka",
+              "clo": 0.3
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "push",
+          "label": "歩けば温まる。急いで下る",
+          "actions": [
+            {
+              "type": "say",
+              "text": "止まったら冷える。がんばって歩こう",
+              "to": "tanaka"
+            },
+            {
+              "type": "setPace",
+              "factor": 1.1
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.8,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.55
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_morning",
+      "title": "夜明け",
+      "priority": 11,
+      "trigger": {
+        "all": [
+          {
+            "after": "D1 05:00"
+          },
+          {
+            "var": "leader.awareLost",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          }
+        ]
+      },
+      "situation": "長い夜が明けた。霧雨はやみかけている。2人とも濡れて冷え切り、田中さんの足は震えている。佐藤さんのスマホの電池は{leader.phone.batteryPct:0}%、田中さんのは{c.tanaka.phone.batteryPct:0}%。",
+      "knowledge": [
+        "家族はまだ、どの登山口から登ったかを知らないかもしれない",
+        "明るくなれば踏み跡が見えやすい",
+        "沢の下流がどこに出るかは分からない"
+      ],
+      "options": [
+        {
+          "id": "climb_back",
+          "label": "明るいうちに、来た斜面を登り返して尾根に戻る",
+          "actions": [
+            {
+              "type": "say",
+              "text": "明るくなった。来た方へ登り返そう。上に道がある",
+              "to": "tanaka"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7
+          }
+        },
+        {
+          "id": "call",
+          "label": "2人のスマホで交互に電波を探し、110番する",
+          "available": {
+            "any": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.15
+              },
+              {
+                "var": "c.tanaka.radio",
+                "op": ">=",
+                "value": 0.15
+              }
+            ]
+          },
+          "unavailableText": "どちらのスマホも圏外",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "descend",
+          "label": "沢沿いに下る。下ればどこかに出るはずだ",
+          "actions": [
+            {
+              "type": "say",
+              "text": "下へ行こう。川沿いなら林道に出る",
+              "to": "tanaka"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "wait",
+          "label": "動かずに待つ。明るいうちは交代で声を出す",
+          "actions": [
+            {
+              "type": "say",
+              "text": "動くと余計に迷う。ここで待とう。交代で声を出そう",
+              "to": "tanaka"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
     }
   ],
   "genericOverrides": {
     "lostAware": {
-      "situation": "さっきまであった踏み跡が、いつの間にか消えている。周りは霧と笹やぶ。田中さんが不安そうに「この道で合ってる？」と聞いてきた。"
+      "situation": "さっきまであった踏み跡が、いつの間にか消えている。周りは霧と笹やぶ。田中さんが不安そうに「この道で合ってる？」と聞いてきた。",
+      "knowledge": [
+        "佐藤さんのスマホ: 電池 {leader.phone.batteryPct:0}%（地図アプリあり）",
+        "田中さんのスマホ: 電池 {c.tanaka.phone.batteryPct:0}%（地図アプリなし）",
+        "鞍部の分岐を過ぎてから、ずっと下ってきた",
+        "日の入りは 19:00"
+      ],
+      "options": [
+        {
+          "id": "gps",
+          "label": "スマホの地図で現在地を確かめ、いちばん近い登山道へ向かう",
+          "available": {
+            "all": [
+              {
+                "var": "leader.phone.gpsApp",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "地図を見る……やっぱり外れてる。道はこっちだ",
+              "to": "tanaka"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "backtrack",
+          "label": "来た踏み跡をたどって、鞍部まで登り返す",
+          "actions": [
+            {
+              "type": "say",
+              "text": "来た道を戻ろう。登りはきついけど確実だ",
+              "to": "tanaka"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "call",
+          "label": "田中さんのスマホ（電池が多い方）で110番する",
+          "available": {
+            "var": "c.tanaka.radio",
+            "op": ">=",
+            "value": 0.15
+          },
+          "unavailableText": "電波が届いていない",
+          "actions": [
+            {
+              "type": "say",
+              "text": "田中さんのスマホで電話してみて",
+              "to": "tanaka"
+            },
+            {
+              "type": "callRescue",
+              "who": "tanaka",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "scout",
+          "label": "佐藤さんが一人で尾根の上まで登って電波を探し、通報したら戻る。田中さんはここで待つ",
+          "detail": "身軽な方が早い。ただし、霧の中で2人が離れることになる。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "ここで待ってて。上で電波を探してすぐ戻る",
+              "to": "tanaka"
+            },
+            {
+              "type": "seekSignal",
+              "who": "sato",
+              "returnAfter": true
+            },
+            {
+              "type": "stayPut",
+              "who": "tanaka"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        },
+        {
+          "id": "descend",
+          "label": "沢を下る。下れば林道に出るはずだ",
+          "actions": [
+            {
+              "type": "say",
+              "text": "沢沿いに下れば林道に出るはずだ",
+              "to": "tanaka"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.6
+              }
+            ]
+          }
+        },
+        {
+          "id": "stay",
+          "label": "ここを動かず、雨具を着て寄り添い、明るくなるのを待つ",
+          "actions": [
+            {
+              "type": "say",
+              "text": "動くともっと迷う。ここで待とう",
+              "to": "tanaka"
+            },
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
     },
     "darkness": {
-      "situation": "あたりが暗くなってきた。ヘッドランプは佐藤さんの1つだけ。田中さんの足元はほとんど見えない。"
+      "situation": "あたりが暗くなってきた。ヘッドランプは佐藤さんの1つだけ。田中さんの足元はほとんど見えない。",
+      "options": [
+        {
+          "id": "continue",
+          "label": "ヘッドランプで田中さんの足元を照らしながら、ゆっくり進む",
+          "actions": [
+            {
+              "type": "say",
+              "text": "ライトで足元を照らすから、僕の後ろにぴったりついて",
+              "to": "tanaka"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.8
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1.0,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "ここで夜を越す。笹を敷き、雨具と全部の服を着て、2人で寄り添う",
+          "actions": [
+            {
+              "type": "say",
+              "text": "暗い中を歩くのは危ない。ここで朝を待とう",
+              "to": "tanaka"
+            },
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 200
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "toShelter",
+          "label": "近くの避難小屋まで、ライトを頼りに向かう",
+          "available": {
+            "var": "leader.nearestShelterM",
+            "op": "<=",
+            "value": 2000
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "goToNode",
+              "node": "$nearestShelter",
+              "then": "stay"
+            }
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        }
+      ]
     },
     "waterfall": {
       "situation": "沢を下っていくと、行く手が切れ落ちていた。下から水の落ちる音がする。滝だ。"
@@ -551,6 +1320,70 @@
         "田中さんを不安にさせたくない。自分が落ち着かないと",
         "誘ったのは自分だ"
       ]
+    },
+    {
+      "key": "s02_late_start",
+      "when": {
+        "all": [
+          {
+            "before": "D0 09:30"
+          },
+          {
+            "state": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "1時間の遅れ。どこで取り戻すか",
+        "西尾根は初めてだけど、地図アプリがあるから平気だろう"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s02_responsible",
+      "when": {
+        "state": "LOST_AWARE"
+      },
+      "lines": [
+        "自分が誘ったんだ。田中さんだけは無事に帰さないと",
+        "焦るな。焦ると、もっと迷う"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s02_family",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "not": {
+              "flag": "planShared"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "家には「箱庭岳」としか言っていない",
+        "西尾根を下ったことは、誰も知らない"
+      ],
+      "priority": 8
     }
   ],
   "endings": [
@@ -569,6 +1402,17 @@
     },
     {
       "kind": "SAFE_RETURN",
+      "when": {
+        "chose": {
+          "cp": "cp_start",
+          "option": "short"
+        }
+      },
+      "title": "山頂往復",
+      "text": "周回をやめて同じ道を戻った。霧の山頂で写真を撮り、明るいうちに登山口に着いた。「西尾根は、晴れた日にまた来よう」と2人は話した。"
+    },
+    {
+      "kind": "SAFE_RETURN",
       "title": "無事下山",
       "text": "登山口に着いたのは予定より遅かったが、2人とも無事だった。"
     },
@@ -579,7 +1423,17 @@
     },
     {
       "kind": "RESCUED",
-      "when": { "flag": "descendedDrainage" },
+      "when": {
+        "flag": "planShared"
+      },
+      "title": "送っておいたコースが手がかりに",
+      "text": "家族に送っておいたコースのおかげで、捜索は最初から北の鞍部と西尾根に向かった。2人は救助隊に発見された。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "descendedDrainage"
+      },
       "title": "沢の中で救助",
       "text": "2人は沢の中で救助隊に発見された。谷は上空からも見通しが悪く、見つかるまでに時間がかかった。"
     },
@@ -600,7 +1454,9 @@
     },
     {
       "kind": "FATAL",
-      "when": { "flag": "descendedDrainage" },
+      "when": {
+        "flag": "descendedDrainage"
+      },
       "title": "沢の奥で",
       "text": "捜索隊が2人を見つけたのは、登山道から遠く離れた沢の中だった。"
     },
@@ -663,6 +1519,48 @@
       },
       "title": "ヘッドランプは一人一つ",
       "text": "暗闇の中を{rec.darkMinutesMoving:0}分行動した。明かりのない人は足元が見えず、転倒や道迷いの危険が大きく増える。日帰りでもヘッドランプと予備電池は全員が持つ。"
+    },
+    {
+      "id": "l_turn",
+      "when": {
+        "chose": {
+          "cp": "cp_start",
+          "option": "rule"
+        }
+      },
+      "title": "引き返す時刻を先に決める",
+      "text": "出発が遅れた日は、「何時までに山頂に着かなければ戻る」を先に決めて同行者にも伝える。現場では「ここまで来たのだから」という気持ちが判断を引っ張る。"
+    },
+    {
+      "id": "l_line",
+      "when": {
+        "not": {
+          "flag": "planShared"
+        }
+      },
+      "title": "行き先は家族に文字で送る",
+      "text": "家族が知っていたのは「箱庭岳」だけだった。捜索は駐車場の車探しから始まり、どの尾根を下ったかは小屋番の証言で分かった。コースと下山予定を文字で送っておくと、捜索は最初から正しい尾根に向かう。"
+    },
+    {
+      "id": "l_split",
+      "when": {
+        "chose": {
+          "cp": "generic:lostAware",
+          "option": "scout"
+        }
+      },
+      "title": "霧の中で分かれない",
+      "text": "電波を探しに一人が離れると、戻る場所を見失いやすい。待つ人は明かりもなく、不安と寒さに一人で耐えることになる。分かれるなら、戻る目印と時刻を決め、笛や声で連絡を取り合う。"
+    },
+    {
+      "id": "l_partner",
+      "when": {
+        "var": "c.tanaka.coreC",
+        "op": "<",
+        "value": 35.5
+      },
+      "title": "同行者の低体温に早く気づく",
+      "text": "田中さんは手袋も予備の上着も少なく、体が小さいぶん先に冷えた。震え・返事の遅れ・眠気は低体温症のサイン。歩かせて温めようとするより、風を避けて着せ、食べさせる。"
     }
   ],
   "balanceTargets": {
@@ -833,6 +1731,351 @@
       },
       "priority": 12,
       "once": true
+    },
+    {
+      "key": "s02_forest",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "beenAt": "J_FOREST"
+          },
+          {
+            "before": "D0 10:30"
+          },
+          {
+            "state": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "森の中、涼しくて気持ちいいね",
+        "あ、キノコ。これ食べられる？"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "このあたりはブナの森なんだ",
+          "食べないでね（笑）"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s02_view",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "beenAt": "EBOSHI"
+          },
+          {
+            "var": "leader.local.visibilityM",
+            "op": ">",
+            "value": 2000
+          },
+          {
+            "before": "D0 13:00"
+          }
+        ]
+      },
+      "lines": [
+        "わあ、下の町まで見える！",
+        "ここまで来ると風が気持ちいいね"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "山頂はもう少し。がんばろう",
+          "晴れてるうちに写真撮っておこう"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s02_hut",
+      "who": "leader",
+      "to": "tanaka",
+      "when": {
+        "beenAt": "HUT_RIDGE"
+      },
+      "lines": [
+        "小屋の人に、この先の様子を聞いておこうか",
+        "ここが稜線小屋。帰りに寄ってもいいね"
+      ],
+      "replies": {
+        "who": "tanaka",
+        "lines": [
+          "うん、トイレも借りたい",
+          "泊まってみたいなあ、こういう小屋"
+        ]
+      },
+      "priority": 11,
+      "once": true
+    },
+    {
+      "key": "s02_summit_talk",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "beenAt": "SUMMIT"
+      },
+      "lines": [
+        "着いたー！ でも真っ白だね",
+        "おにぎり、半分こしよう"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "霧で残念だけど、登頂は登頂だ",
+          "食べたらすぐ下りよう。遅れてるから"
+        ]
+      },
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s02_tired",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "var": "c.tanaka.fatigue",
+        "op": ">",
+        "value": 45
+      },
+      "lines": [
+        "ちょっとだけ休んでいい？",
+        "足がパンパン……"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "5分だけ休もう。水も飲んで",
+          "ゆっくりでいいよ。でも休みすぎると冷えるから"
+        ]
+      },
+      "priority": 15,
+      "cooldownMin": 60
+    },
+    {
+      "key": "s02_rain",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "leader.local.precipMmH",
+            "op": ">",
+            "value": 0.3
+          },
+          {
+            "var": "leader.rainwearOn",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "あ、雨？ カッパ着たほうがいい？",
+        "ぽつぽつ来たね"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "小降りだし、もう少し様子を見よう",
+          "うん、濡れる前に着よう"
+        ]
+      },
+      "priority": 16,
+      "once": true
+    },
+    {
+      "key": "s02_lost_panic",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "state": "LOST_AWARE"
+      },
+      "lines": [
+        "どうしよう……ここ、どこ？",
+        "さっきの分かれ道まで戻れないの？"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "落ち着こう。まず現在地を確かめる",
+          "大丈夫。慌てて動くのが一番まずい"
+        ]
+      },
+      "priority": 22,
+      "cooldownMin": 40
+    },
+    {
+      "key": "s02_drainage",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "state": "DESCENDING_DRAINAGE"
+      },
+      "lines": [
+        "沢って下っちゃいけないって聞いたことあるけど……",
+        "滑る！ 石が全部ぬるぬるしてる"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "下れば林道に出るはずなんだ",
+          "足元に気をつけて。ゆっくり"
+        ]
+      },
+      "priority": 20,
+      "cooldownMin": 45
+    },
+    {
+      "key": "s02_backtrack",
+      "who": "leader",
+      "to": "tanaka",
+      "when": {
+        "state": "BACKTRACKING"
+      },
+      "lines": [
+        "来た道を登り返そう。つらいけど確実だ",
+        "踏み跡、こっちに続いてる。ついてきて"
+      ],
+      "replies": {
+        "who": "tanaka",
+        "lines": [
+          "分かった。置いていかないでね",
+          "はぁ、はぁ……がんばる"
+        ]
+      },
+      "priority": 18,
+      "cooldownMin": 45
+    },
+    {
+      "key": "s02_night",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "寒い……歯がガチガチいう",
+        "朝まで、あと何時間？",
+        "家の人、心配してるだろうね"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "くっついていよう。少しは違うから",
+          "あと少しで明るくなる。それまでがんばろう",
+          "朝になったら、きっと見つけてもらえる"
+        ]
+      },
+      "priority": 16,
+      "cooldownMin": 90
+    },
+    {
+      "key": "s02_phone_low",
+      "who": "leader",
+      "to": "tanaka",
+      "when": {
+        "var": "leader.phone.batteryPct",
+        "op": "<",
+        "value": 15
+      },
+      "lines": [
+        "スマホの電池が15%を切った。地図はもう見られないかもしれない"
+      ],
+      "replies": {
+        "who": "tanaka",
+        "lines": [
+          "私のスマホ、まだ電池あるよ。地図はないけど"
+        ]
+      },
+      "priority": 17,
+      "once": true
+    },
+    {
+      "key": "s02_tanaka_cold",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "var": "c.tanaka.coreC",
+        "op": "<",
+        "value": 35.5
+      },
+      "lines": [
+        "手が……動かない",
+        "なんだか、眠い……少しだけ寝かせて"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "寝ちゃだめだ！ これ着て",
+          "田中さん、しっかり！ 声を出して"
+        ]
+      },
+      "tone": "whisper",
+      "priority": 24,
+      "cooldownMin": 60
+    },
+    {
+      "key": "s02_alone",
+      "who": "tanaka",
+      "to": "any",
+      "when": {
+        "all": [
+          {
+            "var": "c.sato.state",
+            "op": "==",
+            "value": "SEEKING_SIGNAL"
+          },
+          {
+            "var": "c.tanaka.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "佐藤さーん！ どこー？",
+        "一人だと、霧の音しかしない……"
+      ],
+      "tone": "shout",
+      "priority": 21,
+      "cooldownMin": 30
+    }
+  ],
+  "groups": [
+    {
+      "id": "main",
+      "members": "all",
+      "leader": "sato",
+      "cohesion": "tight"
     }
   ]
 }
