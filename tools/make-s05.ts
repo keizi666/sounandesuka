@@ -21,7 +21,8 @@ import { validateScenario } from '../src/sim/scenario/validate';
 import { encodeHeights } from '../src/sim/terrain/codec';
 import { buildMapRuntime } from '../src/sim/terrain/map';
 import type { EdgeDef, HakoniwaBundle, MapDef, ScenarioDef } from '../src/sim/types';
-import { fetchHeights, fetchOsmCached } from './lib/geo-node';
+import { fetchHeights, fetchOsmCached, fetchVegSymbolsCached } from './lib/geo-node';
+import { vegOverridesFromSymbols } from '../src/editor/geo/vegsym';
 import { ROOT } from './lib/maps';
 
 // エリア: 東日原から蕎麦粒山・川乗橋までが入る 6.144 km（513 頂点、セル 12 m）
@@ -169,6 +170,16 @@ const map: MapDef = {
   attribution: [ATTR.gsi, ATTR.osm],
 };
 delete map.areaHint;
+// 植生: 地理院地図の植生記号（広葉樹林・針葉樹林）。日原の谷沿いと尾根の下部にはスギ・ヒノキの植林が多い
+{
+  const veg = await fetchVegSymbolsCached(LAT0, LON0, SIZE);
+  const tally: Record<number, number> = {};
+  for (const v of veg.symbols) tally[v.code] = (tally[v.code] ?? 0) + 1;
+  const r0 = buildMapRuntime(map, { radio: false }).map;
+  const ov = vegOverridesFromSymbols(r0, LAT0, LON0, veg.symbols);
+  console.log(`植生記号: タイル ${veg.tiles} 枚、記号 ${JSON.stringify(tally)}、塗ったセル ${JSON.stringify(ov.counts)}`);
+  map.vegetation = { ...map.vegetation, overrides: ov.overrides };
+}
 
 const s: ScenarioDef = { ...scenario, mapId: map.id };
 const issues = validateScenario(s, map);

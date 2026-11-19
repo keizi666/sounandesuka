@@ -77,6 +77,8 @@ const SIZE: Record<TreeKind, { h: [number, number]; w: number }> = {
   shirabiso: { h: [14, 22], w: 0.85 },
   tsuga: { h: [11, 17], w: 1.0 },
   karamatsu: { h: [18, 26], w: 0.8 },
+  sugi: { h: [24, 34], w: 0.75 },
+  hinoki: { h: [18, 26], w: 0.85 },
   haimatsu: { h: [1.2, 2.0], w: 3.2 },
   shrub: { h: [1.0, 1.8], w: 1.6 },
   rock: { h: [0.6, 3.0], w: 1.6 },
@@ -159,8 +161,15 @@ export function placeTrees(map: MapRuntime, s: ViewScale, heightAt: (x: number, 
       if (patch > 0.72) return fine < 0.5 ? 'kaede' : 'buna';
       return fine < 0.8 ? 'buna' : fine < 0.92 ? 'mizunara' : 'shirabiso';
     }
-    // 針葉樹林: 森林限界に近いほどダケカンバが混じる。急な尾根・岩場はコメツガ
+    // 針葉樹林: 森林限界より十分低いところ（奥多摩のような山の中腹以下）はスギ・ヒノキの植林。
+    // 谷・沢沿い・斜面の下部はスギ、尾根・斜面の上部はヒノキ（植林の通例）
     const toLine = forestLine - elev;
+    if (toLine > 900) {
+      const tpi = map.tpi[gz * n + gx] ?? 0;
+      const wet = (nearStream ? 0.35 : 0) - tpi / 40 + (patch - 0.5) * 0.6;
+      return wet > 0 ? (fine < 0.88 ? 'sugi' : 'hinoki') : fine < 0.85 ? 'hinoki' : 'sugi';
+    }
+    // 森林限界に近いほどダケカンバが混じる。急な尾根・岩場はコメツガ
     if (toLine < 180 && fine < 0.5 - toLine / 500) return 'kanba';
     if (slope > 32 || patch < 0.3) return fine < 0.75 ? 'tsuga' : 'shirabiso';
     return fine < 0.82 ? 'shirabiso' : fine < 0.93 ? 'tsuga' : 'kanba';
@@ -198,7 +207,8 @@ export function placeTrees(map: MapRuntime, s: ViewScale, heightAt: (x: number, 
     const kind = species(x, z, gx, gz, v);
     const sz = SIZE[kind];
     const hM = sz.h[0] + r() * (sz.h[1] - sz.h[0]);
-    if (tooClose(x, z, MIN_D * (kind === 'kaede' || kind === 'kanba' ? 0.7 : 1))) continue;
+    // 植林（スギ・ヒノキ）は密に植わっている
+    if (tooClose(x, z, MIN_D * (kind === 'kaede' || kind === 'kanba' ? 0.7 : kind === 'sugi' || kind === 'hinoki' ? 0.75 : 1))) continue;
     take(x, z);
     push(kind, x, z, hM * (td < 30 ? 0.85 : 1), sz.w);
     placed += 1;

@@ -6,6 +6,7 @@ import { DEM_ZOOM, decodeDemRgba, fillInvalid, sampleGrid, smoothGauss, tileKey,
 import { fetchOsm, type OsmJson } from '../../src/editor/geo/overpass';
 import { bboxOf } from '../../src/editor/geo/projection';
 import { tilesCovering, tileUrl } from '../../src/editor/geo/tiles';
+import { GSI_VECTOR_ZOOM, vectorTileUrl, vegSymbolsFromTile, type VegSymbol } from '../../src/editor/geo/vegsym';
 import { ROOT } from './maps';
 import { decodePng } from './png-decode';
 
@@ -50,4 +51,31 @@ export async function fetchOsmCached(lat0: number, lon0: number, size: number): 
   const j = await fetchOsm(lat0, lon0, size, { 'User-Agent': 'hakoniwa-sim-tools/0.1' });
   writeFileSync(file, JSON.stringify(j));
   return j;
+}
+
+/** 地理院ベクトルタイルの植生記号（範囲のタイルを取り、.scratch/geo-cache/ に保存して再取得しない） */
+export async function fetchVegSymbolsCached(lat0: number, lon0: number, size: number): Promise<{ symbols: VegSymbol[]; tiles: number }> {
+  mkdirSync(CACHE, { recursive: true });
+  const z = GSI_VECTOR_ZOOM;
+  const list = tilesCovering(bboxOf(lat0, lon0, size), z);
+  const symbols: VegSymbol[] = [];
+  let next = 0;
+  const worker = async (): Promise<void> => {
+    while (next < list.length) {
+      const t = list[next++]!;
+      const file = resolve(CACHE, `bv_${z}_${t.x}_${t.y}.pbf`);
+      let buf: Uint8Array;
+      if (existsSync(file)) buf = readFileSync(file);
+      else {
+        const res = await fetch(vectorTileUrl(z, t.x, t.y), { headers: { 'User-Agent': 'hakoniwa-sim-tools/0.1' } });
+        if (res.status === 404) continue;
+        if (!res.ok) throw new Error(`ベクトルタイルを取得できませんでした（${res.status}）`);
+        buf = new Uint8Array(await res.arrayBuffer());
+        writeFileSync(file, buf);
+      }
+      symbols.push(...vegSymbolsFromTile(buf, z, t.x, t.y));
+    }
+  };
+  await Promise.all([worker(), worker(), worker(), worker()]);
+  return { symbols, tiles: list.length };
 }

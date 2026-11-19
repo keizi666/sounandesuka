@@ -7,8 +7,8 @@
 import * as THREE from 'three';
 import { ATLAS, atlasUv, type AtlasCell } from './leafTextures';
 
-export type TreeKind = 'buna' | 'mizunara' | 'kaede' | 'kanba' | 'shirabiso' | 'tsuga' | 'karamatsu' | 'haimatsu' | 'shrub' | 'rock';
-export const TREE_KINDS: TreeKind[] = ['buna', 'mizunara', 'kaede', 'kanba', 'shirabiso', 'tsuga', 'karamatsu', 'haimatsu', 'shrub', 'rock'];
+export type TreeKind = 'buna' | 'mizunara' | 'kaede' | 'kanba' | 'shirabiso' | 'tsuga' | 'karamatsu' | 'sugi' | 'hinoki' | 'haimatsu' | 'shrub' | 'rock';
+export const TREE_KINDS: TreeKind[] = ['buna', 'mizunara', 'kaede', 'kanba', 'shirabiso', 'tsuga', 'karamatsu', 'sugi', 'hinoki', 'haimatsu', 'shrub', 'rock'];
 export const VARIANTS = 2;
 
 type V3 = THREE.Vector3;
@@ -398,13 +398,17 @@ const BROAD: Record<'buna' | 'mizunara' | 'kaede' | 'kanba' | 'shrub', BroadSpec
   ] },
 };
 
-const CONIFER: Record<'shirabiso' | 'tsuga' | 'karamatsu', ConiferSpec> = {
+const CONIFER: Record<'shirabiso' | 'tsuga' | 'karamatsu' | 'sugi' | 'hinoki', ConiferSpec> = {
   // オオシラビソ: 細い尖塔。下枝が長く、枝先が垂れる
   shirabiso: { bark: 0x5b5148, radius: (t) => 0.31 * Math.pow(1 - t, 0.78) + 0.045, tiers: 11, boughs: 7, droop: 0.42, ragged: 0.3, topLean: 0.02, firstY: 0.14, missing: 0.08 },
   // コメツガ: 樹頂が傾き、枝が不ぞろいに横へ伸びる。やや丸い
   tsuga: { bark: 0x4a382a, radius: (t) => 0.36 * Math.pow(Math.sin(Math.min(1, t * 0.9 + 0.12) * Math.PI), 0.7) * (1 - 0.35 * t) + 0.07, tiers: 9, boughs: 7, droop: 0.22, ragged: 0.6, topLean: 0.16, firstY: 0.24, missing: 0.16 },
   // カラマツ: 細く高い。枝は疎らで水平、葉は軽い
   karamatsu: { bark: 0x5d4636, radius: (t) => 0.25 * Math.pow(1 - t, 0.9) + 0.04, tiers: 10, boughs: 6, droop: 0.08, ragged: 0.5, topLean: 0.03, firstY: 0.3, missing: 0.3 },
+  // スギ（植林）: まっすぐで細長い円錐。下枝は打たれて幹が見え、枝は密で先がやや垂れる。樹皮は赤褐色
+  sugi: { bark: 0x6e4430, radius: (t) => 0.17 * Math.pow(1 - t, 0.85) + 0.03, tiers: 13, boughs: 8, droop: 0.18, ragged: 0.18, topLean: 0.01, firstY: 0.38, missing: 0.05 },
+  // ヒノキ（植林）: スギより丸みのある円錐。枝は水平に広がり、葉は濃い青緑
+  hinoki: { bark: 0x6a4a3a, radius: (t) => 0.24 * Math.pow(Math.sin(Math.min(1, t * 0.8 + 0.2) * Math.PI), 0.6) * (1 - 0.45 * t) + 0.04, tiers: 11, boughs: 8, droop: 0.1, ragged: 0.22, topLean: 0.02, firstY: 0.34, missing: 0.06 },
 };
 
 export interface TreeShapes {
@@ -441,6 +445,8 @@ export function treeShapes(season: string, detail: boolean): TreeShapes {
       shirabiso: two((i) => conifer(301 + i * 13, detail, CONIFER.shirabiso, C(0x2f5d45), false)),
       tsuga: two((i) => conifer(331 + i * 11, detail, CONIFER.tsuga, C(0x34603c), false)),
       karamatsu: two((i) => conifer(361 + i * 7, detail, CONIFER.karamatsu, pal.karamatsu[0]!, winter)),
+      sugi: two((i) => conifer(371 + i * 13, detail, CONIFER.sugi, C(0x34592f), false)),
+      hinoki: two((i) => conifer(381 + i * 17, detail, CONIFER.hinoki, C(0x284f3f), false)),
       haimatsu: two((i) => creeping(401 + i * 5, detail, C(0x5e8a4a))),
       rock: two((i) => rock(501 + i * 3, detail)),
     },

@@ -258,8 +258,8 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean, fad
       float hkBare = smoothstep(0.58, 0.82, hkBig * 0.7 + hkMid * 0.3);
       hkGrass = mix(hkGrass, vec3(0.3, 0.24, 0.16) * hkSoilT, hkBare * 0.32);
       diffuseColor.rgb = mix(diffuseColor.rgb, hkGrass, vCover.y);
-      // 岩: 急な面と岩場。地層の縞と写真の岩肌
-      float hkSteep = max(1.0 - smoothstep(0.56, 0.8, vSlopeUp), vCover.z * 0.85);
+      // 岩: 急な面と岩場。地層の縞と写真の岩肌。森のセルの急斜面は林床のまま（木の根と落ち葉に覆われた急斜面）
+      float hkSteep = max((1.0 - smoothstep(0.56, 0.8, vSlopeUp)) * (1.0 - 0.85 * step(0.01, vCover.x)), vCover.z * 0.85);
       float hkStrata = hk_noise(vec2(vWorldPos.y * 240.0 + hk_noise(hkP * 30.0) * 4.0, vWorldPos.x * 12.0 + vWorldPos.z * 9.0));
       vec3 hkRock = mix(vec3(0.2, 0.19, 0.175), vec3(0.36, 0.345, 0.32), hkStrata) * (0.8 + 0.4 * hkN) * mix(vec3(1.0), hkRockT, 0.6);
       diffuseColor.rgb = mix(diffuseColor.rgb, hkRock, hkSteep * 0.85);
