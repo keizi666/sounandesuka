@@ -1,4 +1,4 @@
-// npm run shots -- <ラベル> [--quality high|mid|low] [--headed] [--url http://localhost:5173]
+// npm run shots -- <ラベル> [--quality high|mid|low] [--headed] [--url http://localhost:5281]
 // 固定視点 3 つのスクリーンショットと FPS を取り、shots/<ラベル>/ に保存する（docs/19 §8）。
 // 開発サーバー（npm run dev）が動いていること。ブラウザは手元の Chrome を使う（playwright-core。ブラウザ本体はダウンロードしない）。
 // 2 つのラベルを比べるページ: npm run shots -- --compare <前> <後> → shots/compare-<前>-<後>.html
@@ -32,7 +32,7 @@ if (args[0] === '--compare') {
 
 const label = args[0] && !args[0].startsWith('--') ? args[0] : 'latest';
 const quality = flag('quality') ?? 'high';
-const base = flag('url') ?? 'http://localhost:5173';
+const base = flag('url') ?? 'http://localhost:5281';
 const headed = args.includes('--headed');
 const W = 1600;
 const H = 900;

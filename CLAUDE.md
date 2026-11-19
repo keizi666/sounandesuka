@@ -68,7 +68,7 @@
 
 | コマンド | 内容 |
 |---|---|
-| `npm run dev` | 開発サーバー（`/` プレイヤー、`/editor.html` エディター） |
+| `npm run dev` | 開発サーバー（http://localhost:5281 。`/` プレイヤー、`/editor.html` エディター） |
 | `npm run build` | `dist/` に静的ビルド（`VITE_BASE` でベースパス指定可） |
 | `npm run typecheck` | `tsc --noEmit`（全体と、DOM・Node の型なしで `src/sim` だけを見る `tsconfig.sim.json` の 2 回） |
 | `npm run test` | vitest（ユニット・較正・決定論テスト） |

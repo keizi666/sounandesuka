@@ -14,7 +14,7 @@ import { loadMapDef, ROOT } from './lib/maps';
 
 const ids = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const skip3d = process.argv.includes('--no-3d');
-const url = process.env['THUMBS_URL'] ?? 'http://localhost:5173';
+const url = process.env['THUMBS_URL'] ?? 'http://localhost:5281';
 const index = JSON.parse(readFileSync(resolve(ROOT, 'public/scenarios/index.json'), 'utf8')) as ScenarioIndexEntry[];
 const entries = index.filter((e) => ids.length === 0 || ids.includes(e.id));
 
