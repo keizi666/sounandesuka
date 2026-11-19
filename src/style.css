@@ -213,6 +213,31 @@ canvas.chart { width: 100%; height: auto; background: var(--panel); border-radiu
 .lessons h3 { margin: 6px 0; font-size: 1rem; }
 progress { width: 100%; }
 
+/* ---- タイムライン（時間を戻すスライダー） ---- */
+.timeline { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); width: min(760px, calc(100vw - 24px)); z-index: 7; padding: 6px 12px 8px; color: #e9ecf1;
+  background: rgba(14, 17, 23, 0.58); -webkit-backdrop-filter: blur(16px) saturate(1.25); backdrop-filter: blur(16px) saturate(1.25); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38); }
+.timeline.past { border-color: var(--accent); }
+.tl-head { display: flex; align-items: center; gap: 10px; font-size: 0.85em; min-height: 26px; }
+.tl-title { display: inline-flex; align-items: center; gap: 4px; color: #a9b0bb; }
+.tl-now { font-variant-numeric: tabular-nums; font-weight: 600; flex: 1; }
+.timeline.past .tl-now { color: var(--accent); }
+.tl-latest { display: inline-flex; align-items: center; gap: 4px; min-height: 24px; padding: 0 8px; font-size: 0.9em; }
+.tl-row { display: flex; align-items: center; gap: 8px; }
+.tl-lbl { font-size: 0.78em; color: #a9b0bb; font-variant-numeric: tabular-nums; min-width: 3em; text-align: center; }
+.tl-track { position: relative; flex: 1; height: 22px; cursor: pointer; touch-action: none; }
+.tl-track::before { content: ''; position: absolute; left: 0; right: 0; top: 9px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.2); }
+.tl-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.tl-fill { position: absolute; left: 0; top: 9px; height: 4px; border-radius: 2px; background: var(--accent); pointer-events: none; }
+.tl-points { position: absolute; inset: 0; }
+.tl-point { position: absolute; top: 5px; width: 12px; height: 12px; min-height: 0; padding: 0; margin-left: -6px; border-radius: 50%; border: 2px solid rgba(14, 17, 23, 0.9); background: #e9ecf1; cursor: pointer; }
+.tl-point.choice { border-radius: 2px; transform: rotate(45deg); background: var(--accent); }
+.tl-point.future { opacity: 0.45; }
+.tl-point:hover { transform: scale(1.35); border-color: #fff; }
+.tl-point.choice:hover { transform: rotate(45deg) scale(1.35); }
+.tl-thumb { position: absolute; top: 2px; width: 6px; height: 18px; margin-left: -3px; border-radius: 3px; background: #fff; box-shadow: 0 0 0 2px rgba(14, 17, 23, 0.8); pointer-events: none; }
+.tl-tip { position: absolute; bottom: 26px; transform: translateX(-50%); white-space: nowrap; max-width: 60vw; overflow: hidden; text-overflow: ellipsis; padding: 3px 8px; border-radius: 6px; font-size: 0.82em; background: rgba(10, 12, 16, 0.92); border: 1px solid rgba(255, 255, 255, 0.18); pointer-events: none; }
+.keyhelp { bottom: 2px !important; }
+
 /* ---- アイコン（Material Symbols。文字の大きさと色に合わせる） ---- */
 .ic { width: 1.3em; height: 1.3em; flex: none; vertical-align: -0.3em; }
 .topbar button, main.title .menu button, main.title .menu a, .fwin-btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
@@ -261,3 +286,4 @@ main.title .menu a { padding: 6px 12px; text-decoration: none; }
   .bubble { max-width: 64vw; }
   .bar { grid-template-columns: 4em 1fr 6.5em; }
 }
+.tl-latest[hidden] { display: none; }

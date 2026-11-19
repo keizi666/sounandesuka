@@ -2,6 +2,8 @@
  * シミュレーション画面（docs/11 §2〜3）。World・StaticContext・記録・描画・ループ・HUD・吹き出し・分岐点をつなぐ。
  * モード: 通常（分岐点で止まる）、判断時間制限（登山者は立ち止まって待ち、時間切れで傾向どおり）、観察のみ（傾向どおり自動）。
  */
+import { Timeline, type TimelineSnap } from '../app/timeline';
+import { createTimelineBar } from './timelineBar';
 import { createFloatWindow } from './floatWindow';
 import { dlog, versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
@@ -10,7 +12,7 @@ import { Loop, type Speed } from '../app/loop';
 import { effectiveQuality } from '../app/settings';
 import { addHistory, clearResume, newRunId, saveResume, type ResumeData } from '../app/storage';
 import { JA } from '../i18n/ja';
-import { fill, formatEvent, speechView } from '../i18n/format';
+import { fill, formatEvent, speechView, formatDateTime } from '../i18n/format';
 import { DT_SEC } from '../sim/core/step';
 import { createStaticContext, createWorld } from '../sim/core/world';
 import { createRecorder, recordTick, type RecorderState } from '../sim/record/recorder';
@@ -90,10 +92,12 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     {
       setSpeed: (s) => {
         loop.speed = s;
+        beforePlay();
         loop.paused = false;
         refresh();
       },
       togglePause: () => {
+        if (loop.paused) beforePlay();
         loop.paused = !loop.paused;
         refresh();
       },
@@ -131,8 +135,15 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // 3D 画面を全面に敷き、状況とログは動かせるウィンドウとして重ねる（狭い画面では最小化して始める）
   const narrow = window.innerWidth < 900;
   const sideWin = createFloatWindow(hud.side, { id: 'status', title: JA.ui.statusWindow, icon: 'monitorHeart', right: 12, top: 60, width: 320, height: Math.round(window.innerHeight * 0.62), minimized: narrow });
-  const logWin = createFloatWindow(hud.logEl, { id: 'log', title: JA.ui.log, icon: 'listAlt', left: 12, bottom: 34, width: Math.min(560, Math.round(window.innerWidth * 0.5)), height: 180, minimized: narrow });
-  app.root.append(el('main', { class: 'sim' }, [stage, hud.top, sideWin.el, logWin.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
+  const logWin = createFloatWindow(hud.logEl, { id: 'log', title: JA.ui.log, icon: 'listAlt', left: 12, bottom: 96, width: Math.min(560, Math.round(window.innerWidth * 0.5)), height: 180, minimized: narrow });
+  // ---- タイムライン（時間を戻す） ----
+  const timeline = new Timeline(scenario.party.length > 6 ? 5 : 2);
+  const tlBar = createTimelineBar({
+    seek: (t) => seekTo(t),
+    latest: () => seekTo(Infinity),
+    formatTime: (t) => formatDateTime(scenario, t).split(' ')[1] ?? '',
+  });
+  app.root.append(el('main', { class: 'sim' }, [stage, hud.top, sideWin.el, logWin.el, tlBar.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
 
   // ---- 保存 ----
   let lastSave = performance.now();
@@ -227,6 +238,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   let suggested = effectiveQuality(st) === 'low';
   loop = new Loop(world, ctx, {
     render: (w, prev, alpha, t) => {
+      applySeek();
       view.render(w, prev, alpha, t);
       const now = performance.now();
       if (!suggested && !document.hidden) {
@@ -246,6 +258,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     onEvents: (evs) => {
       recordTick(recorder, world, ctx, evs, DT_SEC / 60);
       handleEvents(evs);
+      timeline.capture(world, recorder);
     },
     onChoice,
     onEnded,
@@ -257,10 +270,53 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     },
   });
   if (observe) loop.speed = 15;
+  timeline.capture(world, recorder, true);
+
+  /** 写しの中身で、いまの世界と記録を置き換える（同じオブジェクトのまま中身を入れ替える） */
+  function replaceInPlace(target: object, src: object): void {
+    for (const k of Object.keys(target)) delete (target as Record<string, unknown>)[k];
+    Object.assign(target, src);
+  }
+  let seekQueued: number | null = null;
+  /** タイムラインの時刻へ移る。その時刻以前でいちばん新しい写しを表示し、一時停止する */
+  function seekTo(tMin: number): void {
+    if (world.ended) return;
+    // いまが最新なら、戻る前に最新の状態も写しておく（「最新へ」で戻れるように）
+    if (world.tMin >= timeline.endMin - 1e-6) timeline.capture(world, recorder, true);
+    seekQueued = tMin;
+  }
+  function applySeek(): void {
+    if (seekQueued === null) return;
+    const snap: TimelineSnap | null = timeline.at(seekQueued);
+    seekQueued = null;
+    if (!snap || Math.abs(snap.tMin - world.tMin) < 1e-6) return;
+    choiceUi?.close();
+    choiceUi = null;
+    shownCp = null;
+    replaceInPlace(world, structuredClone(snap.world));
+    replaceInPlace(recorder, structuredClone(snap.recorder));
+    ctx.events.length = 0;
+    loop.reset(world);
+    loop.paused = true;
+    hud.setCutoff(world.tMin < timeline.endMin - 1e-6 ? world.tMin : null);
+    refresh(true);
+  }
+  /** 再生に入る直前: 過去を表示していたなら、そこからやり直す（それより先の写し・ログ・分岐点の記録を捨てる） */
+  function beforePlay(): void {
+    if (world.tMin < timeline.endMin - 1e-6) {
+      timeline.truncateAfter(world.tMin);
+      for (const [id, sn] of Object.entries(snapshots)) if (sn.world.tMin > world.tMin + 1e-6) delete snapshots[id];
+      hud.truncate(world.tMin);
+      toast(JA.ui.timelineRewound, 3500);
+    }
+    // 分岐点の回答待ちで止まっている時刻へ戻った場合は、選択肢を出し直す
+    if (world.pendingChoice) window.setTimeout(() => onChoice(), 0);
+  }
 
   let uiTick = 0;
   function refresh(force = false): void {
     hud.setState(world, loop.paused, loop.speed, cam);
+    tlBar.update(timeline.startMin, Math.max(timeline.endMin, world.tMin), world.tMin, hud.importantLines().map((l) => ({ tMin: l.tMin, text: l.text, choice: l.text.startsWith('◆') })));
     uiTick += 1;
     if (force || uiTick % 2 === 0) {
       hud.updatePanels(world, view.selected);
@@ -275,10 +331,12 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     if (choiceUi || (e.target as HTMLElement).closest('input,select,textarea,dialog')) return;
     const speeds: Speed[] = [1, 4, 15, 60];
     if (e.key === ' ') {
+      if (loop.paused) beforePlay();
       loop.paused = !loop.paused;
       e.preventDefault();
     } else if (/^[1-4]$/.test(e.key)) {
       loop.speed = speeds[Number(e.key) - 1]!;
+      beforePlay();
       loop.paused = false;
     } else if (e.key === 'g' || e.key === 'G') {
       hud.god = !hud.god;
@@ -318,6 +376,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     document.removeEventListener('keydown', onKey);
     document.removeEventListener('visibilitychange', onHide);
     bubbles.dispose();
+    tlBar.dispose();
     sideWin.dispose();
     logWin.dispose();
     view.dispose();

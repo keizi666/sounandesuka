@@ -154,10 +154,32 @@ export class Hud {
     }
   }
 
+  /** タイムライン用: 重要な出来事の一覧 */
+  importantLines(): readonly LogLine[] {
+    return this.lines.filter((l) => l.important);
+  }
+
+  private cutoff: number | null = null;
+  /** この時刻より後のログを隠す（過去を表示している間）。null で全部表示 */
+  setCutoff(tMin: number | null): void {
+    this.cutoff = tMin;
+    for (const li of this.logEl.children) (li as HTMLElement).hidden = tMin !== null && Number((li as HTMLElement).dataset['t']) > tMin + 1e-6;
+    const sc = this.logEl.parentElement ?? this.logEl;
+    sc.scrollTop = sc.scrollHeight;
+  }
+
+  /** この時刻より後のログを消す（戻した先からやり直すとき） */
+  truncate(tMin: number): void {
+    this.lines = this.lines.filter((l) => l.tMin <= tMin + 1e-6);
+    for (const li of [...this.logEl.children]) if (Number((li as HTMLElement).dataset['t']) > tMin + 1e-6) li.remove();
+    this.setCutoff(null);
+  }
+
   log(line: LogLine): void {
     this.lines.push(line);
     const time = formatDateTime(this.scenario, line.tMin).split(' ')[1] ?? '';
-    const li = el('li', { class: line.important ? 'imp' : '' }, [el('time', {}, time), ' ', line.text]);
+    const li = el('li', { class: line.important ? 'imp' : '', 'data-t': line.tMin }, [el('time', {}, time), ' ', line.text]);
+    if (this.cutoff !== null && line.tMin > this.cutoff + 1e-6) li.hidden = true;
     if (line.climberId) li.addEventListener('click', () => this.h.select(line.climberId!));
     this.logEl.append(li);
     while (this.logEl.childElementCount > 300) this.logEl.firstElementChild?.remove();

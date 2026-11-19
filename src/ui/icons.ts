@@ -10,6 +10,7 @@ import checkroom from '@material-symbols/svg-400/rounded/checkroom.svg?raw';
 import cloud from '@material-symbols/svg-400/rounded/cloud.svg?raw';
 import deviceThermostat from '@material-symbols/svg-400/rounded/device_thermostat.svg?raw';
 import directionsWalk from '@material-symbols/svg-400/rounded/directions_walk.svg?raw';
+import fastForward from '@material-symbols/svg-400/rounded/fast_forward.svg?raw';
 import flashlightOn from '@material-symbols/svg-400/rounded/flashlight_on.svg?raw';
 import foggy from '@material-symbols/svg-400/rounded/foggy.svg?raw';
 import groups from '@material-symbols/svg-400/rounded/groups.svg?raw';
@@ -42,7 +43,7 @@ import visibility from '@material-symbols/svg-400/rounded/visibility.svg?raw';
 import waterDrop from '@material-symbols/svg-400/rounded/water_drop.svg?raw';
 
 const ICONS = {
-  acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, flashlightOn, foggy, groups, healing, hiking, history, home,
+  acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, flashlightOn, foggy, groups, healing, hiking, history, home,
   landscape, layers, listAlt, map, minimize, mobile, monitorHeart, myLocation, openInFull, partlyCloudyDay, pause, playArrow, playCircle, psychology,
   rainy, schedule, sentimentWorried, settings, speed, thermostat, thunderstorm, visibility, waterDrop,
 } as const;
