@@ -636,7 +636,7 @@ export class SceneView {
     const sc = skyColors(el, cloud);
     this.hemi.color.copy(sc.top).lerp(sc.horizon, 0.6).lerp(MOON_SKY, nightK);
     this.hemi.groundColor.copy(sc.ground).lerp(MOON_GROUND, nightK);
-    this.hemi.intensity = THREE.MathUtils.lerp(0.3, 0.85 + 0.55 * cloud, dawn);
+    this.hemi.intensity = THREE.MathUtils.lerp(0.42, 0.85 + 0.55 * cloud, dawn);
     this.scene.environmentIntensity = THREE.MathUtils.lerp(0.05, 0.36 + 0.2 * cloud, dawn);
     // 夜の色味（シェーダー側）もなめらかに変える。登山道の線の色は 0.1 刻みで更新する
     this.env.uNight.value = nightK;
