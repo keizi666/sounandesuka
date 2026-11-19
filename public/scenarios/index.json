@@ -10,6 +10,7 @@
   { "id": "s10_kobushi", "bundle": "real/s10_kobushi.sounan.json", "title": "稜線で胸が痛む", "subtitle": "5月・単独・奥秩父 甲武信ヶ岳（実在の地形）", "theme": "mixed", "difficulty": 3, "season": "spring", "estMinutes": 20, "region": { "name": "奥秩父・甲武信ヶ岳", "real": true } },
   { "id": "s11_ushinone", "bundle": "real/s11_ushinone.sounan.json", "title": "尾根道のスズメバチ", "subtitle": "10月・8人・大菩薩 牛の寝通り（実在の地形）", "theme": "mixed", "difficulty": 2, "season": "autumn", "estMinutes": 15, "region": { "name": "大菩薩・牛の寝通り", "real": true } },
   { "id": "s12_tengu", "bundle": "real/s12_tengu.sounan.json", "title": "奥庭のホワイトアウト", "subtitle": "1月・中高年の2人・北八ヶ岳 天狗岳（実在の地形）", "theme": "lost", "difficulty": 4, "season": "winter", "estMinutes": 25, "region": { "name": "北八ヶ岳・天狗岳", "real": true } },
+  { "id": "s13_kamanosawa", "bundle": "real/s13_kamanosawa.sounan.json", "title": "両門ノ滝で出会ったパーティ", "subtitle": "9月・4人＋3人・奥秩父 釜ノ沢東俣（実在の地形）", "theme": "fall", "difficulty": 4, "season": "summer", "estMinutes": 25, "region": { "name": "奥秩父・釜ノ沢東俣", "real": true } },
   { "id": "s14_mitake", "bundle": "real/s14_mitake.sounan.json", "title": "初詣のついでの大岳山", "subtitle": "1月・30代の4人・奥多摩 御岳山（実在の地形）", "theme": "mixed", "difficulty": 3, "season": "winter", "estMinutes": 20, "region": { "name": "奥多摩・御岳山", "real": true } },
   { "id": "s15_daidoshin", "bundle": "real/s15_daidoshin.sounan.json", "title": "大同心の 3 ピッチ目", "subtitle": "9月・4人パーティー・八ヶ岳 大同心（実在の地形）", "theme": "fall", "difficulty": 3, "season": "autumn", "estMinutes": 20, "region": { "name": "八ヶ岳・赤岳鉱泉と大同心", "real": true } }
 ]
