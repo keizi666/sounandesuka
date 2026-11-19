@@ -159,6 +159,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       { x: window.innerWidth - sideW - 12, y: 60, w: sideW, h: Math.round(window.innerHeight * 0.6), min: narrow, tabs: ['climbers', 'weather'], active: 'climbers' },
       { x: 12, y: Math.max(60, window.innerHeight - 460 - 96), w: Math.min(540, Math.round(window.innerWidth * 0.46)), h: Math.min(460, window.innerHeight - 160), min: narrow, tabs: ['log'], active: 'log' },
     ],
+    // 上のバーの下からを置ける範囲にする（バーが 2 段に折り返しても隠れない）
+    { topInset: () => (hud.top.isConnected ? hud.top.getBoundingClientRect().bottom : 0) },
   );
   // ---- タイムライン（時間を戻す） ----
   const timeline = new Timeline(scenario.party.length > 6 ? 5 : 2);
@@ -168,6 +170,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     formatTime: (t) => formatDateTime(scenario, t).split(' ')[1] ?? '',
   });
   app.root.append(el('main', { class: 'sim' }, [stage, hud.top, dock.el, tlBar.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
+  dock.relayout();
 
   // ---- 保存 ----
   let lastSave = performance.now();
