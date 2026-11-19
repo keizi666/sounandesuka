@@ -44,6 +44,8 @@ function cloudTexture(): THREE.CanvasTexture {
 export interface WeatherFx {
   /** 雲のレイヤー表示 */
   showClouds: boolean;
+  /** 季節の積雪の線（m）。降った雪の線がこれより低ければ、そちら */
+  baseSnowLine: number;
   /** 従来の点の雲を使うか（立体の雲の計算が動いているときは false） */
   spriteClouds: boolean;
   /** 稲妻が光っている強さ 0..1（立体の雲を照らす） */
@@ -240,6 +242,7 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
   return {
     showClouds: true,
     spriteClouds: true,
+    baseSnowLine: Infinity,
     get flash() {
       return flashNow;
     },
@@ -253,7 +256,7 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
           break;
         }
       }
-      env.uSnowLine.value = snowLine;
+      env.uSnowLine.value = Math.min(snowLine, this.baseSnowLine);
       let wetLine = 0;
       let wet = 0;
       for (let b = GROUND_BINS - 1; b >= 0; b -= 1) {

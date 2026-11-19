@@ -214,7 +214,7 @@ export async function showProjects(host: ProjectsHost): Promise<void> {
   const builtinHost = el('div');
   host.root.replaceChildren(
     el('main', { class: 'ed-projects' }, [
-      el('header', {}, [el('h1', {}, '山の遭難シミュレータ シナリオエディター'), el('a', { href: `${import.meta.env.BASE_URL}index.html` }, 'プレイヤーへ')]),
+      el('header', {}, [el('h1', {}, '遭難ですゲーム シナリオエディター'), el('a', { href: `${import.meta.env.BASE_URL}index.html` }, 'プレイヤーへ')]),
       el('div', { class: 'actions' }, [el('button', { class: 'primary', onclick: () => newDialog(host) }, '新しいプロジェクト'), el('label', { class: 'drop' }, ['ファイルから読み込む（バンドル・シナリオ・マップ）', input])]),
       list.length === 0 ? el('p', { class: 'note' }, 'まだプロジェクトがありません。') : el('table', {}, [el('tr', {}, ['名前', '舞台', '更新', ''].map((t) => el('th', {}, t))), ...rows]),
       el('p', { class: 'note' }, `プロジェクトはこのブラウザの中（IndexedDB）に保存されます。別の端末へは「書き出し」したバンドルで移してください。`),

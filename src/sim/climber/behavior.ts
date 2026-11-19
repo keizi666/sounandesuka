@@ -7,23 +7,9 @@ import { chance } from '../core/rng';
 import type { ClimberState, StaticContext, World } from '../types';
 import { startTask, taskMinutes, untilReached } from './actions';
 import { ensureRouteAhead, leaveShelter } from './route';
+import { hutHere as hutHereAt, restSpot } from './situation';
 
-/** 休むのにふつう使う所: 小屋（避難小屋・営業小屋）と、茶屋・休憩所 */
-function restSpot(n: { shelter?: unknown; type: string; name: string } | undefined): boolean {
-  return n !== undefined && (n.shelter !== undefined || n.type === 'hut' || n.type === 'shelter' || /茶屋|小屋|山荘|休憩所/.test(n.name));
-}
-
-/** 小屋・茶屋のところにいるか（その地点か、いま通った地点がそれで 80 m 以内。1 ティックで地点を通り過ぎることがあるので） */
-function hutHere(ctx: StaticContext, c: ClimberState): boolean {
-  if (c.pos.mode === 'node') return restSpot(ctx.map.nodes[c.pos.nodeId]);
-  const near = (id: string | undefined): boolean => {
-    const n = id !== undefined ? ctx.map.nodes[id] : undefined;
-    return n !== undefined && restSpot(n) && (n.x - c.x) * (n.x - c.x) + (n.z - c.z) * (n.z - c.z) <= HUT_HERE_M * HUT_HERE_M;
-  };
-  // 次の地点が小屋なら、着くまで歩く（手前では休まない）。通り過ぎた直後なら、そこで休む
-  return near(c.plan.route[c.plan.routeIndex - 1]);
-}
-const HUT_HERE_M = 80;
+const hutHere = (ctx: StaticContext, c: ClimberState): boolean => hutHereAt(ctx.map, c);
 
 /** これから向かうルートの先、distM の中に小屋があるか（次の 2 地点まで、直線距離で見る） */
 function hutAhead(ctx: StaticContext, c: ClimberState, distM: number): boolean {

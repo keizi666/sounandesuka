@@ -10,7 +10,8 @@ import * as THREE from 'three';
 import type { MapRuntime } from '../sim/types';
 import { VegClass } from '../sim/types';
 import { ATLAS, atlasUv, vegetationAtlas } from './leafTextures';
-import { UNIT, type ViewScale } from './scale';
+import { fromSceneY, UNIT, type ViewScale } from './scale';
+import { buriedFraction } from './snowCover';
 import { injectEnv, type EnvUniforms } from './terrainMaterial';
 import { TREE_KINDS, treeShapes, VARIANTS, type TreeKind } from './treeShapes';
 
@@ -83,6 +84,29 @@ const SIZE: Record<TreeKind, { h: [number, number]; w: number }> = {
   shrub: { h: [1.0, 1.8], w: 1.6 },
   rock: { h: [0.6, 3.0], w: 1.6 },
 };
+
+/**
+ * 雪に埋もれるもの（ユーザーの指定: 雪山は雪山として描く）。雪線より上の下草は雪の下に隠れ、
+ * ハイマツ・低木は大半が埋もれて、ところどころ頭だけが出る。高い木はそのまま（枝の上の雪はシェーダーで白くする）。
+ */
+export function buryUnderSnow(list: Instance[], s: ViewScale, lineM: number): Instance[] {
+  if (!Number.isFinite(lineM)) return list;
+  const out: Instance[] = [];
+  for (const t of list) {
+    const bf = buriedFraction(fromSceneY(s, t.y), lineM);
+    if (bf <= 0) {
+      out.push(t);
+      continue;
+    }
+    const h = Math.abs(Math.sin(t.x * 12.9898 + t.z * 78.233) * 43758.5453) % 1;
+    if (t.kind === 'grass') {
+      if (h > bf * 1.6) out.push(t);
+    } else if (t.kind === 'haimatsu' || t.kind === 'shrub') {
+      if (h > bf * 0.75) out.push({ ...t, h: t.h * (1 - 0.55 * bf) });
+    } else out.push(t);
+  }
+  return out;
+}
 
 /** 樹木・岩・下草を配置する（count は樹木のおおよその総数） */
 export function placeTrees(map: MapRuntime, s: ViewScale, heightAt: (x: number, z: number) => number, count: number): Instance[] {

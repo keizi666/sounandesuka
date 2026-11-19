@@ -7,6 +7,7 @@ import { scenarioStartMin } from '../core/clock';
 import { nextFloat, randRange } from '../core/rng';
 import { evalCondition } from '../scenario/conditions';
 import type { ClimberState, StaticContext, World } from '../types';
+import { isIndoors } from './situation';
 
 const MOVING = new Set(['WALKING', 'OFFROUTE_UNAWARE', 'LOST_AWARE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL', 'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL']);
 
@@ -51,7 +52,7 @@ const BUILTIN: Builtin[] = [
   { key: 'mild_hypo', priority: 7, when: (_w, _c, c) => c.body.coreC < 35.0 },
   { key: 'aware_lost', priority: 8, when: (_w, _c, c) => c.state === 'LOST_AWARE' },
   { key: 'descend_bias', priority: 8, when: (_w, _c, c) => c.state === 'DESCENDING_DRAINAGE' },
-  { key: 'thunder_near', priority: 8, when: (_w, _c, c) => c.local.thunder > 0.6 && c.state !== 'INCAPACITATED' && c.state !== 'SHELTERED' },
+  { key: 'thunder_near', priority: 8, when: (_w, ctx, c) => c.local.thunder > 0.6 && c.state !== 'INCAPACITATED' && !isIndoors(ctx.map, c) },
   // 34℃ を切ると重い（低体温症の段階に合わせる）
   { key: 'moderate_hypo', priority: 9, when: (_w, _c, c) => c.body.coreC < 34.0 },
 ];

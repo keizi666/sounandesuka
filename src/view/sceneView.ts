@@ -13,8 +13,9 @@ import { buildDiorama, buildTerrain } from './terrainMesh';
 import { createEnvUniforms, type EnvUniforms } from './terrainMaterial';
 import { buildStructures } from './structures';
 import { buildTrails } from './trails';
-import { buildVegetation, placeTrees, TREE_SCALE, type Vegetation } from './vegetation';
+import { buildVegetation, buryUnderSnow, placeTrees, TREE_SCALE, type Vegetation } from './vegetation';
 import { createWeatherFx, type WeatherFx } from './weatherFx';
+import { baseSnowLineM } from './snowCover';
 import { Overlay } from './overlay';
 import { loadHqAssets, type HqState } from './assets';
 import { assetUrl } from '../app/data';
@@ -139,6 +140,7 @@ export class SceneView {
   private shadowCenter = new THREE.Vector3();
   private shadowR = 0;
   private lastNight = -1;
+  private baseSnowLine = Infinity;
 
   constructor(
     readonly canvas: HTMLCanvasElement,
@@ -208,7 +210,9 @@ export class SceneView {
     const terrain = buildTerrain(map, this.s, this.env, scenario.season, q.step, masks, opts.quality === 'high' ? 2 : 1);
     this.heightAt = terrain.heightAt;
     this.scene.add(terrain.mesh, buildDiorama(map, this.s, this.env));
-    this.veg = buildVegetation(placeTrees(map, this.s, this.heightAt, q.trees), scenario.season, this.env, q.shadow > 0);
+    // 雪山: 始まりの積雪の線（シナリオの snowpack か、月と緯度の目安）。草・ハイマツは埋もれる
+    this.baseSnowLine = baseSnowLineM(scenario, map.def.geo?.centerLat ?? 36);
+    this.veg = buildVegetation(buryUnderSnow(placeTrees(map, this.s, this.heightAt, q.trees), this.s, this.baseSnowLine), scenario.season, this.env, q.shadow > 0);
     this.scene.add(this.veg.group);
     const tr = buildTrails(map, this.s, this.heightAt);
     this.falseTrails = tr.falseTrails;
@@ -242,6 +246,7 @@ export class SceneView {
     this.sun.shadow.normalBias = 0.004;
     this.scene.add(this.sun, this.sun.target, this.hemi);
     this.fx = createWeatherFx(this.scene, map, this.s, opts.quality, this.env);
+    this.fx.baseSnowLine = this.baseSnowLine;
     // 空・環境光（質感のための映り込み）・後処理
     this.sky = createSky(size * 30);
     this.scene.add(this.sky.mesh);

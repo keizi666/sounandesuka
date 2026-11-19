@@ -3,6 +3,7 @@
  * 記録（rec.*）は World の外にあるので、呼び出し側が渡す。
  */
 import { bacPct } from '../climber/physiology';
+import { isIndoors, isMoving } from '../climber/situation';
 import { nearestIndex } from '../terrain/sample';
 import type { ClimberState, MapRuntime, ScenarioDef, World } from '../types';
 
@@ -50,6 +51,8 @@ export const CLIMBER_FIELDS = [
   'waterL',
   'foodKcal',
   'nearestShelterM',
+  'indoors',
+  'moving',
   'name',
   'id',
 ] as const;
@@ -134,6 +137,10 @@ function climberField(c: ClimberState, field: string, scope: VarScope): VarValue
       }
       return best;
     }
+    case 'indoors':
+      return isIndoors(scope.map, c);
+    case 'moving':
+      return isMoving(c);
     case 'name':
       return c.def.name;
     case 'id':

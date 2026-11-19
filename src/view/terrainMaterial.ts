@@ -310,9 +310,22 @@ ${
         }
       }`
       }
-      // 積雪（雪線より上で、急すぎない面）
-      float hkSnow = smoothstep(uSnowLine - 30.0, uSnowLine + 40.0, vElev) * smoothstep(0.55, 0.8, vSlopeUp);
-      diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.94, 0.95, 0.97), hkSnow);
+      // 積雪（雪山は雪山として。docs/19）。雪線はまだらに上下し、急な岩場は雪が付かずに岩が出る。
+      // 高い所の吹きさらしは、風で雪が飛ばされて岩がまだらに出る
+      vec2 hkM = vWorldPos.xz * 1000.0;
+      float hkSnowZ = smoothstep(uSnowLine - 60.0, uSnowLine + 90.0, vElev + (hk_noise(hkM / 110.0) - 0.5) * 140.0);
+      float hkSnow = hkSnowZ * smoothstep(${terrain ? '0.5, 0.74' : '0.55, 0.97'}, vSlopeUp);
+      ${
+        terrain
+          ? `float hkScour = smoothstep(0.6, 0.82, hk_noise(hkM / 26.0) * 0.6 + hk_noise(hkM / 8.0) * 0.4) * smoothstep(uSnowLine + 250.0, uSnowLine + 650.0, vElev);
+      hkSnow *= 1.0 - 0.8 * hkScour;
+      // 雪の間から見える地面は、雪山では草ではなく岩と枯れた地肌
+      diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.30, 0.29, 0.28) * (0.85 + 0.3 * hk_noise(hkM / 4.0)), hkSnowZ * 0.75 * (1.0 - hkSnow));`
+          : `// 木の上の雪: 上を向いた枝にだけ、まだらに載る（針葉樹の森は濃い緑のまま）
+      hkSnow *= 0.7 * smoothstep(0.35, 0.65, hk_noise(vWorldPos.xz * 1000.0 / 1.3 + vWorldPos.y * 900.0));`
+      }
+      vec3 hkSnowCol = mix(vec3(0.88, 0.9, 0.95), vec3(0.97, 0.975, 0.99), hk_noise(hkM / 3.0));
+      diffuseColor.rgb = mix(diffuseColor.rgb, hkSnowCol, hkSnow);
       // 濡れ（彩度・明度を下げる）
       float hkWet = uWet * (1.0 - smoothstep(uWetLine - 10.0, uWetLine + 10.0, vElev)) * (1.0 - hkSnow);
       diffuseColor.rgb *= 1.0 - 0.15 * hkWet;`,

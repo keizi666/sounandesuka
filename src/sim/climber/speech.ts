@@ -7,6 +7,7 @@
 import { nextFloat } from '../core/rng';
 import { evalCondition } from '../scenario/conditions';
 import { groupLeader } from './party';
+import { isIndoors, isMoving } from './situation';
 import type { ClimberState, ScenarioDef, SpeakerRef, SpeechTone, StaticContext, World } from '../types';
 
 /** 同じ人のセリフの最小間隔（ゲーム分） */
@@ -51,12 +52,14 @@ function nearestMate(w: World, m: ClimberState): ClimberState | undefined {
 }
 
 const BUILTIN: Builtin[] = [
-  { key: 'gust_crouch', priority: 10, tone: 'shout', speaker: (w, _x, c) => isLeader(w, c) && c.local.windMs * w.weather.gust > 20 && mates(w, c).length > 0 },
-  { key: 'rain_start', priority: 10, speaker: (w, _x, c) => ev(w, 'RAIN_START') && isLeader(w, c) },
+  { key: 'gust_crouch', priority: 10, tone: 'shout', speaker: (w, x, c) => isLeader(w, c) && !isIndoors(x.map, c) && c.local.windMs * w.weather.gust > 20 && mates(w, c).some((m) => !isIndoors(x.map, m)) },
+  // 「雨だ。急ごう」は歩いているときだけ（小屋の中・ビバーク・救助待ちでは言わない）
+  { key: 'rain_start', priority: 10, speaker: (w, x, c) => ev(w, 'RAIN_START') && isLeader(w, c) && isMoving(c) && !isIndoors(x.map, c) },
   {
     key: 'ask_ok',
     priority: 10,
-    speaker: (w, _x, c) => (c.J > 0.7 ? (mates(w, c).find((m) => m.body.conscious && (m.body.coreC < 35.5 || m.body.anxiety > 60)) ?? false) : false),
+    // 「少し休もうか」は歩いているときだけ（休んでいる・待っている間は言わない）
+    speaker: (w, _x, c) => (c.J > 0.7 && isMoving(c) ? (mates(w, c).find((m) => m.body.conscious && (m.body.coreC < 35.5 || m.body.anxiety > 60)) ?? false) : false),
     // 体温だけでなく、急病の発作・重いけが・動けないときも「平気」とは言わない
     reply: (to) => (to.body.coreC >= 35 && !(to.body.illness?.active ?? false) && !['legFracture', 'headInjury', 'severeTrauma'].includes(to.body.injury) && to.M > 0.3 ? 'reply_ok' : 'reply_bad'),
   },

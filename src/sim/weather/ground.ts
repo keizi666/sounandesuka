@@ -10,9 +10,20 @@ import { precipTypeOf } from './local';
 export const GROUND_BIN_M = 50;
 export const GROUND_BINS = 61; // 0〜3,050 m
 
-export function createGround(): GroundState {
+/** 始まりの地面。snowpack があれば、その標高より上に積もった状態で始める */
+export function createGround(snowpack?: { lineM: number; depthCm: number; fullM?: number }): GroundState {
+  const snowCm = new Array<number>(GROUND_BINS).fill(0);
+  if (snowpack && snowpack.depthCm > 0) {
+    const full = snowpack.fullM ?? snowpack.lineM + 400;
+    for (let b = 0; b < GROUND_BINS; b += 1) {
+      const e = b * GROUND_BIN_M + GROUND_BIN_M / 2;
+      if (e <= snowpack.lineM) continue;
+      const f = full > snowpack.lineM ? Math.min(1, (e - snowpack.lineM) / (full - snowpack.lineM)) : 1;
+      snowCm[b] = snowpack.depthCm * f;
+    }
+  }
   return {
-    snowCm: new Array<number>(GROUND_BINS).fill(0),
+    snowCm,
     wet: new Array<number>(GROUND_BINS).fill(0),
     icy: new Array<number>(GROUND_BINS).fill(0),
   };

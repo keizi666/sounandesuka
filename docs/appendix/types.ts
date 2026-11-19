@@ -1,5 +1,5 @@
 // =============================================================
-// 山の遭難シミュレータ — 型定義（仕様の正）
+// 遭難ですゲーム — 型定義（仕様の正）
 // P0 で src/sim/types.ts にコピーして使う。変更したら docs も直す。
 // =============================================================
 
@@ -185,6 +185,8 @@ export interface ScenarioDef {
   groups?: GroupDef[];
   historical?: HistoricalDef;
   nodeOverrides?: Record<NodeId, { open?: boolean }>;   // 小屋の営業状態などをシナリオごとに上書き
+  /** 始まりの積雪（雪山・残雪期）。lineM より上に積もり、fullM（省略は lineM+400）で depthCm になる。歩く速さ・道の見つけやすさ・地面の冷たさと、雪の見た目に効く */
+  snowpack?: { lineM: number; depthCm: number; fullM?: number };
   sources?: string[];                                   // 例: "気象の下書き: Open-Meteo ERA5 2025-10-12 36.40,137.71"
   /** 通りかかる登山者（人の少ない道では少ない）。困っている人に気づけば下山して通報してくれる */
   passersby?: PasserbyDef[];

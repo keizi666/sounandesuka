@@ -1,13 +1,13 @@
 /** 画面に出す日本語文字列（CLAUDE.md 鉄則 5）。シナリオ JSON 内の文章は除く。 */
 export const JA = {
   app: {
-    title: '山の遭難シミュレータ',
+    title: '遭難ですゲーム',
     preparing: '準備中です。シミュレーションは描画なしで先に作っています。',
   },
   editor: {
     localOnly: 'シナリオの作成と編集は、手元の環境（localhost）でだけ使えます。公開しているサイトでは使えません。',
     backToPlayer: 'シミュレーターに戻る',
-    title: '山の遭難シミュレータ シナリオエディター',
+    title: '遭難ですゲーム シナリオエディター',
     preparing: 'シナリオエディターは準備中です。',
   },
   disclaimer: {

@@ -182,7 +182,7 @@ export function createWorld(map: MapRuntime, scenario: ScenarioDef, seed: number
     rng,
     sun: sunStateAt(scenario, tMin, 0),
     weather,
-    ground: createGround(),
+    ground: createGround(scenario.snowpack),
     climbers: scenario.party.map((def) => createClimberState(def, scenario, map, tMin, ig.of[def.id] ?? DEFAULT_GROUP_ID)),
     flags: {},
     firedChoices: [],

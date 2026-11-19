@@ -3,7 +3,7 @@
   "version": "0.20.0",
   "private": true,
   "type": "module",
-  "description": "山の遭難シミュレータ — 山岳遭難の推移を 3D のジオラマで観察する Web アプリとシナリオエディター",
+  "description": "遭難ですゲーム — 山岳遭難の推移を 3D のジオラマで観察する Web アプリとシナリオエディター",
   "engines": {
     "node": ">=22"
   },

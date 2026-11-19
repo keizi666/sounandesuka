@@ -7,6 +7,7 @@ import { createFigureIcons, ICON_LIFT_PX } from './figureIcons';
 import { closeLogDetail, snapOf } from './logDetail';
 import { Timeline, type TimelineSnap } from '../app/timeline';
 import { createTimelineBar } from './timelineBar';
+import { showTitleCard } from './titleCard';
 import { createDock } from './dockWindows';
 import { dlog, versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
@@ -179,7 +180,12 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     latest: () => seekTo(Infinity),
     formatTime: (t) => formatDateTime(scenario, t).split(' ')[1] ?? '',
   });
-  app.root.append(el('main', { class: 'sim' }, [stage, hud.top, dock.el, tlBar.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
+  const simMain = el('main', { class: 'sim' }, [stage, hud.top, dock.el, tlBar.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]);
+  // シミュレーション画面では、ブラウザの右クリックメニューを出さない（右ドラッグで視点を回すため。ユーザーの指定）
+  simMain.addEventListener('contextmenu', (e) => {
+    if (!(e.target as HTMLElement).closest('input, textarea, [contenteditable="true"]')) e.preventDefault();
+  });
+  app.root.append(simMain);
   dock.relayout();
 
   // ---- 保存 ----
@@ -447,6 +453,16 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   else if (resume) hud.log({ tMin: world.tMin, text: JA.ui.resumedNoLog, important: true });
   else hud.log({ tMin: world.tMin, text: `${scenario.title}（${nodeName(scenario.plan.route[0]!)} を出発）`, important: true });
   refresh(true);
+  // 新しく始めたときは、題の札を出し、消えてから時間を進める（途中からの再開では出さない）
+  let closeTitle: (() => void) | null = null;
+  if (!resume) {
+    loop.paused = true;
+    closeTitle = showTitleCard(stage, scenario, world, ctx, () => {
+      closeTitle = null;
+      loop.paused = false;
+      refresh(true);
+    });
+  }
   loop.start();
   // 開発時のデバッグ用（ブラウザのコンソールから参照）
   if (import.meta.env.DEV) (window as unknown as Record<string, unknown>)['__hk'] = { view, world, ctx, loop, recorder };
@@ -456,6 +472,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   return () => {
     // 画面を離れるとき（ブラウザの戻るなど）も続きを保存する（結末に着いていれば何もしない）
     void save();
+    closeTitle?.();
     loop.dispose();
     choiceUi?.close();
     ro.disconnect();
