@@ -1,0 +1,56 @@
+{
+  "id": "tateyama",
+  "name": "北アルプス 立山（室堂〜一ノ越〜雄山〜大汝山〜富士ノ折立〜真砂岳〜別山〜剱御前小舎・大走り〜雷鳥平）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "室堂から一ノ越・雄山・大汝山・富士ノ折立・真砂岳・別山を経て別山乗越の剱御前小舎まで、立山三山の稜線と、富士ノ折立と真砂岳のあいだの大走り分岐から雷鳥平へ下る大走りの道、剱御前小舎から雷鳥沢を下る道、雷鳥平から室堂へ戻る道が入る範囲。一辺 6 km 程度（513 頂点）。稜線は標高 2,800〜3,000 m で、ハイマツと岩礫の吹きさらし。森林限界より上。小屋: 一ノ越山荘・内蔵助山荘（真砂岳の東の直下）・剱御前小舎・雷鳥平の山小屋・室堂。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2300, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 300 },
+  "nodes": [
+    { "id": "MURODO", "name": "室堂", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 2430 },
+    { "id": "ICHINOKOSHI", "name": "一ノ越山荘", "type": "hut", "x": 0, "z": 0, "osmName": "一の越山荘", "expectedElevM": 2700,
+      "shelter": { "kind": "staffed", "open": true } },
+    { "id": "OYAMA", "name": "雄山", "type": "peak", "x": 0, "z": 0, "osmName": "雄山", "expectedElevM": 3003 },
+    { "id": "ONANJI", "name": "大汝山", "type": "peak", "x": 0, "z": 0, "expectedElevM": 3015 },
+    { "id": "FUJI", "name": "富士ノ折立", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2999 },
+    { "id": "J_OHASHIRI", "name": "大走り分岐", "type": "junction", "x": 0, "z": 0, "expectedElevM": 2820 },
+    { "id": "MASAGO", "name": "真砂岳", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2861 },
+    { "id": "J_KURA", "name": "内蔵助山荘への分岐", "type": "junction", "x": 0, "z": 0, "expectedElevM": 2850 },
+    { "id": "KURA_HUT", "name": "内蔵助山荘", "type": "hut", "x": 0, "z": 0, "osmName": "内蔵助山荘", "expectedElevM": 2790,
+      "shelter": { "kind": "staffed", "open": true } },
+    { "id": "BESSAN", "name": "別山（南峰）", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2874 },
+    { "id": "GOZEN", "name": "剱御前小舎", "type": "hut", "x": 0, "z": 0, "osmName": "劔御前小舎", "expectedElevM": 2750,
+      "shelter": { "kind": "staffed", "open": true } },
+    { "id": "J_RAICHOSAWA", "name": "雷鳥沢の出合", "type": "junction", "x": 0, "z": 0, "expectedElevM": 2275 },
+    { "id": "RAICHO", "name": "雷鳥平の山小屋", "type": "hut", "x": 0, "z": 0, "expectedElevM": 2290,
+      "shelter": { "kind": "staffed", "open": true } }
+  ],
+  "edges": [
+    { "id": "E1", "name": "室堂〜一ノ越（石畳の道）", "kind": "trail", "from": "MURODO", "to": "ICHINOKOSHI", "class": "T1", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "一ノ越〜雄山（岩の急登）", "kind": "trail", "from": "ICHINOKOSHI", "to": "OYAMA", "class": "T2", "markers": 0.6, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "雄山〜大汝山（稜線）", "kind": "trail", "from": "OYAMA", "to": "ONANJI", "class": "T2", "markers": 0.5, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "大汝山〜富士ノ折立（稜線）", "kind": "trail", "from": "ONANJI", "to": "FUJI", "class": "T2", "markers": 0.5, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "富士ノ折立〜大走り分岐（岩の下り）", "kind": "trail", "from": "FUJI", "to": "J_OHASHIRI", "class": "T2", "markers": 0.5, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "大走り分岐〜真砂岳（砂礫の稜線）", "kind": "trail", "from": "J_OHASHIRI", "to": "MASAGO", "class": "T2", "markers": 0.5, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "真砂岳〜内蔵助山荘への分岐", "kind": "trail", "from": "MASAGO", "to": "J_KURA", "class": "T2", "markers": 0.5, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "分岐〜内蔵助山荘（東へ下る）", "kind": "trail", "from": "J_KURA", "to": "KURA_HUT", "class": "T2", "markers": 0.4, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E9", "name": "真砂岳〜別山（稜線）", "kind": "trail", "from": "J_KURA", "to": "BESSAN", "class": "T2", "markers": 0.5, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E10", "name": "別山〜剱御前小舎（別山乗越）", "kind": "trail", "from": "BESSAN", "to": "GOZEN", "class": "T2", "markers": 0.5, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E11", "name": "大走り（雷鳥平へ下る）", "kind": "trail", "from": "J_OHASHIRI", "to": "J_RAICHOSAWA", "class": "T2", "markers": 0.4, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E12", "name": "剱御前小舎〜雷鳥沢（下り）", "kind": "trail", "from": "GOZEN", "to": "J_RAICHOSAWA", "class": "T2", "markers": 0.5, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E13", "name": "雷鳥沢の出合〜雷鳥平", "kind": "trail", "from": "J_RAICHOSAWA", "to": "RAICHO", "class": "T1", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E14", "name": "雷鳥平〜室堂（遊歩道）", "kind": "trail", "from": "RAICHO", "to": "MURODO", "class": "T1", "markers": 0.9, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

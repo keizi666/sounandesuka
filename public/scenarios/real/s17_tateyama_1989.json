@@ -1,0 +1,2941 @@
+{
+ "id": "s17_tateyama_1989",
+ "version": 1,
+ "title": "真砂岳の吹雪",
+ "subtitle": "10月・中高年の10人・立山 1989年（史実・実在の地形）",
+ "theme": "hypothermia",
+ "difficulty": 4,
+ "season": "autumn",
+ "estMinutes": 30,
+ "mapId": "tateyama",
+ "seed": 19891008,
+ "startDate": "1989-10-08",
+ "startAt": "D0 08:30",
+ "timeLimit": "D1 12:00",
+ "sun": {
+  "sunrise": "05:44",
+  "sunset": "17:22",
+  "maxElevDeg": 47
+ },
+ "moon": {
+  "illumination": 0.6
+ },
+ "region": {
+  "name": "北アルプス・立山",
+  "real": true
+ },
+ "briefing": {
+  "text": "1989年10月8日。京都・滋賀の税理士仲間を中心とする 40 代後半〜60 代の 10 人。毎年秋の定例山行だ。\n室堂から立山三山を縦走し、剱御前小舎に泊まる計画。前夜は車で来て、駐車場で仮眠した。\nリーダーは決めていない。多くは軽登山靴で、綿のズボンやビニールの雨具の人もいる。\n予報は荒天。だが朝の室堂は晴れている。",
+  "forecast": [
+   {
+    "label": "朝",
+    "text": "晴れ",
+    "icon": "sunny"
+   },
+   {
+    "label": "昼から",
+    "text": "寒気が南下。日本海側の山は大荒れ",
+    "icon": "snow"
+   },
+   {
+    "label": "夜",
+    "text": "雪・強い風が続く",
+    "icon": "snow"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "MURODO",
+   "ICHINOKOSHI",
+   "OYAMA",
+   "ONANJI",
+   "FUJI",
+   "J_OHASHIRI",
+   "MASAGO",
+   "J_KURA",
+   "BESSAN",
+   "GOZEN"
+  ],
+  "goalNodes": [
+   "GOZEN"
+  ],
+  "plannedFinish": "D0 14:30",
+  "submittedPlan": false,
+  "reportIfNotBackBy": null,
+  "searchLeads": [
+   {
+    "id": "hut",
+    "at": "D0 16:00",
+    "when": {
+     "flag": "hutAlerted"
+    },
+    "route": [
+     "ONANJI",
+     "FUJI",
+     "J_OHASHIRI",
+     "MASAGO",
+     "J_KURA",
+     "BESSAN"
+    ],
+    "maxRadiusM": 300,
+    "findF": 3,
+    "text": "知らせを受けた警察と小屋は、大汝山から真砂岳のあいだの稜線を探すことにした。"
+   }
+  ]
+ },
+ "passersby": [
+  {
+   "edges": [
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8"
+   ],
+   "perHour": 2,
+   "from": "06:40",
+   "to": "09:00",
+   "fromDay": 1,
+   "seeM": 80,
+   "voiceM": 150
+  },
+  {
+   "edges": [
+    "E9",
+    "E10"
+   ],
+   "perHour": 2,
+   "from": "06:00",
+   "to": "09:00",
+   "fromDay": 1,
+   "seeM": 80,
+   "voiceM": 150
+  }
+ ],
+ "groups": [
+  {
+   "id": "main",
+   "members": "all",
+   "leader": "A",
+   "cohesion": "tight"
+  },
+  {
+   "id": "msg",
+   "members": [
+    "C",
+    "D"
+   ],
+   "leader": "C",
+   "cohesion": "tight"
+  }
+ ],
+ "party": [
+  {
+   "id": "A",
+   "name": "A",
+   "role": "計画を立てた経験者",
+   "age": 61,
+   "sex": "m",
+   "weightKg": 64,
+   "packKg": 7,
+   "experience": 0.55,
+   "fitness": 0.9,
+   "navSkill": 0.5,
+   "riskTolerance": 0.55,
+   "color": "#b03a2e",
+   "leader": true,
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.95,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": true,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ],
+   "notes": "記録ではリーダーは決めていなかった。計画を立てた経験者の 2 人のうち 1 人を、シミュレーションの都合でパーティの判断役にした（推定）"
+  },
+  {
+   "id": "B",
+   "name": "B",
+   "role": "計画を立てた経験者",
+   "age": 58,
+   "sex": "m",
+   "weightKg": 66,
+   "packKg": 7,
+   "experience": 0.5,
+   "fitness": 0.9,
+   "navSkill": 0.45,
+   "riskTolerance": 0.55,
+   "color": "#1f5fa8",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.95,
+    "cloPack": 0.5,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ]
+  },
+  {
+   "id": "C",
+   "name": "C",
+   "role": "伝令に出た（生還）",
+   "age": 50,
+   "sex": "m",
+   "weightKg": 66,
+   "packKg": 7,
+   "experience": 0.45,
+   "fitness": 1.05,
+   "navSkill": 0.4,
+   "riskTolerance": 0.55,
+   "color": "#117a65",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 1.1,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 10,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ],
+   "notes": "革の登山靴・透湿防水の雨具・ウールの手袋（記録）"
+  },
+  {
+   "id": "D",
+   "name": "D",
+   "role": "伝令に出た（生還）",
+   "age": 48,
+   "sex": "m",
+   "weightKg": 68,
+   "packKg": 7,
+   "experience": 0.4,
+   "fitness": 1.05,
+   "navSkill": 0.35,
+   "riskTolerance": 0.55,
+   "color": "#1abc9c",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 1.1,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 10,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ],
+   "notes": "革の登山靴・透湿防水の雨具・ウールの手袋（記録）"
+  },
+  {
+   "id": "E",
+   "name": "E",
+   "role": "参加者",
+   "age": 63,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 7,
+   "experience": 0.1,
+   "fitness": 0.8,
+   "navSkill": 0.3,
+   "riskTolerance": 0.55,
+   "color": "#7d3c98",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.75,
+    "cloPack": 0.35,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ],
+   "notes": "綿のズボン・ビニールの雨具（推定の割り振り）"
+  },
+  {
+   "id": "F",
+   "name": "F",
+   "role": "参加者",
+   "age": 57,
+   "sex": "m",
+   "weightKg": 70,
+   "packKg": 7,
+   "experience": 0.2,
+   "fitness": 0.85,
+   "navSkill": 0.3,
+   "riskTolerance": 0.55,
+   "color": "#d35400",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.75,
+    "cloPack": 0.35,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ]
+  },
+  {
+   "id": "G",
+   "name": "G",
+   "role": "参加者",
+   "age": 55,
+   "sex": "m",
+   "weightKg": 67,
+   "packKg": 7,
+   "experience": 0.25,
+   "fitness": 0.85,
+   "navSkill": 0.3,
+   "riskTolerance": 0.55,
+   "color": "#2e4053",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.75,
+    "cloPack": 0.35,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ]
+  },
+  {
+   "id": "H",
+   "name": "H",
+   "role": "参加者",
+   "age": 56,
+   "sex": "f",
+   "weightKg": 52,
+   "packKg": 7,
+   "experience": 0.1,
+   "fitness": 0.8,
+   "navSkill": 0.3,
+   "riskTolerance": 0.55,
+   "color": "#c0392b",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.75,
+    "cloPack": 0.35,
+    "gloves": "thin",
+    "hat": false,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ],
+   "notes": "綿のズボン・ビニールの雨具（推定の割り振り）"
+  },
+  {
+   "id": "I",
+   "name": "I",
+   "role": "参加者",
+   "age": 52,
+   "sex": "f",
+   "weightKg": 54,
+   "packKg": 7,
+   "experience": 0.15,
+   "fitness": 0.85,
+   "navSkill": 0.3,
+   "riskTolerance": 0.55,
+   "color": "#e67e22",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.75,
+    "cloPack": 0.35,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ]
+  },
+  {
+   "id": "J",
+   "name": "J",
+   "role": "参加者",
+   "age": 60,
+   "sex": "f",
+   "weightKg": 50,
+   "packKg": 7,
+   "experience": 0.1,
+   "fitness": 0.8,
+   "navSkill": 0.3,
+   "riskTolerance": 0.55,
+   "color": "#8e44ad",
+   "habits": {
+    "eatEveryMin": 180,
+    "drinkEveryMin": 120,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "health": "sleepy",
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.75,
+    "cloPack": 0.35,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "age",
+    "sex",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits"
+   ],
+   "notes": "手袋なし（記録に「手袋を持たない人もいた」とあるものの割り振りは推定）"
+  }
+ ],
+ "weather": {
+  "refElevM": 2900,
+  "lapseRateCPer100m": 0.6,
+  "cloudThicknessM": 3000,
+  "keyframes": [
+   {
+    "at": "D0 04:00",
+    "tempC": -1,
+    "windMs": 5,
+    "windDirDeg": 300,
+    "precipMmH": 0,
+    "cloudCover": 0.3,
+    "cloudBaseM": 3600,
+    "visibilityM": 30000,
+    "pressureHpa": 1008,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 07:30",
+    "tempC": -1.5,
+    "windMs": 6,
+    "windDirDeg": 300,
+    "precipMmH": 0,
+    "cloudCover": 0.4,
+    "cloudBaseM": 3400,
+    "visibilityM": 30000,
+    "pressureHpa": 1008,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 08:45",
+    "tempC": -2,
+    "windMs": 4,
+    "windDirDeg": 295,
+    "precipMmH": 0.1,
+    "cloudCover": 0.8,
+    "cloudBaseM": 2900,
+    "visibilityM": 15000,
+    "inCloudVisibilityM": 300,
+    "pressureHpa": 1009,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 09:30",
+    "tempC": -3,
+    "windMs": 5,
+    "windDirDeg": 295,
+    "precipMmH": 0.6,
+    "cloudCover": 1,
+    "cloudBaseM": 2500,
+    "visibilityM": 2500,
+    "inCloudVisibilityM": 100,
+    "pressureHpa": 1010,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 11:00",
+    "tempC": -4,
+    "windMs": 5.5,
+    "windDirDeg": 295,
+    "precipMmH": 1,
+    "cloudCover": 1,
+    "cloudBaseM": 2350,
+    "visibilityM": 1500,
+    "inCloudVisibilityM": 50,
+    "pressureHpa": 1011,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 13:00",
+    "tempC": -5,
+    "windMs": 6,
+    "windDirDeg": 295,
+    "precipMmH": 1.25,
+    "cloudCover": 1,
+    "cloudBaseM": 2300,
+    "visibilityM": 1200,
+    "inCloudVisibilityM": 40,
+    "pressureHpa": 1013,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 15:00",
+    "tempC": -6,
+    "windMs": 6.5,
+    "windDirDeg": 295,
+    "precipMmH": 1.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2300,
+    "visibilityM": 1000,
+    "inCloudVisibilityM": 30,
+    "pressureHpa": 1015,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 16:00",
+    "tempC": -6.5,
+    "windMs": 7.5,
+    "windDirDeg": 295,
+    "precipMmH": 1.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2300,
+    "visibilityM": 1000,
+    "inCloudVisibilityM": 30,
+    "pressureHpa": 1016,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 17:00",
+    "tempC": -7,
+    "windMs": 9,
+    "windDirDeg": 300,
+    "precipMmH": 1.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2300,
+    "visibilityM": 1000,
+    "inCloudVisibilityM": 25,
+    "pressureHpa": 1016,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 18:00",
+    "tempC": -8,
+    "windMs": 11,
+    "windDirDeg": 300,
+    "precipMmH": 1.25,
+    "cloudCover": 1,
+    "cloudBaseM": 2300,
+    "visibilityM": 1000,
+    "inCloudVisibilityM": 25,
+    "pressureHpa": 1017,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D0 21:00",
+    "tempC": -9,
+    "windMs": 15,
+    "windDirDeg": 300,
+    "precipMmH": 1,
+    "cloudCover": 1,
+    "cloudBaseM": 2400,
+    "visibilityM": 1200,
+    "inCloudVisibilityM": 30,
+    "pressureHpa": 1019,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D1 00:00",
+    "tempC": -10,
+    "windMs": 15,
+    "windDirDeg": 300,
+    "precipMmH": 0.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2600,
+    "visibilityM": 2000,
+    "inCloudVisibilityM": 40,
+    "pressureHpa": 1021,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D1 03:00",
+    "tempC": -10,
+    "windMs": 11,
+    "windDirDeg": 290,
+    "precipMmH": 0.3,
+    "cloudCover": 0.8,
+    "cloudBaseM": 3000,
+    "visibilityM": 8000,
+    "inCloudVisibilityM": 80,
+    "pressureHpa": 1022,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D1 05:00",
+    "tempC": -9,
+    "windMs": 7,
+    "windDirDeg": 285,
+    "precipMmH": 0,
+    "cloudCover": 0.4,
+    "cloudBaseM": 3400,
+    "visibilityM": 20000,
+    "pressureHpa": 1023,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D1 06:30",
+    "tempC": -8,
+    "windMs": 5,
+    "windDirDeg": 280,
+    "precipMmH": 0,
+    "cloudCover": 0.15,
+    "cloudBaseM": 3800,
+    "visibilityM": 40000,
+    "pressureHpa": 1024,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D1 09:00",
+    "tempC": -3,
+    "windMs": 4,
+    "windDirDeg": 300,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 4000,
+    "visibilityM": 40000,
+    "pressureHpa": 1025,
+    "gustiness": 0.45
+   },
+   {
+    "at": "D1 12:00",
+    "tempC": 0,
+    "windMs": 4,
+    "windDirDeg": 320,
+    "precipMmH": 0,
+    "cloudCover": 0.15,
+    "cloudBaseM": 4000,
+    "visibilityM": 40000,
+    "pressureHpa": 1024,
+    "gustiness": 0.45
+   }
+  ]
+ },
+ "events": [
+  {
+   "id": "ev_snow",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 09:00"
+     },
+     {
+      "not": {
+       "var": "leader.indoors",
+       "op": "==",
+       "value": true
+      }
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "雲が稜線にかかり、雪が舞い始めた。風が強まってくる。みんなで雨具を着た。"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "wearRainwear",
+       "who": "all"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_kura_told",
+   "trigger": {
+    "all": [
+     {
+      "flag": "kuraTold"
+     },
+     {
+      "after": "D0 18:30"
+     },
+     {
+      "not": {
+       "any": [
+        {
+         "all": [
+          {
+           "var": "c.A.indoors",
+           "op": "==",
+           "value": true
+          },
+          {
+           "var": "c.A.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "内蔵助山荘では、泊まると伝えてきた 10 人が着かない。小屋番さんが麓へ無線で知らせた。",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "hutAlerted"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "reportMissing",
+       "by": "内蔵助山荘の小屋番さん"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_hut_alert",
+   "trigger": {
+    "all": [
+     {
+      "any": [
+       {
+        "flag": "msgSent"
+       },
+       {
+        "flag": "allGo"
+       }
+      ]
+     },
+     {
+      "any": [
+       {
+        "var": "c.A.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.A.state",
+        "op": "==",
+        "value": "FINISHED"
+       },
+       {
+        "var": "c.B.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.B.state",
+        "op": "==",
+        "value": "FINISHED"
+       },
+       {
+        "var": "c.C.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.C.state",
+        "op": "==",
+        "value": "FINISHED"
+       },
+       {
+        "var": "c.D.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.D.state",
+        "op": "==",
+        "value": "FINISHED"
+       },
+       {
+        "var": "c.E.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.E.state",
+        "op": "==",
+        "value": "FINISHED"
+       },
+       {
+        "var": "c.F.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.F.state",
+        "op": "==",
+        "value": "FINISHED"
+       },
+       {
+        "var": "c.G.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.G.state",
+        "op": "==",
+        "value": "FINISHED"
+       },
+       {
+        "var": "c.H.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.H.state",
+        "op": "==",
+        "value": "FINISHED"
+       },
+       {
+        "var": "c.I.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.I.state",
+        "op": "==",
+        "value": "FINISHED"
+       },
+       {
+        "var": "c.J.state",
+        "op": "==",
+        "value": "SHELTERED"
+       },
+       {
+        "var": "c.J.state",
+        "op": "==",
+        "value": "FINISHED"
+       }
+      ]
+     },
+     {
+      "any": [
+       {
+        "var": "group.wait.count",
+        "op": ">=",
+        "value": 1
+       },
+       {
+        "var": "group.care.count",
+        "op": ">=",
+        "value": 1
+       },
+       {
+        "var": "group.care2.count",
+        "op": ">=",
+        "value": 1
+       }
+      ]
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "小屋に着いた知らせで、小屋番さんが麓へ無線で連絡した。救助は明るくなり、天気が許すのを待って動く。",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "hutAlerted"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "reportMissing",
+       "by": "小屋番さん"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_A",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.A.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "A",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_B",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.B.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "B",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_C",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.C.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "C",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_D",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.D.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "D",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_E",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.E.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "E",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_F",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.F.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "F",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_G",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.G.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "G",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_H",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.H.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "H",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_I",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.I.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "I",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_keep_J",
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutAlerted"
+     },
+     {
+      "var": "c.J.state",
+      "op": "==",
+      "value": "SHELTERED"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "J",
+       "until": "D1 13:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_dawn",
+   "trigger": {
+    "after": "D1 06:30"
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "夜が明け、空は晴れ上がった。稜線は新しい雪に覆われている。内蔵助山荘の管理人が、前日から行方の分からない別の登山者を捜しに稜線へ出た。"
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_depart",
+   "title": "朝の室堂",
+   "trigger": {
+    "after": "D0 08:40"
+   },
+   "group": "main",
+   "situation": "室堂は晴れ、稜線がよく見える。予報は寒気の南下で、日本海側の山は大荒れ。出発する？",
+   "knowledge": [
+    "予定は稜線を約 5 時間歩いて剱御前小舎泊",
+    "稜線は標高 2,800〜3,000 m。雪になれば吹きさらし",
+    "多くは軽登山靴。綿のズボン・ビニールの雨具の人もいる"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "予定どおり出発する",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1.5
+     }
+    },
+    {
+     "id": "abort",
+     "label": "今日は稜線に出ない",
+     "detail": "室堂で天気を見て、計画を変える。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "予報が悪い。今日はやめておこう"
+      },
+      {
+       "type": "abortTrip"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_ichinokoshi",
+   "title": "一ノ越山荘",
+   "trigger": {
+    "atNode": "ICHINOKOSHI"
+   },
+   "group": "main",
+   "situation": "一ノ越山荘に着いた。稜線は雪雲の中で、雪が横に飛んでいる（体感 {leader.local.windChillC:0}℃）。ここから雄山へ岩の急登。",
+   "knowledge": [
+    "剱御前小舎までは、ここから稜線を約 3 時間半",
+    "一ノ越山荘は営業中。泊まれる",
+    "室堂へは下りで約 1 時間"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "山荘で休んで雄山へ",
+     "actions": [
+      {
+       "type": "rest",
+       "minutes": 20
+      },
+      {
+       "type": "eat",
+       "kcal": 150
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "stay",
+     "label": "一ノ越山荘に泊まる",
+     "detail": "吹雪が収まるまで待つ。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "今日はここまで。山荘に泊まろう"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "ICHINOKOSHI",
+        "MURODO"
+       ],
+       "goalNodes": [
+        "MURODO"
+       ]
+      },
+      {
+       "type": "stayInShelter",
+       "until": "D1 07:00"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "back",
+     "label": "室堂へ引き返す",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "引き返そう。室堂へ下りる"
+      },
+      {
+       "type": "turnBack"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_oyama",
+   "title": "雄山の山頂",
+   "trigger": {
+    "atNode": "OYAMA"
+   },
+   "group": "main",
+   "situation": "雄山に着いた。立っているのもつらい風だ（体感 {leader.local.windChillC:0}℃）。予定ではここで昼食。",
+   "knowledge": [
+    "剱御前小舎までは、まだ稜線を約 3.5 km",
+    "一ノ越山荘へは下りで約 30 分",
+    "食欲がない・めまい・足がつるのは、体が冷えた合図のことがある"
+   ],
+   "options": [
+    {
+     "id": "lunch_go",
+     "label": "昼食をとって先へ進む",
+     "actions": [
+      {
+       "type": "eat",
+       "kcal": 300
+      },
+      {
+       "type": "rest",
+       "minutes": 60
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "down",
+     "label": "一ノ越山荘へ下りて泊まる",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "先はやめよう。一ノ越の山荘へ下りる"
+      },
+      {
+       "type": "eat",
+       "kcal": 150
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "OYAMA",
+        "ICHINOKOSHI"
+       ],
+       "goalNodes": [
+        "ICHINOKOSHI"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "quick",
+     "label": "短く食べてすぐ進む",
+     "actions": [
+      {
+       "type": "eat",
+       "kcal": 200
+      },
+      {
+       "type": "rest",
+       "minutes": 15
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_onanji",
+   "title": "大汝山",
+   "trigger": {
+    "atNode": "ONANJI"
+   },
+   "group": "main",
+   "situation": "大汝山。列が伸びてきた。後ろから来た二人連れが、心配して声をかけてきた。",
+   "knowledge": [
+    "二人連れは先の小屋へ向かうところ",
+    "内蔵助山荘は真砂岳の東の直下。ここから約 1.5 km",
+    "剱御前小舎まではまだ約 3 km",
+    "一ノ越山荘へは雄山を越えて約 1 km"
+   ],
+   "options": [
+    {
+     "id": "fine",
+     "label": "「大丈夫です」と進む",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "kura",
+     "label": "今夜は内蔵助山荘に泊まる",
+     "detail": "二人連れに、山荘へ先に知らせてもらう。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "内蔵助山荘に泊まります。先に伝えてもらえますか"
+      },
+      {
+       "type": "setFlag",
+       "flag": "kuraTold"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "ONANJI",
+        "FUJI",
+        "J_OHASHIRI",
+        "MASAGO",
+        "J_KURA",
+        "KURA_HUT"
+       ],
+       "goalNodes": [
+        "KURA_HUT"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "back",
+     "label": "一ノ越山荘へ戻る",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "一ノ越へ戻ろう"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "ONANJI",
+        "OYAMA",
+        "ICHINOKOSHI"
+       ],
+       "goalNodes": [
+        "ICHINOKOSHI"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_junction",
+   "title": "大走り分岐",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "J_OHASHIRI"
+     },
+     {
+      "not": {
+       "flag": "split"
+      }
+     },
+     {
+      "not": {
+       "flag": "kuraTold"
+      }
+     }
+    ]
+   },
+   "group": "main",
+   "situation": "大走り分岐。真砂岳への稜線と、雷鳥平へ下る大走りが分かれる。疲れて遅れがちな人がいる。",
+   "knowledge": [
+    "内蔵助山荘へは真砂岳を越えて約 700 m",
+    "大走りを下れば、雷鳥平の小屋まで約 2.5 km・500 m 下り",
+    "剱御前小舎までは約 2.4 km"
+   ],
+   "options": [
+    {
+     "id": "wait",
+     "label": "ここで休んで態勢を整える",
+     "detail": "40 分ほど休み、剱御前小舎へ進む。",
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "jctWait"
+      },
+      {
+       "type": "rest",
+       "minutes": 40
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "ohashiri",
+     "label": "大走りを雷鳥平へ下る",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "大走りを下りよう。雷鳥平の小屋へ"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "J_OHASHIRI",
+        "J_RAICHOSAWA",
+        "RAICHO"
+       ],
+       "goalNodes": [
+        "RAICHO"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "kura",
+     "label": "内蔵助山荘へ急ぐ",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "近い内蔵助山荘へ行こう"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "J_OHASHIRI",
+        "MASAGO",
+        "J_KURA",
+        "KURA_HUT"
+       ],
+       "goalNodes": [
+        "KURA_HUT"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_stuck",
+   "title": "歩けない人が出た",
+   "priority": 20,
+   "group": "main",
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "ONANJI"
+     },
+     {
+      "not": {
+       "flag": "split"
+      }
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "any": [
+       {
+        "var": "group.main.incapacitatedCount",
+        "op": ">=",
+        "value": 1
+       },
+       {
+        "var": "group.main.min.M",
+        "op": "<",
+        "value": 0.2
+       },
+       {
+        "all": [
+         {
+          "elapsedSince": {
+           "flag": "jctWait",
+           "min": 38
+          }
+         },
+         {
+          "var": "group.main.min.coreC",
+          "op": "<",
+          "value": 34.3
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "situation": "一人がふらつき、話が通じない。自分では歩けそうにない。吹雪はさらに強まっている（体感 {leader.local.windChillC:0}℃）。",
+   "knowledge": [
+    "内蔵助山荘は真砂岳の東の直下。ここから 1 km 足らず",
+    "携帯電話はない。助けを呼ぶには、小屋まで行くしかない",
+    "日没は 17 時 20 分ごろ"
+   ],
+   "options": [
+    {
+     "id": "send2",
+     "label": "2人を山荘へ走らせる",
+     "detail": "残りはここで待つ。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "内蔵助山荘へ助けを呼びに行ってくれ",
+       "to": "C"
+      },
+      {
+       "type": "setFlag",
+       "flag": "split"
+      },
+      {
+       "type": "setFlag",
+       "flag": "msgSent"
+      },
+      {
+       "type": "splitParty",
+       "groups": [
+        {
+         "id": "msg",
+         "members": [
+          "C",
+          "D"
+         ],
+         "leader": "C",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "setPace",
+           "factor": 1.2
+          },
+          {
+           "type": "goToNode",
+           "node": "KURA_HUT",
+           "then": "stay"
+          }
+         ]
+        },
+        {
+         "id": "wait",
+         "members": "rest",
+         "leader": "A",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "addLayer"
+          },
+          {
+           "type": "bivouac",
+           "until": "rescue",
+           "findLee": false
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "focus",
+       "group": "msg"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "allgo",
+     "label": "歩ける人だけで山荘へ",
+     "detail": "弱った人には A と B が付き添う。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "歩ける人は山荘へ。私とBさんが残る"
+      },
+      {
+       "type": "setFlag",
+       "flag": "split"
+      },
+      {
+       "type": "setFlag",
+       "flag": "allGo"
+      },
+      {
+       "type": "splitParty",
+       "groups": [
+        {
+         "id": "care",
+         "members": "incapacitated",
+         "leader": "A",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "addLayer"
+          },
+          {
+           "type": "bivouac",
+           "until": "rescue",
+           "findLee": true
+          }
+         ]
+        },
+        {
+         "id": "care2",
+         "members": "weak",
+         "leader": "B",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "addLayer"
+          },
+          {
+           "type": "bivouac",
+           "until": "rescue",
+           "findLee": true
+          }
+         ]
+        },
+        {
+         "id": "msg",
+         "members": "rest",
+         "leader": "C",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "goToNode",
+           "node": "KURA_HUT",
+           "then": "stay"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "focus",
+       "group": "msg"
+      }
+     ],
+     "bias": {
+      "base": 0.5
+     }
+    },
+    {
+     "id": "huddle",
+     "label": "風を避けて全員で固まる",
+     "detail": "岩陰で身を寄せ、朝まで動かない。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "A",
+       "text": "みんなで固まって、朝を待とう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "huddle"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 200
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_msg_lost",
+   "title": "山荘への下り口",
+   "group": "msg",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "J_KURA"
+     },
+     {
+      "var": "leader.local.visibilityM",
+      "op": "<",
+      "value": 80
+     },
+     {
+      "chance": 0.8
+     }
+    ]
+   },
+   "situation": "内蔵助山荘への分岐のはずの所。吹雪と夕闇で、道標も踏み跡も見えない。山荘は東へ 300 m ほど下ったあたりのはず。",
+   "knowledge": [
+    "剱御前小舎は予定の宿。稜線を北へ約 2 km",
+    "稜線の道なら、まだ足元の石で分かる"
+   ],
+   "options": [
+    {
+     "id": "gozen",
+     "label": "剱御前小舎へ目標を変える",
+     "actions": [
+      {
+       "type": "say",
+       "who": "C",
+       "text": "見つからない。剱御前へ行こう",
+       "to": "D"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "J_KURA",
+        "BESSAN",
+        "GOZEN"
+       ],
+       "goalNodes": [
+        "GOZEN"
+       ]
+      },
+      {
+       "type": "rest",
+       "minutes": 40
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "search",
+     "label": "止まって下り口を探す",
+     "actions": [
+      {
+       "type": "say",
+       "who": "C",
+       "text": "落ち着いて探そう。この下のはずだ",
+       "to": "D"
+      },
+      {
+       "type": "stopAndCheck"
+      },
+      {
+       "type": "goToNode",
+       "node": "KURA_HUT",
+       "then": "stay"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.7
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_bessan",
+   "title": "夜の別山",
+   "group": "msg",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "BESSAN"
+     },
+     {
+      "var": "sun.isDark",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "situation": "別山の山頂に着いた。夜の吹雪で何も見えない。剱御前小舎へは、ここから 800 m ほど下る。",
+   "knowledge": [
+    "小屋への道は稜線を西へ下る",
+    "動けば体は温まるが、道を外れれば崖もある"
+   ],
+   "options": [
+    {
+     "id": "biv",
+     "label": "山頂でビバークする",
+     "detail": "夜明け前に出る。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "C",
+       "text": "ここで夜明けを待とう",
+       "to": "D"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 200
+      },
+      {
+       "type": "bivouac",
+       "until": "D1 03:30",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "go",
+     "label": "このまま小屋へ下る",
+     "actions": [
+      {
+       "type": "say",
+       "who": "C",
+       "text": "あと少しだ。小屋まで下りよう",
+       "to": "D"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "eat",
+       "kcal": 150
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    }
+   ]
+  }
+ ],
+ "genericOverrides": {
+  "hypothermia": {
+   "enabled": false
+  },
+  "darkness": {
+   "situation": "日が暮れた。吹雪の中、ヘッドランプの光は数メートル先で白く散る。"
+  },
+  "lostAware": {
+   "situation": "踏み跡が消えた。吹雪で数メートル先も見えない。道を外れたらしい。"
+  },
+  "injured": {
+   "situation": "雪をかぶった岩で足を取られ、転んだ。足が痛む。",
+   "options": [
+    {
+     "id": "slow",
+     "label": "痛みをこらえて歩く",
+     "available": {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "setPace",
+       "factor": 0.6
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "biv",
+     "label": "風を避けて動かずに待つ",
+     "actions": [
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.5
+     }
+    }
+   ]
+  }
+ },
+ "thoughts": [
+  {
+   "key": "t_clear",
+   "when": {
+    "before": "D0 09:00"
+   },
+   "lines": [
+    "晴れているし、大丈夫だろう",
+    "雪になる前に稜線を抜けたい"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "t_cold",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.coreC",
+      "op": "<",
+      "value": 35.6
+     }
+    ]
+   },
+   "lines": [
+    "指先の感覚がない",
+    "何をしようとしていたか思い出せない"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "t_hut",
+   "when": {
+    "var": "leader.indoors",
+    "op": "==",
+    "value": true
+   },
+   "lines": [
+    "外はひどい。中にいてよかった"
+   ],
+   "priority": 3
+  }
+ ],
+ "speech": [
+  {
+   "key": "sp_follow",
+   "who": "leader",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "leader.local.visibilityM",
+      "op": "<",
+      "value": 100
+     }
+    ]
+   },
+   "lines": [
+    "間をあけないで",
+    "前の人の背中を見て"
+   ],
+   "tone": "shout",
+   "priority": 10,
+   "cooldownMin": 50
+  },
+  {
+   "key": "sp_wait",
+   "who": "leader",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "any": [
+       {
+        "state": "WAITING_RESCUE"
+       },
+       {
+        "state": "BIVOUAC"
+       }
+      ]
+     },
+     {
+      "var": "g.windMs",
+      "op": ">",
+      "value": 8
+     }
+    ]
+   },
+   "lines": [
+    "固まって。風に背中を向けて",
+    "眠ったらだめ。声をかけ合おう"
+   ],
+   "tone": "shout",
+   "priority": 12,
+   "cooldownMin": 60
+  },
+  {
+   "key": "sp_hut",
+   "who": "leader",
+   "once": true,
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "after": "D0 11:00"
+     },
+     {
+      "var": "g.windMs",
+      "op": ">",
+      "value": 8
+     }
+    ]
+   },
+   "lines": [
+    "外はひどい吹雪だ。ここで待とう"
+   ],
+   "priority": 5,
+   "cooldownMin": 120
+  }
+ ],
+ "endings": [
+  {
+   "kind": "ABORTED",
+   "title": "稜線に出なかった日",
+   "text": "一行は室堂にとどまった。昼前から稜線は雪雲に覆われ、吹雪は夜半まで続いた。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "beenAt": "KURA_HUT"
+   },
+   "title": "内蔵助山荘へ",
+   "text": "一行は真砂岳の東の内蔵助山荘に入り、吹雪の夜を山荘で越した。翌朝は晴れ上がった。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "beenAt": "RAICHO"
+   },
+   "title": "雷鳥平へ下る",
+   "text": "一行は大走りを下り、雷鳥平の山小屋に入った。吹雪は夜半まで続き、翌朝は晴れた。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "chose": {
+     "cp": "cp_ichinokoshi",
+     "option": "stay"
+    }
+   },
+   "title": "一ノ越山荘の一夜",
+   "text": "一行は一ノ越山荘に泊まった。吹雪は夜半まで続き、翌朝は晴れ上がった。新しい雪を踏んで室堂へ下りた。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_oyama",
+       "option": "down"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_onanji",
+       "option": "back"
+      }
+     }
+    ]
+   },
+   "title": "一ノ越山荘へ戻る",
+   "text": "一行は先へ進むのをやめ、一ノ越山荘へ引き返して吹雪の夜を越した。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "beenAt": "KURA_HUT"
+   },
+   "title": "内蔵助山荘へ",
+   "text": "一行は真砂岳の東の内蔵助山荘に入り、吹雪の夜を山荘で越した。翌朝は晴れ上がった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "beenAt": "RAICHO"
+   },
+   "title": "雷鳥平へ下る",
+   "text": "一行は大走りを下り、雷鳥平の山小屋に入った。吹雪は夜半まで続き、翌朝は晴れた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "chose": {
+     "cp": "cp_ichinokoshi",
+     "option": "stay"
+    }
+   },
+   "title": "一ノ越山荘の一夜",
+   "text": "一行は一ノ越山荘に泊まった。吹雪は夜半まで続き、翌朝は晴れ上がった。新しい雪を踏んで室堂へ下りた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_oyama",
+       "option": "down"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_onanji",
+       "option": "back"
+      }
+     }
+    ]
+   },
+   "title": "一ノ越山荘へ戻る",
+   "text": "一行は先へ進むのをやめ、一ノ越山荘へ引き返して吹雪の夜を越した。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "title": "小屋で夜を越す",
+   "text": "一行は小屋に入り、吹雪の夜を越した。翌朝は晴れ上がった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "title": "室堂へ戻る",
+   "text": "一行は吹雪の中を室堂まで引き返した。"
+  },
+  {
+   "kind": "RESCUED",
+   "title": "晴れた朝の救助",
+   "text": "吹雪の夜を越えた人たちは、晴れた翌朝に見つかり、ヘリコプターで運ばれた。"
+  },
+  {
+   "kind": "RESCUED_CRITICAL",
+   "title": "重い状態での収容",
+   "text": "翌朝に見つかった人の中には、体温が大きく下がり、意識のない人もいた。"
+  },
+  {
+   "kind": "FATAL",
+   "when": {
+    "chose": {
+     "cp": "cp_stuck",
+     "option": "send2"
+    }
+   },
+   "title": "真砂岳の夜",
+   "text": "二人が助けを求めに出て、残った人たちは稜線で夜を越そうとした。このシミュレーションでは {rec.deathCount:0} 人が低体温症などで亡くなった。実際の事故では、10 人のうち 8 人が低体温症で亡くなった。待っていた 8 人全員が亡くなり、伝令の 2 人は翌朝、剱御前小舎の近くで見つかって助かっている。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "吹雪の稜線",
+   "text": "このシミュレーションでは {rec.deathCount:0} 人が低体温症などで亡くなった。実際の事故では、10 人のうち 8 人が低体温症で亡くなった。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_forecast",
+   "when": {
+    "chose": {
+     "cp": "cp_depart",
+     "option": "go"
+    }
+   },
+   "title": "朝の晴れ間と予報",
+   "text": "朝の晴れは、寒気が入る前のつかの間だった。10 月初めでも、3,000 m の稜線は冬山になる。"
+  },
+  {
+   "id": "l_hut",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_ichinokoshi",
+       "option": "go"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_oyama",
+       "option": "lunch_go"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_oyama",
+       "option": "quick"
+      }
+     }
+    ]
+   },
+   "title": "小屋のそばが引き返しどき",
+   "text": "一ノ越山荘に着いたときは、もう吹雪だった。雄山までは標準の倍近くかかった。小屋の近くは、泊まる・戻るを決めやすい最後の場所になる。"
+  },
+  {
+   "id": "l_help",
+   "when": {
+    "chose": {
+     "cp": "cp_onanji",
+     "option": "fine"
+    }
+   },
+   "title": "声をかけられたら",
+   "text": "記録では、心配した別パーティに助けを頼まなかった。小屋に知らせてもらうだけでも、助けは早くなりうる。"
+  },
+  {
+   "id": "l_wait",
+   "when": {
+    "chose": {
+     "cp": "cp_junction",
+     "option": "wait"
+    }
+   },
+   "title": "吹きさらしで待たない",
+   "text": "全員がそろうまで、稜線の分岐で約 40 分待った。止まると体は一気に冷える。待つなら風を避ける。"
+  },
+  {
+   "id": "l_gear",
+   "when": {
+    "var": "rec.minCoreC",
+    "op": "<",
+    "value": 35
+   },
+   "title": "装備の差",
+   "text": "生還した 2 人は、革の登山靴・透湿防水の雨具・ウールの手袋を持っていた。綿のズボンやビニールの雨具では、吹雪の稜線で体を守りきれない。"
+  },
+  {
+   "id": "l_leader",
+   "title": "リーダーを決める",
+   "text": "この山行ではリーダーを決めていなかった。引き返しを言い出せる人がいないと、「せっかく来たから」に流されやすい。"
+  }
+ ],
+ "balanceTargets": {
+  "historical": {
+   "fatalMin": 0.8,
+   "deathCountMedian": [
+    6,
+    9
+   ]
+  },
+  "recommended": {
+   "fatalMax": 0.03
+  },
+  "bias": {
+   "fatalMin": 0.1,
+   "fatalMax": 0.4
+  },
+  "risky": {
+   "fatalMin": 0.6
+  }
+ },
+ "historical": {
+  "event": "1989年10月8日 立山中高年大量遭難事故",
+  "sources": [
+   {
+    "title": "ドキュメント 気象遭難（立山の章。下記の二次資料による引用）",
+    "publisher": "山と溪谷社（羽根田治）",
+    "year": 2003
+   },
+   {
+    "title": "台風が季節外れの強い寒気を呼び込んだ――、1989年10月8日の立山中高年大量遭難事故",
+    "publisher": "山と溪谷オンライン（大矢康裕）",
+    "year": 2020
+   },
+   {
+    "title": "立山で起きた「中高年大量遭難事故」から学ぶ教訓",
+    "publisher": "PRESIDENT Online（羽根田治）",
+    "year": 2023
+   },
+   {
+    "title": "立山連峰 真砂岳で 11 人遭難、8 人死亡（共同通信の配信記事）",
+    "publisher": "共同通信",
+    "year": 1989
+   },
+   {
+    "title": "立山中高年大量遭難事故（『山と渓谷』1989年12月号・朝日新聞1989年10月10日などを出典とする事典記事）",
+    "publisher": "Wikipedia 日本語版"
+   },
+   {
+    "title": "百万人の山と自然 安全のための知識と技術（遭難時の気温・風速のグラフ）",
+    "publisher": "公開講座資料（創楽 掲載）"
+   }
+  ],
+  "labelsNote": "人物は記号 A〜J で表記する（記号は作者が付けたもので、記録の記号ではない）。役割（計画を立てた経験者 2 人、伝令に出て生還した 2 人）は記録による。年齢は記録の「40 代後半〜60 代」の範囲で割り振り、性別は男性 7・女性 3 とした（男性 8・女性 2 とする資料もある）。各人の年齢・体重・体力・装備・服装の割り振りは推定。",
+  "disclaimer": "このシナリオは、公開された記録や報道・解説記事をもとに当日の経過を再構成したものです。日付・人数・おおよその年齢・行程・主な時刻・装備の傾向は記録にもとづきますが、各人の年齢・体重・体力・装備の細部・体温などはシミュレーションの推定値です。一ノ越山荘・雄山・大汝山の到着時刻は記録が乏しく、推定です。シミュレーションの結果は実際の出来事を説明するものではありません。亡くなられた方々に哀悼の意を表します。※印のセリフ・思考は架空です。",
+  "recordedChoices": {
+   "cp_depart": "go",
+   "cp_ichinokoshi": "go",
+   "cp_oyama": "lunch_go",
+   "cp_onanji": "fine",
+   "cp_junction": "wait",
+   "cp_stuck": "send2",
+   "cp_msg_lost": "gozen",
+   "cp_bessan": "biv",
+   "generic:darkness": "continue"
+  },
+  "reference": [
+   {
+    "at": "D0 08:45",
+    "label": "室堂を出発。朝は快晴、予報は荒天",
+    "node": "MURODO"
+   },
+   {
+    "at": "D0 09:00",
+    "label": "天候が崩れはじめ、雪と風が強まる"
+   },
+   {
+    "at": "D0 10:00",
+    "label": "一ノ越山荘に着くころには吹雪（時刻は推定）。休憩のあと雄山へ",
+    "node": "ICHINOKOSHI"
+   },
+   {
+    "at": "D0 12:00",
+    "label": "先頭が雄山に着く。列は二つに分かれ、標準の倍近くかかる（時刻は推定）。食欲不振・めまい・けいれんを訴える人が出る",
+    "node": "OYAMA"
+   },
+   {
+    "at": "D0 13:30",
+    "label": "昼食のあと雄山を出発",
+    "node": "OYAMA"
+   },
+   {
+    "at": "D0 14:00",
+    "label": "大汝山付近で再び分かれ、後ろの 6 人はばらばらに。別パーティの 2 人が声をかけたが、救助は頼まず（時刻は推定）",
+    "node": "ONANJI"
+   },
+   {
+    "at": "D0 15:30",
+    "label": "前の 4 人が大走りの道に入り込んで引き返し、大走り分岐で後続を待つ（時刻は推定）",
+    "node": "J_OHASHIRI"
+   },
+   {
+    "at": "D0 16:30",
+    "label": "全員がそろうまで約 40 分。1 人が意識混濁で歩けなくなり、救助を求めることにする",
+    "node": "J_OHASHIRI"
+   },
+   {
+    "at": "D0 17:00",
+    "label": "体力の残る 2 人が内蔵助山荘へ。吹雪で道を見失い、剱御前小舎に目標を変える",
+    "who": "C"
+   },
+   {
+    "at": "D0 20:30",
+    "label": "2 人が別山の山頂に着き、ビバーク",
+    "node": "BESSAN",
+    "who": "C"
+   },
+   {
+    "at": "D1 03:30",
+    "label": "2 人が剱御前小舎へ向けて出発。途中で力尽きる",
+    "node": "BESSAN",
+    "who": "C"
+   },
+   {
+    "at": "D1 06:30",
+    "label": "2 人が剱御前小舎の泊まり客に見つかり、小屋に収容されて助かる",
+    "node": "GOZEN",
+    "who": "C"
+   },
+   {
+    "at": "D1 07:00",
+    "label": "別の遭難者を捜していた内蔵助山荘の管理人が、富士ノ折立と真砂岳の鞍部で倒れている 8 人を見つける",
+    "node": "J_OHASHIRI"
+   },
+   {
+    "at": "D1 07:50",
+    "label": "ヘリが着く。6 人はすでに死亡、2 人も病院で死亡（計 8 人）"
+   }
+  ]
+ },
+ "sources": [
+  "経過・人数・年齢・装備: 山と溪谷オンライン（2020）、PRESIDENT Online（2023）、共同通信（1989年10月9日）、Wikipedia「立山中高年大量遭難事故」（『ドキュメント気象遭難』2003・『山と渓谷』1989年12月号・朝日新聞1989年10月10日を出典とする）",
+  "気象: Open-Meteo ERA5 再解析（1989-10-07〜09、36.58,137.62、格子の標高 2,858 m）を下書きにし、記録に合わせて直した: 9 時ごろから雪・吹雪は夜半まで（降り始めから雪）、15 時の 700 hPa（約 3,000 m）で −6℃・西北西 15 m/s、遭難時の最低気温 −10℃・最大風速 18 m/s（瞬間 30 m/s 以上）、9 日は朝から晴れ。再解析は降水を 11〜15 時に限り、風を 5 m/s 前後と弱く見積もっていた",
+  "小屋: 一ノ越山荘・内蔵助山荘・剱御前小舎・雷鳥平の山小屋は当日営業（内蔵助山荘の管理人・剱御前小舎の泊まり客の記述による。雷鳥平は 2 日目の宿の予定地）",
+  "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+  "登山道・地点: © OpenStreetMap contributors"
+ ]
+}
