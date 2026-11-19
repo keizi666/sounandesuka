@@ -688,3 +688,9 @@ main.select2 { min-height: 100dvh; background: radial-gradient(1200px 600px at 2
 .sel-foot { display: flex; flex-wrap: wrap; gap: 6px 18px; color: #7f8792; font-size: 0.8em; }
 .sel-foot a { color: #a9b0bb; }
 @media (max-width: 640px) { .sel-bar-in { flex-wrap: wrap; } .sel-count { display: none; } }
+/* 振り返り: 地図を上、気象と体温の変化を下に、大きく */
+main.debrief { max-width: 1280px; }
+.db-stack { display: flex; flex-direction: column; gap: 16px; }
+.db-map { position: relative; width: min(100%, 84vh); margin: 0 auto; }
+.db-map canvas.map2d { display: block; width: 100%; max-width: none; height: auto; aspect-ratio: 1; }
+.db-chart canvas.chart { width: 100%; }

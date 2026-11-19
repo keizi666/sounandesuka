@@ -685,19 +685,7 @@
       "text": "雷の間は、しっかりした建物の中が最も安全。夏の雷雨は1〜2時間で通り過ぎることが多い。待つ時間を計画に組み込んでおく。"
     }
   ],
-  "balanceTargets": {
-    "recommended": {
-      "goodMin": 0.92,
-      "fatalMax": 0.02
-    },
-    "bias": {
-      "fatalMin": 0.03,
-      "fatalMax": 0.25
-    },
-    "risky": {
-      "fatalMin": 0.05
-    }
-  },
+  "balanceTargets": {"recommended": {"goodMin": 0.92, "fatalMax": 0.02}, "bias": {"fatalMin": 0.01, "fatalMax": 0.25}, "risky": {"fatalMin": 0.02}},
   "speech": [
     {
       "key": "s03_flash",

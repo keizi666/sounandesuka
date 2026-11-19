@@ -57,7 +57,7 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
     events: rec.events.filter((e) => ['FALL', 'DEATH', 'RESCUED', 'LOST_AWARE', 'LIGHTNING_STRIKE', 'CARDIAC_ARREST'].includes(e.type)).map((e) => ({ tMin: e.tMin, label: e.type })),
     reference: (s.historical?.reference ?? []).map((r) => ({ tMin: parseTimeRef(r.at), label: r.label })),
   };
-  const chart = el('canvas', { width: 720, height: 300, class: 'chart', 'aria-label': '時系列グラフ' });
+  const chart = el('canvas', { width: 1400, height: 520, class: 'chart', 'aria-label': '時系列グラフ' });
   drawTimeline(chart, rec, s, marks);
   chart.addEventListener('mousemove', (e) => {
     const r = chart.getBoundingClientRect();
@@ -66,7 +66,7 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
   chart.addEventListener('mouseleave', () => drawTimeline(chart, rec, s, marks));
 
   // ---- 地図 ----
-  const mapCanvas = el('canvas', { width: 512, height: 512, class: 'map2d', 'aria-label': '2D 地図' });
+  const mapCanvas = el('canvas', { width: 1024, height: 1024, class: 'map2d', 'aria-label': '2D 地図' });
   const colors: string[] = [];
   for (let i = 0; i < rec.track.length; i += 1) {
     const sm = rec.samples[Math.min(rec.samples.length - 1, Math.floor((i / Math.max(1, rec.track.length)) * rec.samples.length))];
@@ -173,7 +173,11 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
         el('button', { onclick: () => app.go({ name: 'ending', loaded, result }) }, JA.ui.back),
         el('h1', {}, `${JA.ui.debrief}: ${s.title} ─ ${JA.endings[w.ended?.kind ?? 'MISSING']?.title ?? ''}`),
       ]),
-      el('div', { class: 'cols' }, [el('section', {}, [chart, el('p', { class: 'legend' }, '◆ 分岐点 ● 出来事 ▲ 実際の記録 ／ 上: 体温（35℃ 点線）／ 下: 気温（橙）・体感（橙点線）・風（紫）・降水（青）')]), el('section', { style: 'position:relative' }, [mapCanvas, attributionLine(loaded)])]),
+      // 地図を上、気象と体温の変化をその下に、どちらも大きく（ユーザーの指定）
+      el('div', { class: 'db-stack' }, [
+        el('section', { class: 'db-map' }, [mapCanvas, attributionLine(loaded)]),
+        el('section', { class: 'db-chart' }, [chart, el('p', { class: 'legend' }, '◆ 分岐点 ● 出来事 ▲ 実際の記録 ／ 上: 体温（35℃ 点線）／ 下: 気温（橙）・体感（橙点線）・風（紫）・降水（青）')]),
+      ]),
       el('section', { class: 'bf-card mc-card' }, [
         el('h2', {}, 'メンバーの状態の推移'),
         memberCharts(rec, s, { marks: [...rec.decisions.map((d) => ({ tMin: d.tMin, label: d.cpId, kind: 'decision' as const })), ...rec.events.filter((e) => ['FALL', 'DEATH', 'LOST_AWARE', 'LIGHTNING_STRIKE', 'RESCUED'].includes(e.type)).map((e) => ({ tMin: e.tMin, label: e.type, kind: 'event' as const }))] }),

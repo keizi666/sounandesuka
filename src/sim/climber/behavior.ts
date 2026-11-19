@@ -7,6 +7,32 @@ import { chance } from '../core/rng';
 import type { ClimberState, StaticContext, World } from '../types';
 import { startTask, taskMinutes, untilReached } from './actions';
 import { ensureRouteAhead, leaveShelter } from './route';
+
+/** 休むのにふつう使う所: 小屋（避難小屋・営業小屋）と、茶屋・休憩所 */
+function restSpot(n: { shelter?: unknown; type: string; name: string } | undefined): boolean {
+  return n !== undefined && (n.shelter !== undefined || n.type === 'hut' || n.type === 'shelter' || /茶屋|小屋|山荘|休憩所/.test(n.name));
+}
+
+/** 小屋・茶屋のところにいるか（その地点か、いま通った地点がそれで 80 m 以内。1 ティックで地点を通り過ぎることがあるので） */
+function hutHere(ctx: StaticContext, c: ClimberState): boolean {
+  if (c.pos.mode === 'node') return restSpot(ctx.map.nodes[c.pos.nodeId]);
+  const near = (id: string | undefined): boolean => {
+    const n = id !== undefined ? ctx.map.nodes[id] : undefined;
+    return n !== undefined && restSpot(n) && (n.x - c.x) * (n.x - c.x) + (n.z - c.z) * (n.z - c.z) <= HUT_HERE_M * HUT_HERE_M;
+  };
+  // 次の地点が小屋なら、着くまで歩く（手前では休まない）。通り過ぎた直後なら、そこで休む
+  return near(c.plan.route[c.plan.routeIndex - 1]);
+}
+const HUT_HERE_M = 80;
+
+/** これから向かうルートの先、distM の中に小屋があるか（次の 2 地点まで、直線距離で見る） */
+function hutAhead(ctx: StaticContext, c: ClimberState, distM: number): boolean {
+  const ahead = c.plan.route.slice(c.plan.routeIndex, c.plan.routeIndex + 2);
+  return ahead.some((id) => {
+    const n = ctx.map.nodes[id];
+    return n !== undefined && restSpot(n) && (n.x - c.x) * (n.x - c.x) + (n.z - c.z) * (n.z - c.z) <= distM * distM;
+  });
+}
 import { transition } from './state';
 
 const ACTIVE = new Set(['WALKING', 'RESTING', 'SHELTERED', 'BIVOUAC', 'STAYING', 'WAITING_RESCUE', 'LOST_AWARE']);
@@ -112,15 +138,18 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
     c.memo.lastDrinkMin = world.tMin;
     return startTask(world, c, `drink:${Math.min(bt.drinkL, c.inv.waterL, b.waterDeficitL)}`, bt.drinkMin);
   }
-  // 決まった間隔で休む（グループはリーダーの習慣に合わせる）
-  if (c.state === 'WALKING' && c.memo.walkSinceRestMin >= bt.habitRestEveryMin) {
+  // 決まった間隔で休む（グループはリーダーの習慣に合わせる）。小屋の近くなら小屋で休む（ユーザーの指定）:
+  // 小屋に着いたとき休む時間が近ければ小屋で休み、休む時間でも行く先のすぐそこに小屋があれば、小屋まで歩く
+  const atHut = c.state === 'WALKING' && hutHere(ctx, c);
+  const dueAtHut = atHut && c.memo.walkSinceRestMin >= bt.habitRestEveryMin - bt.hutEarlyMin;
+  if ((c.state === 'WALKING' && c.memo.walkSinceRestMin >= bt.habitRestEveryMin && (atHut || !hutAhead(ctx, c, bt.hutAheadM))) || dueAtHut) {
     c.memo.walkSinceRestMin = 0;
     c.plan.restUntilMin = world.tMin + bt.habitRestMin;
     transition(world, ctx, c, 'RESTING', 'habit');
     return;
   }
-  // 疲れて休む
-  if (!waitForRest && c.state === 'WALKING' && b.fatigue > bt.restFatigue && chance(rng, bt.restP)) {
+  // 疲れて休む（ひどく疲れていなければ、すぐ先の小屋・茶屋まで歩いてそこで休む）
+  if (!waitForRest && c.state === 'WALKING' && b.fatigue > bt.restFatigue && (hutHere(ctx, c) || b.fatigue > bt.restFatigueNow || !hutAhead(ctx, c, bt.hutAheadM)) && chance(rng, bt.restP)) {
     c.plan.restUntilMin = world.tMin + bt.restMin;
     transition(world, ctx, c, 'RESTING', 'fatigue');
     return;

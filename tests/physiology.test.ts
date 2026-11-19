@@ -13,16 +13,17 @@ import { loadScenario, testScenario } from './helpers/scenario';
 describe('判断力 J・運動能力 M（docs/06 §6）', () => {
   it('表の線形補間', () => {
     expect(piecewise(TUNING.capacity.coreJ, 37)).toBe(1);
-    expect(piecewise(TUNING.capacity.coreJ, 34.5)).toBeCloseTo(0.75, 9);
-    expect(piecewise(TUNING.capacity.coreJ, 29)).toBe(0.08);
-    expect(piecewise(TUNING.capacity.coreM, 33.5)).toBeCloseTo(0.725, 9);
+    expect(piecewise(TUNING.capacity.coreJ, 34.5)).toBeCloseTo(0.65, 9);
+    expect(piecewise(TUNING.capacity.coreJ, 29)).toBe(0.05);
+    // 33℃ 台は重度: 動きは半分以下
+    expect(piecewise(TUNING.capacity.coreM, 33.5)).toBeCloseTo(0.45, 9);
   });
 
   it('J は経験・体温・疲労・不安・脱水で下がる', () => {
     const c = calibClimber({ hours: 0, env: {} });
     expect(computeJ(c)).toBeCloseTo(0.4 + 0.6 * 0.5, 9);
     c.body.coreC = 34;
-    expect(computeJ(c)).toBeCloseTo(0.7 * 0.65, 9);
+    expect(computeJ(c)).toBeCloseTo(0.7 * 0.5, 9);
     c.body.coreC = 37;
     c.body.anxiety = 80;
     c.body.waterDeficitL = 3;
@@ -46,8 +47,9 @@ describe('判断力 J・運動能力 M（docs/06 §6）', () => {
     expect(stageOf(36.0)).toBe('normal');
     expect(stageOf(35.99)).toBe('cold');
     expect(stageOf(34.9)).toBe('mild');
-    expect(stageOf(31.9)).toBe('moderate');
-    expect(stageOf(27.9)).toBe('severe');
+    expect(stageOf(33.9)).toBe('moderate');
+    // 33℃ 台は重度（山での目安。ユーザーの指定）
+    expect(stageOf(33.4)).toBe('severe');
     expect(stageOf(39.1)).toBe('heatExhaustion');
     expect(stageOf(40.6)).toBe('heatStroke');
   });

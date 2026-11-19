@@ -35,7 +35,8 @@ export function drawTimeline(canvas: HTMLCanvasElement, rec: RunRecord, s: Scena
   const botH = H - botY - 22;
   // 上段: 体温 30〜38
   const Yc = (c: number): number => 8 + (1 - (c - 30) / 8) * (topH - 16);
-  g.font = '11px system-ui, sans-serif';
+  // 大きなキャンバスでは文字も大きく（表示の幅に合わせて縮むので）
+  g.font = `${Math.round(11 * Math.max(1, W / 1000))}px system-ui, sans-serif`;
   g.fillStyle = fg;
   g.strokeStyle = grid;
   for (const c of [32, 34, 35, 36, 37]) {

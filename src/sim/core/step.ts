@@ -132,6 +132,8 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
   if (!walking) {
     c.speedMs = 0;
     c.metAct = t.physiology.stateMet[c.state] ?? t.movement.restMet;
+    // 止まって休んだ分、次の休みまでの時間が戻る（昼食や小屋で休んだら、出てすぐには休まない）
+    c.memo.walkSinceRestMin = Math.max(0, c.memo.walkSinceRestMin - dtMinOf() * t.behavior.restRecoverF);
   } else {
     c.metAct = move!.met;
     if (c.state === 'WALKING') c.memo.walkSinceRestMin += dtMinOf();

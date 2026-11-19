@@ -47,8 +47,16 @@ export const behavior = {
   /** 決まった間隔で休む習慣（50 分歩いて 10 分。P2 のコースタイム検証と同じ前提） */
   habitRestEveryMin: 50,
   habitRestMin: 10,
+  /** 止まっている 1 分で、休みなしで歩いた時間をこれだけ減らす（昼食や小屋で休んだら、出てすぐには休まない） */
+  restRecoverF: 5,
+  /** 休む時間になっても、行く先のこの距離（m）の中に小屋があれば、小屋まで歩いてそこで休む */
+  hutAheadM: 700,
+  /** 小屋に着いたとき、休む時間までこれ以内（分）なら、小屋で休んでいく */
+  hutEarlyMin: 20,
   /** 疲れて休む */
   restFatigue: 75,
+  /** これより疲れていたら、小屋が近くてもその場で休む */
+  restFatigueNow: 90,
   restP: 0.5,
   restMin: 10,
   /** ヘッドランプ */
@@ -97,5 +105,6 @@ export const choices = {
 /** docs/02 §5 結末 */
 export const endings = {
   /** 収容時にこれ未満なら RESCUED_CRITICAL */
-  rescuedCriticalCoreC: 32,
+  /** これより体温が低いまま収容されたら、重い状態での救助（重度の低体温症） */
+  rescuedCriticalCoreC: 33.5,
 };

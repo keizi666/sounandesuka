@@ -1,13 +1,71 @@
 /**
- * IndexedDB（docs/15 §3.1）: データベース hakoniwa-editor、ストア projects（キー id）。素の API。
+ * IndexedDB（docs/15 §3.1）: データベース sounan-editor、ストア projects（キー id）。素の API。
  * プレイヤー（同一オリジン）も「エディターで作ったシナリオ」を読むためにここを使う。
+ * 旧名（hakoniwa-editor）のデータベースにプロジェクトがあれば、はじめて開いたときに写す（名前を変えたため）。
  */
 import type { EditorProject } from '../../sim/types';
 
-const DB = 'hakoniwa-editor';
+const DB = 'sounan-editor';
+const OLD_DB = 'hakoniwa-editor';
 const STORE = 'projects';
+let migrated: Promise<void> | null = null;
+
+function openRaw(name: string, create: boolean): Promise<IDBDatabase | null> {
+  return new Promise((resolve) => {
+    const r = indexedDB.open(name, 1);
+    r.onupgradeneeded = () => {
+      if (!create) {
+        // 旧名のデータベースがなかった。作らずに閉じる
+        r.transaction?.abort();
+        return;
+      }
+      if (!r.result.objectStoreNames.contains(STORE)) r.result.createObjectStore(STORE, { keyPath: 'id' });
+    };
+    r.onsuccess = () => resolve(r.result);
+    r.onerror = () => resolve(null);
+  });
+}
+
+/** 旧名のデータベースから、まだないプロジェクトを写す（1 回だけ） */
+function migrate(): Promise<void> {
+  if (!migrated)
+    migrated = (async () => {
+      const old = await openRaw(OLD_DB, false);
+      if (!old || !old.objectStoreNames.contains(STORE)) {
+        old?.close();
+        return;
+      }
+      const all = await new Promise<EditorProject[]>((resolve) => {
+        const req = old.transaction(STORE, 'readonly').objectStore(STORE).getAll();
+        req.onsuccess = () => resolve(req.result as EditorProject[]);
+        req.onerror = () => resolve([]);
+      });
+      old.close();
+      if (all.length === 0) return;
+      const db = await openRaw(DB, true);
+      if (!db) return;
+      await new Promise<void>((resolve) => {
+        const t = db.transaction(STORE, 'readwrite');
+        const st = t.objectStore(STORE);
+        for (const p of all) {
+          const g = st.get(p.id);
+          g.onsuccess = () => {
+            if (!g.result) st.put(p);
+          };
+        }
+        t.oncomplete = () => resolve();
+        t.onerror = () => resolve();
+      });
+      db.close();
+    })().catch(() => undefined);
+  return migrated;
+}
 
 function open(): Promise<IDBDatabase> {
+  return migrate().then(() => openNew());
+}
+
+function openNew(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const r = indexedDB.open(DB, 1);
     r.onupgradeneeded = () => {

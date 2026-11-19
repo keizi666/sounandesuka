@@ -121,18 +121,149 @@
     "lapseRateCPer100m": 0.65,
     "cloudThicknessM": 1500,
     "keyframes": [
-      {"at": "D0 05:30", "tempC": 9, "windMs": 3, "windDirDeg": 230, "precipMmH": 0, "cloudCover": 0.3, "cloudBaseM": 3000, "visibilityM": 25000, "pressureHpa": 1012},
-      {"at": "D0 08:00", "tempC": 11, "windMs": 4, "windDirDeg": 230, "precipMmH": 0, "cloudCover": 0.5, "cloudBaseM": 2800, "visibilityM": 20000, "pressureHpa": 1010},
-      {"at": "D0 10:00", "tempC": 12, "windMs": 5, "windDirDeg": 220, "precipMmH": 0, "cloudCover": 0.8, "cloudBaseM": 2300, "visibilityM": 15000, "pressureHpa": 1007},
-      {"at": "D0 10:30", "tempC": 12, "windMs": 6, "windDirDeg": 220, "precipMmH": 0.5, "cloudCover": 0.9, "cloudBaseM": 2100, "visibilityM": 10000, "inCloudVisibilityM": 80, "pressureHpa": 1005, "gustiness": 0.3},
-      {"at": "D0 11:30", "tempC": 11, "windMs": 7, "windDirDeg": 220, "precipMmH": 5, "cloudCover": 1, "cloudBaseM": 1900, "visibilityM": 6000, "inCloudVisibilityM": 60, "pressureHpa": 1003, "gustiness": 0.35},
-      {"at": "D0 12:30", "tempC": 8.5, "windMs": 12, "windDirDeg": 260, "precipMmH": 10, "cloudCover": 1, "cloudBaseM": 1700, "visibilityM": 3000, "inCloudVisibilityM": 40, "pressureHpa": 1002, "gustiness": 0.45},
-      {"at": "D0 13:30", "tempC": 3.5, "windMs": 13, "windDirDeg": 300, "precipMmH": 8, "cloudCover": 1, "cloudBaseM": 1700, "visibilityM": 3000, "inCloudVisibilityM": 40, "pressureHpa": 1005, "gustiness": 0.4},
-      {"at": "D0 15:00", "tempC": 2.5, "windMs": 12, "windDirDeg": 310, "precipMmH": 6, "cloudCover": 1, "cloudBaseM": 1800, "visibilityM": 4000, "inCloudVisibilityM": 50, "pressureHpa": 1008},
-      {"at": "D0 19:00", "tempC": 1.5, "windMs": 8, "windDirDeg": 310, "precipMmH": 2.5, "cloudCover": 1, "cloudBaseM": 1900, "visibilityM": 5000, "inCloudVisibilityM": 50, "pressureHpa": 1011},
-      {"at": "D1 01:00", "tempC": 2.5, "windMs": 7, "windDirDeg": 320, "precipMmH": 1, "cloudCover": 0.9, "cloudBaseM": 2000, "visibilityM": 8000, "inCloudVisibilityM": 60, "pressureHpa": 1015},
-      {"at": "D1 05:00", "tempC": 2.5, "windMs": 5, "windDirDeg": 320, "precipMmH": 0, "cloudCover": 0.6, "cloudBaseM": 2300, "visibilityM": 15000, "pressureHpa": 1018},
-      {"at": "D1 08:00", "tempC": 5.5, "windMs": 4, "windDirDeg": 320, "precipMmH": 0, "cloudCover": 0.3, "cloudBaseM": 3000, "visibilityM": 30000, "pressureHpa": 1020}
+      {
+        "at": "D0 05:30",
+        "tempC": 9,
+        "windMs": 3,
+        "windDirDeg": 230,
+        "precipMmH": 0,
+        "cloudCover": 0.3,
+        "cloudBaseM": 3000,
+        "visibilityM": 25000,
+        "pressureHpa": 1012
+      },
+      {
+        "at": "D0 08:00",
+        "tempC": 11,
+        "windMs": 4,
+        "windDirDeg": 230,
+        "precipMmH": 0,
+        "cloudCover": 0.5,
+        "cloudBaseM": 2800,
+        "visibilityM": 20000,
+        "pressureHpa": 1010
+      },
+      {
+        "at": "D0 10:00",
+        "tempC": 12,
+        "windMs": 5,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.8,
+        "cloudBaseM": 2300,
+        "visibilityM": 15000,
+        "pressureHpa": 1007
+      },
+      {
+        "at": "D0 10:30",
+        "tempC": 12,
+        "windMs": 6,
+        "windDirDeg": 220,
+        "precipMmH": 0.5,
+        "cloudCover": 0.9,
+        "cloudBaseM": 2100,
+        "visibilityM": 10000,
+        "inCloudVisibilityM": 80,
+        "pressureHpa": 1005,
+        "gustiness": 0.3
+      },
+      {
+        "at": "D0 11:30",
+        "tempC": 11,
+        "windMs": 7,
+        "windDirDeg": 220,
+        "precipMmH": 5,
+        "cloudCover": 1,
+        "cloudBaseM": 1900,
+        "visibilityM": 6000,
+        "inCloudVisibilityM": 60,
+        "pressureHpa": 1003,
+        "gustiness": 0.35
+      },
+      {
+        "at": "D0 12:30",
+        "tempC": 8.5,
+        "windMs": 12,
+        "windDirDeg": 260,
+        "precipMmH": 10,
+        "cloudCover": 1,
+        "cloudBaseM": 1700,
+        "visibilityM": 3000,
+        "inCloudVisibilityM": 40,
+        "pressureHpa": 1002,
+        "gustiness": 0.45
+      },
+      {
+        "at": "D0 13:30",
+        "tempC": 3.5,
+        "windMs": 13,
+        "windDirDeg": 300,
+        "precipMmH": 8,
+        "cloudCover": 1,
+        "cloudBaseM": 1700,
+        "visibilityM": 3000,
+        "inCloudVisibilityM": 40,
+        "pressureHpa": 1005,
+        "gustiness": 0.4
+      },
+      {
+        "at": "D0 15:00",
+        "tempC": 2.5,
+        "windMs": 12,
+        "windDirDeg": 310,
+        "precipMmH": 6,
+        "cloudCover": 1,
+        "cloudBaseM": 1800,
+        "visibilityM": 4000,
+        "inCloudVisibilityM": 50,
+        "pressureHpa": 1008
+      },
+      {
+        "at": "D0 19:00",
+        "tempC": 1.5,
+        "windMs": 8,
+        "windDirDeg": 310,
+        "precipMmH": 2.5,
+        "cloudCover": 1,
+        "cloudBaseM": 1900,
+        "visibilityM": 5000,
+        "inCloudVisibilityM": 50,
+        "pressureHpa": 1011
+      },
+      {
+        "at": "D1 01:00",
+        "tempC": 2.5,
+        "windMs": 7,
+        "windDirDeg": 320,
+        "precipMmH": 1,
+        "cloudCover": 0.9,
+        "cloudBaseM": 2000,
+        "visibilityM": 8000,
+        "inCloudVisibilityM": 60,
+        "pressureHpa": 1015
+      },
+      {
+        "at": "D1 05:00",
+        "tempC": 2.5,
+        "windMs": 5,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.6,
+        "cloudBaseM": 2300,
+        "visibilityM": 15000,
+        "pressureHpa": 1018
+      },
+      {
+        "at": "D1 08:00",
+        "tempC": 5.5,
+        "windMs": 4,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.3,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1020
+      }
     ]
   },
   "events": [
@@ -753,8 +884,28 @@
     },
     {
       "kind": "RESCUED",
+      "when": {
+        "var": "rec.minCoreC",
+        "op": ">=",
+        "value": 35
+      },
       "title": "救助",
-      "text": "村井さんは救助隊に収容された。低体温症の手前で踏みとどまっていた。"
+      "text": "村井さんは救助隊に収容された。体は冷えきっていたが、低体温症の手前で踏みとどまっていた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "var": "rec.minCoreC",
+        "op": ">=",
+        "value": 34
+      },
+      "title": "救助",
+      "text": "村井さんは救助隊に収容された。体温は 35℃ を割り、震えが止まらない軽度の低体温症になっていた。もう少し遅れていれば、命に関わるところだった。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助",
+      "text": "村井さんは救助隊に収容された。体温は 34℃ を割る低体温症で、足がもつれ、受け答えもあやしくなっていた。非常に危険な状態だった。"
     },
     {
       "kind": "RESCUED_CRITICAL",
