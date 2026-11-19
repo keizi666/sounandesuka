@@ -31,6 +31,9 @@ export interface EnvUniforms {
   uAirDensity: { value: number };
   /** 霞が始まる距離（手前は霞ませない。俯瞰では箱庭の手前側がくっきり見えるように） */
   uAirStart: { value: number };
+  /** 注目している登山者の位置と、その手前を透かす半径（0 = 透かさない） */
+  uFocus: { value: THREE.Vector3 };
+  uFocusR: { value: number };
 }
 
 export function createEnvUniforms(): EnvUniforms {
@@ -55,6 +58,8 @@ export function createEnvUniforms(): EnvUniforms {
     uAirColor: { value: new THREE.Color(0xbfd9ee) },
     uAirDensity: { value: 0.05 },
     uAirStart: { value: 0 },
+    uFocus: { value: new THREE.Vector3() },
+    uFocusR: { value: 0 },
   };
 }
 
@@ -79,6 +84,8 @@ uniform float uSway;
 uniform vec3 uAirColor;
 uniform float uAirDensity;
 uniform float uAirStart;
+uniform vec3 uFocus;
+uniform float uFocusR;
 varying float vElev;
 varying vec3 vWorldPos;
 varying float vSlopeUp;
@@ -136,6 +143,8 @@ export interface ToonStyle {
   rim?: number;
   /** 木ごとの色のゆらぎ（インスタンスの位置から決める） */
   vary?: boolean;
+  /** カメラと登山者の間にあっても透かさない（人形そのもの） */
+  noFade?: boolean;
   /** 葉の板: 裏面でも法線を反転しない（樹冠の中心から外向きの法線をそのまま使う） */
   leaf?: boolean;
 }
@@ -170,7 +179,7 @@ function patchToon(shader: { fragmentShader: string }, style: ToonStyle): void {
 }
 
 /** フラグメントの最後に雪・濡れ・霧・夜を足す */
-function patchFragment(shader: { fragmentShader: string }, terrain: boolean): void {
+function patchFragment(shader: { fragmentShader: string }, terrain: boolean, fade: boolean): void {
   shader.fragmentShader = shader.fragmentShader
     .replace('#include <common>', `#include <common>\n${COMMON}`)
     .replace(
@@ -197,6 +206,21 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
         diffuseColor.rgb = mix(diffuseColor.rgb, hkOv.rgb, hkOv.a);
       }`
           : ''
+      }
+${
+        terrain || !fade
+          ? ''
+          : `// カメラと登山者の間にあるものは透かす（網点状に抜く。半透明の描画順の問題を避けるため）
+      if (uFocusR > 0.0) {
+        vec3 hkAB = uFocus - cameraPosition;
+        float hkT = dot(vWorldPos - cameraPosition, hkAB) / max(dot(hkAB, hkAB), 1e-9);
+        if (hkT > 0.0 && hkT < 0.985) {
+          float hkD = length(vWorldPos - (cameraPosition + hkAB * hkT));
+          float hkK = 1.0 - smoothstep(uFocusR * 0.7, uFocusR * 1.5, hkD);
+          float hkN = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
+          if (hkN < hkK * 0.8) discard;
+        }
+      }`
       }
       // 積雪（雪線より上で、急すぎない面）
       float hkSnow = smoothstep(uSnowLine - 30.0, uSnowLine + 40.0, vElev) * smoothstep(0.55, 0.8, vSlopeUp);
@@ -245,10 +269,10 @@ export function injectEnv(material: THREE.Material, env: EnvUniforms, terrain = 
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, env);
     patchVertex(shader, sway);
-    patchFragment(shader, terrain);
+    patchFragment(shader, terrain, !style.noFade);
     patchToon(shader, style);
   };
-  material.customProgramCacheKey = () => `hk-${terrain ? 't' : 'e'}${sway ? 's' : ''}-r${style.rim ?? 0}${style.vary ? 'v' : ''}${style.leaf ? 'l' : ''}`;
+  material.customProgramCacheKey = () => `hk-${terrain ? 't' : 'e'}${sway ? 's' : ''}-r${style.rim ?? 0}${style.vary ? 'v' : ''}${style.leaf ? 'l' : ''}${style.noFade ? 'n' : ''}`;
 }
 
 export function createTerrainMaterial(env: EnvUniforms): THREE.MeshStandardMaterial {

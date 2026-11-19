@@ -375,6 +375,17 @@ export class SceneView {
     }
     this.updateCamera(world);
     this.veg.update(this.camera);
+    // カメラと注目している登山者の間にある木・建物を透かす
+    {
+      const fc = world.climbers.find((x) => x.id === this.selected) ?? world.climbers[0];
+      const ff = fc ? this.figures.get(fc.id) : undefined;
+      if (ff && this.mode !== 'eye') {
+        const h = this.figureHeight();
+        this.env.uFocus.value.copy(ff.root.position);
+        this.env.uFocus.value.y += h * 0.55;
+        this.env.uFocusR.value = h * 1.0;
+      } else this.env.uFocusR.value = 0;
+    }
     this.controls.update();
     this.keepCameraAboveGround();
     this.sky.mesh.position.copy(this.camera.position);

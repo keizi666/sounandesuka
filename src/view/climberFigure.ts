@@ -26,7 +26,7 @@ export function createFigure(c: ClimberState, heightScene: number, env?: EnvUnif
   const motion = createMotion(rig, c);
   const { root } = rig;
   root.scale.setScalar(heightScene);
-  if (env) for (const m of rig.litMaterials) injectEnv(m, env, false, false, { rim: 1.1 });
+  if (env) for (const m of rig.litMaterials) injectEnv(m, env, false, false, { rim: 1.1, noFade: true });
   const arrow = rig.marker.children[0] as THREE.Mesh;
   const arrowMat = arrow.material as THREE.MeshBasicMaterial;
   const arrowBase = arrowMat.color.clone();
