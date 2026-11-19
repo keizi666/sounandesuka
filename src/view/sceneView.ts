@@ -104,6 +104,7 @@ export class SceneView {
   tiltShift = true;
   godView = true;
   private followTarget = new THREE.Vector3();
+  private lastMode: CameraMode = 'overview';
   private lastSunElev = 999;
   private lastShadowAt = 0;
   private sky: Sky;
@@ -535,6 +536,15 @@ export class SceneView {
     if (!c) return;
     const target = new THREE.Vector3(c.x * UNIT, this.heightAt(c.x * UNIT, c.z * UNIT), c.z * UNIT);
     if (this.mode === 'follow') {
+      if (this.lastMode !== 'follow') {
+        // 追従に切り替えた瞬間: 見ている向きと「カメラから登山者までの距離」を保ったまま、登山者を中心に据える。
+        // （注視点が登山者から離れていると、そのままの相対位置では引いた画になってしまう）
+        const dir = this.camera.position.clone().sub(this.controls.target).normalize();
+        const dist = Math.max(this.controls.minDistance, this.camera.position.distanceTo(target));
+        this.followTarget.copy(target);
+        this.controls.target.copy(target);
+        this.camera.position.copy(target).addScaledVector(dir, dist);
+      }
       this.followTarget.lerp(target, 0.08);
       const d = this.controls.target.clone().sub(this.followTarget);
       this.controls.target.copy(this.followTarget);
@@ -552,6 +562,7 @@ export class SceneView {
       this.controls.enablePan = true;
     }
     if (this.mode !== 'eye' && this.scene.fog) this.scene.fog = null;
+    this.lastMode = this.mode;
   }
 
   private updateLight(world: World): void {
