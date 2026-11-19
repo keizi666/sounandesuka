@@ -85,6 +85,8 @@ export class SceneView {
   /** 俯瞰で登山者の位置を示す赤い円（画面上の大きさが一定） */
   private locators = new Map<string, THREE.Sprite>();
   private locatorTex: THREE.Texture | null = null;
+  /** 並びのずれ（シーン単位の x・z） */
+  private formation = new Map<string, THREE.Vector2>();
   private veg: Vegetation;
   private windows: THREE.MeshStandardMaterial;
   private falseTrails: THREE.Object3D[];
@@ -269,7 +271,7 @@ export class SceneView {
   }
 
   /** 赤い円の目印。遠くから見ても位置が分かるよう、画面上で一定の大きさに描く。近づいたら消す */
-  private updateLocator(id: string, fig: Figure, timeSec: number, alive: boolean): void {
+  private updateLocator(id: string, fig: Figure, timeSec: number, alive: boolean, lead: boolean): void {
     let sp = this.locators.get(id);
     if (!sp) {
       if (!this.locatorTex) {
@@ -303,7 +305,8 @@ export class SceneView {
     const tanHalf = Math.tan((this.camera.fov * DEG) / 2);
     const figFrac = h / (2 * dist * tanHalf);
     const fade = 1 - THREE.MathUtils.smoothstep(figFrac, 0.07, 0.12);
-    sp.visible = fig.root.visible && this.mode !== 'eye' && fade > 0.01;
+    // 並んでいる仲間は先頭の円 1 つにまとめる
+    sp.visible = lead && fig.root.visible && this.mode !== 'eye' && fade > 0.01;
     const pulse = 1 + 0.12 * Math.sin(timeSec * 3.2);
     sp.scale.setScalar(0.085 * pulse);
     const m = sp.material;
@@ -321,6 +324,20 @@ export class SceneView {
     this.updateLight(world);
     this.fx.update(world, this.env, this.camera, timeSec);
     for (const f of this.falseTrails) f.visible = this.godView;
+    // 同じ場所にいる仲間は、描くときだけ一列に並べる（シミュレーション上は同じ位置を歩いている）
+    const rank = new Map<string, number>();
+    {
+      const seen: { x: number; z: number; g: string | null; n: number }[] = [];
+      for (const c of world.climbers) {
+        let slot = seen.find((q) => q.g === c.groupId && Math.hypot(q.x - c.x, q.z - c.z) < 4);
+        if (!slot) {
+          slot = { x: c.x, z: c.z, g: c.groupId, n: 0 };
+          seen.push(slot);
+        }
+        rank.set(c.id, slot.n);
+        slot.n += 1;
+      }
+    }
     for (const c of world.climbers) {
       let fig = this.figures.get(c.id);
       if (!fig) {
@@ -331,8 +348,21 @@ export class SceneView {
       const p = prev?.[c.id];
       const x = p ? p.x + (c.x - p.x) * alpha : c.x;
       const z = p ? p.z + (c.z - p.z) * alpha : c.z;
-      const sx = x * UNIT;
-      const sz = z * UNIT;
+      // 並びのずれ: 先頭から k 人目は進行方向の後ろへ。少し左右に振って一直線にしない。向きが変わっても急に飛ばないよう、ゆっくり追従させる
+      const k = rank.get(c.id) ?? 0;
+      const gap = this.figureHeight() * 0.62;
+      const side = k === 0 ? 0 : (k % 2 === 1 ? 1 : -1) * gap * 0.22;
+      const wantX = -Math.sin(c.headingRad) * gap * k + Math.cos(c.headingRad) * side;
+      const wantZ = Math.cos(c.headingRad) * gap * k + Math.sin(c.headingRad) * side;
+      let off = this.formation.get(c.id);
+      if (!off) {
+        off = new THREE.Vector2(wantX, wantZ);
+        this.formation.set(c.id, off);
+      }
+      off.x += (wantX - off.x) * 0.06;
+      off.y += (wantZ - off.y) * 0.06;
+      const sx = x * UNIT + off.x;
+      const sz = z * UNIT + off.y;
       fig.root.position.set(sx, this.heightAt(sx, sz), sz);
       fig.root.scale.setScalar(this.figureHeight());
       // 進行方向（北=0、時計回り）→ three の回転
@@ -340,7 +370,7 @@ export class SceneView {
       // 登山者の視点では、道迷い中の人形を推定位置に置く（真の位置は描かない）
       fig.root.visible = this.godView || !c.perception.awareLost;
       fig.update(c, timeSec, this.selected === c.id);
-      this.updateLocator(c.id, fig, timeSec, c.body.alive);
+      this.updateLocator(c.id, fig, timeSec, c.body.alive, k === 0);
     }
     this.updateCamera(world);
     this.veg.update(this.camera);

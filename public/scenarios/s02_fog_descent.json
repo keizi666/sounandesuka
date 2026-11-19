@@ -731,6 +731,94 @@
       "tone": "shout",
       "priority": 25,
       "once": true
+    },
+    {
+      "key": "s02_talk_start",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "after": "D0 08:05"
+          },
+          {
+            "before": "D0 08:45"
+          }
+        ]
+      },
+      "lines": [
+        "久しぶりの山だから、ゆっくりめでお願いね",
+        "佐藤さん、この山は何回目？"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "もちろん。疲れたらすぐ言って",
+          "3回目かな。道は覚えてるから任せて"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s02_talk_fog",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "leader.local.visibilityM",
+            "op": "<",
+            "value": 300
+          },
+          {
+            "not": {
+              "state": "OFFROUTE_UNAWARE"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "ガスが出てきたね。景色、見えないかな",
+        "急に白くなってきた。ちょっと怖いね"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "山頂に着く頃には晴れるかもしれないよ",
+          "道標を見落とさないように、ゆっくり行こう"
+        ]
+      },
+      "priority": 14,
+      "once": true
+    },
+    {
+      "key": "s02_talk_time",
+      "who": "leader",
+      "to": "tanaka",
+      "when": {
+        "all": [
+          {
+            "after": "D0 13:30"
+          },
+          {
+            "before": "D0 15:30"
+          }
+        ]
+      },
+      "lines": [
+        "少し遅れてる。下りは休憩を短くしよう",
+        "暗くなる前に下りたい。もうひとがんばりだよ"
+      ],
+      "replies": {
+        "who": "tanaka",
+        "lines": [
+          "うん、分かった",
+          "膝が笑ってきたけど、がんばる"
+        ]
+      },
+      "priority": 12,
+      "once": true
     }
   ]
 }

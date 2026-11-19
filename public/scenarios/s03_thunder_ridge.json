@@ -741,6 +741,125 @@
       "tone": "normal",
       "priority": 15,
       "once": true
+    },
+    {
+      "key": "s03_talk_plan",
+      "who": "aoyama",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "after": "D0 04:35"
+          },
+          {
+            "before": "D0 05:15"
+          }
+        ]
+      },
+      "lines": [
+        "木下さん、今日の下山は何時ごろの予定ですか？",
+        "山頂には何時に着きたいですか？"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "13時半には下りていたい。午後は雷の予報だからね",
+          "昼前には稜線を抜ける。遅れたら引き返すよ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s03_talk_pace",
+      "who": "mori",
+      "to": "aoyama",
+      "when": {
+        "all": [
+          {
+            "after": "D0 06:00"
+          },
+          {
+            "before": "D0 07:15"
+          }
+        ]
+      },
+      "lines": [
+        "青山さん、ちょっとペース速くない？",
+        "ねえ、息が上がってきた。少しゆっくり行こうよ"
+      ],
+      "replies": {
+        "who": "aoyama",
+        "lines": [
+          "ごめん、少し落とすね",
+          "私も木下さんについていくので精一杯で……"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s03_talk_water",
+      "who": "aoyama",
+      "to": "mori",
+      "when": {
+        "all": [
+          {
+            "after": "D0 07:30"
+          },
+          {
+            "before": "D0 08:45"
+          }
+        ]
+      },
+      "lines": [
+        "森さん、水はあとどれくらい残ってる？",
+        "暑いね。水、足りそう？"
+      ],
+      "replies": {
+        "who": "mori",
+        "lines": [
+          "半分くらい。思ったより減りが早い",
+          "まだ1リットルはあるよ。塩飴いる？"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s03_talk_cloud",
+      "who": "leader",
+      "to": "mori",
+      "when": {
+        "all": [
+          {
+            "after": "D0 08:45"
+          },
+          {
+            "var": "leader.local.thunder",
+            "op": ">",
+            "value": 0.05
+          },
+          {
+            "var": "leader.local.thunder",
+            "op": "<",
+            "value": 0.3
+          }
+        ]
+      },
+      "lines": [
+        "西の雲、さっきより背が高くなっていないか",
+        "あの雲の底、黒くなってきたな"
+      ],
+      "replies": {
+        "who": "mori",
+        "lines": [
+          "入道雲ですね。まだ遠いとは思いますけど……",
+          "本当だ。急いだほうがよさそうですね"
+        ]
+      },
+      "priority": 14,
+      "once": true
     }
   ]
 }

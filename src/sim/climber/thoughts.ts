@@ -42,9 +42,15 @@ export function maybeThink(world: World, ctx: StaticContext, c: ClimberState): v
   }
   if (world.tMin < c.memo.nextThoughtMin) return;
   c.memo.nextThoughtMin = world.tMin + randRange(rng, t.minGapMin, t.maxGapMin);
+  // 同じグループの人が最近出した内容は出さない（全員が同じことを考えているように見えるのを避ける）
+  const mates = world.climbers.filter((x) => x !== c && x.groupId !== null && x.groupId === c.groupId);
   const recent = (key: string): boolean => {
     const last = c.thoughtHistory[key];
-    return last !== undefined && world.tMin - last < t.noRepeatMin;
+    if (last !== undefined && world.tMin - last < t.noRepeatMin) return true;
+    return mates.some((m) => {
+      const lm = m.thoughtHistory[key];
+      return lm !== undefined && world.tMin - lm < t.noRepeatMin;
+    });
   };
   type Cand = { key: string; priority: number; lines?: string[] };
   const cands: Cand[] = [];
