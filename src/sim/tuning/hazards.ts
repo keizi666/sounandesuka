@@ -201,6 +201,12 @@ export const rescue = {
   groundVoiceF: 1.6,
   searchStartM: 300,
   searchGrowMPerH: 300,
+  /** 通報した場所からこれ以上離れていたら、着いても見つからない（m）。救助隊は電話をかけ直すか、まわりを探す */
+  movedAwayM: 150,
+  /** かけ直して場所を確かめ直したあと、向かい直すまでの時間（分） */
+  relocateMin: 30,
+  /** 通報した場所から離れた人を探すときの見つけやすさ: 1 / (1 + (距離 / この長さ)²) */
+  movedFindScaleM: 250,
   /** 地上隊が道から探す範囲の外でも、笛の音が届けば気づく距離（森の中） */
   whistleExtraM: 150,
   deepDrainageF: 0.5,

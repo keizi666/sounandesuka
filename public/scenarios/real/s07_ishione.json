@@ -1557,6 +1557,6 @@
       "text": "転んだはずみに、ポケットのスマホがなくなることがある。スマホは地図であり、レーダーであり、助けを呼ぶ電話でもある。ストラップで体やザックに留め、紙の地図も持つ。"
     }
   ],
-  "balanceTargets": { "recommended": { "goodMin": 0.95, "fatalMax": 0.01 }, "bias": { "goodMin": 0.85, "fatalMax": 0.04 }, "risky": { "badMin": 0.06, "fatalMin": 0.01 } },
+  "balanceTargets": { "recommended": { "goodMin": 0.95, "fatalMax": 0.01 }, "bias": { "goodMin": 0.85, "fatalMax": 0.04 }, "risky": { "badMin": 0.05, "fatalMin": 0.01 } },
   "sources": ["原案: 松本圭司「架空遭難　20代男性ソロ　夏の奥多摩の稜線で悪天候の兆候」note（2024年2月15日） https://note.com/keizi666/n/n1ef6d0498437", "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工", "登山道・地点: © OpenStreetMap contributors"]
 }

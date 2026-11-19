@@ -85,6 +85,8 @@ export const behavior = {
 
 /** docs/09 §5 分岐点 */
 export const choices = {
+  /** 救助を頼んで（場所を伝えて）からは、動く選択肢の重みをこの倍率にする（動かないのが基本。動くと救助が遅れる） */
+  movingAfterCallF: 0.25,
   defaultPriority: 10,
   defaultTimeoutSec: 30,
   /** 汎用分岐点 hypothermia の 1 回目と 2 回目（docs/09 §7） */

@@ -66,15 +66,30 @@ export function choiceLeader(world: World, ctx: StaticContext): ClimberState {
   return groupLeader(world, found ? activeGroupId(world, found.cp) : firstLiveGroup(world));
 }
 
+/** 動く（いる場所を離れる）アクション */
+const MOVING_ACTIONS = new Set(['continueRoute', 'setRoute', 'turnBack', 'goToNode', 'backtrack', 'navigateToTrail', 'descendDrainage', 'seekSignal', 'goToMember', 'moveOffRidge']);
+
+/** 救助隊が出て、場所を知っている（電話・衛星・通りかかった人の通報） */
+export function rescueKnowsWhere(world: World): boolean {
+  const r = world.rescue;
+  return (r.status === 'dispatched' || r.status === 'searching') && r.locationEstimate !== null && r.via !== 'overdue';
+}
+
 /** 選択肢ごとの可否と重み */
 export function evaluateOptions(world: World, ctx: StaticContext, cp: ChoicePointDef, key: string): { available: WeightedOption[]; unavailable: string[] } {
   const leader = groupLeader(world, activeGroupId(world, cp));
   const scope = scopeFor(world, ctx, leader);
   const available: WeightedOption[] = [];
   const unavailable: string[] = [];
+  const called = rescueKnowsWhere(world);
   cp.options.forEach((o, i) => {
     const k = `${key}.options[${i}]`;
     if (o.available && !evalCondition(o.available, scope, `${k}.available`)) {
+      unavailable.push(o.id);
+      return;
+    }
+    // 救助を頼んで場所を伝えたあとは、もう一度かける選択肢は出さず、動く選択肢はめったに選ばない（動くと救助が遅れる）
+    if (called && o.actions.some((a) => a.type === 'callRescue')) {
       unavailable.push(o.id);
       return;
     }
@@ -82,6 +97,7 @@ export function evaluateOptions(world: World, ctx: StaticContext, cp: ChoicePoin
     (o.bias.mods ?? []).forEach((m, j) => {
       if (evalCondition(m.when, scope, `${k}.bias.mods[${j}]`)) w += m.add;
     });
+    if (called && o.actions.some((a) => MOVING_ACTIONS.has(a.type))) w *= ctx.tuning.choices.movingAfterCallF;
     available.push({ option: o, weight: Math.max(0, w) });
   });
   return { available, unavailable };

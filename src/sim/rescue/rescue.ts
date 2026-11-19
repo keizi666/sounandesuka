@@ -74,11 +74,53 @@ function start(world: World, ctx: StaticContext): void {
   ctx.events.push({ tMin: world.tMin, type: 'GROUND_DISPATCH', important: true });
 }
 
+/** 通報された場所の近くにいるか */
+function nearReported(ctx: StaticContext, c: ClimberState, tgt: { x: number; z: number }): boolean {
+  const d2 = (c.x - tgt.x) * (c.x - tgt.x) + (c.z - tgt.z) * (c.z - tgt.z);
+  return d2 <= ctx.tuning.rescue.movedAwayM * ctx.tuning.rescue.movedAwayM;
+}
+
+/**
+ * 通報された場所に着いたが、そこにいない（動いてしまった）。電話が通じれば、かけ直して今の場所を確かめ、向かい直す（その分遅れる）。
+ * 通じなければ、通報された場所のまわりを探す（探す範囲は時間とともに広げる。見つけにくい）
+ */
+function notThere(world: World, ctx: StaticContext, by: 'heli' | 'ground'): void {
+  const rt = ctx.tuning.rescue;
+  const r = world.rescue;
+  const reach = missing(world, ctx).find((c) => {
+    const ph = c.inv.phone;
+    return c.body.conscious && ph.has && !ph.dead && ph.batteryPct > 0 && (ctx.map.radio[nearestIndex(ctx.map, c.x, c.z)] ?? 0) >= ctx.tuning.radio.callableMin;
+  });
+  if (reach) {
+    r.locationEstimate = { x: reach.x, z: reach.z, radiusM: reach.inv.phone.gpsApp ? rt.preciseM : 300 };
+    ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: reach.id, important: true, data: { rescueRelocated: true } });
+    if (by === 'heli') r.heli = { readyAtMin: null, nextCheckMin: world.tMin + rt.relocateMin, state: 'waiting' };
+    else {
+      const d = Math.sqrt((reach.x - r.ground.x) * (reach.x - r.ground.x) + (reach.z - r.ground.z) * (reach.z - r.ground.z));
+      r.ground = { readyAtMin: world.tMin + rt.relocateMin + ((d * rt.groundPathF) / 1000 / rt.groundTrailKmh) * 60, x: reach.x, z: reach.z, state: 'moving' };
+    }
+    return;
+  }
+  if (world.flags['rescueNotThere'] === undefined) {
+    world.flags['rescueNotThere'] = world.tMin;
+    ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', important: true, data: { rescueNotThere: true } });
+  }
+  // 正確な場所ではなくなった。まわりを探す
+  if (r.locationEstimate) r.locationEstimate = { ...r.locationEstimate, radiusM: Math.max(r.locationEstimate.radiusM, rt.searchStartM) };
+  if (by === 'heli') r.heli.state = 'searching';
+  else r.ground.state = 'searching';
+}
+
 /** 見つけやすさの倍率（合図できる・森林や沢の中） */
-function findFactor(ctx: StaticContext, c: ClimberState, base: 'heli' | 'ground'): number {
+function findFactor(ctx: StaticContext, c: ClimberState, base: 'heli' | 'ground', est: { x: number; z: number } | null = null): number {
   const rt = ctx.tuning.rescue;
   const i = nearestIndex(ctx.map, c.x, c.z);
   let f = 1;
+  // 通報した場所から離れているほど見つけにくい（動かないのが基本）
+  if (est) {
+    const d = Math.sqrt((c.x - est.x) * (c.x - est.x) + (c.z - est.z) * (c.z - est.z));
+    f /= 1 + (d / rt.movedFindScaleM) * (d / rt.movedFindScaleM);
+  }
   if (base === 'heli' && isForest(ctx.map.veg[i]!)) f *= rt.heliFindForestPerH / rt.heliFindPerH;
   if (c.body.conscious && (c.inv.headlamp.on || c.body.inBivy || c.def.gear.whistle)) f *= base === 'heli' ? rt.signalF : rt.groundVoiceF;
   else if (base === 'ground' && c.body.conscious) f *= rt.groundVoiceF;
@@ -171,7 +213,7 @@ function search(world: World, ctx: StaticContext, perH: number, by: 'heli' | 'gr
       const extra = by === 'ground' && c.body.conscious && c.def.gear.whistle ? ctx.tuning.rescue.whistleExtraM : 0;
       if (distToPlannedRoute(ctx, c.x, c.z, lead.route) > Math.min(r.searchRadiusM, lead.maxRadiusM ?? Infinity) + extra) continue;
     } else if (distToPlannedRoute(ctx, c.x, c.z) > r.searchRadiusM) continue;
-    const pTick = (perH * findFactor(ctx, c, by) * (lead?.findF ?? 1) * dtMin) / 60;
+    const pTick = (perH * findFactor(ctx, c, by, est) * (lead?.findF ?? 1) * dtMin) / 60;
     if (chance(world.rng.rescue, Math.min(1, pTick))) return c;
   }
   return null;
@@ -254,7 +296,7 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
     }
   }
   // 計画ルートからの捜索範囲は時間とともに広がる
-  if (r.via === 'overdue' || r.locationEstimate === null) r.searchRadiusM += (rt.searchGrowMPerH / 60) * dtMin;
+  if (r.via === 'overdue' || r.locationEstimate === null || world.flags['rescueNotThere'] !== undefined) r.searchRadiusM += (rt.searchGrowMPerH / 60) * dtMin;
   const precise = (r.locationEstimate?.radiusM ?? Infinity) <= rt.preciseM;
   const tgt = target(world);
 
@@ -274,7 +316,8 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
       h.nextCheckMin = world.tMin + rt.heliRecheckMin;
     } else if (h.state === 'flying' && world.tMin >= (h.readyAtMin ?? Infinity)) {
       const c = nearestMissing(world, ctx, tgt);
-      if (c) return contact(world, ctx, c, 'heli');
+      if (c && nearReported(ctx, c, tgt)) return contact(world, ctx, c, 'heli');
+      if (c) notThere(world, ctx, 'heli');
     } else if (h.state === 'searching') {
       const c = search(world, ctx, rt.heliFindPerH, 'heli', dtMin);
       if (c) return contact(world, ctx, c, 'heli');
@@ -300,7 +343,8 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
     g.state = 'searching';
     if (precise) {
       const c = nearestMissing(world, ctx, tgt);
-      if (c) return contact(world, ctx, c, 'ground');
+      if (c && nearReported(ctx, c, tgt)) return contact(world, ctx, c, 'ground');
+      if (c) notThere(world, ctx, 'ground');
     }
   } else if (g.state === 'searching') {
     const visF = world.sun.isDark ? rt.groundNightFindF : 1;
