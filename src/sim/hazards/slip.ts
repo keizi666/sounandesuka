@@ -8,9 +8,10 @@ import { isChainAt } from '../climber/movement';
 import { transition } from '../climber/state';
 import { nearestIndex, sampleElev, sampleNormal } from '../terrain/sample';
 import type { ClimberState, InjuryKind, StaticContext, World } from '../types';
+import { VegClass } from '../types';
 import { groundAt } from '../weather/ground';
 
-export type SlipClass = 'T1' | 'T2' | 'EXPOSED' | 'OFF' | 'OFF_STEEP' | 'CLIFF';
+export type SlipClass = 'T1' | 'T2' | 'EXPOSED' | 'OFF' | 'OFF_STEEP' | 'STREAM' | 'CLIFF';
 
 const INJURY_ORDER: InjuryKind[] = ['none', 'bruise', 'sprain', 'legFracture', 'headInjury', 'severeTrauma'];
 
@@ -28,6 +29,8 @@ export function slipClassAt(ctx: StaticContext, c: ClimberState, moveGrade = 0):
   const inWaterfall = ctx.map.def.hazards.some((h) => h.type === 'waterfall' && (h.x - c.x) * (h.x - c.x) + (h.z - c.z) * (h.z - c.z) <= h.radius * h.radius);
   const slope = datan(Math.abs(moveGrade)) / DEG;
   if (inWaterfall || slope > st.offCliffDeg) return 'CLIFF';
+  // 沢床（濡れた岩・苔・倒木・淵）は、道外の急斜面と同じかそれ以上に滑りやすい
+  if (ctx.map.veg[nearestIndex(ctx.map, c.x, c.z)] === VegClass.STREAM) return 'STREAM';
   return slope > st.offSteepDeg ? 'OFF_STEEP' : 'OFF';
 }
 
@@ -38,10 +41,12 @@ export function slipP10(world: World, ctx: StaticContext, c: ClimberState, cls: 
   const slope = ctx.map.slopeDeg[nearestIndex(ctx.map, c.x, c.z)]!;
   const crampons = c.def.gear.crampons;
   let p = ((st.base100[cls] ?? 0) * (st.classScale[cls] ?? 1)) / 10;
-  if (gr.wet > 0.5) p *= st.wetF;
+  if (gr.wet > 0.5 || cls === 'STREAM') p *= st.wetF;
   if (gr.icy) p *= crampons ? st.icyCramponsF : st.icyF;
   else if (gr.snowCm > 5 && slope > st.snowSlopeDeg) p *= crampons ? st.snowCramponsF : st.snowF;
-  if (world.sun.isDark) p *= c.inv.headlamp.on ? st.darkLampF : st.darkF;
+  // 夜: ヘッドランプの光は狭く、道外では足元の岩・穴・段差が読めない
+  const offTrail = cls === 'OFF' || cls === 'OFF_STEEP' || cls === 'STREAM' || cls === 'CLIFF';
+  if (world.sun.isDark) p *= c.inv.headlamp.on ? (offTrail ? st.darkLampOffF : st.darkLampF) : st.darkF;
   p *= 1 + c.body.fatigue / st.fatigueDiv;
   p *= 1 + 2 * (1 - c.M);
   p *= 1 + (1 - c.J);

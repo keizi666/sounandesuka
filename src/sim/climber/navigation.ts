@@ -169,7 +169,9 @@ export function per10m(world: World, ctx: StaticContext, c: ClimberState): void 
   }
   if (c.state === 'WALKING' && c.pos.mode === 'edge') {
     const e = ctx.map.trails[c.pos.edgeId]!.def;
-    const p = ((e.drift * nt.driftScale) / 10) * cueOf(world, ctx, c) * (1 - nt.driftNavK * navEffOf(c)) * (1 + c.body.fatigue / 100);
+    // 動揺している・けがをしている・冷えて頭が回らないときは、見えている道でも外しやすい（遭難のあとに正しく歩けるとは限らない）
+    const stress = (1 + (nt.driftAnxietyK * c.body.anxiety) / 100) * (nt.driftInjury[c.body.injury] ?? 1) * (1 + nt.driftColdK * Math.max(0, 35.5 - c.body.coreC));
+    const p = ((e.drift * nt.driftScale) / 10) * cueOf(world, ctx, c) * (1 - nt.driftNavK * navEffOf(c)) * (1 + c.body.fatigue / 100) * stress;
     if (chance(world.rng.nav, p)) goOffTrail(world, ctx, c, c.headingRad, 'drift');
     return;
   }

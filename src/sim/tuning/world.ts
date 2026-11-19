@@ -57,6 +57,8 @@ export const weather = {
   visSnowK: 4,
   windChillMaxC: 10,
   windChillMinKmh: 4.8,
+  /** 10℃より暖かいとき、風による体感の下がり幅が 0 になるまでの温度幅（℃） */
+  windChillFadeC: 20,
   solarMaxW: 120,
   solarCloudK: 0.85,
   solarInCloudF: 0.2,

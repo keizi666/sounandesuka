@@ -7,9 +7,9 @@ export const nav = {
   darkCueNoLamp: 0.9,
   twilightCue: 0.2,
   snowCueDeepCm: 10,
-  snowCueDeep: 0.5,
+  snowCueDeep: 0.85,
   snowCueCm: 3,
-  snowCue: 0.2,
+  snowCue: 0.35,
   /** 分岐での誤り p_k = ambiguity × (base + k × cue) × (1 − navK × navEff) × (markBase − markK × markers) */
   errCueBase: 0.3,
   errCueK: 0.7,
@@ -27,6 +27,10 @@ export const nav = {
   driftNavK: 0.8,
   /** 踏み外しの全体倍率（バランス調整用） */
   driftScale: 0.45,
+  /** 動揺・けが・低体温のときの踏み外しの倍率（不安 100 で ×(1+anxietyK)、けがは種類ごと、深部体温 35.5℃ 未満で 1℃ごとに +coldK） */
+  driftAnxietyK: 0.5,
+  driftInjury: { none: 1, bruise: 1.1, sprain: 1.5, legFracture: 2.2, headInjury: 2.5, severeTrauma: 3 } as Record<string, number>,
+  driftColdK: 0.8,
   /** 気づき（毎分） */
   awareBase: 0.01,
   awareNavK: 0.04,
@@ -90,8 +94,8 @@ export const slip = {
    * 転倒率の地形クラスごとの倍率。docs/08 §1.2 の表のままでは登山道の上でも 1 人 1 日に約 0.6 回けがをするため、
    * 平常の登山道は大きく下げ、道外・崖はほぼそのまま残す（P7 の調整、DECISIONS）
    */
-  classScale: { T1: 0.05, T2: 0.05, EXPOSED: 0.08, OFF: 0.3, OFF_STEEP: 0.5, CLIFF: 1.0 } as Record<string, number>,
-  base100: { T1: 0.0015, T2: 0.004, EXPOSED: 0.01, OFF: 0.012, OFF_STEEP: 0.04, CLIFF: 0.35 } as Record<string, number>,
+  classScale: { T1: 0.05, T2: 0.05, EXPOSED: 0.08, OFF: 0.3, OFF_STEEP: 0.5, STREAM: 0.6, CLIFF: 1.0 } as Record<string, number>,
+  base100: { T1: 0.0015, T2: 0.004, EXPOSED: 0.01, OFF: 0.012, OFF_STEEP: 0.04, STREAM: 0.06, CLIFF: 0.35 } as Record<string, number>,
   offSteepDeg: 30,
   offCliffDeg: 45,
   wetF: 1.6,
@@ -101,6 +105,8 @@ export const slip = {
   snowCramponsF: 1.1,
   snowF: 2.5,
   darkLampF: 1.5,
+  /** 夜に道外（沢・やぶ・急斜面）をヘッドランプで歩くとき */
+  darkLampOffF: 3.0,
   darkF: 4.0,
   fatigueDiv: 80,
   hurryF: 1.3,
@@ -115,6 +121,7 @@ export const slip = {
     EXPOSED: [0.3, 0.25, 0.15, 0.12, 0.08, 0.05, 0.05],
     OFF: [0.55, 0.3, 0.1, 0.04, 0.01, 0, 0],
     OFF_STEEP: [0.3, 0.3, 0.15, 0.13, 0.06, 0.04, 0.02],
+    STREAM: [0.25, 0.25, 0.18, 0.15, 0.08, 0.05, 0.04],
     CLIFF: [0.05, 0.1, 0.1, 0.25, 0.15, 0.15, 0.2],
   } as Record<string, number[]>,
   fallMinM: 10,

@@ -48,9 +48,15 @@ export function precipTypeOf(tempC: number, precipMmH: number, hail: boolean, tu
 /** 体感温度（JAG/TI の風冷指数）。T ≤ 10℃ かつ V ≥ 4.8 km/h で適用 */
 export function windChillC(tempC: number, windMs: number, tuning: Tuning = TUNING): number {
   const v = windMs * 3.6;
-  if (tempC > tuning.weather.windChillMaxC || v < tuning.weather.windChillMinKmh) return tempC;
+  if (v < tuning.weather.windChillMinKmh) return tempC;
   const p = dpow(v, 0.16);
-  return 13.12 + 0.6215 * tempC - 11.37 * p + 0.3965 * tempC * p;
+  const jag = (t: number): number => 13.12 + 0.6215 * t - 11.37 * p + 0.3965 * t * p;
+  const maxC = tuning.weather.windChillMaxC;
+  if (tempC <= maxC) return jag(tempC);
+  // 式の適用範囲（10℃）より暖かいときも、風は体を冷やす。10℃での下がり幅を、fadeC 上の温度で 0 になるように弱めて引く
+  const drop = maxC - jag(maxC);
+  const fade = Math.max(0, 1 - (tempC - maxC) / tuning.weather.windChillFadeC);
+  return tempC - drop * fade;
 }
 
 /** 雲の中・雲底付近と降水による視程（docs/05 §2.4） */

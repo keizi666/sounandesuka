@@ -6,5 +6,6 @@ export function transition(world: World, ctx: StaticContext, c: ClimberState, ne
   const prev = c.state;
   c.state = next;
   c.stateSinceMin = world.tMin;
+  if (next === 'DESCENDING_DRAINAGE' && world.flags['descendedDrainage'] === undefined) world.flags['descendedDrainage'] = world.tMin;
   ctx.events.push({ tMin: world.tMin, type: 'STATE', climberId: c.id, data: { from: prev, to: next, reason } });
 }

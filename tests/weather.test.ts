@@ -174,7 +174,12 @@ describe('局地補正（docs/05 §2、P3 の受け入れ）', () => {
     expect(precipTypeOf(5, 2, true)).toBe('hail');
     expect(precipTypeOf(5, 0.01, false)).toBe('none');
     expect(windChillC(0, 10)).toBeCloseTo(-7.05, 1);
-    expect(windChillC(15, 10)).toBe(15);
+    // 10℃より暖かくても風で下がる（10℃でつながり、暖かいほど下がり幅は小さい）
+    expect(windChillC(15, 10)).toBeLessThan(15);
+    expect(windChillC(15, 10)).toBeGreaterThan(windChillC(10, 10));
+    expect(windChillC(10.001, 10)).toBeCloseTo(windChillC(10, 10), 1);
+    expect(windChillC(12, 15)).toBeLessThan(9);
+    expect(windChillC(35, 10)).toBe(35);
     expect(windChillC(0, 1)).toBe(0);
   });
 
