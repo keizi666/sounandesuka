@@ -44,7 +44,7 @@ const POSES = {
   /** 動けない（脚を投げ出して座り込み、うなだれる） */
   slump: pose({ shL: -0.25, shLz: 0.3, elL: -0.3, shR: -0.4, shRz: -0.22, elR: -0.7, hipL: -1.5, hipLz: 0.16, knL: 0.12, anL: -0.25, hipR: -1.75, hipRz: -0.2, knR: 0.75, anR: 0.3, bodyY: -0.44, spinePitch: 0.42, spineRoll: 0.1, neckPitch: 0.6, neckYaw: 0.2 }),
   /** 横向きに倒れている（体を少し丸める） */
-  lie: pose({ shL: -0.9, shLz: -0.3, elL: -0.8, shR: -0.5, shRz: -0.1, elR: -1.2, hipL: -0.75, knL: 1.15, anL: -0.3, hipR: -0.35, knR: 0.7, anR: -0.3, bodyRoll: Math.PI / 2 - 0.06, bodyY: 0.105, bodyX: 0.48, spinePitch: 0.22, neckPitch: 0.25, neckYaw: -0.15 }),
+  lie: pose({ shL: -0.9, shLz: -0.3, elL: -0.8, shR: -0.5, shRz: -0.1, elR: -1.2, hipL: -0.75, knL: 1.15, anL: -0.3, hipR: -0.35, knR: 0.7, anR: -0.3, bodyRoll: Math.PI / 2 - 0.06, bodyY: 0.185, bodyX: 0.48, spinePitch: 0.22, neckPitch: 0.25, neckYaw: -0.15 }),
   /** 電波を探して携帯を見る */
   phone: pose({ ...sym({}, { hip: -0.03, hipz: 0.03, kn: 0.06, an: -0.03 }), shL: 0.05, shLz: 0.1, elL: -0.2, shR: -0.95, shRz: 0.1, elR: -1.7, spinePitch: 0.04, neckPitch: 0.32, neckYaw: -0.12 }),
   /** 手を止めて作業（かがんでザックや服を扱う） */
@@ -212,6 +212,43 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
         if (target === POSES.slump) p.neckPitch += wobble(t * 0.25, seed) * 0.1;
       }
 
+      // 足を斜面に合わせる（2 関節の IK）。腰から見た足首の位置を、進行方向の勾配に沿ってずらし、地面より下に入らないようにする
+      if (upright) {
+        const D = rig.dims;
+        const K = D.hipsY / POSE_HIPS_Y;
+        const a = D.thigh;
+        const bl = D.shin;
+        const hipH = D.hipsY + p.bodyY * K - 0.015 - D.ankleY;
+        const g = clamp(grade, -0.6, 0.6);
+        const slopeA = Math.atan(g);
+        const plant = (hip: Ch, kn: Ch, an: Ch): void => {
+          const phi = -p[hip];
+          const phi2 = phi - p[kn];
+          let z = a * Math.sin(phi) + bl * Math.sin(phi2);
+          const y = -(a * Math.cos(phi) + bl * Math.cos(phi2));
+          const groundY = -hipH + g * z;
+          let ty = Math.max(y + g * z, groundY);
+          let d = Math.hypot(z, ty);
+          const maxD = (a + bl) * 0.997;
+          if (d > maxD) {
+            z *= maxD / d;
+            ty *= maxD / d;
+            d = maxD;
+          }
+          if (d < Math.abs(a - bl) + 0.01) return;
+          const alpha = Math.atan2(z, -ty);
+          const beta = Math.acos(clamp((a * a + d * d - bl * bl) / (2 * a * d), -1, 1));
+          const gamma = Math.acos(clamp((a * a + bl * bl - d * d) / (2 * a * bl), -1, 1));
+          const footPitch = p[hip] + p[kn] + p[an];
+          p[hip] = -(alpha + beta);
+          p[kn] = Math.PI - gamma;
+          // 地面に着いている足は、足裏を斜面に沿わせる
+          const contact = 1 - clamp((ty - groundY) / 0.03, 0, 1);
+          p[an] = footPitch * (1 - contact) + -slopeA * contact - (p[hip] + p[kn]);
+        };
+        plant('hipL', 'knL', 'anL');
+        plant('hipR', 'knR', 'anR');
+      }
       apply(rig, p, twist);
 
       // ストックを地面へ向ける（腕の角度を打ち消す）
@@ -237,8 +274,12 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
   };
 }
 
+/** 姿勢の表は腰の高さ 0.53 の体格で作ってある。いまの体格との比 */
+const POSE_HIPS_Y = 0.53;
+
 function apply(rig: FigureRig, p: Pose, twist: number): void {
-  rig.body.position.set(p.bodyX, p.bodyY, p.bodyZ);
+  const K = rig.dims.hipsY / POSE_HIPS_Y;
+  rig.body.position.set(p.bodyX, p.bodyY * K, p.bodyZ * K);
   rig.body.rotation.x = p.bodyPitch;
   rig.body.rotation.z = p.bodyRoll;
   rig.hips.rotation.set(p.hipsPitch, twist, 0);

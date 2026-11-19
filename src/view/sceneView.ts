@@ -342,7 +342,7 @@ export class SceneView {
     for (const c of world.climbers) {
       let fig = this.figures.get(c.id);
       if (!fig) {
-        fig = createFigure(c, this.figureHeight());
+        fig = createFigure(c, this.figureHeight(), this.env);
         this.figures.set(c.id, fig);
         this.scene.add(fig.root);
       }
