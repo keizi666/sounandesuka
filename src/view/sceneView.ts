@@ -21,6 +21,10 @@ import { reportProblem } from '../app/problem';
 import { createPost, type Post } from './post';
 import { createSky, skyColors, type Sky } from './sky';
 
+/** 夜の環境光の色（月明かりの空と地面） */
+const MOON_SKY = new THREE.Color(0x6f8fd0);
+const MOON_GROUND = new THREE.Color(0x232a3a);
+
 export type Quality = 'low' | 'mid' | 'high';
 export type CameraMode = 'overview' | 'follow' | 'eye';
 
@@ -318,18 +322,27 @@ WebGL エラー: ${gl.getError()}
     // 太陽の方位: 6 時に東、12 時に南、18 時に西（日周の近似）
     const clock = ((world.tMin % 1440) + 1440) % 1440;
     const az = ((clock / 1440) * 2 - 0.5) * Math.PI;
-    this.sun.position.set(Math.cos(az) * size * 2, Math.max(0.05, Math.sin(el * DEG)) * size * 2.5, Math.sin(az) * size * 2);
     const warm = 1 - Math.min(1, Math.max(0, el) / 22);
-    this.sun.color.setRGB(1, 1 - 0.32 * warm, 1 - 0.58 * warm);
     const cloud = world.weather.cloudCover;
     const dayK = Math.min(1, sunUp * 3.5);
-    // 曇りは直射が弱まり、代わりに空全体からの柔らかい光が増える
-    this.sun.intensity = 3.0 * Math.pow(sunUp, 0.6) * (1 - 0.78 * cloud * cloud) * (el > 0 ? 1 : 0);
+    // 夜の度合い（日没前後でなめらかに変わる）。夜は月明かりで地形が読める明るさを保つ
+    const nightK = 1 - THREE.MathUtils.smoothstep(el, -7, 3);
+    if (el > -1) {
+      this.sun.position.set(Math.cos(az) * size * 2, Math.max(0.05, Math.sin(el * DEG)) * size * 2.5, Math.sin(az) * size * 2);
+      this.sun.color.setRGB(1, 1 - 0.32 * warm, 1 - 0.58 * warm);
+      // 曇りは直射が弱まり、代わりに空全体からの柔らかい光が増える
+      this.sun.intensity = 3.0 * Math.pow(sunUp, 0.6) * (1 - 0.78 * cloud * cloud) + 0.12;
+    } else {
+      // 月（太陽と同じ光源を使い回す）: 高い位置から青白く照らす
+      this.sun.position.set(-size * 1.2, size * 2.2, size * 0.9);
+      this.sun.color.setRGB(0.62, 0.74, 1.0);
+      this.sun.intensity = (0.55 + 0.5 * world.sun.moonIllum) * (1 - 0.6 * cloud) * Math.min(1, (-1 - el) / 4 + 0.25);
+    }
     const sc = skyColors(el, cloud);
-    this.hemi.color.copy(sc.top).lerp(sc.horizon, 0.6);
-    this.hemi.groundColor.copy(sc.ground);
-    this.hemi.intensity = 0.1 + dayK * (0.75 + 0.55 * cloud);
-    this.scene.environmentIntensity = 0.04 + dayK * (0.32 + 0.2 * cloud);
+    this.hemi.color.copy(sc.top).lerp(sc.horizon, 0.6).lerp(MOON_SKY, nightK);
+    this.hemi.groundColor.copy(sc.ground).lerp(MOON_GROUND, nightK);
+    this.hemi.intensity = 0.1 + dayK * (0.75 + 0.55 * cloud) + nightK * 0.7;
+    this.scene.environmentIntensity = 0.04 + dayK * (0.32 + 0.2 * cloud) + nightK * 0.12;
     const night = world.sun.isDark ? 1 : world.sun.twilight ? 0.5 : 0;
     this.env.uNight.value = night;
     this.windows.emissiveIntensity = night > 0 ? 2.4 : 0;

@@ -171,7 +171,7 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
       // 雲の中は灰白色に霞む（俯瞰でも稜線が雲に隠れて見える）
       float hkFog = smoothstep(uCloudBase - 80.0, uCloudBase + 60.0, vElev) * uCloudCover * 0.85;
       gl_FragColor.rgb = mix(gl_FragColor.rgb, uFogColor * (1.0 - 0.75 * uNight), hkFog);
-      gl_FragColor.rgb *= mix(vec3(1.0), vec3(0.35, 0.42, 0.62), uNight);`,
+      gl_FragColor.rgb *= mix(vec3(1.0), vec3(0.62, 0.7, 0.92), uNight);`,
     );
 }
 

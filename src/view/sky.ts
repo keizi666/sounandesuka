@@ -20,8 +20,8 @@ const CLOUD_TOP = C(0x7f8a96);
 const CLOUD_HOR = C(0xb4bac0);
 const DUSK_TOP = C(0x3a4674);
 const DUSK_HOR = C(0xf2a468);
-const NIGHT_TOP = C(0x03050c);
-const NIGHT_HOR = C(0x0e1626);
+const NIGHT_TOP = C(0x070c1c);
+const NIGHT_HOR = C(0x1a2742);
 
 /** 太陽高度（度）と雲量から空の色を決める */
 export function skyColors(sunElevDeg: number, cloud: number): SkyColors {

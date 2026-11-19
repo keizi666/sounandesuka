@@ -110,7 +110,7 @@ export function buildDiorama(map: MapRuntime, s: ViewScale, env: EnvUniforms): T
         vec3 soil = vec3(0.33,0.25,0.17); vec3 gravel = vec3(0.52,0.47,0.40); vec3 rock = vec3(0.42,0.41,0.40);
         vec3 c = d < 0.006 ? vec3(0.30,0.36,0.22) : d < 0.02 ? soil : (fract(vY * 60.0) < 0.5 ? gravel : gravel * 0.9);
         if (d > 0.08) c = mix(rock, rock * 0.85, step(0.5, fract(vY * 25.0)));
-        c *= mix(vec3(1.0), vec3(0.35,0.42,0.62), uNight);
+        c *= mix(vec3(1.0), vec3(0.62,0.7,0.92), uNight);
         gl_FragColor = vec4(pow(max(c, 0.0), vec3(2.2)), 1.0);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
