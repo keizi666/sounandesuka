@@ -22,6 +22,23 @@ import { dlog } from '../app/version';
 import { createPost, type Post } from './post';
 import { createSky, skyColors, type Sky } from './sky';
 
+/** この環境で使えなかった描画機能の覚え書き（localStorage）。設定の「初期化」とは別に、キーを消せば戻る */
+const GFX_KEY = 'hks.v1.gfx';
+function loadGfx(): { noBloom?: boolean } {
+  try {
+    return JSON.parse(localStorage.getItem(GFX_KEY) ?? '{}') as { noBloom?: boolean };
+  } catch {
+    return {};
+  }
+}
+function saveGfx(v: { noBloom?: boolean }): void {
+  try {
+    localStorage.setItem(GFX_KEY, JSON.stringify(v));
+  } catch {
+    // 保存できなくても続ける
+  }
+}
+
 /** 夜の環境光の色（月明かりの空と地面） */
 const MOON_SKY = new THREE.Color(0x6f8fd0);
 const MOON_GROUND = new THREE.Color(0x232a3a);
@@ -86,6 +103,7 @@ export class SceneView {
   private post: Post | null = null;
   private frames = 0;
   private drawOk = false;
+  private sizeLogTimer = 0;
   private blackStage = 0;
   private lastSunUp = false;
   private sunDir = new THREE.Vector3(0, 1, 0);
@@ -171,6 +189,11 @@ export class SceneView {
       this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
       pmrem.dispose();
       this.post = createPost(this.renderer, this.scene, this.camera, opts.quality === 'high');
+      // 前に「にじみ」で真っ黒になった環境では、最初から切っておく
+      if (loadGfx().noBloom) {
+        this.post.setStages({ bloom: false, finish: true });
+        dlog('後処理: この環境では光のにじみを使わない（前回の自己診断の結果）');
+      }
     }
     {
       const gl = this.renderer.getContext();
@@ -230,7 +253,8 @@ export class SceneView {
   resize(w: number, h: number): void {
     this.renderer.setSize(w, h, false);
     this.post?.setSize(w, h);
-    dlog('画面の大きさ', { css: `${Math.round(w)}x${Math.round(h)}`, buffer: `${this.renderer.domElement.width}x${this.renderer.domElement.height}`, post: this.post?.describe() ?? null });
+    window.clearTimeout(this.sizeLogTimer);
+    this.sizeLogTimer = window.setTimeout(() => dlog('画面の大きさ', { css: `${Math.round(w)}x${Math.round(h)}`, buffer: `${this.renderer.domElement.width}x${this.renderer.domElement.height}`, post: this.post?.describe() ?? null }), 400);
     this.camera.aspect = w / Math.max(1, h);
     this.camera.updateProjectionMatrix();
   }
@@ -284,7 +308,7 @@ export class SceneView {
       const info = this.renderer.info;
       dlog(`フレーム ${this.frames}`, { calls: info.render.calls, triangles: info.render.triangles, programs: info.programs?.length, textures: info.memory.textures, geometries: info.memory.geometries, sunUp: this.lastSunUp, post: !!this.post, glError: this.renderer.getContext().getError() });
     }
-    // 昼の画面が一度でも正しく描けたと確かめられるまで、ときどき調べる（夜に始まるシナリオでは日の出後に効く）
+    // 画面が一度でも正しく描けたと確かめられるまで、ときどき調べる（夜も月明かりがあるので真っ黒にはならない）
     if (!this.drawOk && this.frames % 30 === 4) this.checkBlack();
   }
 
@@ -335,7 +359,6 @@ export class SceneView {
   }
 
   private checkBlack(): void {
-    if (!this.lastSunUp) return;
     const gl = this.renderer.getContext();
     const first = this.samplePixels();
     dlog('黒画面の検査', { frame: this.frames, stage: this.blackStage, post: this.post?.describe() ?? null, ...first });
@@ -359,7 +382,8 @@ export class SceneView {
         dlog(`後処理の切り分け: ${t.name}`, r);
         if (r.lit > 0) {
           this.drawOk = true;
-          reportProblem(`後処理の一部を切りました（${t.name}）`, `この組み合わせでは描けます。GPU: ${gpu}`);
+          if (!t.bloom && t.finish) saveGfx({ noBloom: true });
+          reportProblem(`後処理の一部を切りました（${t.name}）`, `この組み合わせでは描けます。次回からは最初から切ります。GPU: ${gpu}`);
           return;
         }
       }

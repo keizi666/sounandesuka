@@ -46,6 +46,24 @@ const FinishShader = {
     }`,
 };
 
+/**
+ * にじみの前に、数として壊れた画素（NaN・無限大）と極端に明るい画素を直す。
+ * にじみはぼかしを重ねるので、壊れた画素が 1 つでもあると画面全体が真っ黒になる。
+ */
+const SanitizeShader = {
+  uniforms: { tDiffuse: { value: null as THREE.Texture | null } },
+  vertexShader: /* glsl */ `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+  fragmentShader: /* glsl */ `uniform sampler2D tDiffuse; varying vec2 vUv;
+    void main() {
+      vec3 c = texture2D(tDiffuse, vUv).rgb;
+      // NaN は自分自身と等しくない。比較が成り立たない成分は 0 にする
+      if (!(c.r >= 0.0 && c.r <= 1.0e6)) c.r = 0.0;
+      if (!(c.g >= 0.0 && c.g <= 1.0e6)) c.g = 0.0;
+      if (!(c.b >= 0.0 && c.b <= 1.0e6)) c.b = 0.0;
+      gl_FragColor = vec4(min(c, vec3(48.0)), 1.0);
+    }`,
+};
+
 export interface Post {
   render(): void;
   setSize(w: number, h: number): void;
@@ -63,6 +81,7 @@ export function createPost(renderer: THREE.WebGLRenderer, scene: THREE.Scene, ca
   const target = new THREE.WebGLRenderTarget(Math.max(1, size.x), Math.max(1, size.y), { type: THREE.HalfFloatType, samples: high ? 4 : 2 });
   const composer = new EffectComposer(renderer, target);
   composer.addPass(new RenderPass(scene, camera));
+  composer.addPass(new ShaderPass(SanitizeShader));
   const bloom = new UnrealBloomPass(new THREE.Vector2(size.x, size.y), high ? 0.26 : 0.2, 0.7, 0.95);
   composer.addPass(bloom);
   const finish = new ShaderPass(FinishShader);
