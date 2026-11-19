@@ -98,10 +98,12 @@ void main() {
     vec3 g = uHorToGal * d;
     float b = asin(clamp(g.z, -1.0, 1.0));
     float l = atan(g.y, g.x);
-    float band = exp(-pow(b / 0.16, 2.0)) * (0.5 + 0.5 * cos(l * 0.9)) + exp(-pow(l / 0.5, 2.0) - pow(b / 0.22, 2.0)) * 1.4;
+    // 負の数の pow は GPU によって NaN になり、にじみの後処理で画面全体が真っ黒になる。二乗はかけ算で
+    float bb = b / 0.16, ll = l / 0.5, b2 = b / 0.22, br = (b - 0.035) / 0.03;
+    float band = exp(-bb * bb) * (0.5 + 0.5 * cos(l * 0.9)) + exp(-ll * ll - b2 * b2) * 1.4;
     float clump = fbm(vec2(l * 9.0, b * 18.0));
     // 暗黒帯（はくちょう座〜わし座〜いて座の、銀河面のすぐ北）
-    float rift = exp(-pow((b - 0.035) / 0.03, 2.0)) * smoothstep(1.4, 0.2, abs(l - 0.6)) * smoothstep(0.35, 0.7, fbm(vec2(l * 6.0, b * 30.0) + 7.0));
+    float rift = exp(-br * br) * smoothstep(1.4, 0.2, abs(l - 0.6)) * smoothstep(0.35, 0.7, fbm(vec2(l * 6.0, b * 30.0) + 7.0));
     float mw = band * (0.45 + 0.9 * clump) * (1.0 - 0.75 * rift);
     col += vec3(0.78, 0.82, 1.0) * mw * uMilky * smoothstep(-0.02, 0.25, d.y);
   }
@@ -112,12 +114,15 @@ void main() {
   float c = dot(d, uSunDir);
   float ang = acos(clamp(c, -1.0, 1.0));
   float disc = 1.0 - smoothstep(0.0044, 0.0050, ang);
-  float limb = sqrt(max(0.0, 1.0 - pow(ang / 0.0047, 2.0)));
+  float an = ang / 0.0047;
+  float limb = sqrt(max(0.0, 1.0 - an * an));
   col += uDisc * (disc * (0.45 + 0.55 * limb) * 40.0 + exp(-ang * 55.0) * 0.6 + exp(-ang * 9.0) * 0.08);
   // 空の階調はジオノスタルジカと同じく 1 − exp(−x)（暗い薄明の空が黒につぶれない）。ACES は使わない
   // 地平線より下（台座の下に見える所）は、地面の照り返しの暗い色へ
   col *= mix(0.3, 1.0, smoothstep(-0.25, 0.0, d.y));
   col = 1.0 - exp(-col * 1.5) + uNight;
+  // 念のため: 数でない値（NaN）が出たら黒に（後処理のにじみで広がらないように）
+  if (any(isnan(col)) || any(isinf(col))) col = vec3(0.0);
   gl_FragColor = vec4(col, 1.0);
   #include <colorspace_fragment>
 }`;
@@ -278,7 +283,7 @@ export function createSky(radius: number): Sky {
         float r = length(vUv);
         vec3 col = vec3(0.0);
         if (r < 1.0) {
-          vec3 n = vec3(vUv.x, vUv.y, sqrt(1.0 - r * r));
+          vec3 n = vec3(vUv.x, vUv.y, sqrt(max(0.0, 1.0 - r * r)));
           vec2 tuv = vec2(0.5 + atan(n.x, n.z) / 6.2831853, 0.5 + asin(clamp(n.y, -1.0, 1.0)) / 3.1415927);
           vec3 alb = uHasTex > 0.5 ? texture2D(uTex, tuv).rgb * 1.25 : vec3(0.8);
           float li = smoothstep(-0.03, 0.07, dot(n, uL));
