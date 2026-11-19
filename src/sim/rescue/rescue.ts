@@ -189,6 +189,11 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
     r.calledAtMin = world.tMin;
     r.locationEstimate = null;
     ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALLED', important: true, data: { via: 'overdue' } });
+    // 行き先の手がかりが何もなければ、届け出は受けても捜索隊は出せない（手がかりが分かった時点で出る）
+    if (activeLead(world, ctx) === null) {
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', important: true, data: { noLead: true } });
+      return;
+    }
     start(world, ctx);
     return;
   }
@@ -202,6 +207,8 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
       world.flags[`lead:${lead.id}`] = world.tMin;
       r.searchRadiusM = rt.searchStartM;
       ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', text: lead.text, important: true, data: { searchLead: lead.id } });
+      // 最初の手がかりで、はじめて捜索隊が出る
+      if (r.heli.state === 'idle') start(world, ctx);
     }
   }
   // 計画ルートからの捜索範囲は時間とともに広がる

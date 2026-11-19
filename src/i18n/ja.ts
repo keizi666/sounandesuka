@@ -104,6 +104,8 @@ export const JA = {
     shelterLeave: '{who}は小屋を出た',
     bivouac: '{who}はビバークを始めた',
     rescueCalled: '{who}が救助を要請した（{via}）',
+    reportedOverdue: '家族が警察に届け出た（予定の時刻になっても帰らない）',
+    noLead: '警察は届け出を受けたが、どの山に入ったのか分からず、まだ捜索隊を出せない',
     rescueFailed: '{who}は救助要請を試みたがつながらなかった',
     heliDispatch: '救助ヘリが出動した',
     groundDispatch: '地上の救助隊が出動した',

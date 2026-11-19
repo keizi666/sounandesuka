@@ -145,6 +145,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'BIVOUAC_START':
       return fill(L.bivouac, { who });
     case 'RESCUE_CALLED':
+      if (s('via') === 'overdue' && !e.climberId) return L.reportedOverdue;
       return fill(L.rescueCalled, { who, via: JA.labels.via[s('via')] ?? s('via') });
     case 'RESCUE_CALL_FAILED':
       return fill(L.rescueFailed, { who });
@@ -188,6 +189,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'SCRIPT_LOG':
       if (e.text) return e.text;
       if (d['phoneLost']) return fill(L.phoneLost, { who });
+      if (d['noLead']) return L.noLead;
       if (d['unimplementedAction'] || d['unimplementedEffect']) return fill(L.unimplemented, { what: s('unimplementedAction') || s('unimplementedEffect') });
       return null;
     case 'PIN':

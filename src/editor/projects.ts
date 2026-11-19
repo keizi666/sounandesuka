@@ -102,7 +102,15 @@ async function editBuiltin(host: ProjectsHost, e: ScenarioIndexEntry): Promise<v
   }
 }
 
+/**
+ * 収録のシナリオの編集は管理者だけ（開発サーバー、または VITE_ADMIN=1 でビルドしたとき）。公開用のビルドには出さない。
+ * サーバーもログインもないので、これは「公開版に編集の入口を置かない」ための区別で、収録のファイルそのものは誰も書き換えられない
+ * （編集はブラウザの中のコピーに対して行い、収録の分の差し替えは管理者がファイルを置き換える）
+ */
+export const ADMIN_MODE = import.meta.env.DEV || import.meta.env['VITE_ADMIN'] === '1';
+
 async function builtinSection(host: ProjectsHost): Promise<HTMLElement> {
+  if (!ADMIN_MODE) return el('div');
   let idx: ScenarioIndexEntry[] = [];
   try {
     idx = await loadIndex();
@@ -121,7 +129,7 @@ async function builtinSection(host: ProjectsHost): Promise<HTMLElement> {
     }),
   );
   return el('section', { class: 'ed-builtin' }, [
-    el('h2', {}, '収録のシナリオを編集する'),
+    el('h2', {}, '収録のシナリオを編集する（管理者）'),
     el('table', {}, [el('tr', {}, ['題名', '', '舞台', ''].map((t) => el('th', {}, t))), ...rows]),
     el('p', { class: 'note' }, '収録のシナリオをコピーしたプロジェクトを作って開きます（元のファイルは変わりません）。編集したシナリオは、同じブラウザのプレイヤーの「エディターで作ったシナリオ」から遊べます。収録の分を置き換えるときは、編集画面の「シナリオだけ書き出す」（実在の山はバンドル）で保存し、public/scenarios/ の同じ名前のファイルと入れ替えてください。'),
   ]);
