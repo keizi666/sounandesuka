@@ -54,6 +54,9 @@ export function confuserErrorP(ctx: StaticContext, c: ClimberState, node: NodeId
     let p = k.ambiguity * (nt.errCueBase + nt.errCueK * cue) * (1 - nt.errNavK * eff) * (nt.errMarkBase - markers * nt.errMarkK);
     if (c.plan.stopCheckedNode === node) p *= nt.errStopCheckedF;
     if (c.def.habits.gpsCheckEveryMin !== null && phoneOk(c) && c.inv.phone.gpsApp) p *= nt.errGpsHabitF;
+    // 焦っている・動揺しているときは、分岐の道標や向きの確認を飛ばしやすい
+    // 落ち着いているとき（不安 20 まで）は変わらない。不安 100 で ×(1 + k)
+    p *= 1 + (nt.errAnxietyK * Math.max(0, c.body.anxiety - 20)) / 80;
     return Math.max(0, p);
   });
   return { ps, pErr: Math.min(nt.errMax, 1 - ps.reduce((acc, p) => acc * (1 - p), 1)) };

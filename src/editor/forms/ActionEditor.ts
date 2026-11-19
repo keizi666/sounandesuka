@@ -16,6 +16,9 @@ export const ACTION_LABELS: Partial<Record<ActionType, string>> = {
   eat: '食べる',
   drink: '飲む',
   drinkAlcohol: '酒を飲む',
+  reportMissing: '家族・仲間が警察に届け出る',
+  setPhone: 'スマホをなくす／見つける',
+  addAnxiety: '動揺する（不安を足す）',
   wearRainwear: '雨具を着る',
   addLayer: '防寒着を足す',
   changeDry: '乾いた服に着替える',
@@ -60,6 +63,10 @@ export function defaultAction(t: ActionType, s: ScenarioDef, map: MapDef): Actio
       return { type: t, liters: 0.3 };
     case 'drinkAlcohol':
       return { type: t, grams: 14 };
+    case 'setPhone':
+      return { type: t, has: false };
+    case 'addAnxiety':
+      return { type: t, amount: 20 };
     case 'addLayer':
       return { type: t, clo: 0.3 };
     case 'bivouac':

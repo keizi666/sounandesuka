@@ -1,0 +1,36 @@
+{
+  "id": "sekirou",
+  "name": "相模湖 石老山（石老山入口〜顕鏡寺〜石老山〜大明神展望台）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "石老山入口から顕鏡寺・融合平見晴台・石老山・大明神展望台を経て大明神展望台入口（車道）までと、相模湖駅が入る範囲。一辺 6 km 程度（513 頂点）。大明神展望台の北と西には、地形図に描かれていても道のない尾根や、篠原川へ落ちる谷が多い。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2600, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 100 },
+  "nodes": [
+    { "id": "TH_ISHIROU", "name": "石老山入口（登山口）", "type": "trailhead", "x": 0, "z": 0, "osmName": "石老山入口", "expectedElevM": 220 },
+    { "id": "KENKYOJI", "name": "顕鏡寺", "type": "junction", "x": 0, "z": 0, "expectedElevM": 390 },
+    { "id": "YUGODAIRA", "name": "融合平見晴台", "type": "junction", "x": 0, "z": 0, "expectedElevM": 480 },
+    { "id": "SUMMIT", "name": "石老山", "type": "peak", "x": 0, "z": 0, "osmName": "石老山", "expectedElevM": 694 },
+    { "id": "VIEWPOINT", "name": "大明神展望台", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 549 },
+    { "id": "TH_DAIMYOJIN", "name": "大明神展望台入口（車道）", "type": "trailhead", "x": 0, "z": 0, "osmName": "大明神展望台入口", "expectedElevM": 320 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "石老山入口〜顕鏡寺", "kind": "trail", "from": "TH_ISHIROU", "to": "KENKYOJI", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "顕鏡寺〜融合平見晴台（岩の道）", "kind": "trail", "from": "KENKYOJI", "to": "YUGODAIRA", "class": "T2", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "融合平見晴台〜石老山", "kind": "trail", "from": "YUGODAIRA", "to": "SUMMIT", "class": "T2", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "石老山〜大明神展望台（尾根道）", "kind": "trail", "from": "SUMMIT", "to": "VIEWPOINT", "class": "T2", "markers": 0.7, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "大明神展望台〜大明神展望台入口（急な下り・ロープ）", "kind": "trail", "from": "VIEWPOINT", "to": "TH_DAIMYOJIN", "class": "T2", "markers": 0.6, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

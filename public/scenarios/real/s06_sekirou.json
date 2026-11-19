@@ -1,0 +1,394 @@
+{
+  "id": "s06_sekirou",
+  "version": 1,
+  "title": "展望台で別れた父",
+  "subtitle": "5月・家族4人・相模湖 石老山（実在の地形）",
+  "theme": "lost",
+  "difficulty": 2,
+  "season": "spring",
+  "estMinutes": 15,
+  "mapId": "sekirou",
+  "seed": 516,
+  "startDate": "2026-05-16",
+  "startAt": "D0 10:00",
+  "timeLimit": "D1 12:00",
+  "sun": { "sunrise": "04:36", "sunset": "18:41", "maxElevDeg": 74 },
+  "moon": { "illumination": 0.0 },
+  "region": { "name": "相模湖・石老山", "real": true },
+  "briefing": {
+    "text": "5月中旬の土曜日、晴れ。森本さん一家（父・健一さん 44歳、母・由美さん 42歳、小学6年の陸くん、5年の海くん）は、相模湖の南にある石老山へハイキングに来た。石老山入口から顕鏡寺・融合平見晴台を経て山頂へ登り、大明神展望台から大明神展望台入口へ下ってバスで相模湖駅へ戻る計画。家族でハイキングはするが、自分たちのしていることが「登山」だとは思っていない。雨具もヘッドランプも救急セットも持っていない。健一さんはスマホと、タバコとライターだけをポケットに入れている。財布は由美さんのかばんの中。",
+    "forecast": [
+      { "label": "今日", "text": "晴れ。日中は 24℃ くらい", "icon": "sunny" },
+      { "label": "夜", "text": "晴れ。山では 10℃ 前後まで下がる", "icon": "clear_night" },
+      { "label": "日の入り", "text": "18:41" }
+    ]
+  },
+  "plan": {
+    "route": ["TH_ISHIROU", "KENKYOJI", "YUGODAIRA", "SUMMIT", "VIEWPOINT", "TH_DAIMYOJIN"],
+    "goalNodes": ["TH_DAIMYOJIN", "TH_ISHIROU"],
+    "plannedFinish": "D0 14:40",
+    "submittedPlan": false,
+    "reportIfNotBackBy": "D0 21:00",
+    "searchLeads": [
+      {
+        "id": "family",
+        "at": "D0 10:00",
+        "route": ["SUMMIT", "VIEWPOINT", "TH_DAIMYOJIN"],
+        "text": "由美さんが「大明神展望台で別れた。大明神展望台入口へ下る道で下りてくるはずだった」と説明した。捜索は展望台から下る道を中心に始まった"
+      }
+    ]
+  },
+  "groups": [{ "id": "family", "members": "all", "leader": "kenichi", "cohesion": "tight" }],
+  "party": [
+    {
+      "id": "kenichi", "name": "健一", "age": 44, "sex": "m", "weightKg": 70, "packKg": 3,
+      "experience": 0.2, "fitness": 0.9, "navSkill": 0.3, "riskTolerance": 0.6, "color": "#2563eb", "portrait": "mid_m:3", "leader": true, "role": "父",
+      "habits": { "eatEveryMin": null, "drinkEveryMin": 90, "delaysRainwear": 0.5, "gpsCheckEveryMin": null },
+      "gear": {
+        "rainwear": "none", "cloWorn": 0.5, "cloPack": 0.2, "gloves": "none", "hat": false, "bivy": "none",
+        "headlamp": { "has": false, "batteryH": 0, "inPack": false, "spareBatteryH": 0 },
+        "phone": { "has": true, "batteryPct": 45, "gpsApp": true, "trackRecording": false, "satelliteSos": false, "strap": false },
+        "map": false, "compass": false, "foodKcal": 200, "waterL": 0.5, "stove": false, "crampons": false, "helmet": false, "trekkingPoles": false, "whistle": false
+      },
+      "notes": "架空の人物。財布は持っていない（由美さんのかばんの中）。タバコとライターはある。"
+    },
+    {
+      "id": "yumi", "name": "由美", "age": 42, "sex": "f", "weightKg": 53, "packKg": 4,
+      "experience": 0.2, "fitness": 0.85, "navSkill": 0.25, "riskTolerance": 0.4, "color": "#db2777", "portrait": "mid_f:4", "role": "母",
+      "habits": { "eatEveryMin": 120, "drinkEveryMin": 60, "delaysRainwear": 0.3, "gpsCheckEveryMin": null },
+      "gear": {
+        "rainwear": "none", "cloWorn": 0.5, "cloPack": 0.3, "gloves": "none", "hat": true, "bivy": "none",
+        "headlamp": { "has": false, "batteryH": 0, "inPack": false, "spareBatteryH": 0 },
+        "phone": { "has": true, "batteryPct": 70, "gpsApp": true, "trackRecording": false, "satelliteSos": false },
+        "map": false, "compass": false, "foodKcal": 600, "waterL": 1.0, "stove": false, "crampons": false, "helmet": false, "trekkingPoles": false, "whistle": false
+      }
+    },
+    {
+      "id": "riku", "name": "陸", "age": 12, "sex": "m", "weightKg": 40, "packKg": 2,
+      "experience": 0.15, "fitness": 1.0, "navSkill": 0.1, "riskTolerance": 0.6, "color": "#16a34a", "portrait": "child_m:1", "role": "長男（小6）",
+      "habits": { "eatEveryMin": 120, "drinkEveryMin": 60, "delaysRainwear": 0.5, "gpsCheckEveryMin": null },
+      "gear": {
+        "rainwear": "none", "cloWorn": 0.45, "cloPack": 0.2, "gloves": "none", "hat": true, "bivy": "none",
+        "headlamp": { "has": false, "batteryH": 0, "inPack": false, "spareBatteryH": 0 },
+        "phone": { "has": false, "batteryPct": 0, "gpsApp": false, "trackRecording": false, "satelliteSos": false },
+        "map": false, "compass": false, "foodKcal": 300, "waterL": 0.5, "stove": false, "crampons": false, "helmet": false, "trekkingPoles": false, "whistle": false
+      }
+    },
+    {
+      "id": "kai", "name": "海", "age": 11, "sex": "m", "weightKg": 35, "packKg": 2,
+      "experience": 0.15, "fitness": 0.95, "navSkill": 0.1, "riskTolerance": 0.5, "color": "#ea580c", "portrait": "child_m:2", "role": "次男（小5）",
+      "habits": { "eatEveryMin": 120, "drinkEveryMin": 60, "delaysRainwear": 0.5, "gpsCheckEveryMin": null },
+      "gear": {
+        "rainwear": "none", "cloWorn": 0.45, "cloPack": 0.2, "gloves": "none", "hat": true, "bivy": "none",
+        "headlamp": { "has": false, "batteryH": 0, "inPack": false, "spareBatteryH": 0 },
+        "phone": { "has": false, "batteryPct": 0, "gpsApp": false, "trackRecording": false, "satelliteSos": false },
+        "map": false, "compass": false, "foodKcal": 300, "waterL": 0.5, "stove": false, "crampons": false, "helmet": false, "trekkingPoles": false, "whistle": false
+      }
+    }
+  ],
+  "weather": {
+    "refElevM": 400,
+    "lapseRateCPer100m": 0.6,
+    "cloudThicknessM": 800,
+    "keyframes": [
+      { "at": "D0 10:00", "tempC": 21, "windMs": 2, "windDirDeg": 180, "precipMmH": 0, "cloudCover": 0.1, "cloudBaseM": 2500, "visibilityM": 30000, "pressureHpa": 1018 },
+      { "at": "D0 14:00", "tempC": 24, "windMs": 3, "windDirDeg": 200, "precipMmH": 0, "cloudCover": 0.2, "cloudBaseM": 2500, "visibilityM": 30000, "pressureHpa": 1016 },
+      { "at": "D0 18:00", "tempC": 19, "windMs": 2, "windDirDeg": 200, "precipMmH": 0, "cloudCover": 0.15, "cloudBaseM": 2500, "visibilityM": 30000, "pressureHpa": 1016 },
+      { "at": "D0 23:00", "tempC": 14, "windMs": 1, "windDirDeg": 270, "precipMmH": 0, "cloudCover": 0.05, "cloudBaseM": 3000, "visibilityM": 30000, "pressureHpa": 1017 },
+      { "at": "D1 04:30", "tempC": 11, "windMs": 1, "windDirDeg": 270, "precipMmH": 0, "cloudCover": 0.05, "cloudBaseM": 3000, "visibilityM": 30000, "pressureHpa": 1018 },
+      { "at": "D1 12:00", "tempC": 23, "windMs": 2, "windDirDeg": 180, "precipMmH": 0, "cloudCover": 0.2, "cloudBaseM": 2500, "visibilityM": 30000, "pressureHpa": 1017 }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_phone_drop",
+      "trigger": { "all": [{ "elapsedSince": { "flag": "split", "min": 12 } }, { "var": "c.kenichi.state", "op": "==", "value": "WALKING" }, { "chance": 0.45 }] },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setPhone", "who": "kenichi", "has": false }, { "type": "setFlag", "flag": "phoneDropped" }] },
+        { "type": "log", "text": "展望台のベンチの裏に、健一さんのスマホが落ちたままになっている。本人はまだ気づいていない" }
+      ]
+    },
+    {
+      "id": "ev_phone_found",
+      "trigger": { "all": [{ "flag": "searchingPhone" }, { "var": "c.kenichi.phone.has", "op": "==", "value": false }, { "elapsedSince": { "flag": "searchingPhone", "min": 25 } }, { "chance": 0.3 }] },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setPhone", "who": "kenichi", "has": true }, { "type": "setFlag", "flag": "phoneFound" }] },
+        { "type": "say", "who": "kenichi", "text": "あった！ ベンチの裏に落ちてた", "tone": "normal" }
+      ]
+    },
+    {
+      "id": "ev_phone_found_long",
+      "trigger": { "all": [{ "flag": "searchingLong" }, { "var": "c.kenichi.phone.has", "op": "==", "value": false }, { "elapsedSince": { "flag": "searchingLong", "min": 60 } }, { "chance": 0.35 }] },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setPhone", "who": "kenichi", "has": true }, { "type": "setFlag", "flag": "phoneFound" }] },
+        { "type": "say", "who": "kenichi", "text": "あった……。こんなところに", "tone": "normal" }
+      ]
+    },
+    {
+      "id": "ev_family_down",
+      "trigger": { "all": [{ "flag": "split" }, { "var": "c.yumi.state", "op": "==", "value": "FINISHED" }] },
+      "once": true,
+      "effects": [{ "type": "setFlag", "flag": "momDown" }, { "type": "log", "text": "由美さんと子どもたちは大明神展望台入口に下りた。車道を歩いてバス停へ向かい、健一さんを待つ", "important": true }]
+    },
+    {
+      "id": "ev_report_default",
+      "trigger": { "all": [{ "after": "D0 21:00" }, { "not": { "flag": "reportedMissing" } }, { "not": { "var": "c.kenichi.state", "op": "==", "value": "FINISHED" } }] },
+      "once": true,
+      "effects": [{ "type": "log", "text": "夜9時。待っても連絡がつかず、由美さんは警察に届け出た", "important": true }]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_start",
+      "title": "石老山入口",
+      "priority": 20,
+      "trigger": { "after": "D0 10:00" },
+      "situation": "石老山入口のバス停。よく晴れて、新緑がまぶしい。子どもたちは早くも走り出しそうだ。",
+      "knowledge": [
+        "計画: 顕鏡寺・融合平見晴台を経て山頂、大明神展望台から大明神展望台入口へ下り、バスで相模湖駅へ（下山予定 14:40）",
+        "ハイキングコースとして紹介されている山。ところどころロープのある急な所がある",
+        "雨具・ヘッドランプ・救急セットはない。健一さんのスマホの電池は {c.kenichi.phone.batteryPct:0}%"
+      ],
+      "options": [
+        {
+          "id": "go", "label": "このまま出発する", "detail": "ハイキングだし、いつもどおりでいい。",
+          "actions": [{ "type": "say", "text": "よし、行こう。山頂でお昼だぞ", "to": "riku" }, { "type": "continueRoute" }],
+          "bias": { "base": 1.3 }
+        },
+        {
+          "id": "rule", "label": "「はぐれたらその場で待って電話。バス停では全員そろうまで待つ」と家族で決めてから出発する",
+          "detail": "山では、離れたときの決まりを先に決めておく。",
+          "actions": [{ "type": "say", "text": "はぐれたら、その場で待って電話すること。下では全員そろうまで待つよ", "to": "riku" }, { "type": "continueRoute" }],
+          "flags": ["familyRule"], "tags": ["recommended"], "bias": { "base": 0.3 }
+        }
+      ]
+    },
+    {
+      "id": "cp_summit",
+      "title": "石老山の山頂で昼ごはん",
+      "trigger": { "atNode": "SUMMIT" },
+      "situation": "石老山の山頂に着いた。木々の間から丹沢の山々が見える。子どもたちは「おなかすいた！」と座り込んだ。",
+      "knowledge": ["大明神展望台まで約 50 分、そこから大明神展望台入口まで約 40 分", "下山予定は 14:40"],
+      "options": [
+        {
+          "id": "long", "label": "13 時までゆっくりお昼にする",
+          "actions": [{ "type": "eat", "who": "all", "kcal": 400 }, { "type": "drink", "who": "all", "liters": 0.2 }, { "type": "rest", "minutes": 50 }],
+          "bias": { "base": 1.2 }
+        },
+        {
+          "id": "short", "label": "30 分で食べて、早めに下りはじめる",
+          "actions": [{ "type": "eat", "who": "all", "kcal": 400 }, { "type": "drink", "who": "all", "liters": 0.2 }, { "type": "rest", "minutes": 30 }],
+          "tags": ["recommended"], "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_split",
+      "title": "大明神展望台",
+      "priority": 15,
+      "trigger": { "atNode": "VIEWPOINT" },
+      "situation": "大明神展望台に着いた。相模湖が見下ろせる。休んでいると、子どもたちが「トイレに行きたい！」と言い出した。健一さんは「タバコを一本吸ってから行くから、先に下りてて」と言う。",
+      "knowledge": [
+        "大明神展望台入口までは約 40 分。急な下りにはロープがある",
+        "展望台から北と西にも尾根や踏み跡が下りている",
+        "財布は由美さんのかばんの中。健一さんはスマホとタバコしか持っていない"
+      ],
+      "options": [
+        {
+          "id": "split", "label": "由美さんと子どもたちが先に下り、健一さんはタバコを吸ってから一人で追いかける",
+          "detail": "下でまた会えばいい。電話もある。",
+          "actions": [
+            { "type": "say", "text": "じゃあ先に行ってるね。すぐ来てよ", "who": "yumi", "to": "kenichi" },
+            {
+              "type": "splitParty",
+              "groups": [
+                { "id": "mom", "members": ["yumi", "riku", "kai"], "leader": "yumi", "cohesion": "tight", "actions": [{ "type": "continueRoute" }] },
+                { "id": "dad", "members": ["kenichi"], "leader": "kenichi", "actions": [{ "type": "rest", "minutes": 12 }, { "type": "continueRoute" }] }
+              ]
+            }
+          ],
+          "flags": ["split"], "tags": ["risky"],
+          "bias": { "base": 1.4, "mods": [{ "when": { "flag": "familyRule" }, "add": -0.6 }] }
+        },
+        {
+          "id": "together", "label": "タバコはやめて、4 人で一緒に下りる",
+          "detail": "トイレまで 40 分。急げばいい。",
+          "actions": [{ "type": "say", "text": "タバコは下でいいか。みんなで行こう", "to": "riku" }, { "type": "continueRoute" }],
+          "tags": ["recommended"], "bias": { "base": 0.4, "mods": [{ "when": { "flag": "familyRule" }, "add": 0.6 }] }
+        },
+        {
+          "id": "wait", "label": "健一さんが吸い終わるまで 4 人で待ってから、一緒に下りる",
+          "actions": [{ "type": "say", "text": "ちょっとだけ待って。すぐ吸っちゃうから", "to": "yumi" }, { "type": "rest", "minutes": 10 }, { "type": "continueRoute" }],
+          "tags": ["recommended"], "bias": { "base": 0.3 }
+        }
+      ]
+    },
+    {
+      "id": "cp_phone_notice",
+      "title": "スマホがない",
+      "priority": 14,
+      "trigger": { "all": [{ "elapsedSince": { "flag": "phoneDropped", "min": 18 } }, { "var": "c.kenichi.state", "op": "==", "value": "WALKING" }] },
+      "situation": "下っている途中で、健一さんはポケットにスマホがないことに気づいた。展望台でタバコを吸ったとき、ベンチに置いたのかもしれない。家族への連絡も、地図も、バスの支払いも、全部スマホの中だ。",
+      "knowledge": ["展望台までは登り返しになる", "財布は持っていない", "家族はもう下に着いているかもしれない"],
+      "options": [
+        {
+          "id": "back", "label": "展望台まで戻って探す（30 分くらい）",
+          "actions": [{ "type": "say", "who": "kenichi", "text": "まずい……戻って探そう", "tone": "whisper" }, { "type": "addAnxiety", "who": "kenichi", "amount": 30 }, { "type": "setFlag", "flag": "goBackPhone" }, { "type": "goToNode", "who": "kenichi", "node": "VIEWPOINT", "then": "stay" }],
+          "bias": { "base": 1.0 }
+        },
+        {
+          "id": "long", "label": "見つかるまで探す。来た道もたどりながら、時間をかけて",
+          "actions": [{ "type": "say", "who": "kenichi", "text": "スマホがないと何もできない。見つかるまで探す", "tone": "whisper" }, { "type": "addAnxiety", "who": "kenichi", "amount": 40 }, { "type": "setFlag", "flag": "goBackPhoneLong" }, { "type": "goToNode", "who": "kenichi", "node": "VIEWPOINT", "then": "stay" }],
+          "tags": ["risky"], "bias": { "base": 0.6 }
+        },
+        {
+          "id": "down", "label": "あきらめて、まず下りる。家族と会ってから考える",
+          "detail": "家族は下で待っているはず。",
+          "actions": [{ "type": "say", "who": "kenichi", "text": "いや、先に下りよう。由美のスマホで探せばいい", "tone": "whisper" }, { "type": "addAnxiety", "who": "kenichi", "amount": 15 }, { "type": "continueRoute", "who": "kenichi" }],
+          "tags": ["recommended"], "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_phone_search",
+      "title": "展望台でスマホを探す",
+      "priority": 13,
+      "trigger": { "all": [{ "any": [{ "flag": "goBackPhone" }, { "flag": "goBackPhoneLong" }] }, { "var": "c.kenichi.state", "op": "!=", "value": "WALKING" }, { "var": "c.kenichi.state", "op": "!=", "value": "OFFROUTE_UNAWARE" }, { "beenAt": "VIEWPOINT" }] },
+      "situation": "展望台に戻ってきた。ベンチの周り、柵の外、落ち葉の積もった斜面……。どこにもない。時刻は思ったより進んでいる。",
+      "knowledge": ["日の入りは 18:41。ヘッドランプはない", "家族は下で待っているはず"],
+      "options": [
+        {
+          "id": "search", "label": "あと 30 分だけ探して、だめなら下りる",
+          "actions": [{ "type": "setFlag", "flag": "searchingPhone" }, { "type": "setRoute", "who": "kenichi", "route": ["VIEWPOINT", "TH_DAIMYOJIN"], "goalNodes": ["TH_DAIMYOJIN"] }, { "type": "rest", "who": "kenichi", "minutes": 35 }],
+          "bias": { "base": 0.8, "mods": [{ "when": { "flag": "goBackPhone" }, "add": 0.5 }] }
+        },
+        {
+          "id": "searchLong", "label": "見つかるまで探す（1 時間半）",
+          "actions": [{ "type": "setFlag", "flag": "searchingLong" }, { "type": "setRoute", "who": "kenichi", "route": ["VIEWPOINT", "TH_DAIMYOJIN"], "goalNodes": ["TH_DAIMYOJIN"] }, { "type": "rest", "who": "kenichi", "minutes": 90 }, { "type": "addAnxiety", "who": "kenichi", "amount": 15 }],
+          "tags": ["risky"], "bias": { "base": 0.5, "mods": [{ "when": { "flag": "goBackPhoneLong" }, "add": 0.8 }] }
+        },
+        {
+          "id": "giveup", "label": "あきらめてすぐ下りる",
+          "actions": [{ "type": "setRoute", "who": "kenichi", "route": ["VIEWPOINT", "TH_DAIMYOJIN"], "goalNodes": ["TH_DAIMYOJIN"] }],
+          "tags": ["recommended"], "bias": { "base": 0.4 }
+        }
+      ]
+    },
+    {
+      "id": "cp_busstop",
+      "title": "バス停で待つ",
+      "priority": 9,
+      "trigger": { "all": [{ "flag": "split" }, { "elapsedSince": { "flag": "momDown", "min": 30 } }, { "not": { "var": "c.kenichi.state", "op": "==", "value": "FINISHED" } }] },
+      "situation": "バス停で 30 分待ったが、健一さんが下りてこない。電話をかけても「電波の届かない場所にあるか、電源が入っていない」。子どもたちは「トイレ！」「つかれた」と言っている。",
+      "knowledge": ["バスは 1 時間に 1〜2 本", "相模湖駅の周りにはお店も交番もある", "健一さんは財布を持っていない"],
+      "options": [
+        {
+          "id": "station", "label": "次のバスで相模湖駅へ行き、駅で待つ",
+          "detail": "駅なら座れるし、トイレもある。電話はつながるはず。",
+          "actions": [{ "type": "say", "who": "yumi", "text": "駅で待とう。パパもすぐ来るよ", "to": "riku" }, { "type": "setFlag", "flag": "momToStation" }],
+          "bias": { "base": 1.2 }
+        },
+        {
+          "id": "stay", "label": "バス停で待ち続ける。全員そろうまで動かない",
+          "actions": [{ "type": "say", "who": "yumi", "text": "もう少しここで待とう。行き違いになったら困るから", "to": "riku" }, { "type": "setFlag", "flag": "momWaits" }],
+          "tags": ["recommended"], "bias": { "base": 0.4, "mods": [{ "when": { "flag": "familyRule" }, "add": 0.8 }] }
+        },
+        {
+          "id": "call110", "label": "すぐに 110 番して相談する",
+          "detail": "大げさかもしれない。でも山の中で何かあったのかもしれない。",
+          "actions": [{ "type": "say", "who": "yumi", "text": "すみません、山で家族とはぐれて……", "tone": "normal" }, { "type": "reportMissing" }],
+          "tags": ["recommended"], "bias": { "base": 0.2 }
+        }
+      ]
+    },
+    {
+      "id": "cp_station",
+      "title": "相模湖駅で 17 時",
+      "priority": 8,
+      "trigger": { "all": [{ "after": "D0 17:00" }, { "flag": "momToStation" }, { "not": { "flag": "reportedMissing" } }, { "not": { "var": "c.kenichi.state", "op": "==", "value": "FINISHED" } }] },
+      "situation": "17 時。相模湖駅で待っても健一さんは来ない。メッセージも既読にならない。お店が閉まりはじめた。日の入りまであと 1 時間半。",
+      "knowledge": ["駅の近くに交番がある", "湖のそばのファミレスは 22 時まで開いている", "健一さんはヘッドランプを持っていない"],
+      "options": [
+        {
+          "id": "koban", "label": "交番に相談する",
+          "actions": [{ "type": "say", "who": "yumi", "text": "主人が山から下りてこないんです", "tone": "normal" }, { "type": "reportMissing" }],
+          "tags": ["recommended"], "bias": { "base": 0.8 }
+        },
+        {
+          "id": "gusto", "label": "ファミレスで子どもたちに夕飯を食べさせながら、もう少し待つ",
+          "actions": [{ "type": "say", "who": "yumi", "text": "ごはん食べながら待とうか", "to": "riku" }, { "type": "setFlag", "flag": "momWaitsDinner" }],
+          "bias": { "base": 0.8 }
+        }
+      ]
+    },
+    {
+      "id": "cp_stop17",
+      "title": "バス停で 17 時",
+      "priority": 8,
+      "trigger": { "all": [{ "after": "D0 17:00" }, { "flag": "momWaits" }, { "not": { "flag": "reportedMissing" } }, { "not": { "var": "c.kenichi.state", "op": "==", "value": "FINISHED" } }] },
+      "situation": "17 時。バス停で 2 時間待っても、健一さんは下りてこない。子どもたちはおなかがすいて座り込んでいる。日の入りまであと 1 時間半。",
+      "knowledge": ["健一さんはヘッドランプを持っていない", "電話はつながらないまま"],
+      "options": [
+        { "id": "call110", "label": "110 番する", "actions": [{ "type": "say", "who": "yumi", "text": "主人が山から下りてこないんです", "tone": "normal" }, { "type": "reportMissing" }], "tags": ["recommended"], "bias": { "base": 0.9 } },
+        { "id": "wait", "label": "もう少しだけ待つ", "actions": [{ "type": "say", "who": "yumi", "text": "もうちょっとだけ待ってみよう", "to": "riku" }], "bias": { "base": 0.6 } }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "lostAware": {
+      "situation": "踏み跡が消えた。急いでいたせいか、どこで道を外れたのか分からない。周りは木ばかりで、相模湖も見えない。"
+    },
+    "darkness": {
+      "situation": "森の中が暗くなってきた。ヘッドランプはない。足元がほとんど見えない。",
+      "options": [
+        { "id": "continue", "label": "手探りで、少しずつでも下り続ける", "detail": "ライターの火は数秒しかもたない。", "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1.0 } },
+        { "id": "bivouac", "label": "動かずに朝を待つ。落ち葉を集めて体を覆い、風の当たらない所でうずくまる", "actions": [{ "type": "bivouac", "until": "dawn", "findLee": true }], "tags": ["recommended"], "bias": { "base": 0.6 } }
+      ]
+    }
+  },
+  "thoughts": [
+    { "key": "s06_smoke", "when": { "all": [{ "flag": "split" }, { "var": "c.kenichi.state", "op": "==", "value": "RESTING" }, { "not": { "flag": "goBackPhone" } }, { "not": { "flag": "goBackPhoneLong" } }] }, "lines": ["家じゃ吸えないからな。ここなら気兼ねなく吸える", "相模湖がよく見える。いい日だ"], "priority": 6 },
+    { "key": "s06_lostphone", "when": { "all": [{ "var": "c.kenichi.phone.has", "op": "==", "value": false }, { "elapsedSince": { "flag": "phoneDropped", "min": 18 } }] }, "lines": ["スマホがないと、電話も地図もバスも……", "由美はもう下に着いたかな。心配してるだろうな"], "priority": 7 },
+    { "key": "s06_hurry", "when": { "all": [{ "var": "c.kenichi.state", "op": "==", "value": "WALKING" }, { "after": "D0 15:30" }, { "flag": "split" }] }, "lines": ["急がないと。家族が待ってる", "こっちで合ってるよな。来た道とは違う気がするけど"], "priority": 6 }
+  ],
+  "speech": [
+    { "key": "s06_kids_start", "who": "riku", "to": "kai", "when": { "all": [{ "after": "D0 10:05" }, { "before": "D0 10:40" }] }, "lines": ["どっちが先に山頂に着くか競争な！", "海、遅いぞー"], "replies": { "who": "kai", "lines": ["ずるい、先に走った！", "待ってよー"] }, "priority": 12, "once": true },
+    { "key": "s06_temple", "who": "yumi", "to": "riku", "when": { "beenAt": "KENKYOJI" }, "lines": ["顕鏡寺だって。大きな岩がたくさんあるね", "ここからは岩の道だから、走らないでね"], "replies": { "who": "riku", "lines": ["この岩、上れそう！", "はーい"] }, "priority": 11, "once": true },
+    { "key": "s06_rope", "who": "kai", "to": "kenichi", "when": { "all": [{ "beenAt": "YUGODAIRA" }, { "not": { "beenAt": "SUMMIT" } }] }, "lines": ["ロープがある！ これ持って登るの？", "ここ、けっこう急だね"], "replies": { "who": "kenichi", "lines": ["しっかりつかまって。足元を見て", "ゆっくりでいいぞ"] }, "priority": 11, "once": true },
+    { "key": "s06_summit", "who": "riku", "to": "yumi", "when": { "beenAt": "SUMMIT" }, "lines": ["着いたー！ おにぎりちょうだい", "あそこに見えるの、富士山？"], "replies": { "who": "yumi", "lines": ["はいはい、手を拭いてからね", "あれは丹沢の山かな"] }, "priority": 12, "once": true },
+    { "key": "s06_toilet", "who": "kai", "to": "yumi", "when": { "beenAt": "VIEWPOINT" }, "lines": ["トイレ行きたい！ もうがまんできない", "下まであとどのくらい？"], "replies": { "who": "yumi", "lines": ["もうちょっとだから、がんばって", "40 分くらいかな"] }, "priority": 16, "once": true },
+    { "key": "s06_where_dad", "who": "kai", "to": "yumi", "when": { "all": [{ "flag": "split" }, { "var": "c.yumi.state", "op": "==", "value": "FINISHED" }, { "not": { "var": "c.kenichi.state", "op": "==", "value": "FINISHED" } }] }, "lines": ["パパ、遅いね", "パパ、迷子になったの？"], "replies": { "who": "yumi", "lines": ["タバコ吸ってるだけよ。すぐ来るって", "電話がつながらないのよね……"] }, "priority": 14, "cooldownMin": 45 },
+    { "key": "s06_alone", "who": "kenichi", "when": { "all": [{ "var": "c.kenichi.phone.has", "op": "==", "value": false }, { "var": "c.kenichi.state", "op": "==", "value": "LOST_AWARE" }] }, "lines": ["おーい！ 誰かいませんか！", "まいったな……ここ、どこだ"], "tone": "shout", "priority": 20, "cooldownMin": 40 },
+    { "key": "s06_dark", "who": "kenichi", "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "not": { "var": "c.kenichi.state", "op": "==", "value": "FINISHED" } }, { "not": { "var": "c.kenichi.state", "op": "==", "value": "RESCUED" } }] }, "lines": ["真っ暗だ。何も見えない", "ライターの火じゃ、足元しか照らせない"], "tone": "whisper", "priority": 15, "cooldownMin": 90 }
+  ],
+  "endings": [
+    { "kind": "SAFE_RETURN", "when": { "not": { "flag": "split" } }, "title": "4 人そろって下山", "text": "4 人は一緒に大明神展望台入口へ下り、バスで相模湖駅へ戻った。湖のほとりでソフトクリームを食べて帰った。" },
+    { "kind": "SAFE_RETURN", "when": { "var": "c.kenichi.phone.has", "op": "==", "value": false }, "title": "交番で再会", "text": "スマホも財布もない健一さんは、バスに乗れず、道路標識を頼りに相模湖駅まで歩いた。家族の姿はなく、電車賃を借りようと交番に寄ると、警官が「さっき相談に来た家族では」と気づいた。由美さんにこっぴどく叱られた。" },
+    { "kind": "SAFE_RETURN", "title": "遅れて下山", "text": "健一さんは遅れて下山し、由美さんに電話した。「なんで電話に出ないの！」 山の中では電波が届かないこともある。別れて歩いた 1 時間は、家族にとってとても長かった。" },
+    { "kind": "SELF_RESCUE", "title": "一晩の末に", "text": "健一さんは、道に迷った末に自力で車道に出た。家族と警察が夜通し探していた。" },
+    { "kind": "RESCUED", "when": { "flag": "reportedMissing" }, "title": "早めの届け出", "text": "由美さんが早めに届け出て、展望台で別れたことを伝えたので、捜索はすぐ展望台の周りに向かった。健一さんは救助隊に見つけられた。" },
+    { "kind": "RESCUED", "title": "救助", "text": "健一さんは救助隊に見つけられた。展望台から外れた尾根の、思いもよらない場所だった。" },
+    { "kind": "RESCUED_CRITICAL", "title": "重い状態で救助", "text": "健一さんは弱った状態で見つかり、病院へ運ばれた。" },
+    { "kind": "MISSING", "title": "まだ見つからない", "text": "翌日の昼になっても、健一さんは見つかっていない。展望台からは、地形図に描かれた道のない尾根や、篠原川へ落ちる谷がいくつも下っている。どこへ行ったのかは、誰にも分からない。" },
+    { "kind": "FATAL", "title": "帰らぬ人に", "text": "健一さんは山から戻らなかった。家族と別れたのは、低い山の、よく整備されたハイキングコースの展望台だった。" }
+  ],
+  "lessons": [
+    { "id": "l_split", "when": { "flag": "split" }, "title": "パーティを割らない", "text": "「先に下りてて」「すぐ追いつく」で別れると、一人になった人が静かに行き詰まっていくことがある。別れるなら、少なくとも大人 2 人以上の組にし、下では全員そろうまで待つ。" },
+    { "id": "l_phone", "when": { "flag": "phoneDropped" }, "title": "休んだ場所を出るときは指差し確認", "text": "スマホ・地図・手袋・上着など、休憩中に出し入れした物はその場に忘れやすい。取りに戻れば時間と体力を失い、焦って道を間違えやすい。出発前に、いた場所を見回してお互いに確認する。スマホはストラップで留め、モバイルバッテリーを持つ。" },
+    { "id": "l_cash", "when": { "flag": "split" }, "title": "スマホは命綱、でも全部は預けない", "text": "スマホは電話であり地図であり財布でもある。なくすとすべてを失う。少しの現金と、紙の地図を別に持つ。" },
+    { "id": "l_wait", "when": { "chose": { "cp": "cp_busstop", "option": "station" } }, "title": "下では全員そろうまで待つ", "text": "バス停を離れると、遅れて下りてきた人と行き違いになり、連絡も取れなくなる。どうしても離れるなら、置き手紙や、バスの運転手・お店への伝言を残す。" },
+    { "id": "l_report", "when": { "flag": "reportedMissing" }, "title": "早めの相談は大げさではない", "text": "低い山でも、行動時間が短い山から帰ってこないのは心配な兆候。どこで別れ、どの道を下るはずだったかを具体的に伝えると、捜索の範囲が絞れる。" },
+    { "id": "l_mountain", "when": { "after": "D0 00:00" }, "title": "ハイキングも登山", "text": "整備されたハイキングコースでも、道を外れれば 10 m で歩けなくなり、転べばけがをし、暗くなれば動けない。一晩を越せるだけの服・ヘッドランプ・水と食料を持ち、山に入っているという自覚を持つ。" }
+  ],
+  "balanceTargets": {
+    "recommended": { "goodMin": 0.95, "fatalMax": 0.01 }
+  },
+  "sources": [
+    "原案: 松本圭司「架空遭難　家族4人で登山、下山中に別行動をした夫が行方不明」note（2024年2月26日） https://note.com/keizi666/n/na58579654d88",
+    "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+    "登山道・地点: © OpenStreetMap contributors"
+  ]
+}

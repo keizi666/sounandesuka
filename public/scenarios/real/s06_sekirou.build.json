@@ -1,0 +1,43 @@
+{
+  "skeleton": "public/maps/real/sekirou.skeleton.json",
+  "mapId": "sekirou",
+  "center": [35.6, 139.19],
+  "size": 6144,
+  "resolution": 513,
+  "at": { "SUMMIT": [35.58507, 139.19078] },
+  "atXZ": {
+    "TH_ISHIROU": [1161, 366],
+    "KENKYOJI": [663, 655],
+    "YUGODAIRA": [662, 942],
+    "VIEWPOINT": [-762, 546],
+    "TH_DAIMYOJIN": [-578, -42]
+  },
+  "snapM": 60,
+  "falseEdges": [
+    {
+      "id": "F_GREEN",
+      "name": "北の尾根（地形図の破線。道はない）",
+      "from": "VIEWPOINT",
+      "snap": "ridge",
+      "points": [[-790, 470], [-805, 400], [-815, 330], [-825, 260], [-830, 190], [-830, 120], [-835, 50], [-840, -20], [-850, -100], [-860, -180]],
+      "fadeFrac": 0.6,
+      "markers": 0.05,
+      "drift": 0.06,
+      "attractiveness": 0.7,
+      "confuser": { "whenIntending": ["E5"], "ambiguity": 0.12 }
+    },
+    {
+      "id": "F_WEST",
+      "name": "西の谷（篠原川へ）",
+      "from": "VIEWPOINT",
+      "snap": "valley",
+      "points": [[-850, 540], [-930, 530], [-1010, 520], [-1090, 515], [-1170, 505], [-1250, 500], [-1330, 495], [-1410, 480], [-1490, 460]],
+      "fadeFrac": 0.7,
+      "markers": 0.0,
+      "drift": 0.08,
+      "attractiveness": 0.5,
+      "confuser": { "whenIntending": ["E5"], "ambiguity": 0.08 }
+    }
+  ],
+  "radio": [{ "id": "st_town", "x": 600, "z": -2200, "elevM": 250, "antennaM": 40, "rangeM": 15000 }]
+}

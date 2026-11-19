@@ -19,6 +19,8 @@ export const nav = {
   errStopCheckedF: 0.1,
   errGpsHabitF: 0.4,
   errMax: 0.95,
+  /** 不安が 20 を超えると分岐の誤りが増え、100 で ×(1 + k)。焦っていると道標や向きの確認を飛ばす */
+  errAnxietyK: 1.2,
   /** 別の正規の道に入ったとき、次のノードで道標を見て気づく確率 */
   signBase: 0.6,
   signMarkersK: 0.4,

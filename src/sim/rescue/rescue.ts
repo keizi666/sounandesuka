@@ -177,13 +177,19 @@ function search(world: World, ctx: StaticContext, perH: number, by: 'heli' | 'gr
   return null;
 }
 
+/** 家族・仲間が届け出る（reportMissing のアクション）。次のティックで未帰還の通報として扱う */
+export function reportMissing(world: World): void {
+  if (world.flags['reportedMissing'] === undefined) world.flags['reportedMissing'] = world.tMin;
+}
+
 /** 救助の 1 ティック（docs/03 §4 の 10） */
 export function stepRescue(world: World, ctx: StaticContext, dtMin: number): void {
   const rt = ctx.tuning.rescue;
   const r = world.rescue;
-  // 未帰還通報（家族が通報する時刻を過ぎても下山の連絡がない）
+  // 未帰還通報（家族が通報する時刻を過ぎても下山の連絡がない。または家族・仲間が届け出た）
   const due = ctx.scenario.plan.reportIfNotBackBy;
-  if (r.status === 'none' && due !== null && world.tMin >= parseTimeRef(due) && world.flags['familyNotified'] === undefined && missing(world, ctx).length > 0) {
+  const dueNow = (due !== null && world.tMin >= parseTimeRef(due) && world.flags['familyNotified'] === undefined) || world.flags['reportedMissing'] !== undefined;
+  if (r.status === 'none' && dueNow && missing(world, ctx).length > 0) {
     r.status = 'searching';
     r.via = 'overdue';
     r.calledAtMin = world.tMin;

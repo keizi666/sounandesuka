@@ -359,6 +359,9 @@ export type Action = { who?: Who } & (
   | { type: 'rest'; minutes: number }
   | { type: 'eat'; kcal: number }
   | { type: 'drink'; liters: number }
+  | { type: 'reportMissing' }                     // 家族・仲間が「帰らない」と警察に届け出る（未帰還の通報を今する）
+  | { type: 'setPhone'; has: boolean }             // スマホをなくす（false）・見つける（true）
+  | { type: 'addAnxiety'; amount: number }         // 動揺する（+）・落ち着く（−）。不安 0〜100
   | { type: 'drinkAlcohol'; grams: number; liters?: number }   // 酒（純アルコールのグラム。缶ビール 350 mL で約 14 g）。liters は飲み物の量（水分になる）
   | { type: 'wearRainwear' }
   | { type: 'addLayer'; clo?: number }

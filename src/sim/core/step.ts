@@ -120,8 +120,8 @@ function dtMinOf(): number {
 }
 
 function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveOutcome | undefined): void {
-  // 死亡した人と、救助隊に収容された人（接触の時点で結果が確定する。docs/08 §5.2）は体の計算を進めない
-  if (!c.body.alive || c.state === 'RESCUED') {
+  // 死亡した人と、救助隊に収容された人（接触の時点で結果が確定する。docs/08 §5.2）、下山した人（里に戻った）は体の計算を進めない
+  if (!c.body.alive || c.state === 'RESCUED' || c.state === 'FINISHED') {
     c.speedMs = 0;
     c.metAct = 0;
     return;

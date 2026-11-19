@@ -2,6 +2,7 @@
  * アクションの適用（docs/09 §6）。対象は既定でグループの全員（who で指定可）。
  * グループの分割・離脱・まとまり方は groups.ts、浸水は physiology.ts。
  */
+import { reportMissing } from '../rescue/rescue';
 import { parseTimeRef } from '../core/clock';
 import { chance } from '../core/rng';
 import { nearestIndex } from '../terrain/sample';
@@ -192,6 +193,15 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       if (l > 0) ctx.events.push({ tMin: world.tMin, type: 'DRINK', climberId: c.id, data: { liters: l } });
       return;
     }
+    case 'reportMissing':
+      reportMissing(world);
+      return;
+    case 'setPhone':
+      c.inv.phone.has = a.has;
+      return;
+    case 'addAnxiety':
+      c.body.anxiety = Math.min(100, Math.max(0, c.body.anxiety + a.amount));
+      return;
     case 'drinkAlcohol':
       c.body.alcoholG = (c.body.alcoholG ?? 0) + Math.max(0, a.grams);
       // 飲み物そのものは水分になる（あとで利尿で一部が出ていく）

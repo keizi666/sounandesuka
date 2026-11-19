@@ -3,14 +3,19 @@
 | ファイル | 内容 |
 |---|---|
 | `s05_shounoiwa.json` | 鳥屋戸尾根の転落（奥多摩・笙ノ岩山。9 月・単独）。原案: 松本圭司「架空遭難　登山歴8年の65歳ソロ男性、鳥屋戸尾根で滑落負傷」note（2024-02-09） |
+| `s06_sekirou.json` | 展望台で別れた父（相模湖・石老山。5 月・家族 4 人）。原案: 松本圭司「架空遭難　家族4人で登山、下山中に別行動をした夫が行方不明」note（2024-02-26） |
+| `../../maps/real/sekirou.skeleton.json` | s06 の骨組みマップ |
 | `../../maps/real/shounoiwa.skeleton.json` | 座標を含まない骨組みマップ（地名・道のつながり・概略標高） |
+| `s05_shounoiwa.build.json` | 実地形の作り方（範囲・地点の座標・偽の道・速度係数・基地局） |
 | `s05_shounoiwa.hakoniwa.json` | 実地形のバンドル（`npm run make:s05` で作る。リポジトリには含めない） |
 
 ## 作り方
 
 ```
-npm run make:s05
+npm run make:real -- <シナリオ ID>     （s05 は npm run make:s05 でも同じ）
 ```
+
+`<シナリオ ID>.build.json` に作り方を書く（`tools/make-real.ts` の `RealBuildSpec`）。
 
 国土地理院の標高タイルと OpenStreetMap の登山道を取り込み（応答は `.scratch/geo-cache/` に保存）、スケルトンマップと結合してバンドルを書き出す。
 シナリオ（`s05_shounoiwa.json`）を直したら、もう一度実行してバンドルに入れ直す（ゲームはバンドルの中のシナリオを使う。`sim:check`・`mc` は元の JSON を使う）。
