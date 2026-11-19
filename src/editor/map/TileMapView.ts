@@ -41,6 +41,8 @@ export class TileMapView {
   lat = 36.4;
   lon = 137.7;
   zoom = 13;
+  /** ズームの下限（日本全体から選ぶときは 5） */
+  minZoom = 8;
   base: BaseLayer | 'none' = 'std';
   hillshade = false;
   /** 箱庭の原点（エリア中心）。x・z との変換に使う */
@@ -119,7 +121,7 @@ export class TileMapView {
   setView(lat: number, lon: number, zoom = this.zoom): void {
     this.lat = lat;
     this.lon = lon;
-    this.zoom = Math.max(8, Math.min(17, zoom));
+    this.zoom = Math.max(this.minZoom, Math.min(17, zoom));
     this.redraw();
     this.onView?.();
   }
@@ -242,7 +244,9 @@ export class TileMapView {
       (e) => {
         e.preventDefault();
         const p = this.pointer(e);
-        const nz = Math.max(8, Math.min(17, this.zoom - Math.sign(e.deltaY) * 0.25));
+        // 広域ではホイール 1 段で大きく、近づくと細かく
+        const step = this.zoom < 10 ? 0.5 : 0.25;
+        const nz = Math.max(this.minZoom, Math.min(17, this.zoom - Math.sign(e.deltaY) * step));
         // カーソル位置を固定してズーム
         const before = lonLatToTile(p.lon, p.lat, nz);
         const ll = tileToLonLat(before.x - (p.px - this.width / 2) / TILE, before.y - (p.py - this.height / 2) / TILE, nz);

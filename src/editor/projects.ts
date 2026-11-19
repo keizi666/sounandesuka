@@ -4,6 +4,7 @@
 import { assetUrl } from '../app/data';
 import type { HakoniwaBundle, MapDef, ScenarioDef } from '../sim/types';
 import { el, toast } from '../ui/dom';
+import { createAreaPicker } from './areaPicker';
 import { gridFor } from './geo/projection';
 import { deleteProject, getProject, listProjects, putProject } from './store/idb';
 import { createFictionalProject, createRealProject, duplicateProject, fromBundle } from './store/project';
@@ -24,14 +25,20 @@ function newDialog(host: ProjectsHost): void {
   const lat = el('input', { type: 'number', step: '0.0001', value: '36.40' });
   const lon = el('input', { type: 'number', step: '0.0001', value: '137.71' });
   const size = el('input', { type: 'number', step: '128', value: '6000' });
+  // 日本地図から範囲を選ぶ（入力欄と同期）
+  const picker = createAreaPicker({ lat, lon, size });
+  for (const i of [lat, lon, size]) i.addEventListener('input', () => picker.sync());
   const realBox = el('div', {}, [
-    el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '中心の緯度'), lat]),
-    el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '中心の経度'), lon]),
-    el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '一辺（m）'), size]),
-    el('p', { class: 'note' }, '後から地図の上で範囲を動かせます。2,048〜12,288 m。'),
+    picker.el,
+    el('div', { class: 'area-picker-fields' }, [
+      el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '中心の緯度'), lat]),
+      el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '中心の経度'), lon]),
+      el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '一辺（m）'), size]),
+    ]),
+    el('p', { class: 'note' }, '一辺は 2,048〜12,288 m。後からエリアのタブでも範囲を動かせます。'),
   ]);
   kind.addEventListener('change', () => (realBox.style.display = kind.value === 'real' ? '' : 'none'));
-  const dlg = el('dialog', { class: 'ed-dialog' }, [
+  const dlg = el('dialog', { class: 'ed-dialog wide' }, [
     el('h2', {}, '新しいプロジェクト'),
     el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '名前'), name]),
     el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '舞台'), kind]),
