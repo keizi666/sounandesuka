@@ -2,6 +2,7 @@
  * シミュレーション画面（docs/11 §2〜3）。World・StaticContext・記録・描画・ループ・HUD・吹き出し・分岐点をつなぐ。
  * モード: 通常（分岐点で止まる）、判断時間制限（登山者は立ち止まって待ち、時間切れで傾向どおり）、観察のみ（傾向どおり自動）。
  */
+import { createFloatWindow } from './floatWindow';
 import { dlog, versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
@@ -125,7 +126,11 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     },
     { god: view.godView, observe, timed },
   );
-  app.root.append(el('main', { class: 'sim' }, [hud.top, el('div', { class: 'body' }, [stage, hud.side]), hud.logEl, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
+  // 3D 画面を全面に敷き、状況とログは動かせるウィンドウとして重ねる（狭い画面では最小化して始める）
+  const narrow = window.innerWidth < 900;
+  const sideWin = createFloatWindow(hud.side, { id: 'status', title: JA.ui.statusWindow, right: 12, top: 60, width: 320, height: Math.round(window.innerHeight * 0.62), minimized: narrow });
+  const logWin = createFloatWindow(hud.logEl, { id: 'log', title: JA.ui.log, left: 12, bottom: 34, width: Math.min(560, Math.round(window.innerWidth * 0.5)), height: 180, minimized: narrow });
+  app.root.append(el('main', { class: 'sim' }, [stage, hud.top, sideWin.el, logWin.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
 
   // ---- 保存 ----
   let lastSave = performance.now();
@@ -311,6 +316,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     document.removeEventListener('keydown', onKey);
     document.removeEventListener('visibilitychange', onHide);
     bubbles.dispose();
+    sideWin.dispose();
+    logWin.dispose();
     view.dispose();
   };
 }

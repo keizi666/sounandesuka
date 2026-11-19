@@ -152,6 +152,8 @@ export class Hud {
     if (line.climberId) li.addEventListener('click', () => this.h.select(line.climberId!));
     this.logEl.append(li);
     while (this.logEl.childElementCount > 300) this.logEl.firstElementChild?.remove();
-    this.logEl.scrollTop = this.logEl.scrollHeight;
+    // ログはウィンドウの本体（親）がスクロールする
+    const sc = this.logEl.parentElement ?? this.logEl;
+    sc.scrollTop = sc.scrollHeight;
   }
 }

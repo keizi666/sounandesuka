@@ -83,8 +83,8 @@ dialog.settings select { background: var(--panel2); border: 1px solid var(--line
 .toast { background: var(--panel2); border: 1px solid var(--line); padding: 8px 14px; border-radius: 8px; }
 
 /* ---- シミュレーション画面（docs/11 §2） ---- */
-main.sim { display: grid; grid-template-rows: auto minmax(0, 1fr) 150px; height: 100vh; height: 100dvh; overflow: hidden; }
-.topbar { display: flex; align-items: center; gap: 8px; padding: 6px 8px; background: var(--panel); border-bottom: 1px solid var(--line); flex-wrap: wrap; z-index: 5; }
+main.sim { position: relative; height: 100vh; height: 100dvh; overflow: hidden; }
+.topbar { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 8px; padding: 6px 8px; background: rgba(18, 21, 27, 0.6); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); border-bottom: 1px solid rgba(255, 255, 255, 0.12); flex-wrap: wrap; z-index: 10; }
 .topbar .title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 18em; }
 .topbar .clock { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 1.1em; padding: 0 6px; }
 .topbar .group { display: flex; gap: 2px; }
@@ -96,10 +96,9 @@ main.sim { display: grid; grid-template-rows: auto minmax(0, 1fr) 150px; height:
 .topbar .layers .menu { position: absolute; top: 110%; right: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 6px; min-width: 160px; z-index: 20; }
 .topbar .layers .menu label { display: flex; gap: 6px; align-items: center; }
 .topbar .layers select { background: var(--panel2); border: 1px solid var(--line); border-radius: 4px; }
-main.sim > .body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; min-height: 0; }
-.stage { position: relative; min-height: 0; overflow: hidden; }
+.stage { position: absolute; inset: 0; overflow: hidden; }
 canvas.scene { display: block; width: 100%; height: 100%; touch-action: none; }
-aside.side { overflow-y: auto; background: var(--panel); border-left: 1px solid var(--line); padding: 8px 10px; }
+aside.side { padding: 8px 10px; }
 aside.side h2 { font-size: 1rem; margin: 4px 0 8px; display: flex; justify-content: space-between; align-items: center; }
 aside.side h3, aside.side h4 { margin: 6px 0; font-size: 0.95rem; }
 aside.side details summary { cursor: pointer; padding: 4px 0; color: var(--muted); }
@@ -120,11 +119,11 @@ section.climber .jm { margin: 4px 0 0; font-size: 0.85em; color: var(--muted); }
 section.weather .kv { display: flex; justify-content: space-between; border-bottom: 1px dotted var(--line); padding: 2px 0; }
 section.weather ul { padding-left: 1.2em; margin: 4px 0; }
 canvas.spark { width: 100%; height: 60px; background: rgba(0, 0, 0, 0.2); border-radius: 4px; }
-ol.log { margin: 0; padding: 6px 10px; list-style: none; overflow-y: auto; background: #181b20; border-top: 1px solid var(--line); font-size: 0.9em; line-height: 1.55; }
+ol.log { margin: 0; padding: 6px 10px; list-style: none; font-size: 0.9em; line-height: 1.55; }
 ol.log li { cursor: default; }
 ol.log li.imp { color: #ffe1a6; }
 ol.log time { color: var(--muted); font-variant-numeric: tabular-nums; }
-.keyhelp { position: fixed; right: 312px; bottom: 154px; margin: 0; font-size: 0.75em; color: var(--muted); pointer-events: none; opacity: 0.7; }
+.keyhelp { position: fixed; right: 10px; bottom: 6px; margin: 0; text-shadow: 0 1px 2px #000; font-size: 0.75em; color: var(--muted); pointer-events: none; opacity: 0.7; }
 
 /* ---- 分岐点（docs/11 §3） ---- */
 .modal-host { position: fixed; inset: 0; pointer-events: none; z-index: 30; }
@@ -206,11 +205,27 @@ canvas.chart { width: 100%; height: auto; background: var(--panel); border-radiu
 .lessons h3 { margin: 6px 0; font-size: 1rem; }
 progress { width: 100%; }
 
+/* ---- 浮かぶウィンドウ（3D 画面に重ねる。暗い半透明・ぼかし背景） ---- */
+.fwin {
+  position: fixed; z-index: 8; display: flex; flex-direction: column; overflow: hidden; resize: both;
+  min-width: 180px; min-height: 34px; max-width: calc(100vw - 8px); max-height: calc(100dvh - 8px);
+  color: #e9ecf1; --fg: #e9ecf1; --muted: #a9b0bb; --line: rgba(255, 255, 255, 0.14); --panel: rgba(255, 255, 255, 0.05); --panel2: rgba(255, 255, 255, 0.09);
+  background: rgba(14, 17, 23, 0.58); -webkit-backdrop-filter: blur(16px) saturate(1.25); backdrop-filter: blur(16px) saturate(1.25);
+  border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38);
+}
+.fwin.min { resize: none; min-height: 0; }
+.fwin.min .fwin-body { display: none; }
+.fwin.dragging { box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5); user-select: none; }
+.fwin-bar { display: flex; align-items: center; gap: 8px; padding: 4px 6px 4px 12px; cursor: grab; touch-action: none; user-select: none; background: rgba(255, 255, 255, 0.06); border-bottom: 1px solid rgba(255, 255, 255, 0.1); flex: 0 0 auto; }
+.fwin.min .fwin-bar { border-bottom: 0; }
+.fwin.dragging .fwin-bar { cursor: grabbing; }
+.fwin-title { flex: 1; font-weight: 600; font-size: 0.92em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fwin-btn { min-height: 24px; padding: 0 9px; line-height: 1; background: transparent; border-color: transparent; border-radius: 6px; font-size: 1.05em; }
+.fwin-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.12); border-color: transparent; }
+.fwin-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.25) transparent; }
+
 /* ---- スマホ縦（< 900px） ---- */
 @media (max-width: 899px) {
-  main.sim { grid-template-rows: auto minmax(0, 1fr) 96px; }
-  main.sim > .body { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 34vh; }
-  aside.side { border-left: 0; border-top: 1px solid var(--line); }
   .topbar { gap: 4px; padding: 4px; }
   .topbar .title { display: none; }
   .topbar button { min-height: 36px; }
