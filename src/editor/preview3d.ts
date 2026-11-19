@@ -29,7 +29,7 @@ function previewWorld(map: MapRuntime, s: ScenarioDef): World {
 
 export function openPreview3d(host: HTMLElement, map: MapRuntime, s: ScenarioDef, quality: 'low' | 'mid' | 'high', vExag: number): Preview3d {
   const canvas = el('canvas', { class: 'scene' });
-  const root = el('div', { class: 'preview3d' }, [canvas, el('p', { class: 'note' }, '3D プレビュー（左ドラッグ 視点を回す / 右ドラッグ パン / ホイール 拡大）')]);
+  const root = el('div', { class: 'preview3d' }, [canvas, el('p', { class: 'note' }, '3D プレビュー（左ドラッグ パン / 右ドラッグ 視点を回す / ホイール 拡大）')]);
   host.append(root);
   const view = new SceneView(canvas, map, s, { quality, figureScale: 25, vExag });
   const world = previewWorld(map, s);
