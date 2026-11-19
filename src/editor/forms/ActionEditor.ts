@@ -15,6 +15,7 @@ export const ACTION_LABELS: Partial<Record<ActionType, string>> = {
   rest: '休む',
   eat: '食べる',
   drink: '飲む',
+  drinkAlcohol: '酒を飲む',
   wearRainwear: '雨具を着る',
   addLayer: '防寒着を足す',
   changeDry: '乾いた服に着替える',
@@ -57,6 +58,8 @@ export function defaultAction(t: ActionType, s: ScenarioDef, map: MapDef): Actio
       return { type: t, kcal: 300 };
     case 'drink':
       return { type: t, liters: 0.3 };
+    case 'drinkAlcohol':
+      return { type: t, grams: 14 };
     case 'addLayer':
       return { type: t, clo: 0.3 };
     case 'bivouac':
@@ -152,6 +155,9 @@ export function actionEditor(list: Action[], s: ScenarioDef, map: MapDef, commit
         break;
       case 'drink':
         extra.push(field('L', input('liters', 'number', '4em')));
+        break;
+      case 'drinkAlcohol':
+        extra.push(field('アルコール g（缶ビール 350 mL で約 14 g）', input('grams', 'number', '4em')));
         break;
       case 'addLayer':
         extra.push(field('clo', input('clo', 'number', '4em')));

@@ -5,6 +5,7 @@
 import { datan, DEG } from '../core/dmath';
 import { chance, nextFloat, randRange } from '../core/rng';
 import { isChainAt } from '../climber/movement';
+import { bacPct } from '../climber/physiology';
 import { transition } from '../climber/state';
 import { nearestIndex, sampleElev, sampleNormal } from '../terrain/sample';
 import type { ClimberState, InjuryKind, StaticContext, World } from '../types';
@@ -23,6 +24,8 @@ export function slipClassAt(ctx: StaticContext, c: ClimberState, moveGrade = 0):
   const st = ctx.tuning.slip;
   if (c.pos.mode === 'edge') {
     const e = ctx.map.trails[c.pos.edgeId]!.def;
+    // 偽の道（獣道・薄い踏み跡）は整備されていないので、急なところは道外と同じに扱う
+    if (e.kind === 'false' && datan(Math.abs(moveGrade)) / DEG > st.offSteepDeg) return 'OFF_STEEP';
     if (e.class === 'T3' || isChainAt(ctx.map, c.pos.edgeId, c.pos.s)) return 'EXPOSED';
     return e.class === 'T1' ? 'T1' : 'T2';
   }
@@ -51,6 +54,7 @@ export function slipP10(world: World, ctx: StaticContext, c: ClimberState, cls: 
   p *= 1 + 2 * (1 - c.M);
   p *= 1 + (1 - c.J);
   if (c.plan.hurry) p *= st.hurryF;
+  p *= 1 + st.alcoholK * bacPct(c, ctx.tuning);
   if (c.def.gear.trekkingPoles && cls !== 'CLIFF') p *= st.polesF;
   if (downhill) p *= st.downF;
   const gust = c.local.windMs * world.weather.gust;
@@ -125,6 +129,12 @@ export function slipCheck(world: World, ctx: StaticContext, c: ClimberState, mov
   ctx.events.push({ tMin: world.tMin, type: gust ? 'GUST_FALL' : 'FALL', climberId: c.id, important: injury !== 'none', data: { severity: injury, injury, cls, x: c.x, z: c.z } });
   if ((cls === 'EXPOSED' || cls === 'OFF_STEEP' || cls === 'CLIFF') && injury !== 'none') {
     fallDownslope(world, ctx, c, randRange(world.rng.hazard, st.fallMinM, st.fallMaxM));
+  }
+  // けがをするほど転ぶと、ポケットや胸のスマホが飛んでなくなることがある（ストラップで留めていれば残る）
+  const ph = c.inv.phone;
+  if (injury !== 'none' && injury !== 'bruise' && ph.has && !c.def.gear.phone.strap && chance(world.rng.hazard, st.phoneLossP)) {
+    ph.has = false;
+    ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { phoneLost: true } });
   }
   injure(world, ctx, c, injury, 'fall');
 }

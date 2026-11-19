@@ -4,6 +4,7 @@
 import { chance } from '../core/rng';
 import { TUNING, type Tuning } from '../tuning';
 import type { ClimberBody, ClimberState, StaticContext, World } from '../types';
+import { bacPct } from './physiology';
 import { transition } from './state';
 
 /** [x, y] の昇順の表を線形補間（範囲外は端の値） */
@@ -38,7 +39,8 @@ export function computeJ(c: ClimberState, tuning: Tuning = TUNING): number {
   const fDehyd = dehydrationF(b.waterDeficitL, tuning).j;
   const fHead = b.injury === 'headInjury' ? k.headInjuryJ : 1;
   const fHeat = b.coreC >= k.heatExhaustionC ? k.heatExhaustionJ : 1;
-  const j = j0 * fCore * fGly * fFat * fAnx * fDehyd * fHead * fHeat;
+  const fAlc = Math.max(0.5, 1 - k.alcoholJK * bacPct(c, tuning));
+  const j = j0 * fCore * fGly * fFat * fAnx * fDehyd * fHead * fHeat * fAlc;
   return Math.min(1, Math.max(k.jMin, j));
 }
 

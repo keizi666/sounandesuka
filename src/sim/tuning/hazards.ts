@@ -109,6 +109,10 @@ export const slip = {
   darkLampOffF: 3.0,
   darkF: 4.0,
   fatigueDiv: 80,
+  /** 血中アルコール濃度 1% あたりの転倒の増え方。0.05% で 1.5 倍 */
+  alcoholK: 10,
+  /** けがをするほど転んだとき、ストラップのないスマホをなくす確率 */
+  phoneLossP: 0.4,
   hurryF: 1.3,
   polesF: 0.8,
   downF: 1.3,
@@ -191,6 +195,8 @@ export const rescue = {
   groundVoiceF: 1.6,
   searchStartM: 300,
   searchGrowMPerH: 300,
+  /** 地上隊が道から探す範囲の外でも、笛の音が届けば気づく距離（森の中） */
+  whistleExtraM: 150,
   deepDrainageF: 0.5,
   /** 救助隊と接触した登山者の近くにいる仲間も一緒に収容する距離 */
   contactRadiusM: 300,

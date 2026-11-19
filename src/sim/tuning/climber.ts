@@ -93,6 +93,8 @@ export const capacity = {
   veryLowGlycogenKcal: 100,
   veryLowGlycogenM: 0.7,
   jMin: 0.05,
+  /** 血中アルコール濃度 1%（=10 g/L）あたりの判断力の低下。0.05% で約 15% 下がる */
+  alcoholJK: 3,
   injuryM: { none: 1.0, bruise: 0.9, sprain: 0.45, legFracture: 0.03, headInjury: 0.5, severeTrauma: 0 },
   headInjuryJ: 0.4,
   heatExhaustionC: 39.0,
@@ -217,6 +219,13 @@ export const physiology = {
   staffedMealKcalPerMin: 6,
   /** 営業小屋で飲む量（L/時） */
   staffedDrinkLPerH: 0.6,
+  /** アルコールが抜ける速さ（g/時。体重 60〜70 kg の目安） */
+  alcoholElimGPerH: 7,
+  /** 体内のアルコールが体に行き渡る割合（Widmark の r） */
+  alcoholWidmarkR: { m: 0.68, f: 0.55 } as Record<string, number>,
+  /** ツエルト・タープで止まっているときに雨水をためる量（L/時、雨 1 mm/h あたり）と上限 */
+  rainCollectLPerHPerMm: 0.08,
+  rainCollectMaxLPerH: 0.4,
   /** 濡れ docs/06 §4 */
   kRainPerMm: 0.12,
   protectPoncho: 0.6,

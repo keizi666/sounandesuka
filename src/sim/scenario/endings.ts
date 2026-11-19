@@ -6,7 +6,8 @@ import { partyLeader } from '../climber/party';
 import type { ClimberState, DeathCause, EndingKind, StaticContext, World } from '../types';
 import { evalCondition } from './conditions';
 import { scopeFor } from './choices';
-import type { VarValue } from './vars';
+import { expandText } from './text';
+import { resolveVar, type VarValue } from './vars';
 
 /** 悪い順（大きいほど悪い） */
 export const ENDING_SEVERITY: Record<EndingKind, number> = {
@@ -86,8 +87,9 @@ export function resolveEnding(world: World, ctx: StaticContext, rec?: Record<str
   ctx.scenario.endings.some((e, i) => {
     if (e.kind !== kind) return false;
     if (e.when && !evalCondition(e.when, scope, `endings[${i}].when`)) return false;
-    title = e.title;
-    text = e.text;
+    // 文の {leader.name} などを展開する（分岐点・ログと同じ書き方ができる）
+    title = expandText(e.title, (p) => resolveVar(p, scope));
+    text = expandText(e.text, (p) => resolveVar(p, scope));
     return true;
   });
   return {

@@ -1,6 +1,6 @@
 /** シナリオ選択（FR-01、FR-74）。カード一覧と、バンドルのファイル読み込み（ドラッグ＆ドロップ可） */
 import type { AppContext } from '../app/App';
-import { buildRuntime, listEditorProjects, loadEditorProject, loadEntry, loadIndex } from '../app/data';
+import { buildRuntime, bundleExists, listEditorProjects, loadEditorProject, loadEntry, loadIndex } from '../app/data';
 import { JA } from '../i18n/ja';
 import { fill } from '../i18n/format';
 import { validateScenario } from '../sim/scenario/validate';
@@ -75,10 +75,15 @@ export function showScenarioSelect(app: AppContext): () => void {
   });
   void loadIndex().then((idx) => {
     list.replaceChildren(
-      ...idx.map((e) =>
-        el('button', { class: 'card', onclick: async () => {
+      ...idx.map((e) => {
+        const card = el('button', { class: 'card', onclick: async () => {
           list.setAttribute('aria-busy', 'true');
-          app.go({ name: 'briefing', loaded: await loadEntry(e) });
+          try {
+            app.go({ name: 'briefing', loaded: await loadEntry(e) });
+          } catch (err) {
+            list.removeAttribute('aria-busy');
+            toast(String(err), 6000);
+          }
         } }, [
           el('h2', {}, e.title),
           el('p', {}, e.subtitle ?? ''),
@@ -86,8 +91,16 @@ export function showScenarioSelect(app: AppContext): () => void {
             `${JA.labels.theme[e.theme] ?? e.theme} ・ ${JA.labels.season[e.season] ?? e.season} ・ ${JA.ui.difficulty} ${'★'.repeat(e.difficulty)}${'☆'.repeat(5 - e.difficulty)} ・ ${fill(JA.ui.minutes, { m: e.estMinutes })}`,
           ]),
           e.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,
-        ]),
-      ),
+        ]);
+        // 実地形のバンドルがまだ作られていなければ、選べないことを示す
+        if (e.bundle)
+          void bundleExists(e).then((ok) => {
+            if (ok) return;
+            card.disabled = true;
+            card.append(el('p', { class: 'note warn' }, JA.ui.bundleMissing));
+          });
+        return card;
+      }),
     );
   });
   return () => {

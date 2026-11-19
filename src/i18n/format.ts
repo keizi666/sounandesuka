@@ -110,12 +110,18 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       return fill(L.arrest, { who });
     case 'CHOICE_FIRED': {
       const cp = f.scenario.choices.find((c) => c.id === s('cp'));
-      return fill(L.choiceFired, { title: cp?.title ?? s('cp') });
+      const g = s('cp').startsWith('generic:') ? JA.generic[s('cp').slice(8)] : undefined;
+      return fill(L.choiceFired, { title: cp?.title ?? g?.title ?? s('cp') });
     }
     case 'CHOICE_RESOLVED': {
       const cp = f.scenario.choices.find((c) => c.id === s('cp'));
-      const opt = cp?.options.find((o) => o.id === s('option'));
-      return fill(L.choiceResolved, { label: opt?.label ?? s('option'), by: JA.labels.by[s('by')] ?? s('by') });
+      let label = cp?.options.find((o) => o.id === s('option'))?.label;
+      if (!label && s('cp').startsWith('generic:')) {
+        // 汎用の分岐点: シナリオの上書きの文、なければ i18n の既定文
+        const key = s('cp').slice(8) as keyof NonNullable<ScenarioDef['genericOverrides']>;
+        label = f.scenario.genericOverrides?.[key]?.options?.find((o) => o.id === s('option'))?.label ?? JA.generic[key]?.options[s('option')];
+      }
+      return fill(L.choiceResolved, { label: label ?? s('option'), by: JA.labels.by[s('by')] ?? s('by') });
     }
     case 'GEAR':
       if (d['rainwearOn'] === true) return fill(L.gearRainwear, { who });
@@ -181,6 +187,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     }
     case 'SCRIPT_LOG':
       if (e.text) return e.text;
+      if (d['phoneLost']) return fill(L.phoneLost, { who });
       if (d['unimplementedAction'] || d['unimplementedEffect']) return fill(L.unimplemented, { what: s('unimplementedAction') || s('unimplementedEffect') });
       return null;
     case 'PIN':

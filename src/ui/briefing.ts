@@ -109,6 +109,7 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
     el('p', { class: 'note' }, JA.disclaimer.fictional),
     s.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,
     loaded.attribution.length > 0 ? el('p', { class: 'note' }, `${JA.ui.attribution}: ${loaded.attribution.map((a) => a.text).join(' / ')}`) : null,
+    s.sources && s.sources.length > 0 ? el('p', { class: 'note' }, `${JA.ui.sources}: ${s.sources.join(' / ')}`) : null,
   ]);
   const depart = (): void => app.go({ name: 'sim', loaded, observe: app.settings.observe });
 

@@ -1,5 +1,6 @@
 [
   { "id": "s01_cold_front", "file": "s01_cold_front.json", "title": "稜線の冷たい雨", "subtitle": "10月・単独・寒冷前線", "theme": "hypothermia", "difficulty": 3, "season": "autumn", "estMinutes": 15 },
   { "id": "s02_fog_descent", "file": "s02_fog_descent.json", "title": "霧の下山路", "subtitle": "6月・2人・道迷い", "theme": "lost", "difficulty": 3, "season": "summer", "estMinutes": 18 },
-  { "id": "s03_thunder_ridge", "file": "s03_thunder_ridge.json", "title": "稜線の雷雲", "subtitle": "8月・3人・落雷", "theme": "lightning", "difficulty": 2, "season": "summer", "estMinutes": 12 }
+  { "id": "s03_thunder_ridge", "file": "s03_thunder_ridge.json", "title": "稜線の雷雲", "subtitle": "8月・3人・落雷", "theme": "lightning", "difficulty": 2, "season": "summer", "estMinutes": 12 },
+  { "id": "s05_shounoiwa", "bundle": "real/s05_shounoiwa.hakoniwa.json", "title": "鳥屋戸尾根の転落", "subtitle": "9月・単独・奥多摩 笙ノ岩山（実在の地形）", "theme": "mixed", "difficulty": 4, "season": "summer", "estMinutes": 25, "region": { "name": "奥多摩・笙ノ岩山", "real": true } }
 ]

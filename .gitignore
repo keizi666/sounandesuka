@@ -11,6 +11,7 @@ terrain-*.png
 
 # 実地形のバンドル（地理院の標高・OSM 由来。公開前に人が権利を確認する。npm run make:s04 で作る）
 public/scenarios/historical/*.hakoniwa.json
+public/scenarios/real/*.hakoniwa.json
 shots/compare-*.html
 
 # 顔イラストの一覧（元の 1 枚。切り分けた assets-src/hikers-cells-v5 から tools/make-portraits.py でアイコンを作るので、リポジトリには入れない）

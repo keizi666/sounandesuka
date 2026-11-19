@@ -3,16 +3,20 @@ import { JA } from '../src/i18n/ja';
 import { formatTimeRef } from '../src/sim/core/clock';
 import { runHeadless } from '../src/sim/headless';
 import type { PolicyName } from '../src/sim/types';
-import { loadIndex, loadScenarioById, mapRuntimeFor } from './lib/scenarios';
+import { loadEntryRuntime, loadIndex } from './lib/scenarios';
 
 const policy = (process.argv[2] as PolicyName | undefined) ?? 'recommended';
 let failed = 0;
 for (const e of loadIndex()) {
-  if (!e.file) continue; // バンドルは P13
   const t0 = performance.now();
   try {
-    const s = loadScenarioById(e.id);
-    const r = runHeadless(mapRuntimeFor(s.mapId), s, { policy });
+    const got = loadEntryRuntime(e);
+    if (!got) {
+      console.log(`- ${e.id.padEnd(20)} 実地形のバンドルがないので飛ばす（${e.bundle}）`);
+      continue;
+    }
+    const s = got.scenario;
+    const r = runHeadless(got.map, s, { policy });
     const k = r.ending.kind;
     console.log(`✔ ${e.id.padEnd(20)} ${k.padEnd(16)} ${JA.endings[k]?.title ?? ''}  ${formatTimeRef(r.world.ended!.atMin)}  ${(performance.now() - t0).toFixed(0)} ms`);
   } catch (err) {

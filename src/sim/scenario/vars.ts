@@ -2,6 +2,7 @@
  * 変数パスの解決（docs/09 §4.1）。条件 DSL・プレースホルダ・教訓の条件が使う。
  * 記録（rec.*）は World の外にあるので、呼び出し側が渡す。
  */
+import { bacPct } from '../climber/physiology';
 import { nearestIndex } from '../terrain/sample';
 import type { ClimberState, MapRuntime, ScenarioDef, World } from '../types';
 
@@ -40,6 +41,10 @@ export const CLIMBER_FIELDS = [
   'timeBehindMin',
   'phone.batteryPct',
   'phone.gpsApp',
+  'phone.has',
+  'bac',
+  'waterL',
+  'foodKcal',
   'nearestShelterM',
   'name',
   'id',
@@ -100,6 +105,14 @@ function climberField(c: ClimberState, field: string, scope: VarScope): VarValue
       return c.inv.phone.batteryPct;
     case 'phone.gpsApp':
       return c.inv.phone.gpsApp && c.inv.phone.has;
+    case 'phone.has':
+      return c.inv.phone.has;
+    case 'waterL':
+      return c.inv.waterL;
+    case 'foodKcal':
+      return c.inv.foodKcal;
+    case 'bac':
+      return bacPct(c);
     case 'nearestShelterM': {
       let best = Infinity;
       for (const nd of Object.values(scope.map.nodes)) {

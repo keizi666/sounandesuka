@@ -47,6 +47,17 @@ export interface BodyStepResult {
 }
 
 /** 体表面積 m² */
+/** 止まっている状態（雨水をためられる） */
+const STILL = new Set(['BIVOUAC', 'WAITING_RESCUE', 'STAYING', 'INCAPACITATED']);
+
+/** 血中アルコール濃度（%）。Widmark の式: g ÷ (体重 kg × r) ÷ 10 */
+export function bacPct(c: ClimberState, tuning: Tuning = TUNING): number {
+  const g = c.body.alcoholG ?? 0;
+  if (g <= 0) return 0;
+  const r = tuning.physiology.alcoholWidmarkR[c.def.sex] ?? 0.6;
+  return g / (c.def.weightKg * r) / 10;
+}
+
 const areaCache = new Map<number, number>();
 export function bodyArea(weightKg: number, tuning: Tuning = TUNING): number {
   const p = tuning.physiology;
@@ -181,6 +192,13 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   b.waterDeficitL = Math.min(p.waterDeficitMax, b.waterDeficitL + (lossLPerH / 60) * dtMin);
   // 営業小屋では水や温かい飲み物を買える（避難小屋には水がないことが多いので、飲まない）
   if (env.staffed) b.waterDeficitL = Math.max(0, b.waterDeficitL - (p.staffedDrinkLPerH / 60) * dtMin);
+  // ツエルト・タープで止まっていて雨が降っていれば、雨水をためて水筒に足す（持ってきた量まで）
+  if (STILL.has(c.state) && d.gear.bivy !== 'none' && env.precipMmH > 0.5 && c.inv.waterL < d.gear.waterL) {
+    const l = (Math.min(p.rainCollectMaxLPerH, p.rainCollectLPerHPerMm * env.precipMmH) / 60) * dtMin;
+    c.inv.waterL = Math.min(d.gear.waterL, c.inv.waterL + l);
+  }
+  // アルコールは時間とともに抜ける
+  if (b.alcoholG !== undefined && b.alcoholG > 0) b.alcoholG = Math.max(0, b.alcoholG - (p.alcoholElimGPerH / 60) * dtMin);
 
   // ---- 疲労 ----
   if (act.walking) {

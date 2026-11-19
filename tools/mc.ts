@@ -4,7 +4,7 @@
 import { parseArgs } from 'node:util';
 import { checkTargets, runMonteCarlo, type McSummary } from '../src/sim/mc';
 import type { PolicyName } from '../src/sim/types';
-import { loadIndex, loadScenarioById, mapRuntimeFor } from './lib/scenarios';
+import { loadEntryRuntime, loadIndex } from './lib/scenarios';
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,
@@ -34,9 +34,12 @@ const seed = values.seed !== undefined ? Number(values.seed) : undefined;
 let allOk = true;
 if (values.all) {
   for (const e of loadIndex()) {
-    if (!e.file) continue;
-    const s = loadScenarioById(e.id);
-    const map = mapRuntimeFor(s.mapId);
+    const got = loadEntryRuntime(e);
+    if (!got) {
+      console.log(`${e.id}  （実地形のバンドルがないので飛ばす: ${e.bundle}）`);
+      continue;
+    }
+    const { scenario: s, map } = got;
     for (const [policy, target] of Object.entries(s.balanceTargets ?? {})) {
       const sum = runMonteCarlo(map, s, policy as PolicyName, n, { seed, now: () => performance.now() });
       allOk = print(sum, checkTargets(sum, target)) && allOk;
@@ -48,8 +51,14 @@ if (values.all) {
     console.error('使い方: npm run mc -- <scenarioId> --policy bias --n 500  /  npm run mc -- --all');
     process.exit(1);
   }
-  const s = loadScenarioById(id);
-  const sum = runMonteCarlo(mapRuntimeFor(s.mapId), s, values.policy as PolicyName, n, { seed, now: () => performance.now() });
+  const e = loadIndex().find((x) => x.id === id) ?? { id, file: `${id}.json`, title: id, theme: 'mixed' as const, difficulty: 1 as const, season: 'summer' as const, estMinutes: 0 };
+  const got = loadEntryRuntime(e);
+  if (!got) {
+    console.error(`実地形のバンドルがありません: ${e.bundle}（npm run make:s05 などで作る）`);
+    process.exit(1);
+  }
+  const s = got.scenario;
+  const sum = runMonteCarlo(got.map, s, values.policy as PolicyName, n, { seed, now: () => performance.now() });
   allOk = print(sum, checkTargets(sum, s.balanceTargets?.[values.policy as PolicyName]));
 }
 process.exit(allOk ? 0 : 1);

@@ -4,11 +4,13 @@
  */
 import { parseHHMM, parseTimeRef, clockMinOf } from '../core/clock';
 import { chance, randRange } from '../core/rng';
+import { partyLeader } from '../climber/party';
 import { transition } from '../climber/state';
+import { evalCondition } from '../scenario/conditions';
 import { isForest } from '../terrain/derive';
 import { nearestIndex } from '../terrain/sample';
 import { resolveRoute } from '../terrain/trails';
-import type { ClimberState, StaticContext, World } from '../types';
+import type { ClimberState, NodeId, SearchLeadDef, StaticContext, World } from '../types';
 import { sampleLocal } from '../weather/local';
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
@@ -35,16 +37,16 @@ export function heliFlyable(world: World, ctx: StaticContext, x: number, z: numb
   return l.visibilityM > rt.heliMinVisM && elev < world.weather.cloudBaseM - rt.heliCloudMarginM && l.windMs < rt.heliMaxWindMs && l.thunder < rt.heliMaxThunder;
 }
 
-const routePtsCache = new WeakMap<StaticContext['scenario'], Float64Array>();
+const routePtsCache = new WeakMap<readonly NodeId[], Float64Array>();
 
-/** 計画ルート（の登山道の点）までの最短距離 */
-function distToPlannedRoute(ctx: StaticContext, x: number, z: number): number {
-  let pts = routePtsCache.get(ctx.scenario);
+/** ルート（の登山道の点）までの最短距離。既定は計画ルート */
+function distToPlannedRoute(ctx: StaticContext, x: number, z: number, route: readonly NodeId[] = ctx.scenario.plan.route): number {
+  let pts = routePtsCache.get(route);
   if (!pts) {
     const arr: number[] = [];
-    for (const leg of resolveRoute(ctx.map, ctx.scenario.plan.route)) for (const s of ctx.map.trails[leg.edgeId]!.samples) arr.push(s.x, s.z);
+    for (const leg of resolveRoute(ctx.map, [...route])) for (const s of ctx.map.trails[leg.edgeId]!.samples) arr.push(s.x, s.z);
     pts = Float64Array.from(arr);
-    routePtsCache.set(ctx.scenario, pts);
+    routePtsCache.set(route, pts);
   }
   let best = Infinity;
   for (let i = 0; i < pts.length; i += 2) {
@@ -135,18 +137,41 @@ function nearestMissing(world: World, ctx: StaticContext, tgt: { x: number; z: n
   return best;
 }
 
+/**
+ * 捜索側が今つかんでいる手がかり（いちばん新しいもの）。シナリオに searchLeads がなければ undefined（計画ルートを探す）、
+ * あるのにまだ何も分かっていなければ null（どこを探せばよいか分からない）
+ */
+function activeLead(world: World, ctx: StaticContext): SearchLeadDef | null | undefined {
+  const leads = ctx.scenario.plan.searchLeads;
+  if (!leads || leads.length === 0) return undefined;
+  let best: SearchLeadDef | null = null;
+  const scope = { world, map: ctx.map, scenario: ctx.scenario, leader: partyLeader(world) };
+  for (const l of leads) {
+    if (world.tMin < parseTimeRef(l.at)) continue;
+    if (l.when && !evalCondition(l.when, scope, `lead:${l.id}`)) continue;
+    best = l;
+  }
+  return best;
+}
+
 /** 捜索で見つかるか。見つかった人を返す */
 function search(world: World, ctx: StaticContext, perH: number, by: 'heli' | 'ground', dtMin: number): ClimberState | null {
   const r = world.rescue;
   const est = r.locationEstimate;
+  const lead = est ? undefined : activeLead(world, ctx);
+  if (lead === null) return null;
   for (const c of missing(world, ctx)) {
     // 捜索範囲の中にいるか
     if (est) {
       const dx = c.x - est.x;
       const dz = c.z - est.z;
       if (dx * dx + dz * dz > (est.radiusM + r.searchRadiusM) * (est.radiusM + r.searchRadiusM)) continue;
+    } else if (lead) {
+      // 笛を持っていて意識があれば、地上隊には探す範囲の少し外からでも聞こえる
+      const extra = by === 'ground' && c.body.conscious && c.def.gear.whistle ? ctx.tuning.rescue.whistleExtraM : 0;
+      if (distToPlannedRoute(ctx, c.x, c.z, lead.route) > Math.min(r.searchRadiusM, lead.maxRadiusM ?? Infinity) + extra) continue;
     } else if (distToPlannedRoute(ctx, c.x, c.z) > r.searchRadiusM) continue;
-    const pTick = (perH * findFactor(ctx, c, by) * dtMin) / 60;
+    const pTick = (perH * findFactor(ctx, c, by) * (lead?.findF ?? 1) * dtMin) / 60;
     if (chance(world.rng.rescue, Math.min(1, pTick))) return c;
   }
   return null;
@@ -170,6 +195,15 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
   if (r.status === 'dispatched' && r.heli.state === 'idle') start(world, ctx);
   if (r.status !== 'dispatched' && r.status !== 'searching') return;
   if (missing(world, ctx).length === 0) return;
+  // 新しい手がかりが分かったら知らせ、その道の周りを最初から探し直す
+  if (r.via === 'overdue' && r.locationEstimate === null) {
+    const lead = activeLead(world, ctx);
+    if (lead && world.flags[`lead:${lead.id}`] === undefined) {
+      world.flags[`lead:${lead.id}`] = world.tMin;
+      r.searchRadiusM = rt.searchStartM;
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', text: lead.text, important: true, data: { searchLead: lead.id } });
+    }
+  }
   // 計画ルートからの捜索範囲は時間とともに広がる
   if (r.via === 'overdue' || r.locationEstimate === null) r.searchRadiusM += (rt.searchGrowMPerH / 60) * dtMin;
   const precise = (r.locationEstimate?.radiusM ?? Infinity) <= rt.preciseM;

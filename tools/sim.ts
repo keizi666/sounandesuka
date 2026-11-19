@@ -9,7 +9,7 @@ import { JA } from '../src/i18n/ja';
 import { runHeadless } from '../src/sim/headless';
 import type { MapRuntime, PolicyName } from '../src/sim/types';
 import { normalizeToBytes, writePgm, writePng } from './lib/image';
-import { loadScenarioById, mapRuntimeFor } from './lib/scenarios';
+import { loadEntryRuntime, loadIndex, loadScenarioById, mapRuntimeFor } from './lib/scenarios';
 import { loadMapDef } from './lib/maps';
 
 const LAYERS = ['heights', 'hillshade', 'slope', 'veg', 'radio', 'flow', 'tpi', 'sky'] as const;
@@ -101,8 +101,14 @@ if (values['dump-terrain']) {
 }
 
 function runScenario(id: string, policy: PolicyName, seed: number | undefined, log: boolean): void {
-  const scenario = loadScenarioById(id);
-  const map = mapRuntimeFor(scenario.mapId);
+  const entry = loadIndex().find((e) => e.id === id);
+  const got = entry?.bundle ? loadEntryRuntime(entry) : null;
+  if (entry?.bundle && !got) {
+    console.error(`実地形のバンドルがありません: ${entry.bundle}（npm run make:s05 などで作る）`);
+    process.exit(1);
+  }
+  const scenario = got?.scenario ?? loadScenarioById(id);
+  const map = got?.map ?? mapRuntimeFor(scenario.mapId);
   const t0 = performance.now();
   const r = runHeadless(map, scenario, { policy, seed, collectEvents: log });
   const ms = performance.now() - t0;

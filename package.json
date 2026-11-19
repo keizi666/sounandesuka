@@ -23,6 +23,7 @@
     "fixture:bundle": "tsx tools/make-fixture-bundle.ts",
     "make:s04": "tsx tools/make-s04.ts",
     "mc:s04": "tsx tools/mc-s04.ts",
+    "make:s05": "tsx tools/make-s05.ts",
     "shots": "tsx tools/shots.ts"
   },
   "dependencies": {

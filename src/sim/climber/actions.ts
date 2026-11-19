@@ -192,6 +192,9 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       if (l > 0) ctx.events.push({ tMin: world.tMin, type: 'DRINK', climberId: c.id, data: { liters: l } });
       return;
     }
+    case 'drinkAlcohol':
+      c.body.alcoholG = (c.body.alcoholG ?? 0) + Math.max(0, a.grams);
+      return;
     case 'wearRainwear':
       if (c.def.gear.rainwear !== 'none' && !c.body.rainwearOn) startTask(world, c, 'rainwear', taskMinutes(c, bt.rainwearMin, ctx));
       return;

@@ -196,6 +196,26 @@ export interface PlanDef {
   plannedFinish: TimeRef;
   submittedPlan: boolean;
   reportIfNotBackBy: TimeRef | null;
+  /**
+   * 捜索の手がかり。あると、未帰還の通報で始まる捜索は計画ルートではなく、そのとき分かっている手がかりのルートの周りだけを探す
+   * （計画を出していない・家族が行き先を知らない場合）。後に並ぶ手がかりほど新しい。分かった時点でログに text を出す。
+   */
+  searchLeads?: SearchLeadDef[];
+}
+
+export interface SearchLeadDef {
+  id: string;
+  /** 捜索側に分かる時刻 */
+  at: TimeRef;
+  /** 分かる条件（例: 小屋のノートに書いた）。満たしていなければ使わない */
+  when?: Condition;
+  /** 探すルート（この道の周りを探す） */
+  route: NodeId[];
+  /** 道からどこまで広げて探すか（既定は制限なし） */
+  maxRadiusM?: number;
+  /** 見つけやすさの倍率（範囲が広く人手が分散するほど小さい。既定 1） */
+  findF?: number;
+  text: string;
 }
 
 export type RainwearType = 'none' | 'poncho' | 'basic' | 'goretex';
@@ -252,7 +272,7 @@ export interface GearDef {
   hat: boolean;
   bivy: 'none' | 'tarp' | 'sack';
   headlamp: { has: boolean; batteryH: number; inPack: boolean; spareBatteryH: number };
-  phone: { has: boolean; batteryPct: number; gpsApp: boolean; trackRecording: boolean; satelliteSos: boolean };
+  phone: { has: boolean; batteryPct: number; gpsApp: boolean; trackRecording: boolean; satelliteSos: boolean; strap?: boolean };
   map: boolean;
   compass: boolean;
   foodKcal: number;
@@ -339,6 +359,7 @@ export type Action = { who?: Who } & (
   | { type: 'rest'; minutes: number }
   | { type: 'eat'; kcal: number }
   | { type: 'drink'; liters: number }
+  | { type: 'drinkAlcohol'; grams: number }       // 酒（純アルコールのグラム。缶ビール 350 mL で約 14 g）
   | { type: 'wearRainwear' }
   | { type: 'addLayer'; clo?: number }
   | { type: 'changeDry' }
@@ -484,6 +505,8 @@ export interface ClimberBody {
   wetness: number;
   glycogenKcal: number;
   gutKcal: number;
+  /** 体内のアルコール（g）。判断力と足元に響き、時間とともに抜ける。古い保存データにはない */
+  alcoholG?: number;
   waterDeficitL: number;
   fatigue: number;
   anxiety: number;

@@ -1,0 +1,39 @@
+{
+  "id": "shounoiwa",
+  "name": "奥多摩 笙ノ岩山（東日原〜一杯水〜蕎麦粒山〜鳥屋戸尾根〜川乗橋）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "東日原バス停から一杯水避難小屋・蕎麦粒山・笙ノ岩山を経て川乗橋バス停までが入る範囲。一辺 6 km 程度（513 頂点）。笙ノ岩山の南の肩から南西へ 925 m 標高点の尾根が分かれる（登山道ではない）。電波: 尾根の上は南東（青梅方面）から届くことがあるが、日原側の斜面と谷は圏外が多い。全域が森林（9 月は葉が茂る）。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2600, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 100 },
+  "nodes": [
+    { "id": "TH_HIGASHINIPPARA", "name": "東日原バス停", "type": "trailhead", "x": 0, "z": 0, "osmName": "東日原", "expectedElevM": 620 },
+    { "id": "IPPAI_HUT", "name": "一杯水避難小屋", "type": "shelter", "x": 0, "z": 0, "osmName": "一杯水避難小屋", "expectedElevM": 1440,
+      "shelter": { "kind": "emergency", "open": true } },
+    { "id": "SENGEN", "name": "仙元峠", "type": "saddle", "x": 0, "z": 0, "osmName": "仙元峠", "expectedElevM": 1440 },
+    { "id": "SOBATSUBU", "name": "蕎麦粒山", "type": "peak", "x": 0, "z": 0, "osmName": "蕎麦粒山", "expectedElevM": 1473 },
+    { "id": "SHOUNOIWA", "name": "笙ノ岩山", "type": "peak", "x": 0, "z": 0, "osmName": "笙ノ岩山", "expectedElevM": 1254 },
+    { "id": "SPUR_JCT", "name": "笙ノ岩山の南の肩", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1160 },
+    { "id": "TH_KAWANORI", "name": "川乗橋バス停", "type": "trailhead", "x": 0, "z": 0, "osmName": "川乗橋", "expectedElevM": 420 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "ヨコスズ尾根", "kind": "trail", "from": "TH_HIGASHINIPPARA", "to": "IPPAI_HUT", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "一杯水〜仙元峠", "kind": "trail", "from": "IPPAI_HUT", "to": "SENGEN", "class": "T1", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "仙元峠〜蕎麦粒山", "kind": "trail", "from": "SENGEN", "to": "SOBATSUBU", "class": "T2", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "鳥屋戸尾根（上部）", "kind": "trail", "from": "SOBATSUBU", "to": "SHOUNOIWA", "class": "T2", "markers": 0.35, "drift": 0.03, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "笙ノ岩山〜南の肩", "kind": "trail", "from": "SHOUNOIWA", "to": "SPUR_JCT", "class": "T2", "markers": 0.3, "drift": 0.03, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "鳥屋戸尾根（下部）", "kind": "trail", "from": "SPUR_JCT", "to": "TH_KAWANORI", "class": "T2", "markers": 0.3, "drift": 0.03, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

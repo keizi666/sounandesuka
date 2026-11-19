@@ -79,6 +79,18 @@ export async function listEditorProjects(): Promise<{ id: string; name: string; 
   }
 }
 
+/** バンドルで登録したシナリオのファイルがあるか（実地形のバンドルはリポジトリに含めないので、ない場合がある） */
+export async function bundleExists(e: ScenarioIndexEntry): Promise<boolean> {
+  if (!e.bundle) return true;
+  try {
+    const r = await fetch(assetUrl(`scenarios/${e.bundle}`), { method: 'HEAD' });
+    // 開発サーバーは、ないファイルにも index.html を返すことがあるので、種類も見る
+    return r.ok && !(r.headers.get('content-type') ?? '').includes('text/html');
+  } catch {
+    return false;
+  }
+}
+
 export async function loadEntry(e: ScenarioIndexEntry): Promise<LoadedScenario> {
   if (e.bundle) {
     const b = await loadBundleFile(e.bundle);
