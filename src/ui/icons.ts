@@ -2,6 +2,17 @@
  * アイコン（Google の Material Symbols・Rounded。Apache-2.0）。
  * 使うものだけを SVG の文字列としてアプリに同梱する（外部から読み込まない。NFR-09）。色は文字色に従う。
  */
+import star from '@material-symbols/svg-400/rounded/star.svg?raw';
+import starFill from '@material-symbols/svg-400/rounded/star-fill.svg?raw';
+import explore from '@material-symbols/svg-400/rounded/explore.svg?raw';
+import cardiology from '@material-symbols/svg-400/rounded/cardiology.svg?raw';
+import emergencyHeat from '@material-symbols/svg-400/rounded/emergency_heat.svg?raw';
+import pestControl from '@material-symbols/svg-400/rounded/pest_control.svg?raw';
+import smartToy from '@material-symbols/svg-400/rounded/smart_toy.svg?raw';
+import contentCopy from '@material-symbols/svg-400/rounded/content_copy.svg?raw';
+import download from '@material-symbols/svg-400/rounded/download.svg?raw';
+import folderOpen from '@material-symbols/svg-400/rounded/folder_open.svg?raw';
+import person from '@material-symbols/svg-400/rounded/person.svg?raw';
 import arrowBack from '@material-symbols/svg-400/rounded/arrow_back.svg?raw';
 import calendarToday from '@material-symbols/svg-400/rounded/calendar_today.svg?raw';
 import camping from '@material-symbols/svg-400/rounded/camping.svg?raw';
@@ -60,6 +71,7 @@ import visibility from '@material-symbols/svg-400/rounded/visibility.svg?raw';
 import waterDrop from '@material-symbols/svg-400/rounded/water_drop.svg?raw';
 
 const ICONS = {
+  star, starFill, explore, cardiology, emergencyHeat, pestControl, smartToy, contentCopy, download, folderOpen, person,
   volumeOff, volumeUp,
   chevronRight, close,
   arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, warning, wbSunny,

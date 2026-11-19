@@ -25,6 +25,7 @@
     "mc:s04": "tsx tools/mc-s04.ts",
     "make:s05": "tsx tools/make-real.ts s05_shounoiwa",
     "make:real": "tsx tools/make-real.ts",
+    "thumbs": "tsx tools/make-thumbs.ts",
     "shots": "tsx tools/shots.ts"
   },
   "dependencies": {

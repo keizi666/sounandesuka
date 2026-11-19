@@ -597,3 +597,61 @@ main.ending2.tone-bad { --tone: #ef4444; }
 @keyframes ld-rot { to { transform: rotate(360deg); } }
 @keyframes ld-slide { 0% { transform: translateX(-110%); } 100% { transform: translateX(300%); } }
 @media (prefers-reduced-motion: reduce) { .ld-spin, .ld-bar.indeterminate .ld-fill { animation-duration: 3s; } }
+
+/* ---- シナリオ選択（src/ui/scenarioSelect.ts） ---- */
+main.select2 { min-height: 100dvh; background: radial-gradient(1200px 600px at 20% -10%, rgba(212, 166, 74, 0.08), transparent 60%), var(--bg, #15181d); color: #e9ecf1; }
+.sel-bar { position: sticky; top: 0; z-index: 10; background: rgba(18, 21, 27, 0.82); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.sel-bar-in { max-width: 1240px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 14px; }
+.sel-bar h1 { margin: 0; font-size: 1.25em; display: inline-flex; align-items: center; gap: 8px; }
+.sel-bar h1 .ic { color: var(--accent, #d4a64a); }
+.sel-back { display: inline-flex; align-items: center; gap: 4px; }
+.sel-count { margin-left: auto; color: #a9b0bb; font-size: 0.9em; }
+.sel-wrap { max-width: 1240px; margin: 0 auto; padding: 18px 16px 40px; display: flex; flex-direction: column; gap: 26px; }
+.sel-h { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 1.05em; color: #cfd5de; }
+.sel-h .ic { color: var(--accent, #d4a64a); }
+.sel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; }
+.sel-card { display: flex; flex-direction: column; padding: 0; text-align: left; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.035); color: inherit; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; }
+.sel-card:hover:not(:disabled) { transform: translateY(-2px); border-color: hsla(var(--h), 60%, 60%, 0.6); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); }
+.sel-card:disabled { cursor: not-allowed; opacity: 0.7; }
+.sel-hero { position: relative; aspect-ratio: 16 / 9; background: linear-gradient(140deg, hsl(var(--h), 35%, 28%), hsl(calc(var(--h) + 40), 30%, 14%)); overflow: hidden; }
+.sel-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); transition: transform 0.4s; }
+.sel-card:hover .sel-shot { transform: scale(1.09); }
+.sel-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 32%, rgba(0, 0, 0, 0) 52%, rgba(8, 10, 14, 0.88) 100%); }
+.sel-top { position: absolute; left: 10px; right: 10px; top: 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.sel-grow { flex: 1; }
+.sel-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px 3px 6px; border-radius: 999px; font-size: 0.8em; background: rgba(12, 14, 18, 0.62); border: 1px solid rgba(255, 255, 255, 0.16); color: #e9ecf1; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); white-space: nowrap; }
+.sel-chip .ic { width: 1.1em; height: 1.1em; }
+.sel-chip.theme { background: hsla(var(--h), 55%, 40%, 0.75); border-color: hsla(var(--h), 60%, 70%, 0.5); }
+.sel-chip.real .ic { color: #9fd18b; }
+.sel-stars { display: inline-flex; gap: 0; color: #f0c45a; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)); }
+.sel-stars .ic { width: 1em; height: 1em; }
+.sel-titles { position: absolute; left: 14px; right: 96px; bottom: 10px; }
+.sel-titles h2 { margin: 0; font-size: 1.3em; line-height: 1.25; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
+.sel-titles p { margin: 3px 0 0; font-size: 0.85em; color: #d6dbe2; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); }
+.sel-map { position: absolute; right: 10px; bottom: 10px; width: 76px; height: 76px; border-radius: 10px; border: 2px solid rgba(255, 255, 255, 0.85); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); object-fit: cover; image-rendering: auto; }
+.sel-body { padding: 10px 14px 12px; display: flex; flex-direction: column; gap: 8px; }
+.sel-people { display: flex; align-items: center; min-height: 40px; }
+.sel-face { margin-left: -8px; border-radius: 50%; box-shadow: 0 0 0 2px #1c2027; display: inline-flex; }
+.sel-face:first-child { margin-left: 0; }
+.sel-more { margin-left: 4px; font-size: 0.85em; color: #a9b0bb; }
+.sel-names { margin-left: 10px; font-size: 0.88em; color: #cfd5de; }
+.sel-facts { display: flex; flex-wrap: wrap; gap: 6px; }
+.sel-facts .sel-chip { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.1); backdrop-filter: none; }
+.sel-facts .sel-chip .ic { color: #a9b0bb; }
+.sel-note { display: flex; gap: 6px; align-items: flex-start; margin: 0; font-size: 0.78em; line-height: 1.45; color: #9aa1ab; }
+.sel-note .ic { flex: none; width: 1.1em; height: 1.1em; margin-top: 1px; color: #c9a14a; }
+.sel-note.warn { padding: 0 14px 12px; color: #e8b46a; }
+.sel-mine { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.sel-mine-card { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; text-align: left; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: inherit; }
+.sel-mine-card > .ic { width: 1.6em; height: 1.6em; color: var(--accent, #d4a64a); flex: none; }
+.sel-mine-card span { display: flex; flex-direction: column; gap: 2px; }
+.sel-mine-card small { color: #a9b0bb; }
+.sel-drop { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border: 2px dashed rgba(255, 255, 255, 0.18); border-radius: 14px; color: #cfd5de; cursor: pointer; }
+.sel-drop > .ic { width: 1.8em; height: 1.8em; color: #a9b0bb; }
+.sel-drop span { display: flex; flex-direction: column; gap: 2px; }
+.sel-drop small { color: #9aa1ab; }
+.sel-drop input { margin-left: auto; }
+.sel-drop.over { border-color: var(--accent, #d4a64a); background: rgba(212, 166, 74, 0.08); }
+@media (max-width: 520px) { .sel-grid { grid-template-columns: 1fr; } .sel-titles { right: 84px; } .sel-map { width: 64px; height: 64px; } }
+.sel-bar-in { justify-content: flex-start; }
+.sel-bar h1 { flex: 1; }
