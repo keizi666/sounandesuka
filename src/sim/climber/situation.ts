@@ -5,8 +5,14 @@
 import type { ClimberState, MapRuntime } from '../types';
 
 /** 休むのにふつう使う所: 小屋（避難小屋・営業小屋）と、茶屋・休憩所 */
-export function restSpot(n: { shelter?: unknown; type: string; name: string } | undefined): boolean {
-  return n !== undefined && (n.shelter !== undefined || n.type === 'hut' || n.type === 'shelter' || /茶屋|小屋|山荘|休憩所/.test(n.name));
+export function restSpot(n: { shelter?: { open?: boolean }; type: string; name: string } | undefined): boolean {
+  if (n === undefined) return false;
+  // 休業中・閉鎖・廃屋の小屋は、屋根の下で休む所にならない（営業の有無はシナリオの nodeOverrides で変わるので、名前で見る）
+  if (/休業|閉鎖|廃/.test(n.name)) return false;
+  if (n.shelter !== undefined || n.type === 'hut' || n.type === 'shelter') return true;
+  // 名前だけで見るのは茶屋・休憩所など（分岐・鞍部・山頂・境界点は、名前に「小屋」があっても小屋ではない。例: 「巻き道の合流（避難小屋の上）」）
+  if (n.type === 'junction' || n.type === 'saddle' || n.type === 'peak' || n.type === 'boundary') return false;
+  return /茶屋|小屋|山荘|休憩所/.test(n.name.replace(/（[^）]*）/g, ''));
 }
 
 export const HUT_HERE_M = 80;

@@ -186,7 +186,7 @@ export function showScenarioSelect(app: AppContext): () => void {
     el('main', { class: 'select2' }, [
       el('header', { class: 'sel-bar' }, [
         el('div', { class: 'sel-bar-in' }, [
-          el('h1', {}, [icon('hiking'), JA.app.title]),
+          el('h1', {}, [el('img', { class: 'sel-logo', src: assetUrl('icon-128.webp'), srcset: `${assetUrl('icon-128.webp')} 1x, ${assetUrl('icon-256.webp')} 2x`, alt: '', width: 64, height: 64 }), JA.app.title]),
           count,
           el('nav', { class: 'sel-caps' }, [soundCap, historyCap, settingsCap, editorCap]),
         ]),
@@ -202,6 +202,7 @@ export function showScenarioSelect(app: AppContext): () => void {
           el('a', { href: `${import.meta.env.BASE_URL}legal/privacy.html` }, JA.ui.privacy),
           el('span', {}, versionLabel()),
           el('span', {}, [JA.ui.audioCredit, ' ', el('a', { href: `${import.meta.env.BASE_URL}audio/CREDITS.md`, target: '_blank', rel: 'noopener' }, JA.ui.audioCreditLink)]),
+          el('span', {}, [JA.ui.skyCredit, ' ', el('a', { href: `${import.meta.env.BASE_URL}sky/CREDITS.md`, target: '_blank', rel: 'noopener' }, JA.ui.audioCreditLink)]),
         ]),
       ]),
     ]),

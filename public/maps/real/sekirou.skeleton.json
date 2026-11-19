@@ -21,14 +21,16 @@
     { "id": "YUGODAIRA", "name": "融合平見晴台", "type": "junction", "x": 0, "z": 0, "expectedElevM": 480 },
     { "id": "SUMMIT", "name": "石老山", "type": "peak", "x": 0, "z": 0, "osmName": "石老山", "expectedElevM": 694 },
     { "id": "VIEWPOINT", "name": "大明神展望台", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 549 },
-    { "id": "TH_DAIMYOJIN", "name": "大明神展望台入口（車道）", "type": "trailhead", "x": 0, "z": 0, "osmName": "大明神展望台入口", "expectedElevM": 320 }
+    { "id": "TH_DAIMYOJIN", "name": "大明神展望台入口（車道）", "type": "trailhead", "x": 0, "z": 0, "osmName": "大明神展望台入口", "expectedElevM": 320 },
+    { "id": "VP_NORTH", "name": "展望台の下の尾根の分かれ目", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 505 }
   ],
   "edges": [
     { "id": "E1", "name": "石老山入口〜顕鏡寺", "kind": "trail", "from": "TH_ISHIROU", "to": "KENKYOJI", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
     { "id": "E2", "name": "顕鏡寺〜融合平見晴台（岩の道）", "kind": "trail", "from": "KENKYOJI", "to": "YUGODAIRA", "class": "T2", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
     { "id": "E3", "name": "融合平見晴台〜石老山", "kind": "trail", "from": "YUGODAIRA", "to": "SUMMIT", "class": "T2", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
     { "id": "E4", "name": "石老山〜大明神展望台（尾根道）", "kind": "trail", "from": "SUMMIT", "to": "VIEWPOINT", "class": "T2", "markers": 0.7, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
-    { "id": "E5", "name": "大明神展望台〜大明神展望台入口（急な下り・ロープ）", "kind": "trail", "from": "VIEWPOINT", "to": "TH_DAIMYOJIN", "class": "T2", "markers": 0.6, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+    { "id": "E5", "name": "大明神展望台〜大明神展望台入口（急な下り・ロープ）", "kind": "trail", "from": "VIEWPOINT", "to": "TH_DAIMYOJIN", "class": "T2", "markers": 0.6, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "展望台の柵の外の斜面（踏み跡）", "kind": "trail", "from": "VIEWPOINT", "to": "VP_NORTH", "class": "T3", "markers": 0.0, "drift": 0.03, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
   ],
   "hazards": [],
   "radio": { "stations": [] },

@@ -44,6 +44,8 @@ export const CLIMBER_FIELDS = [
   'phone.gpsApp',
   'phone.has',
   'headlamp.has',
+  'headlamp.usable',
+  'rescueCalled',
   'illness',
   'illnessActive',
   'stings',
@@ -114,6 +116,10 @@ function climberField(c: ClimberState, field: string, scope: VarScope): VarValue
       return c.inv.phone.gpsApp && c.inv.phone.has;
     case 'phone.has':
       return c.inv.phone.has;
+    case 'headlamp.usable':
+      return c.inv.headlamp.has && c.inv.headlamp.batteryH > 0;
+    case 'rescueCalled':
+      return scope.world.rescue.calledAtMin !== null && (scope.world.rescue.via === 'phone' || scope.world.rescue.via === 'satellite');
     case 'headlamp.has':
       return c.inv.headlamp.has;
     case 'illness':

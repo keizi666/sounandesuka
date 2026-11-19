@@ -10,10 +10,33 @@
     "KENKYOJI": [663, 655],
     "YUGODAIRA": [662, 942],
     "VIEWPOINT": [-762, 546],
-    "TH_DAIMYOJIN": [-578, -42]
+    "TH_DAIMYOJIN": [-578, -42],
+    "VP_NORTH": [-790, 440]
   },
   "snapM": 60,
+  "trailEdges": [
+    {
+      "id": "E6",
+      "name": "展望台の柵の外の斜面（踏み跡）",
+      "from": "VIEWPOINT",
+      "to": "VP_NORTH",
+      "snap": "ridge",
+      "points": [[-766, 520], [-770, 495], [-776, 470], [-784, 452]]
+    }
+  ],
   "falseEdges": [
+    {
+      "id": "F_NWEST",
+      "name": "分かれ目から西へ延びる尾根（道はない。篠原川の源流へ）",
+      "from": "VP_NORTH",
+      "snap": "ridge",
+      "points": [[-830, 440], [-870, 425], [-910, 410], [-950, 400], [-990, 400], [-1030, 390], [-1060, 360], [-1090, 325], [-1120, 295], [-1160, 270], [-1200, 250], [-1240, 235], [-1280, 220]],
+      "fadeFrac": 0.5,
+      "markers": 0.05,
+      "drift": 0.06,
+      "attractiveness": 0.8,
+      "confuser": { "whenIntending": ["E6"], "ambiguity": 8 }
+    },
     {
       "id": "F_GREEN",
       "name": "北の尾根（地形図の破線。道はない）",

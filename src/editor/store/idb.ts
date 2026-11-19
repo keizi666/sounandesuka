@@ -96,7 +96,16 @@ export function putProject(p: EditorProject): Promise<IDBValidKey> {
 }
 
 export function getProject(id: string): Promise<EditorProject | undefined> {
-  return tx('readonly', (s) => s.get(id) as IDBRequest<EditorProject | undefined>);
+  return tx('readonly', (s) => s.get(id) as IDBRequest<EditorProject | undefined>).then((p) => {
+    // 古い取り込みで「登山口（境界）」にしていた、範囲の外へ続く道の端は「境界点」にする
+    for (const n of p?.map.nodes ?? []) {
+      if (n.type === 'trailhead' && /^登山口\d*（境界）$/.test(n.name)) {
+        n.type = 'boundary';
+        n.name = n.name.replace(/^登山口(\d*)（境界）$/, '境界点$1');
+      }
+    }
+    return p;
+  });
 }
 
 export function deleteProject(id: string): Promise<undefined> {

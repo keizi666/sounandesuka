@@ -23,6 +23,10 @@ export const movement = {
   snowDeepF: 0.5,
   snowCm: 5,
   snowF: 0.75,
+  /** 道の外の雪（ラッセル）: 5 cm 超で 0.7 倍、40 cm 超（膝より深い）で 0.35 倍 */
+  offTrailSnowF: 0.7,
+  offTrailDeepSnowCm: 40,
+  offTrailDeepSnowF: 0.35,
   icyNoCramponsF: 0.6,
   wetGround: 0.5,
   wetF: 0.9,

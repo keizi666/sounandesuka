@@ -20,6 +20,7 @@ import type { WhatIfIn, WhatIfJob, WhatIfOut } from '../workers/whatif.worker';
 import { drawTimeline, timeAtX, type ChartMarks } from './charts';
 import { el } from './dom';
 import { drawMap2d } from './map2d';
+import { zoomableMap } from './mapZoom';
 import { attributionLine, optionLabel, type SimResult } from './simScreen';
 
 const WHATIF_N = 30;
@@ -77,7 +78,7 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
     const c = sm.climbers[0]!;
     return { x: c.x, z: c.z };
   };
-  drawMap2d(mapCanvas, map, {
+  const mapLayers = {
     route: s.plan.route,
     track: rec.track,
     trackColors: colors,
@@ -86,7 +87,9 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
       ...rec.decisions.map((d) => ({ ...at(d.tMin), label: d.cpId, shape: 'diamond' as const, color: '#c8a050' })),
       ...(s.historical?.reference ?? []).filter((r) => r.node && map.nodes[r.node]).map((r) => ({ x: map.nodes[r.node!]!.x, z: map.nodes[r.node!]!.z, label: r.label, shape: 'triangle' as const, color: '#2563eb' })),
     ],
-  });
+  };
+  // 拡大縮小・スクロールできる地図（ユーザーの指定）
+  const mapBox = zoomableMap(mapCanvas, (view) => drawMap2d(mapCanvas, map, { ...mapLayers, view }));
 
   // ---- 分岐点と What-if ----
   const jobs: WhatIfJob[] = [];
@@ -175,7 +178,7 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
       ]),
       // 地図を上、気象と体温の変化をその下に、どちらも大きく（ユーザーの指定）
       el('div', { class: 'db-stack' }, [
-        el('section', { class: 'db-map' }, [mapCanvas, attributionLine(loaded)]),
+        el('section', { class: 'db-map' }, [mapBox, attributionLine(loaded)]),
         el('section', { class: 'db-chart' }, [chart, el('p', { class: 'legend' }, '◆ 分岐点 ● 出来事 ▲ 実際の記録 ／ 上: 体温（35℃ 点線）／ 下: 気温（橙）・体感（橙点線）・風（紫）・降水（青）')]),
       ]),
       el('section', { class: 'bf-card mc-card' }, [

@@ -38,4 +38,6 @@ export interface Ed {
   /** 3D プレビューを開く・閉じる */
   toggle3d(on?: boolean): void;
   save(): Promise<void>;
+  /** 地図の左端の道具パレット（null で消す）と、そのショートカットキー */
+  setToolPalette(el: HTMLElement | null, keys?: Map<string, () => void>): void;
 }

@@ -41,6 +41,9 @@ export function overpassQuery(lat0: number, lon0: number, size: number): string 
 out body geom;`;
 }
 
+/** 境界点から境界点へ出るだけの道は、これより短ければ取り込まない（m） */
+const BORDER_STUB_M = 500;
+
 /** headers は Node のツールから呼ぶとき用（Overpass は User-Agent のない自動クライアントを断る） */
 export async function fetchOsm(lat0: number, lon0: number, size: number, headers?: Record<string, string>): Promise<OsmJson> {
   const res = await fetch(OVERPASS_URL, { method: 'POST', body: new URLSearchParams({ data: overpassQuery(lat0, lon0, size) }), headers });
@@ -98,7 +101,7 @@ export function trailAttrs(t: Record<string, string>, meanSlopeDeg: number): { c
 
 /**
  * OSM の応答 → 箱庭のグラフ。共有ノード・端点・地点から 25 m 以内の点を分岐点にし、そこで way を分割する。
- * エリアの外は境界で切り、境界上に登山口の候補を置く。頂点は 10 m 間隔に間引く。smooth: false、sinuosity 1.0。
+ * エリアの外は境界で切り、境界上に境界点を置く（範囲の外へ続く道の端。登山口ではない。ユーザーの指定）。頂点は 10 m 間隔に間引く。smooth: false、sinuosity 1.0。
  */
 export function osmToGraph(osm: OsmJson, lat0: number, lon0: number, size: number, elevAt: (x: number, z: number) => number): GraphResult {
   const half = size / 2;
@@ -141,7 +144,7 @@ export function osmToGraph(osm: OsmJson, lat0: number, lon0: number, size: numbe
     if (nd) return nd;
     // 取り込んだ地点から 25 m 以内ならその地点
     const near = nodes.find((x) => Math.hypot(x.x - p.x, x.z - p.z) < 25);
-    nd = near ?? { id: '', name: onBorder ? '登山口（境界）' : '', type: onBorder ? 'trailhead' : 'junction', x: p.x, z: p.z, snap: false, source: 'osm', osmId: osmId.startsWith('n') ? osmId : undefined };
+    nd = near ?? { id: '', name: onBorder ? '境界点' : '', type: onBorder ? 'boundary' : 'junction', x: p.x, z: p.z, snap: false, source: 'osm', osmId: osmId.startsWith('n') ? osmId : undefined };
     if (!near) nodes.push(nd);
     junction.set(osmId, nd);
     return nd;
@@ -174,7 +177,7 @@ export function osmToGraph(osm: OsmJson, lat0: number, lon0: number, size: numbe
         const p = run[i]!;
         const isEnd = i === run.length - 1;
         const shared = (count.get(p.id) ?? 0) > 1;
-        const nearPoint = nodes.some((x) => x.type !== 'junction' && x.type !== 'trailhead' && Math.hypot(x.x - p.x, x.z - p.z) < 25);
+        const nearPoint = nodes.some((x) => x.type !== 'junction' && x.type !== 'trailhead' && x.type !== 'boundary' && Math.hypot(x.x - p.x, x.z - p.z) < 25);
         if (!isEnd && !shared && !nearPoint) continue;
         const seg = run.slice(start, i + 1);
         const a = nodeFor(seg[0]!.id, seg[0]!, Boolean(seg[0]!.border));
@@ -204,15 +207,25 @@ export function osmToGraph(osm: OsmJson, lat0: number, lon0: number, size: numbe
       }
     }
   }
+  // 範囲の角をかすめるだけの道（境界点から境界点へ、500 m 未満）は最初から除く（ユーザーの指定）
+  for (let i = edges.length - 1; i >= 0; i -= 1) {
+    const e = edges[i]! as unknown as { _a: NodeDef; _b: NodeDef; waypoints: [number, number][] };
+    if (e._a.type !== 'boundary' || e._b.type !== 'boundary') continue;
+    const pts = [[e._a.x, e._a.z], ...e.waypoints, [e._b.x, e._b.z]] as [number, number][];
+    let len = 0;
+    for (let k = 1; k < pts.length; k += 1) len += Math.hypot(pts[k]![0] - pts[k - 1]![0], pts[k]![1] - pts[k - 1]![1]);
+    if (len < BORDER_STUB_M) edges.splice(i, 1);
+  }
   // ID を振る（地点は種類ごと、道は E001…）
   const seq: Record<string, number> = {};
-  const prefix: Record<NodeType, string> = { trailhead: 'TH', junction: 'J', peak: 'PK', saddle: 'SD', hut: 'HUT', shelter: 'SH', landmark: 'LM' };
+  const prefix: Record<NodeType, string> = { trailhead: 'TH', junction: 'J', peak: 'PK', saddle: 'SD', hut: 'HUT', shelter: 'SH', landmark: 'LM', boundary: 'BD' };
   const used = new Set<NodeDef>();
   for (const e of edges) {
     used.add((e as unknown as { _a: NodeDef })._a);
     used.add((e as unknown as { _b: NodeDef })._b);
   }
-  const keep = nodes.filter((n) => used.has(n) || n.type !== 'junction');
+  // 道のつながらない分岐点・境界点は残さない
+  const keep = nodes.filter((n) => used.has(n) || (n.type !== 'junction' && n.type !== 'boundary'));
   for (const n of keep) {
     const p = prefix[n.type];
     seq[p] = (seq[p] ?? 0) + 1;

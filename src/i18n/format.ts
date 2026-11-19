@@ -84,16 +84,25 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'NODE_ARRIVE':
       return fill(L.nodeArrive, { name: f.nodeName(s('node')) });
     case 'FINISHED':
-      return fill(d['hut'] ? (d['stay'] === false ? L.finishedHutDay : L.finishedHut) : L.finished, { who, node: d['node'] ? f.nodeName(s('node')) : '' });
+      return fill(d['hut'] ? (d['stay'] === false || (((e.tMin % 1440) + 1440) % 1440) < 14 * 60 ? L.finishedHutDay : L.finishedHut) : L.finished, { who, node: d['node'] ? f.nodeName(s('node')) : '' });
     case 'STATE': {
       const to = s('to');
       if (['WALKING', 'RESTING', 'FINISHED', 'DEAD', 'SHELTERED'].includes(to)) return null;
       return fill(L.stateTo, { who, state: JA.labels.state[to] ?? to });
     }
-    case 'RAIN_START':
-      return fill(L.rainStart, { mm: Number(d['precipMmH'] ?? 0).toFixed(1) });
-    case 'RAIN_STOP':
-      return L.rainStop;
+    case 'RAIN_START': {
+      const what = L.precipName[String(d['precipType'] ?? 'rain')];
+      return what && what !== '雨' ? fill(L.precipStart, { what, mm: Number(d['precipMmH'] ?? 0).toFixed(1) }) : fill(L.rainStart, { mm: Number(d['precipMmH'] ?? 0).toFixed(1) });
+    }
+    case 'FOCUS': {
+      const g = f.scenario.groups?.find((x) => x.id === s('group'));
+      const leader = g ? f.scenario.party.find((p) => p.id === g.leader) : undefined;
+      return fill(L.focus, { who: leader?.name ?? s('group') });
+    }
+    case 'RAIN_STOP': {
+      const what = L.precipName[String(d['precipType'] ?? 'rain')];
+      return what && what !== '雨' ? fill(L.precipStop, { what }) : L.rainStop;
+    }
     case 'PRECIP_TYPE':
       return fill(L.precipType, { from: JA.labels.precipType[s('from')] ?? s('from'), to: JA.labels.precipType[s('to')] ?? s('to') });
     case 'SUNRISE':
@@ -193,6 +202,8 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'SCRIPT_LOG':
       if (e.text) return e.text;
       if (d['phoneLost']) return fill(L.phoneLost, { who });
+      if (d['rainAgain'] !== undefined) return fill(L.rainAgain, { what: L.precipName[String(d['rainAgain'])] ?? '雨' });
+      if (d['hutFound']) return fill(d['solo'] ? L.hutFoundSolo : L.hutFound, { who, node: f.nodeName(String(d['hutFound'])) });
       if (d['noLead']) return L.noLead;
       if (d['illnessOnset']) return fill(L.illnessOnset, { who });
       if (d['illnessEased']) return fill(L.illnessEased, { who });

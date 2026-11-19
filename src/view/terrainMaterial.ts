@@ -34,6 +34,8 @@ export interface EnvUniforms {
   /** 注目している登山者の位置と、その手前を透かす半径（0 = 透かさない） */
   uFocus: { value: THREE.Vector3 };
   uFocusR: { value: number };
+  /** カメラのすぐ前の木・建物を透かす距離（シーン単位。0 で使わない） */
+  uNearFade: { value: number };
   /** 地面の塗り分け: 登山道（R）と沢（G）の地図、写真から作った岩・石・土のテクスチャ */
   uMask: { value: THREE.Texture | null };
   uMaskOn: { value: number };
@@ -70,6 +72,7 @@ export function createEnvUniforms(): EnvUniforms {
     uAirStart: { value: 0 },
     uFocus: { value: new THREE.Vector3() },
     uFocusR: { value: 0 },
+    uNearFade: { value: 0 },
     uMask: { value: null },
     uMaskOn: { value: 0 },
     uTrailOn: { value: 1 },
@@ -104,6 +107,7 @@ uniform float uAirDensity;
 uniform float uAirStart;
 uniform vec3 uFocus;
 uniform float uFocusR;
+uniform float uNearFade;
 uniform sampler2D uMask;
 uniform float uMaskOn;
 uniform float uTrailOn;
@@ -211,7 +215,7 @@ function patchToon(shader: { fragmentShader: string }, style: ToonStyle): void {
 }
 
 /** フラグメントの最後に雪・濡れ・霧・夜を足す */
-function patchFragment(shader: { fragmentShader: string }, terrain: boolean, fade: boolean): void {
+function patchFragment(shader: { fragmentShader: string }, terrain: boolean, fade: boolean, nearFade = false): void {
   shader.fragmentShader = shader.fragmentShader
     .replace('#include <common>', `#include <common>\n${COMMON}`)
     .replace(
@@ -308,6 +312,13 @@ ${
           float hkN = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
           if (hkN < hkK * 0.8) discard;
         }
+      }
+      // カメラのすぐ前にある木は、視界をふさぐので透かす（木だけ。台座・建物は透かさない）
+      if (${nearFade ? 'true' : 'false'} && uNearFade > 0.0) {
+        float hkC = distance(cameraPosition, vWorldPos);
+        float hkK2 = 1.0 - smoothstep(uNearFade * 0.6, uNearFade, hkC);
+        float hkN2 = fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715))));
+        if (hkN2 < hkK2) discard;
       }`
       }
       // 積雪（雪山は雪山として。docs/19）。雪線はまだらに上下し、急な岩場は雪が付かずに岩が出る。
@@ -385,7 +396,7 @@ export function injectEnv(material: THREE.Material, env: EnvUniforms, terrain = 
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, env);
     patchVertex(shader, sway, terrain);
-    patchFragment(shader, terrain, !style.noFade);
+    patchFragment(shader, terrain, !style.noFade, style.leaf === true);
     patchToon(shader, style);
   };
   material.customProgramCacheKey = () => `hk-${terrain ? 't' : 'e'}${sway ? 's' : ''}-r${style.rim ?? 0}${style.vary ? 'v' : ''}${style.leaf ? 'l' : ''}${style.noFade ? 'n' : ''}`;

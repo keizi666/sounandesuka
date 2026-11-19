@@ -21,7 +21,7 @@ const CALL_OK: Condition = {
   ],
 };
 const HAS_PHONE: Condition = { all: [{ var: 'leader.phone.has', op: '==', value: true }, { var: 'leader.phone.batteryPct', op: '>', value: 0 }] };
-const HAS_LAMP: Condition = { var: 'leader.headlamp.has', op: '==', value: true };
+const HAS_LAMP: Condition = { var: 'leader.headlamp.usable', op: '==', value: true };
 
 /** 既定の選択肢（docs/09 §7 の表） */
 export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options: ChoiceOptionDef[] }> = {
@@ -184,7 +184,7 @@ export function genericTrigger(world: World, ctx: StaticContext, key: GenericCho
       // 暗くなった（DARK イベント）とき歩いていたら。休んでいたら、その夜に歩き出したとき。出発時から暗いときは出ない
       const P = `${L}:pending`;
       if (world.recentEvents.some((e) => e.type === 'DARK')) world.latches[P] = true;
-      if (world.recentEvents.some((e) => e.type === 'SUNRISE')) world.latches[P] = false;
+      if (world.recentEvents.some((e) => e.type === 'SUNRISE') || !world.sun.isDark) world.latches[P] = false;
       if (world.latches[P] !== true || !DARK_MOVING.has(leader.state)) return false;
       world.latches[P] = false;
       return true;

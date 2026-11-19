@@ -1,5 +1,5 @@
 // =============================================================
-// 遭難ですゲーム — 型定義（仕様の正）
+// 遭難ですか？ — 型定義（仕様の正）
 // P0 で src/sim/types.ts にコピーして使う。変更したら docs も直す。
 // =============================================================
 
@@ -73,7 +73,8 @@ export interface ProceduralTerrainDef {
   erosion: { thermalIterations: number; talusDeg: number };
 }
 
-export type NodeType = 'trailhead' | 'junction' | 'peak' | 'saddle' | 'hut' | 'shelter' | 'landmark';
+/** boundary: 境界点（範囲の外へ続く道が、地図の端で切れる所。登山口ではない） */
+export type NodeType = 'trailhead' | 'junction' | 'peak' | 'saddle' | 'hut' | 'shelter' | 'landmark' | 'boundary';
 
 export interface NodeDef {
   id: NodeId;
@@ -108,6 +109,7 @@ export interface EdgeDef {
   smooth?: boolean;            // Catmull-Rom 補間（既定 true。実在データは false）
   via?: string[];              // スケルトン結合で経由する OSM 地点名
   paceAdj?: number;            // コースタイム合わせの速度係数 0.6〜1.4（既定 1）
+  streamBedM?: number;         // 沢登りの区間（道が沢床そのもの）の水面の幅（m）。見た目だけ（水として太く描く）
   source?: 'manual' | 'osm' | 'gpx';
   osmIds?: string[];
   waypoints: [number, number][];
@@ -186,7 +188,7 @@ export interface ScenarioDef {
   historical?: HistoricalDef;
   nodeOverrides?: Record<NodeId, { open?: boolean }>;   // 小屋の営業状態などをシナリオごとに上書き
   /** 始まりの積雪（雪山・残雪期）。lineM より上に積もり、fullM（省略は lineM+400）で depthCm になる。歩く速さ・道の見つけやすさ・地面の冷たさと、雪の見た目に効く */
-  snowpack?: { lineM: number; depthCm: number; fullM?: number };
+  snowpack?: { lineM: number; depthCm: number; fullM?: number; trailCm?: number };   // trailCm: 登山道の上の踏み固められた雪（トレース）。省くと道の上も depthCm
   sources?: string[];                                   // 例: "気象の下書き: Open-Meteo ERA5 2025-10-12 36.40,137.71"
   /** 通りかかる登山者（人の少ない道では少ない）。困っている人に気づけば下山して通報してくれる */
   passersby?: PasserbyDef[];
@@ -389,6 +391,7 @@ export type Action = { who?: Who } & (
   | { type: 'reportMissing'; by?: string }        // 家族・仲間が「帰らない」と警察に届け出る（未帰還の通報を今する）。by は届け出た人（「小屋番さん」など。省くと家族）
   | { type: 'sound'; id: string; volume?: number } // 効果音を鳴らす（src/sim/scenario/soundCatalog.ts の ID）。記録には残らない
   | { type: 'music'; id: string | null; volume?: number } // 音楽を切り替える（null で自動の曲に戻す）
+  | { type: 'focus'; group: string }               // 見守る（注視する）パーティを変える。画面はそのリーダーを追い、プレイヤーの主体がそのパーティに移る
   | { type: 'leaveMap'; place: string }            // 下山した人が地図の外（バス停・駅・交番など）へ移る。3D から消え、居場所の名前を出す（下山・救助の後だけ）
   | { type: 'setPhone'; has: boolean }             // スマホをなくす（false）・見つける（true）
   | { type: 'addAnxiety'; amount: number }         // 動揺する（+）・落ち着く（−）。不安 0〜100
@@ -730,6 +733,10 @@ export interface World {
   weatherMemo: { raining: boolean; rainStoppedAtMin: number | null; precipType: PrecipType; sunUp: boolean; dark: boolean };
   /** once: false の分岐点・イベントの立ち上がり検出（前回の真偽） */
   latches: Record<string, boolean>;
+  /** いま見守っているパーティ（focus アクションで変わる。なければ最初のパーティ） */
+  focusGroup?: string;
+  /** 見守りを切り替えた時点の、そのパーティの人（あとで分かれた組もこの人たちなら見守る側） */
+  focusMembers?: ClimberId[];
 }
 
 // ---------- イベント（ループで回収。World に残さない） ----------
@@ -740,7 +747,7 @@ export type SimEventType =
   | 'LIGHTNING_STRIKE' | 'LIGHTNING_NEAR'
   | 'RESCUE_CALLED' | 'RESCUE_CALL_FAILED' | 'HELI_DISPATCH' | 'GROUND_DISPATCH' | 'RESCUED'
   | 'SHELTER_ENTER' | 'SHELTER_LEAVE' | 'BIVOUAC_START' | 'DEATH' | 'FINISHED'
-  | 'CHOICE_FIRED' | 'CHOICE_RESOLVED' | 'SCRIPT_LOG' | 'FORECAST_UPDATE' | 'PIN' | 'THOUGHT' | 'ENDED'
+  | 'CHOICE_FIRED' | 'CHOICE_RESOLVED' | 'SCRIPT_LOG' | 'FORECAST_UPDATE' | 'PIN' | 'THOUGHT' | 'ENDED' | 'FOCUS'
   | 'SOAK' | 'CARDIAC_ARREST' | 'LEADER_CHANGED' | 'PARTY_SPLIT' | 'STRAGGLER' | 'GUST_FALL'
   | 'SPEECH'
   | 'SOUND' | 'MUSIC';   // 効果音・音楽（data: { id, volume }）。画面だけが使う   // data: { to, tone, distortLevel(0-3), documented }。text は変形前の原文

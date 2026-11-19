@@ -1,13 +1,13 @@
 /** 画面に出す日本語文字列（CLAUDE.md 鉄則 5）。シナリオ JSON 内の文章は除く。 */
 export const JA = {
   app: {
-    title: '遭難ですゲーム',
+    title: '遭難ですか？',
     preparing: '準備中です。シミュレーションは描画なしで先に作っています。',
   },
   editor: {
     localOnly: 'シナリオの作成と編集は、手元の環境（localhost）でだけ使えます。公開しているサイトでは使えません。',
     backToPlayer: 'シミュレーターに戻る',
-    title: '遭難ですゲーム シナリオエディター',
+    title: '遭難ですか？ シナリオエディター',
     preparing: 'シナリオエディターは準備中です。',
   },
   disclaimer: {
@@ -86,6 +86,12 @@ export const JA = {
     stateTo: '{who}: {state}',
     rainStart: '雨が降り始めた（{mm} mm/h）',
     rainStop: '雨がやんだ',
+    /** 降るものの名前（雨・雪・みぞれ・ひょう） */
+    precipName: { rain: '雨', snow: '雪', sleet: 'みぞれ', hail: 'ひょう' } as Record<string, string>,
+    precipStart: '{what}が降り始めた（{mm} mm/h）',
+    precipStop: '{what}がやんだ',
+    focus: 'ここからは、{who}さんたちのパーティを見守る',
+    rainAgain: '{what}がまた降り出した',
     precipType: '{from}が{to}に変わった',
     sunrise: '日が昇った',
     sunset: '日が沈んだ',
@@ -105,6 +111,8 @@ export const JA = {
     lampDead: '{who}のヘッドランプの電池が切れた',
     phoneDead: '{who}のスマートフォンの電池が切れた',
     phoneLost: '{who}は転んだ拍子にスマートフォンをなくした。あたりを探したが見つからない',
+    hutFound: '{who}たちの前に、{node}の建物が見えた',
+    hutFoundSolo: '{who}の前に、{node}の建物が見えた',
     illnessOnset: '{who}は胸が締めつけられるように痛み、動悸がする。息が苦しい',
     illnessEased: '{who}の胸の痛みが、少し治まってきた',
     illnessRelapse: '{who}の胸の痛みが、またぶり返した',
@@ -200,6 +208,7 @@ export const JA = {
     privacy: 'プライバシーポリシー',
     audioCredit: '効果音・音楽: シネマトグラフィカ（作者のオリジナル。音色 MuseScore_General.sf2, MIT）',
     audioCreditLink: '出典',
+    skyCredit: '星: HYG Database（CC BY-SA 4.0）・月の画像: Solar System Scope（CC BY 4.0）',
     loading: '読み込み中…',
     loadingTitle: '準備しています',
     loadingData: 'シナリオのデータを読み込んでいます',
@@ -323,6 +332,7 @@ export const JA = {
     sortByCore: '体温順',
     wholeParty: 'パーティ',
     autoChose: '◆ 観察: 「{label}」になった',
+    otherChose: '◆ {who}さんたちは「{label}」にした',
     timeUp: '◆ 時間切れ: 「{label}」になった',
     keyHelp: '左ドラッグ パン / 右ドラッグ 視点を回す / ホイール 拡大 / Space 一時停止 / 1〜4 速度 / G 情報モード / C カメラ / 視点: ドラッグで見回す・ダブルクリックで正面',
     resumeAsk: '前回の続きがあります',
@@ -436,7 +446,8 @@ export const JA = {
   thoughts: {
     fine_start: ['いい天気だ。予定どおり行けそうだ', '空気が冷たくて気持ちいい'],
     behind: ['少し遅れてるな。でもまだ間に合うはず', '思ったより時間がかかっている'],
-    rain_delay: ['まだ小降りだ。着るのは小屋に着いてからでいいか', 'これくらいなら雨具はいらないだろう'],
+    rain_delay: ['まだ小降りだ。着るのは次に休むときでいいか', 'これくらいなら雨具はいらないだろう'],
+    rain_delay_heavy: ['ずいぶん濡れてきた。でも、止まって着るのも面倒だ', 'ここまで濡れたら、着てもあまり変わらないか'],
     cold_hands: ['指がうまく動かない。ザックのファスナーが開けにくい', '手がかじかんできた'],
     mild_hypo: ['寒い……何をしようとしてたんだっけ', '震えが止まらない'],
     moderate_hypo: ['もう寒くない。少しここで横になろうか', '……眠い'],

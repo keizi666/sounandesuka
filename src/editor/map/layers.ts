@@ -1,6 +1,7 @@
 /**
  * 地図のレイヤー（docs/16 §2）: 陰影段彩と重ね表示、箱庭範囲、登山道、計画ルート、試走の軌跡、地点・危険箇所・基地局、雷雲の進路・確認地点。
  */
+import { edgeSel } from './edgeSelection';
 import { reliefCanvas } from '../../ui/map2d';
 import { VegClass, type MapRuntime } from '../../sim/types';
 import { asInt8, decodeGrid } from '../../sim/terrain/codec';
@@ -150,7 +151,7 @@ export function createLayers(ed: Ed, state: LayerState): MapLayer[] {
         const samples = m?.trails[e.id]?.samples;
         const raw = [node(e.from), ...e.waypoints.map((w) => ({ x: w[0], z: w[1] })), node(e.to)].filter((p): p is { x: number; z: number } => Boolean(p));
         const pts = samples ? samples.map((s) => ({ x: s.x, z: s.z })) : raw;
-        const selected = sel.kind === 'edge' && sel.id === e.id;
+        const selected = (sel.kind === 'edge' && sel.id === e.id) || edgeSel.ids.has(e.id);
         g.strokeStyle = selected ? '#ffcc00' : e.kind === 'false' ? '#8a5a2b' : e.class === 'T3' ? '#c0392b' : e.class === 'T2' ? '#d35400' : '#7b3f00';
         g.lineWidth = selected ? 5 : e.kind === 'false' ? 2 : 3;
         g.setLineDash(draft.has(e.id) ? [6, 5] : e.kind === 'false' ? [3, 3] : []);
@@ -279,7 +280,7 @@ export function createLayers(ed: Ed, state: LayerState): MapLayer[] {
       for (const n of ed.p.map.nodes) {
         const p = v.xzToPx(n.x, n.z);
         const selected = sel.kind === 'node' && sel.id === n.id;
-        g.fillStyle = n.type === 'hut' || n.type === 'shelter' ? '#7c2d12' : n.type === 'peak' ? '#111' : n.type === 'trailhead' ? '#15803d' : '#555';
+        g.fillStyle = n.type === 'hut' || n.type === 'shelter' ? '#7c2d12' : n.type === 'peak' ? '#111' : n.type === 'trailhead' ? '#15803d' : n.type === 'boundary' ? '#94a3b8' : '#555';
         g.strokeStyle = selected ? '#ffcc00' : '#fff';
         g.lineWidth = selected ? 3 : 1.5;
         g.beginPath();
@@ -336,5 +337,23 @@ export function createLayers(ed: Ed, state: LayerState): MapLayer[] {
       }
     },
   };
-  return [relief, area, trails, route, track, nodes, cells];
+  // 道を囲んで選ぶ矩形（ドラッグ中）
+  const selBox: MapLayer = {
+    id: 'selBox',
+    visible: true,
+    draw(g, v) {
+      const b = edgeSel.box;
+      if (!b) return;
+      const a = v.xzToPx(Math.min(b.x0, b.x1), Math.min(b.z0, b.z1));
+      const c = v.xzToPx(Math.max(b.x0, b.x1), Math.max(b.z0, b.z1));
+      g.setLineDash([6, 4]);
+      g.strokeStyle = '#ffcc00';
+      g.lineWidth = 2;
+      g.fillStyle = 'rgba(255, 204, 0, 0.12)';
+      g.fillRect(a.px, a.py, c.px - a.px, c.py - a.py);
+      g.strokeRect(a.px, a.py, c.px - a.px, c.py - a.py);
+      g.setLineDash([]);
+    },
+  };
+  return [relief, area, trails, route, track, nodes, cells, selBox];
 }

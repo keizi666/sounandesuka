@@ -239,6 +239,6 @@ export const rescue = {
 export const thoughts = {
   minGapMin: 15,
   maxGapMin: 30,
-  noRepeatMin: 120,
+  noRepeatMin: 240,
   scenarioPriorityBonus: 10,
 };

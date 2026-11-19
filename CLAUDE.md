@@ -1,4 +1,4 @@
-# CLAUDE.md — 遭難ですゲーム（コードネーム: sounan-sim）
+# CLAUDE.md — 遭難ですか？（コードネーム: sounan-sim）
 
 このリポジトリは、箱庭（ジオラマ）状の山で起きる山岳遭難の推移を 3D で観察する Web アプリと、そのシナリオを作る **シナリオエディター** である。
 舞台は架空の山「箱庭岳」と、エディターで国土地理院の標高・OpenStreetMap の登山道から作る実在の山のエリア。
@@ -70,6 +70,8 @@
 |---|---|
 | `npm run dev` | 開発サーバー（http://localhost:5281 。`/` プレイヤー、`/editor.html` エディター） |
 | `npm run build` | `dist/` に静的ビルド（`VITE_BASE` でベースパス指定可） |
+| `npm run build:sounan` | `/sounandesuka/` に置く用の静的ビルド |
+| `npm run deploy [-- --with-real-data] [--dry-run]` | 公開用にビルドしてサーバーへ scp で上げる（設定は git に入れない `deploy.config.json`、見本は `deploy.config.example.json`。実在の山の地形データは権利の確認まで既定で上げない） |
 | `npm run typecheck` | `tsc --noEmit`（全体と、DOM・Node の型なしで `src/sim` だけを見る `tsconfig.sim.json` の 2 回） |
 | `npm run test` | vitest（ユニット・較正・決定論テスト） |
 | `npm run sim -- <scenarioId> [--policy recommended\|bias\|random\|risky] [--seed N] [--log]` | ヘッドレス1回実行 |

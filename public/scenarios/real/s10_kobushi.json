@@ -16,7 +16,7 @@
   "moon": { "illumination": 0.45 },
   "region": { "name": "奥秩父・甲武信ヶ岳", "real": true },
   "briefing": {
-    "text": "岡田さん（68歳）は登山歴 40 年。土曜の朝、前の晩に泊まった大弛小屋を出て、国師ヶ岳から東梓・両門ノ頭・富士見・水師と奥秩父の主脈を歩き、甲武信ヶ岳を越えて甲武信小屋に泊まる計画（予定 15 時に甲武信ヶ岳、15 時半に小屋）。大弛からのこの道は、甲武信ヶ岳へのコースの中でも人が少ない。ツエルトとコンロ、防寒着、ヘッドランプ、笛を持ち、登山届はいつものようにオンラインで出してある。甲武信小屋には予約の電話を入れてある。持病は特になく、健康診断はここ数年受けていない。",
+    "text": "岡田さん（68歳、登山歴 40 年）は単独。土曜の朝に大弛小屋を出て、国師ヶ岳から甲武信ヶ岳へ奥秩父の主脈を歩き、甲武信小屋に泊まる計画（15 時半着の予定）。人の少ない道で、ほとんど圏外。ツエルト・コンロ・防寒着・ヘッドランプ・笛を持ち、登山届を出し、小屋も予約してある。持病はないが、健康診断はここ数年受けていない。",
     "forecast": [
       { "label": "今日", "text": "晴れ。稜線は日中 10℃ 前後", "icon": "sunny" },
       { "label": "夜", "text": "晴れ。稜線は 0℃ 近くまで下がる", "icon": "clear_night" },
@@ -87,7 +87,7 @@
       "id": "ev_hut_noshow",
       "trigger": { "all": [{ "after": "D0 19:00" }, { "not": { "beenAt": "KOBUSHI_HUT" } }, { "not": { "state": "SHELTERED" } }, { "not": { "state": "FINISHED" } }] },
       "once": true,
-      "effects": [{ "type": "log", "text": "甲武信小屋では、予約した岡田さんが来ない。小屋の主人が携帯に電話をかけたが、つながらなかった", "important": true }]
+      "effects": [{ "type": "log", "text": "甲武信小屋に、予約した岡田さんが来ない。主人が携帯にかけたが、つながらなかった", "important": true }]
     },
     {
       "id": "ev_hut_report",
@@ -95,7 +95,7 @@
       "once": true,
       "effects": [
         { "type": "actions", "actions": [{ "type": "reportMissing" }] },
-        { "type": "log", "text": "朝になっても連絡がなく、甲武信小屋の主人が警察に連絡した。登山届から、大弛峠からの主脈を歩く予定だったことが分かった", "important": true }
+        { "type": "log", "text": "朝になっても連絡がなく、甲武信小屋の主人が警察に届けた。登山届から、大弛峠から主脈を歩く予定と分かった", "important": true }
       ]
     }
   ],
@@ -105,11 +105,11 @@
       "title": "大弛小屋を出る",
       "priority": 20,
       "trigger": { "after": "D0 08:00" },
-      "situation": "朝 8 時、大弛峠。よく晴れて、富士山がくっきり見える。体調はいつもどおりだと思う。",
-      "knowledge": ["甲武信小屋まで約 7 時間（予定 15 時半）。途中に小屋や逃げ道はほとんどない", "この道は人が少ない。土曜でも何人かと会うくらい", "この稜線は、ほとんど圏外"],
+      "situation": "朝 8 時の大弛峠は快晴で、富士山がくっきり見える。体調はいつもどおり。どのペースで行く？",
+      "knowledge": ["甲武信小屋まで約 7 時間（予定 15 時半）。途中に小屋や逃げ道はほとんどない", "人の少ない道。土曜でも数人と会う程度", "稜線はほとんど圏外"],
       "options": [
-        { "id": "go", "label": "いつものペースで出発する", "actions": [{ "type": "continueRoute" }], "bias": { "base": 1.0 } },
-        { "id": "slow", "label": "年も年だ。ペースを落とし、こまめに休みながら行く", "detail": "着くのは少し遅くなる。", "actions": [{ "type": "setPace", "factor": 0.85 }, { "type": "continueRoute" }], "tags": ["recommended"], "bias": { "base": 0.6 } }
+        { "id": "go", "label": "いつものペースで出発", "actions": [{ "type": "continueRoute" }], "bias": { "base": 1.0 } },
+        { "id": "slow", "label": "ゆっくり、こまめに休んで行く", "detail": "年も年だ。着くのは少し遅くなる。", "actions": [{ "type": "setPace", "factor": 0.85 }, { "type": "continueRoute" }], "tags": ["recommended"], "bias": { "base": 0.6 } }
       ]
     },
     {
@@ -117,12 +117,12 @@
       "title": "胸が痛い",
       "priority": 18,
       "trigger": { "flag": "onset" },
-      "situation": "急に胸が締めつけられるように痛み、動悸がする。息が苦しく、冷や汗が出てきた。原因は分からない。心臓かもしれないし、胃や筋肉かもしれない。",
-      "knowledge": ["甲武信小屋まではまだ 2〜3 時間。大弛小屋へ戻るなら 4 時間以上", "ここは圏外。人はめったに通らない", "ツエルト・コンロ・防寒着・ヘッドランプ・笛はある。水は {leader.waterL:1}L、食べ物は {leader.foodKcal:0}kcal", "持病の薬は持っていない"],
+      "situation": "急に胸が締めつけられ、動悸と息苦しさ、冷や汗。心臓か、胃や筋肉かは分からない。どうする？",
+      "knowledge": ["甲武信小屋まで 2〜3 時間。大弛小屋へ戻れば 4 時間以上", "圏外。人はめったに通らない", "ツエルト・コンロ・防寒着・ヘッドランプ・笛がある。水 {leader.waterL:1}L、食料 {leader.foodKcal:0}kcal", "持病の薬はない"],
       "options": [
-        { "id": "rest", "label": "その場に座り込み、楽な姿勢で 30 分休む", "detail": "まず様子を見る。", "actions": [{ "type": "say", "text": "落ち着け。まず座ろう", "tone": "whisper" }, { "type": "addLayer" }, { "type": "rest", "minutes": 30 }], "tags": ["recommended"], "bias": { "base": 1.0 } },
-        { "id": "push", "label": "我慢して甲武信小屋まで歩く", "detail": "小屋に着けば人がいる。", "actions": [{ "type": "say", "text": "小屋まで行けば何とかなる", "tone": "whisper" }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 0.6, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.5 }, "add": 0.4 }] } },
-        { "id": "stop", "label": "これ以上は動かない。ツエルトをかぶって横になり、助けを待つ", "actions": [{ "type": "say", "text": "動かないほうがいい……", "tone": "whisper" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 0.4 } }
+        { "id": "rest", "label": "座って 30 分休む", "detail": "楽な姿勢で、まず様子を見る。", "actions": [{ "type": "say", "text": "落ち着け。まず座ろう", "tone": "whisper" }, { "type": "addLayer" }, { "type": "rest", "minutes": 30 }], "tags": ["recommended"], "bias": { "base": 1.0 } },
+        { "id": "push", "label": "我慢して小屋まで歩く", "detail": "小屋に着けば人がいる。", "actions": [{ "type": "say", "text": "小屋まで行けば何とかなる", "tone": "whisper" }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 0.6, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.5 }, "add": 0.4 }] } },
+        { "id": "stop", "label": "横になって助けを待つ", "detail": "ツエルトをかぶり、もう動かない。", "actions": [{ "type": "say", "text": "動かないほうがいい……", "tone": "whisper" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 0.4 } }
       ]
     },
     {
@@ -130,24 +130,24 @@
       "title": "痛みが引いた",
       "priority": 16,
       "trigger": { "all": [{ "elapsedSince": { "flag": "onset", "min": 18 } }, { "var": "leader.illnessActive", "op": "==", "value": false }, { "not": { "state": "WALKING" } }] },
-      "situation": "休んでいるうちに、胸の痛みが少しずつ引いてきた。まだ体は重く、不安は残る。",
-      "knowledge": ["甲武信小屋まで 2〜3 時間。登りもある", "大弛小屋へ戻るなら 4 時間以上", "日の入りは 18:47"],
+      "situation": "休むうちに胸の痛みが引いてきた。体は重く、不安は残る。どうする？",
+      "knowledge": ["甲武信小屋まで 2〜3 時間。登りもある", "大弛小屋へ戻れば 4 時間以上", "日の入りは 18:47"],
       "options": [
-        { "id": "hut", "label": "ゆっくり、こまめに休みながら甲武信小屋へ向かう", "actions": [{ "type": "setPace", "factor": 0.65 }, { "type": "continueRoute" }], "tags": ["recommended"], "bias": { "base": 1.0 } },
-        { "id": "back", "label": "大弛小屋へ引き返す（知っている道だが遠い）", "actions": [{ "type": "setPace", "factor": 0.65 }, { "type": "turnBack" }], "bias": { "base": 0.3 } },
-        { "id": "wait", "label": "今日はここで張り、明日の朝、体調を見て決める", "detail": "登山道のすぐ脇に張る。", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "dawn", "findLee": false }], "bias": { "base": 0.4 } }
+        { "id": "hut", "label": "ゆっくり甲武信小屋へ", "detail": "こまめに休みながら歩く。", "actions": [{ "type": "setPace", "factor": 0.65 }, { "type": "continueRoute" }], "tags": ["recommended"], "bias": { "base": 1.0 } },
+        { "id": "back", "label": "大弛小屋へ引き返す", "detail": "知っている道だが遠い。", "actions": [{ "type": "setPace", "factor": 0.65 }, { "type": "turnBack" }], "bias": { "base": 0.3 } },
+        { "id": "wait", "label": "ここで張って朝を待つ", "detail": "道のすぐ脇に張り、朝の体調で決める。", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "dawn", "findLee": false }], "bias": { "base": 0.4 } }
       ]
     },
     {
       "id": "cp_not_eased",
       "title": "痛みが治まらない",
       "priority": 16,
-      "trigger": { "all": [{ "elapsedSince": { "flag": "onset", "min": 25 } }, { "not": { "flag": "eased" } }, { "var": "leader.illnessActive", "op": "==", "value": true }, { "var": "leader.alive", "op": "==", "value": true }] },
-      "situation": "25 分たっても胸の痛みが治まらない。汗が冷たい。とても歩ける状態ではない。",
-      "knowledge": ["ここは圏外。この稜線で電波が入ったという話は聞かない", "人はめったに通らない。笛はある", "日の入りは 18:47。夜は 0℃ 近くまで下がる"],
+      "trigger": { "all": [{ "elapsedSince": { "flag": "onset", "min": 25 } }, { "not": { "flag": "eased" } }, { "not": { "chose": { "cp": "cp_onset", "option": "stop" } } }, { "var": "leader.illnessActive", "op": "==", "value": true }, { "var": "leader.alive", "op": "==", "value": true }] },
+      "situation": "25 分たっても痛みが治まらない。冷や汗が出て、とても歩けない。どうする？",
+      "knowledge": ["圏外。この稜線で電波が入った話は聞かない", "人はめったに通らない。笛はある", "日の入りは 18:47。夜は 0℃ 近くまで下がる"],
       "options": [
-        { "id": "stay", "label": "登山道のすぐ脇にツエルトを張り、着込んで横になる。人の気配がしたら笛を吹く", "detail": "道から離れすぎない。", "actions": [{ "type": "say", "text": "ここで待とう。誰か通るかもしれない", "tone": "whisper" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 1.0 } },
-        { "id": "signal", "label": "だめでもともとで 110 番にかけてみる。つながらなければ、道の脇にツエルトを張って待つ", "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "bias": { "base": 0.5 } },
+        { "id": "stay", "label": "道の脇で横になって待つ", "detail": "ツエルトを張って着込み、人の気配に笛を吹く。", "actions": [{ "type": "say", "text": "ここで待とう。誰か通るかもしれない", "tone": "whisper" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 1.0 } },
+        { "id": "signal", "label": "110 番にかけてみる", "detail": "つながらなければ、道の脇で待つ。", "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "bias": { "base": 0.5 } },
         { "id": "push", "label": "それでも小屋まで歩く", "actions": [{ "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 0.3 } }
       ]
     },
@@ -156,11 +156,11 @@
       "title": "また胸が痛む",
       "priority": 16,
       "trigger": { "all": [{ "flag": "eased" }, { "var": "leader.illnessActive", "op": "==", "value": true }, { "var": "leader.alive", "op": "==", "value": true }, { "state": "WALKING" }] },
-      "situation": "歩いているうちに、また胸が締めつけられてきた。息が上がる。",
-      "knowledge": ["一度は休んで治まった", "小屋まではまだ遠い。人はめったに通らない", "日の入りは 18:47"],
+      "situation": "歩くうちに、また胸が締めつけられてきた。息が上がる。どうする？",
+      "knowledge": ["一度は休んで治まった", "小屋はまだ遠い。人はめったに通らない", "日の入りは 18:47"],
       "options": [
-        { "id": "rest", "label": "すぐに座って 30 分休み、治まったらまたゆっくり歩く", "actions": [{ "type": "say", "text": "止まろう。座って待つんだ", "tone": "whisper" }, { "type": "rest", "minutes": 30 }], "tags": ["recommended"], "bias": { "base": 1.0 } },
-        { "id": "stop", "label": "もう動かない。登山道の脇にツエルトを張り、助けを待つ", "actions": [{ "type": "say", "text": "もう無理はしない。ここで待とう", "tone": "whisper" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 0.6 } },
+        { "id": "rest", "label": "座って 30 分休む", "detail": "治まったら、またゆっくり歩く。", "actions": [{ "type": "say", "text": "止まろう。座って待つんだ", "tone": "whisper" }, { "type": "rest", "minutes": 30 }], "tags": ["recommended"], "bias": { "base": 1.0 } },
+        { "id": "stop", "label": "道の脇で助けを待つ", "detail": "ツエルトを張り、もう動かない。", "actions": [{ "type": "say", "text": "もう無理はしない。ここで待とう", "tone": "whisper" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 0.6 } },
         { "id": "push", "label": "止まらずに歩き続ける", "actions": [{ "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 0.4, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.5 }, "add": 0.4 }] } }
       ]
     },
@@ -169,28 +169,28 @@
       "title": "稜線の朝",
       "priority": 12,
       "trigger": { "all": [{ "after": "D1 05:00" }, { "flag": "onset" }, { "var": "leader.alive", "op": "==", "value": true }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }, { "state": "STAYING" }] }] },
-      "situation": "冷え込んだ夜が明けた。霜が降りている。胸の痛みは、残っているような、少し楽になったような……。",
-      "knowledge": ["小屋の主人は、予約した客が来ないことに気づいているはず", "登山届は出してある"],
+      "situation": "冷え込んだ夜が明け、霜が降りている。胸の痛みは、残るような、楽なような……。どうする？",
+      "knowledge": ["小屋の主人は、予約客が来ないと気づいているはず", "登山届は出してある"],
       "options": [
-        { "id": "go_hut", "label": "体が動くうちに、ゆっくり甲武信小屋へ向かう", "available": { "var": "leader.illnessActive", "op": "==", "value": false }, "unavailableText": "まだ胸が痛む", "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "setRoute", "route": ["KOBUSHI", "KOBUSHI_HUT"], "goalNodes": ["KOBUSHI_HUT"] }], "bias": { "base": 0.7 } },
-        { "id": "go_back", "label": "体が動くうちに、ゆっくり大弛小屋へ戻る", "available": { "all": [{ "var": "leader.illnessActive", "op": "==", "value": false }, { "chose": { "cp": "cp_eased", "option": "back" } }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "setRoute", "route": ["OHDARUMI"], "goalNodes": ["OHDARUMI"] }], "bias": { "base": 0.7 } },
-        { "id": "wait", "label": "動かずに待つ。明るいうちは笛を吹き続ける", "actions": [{ "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 0.8 } }
+        { "id": "go_hut", "label": "ゆっくり甲武信小屋へ", "detail": "体が動くうちに歩く。", "available": { "var": "leader.illnessActive", "op": "==", "value": false }, "unavailableText": "まだ胸が痛む", "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "setRoute", "route": ["KOBUSHI", "KOBUSHI_HUT"], "goalNodes": ["KOBUSHI_HUT"] }], "bias": { "base": 0.7 } },
+        { "id": "go_back", "label": "ゆっくり大弛小屋へ戻る", "detail": "体が動くうちに歩く。", "available": { "all": [{ "var": "leader.illnessActive", "op": "==", "value": false }, { "chose": { "cp": "cp_eased", "option": "back" } }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "setRoute", "route": ["OHDARUMI"], "goalNodes": ["OHDARUMI"] }], "bias": { "base": 0.7 } },
+        { "id": "wait", "label": "動かずに待つ", "detail": "明るいうちは笛を吹き続ける。", "actions": [{ "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 0.8 } }
       ]
     }
   ],
   "genericOverrides": {
     "darkness": {
-      "situation": "日が暮れてきた。稜線の針葉樹林は、もう足元が見えない。",
+      "situation": "日が暮れてきた。稜線の針葉樹林は、もう足元が見えない。どうする？",
       "options": [
-        { "id": "bivouac", "label": "ここで夜を越す。ツエルトをかぶり、ありったけ着込んで、湯を沸かす", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "dawn", "findLee": false }], "tags": ["recommended"], "bias": { "base": 0.8 } },
-        { "id": "continue", "label": "ヘッドランプをつけて、ゆっくり小屋へ向かう", "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 0.6 } }
+        { "id": "bivouac", "label": "ここで夜を越す", "detail": "ツエルトをかぶり、着込んで湯を沸かす。", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "dawn", "findLee": false }], "tags": ["recommended"], "bias": { "base": 0.8 } },
+        { "id": "continue", "label": "ヘッドランプでゆっくり進む", "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 0.6 } }
       ]
     },
     "rescueFailed": {
-      "situation": "電話をかけたが、つながらない。この近くでは電波が入らない。",
-      "knowledge": ["人はめったに通らない。笛はある", "甲武信小屋には予約してある。登山届も出してある"],
+      "situation": "電話はつながらない。この辺りは電波が入らない。どうする？",
+      "knowledge": ["人はめったに通らない。笛はある", "小屋は予約済み。登山届も出してある"],
       "options": [
-        { "id": "wait", "label": "登山道のすぐ脇にツエルトを張り、着込んで待つ。人の気配がしたら笛を吹く", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 1.0 } },
+        { "id": "wait", "label": "道の脇で着込んで待つ", "detail": "ツエルトを張り、人の気配に笛を吹く。", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["recommended"], "bias": { "base": 1.0 } },
         { "id": "push", "label": "それでも小屋まで歩く", "actions": [{ "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 0.3 } }
       ]
     }
@@ -208,14 +208,17 @@
   ],
   "endings": [
     { "kind": "SAFE_RETURN", "when": { "not": { "flag": "onset" } }, "title": "甲武信小屋に着いた", "text": "岡田さんは予定どおり甲武信小屋に着き、夕暮れの富士山を眺めた。" },
-    { "kind": "SAFE_RETURN", "when": { "all": [{ "beenAt": "KOBUSHI_HUT" }, { "var": "leader.illness", "op": "==", "value": "angina" }] }, "title": "小屋にたどり着いて", "text": "休み休み歩いて、岡田さんは甲武信小屋にたどり着いた。翌日、下山してから受診すると、狭心症と診断された。あのとき無理に歩き続けていたら、どうなっていたか分からない。" },
-    { "kind": "SAFE_RETURN", "when": { "all": [{ "beenAt": "KOBUSHI_HUT" }, { "var": "leader.illness", "op": "==", "value": "mi" }] }, "title": "小屋にたどり着いたが", "text": "岡田さんは甲武信小屋にたどり着き、小屋の主人がすぐに通報した。運ばれた病院で、急性心筋梗塞と診断された。歩いている間に心臓が止まっていてもおかしくなかった。" },
-    { "kind": "SAFE_RETURN", "when": { "beenAt": "KOBUSHI_HUT" }, "title": "小屋にたどり着いて", "text": "岡田さんは甲武信小屋にたどり着いた。小屋の主人に事情を話し、翌日はゆっくり下山して受診した。原因ははっきりしなかったが、医師には「山はしばらく控えて」と言われた。" },
-    { "kind": "SAFE_RETURN", "title": "大弛小屋に戻った", "text": "岡田さんは大弛小屋まで引き返した。小屋の人に事情を話し、翌日車で下りて受診した。" },
-    { "kind": "SELF_RESCUE", "when": { "var": "leader.illness", "op": "==", "value": "benign" }, "title": "一晩を越して", "text": "ツエルトで一晩を越し、朝には痛みが引いていた。岡田さんは自分の足で小屋まで歩いた。後で受診すると、心臓には異常がなく、胃の不調か筋肉の痛みだったらしい。それでも、あの晩の判断はまちがっていなかった。" },
-    { "kind": "SELF_RESCUE", "title": "一晩を越して", "text": "ツエルトで一晩を越し、岡田さんは自分の足で小屋まで歩いた。下山してすぐ受診した。" },
-    { "kind": "RESCUED", "when": { "all": [{ "var": "leader.illness", "op": "==", "value": "mi" }, { "not": { "chose": { "cp": "cp_onset", "option": "push" } } }, { "not": { "chose": { "cp": "cp_not_eased", "option": "push" } } }, { "not": { "chose": { "cp": "cp_relapse", "option": "push" } } }] }, "title": "救助", "text": "岡田さんは救助隊に収容され、病院へ運ばれた。急性心筋梗塞と診断された。動かずに待ったことが、命をつないだのかもしれない。" },
-    { "kind": "RESCUED", "when": { "var": "leader.illness", "op": "==", "value": "mi" }, "title": "救助", "text": "岡田さんは救助隊に収容され、病院へ運ばれた。急性心筋梗塞と診断された。痛みをこらえて歩いていた間に、心臓が止まっていてもおかしくなかった。" },
+    { "kind": "SAFE_RETURN", "when": { "all": [{ "beenAt": "KOBUSHI_HUT" }, { "var": "leader.illness", "op": "==", "value": "angina" }, { "any": [{ "chose": { "cp": "cp_onset", "option": "push" } }, { "chose": { "cp": "cp_not_eased", "option": "push" } }, { "chose": { "cp": "cp_relapse", "option": "push" } }] }] }, "title": "小屋にたどり着いて", "text": "痛みをこらえて歩き、岡田さんは甲武信小屋にたどり着いた。下山後の受診で狭心症と分かった。歩き続ける間に、心筋梗塞になってもおかしくなかった。" },
+    { "kind": "SAFE_RETURN", "when": { "all": [{ "beenAt": "KOBUSHI_HUT" }, { "var": "leader.illness", "op": "==", "value": "angina" }] }, "title": "小屋にたどり着いて", "text": "休み休み歩いて、岡田さんは甲武信小屋にたどり着いた。下山後の受診で狭心症と分かった。無理に歩き続けていたら、どうなっていたか分からない。" },
+    { "kind": "SAFE_RETURN", "when": { "all": [{ "beenAt": "KOBUSHI_HUT" }, { "var": "leader.illness", "op": "==", "value": "mi" }] }, "title": "小屋にたどり着いたが", "text": "岡田さんは甲武信小屋にたどり着き、主人がすぐ通報した。病院で急性心筋梗塞と診断された。歩く間に心臓が止まってもおかしくなかった。" },
+    { "kind": "SAFE_RETURN", "when": { "beenAt": "KOBUSHI_HUT" }, "title": "小屋にたどり着いて", "text": "岡田さんは甲武信小屋にたどり着き、翌日ゆっくり下山して受診した。原因ははっきりせず、医師には「山はしばらく控えて」と言われた。" },
+    { "kind": "SAFE_RETURN", "title": "大弛小屋に戻った", "text": "岡田さんは大弛小屋まで引き返し、翌日車で下りて受診した。" },
+    { "kind": "SELF_RESCUE", "when": { "all": [{ "var": "leader.illness", "op": "==", "value": "benign" }, { "after": "D1 00:00" }] }, "title": "一晩を越して", "text": "ツエルトで一晩を越すと痛みは引き、岡田さんは自分の足で小屋まで歩いた。受診すると心臓に異常はなく、胃か筋肉の痛みだったらしい。それでも、あの晩動かなかった判断はまちがっていなかった。" },
+    { "kind": "SELF_RESCUE", "when": { "var": "leader.illness", "op": "==", "value": "benign" }, "title": "痛みが引いて", "text": "ツエルトで休むうちに痛みが引き、岡田さんは自分の足で小屋まで歩いた。受診すると心臓に異常はなく、胃か筋肉の痛みだったらしい。それでも、止まって様子を見た判断はまちがっていなかった。" },
+    { "kind": "SELF_RESCUE", "when": { "after": "D1 00:00" }, "title": "一晩を越して", "text": "ツエルトで一晩を越し、岡田さんは自分の足で小屋まで歩いた。下山してすぐ受診した。" },
+    { "kind": "SELF_RESCUE", "title": "痛みが引いて", "text": "ツエルトで休んで痛みが引くのを待ち、岡田さんは自分の足で小屋まで歩いた。下山してすぐ受診した。" },
+    { "kind": "RESCUED", "when": { "all": [{ "var": "leader.illness", "op": "==", "value": "mi" }, { "not": { "chose": { "cp": "cp_onset", "option": "push" } } }, { "not": { "chose": { "cp": "cp_not_eased", "option": "push" } } }, { "not": { "chose": { "cp": "cp_relapse", "option": "push" } } }] }, "title": "救助", "text": "岡田さんは救助隊に収容され、急性心筋梗塞と診断された。動かずに待ったことが、命をつないだのかもしれない。" },
+    { "kind": "RESCUED", "when": { "var": "leader.illness", "op": "==", "value": "mi" }, "title": "救助", "text": "岡田さんは救助隊に収容され、急性心筋梗塞と診断された。痛みをこらえて歩く間に、心臓が止まってもおかしくなかった。" },
     { "kind": "RESCUED", "title": "救助", "text": "岡田さんは救助隊に見つけられ、病院へ運ばれた。" },
     { "kind": "RESCUED_CRITICAL", "title": "重い状態で救助", "text": "岡田さんは弱った状態で見つかり、病院へ運ばれた。" },
     { "kind": "FATAL", "when": { "var": "leader.illness", "op": "==", "value": "dissection" }, "title": "帰らぬ人に", "text": "岡田さんは稜線で亡くなった。後に、大動脈解離だったと分かった。" },
@@ -224,12 +227,12 @@
     { "kind": "MISSING", "title": "まだ見つからない", "text": "日曜の夕方になっても、岡田さんは見つかっていない。" }
   ],
   "lessons": [
-    { "id": "l_check", "when": { "flag": "onset" }, "title": "健康診断と、不調のときは中止", "text": "年をとると、山で急病になることが増える。定期的に健康診断を受け、体調に不安があれば山行を中止して受診する。病気による遭難は、高齢化とともに増えている。" },
-    { "id": "l_meds", "when": { "flag": "onset" }, "title": "持病と薬を伝えておく", "text": "持病があれば、薬の場所と使い方（ニトログリセリンの舌下など）を同行者に伝えておく。単独なら、家族や登山届にも書いておく。" },
-    { "id": "l_rest", "when": { "any": [{ "chose": { "cp": "cp_onset", "option": "push" } }, { "chose": { "cp": "cp_not_eased", "option": "push" } }, { "chose": { "cp": "cp_relapse", "option": "push" } }] }, "title": "胸の痛みで、歩き続けない", "text": "原因が分からない胸の痛みで歩き続けると、心臓の病気なら負担が増え、命に関わる。まず座り、楽な姿勢で様子を見る。治まらなければ動かない。" },
-    { "id": "l_solo", "when": { "flag": "onset" }, "title": "人の少ない道を一人で歩く危うさ", "text": "単独の遭難はパーティより死亡の割合がずっと高い。年をとったら、仲間と行くか、電波が入り逃げ道の近い山を選ぶ。発信機（会員制の捜索サービス）があれば、人が通らなくても見つけてもらいやすい。" },
-    { "id": "l_signal", "when": { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }, "title": "待つ間にできること", "text": "風を避けて着込み、湯を沸かして保温する。登山道から離れすぎない。人の気配がしたら笛を吹く（短く 3 回）。夜はヘッドランプで合図し、昼は目立つ色の物を広げる。通りかかった人に渡すメモを書いておく。" },
-    { "id": "l_hut", "when": { "after": "D0 19:00" }, "title": "小屋の予約も、命綱の一つ", "text": "予約した客が来なければ、小屋の人が気づいてくれることがある。行き先と予定を、届け・家族・小屋の三つに残しておく。" }
+    { "id": "l_check", "when": { "flag": "onset" }, "title": "健康診断と、不調のときは中止", "text": "年をとると、山での急病が増える。定期的に健康診断を受け、体調に不安があれば山行を中止して受診する。" },
+    { "id": "l_meds", "when": { "flag": "onset" }, "title": "持病と薬を伝えておく", "text": "持病があれば、薬の場所と使い方（ニトログリセリンの舌下など）を同行者に伝える。単独なら家族や登山届にも書く。" },
+    { "id": "l_rest", "when": { "any": [{ "chose": { "cp": "cp_onset", "option": "push" } }, { "chose": { "cp": "cp_not_eased", "option": "push" } }, { "chose": { "cp": "cp_relapse", "option": "push" } }] }, "title": "胸の痛みで、歩き続けない", "text": "原因の分からない胸の痛みで歩き続けると、心臓の病気なら命に関わる。まず座って様子を見る。治まらなければ動かない。" },
+    { "id": "l_solo", "when": { "flag": "onset" }, "title": "人の少ない道を一人で歩く危うさ", "text": "単独の遭難は、パーティより死亡の割合がずっと高い。年をとったら仲間と行くか、電波が入り逃げ道の近い山を選ぶ。発信機（会員制の捜索サービス）があれば見つけてもらいやすい。" },
+    { "id": "l_signal", "when": { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }, "title": "待つ間にできること", "text": "風を避けて着込み、湯を沸かして体を温める。登山道から離れない。人の気配がしたら笛を短く 3 回。夜はヘッドランプ、昼は目立つ色の物で合図する。通る人に渡すメモも書いておく。" },
+    { "id": "l_hut", "when": { "after": "D0 19:00" }, "title": "小屋の予約も、命綱の一つ", "text": "予約客が来なければ、小屋の人が気づいてくれることがある。行き先と予定は、届け・家族・小屋の三つに残す。" }
   ],
   "balanceTargets": {
     "recommended": { "fatalMax": 0.2 }

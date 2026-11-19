@@ -71,10 +71,28 @@ import visibility from '@material-symbols/svg-400/rounded/visibility.svg?raw';
 import waterDrop from '@material-symbols/svg-400/rounded/water_drop.svg?raw';
 import edit from '@material-symbols/svg-400/rounded/edit.svg?raw';
 import replay from '@material-symbols/svg-400/rounded/replay.svg?raw';
+import add from '@material-symbols/svg-400/rounded/add.svg?raw';
+import remove from '@material-symbols/svg-400/rounded/remove.svg?raw';
+import fitScreen from '@material-symbols/svg-400/rounded/fit_screen.svg?raw';
+import arrowSelectorTool from '@material-symbols/svg-400/rounded/arrow_selector_tool.svg?raw';
+import panTool from '@material-symbols/svg-400/rounded/pan_tool.svg?raw';
+import selectBox from '@material-symbols/svg-400/rounded/select.svg?raw';
+import draw from '@material-symbols/svg-400/rounded/draw.svg?raw';
+import callSplit from '@material-symbols/svg-400/rounded/call_split.svg?raw';
+import addLocationAlt from '@material-symbols/svg-400/rounded/add_location_alt.svg?raw';
+import openWith from '@material-symbols/svg-400/rounded/open_with.svg?raw';
+import waves from '@material-symbols/svg-400/rounded/waves.svg?raw';
+import shield from '@material-symbols/svg-400/rounded/shield.svg?raw';
+import link from '@material-symbols/svg-400/rounded/link.svg?raw';
+import landslide from '@material-symbols/svg-400/rounded/landslide.svg?raw';
+import forest from '@material-symbols/svg-400/rounded/forest.svg?raw';
+import cellTower from '@material-symbols/svg-400/rounded/cell_tower.svg?raw';
+import settingsInputAntenna from '@material-symbols/svg-400/rounded/settings_input_antenna.svg?raw';
 
 const ICONS = {
   star, starFill, explore, cardiology, emergencyHeat, pestControl, smartToy, contentCopy, download, folderOpen, person,
-  volumeOff, volumeUp, edit, replay,
+  volumeOff, volumeUp, edit, replay, add, remove, fitScreen,
+  arrowSelectorTool, panTool, selectBox, draw, callSplit, addLocationAlt, openWith, waves, shield, link, landslide, forest, cellTower, settingsInputAntenna,
   chevronRight, close,
   arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, warning, wbSunny,
   acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, favorite, flashlightOn, keyboardArrowDown, keyboardArrowUp, foggy, groups, healing, hiking, history, home,

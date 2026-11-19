@@ -17,3 +17,6 @@ shots/compare-*.html
 
 # 顔イラストの一覧（元の 1 枚。切り分けた assets-src/hikers-cells-v5 から tools/make-portraits.py でアイコンを作るので、リポジトリには入れない）
 assets-src/portraits.png
+
+# デプロイの設定（サーバー名・ユーザー名。公開リポジトリに入れない。見本は deploy.config.example.json）
+deploy.config.json

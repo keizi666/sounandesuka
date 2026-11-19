@@ -20,7 +20,7 @@ import { fill, formatEvent, speechView, formatDateTime } from '../i18n/format';
 import { DT_SEC } from '../sim/core/step';
 import { createStaticContext, createWorld } from '../sim/core/world';
 import { createRecorder, recordTick, type RecorderState } from '../sim/record/recorder';
-import { autoResolve, findChoicePoint, resolveChoice } from '../sim/scenario/choices';
+import { autoResolve, choiceLeader, findChoicePoint, resolveChoice } from '../sim/scenario/choices';
 import type { SimEvent, World } from '../sim/types';
 import { SceneView, type CameraMode } from '../view/sceneView';
 import { BubbleLayer } from './bubbles';
@@ -209,6 +209,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       if (e.type === 'MUSIC') scriptMusic = typeof e.data?.['id'] === 'string' ? (e.data['id'] as string) : undefined;
       const se = eventSound(e);
       if (se) audio().play(se.id, se.volume);
+      // 見守るパーティが変わったら、そのリーダーを選んで追う
+      if (e.type === 'FOCUS') focusGroup(String(e.data?.['group'] ?? ''));
       if (e.type === 'CHOICE_FIRED') {
         const id = String(e.data?.['cp'] ?? '');
         snapshots[id] = { world: structuredClone(world), recorder: structuredClone(recorder) };
@@ -217,7 +219,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         const cpId = String(e.data?.['cp'] ?? '');
         const label = optionLabel(loaded, cpId, String(e.data?.['option'] ?? ''));
         const by = e.data?.['by'];
-        hud.log({ tMin: e.tMin, important: true, text: by === 'user' ? fill(JA.ui.chose, { label }) : fill(observe ? JA.ui.autoChose : JA.ui.timeUp, { label }) });
+        hud.log({ tMin: e.tMin, important: true, text: by === 'user' ? fill(JA.ui.chose, { label }) : otherChoiceBy ? fill(JA.ui.otherChose, { who: otherChoiceBy, label }) : fill(observe ? JA.ui.autoChose : JA.ui.timeUp, { label }) });
+        otherChoiceBy = null;
         continue;
       }
       const v = (e.type === 'SPEECH' || e.type === 'THOUGHT') && e.climberId ? speechView(e, scenario) : null;
@@ -235,9 +238,29 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     }
   }
 
+  function focusGroup(groupId: string): void {
+    const leader = world.groups.find((g) => g.id === groupId)?.leader;
+    if (!leader) return;
+    view.selected = leader;
+    view.lookAt(leader);
+    if (view.mode === 'eye') bubbles.eyeOf = leader;
+  }
+
+  /** 見守っていないパーティの分岐点を自動で決めたとき、そのリーダーの名前（ログの文に使う） */
+  let otherChoiceBy: string | null = null;
   function onChoice(): void {
     const p = world.pendingChoice;
     if (!p || shownCp === p.cpId) return;
+    // 見守るパーティが決まっていて、この分岐点がほかのパーティのものなら、プレイヤーに聞かずにその人たちらしく決める
+    if (world.focusMembers && findChoicePoint(ctx, p.cpId)) {
+      const lead = choiceLeader(world, ctx);
+      if (!world.focusMembers.includes(lead.id)) {
+        otherChoiceBy = lead.def.name;
+        autoResolve(world, ctx, 'bias');
+        flush();
+        return;
+      }
+    }
     if (observe) {
       autoResolve(world, ctx, 'bias');
       flush();
@@ -452,6 +475,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (resume?.log && resume.log.length > 0) for (const line of resume.log) hud.log(line);
   else if (resume) hud.log({ tMin: world.tMin, text: JA.ui.resumedNoLog, important: true });
   else hud.log({ tMin: world.tMin, text: `${scenario.title}（${nodeName(scenario.plan.route[0]!)} を出発）`, important: true });
+  // 途中から再開したとき、見守るパーティが変わっていれば、そのリーダーを選ぶ
+  if (world.focusGroup) focusGroup(world.focusGroup);
   refresh(true);
   // 新しく始めたときは、題の札を出し、消えてから時間を進める（途中からの再開では出さない）
   let closeTitle: (() => void) | null = null;

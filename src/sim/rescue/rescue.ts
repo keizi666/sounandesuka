@@ -421,8 +421,10 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
   if (g.state === 'mobilizing' && world.tMin >= (g.readyAtMin ?? Infinity)) {
     // 最寄りの登山口から目標までの道のり（直線距離 × groundPathF を登山道の速さで）
     let bestD = Infinity;
+    // 登山口がない地図では、範囲の外から道が入ってくる境界点から入る
+    const hasTrailhead = Object.values(ctx.map.nodes).some((nd) => nd.type === 'trailhead');
     for (const nd of Object.values(ctx.map.nodes)) {
-      if (nd.type !== 'trailhead') continue;
+      if (nd.type !== 'trailhead' && (hasTrailhead || nd.type !== 'boundary')) continue;
       const d = Math.sqrt((nd.x - tgt.x) * (nd.x - tgt.x) + (nd.z - tgt.z) * (nd.z - tgt.z));
       if (d < bestD) bestD = d;
     }

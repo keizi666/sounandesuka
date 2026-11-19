@@ -1,6 +1,7 @@
 /**
  * タブ 4 環境（docs/16 §6）: 植生（森林限界の提案・ブラシで塗り直し）、電波（基地局・塗り、近似であることを明記）、地形の確認表示。
  */
+import { toolPalette } from '../forms/toolPalette';
 import { VegClass, type RadioStationDef } from '../../sim/types';
 import { el } from '../../ui/dom';
 import type { Ed } from '../context';
@@ -115,7 +116,12 @@ export const environmentPanel: Panel = {
     fill(
       ed.inspector,
       el('h2', {}, '環境'),
-      select<Mode>('道具', mode, [['view', '見るだけ'], ['veg', '植生を塗る'], ['radio', '電波を塗る'], ['station', '基地局を置く（クリック）']], (m) => {
+      toolPalette<Mode>(ed, [
+        { id: 'view', icon: 'panTool', label: '見るだけ', key: 'h', hint: 'ドラッグで地図を動かす' },
+        { id: 'veg', icon: 'forest', label: '植生を塗る', key: 'b', hint: 'ドラッグで塗る（植生は下で選ぶ）' },
+        { id: 'radio', icon: 'cellTower', label: '電波を塗る', key: 'e', hint: 'ドラッグで塗る' },
+        { id: 'station', icon: 'settingsInputAntenna', label: '基地局を置く', key: 's', hint: 'クリックした所に置く' },
+      ], mode, (m) => {
         mode = m;
         if (m === 'veg') overlay = 'veg';
         if (m === 'radio' || m === 'station') overlay = 'radio';

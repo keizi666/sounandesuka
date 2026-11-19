@@ -6,6 +6,7 @@
   "theme": "lost",
   "difficulty": 4,
   "season": "winter",
+  "snowpack": { "lineM": 1300, "depthCm": 80, "fullM": 2000, "trailCm": 2 },
   "estMinutes": 25,
   "mapId": "tengu",
   "seed": 1217,
@@ -16,7 +17,7 @@
   "moon": { "illumination": 0.02 },
   "region": { "name": "北八ヶ岳・天狗岳", "real": true },
   "briefing": {
-    "text": "1月中旬の土曜日。三浦さん（56歳）と大野さん（63歳）は同じ山の会の仲間で、夏山は十数年歩いているが、厳冬期の雪山は二人とも 3 シーズン目。前の日に渋の湯から登って黒百合ヒュッテに泊まった。今日は中山峠から稜線を東天狗岳・西天狗岳へ登り、帰りは天狗の奥庭を通ってヒュッテへ戻り、渋の湯へ下る計画。アイゼン・ピッケル・ハードシェル・防寒着・ツエルト・行動食・テルモスのお湯・ヘッドランプ・紙の地図とコンパスを持ち、二人とも捜索用の発信機（ココヘリ）を身につけている。スコップと雪崩ビーコンはない。コンロも持ってこなかった。登山計画はアプリで警察に出してあり、家族には「夕方には下りて連絡する」と言ってある。スマホに地図アプリは入れていない。",
+    "text": "1月中旬の土曜日。山の会の三浦さん（56歳）と大野さん（63歳）は夏山は長いが、厳冬期の雪山は 3 シーズン目で、黒百合ヒュッテに泊まった。今日は中山峠から東天狗岳・西天狗岳へ登り、帰りは天狗の奥庭を通ってヒュッテへ戻り、渋の湯へ下る。ツエルト・紙の地図とコンパス・発信機（ココヘリ）はあるが、スコップ・雪崩ビーコン・コンロ・スマホの地図アプリはない。登山計画は警察に出し、家族には「夕方には下りて連絡する」と言ってある。",
     "forecast": [
       { "label": "今日", "text": "くもり、昼前から雪。稜線は西の風 15〜20 m/s、気温 −15℃ 前後", "icon": "snow" },
       { "label": "夜", "text": "雪。山は −20℃ 近くまで下がる", "icon": "snow" },
@@ -35,10 +36,10 @@
         "at": "D0 21:00",
         "route": ["KUROYURI", "NAKAYAMA", "J_OKUNIWA", "HIGASHI", "NISHI", "HIGASHI", "J_OKUNIWA", "OKUNIWA", "KUROYURI", "SHIBUNOYU"],
         "findF": 0.3,
-        "text": "警察は届け出と登山計画から、二人が天狗岳から天狗の奥庭を通って黒百合ヒュッテへ下る予定だったことをつかんだ。夜の山には入れない。捜索は朝から、予定の道に沿って行う",
+        "text": "警察は登山計画から、二人が天狗の奥庭を通ってヒュッテへ下る予定だったと知った。夜は山に入れず、捜索は朝から予定の道に沿って行う",
         "maxRadiusM": 250
       },
-      { "id": "cocoheli", "at": "D1 09:00", "route": ["J_OKUNIWA", "OKUNIWA", "KUROYURI"], "maxRadiusM": 2500, "findF": 5, "text": "会員の捜索サービス（ココヘリ）の受信機を持った隊が入り、二人の発信機の電波をとらえた。距離と方角を頼りに、雪の中を電波の方へ向かう" }
+      { "id": "cocoheli", "at": "D1 09:00", "route": ["J_OKUNIWA", "OKUNIWA", "KUROYURI"], "maxRadiusM": 2500, "findF": 5, "text": "ココヘリの受信機を持った隊が入り、二人の発信機の電波をとらえた。距離と方角を頼りに雪の中を進む" }
     ]
   },
   "passersby": [
@@ -155,9 +156,9 @@
   "events": [
     {
       "id": "ev_whiteout",
-      "trigger": { "all": [{ "after": "D0 09:30" }, { "not": { "state": "FINISHED" } }, { "not": { "state": "SHELTERED" } }, { "var": "leader.elevM", "op": ">", "value": 2350 }] },
+      "trigger": { "all": [{ "after": "D0 09:30" }, { "not": { "state": "FINISHED" } }, { "var": "leader.indoors", "op": "==", "value": false }, { "var": "leader.elevM", "op": ">", "value": 2350 }] },
       "once": true,
-      "effects": [{ "type": "log", "text": "雲が稜線を覆い、雪が横から吹きつける。空と雪面の境が分からない（ホワイトアウト）", "important": true }]
+      "effects": [{ "type": "log", "text": "雲が稜線を覆い、雪が横から吹きつける。空と雪面の境が見えない（ホワイトアウト）", "important": true }]
     },
     { "id": "ev_offroute", "trigger": { "all": [{ "state": "OFFROUTE_UNAWARE" }, { "not": { "flag": "offRoute" } }] }, "once": false, "effects": [{ "type": "setFlag", "flag": "offRoute" }] },
     {
@@ -173,13 +174,29 @@
         ]
       },
       "once": false,
-      "effects": [{ "type": "setFlag", "flag": "tracksGone" }, { "type": "log", "text": "吹きつける雪と風で、下ってきた足跡はもう埋まって見えない", "important": true }]
+      "effects": [{ "type": "setFlag", "flag": "tracksGone" }, { "type": "log", "text": "風と雪で、下ってきた足跡が埋まって消えた", "important": true }]
     },
     {
       "id": "ev_back_on",
       "trigger": { "all": [{ "event": "BACK_ON_ROUTE" }, { "flag": "offRoute" }] },
       "once": false,
-      "effects": [{ "type": "clearFlag", "flag": "offRoute" }, { "type": "clearFlag", "flag": "tracksGone" }]
+      "effects": [{ "type": "clearFlag", "flag": "offRoute" }, { "type": "clearFlag", "flag": "tracksGone" }, { "type": "clearFlag", "flag": "hutNear" }]
+    },
+    {
+      "id": "ev_near_hut",
+      "trigger": {
+        "all": [
+          { "not": { "flag": "hutNear" } },
+          { "near": { "x": 2161, "z": -830, "r": 450 } },
+          { "any": [{ "state": "OFFROUTE_UNAWARE" }, { "state": "LOST_AWARE" }, { "state": "DESCENDING_DRAINAGE" }] }
+        ]
+      },
+      "once": false,
+      "effects": [
+        { "type": "setFlag", "flag": "hutNear" },
+        { "type": "log", "text": "すぐに踏み跡を外れたと気づいた。近くの赤布の方へ戻る", "important": true },
+        { "type": "actions", "actions": [{ "type": "continueRoute" }] }
+      ]
     },
     {
       "id": "ev_deep",
@@ -187,6 +204,7 @@
         "all": [
           { "not": { "flag": "stuck" } },
           { "near": { "x": 1750, "z": -400, "r": 450 } },
+          { "not": { "near": { "x": 2161, "z": -830, "r": 500 } } },
           { "var": "leader.elevM", "op": "<", "value": 2335 },
           { "any": [{ "state": "OFFROUTE_UNAWARE" }, { "state": "LOST_AWARE" }, { "state": "DESCENDING_DRAINAGE" }] }
         ]
@@ -195,7 +213,7 @@
       "effects": [
         { "type": "setFlag", "flag": "stuck" },
         { "type": "actions", "actions": [{ "type": "stayPut" }, { "type": "soak", "level": "waist", "snowmelt": true }] },
-        { "type": "log", "text": "谷の底は吹きだまりだった。雪は腰まであり、一歩ごとに崩れて前へ進めない。もがくうちに、袖口と裾から雪が入り込んだ", "important": true }
+        { "type": "log", "text": "谷の底は吹きだまりで、雪は腰まである。もがいても前へ進めず、袖口と裾から雪が入り込んだ", "important": true }
       ]
     },
     {
@@ -205,7 +223,7 @@
       "effects": [
         { "type": "setFlag", "flag": "stuck2" },
         { "type": "actions", "actions": [{ "type": "stayPut" }, { "type": "soak", "level": "waist", "snowmelt": true }] },
-        { "type": "log", "text": "沢筋に入ると、雪は胸まで来た。雪の下で水の流れる音がする。足を抜くたびに雪が服の中へ入り、体が濡れていく", "important": true }
+        { "type": "log", "text": "沢筋では雪が胸まで来た。雪の下を水が流れている。足を抜くたびに雪が服に入り、体が濡れていく", "important": true }
       ]
     },
     {
@@ -223,7 +241,7 @@
       "once": true,
       "effects": [
         { "type": "setFlag", "flag": "navOk1" },
-        { "type": "log", "text": "地図とコンパスで、まわりの尾根と谷の向きから、今いる谷の見当がついた。深い雪の中を、登山道の方へ登り返しはじめた", "important": true },
+        { "type": "log", "text": "地図とコンパスで、まわりの尾根の向きから今いる谷の見当がついた。深い雪をこいで登山道へ登り返しはじめた", "important": true },
         { "type": "actions", "actions": [{ "type": "continueRoute" }, { "type": "backtrack" }, { "type": "navigateToTrail" }] }
       ]
     },
@@ -242,7 +260,7 @@
       "once": true,
       "effects": [
         { "type": "setFlag", "flag": "navOk1" },
-        { "type": "log", "text": "地図とコンパスで、まわりの尾根と谷の向きから、今いる谷の見当がついた。深い雪の中を、登山道の方へ登り返しはじめた", "important": true },
+        { "type": "log", "text": "ガスが一瞬切れて尾根が見えた。地図とコンパスで今いる谷の見当がつき、深い雪をこいで登山道へ登り返しはじめた", "important": true },
         { "type": "actions", "actions": [{ "type": "continueRoute" }, { "type": "backtrack" }, { "type": "navigateToTrail" }] }
       ]
     },
@@ -252,7 +270,7 @@
       "once": true,
       "effects": [
         { "type": "setFlag", "flag": "navNg1" },
-        { "type": "log", "text": "地図を広げたが、真っ白で目印が何も見えない。ここがどこなのか分からない。明るいうちに、ここで夜を越す準備をした", "important": true },
+        { "type": "log", "text": "地図を広げたが、真っ白で目印が見えず、位置が分からない。明るいうちに夜を越す準備をした", "important": true },
         { "type": "actions", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }] }
       ]
     },
@@ -271,7 +289,7 @@
       "once": true,
       "effects": [
         { "type": "setFlag", "flag": "navOk2" },
-        { "type": "log", "text": "晴れ間から天狗岳の稜線が見えた。地図と見比べて、今いる谷の見当がついた。新しい雪をこいで、登山道の方へ登り返しはじめた", "important": true },
+        { "type": "log", "text": "晴れ間に天狗岳の稜線が見えた。地図で今いる谷の見当がつき、新しい雪をこいで登山道へ登り返しはじめた", "important": true },
         { "type": "actions", "actions": [{ "type": "continueRoute" }, { "type": "backtrack" }, { "type": "navigateToTrail" }] }
       ]
     },
@@ -290,7 +308,7 @@
       "once": true,
       "effects": [
         { "type": "setFlag", "flag": "navOk2" },
-        { "type": "log", "text": "晴れ間から天狗岳の稜線が見えた。地図と見比べて、今いる谷の見当がついた。新しい雪をこいで、登山道の方へ登り返しはじめた", "important": true },
+        { "type": "log", "text": "ガスの切れ間に、一瞬天狗岳の稜線が見えた。地図で今いる谷の見当がつき、新しい雪をこいで登山道へ登り返しはじめた", "important": true },
         { "type": "actions", "actions": [{ "type": "continueRoute" }, { "type": "backtrack" }, { "type": "navigateToTrail" }] }
       ]
     },
@@ -300,7 +318,7 @@
       "once": true,
       "effects": [
         { "type": "setFlag", "flag": "navNg2" },
-        { "type": "log", "text": "地図を広げたが、まわりの尾根がどれなのか見分けられない。ここがどこか分からず、ツエルトに戻って待つことにした", "important": true },
+        { "type": "log", "text": "地図を広げたが、どれがどの尾根か見分けられない。ツエルトに戻って待つことにした", "important": true },
         { "type": "actions", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }] }
       ]
     },
@@ -308,19 +326,19 @@
       "id": "ev_hut_refuge",
       "trigger": { "all": [{ "atNode": "KUROYURI" }, { "flag": "nightOut" }] },
       "once": true,
-      "effects": [{ "type": "actions", "actions": [{ "type": "stayInShelter", "until": "D1 11:00" }] }, { "type": "log", "text": "二人は黒百合ヒュッテにたどり着いた。小屋の人がすぐに警察へ無事を知らせた。ストーブの前で体を温め、昼前に渋の湯へ下ることにした", "important": true }]
+      "effects": [{ "type": "actions", "actions": [{ "type": "stayInShelter", "until": "D1 11:00" }] }, { "type": "log", "text": "二人は黒百合ヒュッテにたどり着いた。小屋の人が警察へ無事を知らせた。ストーブで体を温め、昼前に渋の湯へ下る", "important": true }]
     },
     {
       "id": "ev_family_call",
       "trigger": { "all": [{ "after": "D0 18:00" }, { "not": { "state": "FINISHED" } }, { "not": { "state": "RESCUED" } }, { "not": { "state": "SHELTERED" } }] },
       "once": true,
-      "effects": [{ "type": "log", "text": "夕方になっても「下りた」という連絡がない。三浦さんの家族が電話をかけたが、電源が入っていないか電波の届かない所にある、という案内が流れた", "important": true }]
+      "effects": [{ "type": "log", "text": "夕方になっても「下りた」という連絡がない。三浦さんの家族が電話をかけたが、つながらない", "important": true }]
     },
     {
       "id": "ev_family_report",
       "trigger": { "all": [{ "after": "D0 21:00" }, { "not": { "state": "FINISHED" } }, { "not": { "state": "RESCUED" } }, { "not": { "state": "SHELTERED" } }] },
       "once": true,
-      "effects": [{ "type": "log", "text": "夜 9 時、三浦さんの家族が警察に届け出た。届け出を受けて、ココヘリにも捜索が頼まれた", "important": true }]
+      "effects": [{ "type": "log", "text": "夜 9 時、三浦さんの家族が警察に届け出た。ココヘリにも捜索が頼まれた", "important": true }]
     },
     {
       "id": "ev_frost",
@@ -336,13 +354,13 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "setFlag", "flag": "frostbite" }, { "type": "log", "text": "手足の指先の感覚がない。触っても自分の指ではないようだ。凍傷になりかけている", "important": true }]
+      "effects": [{ "type": "setFlag", "flag": "frostbite" }, { "type": "log", "text": "手足の指先の感覚がない。凍傷になりかけている", "important": true }]
     },
     {
       "id": "ev_frost_ok",
-      "trigger": { "all": [{ "after": "D1 06:30" }, { "not": { "flag": "frostbite" } }, { "flag": "nightOut" }, { "not": { "state": "FINISHED" } }, { "not": { "state": "RESCUED" } }] },
+      "trigger": { "all": [{ "after": "D1 06:30" }, { "not": { "flag": "frostbite" } }, { "flag": "nightOut" }, { "var": "leader.indoors", "op": "==", "value": false }] },
       "once": true,
-      "effects": [{ "type": "log", "text": "手足の指先がじんじんとしびれる。指を動かし続けたおかげか、感覚はまだある" }]
+      "effects": [{ "type": "log", "text": "指先がじんじんとしびれる。動かし続けたおかげか、感覚はまだある" }]
     },
     {
       "id": "ev_night_out",
@@ -359,21 +377,21 @@
       "title": "黒百合ヒュッテの朝",
       "priority": 20,
       "trigger": { "after": "D0 06:50" },
-      "situation": "朝 7 時前、黒百合ヒュッテの前。空は一面の雲で、稜線の方から風がうなっている。ヒュッテの寒暖計は −14℃。予報では昼前から雪になり、稜線の風はさらに強まる。",
-      "knowledge": ["予定: 中山峠から稜線を東天狗岳・西天狗岳へ（約 1 時間 50 分）。帰りは天狗の奥庭を通ってヒュッテへ（約 1 時間 10 分）、渋の湯へ下る（約 1 時間 40 分）", "稜線の道は人が多く、トレース（踏み跡）がはっきりしている。奥庭の道は歩く人が少なく、岩と低い木の間の広い窪地で迷いやすい", "スマホは稜線の上なら電波が入ることがある。地図アプリは入れていない"],
+      "situation": "朝 7 時前、ヒュッテの前は −14℃。稜線で風がうなり、昼前から雪で風もさらに強まる予報だ。今日はどう歩く？",
+      "knowledge": ["予定: 稜線を天狗岳へ約 1 時間 50 分、奥庭を通ってヒュッテへ約 1 時間 10 分、渋の湯へ約 1 時間 40 分", "稜線の道はトレース（踏み跡）がはっきり。奥庭は人が少なく、広い窪地で迷いやすい", "スマホは稜線なら電波が入ることがある。地図アプリはない"],
       "options": [
         {
           "id": "go",
-          "label": "予定どおり天狗岳へ。帰りは奥庭を通る",
-          "detail": "せっかく泊まったのだから、山頂までは行きたい。",
+          "label": "天狗岳へ。帰りは奥庭を通る",
+          "detail": "せっかく泊まったので、山頂まで行きたい。",
           "actions": [{ "type": "say", "text": "風は強いけど、行けるところまで行こう", "to": "ono" }, { "type": "continueRoute" }],
           "tags": ["risky"],
           "bias": { "base": 1 }
         },
         {
           "id": "same_way",
-          "label": "天狗岳へは行くが、帰りは奥庭を通らず、登った稜線の道を戻る",
-          "detail": "トレースのはっきりした道だけを歩く。",
+          "label": "天狗岳へ。帰りは同じ道を戻る",
+          "detail": "奥庭を避け、トレースのある稜線だけを歩く。",
           "actions": [
             { "type": "say", "text": "帰りは同じ道を戻ろう。奥庭は天気のいい日に", "to": "ono" },
             { "type": "setRoute", "route": ["KUROYURI", "NAKAYAMA", "J_OKUNIWA", "HIGASHI", "NISHI", "HIGASHI", "J_OKUNIWA", "NAKAYAMA", "KUROYURI", "SHIBUNOYU"], "goalNodes": ["SHIBUNOYU"] }
@@ -384,8 +402,8 @@
         },
         {
           "id": "down",
-          "label": "今日は登らない。このまま渋の湯へ下りる",
-          "detail": "雪と強い風の予報。天狗岳はまた来ればいい。",
+          "label": "登らずに渋の湯へ下りる",
+          "detail": "雪と強風の予報。天狗岳はまた来ればいい。",
           "actions": [{ "type": "say", "text": "今日はやめておこう。下りて温泉に入ろう", "to": "ono" }, { "type": "setRoute", "route": ["KUROYURI", "SHIBUNOYU"], "goalNodes": ["SHIBUNOYU"] }],
           "flags": ["noSummit"],
           "tags": ["recommended"],
@@ -398,21 +416,21 @@
       "title": "西天狗岳の山頂",
       "priority": 15,
       "trigger": { "all": [{ "atNode": "NISHI" }, { "not": { "flag": "sameWay" } }] },
-      "situation": "西天狗岳の山頂に着いた。西からの風で体が押される。ガスが流れて、すぐ先の東天狗岳がかすんで見える。見通しは {leader.local.visibilityM:0} m。雪が舞いはじめた。",
-      "knowledge": ["予定では、東天狗岳の先から稜線を離れ、岩の斜面を下って天狗の奥庭を通る（踏み跡が薄い）", "登ってきた中山峠への稜線の道はトレースがはっきりしていて、人も多い", "どちらでも黒百合ヒュッテまで 1 時間ほど"],
+      "situation": "西天狗岳の山頂。西風に体を押され、雪が舞いはじめた（見通し {leader.local.visibilityM:0} m）。どの道で下りる？",
+      "knowledge": ["予定の奥庭の道は、東天狗岳の先で岩の斜面を下る。踏み跡は薄い", "登ってきた稜線の道はトレースがはっきりして、人も多い", "どちらでも黒百合ヒュッテまで 1 時間ほど"],
       "options": [
         {
           "id": "okuniwa",
-          "label": "予定どおり、奥庭を通ってヒュッテへ下る",
-          "detail": "奥庭は前に一度、夏に歩いたことがある。",
+          "label": "予定どおり奥庭から下る",
+          "detail": "奥庭は前に一度、夏に歩いた。",
           "actions": [{ "type": "say", "text": "奥庭から下りよう。風下だから稜線よりは楽なはずだ", "to": "ono" }, { "type": "continueRoute" }],
           "tags": ["risky"],
           "bias": { "base": 1 }
         },
         {
           "id": "ridge_back",
-          "label": "見通しが悪い。登ってきた中山峠への稜線の道を戻る",
-          "detail": "知っている道、トレースのある道を選ぶ。",
+          "label": "登ってきた稜線の道を戻る",
+          "detail": "知っている、トレースのある道を選ぶ。",
           "actions": [{ "type": "say", "text": "この天気で奥庭はやめよう。来た道を戻る", "to": "ono" }, { "type": "setRoute", "route": ["NISHI", "HIGASHI", "J_OKUNIWA", "NAKAYAMA", "KUROYURI", "SHIBUNOYU"], "goalNodes": ["SHIBUNOYU"] }],
           "flags": ["sameWay"],
           "tags": ["recommended"],
@@ -425,13 +443,13 @@
       "title": "天狗の奥庭",
       "priority": 15,
       "trigger": { "all": [{ "atNode": "OKUNIWA" }, { "not": { "flag": "sameWay" } }] },
-      "situation": "岩の斜面を下りきり、天狗の奥庭の広い窪地に出た。ガスと吹雪で、踏み跡も赤布も見えない。雪をかぶった低い木と岩が、どこも同じに見える。風下の右手（西）へ、なだらかな斜面が続いているように見える。",
-      "knowledge": ["地図では、道は奥庭から南へ向きを変え、すりばち池のそばを通って黒百合ヒュッテへ下る。ほぼ平らな道", "西へ下ると、渋の湯側の谷に入る（登山道はない）", "紙の地図とコンパスはある。手袋を外すと指がすぐかじかむ"],
+      "situation": "天狗の奥庭の窪地に出た。吹雪で踏み跡も赤布も見えず、左手の西へなだらかな斜面が続いて見える。このまま進むか？",
+      "knowledge": ["地図では、道は奥庭から北へ曲がり、すりばち池のそばを通ってヒュッテへ。ほぼ平ら", "西へ下ると渋の湯側の谷に入る（道はない）", "地図とコンパスはある。手袋を外すと指がすぐかじかむ"],
       "options": [
         {
           "id": "check",
-          "label": "立ち止まり、地図とコンパスで南の向きを確かめてから進む",
-          "detail": "数分かかる。風を背にしてしゃがみ、地図を広げる。",
+          "label": "地図とコンパスで北を確かめる",
+          "detail": "数分かかる。風を背にしゃがんで地図を広げる。",
           "actions": [{ "type": "say", "text": "待って。向きを確かめる", "to": "ono" }, { "type": "stopAndCheck" }, { "type": "continueRoute" }],
           "flags": ["checkedOkuniwa"],
           "tags": ["recommended"],
@@ -439,8 +457,8 @@
         },
         {
           "id": "follow",
-          "label": "見えている斜面をそのまま下る",
-          "detail": "ヒュッテは下の方のはずだ。寒いので止まりたくない。",
+          "label": "見える斜面をそのまま下る",
+          "detail": "ヒュッテは下のはず。寒くて止まりたくない。",
           "actions": [{ "type": "say", "text": "寒い。とにかく下ろう", "to": "ono" }, { "type": "continueRoute" }],
           "tags": ["risky"],
           "bias": { "base": 1, "mods": [{ "when": { "var": "leader.timeBehindMin", "op": ">", "value": 30 }, "add": 0.3 }] }
@@ -452,13 +470,13 @@
       "title": "腰までの雪",
       "priority": 18,
       "trigger": { "all": [{ "flag": "stuck" }, { "var": "leader.alive", "op": "==", "value": true }] },
-      "situation": "腰まで雪に埋まり、もがいても前に進めない。ここがどこなのか分からない。道を外れたことだけは確かだ。見通しは {leader.local.visibilityM:0} m。二人とも汗と雪で服の中が湿り、止まると急に寒くなってきた。",
-      "knowledge": ["道を外れてから 100 m 近く下ってきたらしい。登山道は上にある", "谷はさらに西へ下っている。谷の底は吹きだまりで雪が深く、まわりの斜面から雪崩が来るおそれもある", "ここは圏外。日の入りは 16:58", "水（お湯）は {leader.waterL:1} L、食べ物は {leader.foodKcal:0} kcal"],
+      "situation": "腰まで雪に埋まって進めず、道を外れたが位置は分からない（見通し {leader.local.visibilityM:0} m）。汗と雪で服が湿り、止まると急に冷える。",
+      "knowledge": ["道を外れて 100 m 近く下ったらしい。登山道は上", "谷はさらに西へ下る。底は吹きだまりで雪が深く、雪崩のおそれもある", "ここは圏外。日の入りは 16:58", "水（お湯）は {leader.waterL:1} L、食べ物は {leader.foodKcal:0} kcal"],
       "options": [
         {
           "id": "rest",
-          "label": "まず 1 時間休む。ツエルトをかぶって風をよけ、行動食を食べ、お湯を飲む",
-          "detail": "落ち着いて、体力を少し戻してから考える。",
+          "label": "ツエルトで 1 時間休む",
+          "detail": "風をよけ、食べてお湯を飲み、落ち着いて考える。",
           "actions": [
             { "type": "say", "text": "一度落ち着こう。ツエルトをかぶって、何か食べよう", "to": "ono" },
             { "type": "addLayer" },
@@ -472,26 +490,26 @@
         },
         {
           "id": "back",
-          "label": "下ってきた足跡をたどって、登山道まで登り返す",
+          "label": "足跡をたどって登り返す",
           "available": { "not": { "flag": "tracksGone" } },
           "unavailableText": "足跡はもう雪に埋まった",
-          "detail": "自分たちの踏み跡なら、登り返せるかもしれない。",
+          "detail": "自分たちの踏み跡なら戻れるかもしれない。",
           "actions": [{ "type": "say", "text": "足跡が消える前に戻ろう", "to": "ono" }, { "type": "backtrack" }],
           "tags": ["recommended"],
           "bias": { "base": 0.5 }
         },
         {
           "id": "biv",
-          "label": "もう動かない。風の当たらない所を探してツエルトを張り、ここで助けを待つ",
-          "detail": "体力が残っているうちに、夜を越す準備をする。",
+          "label": "ツエルトを張って助けを待つ",
+          "detail": "体力のあるうちに、風の当たらない所で夜に備える。",
           "actions": [{ "type": "say", "text": "動くのはやめよう。ここで夜を越す準備をする", "to": "ono" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 0.4 }
         },
         {
           "id": "descend",
-          "label": "このまま谷を下る。下れば渋の湯の方へ出られるはずだ",
-          "detail": "登り返す力はもうない。下りなら進める気がする。",
+          "label": "谷を下って渋の湯を目指す",
+          "detail": "登り返す力はない。下りなら進める気がする。",
           "actions": [{ "type": "say", "text": "下へ行こう。沢沿いに下れば渋の湯だ", "to": "ono" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.5, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.6 }, "add": 0.4 }] }
@@ -503,28 +521,28 @@
       "title": "休んだあとで",
       "priority": 17,
       "trigger": { "all": [{ "elapsedSince": { "flag": "restedStuck", "min": 60 } }, { "var": "leader.alive", "op": "==", "value": true }, { "state": "BIVOUAC" }] },
-      "situation": "1 時間ツエルトをかぶって休み、少しは体が動くようになった。雪はやまず、風が谷を吹き上げてくる。止まっていると、汗で湿った服が冷たい。",
-      "knowledge": ["日の入りは 16:58。暗くなる前に、夜を越す場所を決めなければならない", "谷の底は吹きだまりで、まわりの斜面から雪崩が来るおそれがある", "登山道へ戻るには、深い雪の中を 100 m 近く登り返さなければならない。足跡はもう埋まった", "ここは圏外"],
+      "situation": "1 時間休んで、少し体が動くようになった。雪はやまず、汗で湿った服が冷たい。",
+      "knowledge": ["日の入りは 16:58。暗くなる前に夜を越す場所を決めたい", "谷の底は吹きだまりで、雪崩のおそれがある", "登山道へは深い雪を 100 m 近く登り返す。足跡はもう埋まった", "ここは圏外"],
       "options": [
         {
           "id": "lee_biv",
-          "label": "ここで夜を越すと決める。風の当たらない所にツエルトを張り直し、明るいうちに準備する",
-          "detail": "体力を残し、助けを待つ。",
+          "label": "ここで夜を越す準備をする",
+          "detail": "風の当たらない所に張り直し、助けを待つ。",
           "actions": [{ "type": "say", "text": "ここで夜を越そう。明るいうちに準備しておく" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 0.8 }
         },
         {
           "id": "nav",
-          "label": "地図とコンパスで位置を確かめる。分かれば登山道まで登り返す",
-          "detail": "見通しは {leader.local.visibilityM:0} m。",
+          "label": "地図とコンパスで位置を確かめる",
+          "detail": "分かれば登り返す。見通しは {leader.local.visibilityM:0} m。",
           "actions": [{ "type": "say", "text": "地図を出そう。どこにいるか分かれば戻れる" }, { "type": "narrate", "text": "手袋を外し、風を背にして地図とコンパスを広げた" }],
           "flags": ["navTry1"],
           "bias": { "base": 0.5 }
         },
         {
           "id": "descend",
-          "label": "谷を下って、渋の湯側へ出る道を探す",
+          "label": "谷を下って道を探す",
           "actions": [{ "type": "say", "text": "下りなら進める。行こう" }, { "type": "continueRoute" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.4, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.6 }, "add": 0.4 }] }
@@ -536,19 +554,19 @@
       "title": "胸までの雪",
       "priority": 18,
       "trigger": { "all": [{ "flag": "stuck2" }, { "var": "leader.alive", "op": "==", "value": true }] },
-      "situation": "沢筋の雪は胸まであり、もう一歩も進めない。服は内側まで濡れ、震えが止まらない。上の斜面には雪がたっぷり積もっている。",
+      "situation": "沢筋の雪は胸まであり、もう進めない。服は内側まで濡れて震えが止まらず、上の斜面には雪が厚く積もっている。",
       "knowledge": ["ここは圏外", "水（お湯）は {leader.waterL:1} L、食べ物は {leader.foodKcal:0} kcal", "下ってきた跡は、来た方へ続いている"],
       "options": [
         {
           "id": "biv",
-          "label": "ここでツエルトをかぶり、ありったけ着込んで、助けを待つ",
+          "label": "着込んでツエルトで助けを待つ",
           "actions": [{ "type": "say", "text": "もう動けない。ここで助けを待とう" }, { "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 1 }
         },
         {
           "id": "back",
-          "label": "下ってきた道筋を、這うようにしてでも登り返す",
+          "label": "這ってでも来た跡を登り返す",
           "detail": "来た方なら雪は踏まれている。",
           "actions": [{ "type": "say", "text": "来た方へ戻ろう。少しずつでいい" }, { "type": "backtrack" }],
           "bias": { "base": 0.4 },
@@ -557,7 +575,7 @@
         },
         {
           "id": "nav",
-          "label": "地図とコンパスで位置を確かめる。分かれば登山道へ登り返す",
+          "label": "地図とコンパスで位置を確かめる",
           "available": { "all": [{ "not": { "flag": "navTry1" } }, { "not": { "flag": "navTry2" } }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "地図を出そう。どこにいるか分かれば戻れる" }, { "type": "narrate", "text": "手袋を外し、風を背にして地図とコンパスを広げた" }],
@@ -571,27 +589,27 @@
       "title": "ガスは晴れない",
       "priority": 16,
       "trigger": { "all": [{ "elapsedSince": { "flag": "waitedFog", "min": 60 } }, { "state": "STAYING" }, { "var": "leader.alive", "op": "==", "value": true }] },
-      "situation": "1 時間待ったが、ガスも雪もやまない。じっと立っていると、足先から冷えが上がってくる。",
-      "knowledge": ["下ってきた足跡は、もうほとんど見えない", "道を外れてから、それほど下ってはいないはずだ", "ここは圏外"],
+      "situation": "1 時間待ったが、ガスも雪もやまない。立っていると足先から冷えてくる。",
+      "knowledge": ["下ってきた足跡は、もうほとんど見えない", "道を外れてから、それほど下ってはいない", "ここは圏外"],
       "options": [
         {
           "id": "biv",
-          "label": "ツエルトをかぶり、着込んで、ここで助けを待つ",
-          "detail": "道からそれほど離れていない。人が通れば気づいてもらえるかもしれない。",
+          "label": "ツエルトをかぶって助けを待つ",
+          "detail": "道に近い。人が通れば気づいてもらえるかも。",
           "actions": [{ "type": "say", "text": "ツエルトをかぶって待とう。ここなら道から遠くない" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 0.8 }
         },
         {
           "id": "back",
-          "label": "かすかな足跡をたどって、登山道まで登り返す",
+          "label": "かすかな足跡で登り返す",
           "available": { "not": { "flag": "tracksGone" } },
           "unavailableText": "足跡はもう雪に埋まった",
           "actions": [{ "type": "say", "text": "足跡があるうちに戻ろう" }, { "type": "backtrack" }],
           "tags": ["recommended"],
           "bias": { "base": 0.6 }
         },
-        { "id": "descend", "label": "待っていられない。斜面を下って道を探す", "actions": [{ "type": "say", "text": "動こう。下ればどこかに出る" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.5 } }
+        { "id": "descend", "label": "斜面を下って道を探す", "actions": [{ "type": "say", "text": "動こう。下ればどこかに出る" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.5 } }
       ]
     },
     {
@@ -599,12 +617,13 @@
       "title": "夜を越す",
       "priority": 16,
       "trigger": { "all": [{ "after": "D0 16:20" }, { "var": "leader.alive", "op": "==", "value": true }, { "flag": "offRoute" }, { "any": [{ "state": "STAYING" }, { "state": "LOST_AWARE" }] }] },
-      "situation": "雪の中で日が暮れた。雪と風はやまない。暗い中を動き回れば、体力を失うばかりだ。ここで夜を越すしかない。",
+      "situation": "雪の中で日が暮れた。暗い中を動き回れば、体力を失うばかりだ。",
       "knowledge": ["ツエルトは一つ。二人で入れる", "ザックを敷いて座れば、雪から体を離せる", "お湯は {leader.waterL:1} L、食べ物は {leader.foodKcal:0} kcal"],
       "options": [
         {
           "id": "biv",
-          "label": "ツエルトを張り、ザックの上に座って、ありったけ着込む。行動食を分け、お湯を少しずつ飲む",
+          "label": "ツエルトを張って夜を越す",
+          "detail": "ザックに座って着込み、行動食とお湯を分ける。",
           "actions": [
             { "type": "say", "text": "ザックの上に座って、着られるものは全部着よう" },
             { "type": "addLayer" },
@@ -615,7 +634,7 @@
           "tags": ["recommended"],
           "bias": { "base": 1 }
         },
-        { "id": "walk", "label": "ヘッドランプをつけて、道を探し続ける", "actions": [{ "type": "say", "text": "止まったら凍える。歩こう" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } }
+        { "id": "walk", "label": "ヘッドランプで道を探し続ける", "actions": [{ "type": "say", "text": "止まったら凍える。歩こう" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } }
       ]
     },
     {
@@ -625,27 +644,28 @@
       "trigger": {
         "all": [{ "after": "D1 07:00" }, { "var": "leader.alive", "op": "==", "value": true }, { "flag": "offRoute" }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }, { "state": "STAYING" }] }]
       },
-      "situation": "ほとんど眠れないまま、あたりが白んできた。雪は小降りになったが、まわりは一晩で積もった新しい雪に埋もれている。体は芯まで冷え切っている。",
-      "knowledge": ["家族は昨夜のうちに届け出ているはず。登山計画は出してある", "二人とも発信機（ココヘリ）を身につけている。電波は雪や体で弱まる", "昼から天気は回復する予報"],
+      "situation": "ほとんど眠れないまま夜が明けた。雪は小降りになったが、新しい雪が積もり、体は芯まで冷え切っている。",
+      "knowledge": ["家族は昨夜のうちに届け出たはず。登山計画も出してある", "二人とも発信機（ココヘリ）を持っている。電波は雪や体で弱まる", "昼から天気は回復する予報"],
       "options": [
         {
           "id": "wait",
-          "label": "動かずに待つ。発信機を雪の上、空の見える所に出しておき、明るいうちは笛を吹く",
+          "label": "動かずに待ち、笛を吹く",
+          "detail": "発信機は雪の上、空の見える所に出しておく。",
           "actions": [{ "type": "say", "text": "動かずに待とう。きっと探しに来てくれる" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
           "bias": { "base": 1 }
         },
         {
           "id": "nav",
-          "label": "見通しが戻った。地図とコンパスで位置を確かめ、分かれば登山道まで登り返す",
-          "detail": "一晩で積もった新雪が深い。",
+          "label": "地図とコンパスで位置を確かめる",
+          "detail": "分かれば登り返す。一晩の新雪が深い。",
           "actions": [{ "type": "say", "text": "晴れてきた。位置が分かれば戻れる" }, { "type": "narrate", "text": "手袋を外し、風を背にして地図とコンパスを広げた" }],
           "flags": ["navTry2"],
           "bias": { "base": 0.4 }
         },
         {
           "id": "descend",
-          "label": "谷を下って、自力で里を目指す",
+          "label": "谷を下って自力で里へ",
           "actions": [{ "type": "say", "text": "待っていても来ないかもしれない。下ろう" }, { "type": "continueRoute" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.3 }
@@ -655,12 +675,12 @@
   ],
   "genericOverrides": {
     "lostAware": {
-      "situation": "おかしい。踏み跡も赤布もなく、雪の斜面をずっと下っている。どこかで道を外れたらしい。",
-      "knowledge": ["下ってきた自分たちの足跡は、まだうっすら見える。風と雪で消えかけている", "紙の地図とコンパスはあるが、真っ白で何も見えず、今どこにいるのか分からない", "下の谷は吹きだまりで、雪が深いはずだ", "スマホは、ここではたいてい圏外。電波が入れば電話できる"],
+      "situation": "おかしい。踏み跡も赤布もなく、雪の斜面をずっと下っている。道を外れたらしい。",
+      "knowledge": ["下ってきた足跡はまだうっすら見えるが、風と雪で消えかけている", "地図とコンパスはあるが、真っ白で位置が分からない", "下の谷は吹きだまりで、雪が深いはずだ", "ここはたいてい圏外。電波が入れば電話できる"],
       "options": [
         {
           "id": "backtrack",
-          "label": "足跡が消える前に、登山道まで登り返す",
+          "label": "足跡が消える前に登り返す",
           "available": { "not": { "flag": "tracksGone" } },
           "unavailableText": "足跡はもう雪に埋まった",
           "actions": [{ "type": "say", "text": "戻ろう。足跡があるうちに", "to": "ono" }, { "type": "backtrack" }],
@@ -669,15 +689,15 @@
         },
         {
           "id": "descend",
-          "label": "このまま下る。下ればどこかの道に出るはずだ",
+          "label": "このまま下って道を探す",
           "actions": [{ "type": "say", "text": "ここまで下りたんだ。このまま行こう", "to": "ono" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.8, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.6 }, "add": 0.4 }] }
         },
-        { "id": "stay", "label": "その場で止まり、ガスが晴れるのを待つ", "actions": [{ "type": "say", "text": "動くと余計に迷う。少し待とう", "to": "ono" }, { "type": "stayPut" }], "bias": { "base": 0.3 }, "flags": ["waitedFog"] },
+        { "id": "stay", "label": "止まってガスが晴れるのを待つ", "actions": [{ "type": "say", "text": "動くと余計に迷う。少し待とう", "to": "ono" }, { "type": "stayPut" }], "bias": { "base": 0.3 }, "flags": ["waitedFog"] },
         {
           "id": "call",
-          "label": "電話がつながるうちに 110 番し、その場で待つ",
+          "label": "110 番して、その場で待つ",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.15 }, { "var": "leader.phone.has", "op": "==", "value": true }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "電話してみる。まだ電波がある", "to": "ono" }, { "type": "callRescue", "via": "auto" }, { "type": "addLayer" }, { "type": "waitRescue" }],
@@ -688,11 +708,11 @@
     },
     "darkness": { "situation": "日が暮れてきた。吹雪の中、ヘッドランプの光は数メートル先で白く散る。" },
     "hypothermia": {
-      "situation": "震えが止まらない。指先がかじかみ、言葉がもつれる。体の芯まで冷えてきた。",
+      "situation": "震えが止まらず、指がかじかんで言葉がもつれる。体の芯まで冷えてきた。",
       "options": [
         {
           "id": "biv_trail",
-          "label": "風を避けられる所でツエルトをかぶり、着込んで食べ、朝まで動かない",
+          "label": "着込んでツエルトで朝を待つ",
           "available": { "state": "WALKING" },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もう歩けない。ツエルトを出そう" }, { "type": "addLayer" }, { "type": "eat", "kcal": 300 }, { "type": "bivouac", "until": "dawn", "findLee": true }],
@@ -701,7 +721,7 @@
         },
         {
           "id": "biv_off",
-          "label": "動くのをやめる。ツエルトをかぶり、着込んで食べ、ここで助けを待つ",
+          "label": "着込んでツエルトで助けを待つ",
           "available": { "not": { "state": "WALKING" } },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もう動かないでおこう。ツエルトをかぶろう" }, { "type": "addLayer" }, { "type": "eat", "kcal": 300 }, { "type": "bivouac", "until": "rescue", "findLee": true }],
@@ -710,14 +730,16 @@
         },
         {
           "id": "layer_go",
-          "label": "着込んで行動食を食べ、そのまま動き続ける",
+          "label": "着込んで食べ、歩き続ける",
+          "available": { "var": "leader.moving", "op": "==", "value": true },
+          "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "止まったら凍える。食べて動こう" }, { "type": "addLayer" }, { "type": "eat", "kcal": 300 }],
           "tags": ["risky"],
           "bias": { "base": 0.6, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.5 }, "add": 0.4 }] }
         },
         {
           "id": "call",
-          "label": "電話で助けを呼び、その場で待つ",
+          "label": "電話で助けを呼び、待つ",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.15 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "addLayer" }, { "type": "waitRescue" }],
@@ -731,12 +753,13 @@
       "options": [
         {
           "id": "wait",
-          "label": "ここにツエルトを張って夜を越す。発信機は空の見える所に出しておく",
+          "label": "ツエルトを張って待つ",
+          "detail": "発信機は空の見える所に出しておく。",
           "actions": [{ "type": "say", "text": "ここで待とう。登山計画は出してあるし、ココヘリもある" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
           "bias": { "base": 1 }
         },
-        { "id": "descend", "label": "谷を下って、自力で道を探す", "actions": [{ "type": "say", "text": "待っていられない。下ろう" }, { "type": "continueRoute" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } }
+        { "id": "descend", "label": "谷を下って自力で道を探す", "actions": [{ "type": "say", "text": "待っていられない。下ろう" }, { "type": "continueRoute" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } }
       ]
     },
     "injured": {
@@ -744,7 +767,7 @@
       "options": [
         {
           "id": "slow",
-          "label": "痛みをこらえ、ゆっくり登山道を下る",
+          "label": "痛みをこらえ、ゆっくり下る",
           "available": { "all": [{ "state": "WALKING" }, { "var": "leader.injury", "op": "!=", "value": "legFracture" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }],
@@ -752,7 +775,7 @@
         },
         {
           "id": "crawl",
-          "label": "立てない。這ってでも登山道を下る",
+          "label": "立てない。這ってでも下る",
           "available": { "all": [{ "state": "WALKING" }, { "var": "leader.injury", "op": "==", "value": "legFracture" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "continueRoute" }],
@@ -761,14 +784,14 @@
         },
         {
           "id": "biv",
-          "label": "動かない。足を固定し、ツエルトをかぶって助けを待つ",
+          "label": "足を固定し、ツエルトで待つ",
           "actions": [{ "type": "say", "text": "もう動けない。ここで待とう" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
           "bias": { "base": 0.6, "mods": [{ "when": { "not": { "state": "WALKING" } }, "add": 0.6 }] }
         },
         {
           "id": "call",
-          "label": "電話で助けを呼び、その場で待つ",
+          "label": "電話で助けを呼び、待つ",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.15 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "addLayer" }, { "type": "waitRescue" }],
@@ -877,10 +900,28 @@
           { "var": "c.miura.alive", "op": "==", "value": true }
         ]
       },
-      "lines": ["眠っちゃだめよ。何か話して", "お湯、まだ少し残ってる。半分こしよう"],
-      "replies": { "who": "miura", "lines": ["夏にここを歩いたときの話をしようか", "ありがとう。大野さんが先に飲んで"] },
+      "lines": ["眠っちゃだめよ。何か話して", "三浦さん、起きてる？"],
+      "replies": { "who": "miura", "lines": ["夏にここを歩いたときの話をしようか", "起きてるよ。指を動かしてる"] },
       "priority": 10,
-      "cooldownMin": 120
+      "cooldownMin": 180
+    },
+    {
+      "key": "s12_biv_water",
+      "who": "ono",
+      "to": "miura",
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] },
+          { "var": "c.ono.waterL", "op": ">", "value": 0.05 },
+          { "var": "c.ono.coreC", "op": ">", "value": 34 },
+          { "var": "c.miura.alive", "op": "==", "value": true }
+        ]
+      },
+      "lines": ["お湯、まだ少し残ってる。半分こしよう"],
+      "replies": { "who": "miura", "lines": ["ありがとう。大野さんが先に飲んで"] },
+      "priority": 10,
+      "once": true
     },
     {
       "key": "s12_whistle",
@@ -900,44 +941,45 @@
     }
   ],
   "endings": [
-    { "kind": "SAFE_RETURN", "when": { "flag": "noSummit" }, "title": "登らずに下りた", "text": "三浦さんと大野さんは天狗岳をあきらめ、黒百合ヒュッテから渋の湯へ下った。昼前から稜線は吹雪になった。天狗岳はまた天気のいい日に登ればいい。" },
+    { "kind": "SAFE_RETURN", "when": { "flag": "noSummit" }, "title": "登らずに下りた", "text": "二人は天狗岳をあきらめ、渋の湯へ下った。昼前から稜線は吹雪になった。天狗岳は、また天気のいい日に。" },
     {
       "kind": "SAFE_RETURN",
       "when": { "all": [{ "var": "rec.wasLost", "op": "==", "value": true }, { "flag": "stuck" }] },
       "title": "雪の谷から登り返した",
-      "text": "二人は奥庭の先で道を外れ、谷の吹きだまりで腰まで雪に埋まった。もがいた末に登山道まで登り返し、ヒュッテを経て渋の湯へ下った。服の中まで雪で濡れ、体は冷え切っていた。"
+      "text": "二人は奥庭の先で道を外れ、谷の吹きだまりで腰まで雪に埋まった。登山道まで登り返して渋の湯へ下ったが、服の中まで濡れ、体は冷え切っていた。"
     },
     {
       "kind": "SAFE_RETURN",
       "when": { "all": [{ "var": "rec.wasLost", "op": "==", "value": true }, { "chose": { "cp": "generic:lostAware", "option": "backtrack" } }] },
       "title": "足跡をたどって戻った",
-      "text": "二人は奥庭で一度道を外れ、谷へ下りかけた。おかしいと気づいて、自分たちの足跡が雪に埋まる前に登り返し、ヒュッテに戻って渋の湯へ下った。気づくのが遅れていれば、深い雪の谷で動けなくなっていたかもしれない。"
+      "text": "二人は奥庭で道を外れたが、足跡が埋まる前に登り返し、渋の湯へ下った。気づくのが遅れていれば、深い雪の谷で動けなくなっていたかもしれない。"
     },
-    { "kind": "SAFE_RETURN", "when": { "var": "rec.wasLost", "op": "==", "value": true }, "title": "一度は道を外れたが", "text": "吹雪の中で二人は一度踏み跡を外れたが、すぐに道に戻ることができ、ヒュッテを経て渋の湯へ下った。見通しのない雪の中では、道はほんの数十メートルで分からなくなる。" },
-    { "kind": "SAFE_RETURN", "when": { "flag": "sameWay" }, "title": "知っている道を戻った", "text": "二人は天狗岳に登り、吹雪の中、トレースのはっきりした稜線の道を戻って黒百合ヒュッテへ下り、渋の湯に着いた。奥庭は、また天気のいい日に歩けばいい。" },
-    { "kind": "SAFE_RETURN", "title": "渋の湯に下りた", "text": "二人は天狗岳に登り、吹雪の中で天狗の奥庭を抜けて、黒百合ヒュッテから渋の湯へ下った。奥庭では何度も立ち止まり、方角を確かめながら歩いた。" },
+    { "kind": "SAFE_RETURN", "when": { "var": "rec.wasLost", "op": "==", "value": true }, "title": "一度は道を外れたが", "text": "二人は吹雪の中で一度踏み跡を外れたが、すぐ道に戻り、渋の湯へ下った。見通しのない雪の中では、道は数十メートルで分からなくなる。" },
+    { "kind": "SAFE_RETURN", "when": { "flag": "sameWay" }, "title": "知っている道を戻った", "text": "二人は天狗岳に登り、吹雪の中をトレースのある稜線の道で戻って、渋の湯に着いた。奥庭は、また天気のいい日に。" },
+    { "kind": "SAFE_RETURN", "when": { "chose": { "cp": "cp_okuniwa", "option": "follow" } }, "title": "渋の湯に下りた", "text": "二人は吹雪の中で奥庭を抜け、渋の湯へ下った。見えている斜面を下ったが、運よく道を外れずに済んだ。" },
+    { "kind": "SAFE_RETURN", "title": "渋の湯に下りた", "text": "二人は吹雪の中で奥庭を抜け、渋の湯へ下った。奥庭では何度も立ち止まり、方角を確かめながら歩いた。" },
     { "kind": "SAFE_SHELTER", "title": "ヒュッテで過ごした", "text": "二人は黒百合ヒュッテに逃げ込み、吹雪の夜を小屋で過ごした。" },
-    { "kind": "SELF_RESCUE", "when": { "flag": "nightOut" }, "title": "一晩を越して、自力で", "text": "雪の中で一晩を越した二人は、朝、見通しが戻ったところで位置の見当をつけ、新しい雪をこいで登山道まで登り返した。黒百合ヒュッテで体を温め、自力で下山した。体温は {rec.minCoreC:1}℃ まで下がっていた。" },
-    { "kind": "SELF_RESCUE", "title": "谷から自力で", "text": "谷の吹きだまりで動けなくなった二人は、ツエルトをかぶって休んだあと、地図とコンパスで位置の見当をつけ、登山道まで登り返した。その日のうちに渋の湯へ下りた。" },
+    { "kind": "SELF_RESCUE", "when": { "flag": "nightOut" }, "title": "一晩を越して、自力で", "text": "雪の中で一晩を越した二人は、朝に位置の見当をつけ、新しい雪をこいで登山道へ登り返した。ヒュッテで体を温め、自力で下山した。体温は {rec.minCoreC:1}℃ まで下がっていた。" },
+    { "kind": "SELF_RESCUE", "title": "谷から自力で", "text": "谷の吹きだまりで動けなくなった二人は、休んだあと位置の見当をつけて登山道へ登り返し、その日のうちに渋の湯へ下りた。" },
     {
       "kind": "RESCUED",
       "when": { "all": [{ "flag": "frostbite" }, { "flag": "lead:cocoheli" }] },
       "title": "発信機の電波で見つかった",
-      "text": "雪の中で一晩を越した二人は、翌日、発信機の電波をたどってきた救助隊に見つけられた。二人とも手足の指に凍傷を負い、病院で手当てを受けた。登山計画と発信機が、二人の居場所を知らせた。"
+      "text": "雪の中で一晩を越した二人は、翌日、発信機の電波をたどった救助隊に見つけられた。二人とも指に凍傷を負い、病院で手当てを受けた。登山計画と発信機が居場所を知らせた。"
     },
-    { "kind": "RESCUED", "when": { "all": [{ "flag": "nightOut" }, { "flag": "lead:cocoheli" }] }, "title": "発信機の電波で見つかった", "text": "雪の中で一晩を越した二人は、翌日、発信機の電波をたどってきた救助隊に見つけられた。体は冷え切っていたが、凍傷は免れた。" },
-    { "kind": "RESCUED", "when": { "flag": "frostbite" }, "title": "翌日、救助", "text": "雪の中で一晩を越した二人は、翌日、捜索に入った救助隊に見つけられた。二人とも手足の指に凍傷を負い、病院で手当てを受けた。" },
-    { "kind": "RESCUED", "when": { "flag": "nightOut" }, "title": "翌日、救助", "text": "雪の中で一晩を越した二人は、翌日、捜索に入った救助隊に見つけられた。体は冷え切っていたが、凍傷は免れた。" },
+    { "kind": "RESCUED", "when": { "all": [{ "flag": "nightOut" }, { "flag": "lead:cocoheli" }] }, "title": "発信機の電波で見つかった", "text": "雪の中で一晩を越した二人は、翌日、発信機の電波をたどった救助隊に見つけられた。体は冷え切っていたが、凍傷は免れた。" },
+    { "kind": "RESCUED", "when": { "flag": "frostbite" }, "title": "翌日、救助", "text": "雪の中で一晩を越した二人は、翌日、救助隊に見つけられた。二人とも指に凍傷を負い、病院で手当てを受けた。" },
+    { "kind": "RESCUED", "when": { "flag": "nightOut" }, "title": "翌日、救助", "text": "雪の中で一晩を越した二人は、翌日、救助隊に見つけられた。体は冷え切っていたが、凍傷は免れた。" },
     { "kind": "RESCUED", "title": "救助", "text": "二人は救助隊に見つけられ、病院へ運ばれた。" },
     {
       "kind": "RESCUED_CRITICAL",
       "when": { "all": [{ "var": "rec.minCoreC", "op": "<", "value": 33.5 }, { "flag": "frostbite" }] },
       "title": "重い低体温症で救助",
-      "text": "二人は救助隊に見つけられたが、体温が {rec.minCoreC:1}℃ まで下がった重い低体温症で、病院へ運ばれた。手足の指には凍傷があった。"
+      "text": "二人は救助隊に見つけられたが、体温 {rec.minCoreC:1}℃ の重い低体温症で、指には凍傷もあった。病院へ運ばれた。"
     },
-    { "kind": "RESCUED_CRITICAL", "when": { "var": "rec.minCoreC", "op": "<", "value": 33.5 }, "title": "重い低体温症で救助", "text": "二人は救助隊に見つけられたが、体温が {rec.minCoreC:1}℃ まで下がった重い低体温症で、病院へ運ばれた。" },
-    { "kind": "RESCUED_CRITICAL", "title": "重い状態で救助", "text": "二人は救助隊に見つけられたが、一人は雪の斜面で転んで大けがを負っていた。ヘリで病院へ運ばれた。" },
-    { "kind": "FATAL", "when": { "var": "rec.deathCount", "op": ">=", "value": 2 }, "title": "帰らぬ人に", "text": "三浦さんと大野さんは、雪の中で亡くなっているのが見つかった。厳冬期の雪の中で、二人とも力尽きた。" },
+    { "kind": "RESCUED_CRITICAL", "when": { "var": "rec.minCoreC", "op": "<", "value": 33.5 }, "title": "重い低体温症で救助", "text": "二人は救助隊に見つけられたが、体温 {rec.minCoreC:1}℃ の重い低体温症で、病院へ運ばれた。" },
+    { "kind": "RESCUED_CRITICAL", "title": "重い状態で救助", "text": "二人は救助隊に見つけられたが、一人は雪の斜面で転んで大けがを負い、ヘリで病院へ運ばれた。" },
+    { "kind": "FATAL", "when": { "var": "rec.deathCount", "op": ">=", "value": 2 }, "title": "帰らぬ人に", "text": "三浦さんと大野さんは、厳冬期の雪の中で力尽き、亡くなっているのが見つかった。" },
     {
       "kind": "FATAL",
       "when": { "all": [{ "var": "c.ono.alive", "op": "==", "value": false }, { "var": "c.miura.state", "op": "==", "value": "RESCUED" }] },
@@ -954,19 +996,19 @@
     { "kind": "MISSING", "title": "まだ見つかっていない", "text": "翌日の夕方になっても、二人は見つかっていない。" }
   ],
   "lessons": [
-    { "id": "l_back", "when": { "var": "rec.wasLost", "op": "==", "value": true }, "title": "違和感があったら、進まずに戻る", "text": "「こんなに下ったっけ」と思ったときが戻りどき。雪山では、風と雪で自分の足跡がすぐ埋まる。踏み跡・赤布・地形・方角を確かめ、合わなければ足跡が残っているうちに引き返す。" },
+    { "id": "l_back", "when": { "var": "rec.wasLost", "op": "==", "value": true }, "title": "違和感があったら、進まずに戻る", "text": "「こんなに下ったっけ」と思ったときが戻りどき。雪山では足跡がすぐ埋まる。踏み跡・赤布・地形・方角が合わなければ、足跡が残るうちに引き返す。" },
     {
       "id": "l_okuniwa",
       "when": { "var": "rec.wasLost", "op": "==", "value": true },
       "title": "迷いやすい場所を知っておく",
-      "text": "天狗の奥庭のような岩と低い木の広い窪地は、見通しが悪いと方角を失いやすい。天気の悪い日は、トレースのはっきりした道（登った稜線の道）を戻るのも立派な判断。地図アプリ（GPS）があれば、外れたことにすぐ気づける。"
+      "text": "奥庭のような広い窪地は、見通しが悪いと方角を失いやすい。天気の悪い日は、トレースのある登った道を戻るのも立派な判断。地図アプリ（GPS）があれば、外れたことにすぐ気づける。"
     },
-    { "id": "l_valley", "when": { "flag": "stuck" }, "title": "雪の谷を下らない", "text": "谷の底は吹きだまりで雪が深く、まわりの斜面から雪崩も来る。下りなら進めそうに思えても、谷をさらに下ると戻れなくなる。谷は電波も入りにくい。" },
-    { "id": "l_bivouac", "when": { "flag": "nightOut" }, "title": "厳冬期のビバークに備える", "text": "1月の雪の中のビバークは、低体温症と凍傷との戦いになる。ツエルトで風を防ぎ、ザックを敷いて雪から体を離し、着込んで寄り添う。コンロとコッヘルがあれば雪を溶かして温かい飲み物が作れる。シュラフカバーも大きな助けになる。" },
-    { "id": "l_cocoheli", "when": { "flag": "nightOut" }, "title": "発信機は、登山計画とセットで", "text": "ココヘリのような発信機は、届け出（登山計画）と家族の通報があってはじめて捜索に使われる。見つけるまでが役割で、救助するのは警察や消防。天気が悪ければ救助は遅れる。一晩、二晩を自分で耐える装備と知識が要る。発信機は雪に埋めず、空に近い所に置く。" },
+    { "id": "l_valley", "when": { "flag": "stuck" }, "title": "雪の谷を下らない", "text": "谷の底は吹きだまりで雪が深く、雪崩も来る。下りなら進めそうでも、下るほど戻れなくなる。谷は電波も入りにくい。" },
+    { "id": "l_bivouac", "when": { "flag": "nightOut" }, "title": "厳冬期のビバークに備える", "text": "1月のビバークは低体温症と凍傷との戦い。ツエルトで風を防ぎ、ザックを敷いて雪から離れ、着込んで寄り添う。コンロがあれば雪を溶かして温かい飲み物が作れ、シュラフカバーも助けになる。" },
+    { "id": "l_cocoheli", "when": { "flag": "nightOut" }, "title": "発信機は、登山計画とセットで", "text": "発信機は、登山計画と家族の通報があってはじめて捜索に使われる。見つけるまでが役割で、天気が悪ければ救助は遅れる。一晩、二晩を耐える装備と知識が要る。発信機は雪に埋めず、空に近い所に置く。" },
     { "id": "l_signal", "when": { "var": "rec.wasLost", "op": "==", "value": true }, "title": "尾根では電波が入ることがある", "text": "谷はたいてい圏外。尾根やピークに上がると、携帯電話が通じることがある。" },
-    { "id": "l_leader", "title": "厳冬期は経験者と", "text": "雪山の経験が浅い人どうしで厳冬期の山に入らない。ラッセルやトレースのない雪の上を歩く技術と経験のある人と行動する。" },
-    { "id": "l_weather", "when": { "not": { "flag": "noSummit" } }, "title": "予報が悪い日は、計画を小さくする", "text": "雪と強風の予報の日は、登らない、登っても同じ道を戻る、など計画を小さくする。稜線の風と見通しの悪さは、昼に向けてさらに悪くなることが多い。" }
+    { "id": "l_leader", "title": "厳冬期は経験者と", "text": "雪山の経験が浅い人どうしで厳冬期の山に入らない。トレースのない雪の上を歩ける経験者と行く。" },
+    { "id": "l_weather", "when": { "not": { "flag": "noSummit" } }, "title": "予報が悪い日は、計画を小さくする", "text": "雪と強風の予報の日は、登らない・同じ道を戻るなど計画を小さくする。稜線の風と見通しは、昼に向けて悪くなることが多い。" }
   ],
   "balanceTargets": { "recommended": { "goodMin": 0.9, "fatalMax": 0.02 }, "bias": { "goodMax": 0.9, "rescuedMin": 0.08, "fatalMax": 0.08 }, "risky": { "goodMax": 0.5, "fatalMin": 0.03, "rescuedMin": 0.3 } },
   "sources": ["原案: 松本圭司「架空遭難　中高年2名、天狗岳の下りで道迷いから行動不能」note（2024年2月20日） https://note.com/keizi666/n/nff227f385b70", "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工", "登山道・地点: © OpenStreetMap contributors"]

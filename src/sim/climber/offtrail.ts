@@ -12,6 +12,8 @@ import { callRescue } from './actions';
 import { walkMet } from './movement';
 import { checkPosition as navCheck, pathToSignal, pathToTrail, rejoinTrail, trailAt, utilityStep } from './navigation';
 import { transition } from './state';
+import { footSnowCm } from '../weather/ground';
+import { dawnRef, enterShelter } from './route';
 import type { WalkResult } from './walk';
 import { crawlCapMs } from './movement';
 
@@ -24,7 +26,10 @@ export function offTrailSpeedMs(world: World, ctx: StaticContext, c: ClimberStat
   let darkF = 1;
   if (world.sun.isDark) darkF = c.inv.headlamp.on ? m.darkHeadlampF : m.darkNoLampBase + m.darkNoLampMoon * world.sun.moonIllum;
   const f = c.body.fatigue / 100;
-  const v = ((m.offTrailKmh / 3.6) * offTrailFactor(ctx.map, i, ctx.tuning) * darkF * c.M * (1 - m.fatigueSpeedK * f * f)) * c.plan.paceFactor;
+  // 道の外の雪: 深いとラッセル（膝・腰まで沈む）で大きく遅れる
+  const snow = footSnowCm(world, ctx, c);
+  const snowF = snow > m.offTrailDeepSnowCm ? m.offTrailDeepSnowF : snow > m.snowCm ? m.offTrailSnowF : 1;
+  const v = ((m.offTrailKmh / 3.6) * offTrailFactor(ctx.map, i, ctx.tuning) * darkF * snowF * c.M * (1 - m.fatigueSpeedK * f * f)) * c.plan.paceFactor;
   // 足を骨折したら這う（その場の斜面の傾斜で遅くなる）
   return Math.min(v, crawlCapMs(c, ctx.map.slopeDeg[i] ?? 0, ctx.tuning));
 }
@@ -113,6 +118,47 @@ function onPathDone(world: World, ctx: StaticContext, c: ClimberState): void {
   }
 }
 
+/** 道を外れて歩いていても、開いている小屋がこの距離（と見通し）の中に入れば気づく */
+const HUT_SEE_M = 150;
+const LOST_MOVING = new Set(['OFFROUTE_UNAWARE', 'LOST_AWARE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL', 'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL']);
+
+/** 見える所にある、開いている小屋（なければ null） */
+function hutInSight(ctx: StaticContext, c: ClimberState): string | null {
+  const r = Math.min(HUT_SEE_M, Math.max(30, c.local.visibilityM));
+  let best: string | null = null;
+  let bd = r * r;
+  for (const nd of Object.values(ctx.map.nodes)) {
+    if (!nd.shelter) continue;
+    const open = ctx.scenario.nodeOverrides?.[nd.id]?.open ?? nd.shelter.open;
+    if (!open) continue;
+    const d = (nd.x - c.x) * (nd.x - c.x) + (nd.z - c.z) * (nd.z - c.z);
+    if (d <= bd) (bd = d), (best = nd.id);
+  }
+  return best;
+}
+
+/**
+ * 迷っていても小屋が見えたら、小屋に入る（そこで助かる。ユーザーの指摘: 迷った先が小屋なら、その時点で助かっているはず）。
+ * 仲間はリーダーにそろう（party の follow）。そこからの道は、小屋を出るときに計画の道か下山口への道で決め直す。
+ */
+function goIntoHut(world: World, ctx: StaticContext, c: ClimberState, nodeId: string): boolean {
+  const nd = ctx.map.nodes[nodeId];
+  if (!nd) return false;
+  c.x = nd.x;
+  c.z = nd.z;
+  c.elevM = nd.elevM;
+  c.pos = { mode: 'node', nodeId };
+  c.nav.path = [];
+  c.perception.awareLost = false;
+  c.perception.knowsPosition = true;
+  c.plan.route = [nodeId];
+  c.plan.routeIndex = 1;
+  c.plan.goTo = null;
+  const solo = !world.climbers.some((o) => o !== c && o.body.alive && o.groupId === c.groupId && o.state !== 'FINISHED' && o.state !== 'RESCUED');
+  ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { hutFound: nodeId, solo } });
+  return enterShelter(world, ctx, c, nodeId, dawnRef(world, ctx));
+}
+
 /** 先頭 c を dtSec 秒、道外で進める（members は一緒に動く人） */
 export function stepFree(world: World, ctx: StaticContext, c: ClimberState, dtSec: number, members: readonly ClimberState[]): WalkResult {
   let t = dtSec;
@@ -157,6 +203,10 @@ export function stepFree(world: World, ctx: StaticContext, c: ClimberState, dtSe
     gradeTime += grade * dt;
     moved += d;
     t -= dt;
+    if (LOST_MOVING.has(c.state)) {
+      const hut = hutInSight(ctx, c);
+      if (hut && goIntoHut(world, ctx, c, hut)) break;
+    }
     if (d >= dist - EPS) {
       c.nav.path.shift();
       // 気づかずに歩いていて登山道に出たら、その道をたどる

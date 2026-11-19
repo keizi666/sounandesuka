@@ -16,7 +16,7 @@
   "moon": { "illumination": 0.3 },
   "region": { "name": "奥多摩・笙ノ岩山", "real": true },
   "briefing": {
-    "text": "高木さん（65歳）は登山歴8年。平日の火曜日、奥多摩の日原へ一人で出かけた。東日原バス停からヨコスズ尾根を登って一杯水避難小屋で昼食をとり、蕎麦粒山から鳥屋戸尾根（バリエーションルート）を下って川乗橋バス停へ出る計画。ツエルト・雨具・ヘッドランプ・救急セット・笛まで装備は十分にそろっている。ただし登山届は出しておらず、家族には「奥多摩に行く」とだけ伝えてある。天気は曇り、明日は雨の予報。",
+    "text": "登山歴8年の高木さん（65）が、平日に1人で奥多摩の日原へ。東日原からヨコスズ尾根を登り、一杯水避難小屋で昼食。蕎麦粒山から踏み跡の薄い鳥屋戸尾根を川乗橋へ下る計画。装備は十分だが、登山届は出さず、家族には「奥多摩に行く」とだけ。曇り、明日は雨の予報。",
     "forecast": [
       { "label": "今日", "text": "くもり。夕方から雲が低くなる", "icon": "cloudy" },
       { "label": "明日", "text": "雨（昼過ぎに強まる）", "icon": "rain" },
@@ -136,25 +136,25 @@
       "id": "ev_cloud",
       "trigger": { "after": "D0 15:00" },
       "once": true,
-      "effects": [{ "type": "log", "text": "雲が尾根まで下りてきた。木々の間を白いガスが流れ、尾根の先が見えなくなった", "important": true }]
+      "effects": [{ "type": "log", "text": "雲が尾根まで下りてきた。ガスが流れ、尾根の先が見えない", "important": true }]
     },
     {
       "id": "ev_overdue_unknown",
       "trigger": { "all": [{ "after": "D0 22:00" }, { "not": { "flag": "planShared" } }, { "not": { "state": "WAITING_RESCUE" } }, { "not": { "state": "FINISHED" } }] },
       "once": true,
-      "effects": [{ "type": "setFlag", "flag": "overdueReported" }, { "type": "log", "text": "夜10時。帰らない{leader.name}さんを心配した家族が警察に届け出た。家族が知っているのは「奥多摩に行く」ということだけだった", "important": true }]
+      "effects": [{ "type": "setFlag", "flag": "overdueReported" }, { "type": "log", "text": "夜10時。帰らない{leader.name}さんを心配し、家族が警察に届け出た。知っているのは「奥多摩に行く」だけ", "important": true }]
     },
     {
       "id": "ev_overdue_known",
       "trigger": { "all": [{ "after": "D0 22:00" }, { "flag": "planShared" }, { "not": { "state": "WAITING_RESCUE" } }, { "not": { "state": "FINISHED" } }] },
       "once": true,
-      "effects": [{ "type": "setFlag", "flag": "overdueReported" }, { "type": "log", "text": "夜10時。連絡のない{leader.name}さんについて、家族が受け取っていたコースを添えて警察に届け出た", "important": true }]
+      "effects": [{ "type": "setFlag", "flag": "overdueReported" }, { "type": "log", "text": "夜10時。家族が、受け取っていたコースを添えて警察に届け出た", "important": true }]
     },
     {
       "id": "ev_heli_far",
       "trigger": { "all": [{ "after": "D2 13:00" }, { "not": { "flag": "planShared" } }, { "not": { "flag": "wroteNotebook" } }, { "not": { "state": "WAITING_RESCUE" } }, { "var": "leader.alive", "op": "==", "value": true }, { "not": { "state": "FINISHED" } }, { "not": { "state": "RESCUED" } }] },
       "once": true,
-      "effects": [{ "type": "log", "text": "遠くでヘリコプターの音がした。音は長沢背稜の向こうへ遠ざかっていった" }]
+      "effects": [{ "type": "log", "text": "遠くでヘリの音がした。音は長沢背稜の向こうへ遠ざかった" }]
     }
   ],
   "choices": [
@@ -163,10 +163,10 @@
       "title": "東日原バス停",
       "priority": 20,
       "trigger": { "after": "D0 09:00" },
-      "situation": "東日原バス停。平日の朝のバスで降りたのは{leader.name}さん一人だけだった。空は一面の曇り。家族には「奥多摩に行く」とだけ言って家を出てきた。",
+      "situation": "東日原バス停。平日の朝、降りたのは{leader.name}さん1人。家族には「奥多摩に行く」とだけ言ってきた。このまま出発する？",
       "knowledge": [
-        "予定: ヨコスズ尾根で一杯水避難小屋へ。蕎麦粒山から鳥屋戸尾根を下り、川乗橋バス停へ（下山予定 16:30）",
-        "鳥屋戸尾根はバリエーションルート。踏み跡が薄く、道標は少ない",
+        "予定: 一杯水避難小屋 → 蕎麦粒山 → 鳥屋戸尾根 → 川乗橋（下山 16:30）",
+        "鳥屋戸尾根はバリエーションルート。踏み跡が薄く、道標が少ない",
         "登山届は出していない。スマホの電池は {leader.phone.batteryPct:0}%",
         "ツエルト・雨具・ヘッドランプ・救急セット・笛はザックの中"
       ],
@@ -180,8 +180,8 @@
         },
         {
           "id": "share",
-          "label": "家族にコースと下山予定を送り、登山届もスマホで出してから出発する",
-          "detail": "「東日原→一杯水→蕎麦粒山→鳥屋戸尾根→川乗橋。16時半下山。夜になっても連絡がなければ警察へ」",
+          "label": "コースを送ってから出発",
+          "detail": "家族にコースと下山予定を送り、登山届も出す。",
           "actions": [{ "type": "say", "text": "コースを送っておくか。念のためだ", "tone": "whisper" }, { "type": "continueRoute" }],
           "flags": ["planShared"],
           "tags": ["recommended"],
@@ -193,17 +193,17 @@
       "id": "cp_hut",
       "title": "一杯水避難小屋で昼食",
       "trigger": { "atNode": "IPPAI_HUT" },
-      "situation": "一杯水避難小屋に着いた。小屋には誰もいない。曇り空の下、遠くの山が霞んでいる。ザックには、よく冷やしてきたロング缶のビールが2本入っている。",
+      "situation": "誰もいない一杯水避難小屋に着いた。ザックには冷えたロング缶のビールが2本。昼食をどうする？",
       "knowledge": [
         "蕎麦粒山まで約1時間、そこから鳥屋戸尾根を川乗橋まで約3時間",
-        "日の入りは 17:43。森の中は 17 時を過ぎると暗くなる",
+        "日の入りは 17:43。森の中は 17 時過ぎに暗くなる",
         "予報では、夕方から雲が下がる"
       ],
       "options": [
         {
           "id": "beer",
-          "label": "ビールで乾杯し、湯を沸かしてゆっくり昼食にする（1時間半）",
-          "detail": "今日はこのために来たようなものだ。",
+          "label": "ビールでゆっくり昼食",
+          "detail": "湯を沸かして1時間半。このために来たようなものだ。",
           "actions": [
             { "type": "say", "text": "くうっ、うまい。山で飲むビールは格別だ", "tone": "whisper" },
             { "type": "drinkAlcohol", "grams": 40, "liters": 1.0 },
@@ -217,8 +217,8 @@
         },
         {
           "id": "quick",
-          "label": "30分で食べて出発する。ビールは下山してからにする",
-          "detail": "鳥屋戸尾根は初めての道。明るいうちに下りたい。",
+          "label": "30分で食べて出発",
+          "detail": "ビールは下山後。初めての尾根は明るいうちに。",
           "actions": [{ "type": "eat", "kcal": 500 }, { "type": "drink", "liters": 0.3 }, { "type": "rest", "minutes": 30 }],
           "tags": ["recommended"],
           "bias": { "base": 0.5 }
@@ -230,11 +230,11 @@
       "title": "小屋のノート",
       "priority": 5,
       "trigger": { "any": [{ "chose": { "cp": "cp_hut", "option": "beer" } }, { "chose": { "cp": "cp_hut", "option": "quick" } }] },
-      "situation": "小屋の棚に、訪れた人が書き込むノートが置いてある。ぱらぱらめくると、週末の書き込みがいくつか並んでいる。",
+      "situation": "棚に、訪れた人が書き込むノートがある。週末の書き込みが少し。書いていく？",
       "options": [
         {
           "id": "write",
-          "label": "日付・名前と、これからのコース（蕎麦粒山→鳥屋戸尾根→川乗橋）・下山予定を書き込む",
+          "label": "コースと下山予定を書く",
           "actions": [{ "type": "say", "text": "鳥屋戸尾根から川乗橋へ、16時半……と", "tone": "whisper" }],
           "flags": ["wroteNotebook"],
           "tags": ["recommended"],
@@ -243,7 +243,7 @@
         {
           "id": "skip",
           "label": "書かずにおく",
-          "detail": "日帰りだし、わざわざ書くほどでもない。",
+          "detail": "わざわざ書くほどでもない。",
           "actions": [{ "type": "narrate", "text": "ノートを棚に戻した" }],
           "bias": { "base": 0.8 }
         }
@@ -253,24 +253,24 @@
       "id": "cp_sobatsubu",
       "title": "蕎麦粒山",
       "trigger": { "atNode": "SOBATSUBU" },
-      "situation": "蕎麦粒山の山頂。雲が下がってきて、まわりの尾根の頭が隠れはじめた。ここから南へ鳥屋戸尾根を下る。予定より{leader.timeBehindMin:0}分遅れている。",
+      "situation": "蕎麦粒山の山頂。雲が下がり、まわりの尾根が隠れ始めた。予定より{leader.timeBehindMin:0}分遅れ。鳥屋戸尾根を下るか？",
       "knowledge": [
-        "鳥屋戸尾根は川乗橋まで約3時間。踏み跡が薄く、途中で尾根がいくつも分かれる",
-        "来た道を戻れば東日原まで約2時間半（よく歩かれた道）",
+        "鳥屋戸尾根は川乗橋まで約3時間。踏み跡が薄く、尾根がいくつも分かれる",
+        "来た道を東日原へ戻れば約2時間半（よく歩かれた道）",
         "日の入りは 17:43"
       ],
       "options": [
         {
           "id": "go",
-          "label": "予定どおり鳥屋戸尾根を下る",
+          "label": "鳥屋戸尾根を下る",
           "detail": "前から歩いてみたかった尾根だ。",
           "actions": [{ "type": "continueRoute" }],
           "bias": { "base": 1.0, "mods": [{ "when": { "var": "leader.bac", "op": ">", "value": 0.02 }, "add": 0.3 }] }
         },
         {
           "id": "careful",
-          "label": "鳥屋戸尾根を下る。尾根が分かれるところでは必ず止まって、地図とコンパスで向きを確かめる",
-          "detail": "先読み（読図）→ルート維持→現在地の確認、を繰り返す。",
+          "label": "分岐ごとに確かめて下る",
+          "detail": "尾根の分かれ目で必ず止まり、地図とコンパスを見る。",
           "actions": [{ "type": "continueRoute" }],
           "flags": ["carefulNav"],
           "tags": ["recommended"],
@@ -278,8 +278,8 @@
         },
         {
           "id": "back",
-          "label": "鳥屋戸尾根はやめて、来た道を東日原へ戻る",
-          "detail": "雲が下りてきた。踏み跡の薄い尾根を初めて歩くには遅い。",
+          "label": "来た道を東日原へ戻る",
+          "detail": "雲が下りてきた。初めての薄い尾根には遅い。",
           "actions": [
             { "type": "say", "text": "今日はやめておこう。また来ればいい", "tone": "whisper" },
             { "type": "setRoute", "route": ["SOBATSUBU", "SENGEN", "IPPAI_HUT", "TH_HIGASHINIPPARA"], "goalNodes": ["TH_HIGASHINIPPARA"] }
@@ -293,16 +293,16 @@
       "id": "cp_fork",
       "title": "笙ノ岩山の南の肩",
       "trigger": { "atNode": "SPUR_JCT" },
-      "situation": "笙ノ岩山から少し下ったところで、尾根が広くなった。落ち葉の上の踏み跡がはっきりしない。正面にはなだらかな尾根がまっすぐ延びていて、そちらの方が歩きやすそうに見える。見通しは{leader.local.visibilityM:0}m。",
+      "situation": "笙ノ岩山の下で尾根が広くなり、踏み跡がはっきりしない。正面のなだらかな尾根が歩きやすそうだ（見通し {leader.local.visibilityM:0}m）。どう進む？",
       "knowledge": [
-        "地図では、鳥屋戸尾根はこのあたりで南へ向きを変え、川乗橋へ下る",
-        "地図には、南西へまっすぐ下る尾根もある（登山道の線はない）",
-        "川乗橋まではまだ標高差 700 m ほど下る"
+        "地図では、鳥屋戸尾根はこのあたりで南へ向きを変える",
+        "南西へまっすぐ下る尾根もある（登山道の線はない）",
+        "川乗橋までは、まだ標高差 700 m ほど"
       ],
       "options": [
         {
           "id": "check",
-          "label": "立ち止まり、地図とコンパスで下る尾根の向きを確かめる",
+          "label": "止まって地図で確かめる",
           "detail": "数分かかる。",
           "actions": [{ "type": "say", "text": "待てよ。こっちで合ってるか", "tone": "whisper" }, { "type": "stopAndCheck" }, { "type": "continueRoute" }],
           "tags": ["recommended"],
@@ -316,8 +316,8 @@
         },
         {
           "id": "follow",
-          "label": "歩きやすそうな正面の踏み跡をそのまま下る",
-          "detail": "尾根の上を下っていけば、そのうち道に出るはずだ。",
+          "label": "正面の踏み跡を下る",
+          "detail": "尾根を下れば、そのうち道に出るはずだ。",
           "actions": [{ "type": "continueRoute" }],
           "tags": ["risky"],
           "bias": {
@@ -341,32 +341,32 @@
           { "any": [{ "state": "BIVOUAC" }, { "state": "STAYING" }] }
         ]
       },
-      "situation": "山の中で夜を明かした。けがはないが、ここがどこなのか分からない。森の中は湿った空気で、雨が近い。水は{leader.waterL:1}L、食べ物は{leader.foodKcal:0}kcal残っている。",
+      "situation": "山の中で夜を明かした。けがはないが、ここがどこか分からない。雨が近い。水{leader.waterL:1}L、食べ物{leader.foodKcal:0}kcal。どうする？",
       "knowledge": [
-        "昨日は尾根の上の道から、斜面を下ってきた",
+        "昨日は尾根の道から、斜面を下ってきた",
         "家族は昨夜のうちに届け出ているはず",
         "今日は昼過ぎから雨が強まる予報"
       ],
       "options": [
         {
           "id": "climb_back",
-          "label": "明るいうちに、下りてきた斜面を登り返して尾根の道に戻る",
-          "detail": "登りはきついが、尾根の道に戻れば現在地が分かる。",
+          "label": "斜面を登り返して道に戻る",
+          "detail": "きついが、尾根の道に戻れば現在地が分かる。",
           "actions": [{ "type": "say", "text": "来た方へ登り返そう。道は上にある", "tone": "whisper" }, { "type": "backtrack" }],
           "tags": ["recommended"],
           "bias": { "base": 0.7 }
         },
         {
           "id": "descend",
-          "label": "このまま斜面を下り、谷沿いに日原の集落を目指す",
-          "detail": "下れば川に出る。川沿いには道があるはずだ。",
+          "label": "谷を下って集落を目指す",
+          "detail": "下れば川に出る。川沿いに道があるはずだ。",
           "actions": [{ "type": "say", "text": "下へ行けば集落に出るはずだ", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.6 }
         },
         {
           "id": "stay",
-          "label": "動かずに待つ。明るいうちは笛を吹く",
+          "label": "動かずに待つ",
           "actions": [{ "type": "bivouac", "until": "rescue", "findLee": false }],
           "bias": { "base": 0.4 }
         }
@@ -382,7 +382,7 @@
           { "any": [{ "state": "BIVOUAC" }, { "state": "STAYING" }, { "state": "INCAPACITATED" }] }
         ]
       },
-      "situation": "山の中で朝を迎えた。一晩中、けが（{leader.injury}）の痛みでほとんど眠れなかった。空気が湿っていて、雨が近い。水は{leader.waterL:1}L、食べ物は{leader.foodKcal:0}kcal残っている。",
+      "situation": "山の中で朝を迎えた。けが（{leader.injury}）の痛みでほとんど眠れなかった。雨が近い。水{leader.waterL:1}L、食べ物{leader.foodKcal:0}kcal。どうする？",
       "knowledge": [
         "家族は昨夜のうちに届け出ているはず",
         "平日の山には、ほとんど人が通らない",
@@ -391,23 +391,23 @@
       "options": [
         {
           "id": "stay",
-          "label": "動かない。ツエルトの中で体力と水を温存し、ときどき笛を吹く",
-          "detail": "雨の日に、けがをした体で動くのは危ない。",
+          "label": "ツエルトで待つ",
+          "detail": "体力と水を残し、ときどき笛を吹く。",
           "actions": [{ "type": "say", "text": "動かない方がいい。体力を残そう", "tone": "whisper" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
           "bias": { "base": 0.8 }
         },
         {
           "id": "crawl_up",
-          "label": "這って斜面を登り返し、上の尾根の道を目指す",
-          "detail": "道に出れば、誰かが通るかもしれない。けがをした体で斜面を登ることになる。",
+          "label": "這って尾根の道へ登る",
+          "detail": "道に出れば誰か通るかもしれない。けがの体で登る。",
           "actions": [{ "type": "say", "text": "上に戻ろう。少しずつでいい", "tone": "whisper" }, { "type": "backtrack" }],
           "bias": { "base": 0.4 }
         },
         {
           "id": "slide",
-          "label": "尻をついて斜面を下る。下に林道があるかもしれない",
-          "detail": "どうせ待っても来ないのなら、動いてみる。",
+          "label": "斜面を滑り下りる",
+          "detail": "下に林道があるかもしれない。",
           "actions": [{ "type": "say", "text": "下に道があるはずだ", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.4, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.5 }, "add": 0.4 }] }
@@ -424,7 +424,7 @@
           { "any": [{ "state": "BIVOUAC" }, { "state": "STAYING" }, { "state": "INCAPACITATED" }] }
         ]
       },
-      "situation": "雨が上がり、木々の間から薄日が差してきた。服もザックも湿っている。水は{leader.waterL:1}L、食べ物は{leader.foodKcal:0}kcal。体温は{leader.coreC:1}℃くらいだろうか。",
+      "situation": "雨が上がり、薄日が差してきた。服もザックも湿っている。水{leader.waterL:1}L、食べ物{leader.foodKcal:0}kcal、体温{leader.coreC:1}℃。どうする？",
       "knowledge": [
         "誰の声も、足音も聞こえない",
         "葉が茂っていて、上空からは森の中が見えにくい",
@@ -433,20 +433,20 @@
       "options": [
         {
           "id": "stay",
-          "label": "このまま待つ。濡れたものを乾かし、明るいうちは笛を吹き続ける",
+          "label": "乾かして待つ",
           "actions": [{ "type": "say", "text": "あきらめない。誰か来る", "tone": "whisper" }, { "type": "changeDry" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
           "bias": { "base": 0.7 }
         },
         {
           "id": "crawl_up",
-          "label": "晴れているうちに、這って上の尾根を目指す",
+          "label": "這って尾根へ登る",
           "actions": [{ "type": "backtrack" }],
           "bias": { "base": 0.4 }
         },
         {
           "id": "slide",
-          "label": "斜面を下る。どうせ待っても見つからないなら、運に賭ける",
+          "label": "斜面を下る",
           "actions": [{ "type": "say", "text": "このままここで終わるくらいなら……", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.5 }
@@ -456,15 +456,15 @@
   ],
   "genericOverrides": {
     "lostAware": {
-      "situation": "おかしい。尾根を下っているはずが、踏み跡が消え、斜面が急になってきた。鳥屋戸尾根から外れたかもしれない。"
+      "situation": "踏み跡が消え、斜面が急になってきた。鳥屋戸尾根から外れたかもしれない。どうする？"
     },
     "injured": {
-      "situation": "足を滑らせ、斜面を転げ落ちた。何とか止まったが、体を強く打った（{leader.injury}）。思うように動けない。",
+      "situation": "斜面を転げ落ち、体を強く打った（{leader.injury}）。思うように動けない。どうする？",
       "knowledge": ["スマホ: {leader.phone.batteryPct:0}%（手元にあれば）", "水 {leader.waterL:1}L・食べ物 {leader.foodKcal:0}kcal", "ツエルト・救急セット・笛はザックの中"],
       "options": [
         {
           "id": "call",
-          "label": "スマホで110番する",
+          "label": "スマホで110番",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.radio", "op": ">=", "value": 0.15 }] },
           "unavailableText": "電波が届いていない",
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "say", "text": "山で滑落して、けがをしました。動けません", "tone": "normal" }, { "type": "waitRescue" }],
@@ -473,7 +473,7 @@
         },
         {
           "id": "seek_signal",
-          "label": "電波の入りそうな尾根の上まで這い上がり、通報する",
+          "label": "這い上がって電波を探す",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.injury", "op": "!=", "value": "severeTrauma" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "seekSignal" }],
@@ -481,8 +481,8 @@
         },
         {
           "id": "bivouac",
-          "label": "足首を固定し、ツエルトを張って、ここで助けを待つ",
-          "detail": "ストックとテーピングで副木にする。斜面だが、少しでも平らな場所を探す。",
+          "label": "ツエルトを張って待つ",
+          "detail": "足首を固定し、少しでも平らな所に張る。",
           "actions": [
             { "type": "narrate", "text": "ストックとテーピングで足首を固定し、木の根元にツエルトを張った" },
             { "type": "addLayer" },
@@ -499,7 +499,7 @@
           "hideIfUnavailable": true,
           "detail": "落ちたのはこのあたりのはずだ。",
           "actions": [
-            { "type": "narrate", "text": "落ち葉の斜面を這い回ってスマホを探した。どこに飛んだのか、見当もつかない。あきらめてツエルトを張った" },
+            { "type": "narrate", "text": "落ち葉の斜面を這ってスマホを探したが、見つからない。あきらめてツエルトを張った" },
             { "type": "addLayer" },
             { "type": "bivouac", "until": "rescue", "findLee": false }
           ],
@@ -508,8 +508,8 @@
         },
         {
           "id": "crawl_up",
-          "label": "這って斜面を登り返し、上の尾根の道に戻る",
-          "detail": "けがをした体で、落ちてきた斜面を登ることになる。",
+          "label": "這って尾根の道へ戻る",
+          "detail": "けがの体で、落ちた斜面を登る。",
           "available": { "var": "leader.injury", "op": "!=", "value": "severeTrauma" },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "上に戻れば道がある", "tone": "whisper" }, { "type": "backtrack" }],
@@ -517,8 +517,8 @@
         },
         {
           "id": "slide",
-          "label": "尻をついて、このまま斜面を下る。下に道があるはずだ",
-          "detail": "どこに出るかは分からない。",
+          "label": "斜面を滑り下りる",
+          "detail": "下に道があるはず。どこに出るかは分からない。",
           "available": { "var": "leader.injury", "op": "!=", "value": "severeTrauma" },
           "hideIfUnavailable": true,
           "actions": [{ "type": "descendDrainage" }],
@@ -528,10 +528,10 @@
       ]
     },
     "darkness": {
-      "situation": "森の中が暗くなってきた。足元の踏み跡が見分けにくい。ヘッドランプはザックの中。",
+      "situation": "森の中が暗くなり、踏み跡が見分けにくい。ヘッドランプはザックの中。どうする？",
       "options": [
         { "id": "continue", "label": "ヘッドランプをつけて進む", "available": { "var": "leader.state", "op": "==", "value": "WALKING" }, "hideIfUnavailable": true, "actions": [{ "type": "continueRoute" }], "bias": { "base": 1.0, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.5 }, "add": 0.4 }] } },
-        { "id": "continue_off", "label": "ヘッドランプをつけて、斜面を進み続ける", "detail": "登山道の上ではない。", "available": { "not": { "var": "leader.state", "op": "==", "value": "WALKING" } }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.8 }], "tags": ["risky"], "bias": { "base": 1.0 } },
+        { "id": "continue_off", "label": "ライトをつけて斜面を進む", "detail": "登山道の上ではない。", "available": { "not": { "var": "leader.state", "op": "==", "value": "WALKING" } }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.8 }], "tags": ["risky"], "bias": { "base": 1.0 } },
         { "id": "bivouac", "label": "その場でビバークする", "actions": [{ "type": "bivouac", "until": "dawn", "findLee": true }], "tags": ["recommended"], "bias": { "base": 0.4 } },
         { "id": "toShelter", "label": "近くの小屋を目指す", "available": { "all": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.nearestShelterM", "op": "<=", "value": 2000 }] }, "hideIfUnavailable": true, "actions": [{ "type": "goToNode", "node": "$nearestShelter", "then": "stay" }], "bias": { "base": 0.6 } }
       ]
@@ -545,7 +545,7 @@
     { "key": "s05_off", "when": { "state": "OFFROUTE_UNAWARE" }, "lines": ["急に下りがきつくなった", "道は合ってるはずだ。地図はあとで見ればいい"], "priority": 7 },
     { "key": "s05_family", "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "before": "D0 23:30" }, { "state": "BIVOUAC" }, { "not": { "flag": "planShared" } }, { "not": { "flag": "wroteNotebook" } }] }, "lines": ["家族には「奥多摩」としか言っていない", "どこを探せばいいか、誰にも分からない"], "priority": 8 },
     { "key": "s05_note", "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "before": "D0 23:30" }, { "state": "BIVOUAC" }, { "not": { "flag": "planShared" } }, { "flag": "wroteNotebook" }] }, "lines": ["小屋のノートにはコースを書いた。誰か見てくれるだろうか", "家族には「奥多摩」としか言っていない"], "priority": 8 },
-    { "key": "s05_rain", "when": { "all": [{ "var": "leader.local.precipMmH", "op": ">", "value": 2 }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }] }, "lines": ["ツエルトを打つ雨の音しかしない", "水はとっておかないと。雨水をためよう"], "priority": 6 }
+    { "key": "s05_rain", "when": { "all": [{ "var": "leader.local.precipMmH", "op": ">", "value": 2 }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }] }, "lines": ["葉を打つ雨の音しかしない", "水はとっておかないと。雨水をためよう"], "priority": 6 }
   ],
   "speech": [
     { "key": "s05_fall", "who": "leader", "when": { "any": [{ "var": "leader.injury", "op": "==", "value": "legFracture" }, { "var": "leader.injury", "op": "==", "value": "sprain" }] }, "lines": ["うっ……足が……", "くそっ、動かない"], "tone": "whisper", "priority": 30, "once": true },
@@ -555,37 +555,37 @@
     { "key": "s05_crawl", "who": "leader", "when": { "all": [{ "var": "leader.injury", "op": "!=", "value": "none" }, { "any": [{ "state": "BACKTRACKING" }, { "state": "DESCENDING_DRAINAGE" }] }] }, "lines": ["あと少し……あと少しだ", "手が泥だらけだ。それでも進むしかない"], "tone": "whisper", "priority": 10, "cooldownMin": 150 }
   ],
   "endings": [
-    { "kind": "SAFE_RETURN", "when": { "all": [{ "beenAt": "TH_KAWANORI" }, { "var": "rec.wasLost", "op": "==", "value": true }] }, "title": "引き返して、川乗橋へ", "text": "{leader.name}さんは一度、鳥屋戸尾根から外れて踏み跡のない斜面に入り込んだ。道に戻り、川乗橋のバス停に下りた。気づくのが遅れていれば、急な斜面の先で行き詰まっていたかもしれない。" },
-    { "kind": "SAFE_RETURN", "when": { "beenAt": "TH_KAWANORI" }, "title": "川乗橋に下りた", "text": "{leader.name}さんは鳥屋戸尾根を下りきり、川乗橋のバス停に出た。踏み跡の薄い尾根を、最後まで外さずに歩いた。" },
-    { "kind": "SAFE_RETURN", "when": { "chose": { "cp": "cp_sobatsubu", "option": "back" } }, "title": "来た道を戻った", "text": "{leader.name}さんは東日原のバス停に戻った。鳥屋戸尾根は、また天気のいい日に歩けばいい。" },
-    { "kind": "SAFE_RETURN", "title": "東日原に下りた", "text": "{leader.name}さんは東日原のバス停に下りた。予定のコースではなかったが、無事に帰れた。" },
-    { "kind": "SELF_RESCUE", "when": { "all": [{ "var": "leader.injury", "op": "!=", "value": "none" }, { "flag": "descendedDrainage" }] }, "title": "自力で道に出た", "text": "{leader.name}さんは、けがをした体で斜面を下り、自力で道に出た。運がよかった。尾根の下に道がなければ、沢か崖で行き詰まっていたかもしれない。" },
-    { "kind": "SELF_RESCUE", "when": { "var": "leader.injury", "op": "!=", "value": "none" }, "title": "自力で下山", "text": "{leader.name}さんは、けがをした体で山の中で夜を越し、自力で下山した。家族は前の晩に警察に届け出ていた。" },
-    { "kind": "SELF_RESCUE", "when": { "var": "rec.wasLost", "op": "==", "value": true }, "title": "一晩の末に", "text": "{leader.name}さんは道に迷い、ツエルトで一晩を過ごした。朝になって、自力で下山した。家族は前の晩に警察に届け出ていた。" },
-    { "kind": "SELF_RESCUE", "title": "一晩の末に", "text": "{leader.name}さんは暗くなって動けなくなり、ツエルトで一晩を過ごした。朝になって、自力で下山した。家族は前の晩に警察に届け出ていた。" },
-    { "kind": "RESCUED", "when": { "var": "rec.rescueCalledAt", "op": "<", "value": 1320 }, "title": "自分で通報して", "text": "{leader.name}さんは自分で 110 番し、スマホの位置情報で場所が伝わった。{leader.name}さんは救助隊に収容された。" },
-    { "kind": "RESCUED", "when": { "flag": "planShared" }, "title": "救助", "text": "家族に送っておいたコースが手がかりになり、捜索は最初からそのコースに沿って行われた。{leader.name}さんは救助隊に発見された。" },
-    { "kind": "RESCUED", "when": { "flag": "lead:notebook" }, "title": "小屋のノートが手がかりに", "text": "バスのカメラの映像と、一杯水避難小屋のノートの書き込みが手がかりになった。{leader.name}さんは救助隊に発見された。" },
-    { "kind": "RESCUED", "when": { "flag": "lead:bus" }, "title": "バスのカメラが手がかりに", "text": "バスの車内カメラの映像から東日原で降りたことが分かり、日原から登る尾根の捜索で、{leader.name}さんは救助隊に発見された。" },
-    { "kind": "RESCUED", "title": "救助", "text": "{leader.name}さんは救助隊に発見された。手がかりの少ない中での発見だった。" },
-    { "kind": "RESCUED_CRITICAL", "title": "衰弱した状態で救助", "text": "{leader.name}さんは衰弱した状態で発見され、病院へ運ばれた。" },
-    { "kind": "MISSING", "when": { "var": "rec.rescueCalledAt", "op": "<", "value": 1320 }, "title": "まだ収容されていない", "text": "4日目の夕方になっても、救助隊は{leader.name}さんのところへたどり着けていない。通報で伝わった場所から、動いてしまったのかもしれない。" },
-    { "kind": "MISSING", "when": { "any": [{ "flag": "planShared" }, { "flag": "lead:notebook" }] }, "title": "まだ見つかっていない", "text": "4日目の夕方になっても、{leader.name}さんは見つかっていない。捜索はコースの周りに絞られているが、葉の茂った森の中は、上空からはほとんど見えない。" },
-    { "kind": "MISSING", "title": "まだ見つかっていない", "text": "4日目の夕方になっても、{leader.name}さんは見つかっていない。捜索は続いているが、どの尾根に入ったのかが分からない。葉の茂った森の中は、上空からはほとんど見えない。" },
-    { "kind": "FATAL", "when": { "before": "D0 22:00" }, "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。家族が帰りを心配しはじめるより前のことだった。" },
-    { "kind": "FATAL", "when": { "var": "rec.rescueCalledAt", "op": "<", "value": 1320 }, "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。通報はできたが、救助隊が着くまで持ちこたえられなかった。" },
-    { "kind": "FATAL", "when": { "flag": "planShared" }, "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。家族はコースを知っていて、捜索はすぐにそのコースに沿って始まったが、間に合わなかった。" },
-    { "kind": "FATAL", "when": { "flag": "lead:notebook" }, "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。小屋のノートの書き込みで、捜索は鳥屋戸尾根に移ったが、間に合わなかった。" },
-    { "kind": "FATAL", "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。家族が知っていたのは「奥多摩に行く」という一言だけだった。" }
+    { "kind": "SAFE_RETURN", "when": { "all": [{ "beenAt": "TH_KAWANORI" }, { "var": "rec.wasLost", "op": "==", "value": true }] }, "title": "引き返して、川乗橋へ", "text": "一度、鳥屋戸尾根から外れて斜面に入り込んだが、道に戻って川乗橋に下りた。気づくのが遅ければ、急斜面で行き詰まっていたかもしれない。" },
+    { "kind": "SAFE_RETURN", "when": { "beenAt": "TH_KAWANORI" }, "title": "川乗橋に下りた", "text": "踏み跡の薄い鳥屋戸尾根を外さずに歩き、川乗橋に下りた。" },
+    { "kind": "SAFE_RETURN", "when": { "chose": { "cp": "cp_sobatsubu", "option": "back" } }, "title": "来た道を戻った", "text": "東日原のバス停に戻った。鳥屋戸尾根は、また晴れた日に歩けばいい。" },
+    { "kind": "SAFE_RETURN", "title": "東日原に下りた", "text": "予定のコースではなかったが、東日原に無事下りた。" },
+    { "kind": "SELF_RESCUE", "when": { "all": [{ "var": "leader.injury", "op": "!=", "value": "none" }, { "flag": "descendedDrainage" }] }, "title": "自力で道に出た", "text": "けがの体で斜面を下り、自力で道に出た。運がよかった。下に道がなければ、沢か崖で行き詰まっていたかもしれない。" },
+    { "kind": "SELF_RESCUE", "when": { "var": "leader.injury", "op": "!=", "value": "none" }, "title": "自力で下山", "text": "けがの体で山の中の夜を越し、自力で下山した。家族は前の晩に届け出ていた。" },
+    { "kind": "SELF_RESCUE", "when": { "var": "rec.wasLost", "op": "==", "value": true }, "title": "一晩の末に", "text": "道に迷ってツエルトで一晩過ごし、朝に自力で下山した。家族は前の晩に届け出ていた。" },
+    { "kind": "SELF_RESCUE", "title": "一晩の末に", "text": "暗くなって動けず、ツエルトで一晩過ごし、朝に自力で下山した。家族は前の晩に届け出ていた。" },
+    { "kind": "RESCUED", "when": { "var": "rec.rescueCalledAt", "op": "<", "value": 1320 }, "title": "自分で通報して", "text": "自分で110番し、スマホの位置情報で場所が伝わった。救助隊に収容された。" },
+    { "kind": "RESCUED", "when": { "flag": "planShared" }, "title": "救助", "text": "家族に送ったコースが手がかりになり、捜索は最初からそのコースに沿って行われた。救助隊に発見された。" },
+    { "kind": "RESCUED", "when": { "flag": "lead:notebook" }, "title": "小屋のノートが手がかりに", "text": "バスのカメラの映像と、小屋のノートの書き込みが手がかりになり、救助隊に発見された。" },
+    { "kind": "RESCUED", "when": { "flag": "lead:bus" }, "title": "バスのカメラが手がかりに", "text": "バスのカメラで東日原で降りたことが分かり、日原から登る尾根の捜索で発見された。" },
+    { "kind": "RESCUED", "title": "救助", "text": "手がかりの少ない中、救助隊に発見された。" },
+    { "kind": "RESCUED_CRITICAL", "title": "衰弱した状態で救助", "text": "衰弱した状態で発見され、病院へ運ばれた。" },
+    { "kind": "MISSING", "when": { "var": "rec.rescueCalledAt", "op": "<", "value": 1320 }, "title": "まだ収容されていない", "text": "4日目の夕方になっても、救助隊はたどり着けていない。通報の場所から動いてしまったのかもしれない。" },
+    { "kind": "MISSING", "when": { "any": [{ "flag": "planShared" }, { "flag": "lead:notebook" }] }, "title": "まだ見つかっていない", "text": "4日目の夕方になっても見つかっていない。捜索はコースの周りに絞られているが、茂った森の中は上空からほとんど見えない。" },
+    { "kind": "MISSING", "title": "まだ見つかっていない", "text": "4日目の夕方になっても見つかっていない。どの尾根に入ったのか分からず、茂った森の中は上空からほとんど見えない。" },
+    { "kind": "FATAL", "when": { "before": "D0 22:00" }, "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。家族が心配し始めるより前のことだった。" },
+    { "kind": "FATAL", "when": { "var": "rec.rescueCalledAt", "op": "<", "value": 1320 }, "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。通報はできたが、救助隊が着くまで持たなかった。" },
+    { "kind": "FATAL", "when": { "flag": "planShared" }, "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。捜索はすぐコースに沿って始まったが、間に合わなかった。" },
+    { "kind": "FATAL", "when": { "flag": "lead:notebook" }, "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。ノートの書き込みで捜索は鳥屋戸尾根に移ったが、間に合わなかった。" },
+    { "kind": "FATAL", "title": "帰らぬ人に", "text": "{leader.name}さんは山から戻らなかった。家族が知っていたのは「奥多摩に行く」の一言だけだった。" }
   ],
   "lessons": [
-    { "id": "l_plan", "when": { "not": { "flag": "planShared" } }, "title": "「奥多摩に行く」では探せない", "text": "家族が知っていたのは「奥多摩」だけだった。バスのカメラで降りたバス停が分かっても、そこから登れる尾根はいくつもある。登山計画を出し、家族には山の名前とコースを文字（LINE など）で伝えておく。位置情報を共有するアプリや、捜索用の発信機（会員制の捜索サービス）も手がかりになる。" },
-    { "id": "l_note", "when": { "flag": "lead:notebook" }, "title": "小屋のノートは手がかりになる", "text": "避難小屋のノートに残したコースが、捜索の範囲を絞る手がかりになった。ただし、ノートが見つかるのは捜索隊が小屋まで来てからで、それまでに時間がかかる。" },
-    { "id": "l_beer", "when": { "chose": { "cp": "cp_hut", "option": "beer" } }, "title": "行動中の飲酒と長い昼食", "text": "ビールは判断と足元を鈍らせ、1時間半の昼食で、雲の下がる時間帯に踏み跡の薄い尾根を歩くことになった。山で飲みたいなら泊まりの山行にする。" },
-    { "id": "l_nav", "when": { "chose": { "cp": "cp_fork", "option": "follow" } }, "title": "道をよく見て、尾根の分かれ目では止まる", "text": "歩きやすそうな方へ進むと、尾根はたいてい登山道ではない方へ分かれていく。踏み跡のわずかな凹みや地面の固さを意識し、「先読み（読図）→ルート維持→現在地の確認」を回す。尾根が広くなったところ、向きが変わるところでは必ず止まる。" },
-    { "id": "l_phone", "when": { "var": "leader.phone.has", "op": "==", "value": false }, "title": "スマホは命綱。ストラップで留める", "text": "転んだ拍子にスマホがなくなり、通報の手段を失った。落ち葉の積もった斜面で、飛んだスマホを見つけるのはほぼ無理。ケースとストラップで体に留めておく。" },
-    { "id": "l_solo", "when": { "var": "leader.injury", "op": "!=", "value": "none" }, "title": "単独行は、小さなけがが命取りになる", "text": "単独で動けなくなると、知らせる人も、助けを呼びに行く人もいない。単独の遭難は、パーティより死亡の割合がずっと高い。単独で歩くなら、小さなけがやミスもしない慎重さと、計画の共有が欠かせない。" },
-    { "id": "l_stay", "when": { "any": [{ "chose": { "cp": "cp_day2", "option": "slide" } }, { "chose": { "cp": "cp_day3", "option": "slide" } }, { "chose": { "cp": "generic:injured", "option": "slide" } }] }, "title": "下ればどこかに出る、とは限らない", "text": "尾根の末端は、たいてい沢か崖で終わる。どこにいるか分からないまま下るのは賭けになる。下った先に道があるかどうかは、運しだいだ。" }
+    { "id": "l_plan", "when": { "not": { "flag": "planShared" } }, "title": "「奥多摩に行く」では探せない", "text": "降りたバス停が分かっても、そこから登れる尾根はいくつもある。登山計画を出し、家族には山とコースを文字で伝える。位置を共有するアプリや捜索用の発信機も手がかりになる。" },
+    { "id": "l_note", "when": { "flag": "lead:notebook" }, "title": "小屋のノートは手がかりになる", "text": "ノートに残したコースが、捜索の範囲を絞った。ただし見つかるのは捜索隊が小屋に来てからで、時間がかかる。" },
+    { "id": "l_beer", "when": { "chose": { "cp": "cp_hut", "option": "beer" } }, "title": "行動中の飲酒と長い昼食", "text": "ビールは判断と足元を鈍らせる。1時間半の昼食で、雲の下がる時間に薄い尾根を歩くことになった。飲むなら泊まりの山で。" },
+    { "id": "l_nav", "when": { "chose": { "cp": "cp_fork", "option": "follow" } }, "title": "道をよく見て、尾根の分かれ目では止まる", "text": "歩きやすい方の尾根は、たいてい道から外れていく。踏み跡の凹みや地面の固さを見て「読図→ルート維持→現在地の確認」を回す。尾根が広がる所・曲がる所では必ず止まる。" },
+    { "id": "l_phone", "when": { "var": "leader.phone.has", "op": "==", "value": false }, "title": "スマホは命綱。ストラップで留める", "text": "転んだ拍子にスマホをなくし、通報できなくなった。落ち葉の斜面で探すのはほぼ無理。ストラップで体に留める。" },
+    { "id": "l_solo", "when": { "var": "leader.injury", "op": "!=", "value": "none" }, "title": "単独行は、小さなけがが命取りになる", "text": "単独で動けなくなると、助けを呼ぶ人がいない。単独の遭難は死亡の割合がずっと高い。慎重さと計画の共有が欠かせない。" },
+    { "id": "l_stay", "when": { "any": [{ "chose": { "cp": "cp_day2", "option": "slide" } }, { "chose": { "cp": "cp_day3", "option": "slide" } }, { "chose": { "cp": "generic:injured", "option": "slide" } }] }, "title": "下ればどこかに出る、とは限らない", "text": "尾根の末端は、たいてい沢か崖で終わる。現在地が分からないまま下るのは賭けだ。" }
   ],
   "balanceTargets": {
     "recommended": { "goodMin": 0.9, "fatalMax": 0.02 },

@@ -94,6 +94,8 @@ export function buildGroundMasks(map: MapRuntime): GroundMasks {
     const y1 = j >= 0 ? Math.floor(j / n) * cellPx : y0;
     segs.push({ x0, y0, x1, y1, wPx: wM * pxPerM });
   }
+  // 沢登りの区間（道が沢床そのもの）: 道の線に沿って、水量の多い沢として太く描く（ユーザーの指定）
+  const beds = Object.values(map.trails).filter((t) => (t.def.streamBedM ?? 0) > 0);
   // 外側のぼかし 2 回と芯 1 回
   for (const [scale, minPx, color] of [[2.4, 1.6, 'rgb(0,40,0)'], [1.6, 1.2, 'rgb(0,48,0)'], [1, 0.8, 'rgb(0,125,0)']] as const) {
     g.strokeStyle = color;
@@ -104,6 +106,12 @@ export function buildGroundMasks(map: MapRuntime): GroundMasks {
       g.lineTo(sg.x1 + (sg.x1 === sg.x0 && sg.y1 === sg.y0 ? 0.01 : 0), sg.y1);
       g.stroke();
     }
+    for (const t of beds) {
+      g.lineWidth = Math.max(minPx, (t.def.streamBedM ?? 0) * pxPerM * scale);
+      g.beginPath();
+      t.samples.forEach((p, i) => (i === 0 ? g.moveTo(px(p.x), px(p.z)) : g.lineTo(px(p.x), px(p.z))));
+      g.stroke();
+    }
   }
   // 登山道: 幅を変えて重ね描きし、縁をぼかす（偽の道は描かない）
   const steps = 6;
@@ -112,7 +120,8 @@ export function buildGroundMasks(map: MapRuntime): GroundMasks {
     g.strokeStyle = `rgb(${k === steps - 1 ? 90 : 33},0,0)`;
     g.lineWidth = Math.max(1.5, w * pxPerM);
     for (const t of Object.values(map.trails)) {
-      if (t.def.kind === 'false') continue;
+      // 偽の道と、沢登りの区間（沢床を歩く。土の道にはしない）は描かない
+      if (t.def.kind === 'false' || (t.def.streamBedM ?? 0) > 0) continue;
       g.beginPath();
       t.samples.forEach((p, i) => (i === 0 ? g.moveTo(px(p.x), px(p.z)) : g.lineTo(px(p.x), px(p.z))));
       g.stroke();

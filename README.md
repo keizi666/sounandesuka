@@ -1,4 +1,4 @@
-# 遭難ですゲーム（仕様パッケージ）
+# 遭難ですか？（仕様パッケージ）
 
 山岳遭難の推移を 3D のジオラマで観察する Web アプリと、そのシナリオを作るシナリオエディターの仕様と詳細設計です。
 舞台は架空の山「箱庭岳」と、エディターで国土地理院の標高・OpenStreetMap の登山道から作る実在の山のエリアです。
@@ -46,3 +46,11 @@
 | `s02_fog_descent` | 霧の下山路（6月・2人） | 遅れ・霧・廃道への道迷い・沢下り |
 | `s03_thunder_ridge` | 稜線の雷雲（8月・3人） | 積乱雲・稜線での落雷 |
 | `historical/s04_tomuraushi_2009` | トムラウシ 2009年7月16日（19人） | 史実の再構成。強風・濡れ・低体温症・パーティ分割。実地形はエディターで結合（P19） |
+
+## ライセンス
+
+- ソースコードと作者のオリジナルの内容は [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/) です。**非商用に限って**自由に使えます。
+- **商用利用は許可制**です。販売・有料のサービスや製品・研修・広告などで使うときは、作者の許可（商用ライセンス）が必要です。[Issue](https://github.com/keizi666/sounandesuka/issues) でお問い合わせください。
+- 非商用の制限があるため、OSI の定義する「オープンソース」ではなく、ソースを公開した非商用ライセンスです。
+- 星の表（HYG、CC BY-SA 4.0）・月の画像（Solar System Scope、CC BY 4.0）・アイコン（Material Symbols、Apache 2.0）・npm の依存などの外部の素材は、それぞれのライセンスのままです。詳しくは [LICENSE](LICENSE) と `public/sky/CREDITS.md`・`public/audio/CREDITS.md`。
+- 地理院タイル・OpenStreetMap から作る実在の山の地形データは、このリポジトリに含めていません（`tools/` で手元で作ります）。

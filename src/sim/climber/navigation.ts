@@ -9,7 +9,7 @@ import { findPath, trailCells } from '../terrain/pathing';
 import { isInside, nearestIndex, sampleElev, vertexX, vertexZ } from '../terrain/sample';
 import { pointOnTrail, shortestPath, type RouteLeg } from '../terrain/trails';
 import { VegClass, type ClimberState, type EdgeId, type NodeId, type StaticContext, type World } from '../types';
-import { groundAt } from '../weather/ground';
+import { footSnowCm } from '../weather/ground';
 import { goToNode, setRoute } from './route';
 import { transition } from './state';
 
@@ -24,7 +24,7 @@ export function cueOf(world: World, ctx: StaticContext, c: ClimberState): number
   const n = ctx.tuning.nav;
   const visCue = Math.min(1, Math.max(0, 1 - c.local.visibilityM / n.visCueM));
   const darkCue = world.sun.isDark ? (c.inv.headlamp.on ? n.darkCueLamp : n.darkCueNoLamp) : world.sun.twilight ? n.twilightCue : 0;
-  const snow = groundAt(world.ground, c.elevM).snowCm;
+  const snow = footSnowCm(world, ctx, c);
   const snowCue = snow > n.snowCueDeepCm ? n.snowCueDeep : snow > n.snowCueCm ? n.snowCue : 0;
   return Math.max(visCue, darkCue, snowCue);
 }

@@ -1,0 +1,6 @@
+{
+  "host": "example.sakura.ne.jp",
+  "user": "example",
+  "remoteDir": "/home/example/www/example/sounandesuka",
+  "base": "/sounandesuka/"
+}

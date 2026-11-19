@@ -8,4 +8,6 @@ export interface Panel {
   render(ed: Ed): void;
   /** 地図の道具（なければパンだけ） */
   tool?(ed: Ed): MapTool | null;
+  /** キー操作（true を返すと、そのキーはここで使った） */
+  key?(ed: Ed, e: KeyboardEvent): boolean;
 }

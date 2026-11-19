@@ -116,8 +116,31 @@ export class EditorApp implements Ed {
     this.preview?.dispose();
   }
 
+  private paletteEl: HTMLElement | null = null;
+  private paletteKeys = new Map<string, () => void>();
+  setToolPalette(p: HTMLElement | null, keys: Map<string, () => void> = new Map()): void {
+    this.paletteEl?.remove();
+    this.paletteEl = p;
+    this.paletteKeys = keys;
+    if (p) this.center.append(p);
+  }
+
   private onKey = (e: KeyboardEvent): void => {
     if ((e.target as HTMLElement).closest('input,textarea,select')) return;
+    // 道具のショートカット（修飾キーなしの 1 文字）
+    if (!e.ctrlKey && !e.metaKey && !e.altKey && e.key.length === 1) {
+      const f = this.paletteKeys.get(e.key.toLowerCase());
+      if (f) {
+        f();
+        e.preventDefault();
+        return;
+      }
+    }
+    const pn = PANELS.find((x) => x.id === this.p.editorState.tab);
+    if (pn?.key?.(this, e)) {
+      e.preventDefault();
+      return;
+    }
     if (e.ctrlKey && e.key === 'z') {
       this.undo();
       e.preventDefault();
@@ -259,6 +282,8 @@ export class EditorApp implements Ed {
     this.issueBtn.classList.toggle('has-error', nErr > 0);
     for (const b of this.actionBtns) b.disabled = nErr > 0;
     const pn = PANELS.find((x) => x.id === this.p.editorState.tab)!;
+    // 道具パレットは、パネルが描くときに置き直す（道具のないタブでは消える）
+    this.setToolPalette(null);
     pn.render(this);
     // はじめての流れ（次にやること）
     this.wizardEl?.remove();

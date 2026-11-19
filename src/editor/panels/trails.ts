@@ -7,18 +7,20 @@ import { el } from '../../ui/dom';
 import type { Ed } from '../context';
 import type { EditorApp } from '../EditorApp';
 import { button, check, fill, num, section, select, text } from '../forms/fields';
+import { toolPalette } from '../forms/toolPalette';
 import { parseGpx, trackAsTrails, trackToRoute, trackToXZ } from '../geo/gpx';
 import { fetchOsm, osmToGraph, resample, suggestConfusers, type OsmJson } from '../geo/overpass';
 import { sampleElevAt } from './elev';
 import { appendToRoute, edgePoints, hitEdge, hitNode, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
 import type { MapTool } from '../map/TileMapView';
 import { nextId } from '../store/project';
+import { clearEdgeSel, edgeSel } from '../map/edgeSelection';
 import { buildVertexGraph, joinSkeleton, namedPoints } from '../geo/skeleton';
 import { defaultBinding } from '../geo/skeletonBind';
 import { standardLegMin, suggestPaceAdj } from '../pace';
 import type { Panel } from './types';
 
-type Mode = 'select' | 'draw' | 'split' | 'route';
+type Mode = 'select' | 'box' | 'draw' | 'split' | 'route';
 let mode: Mode = 'select';
 let drawing: { x: number; z: number }[] = [];
 let gpxUse: 'trail' | 'route' | 'false' = 'trail';
@@ -60,6 +62,9 @@ function confirmDrafts(ed: Ed, ids: string[]): void {
 }
 
 function removeEdges(ed: Ed, ids: string[]): void {
+  if (ids.length === 0) return;
+  clearEdgeSel();
+  if (ed.p.editorState.selection.kind === 'edge' && ids.includes(ed.p.editorState.selection.id ?? '')) ed.p.editorState.selection = { kind: null, id: null };
   ed.change('道を除外', () => {
     const map = ed.p.map;
     map.edges = map.edges.filter((e) => !ids.includes(e.id));
@@ -68,6 +73,32 @@ function removeEdges(ed: Ed, ids: string[]): void {
     const used = new Set(map.edges.flatMap((e) => [e.from, e.to ?? '']));
     map.nodes = map.nodes.filter((n) => n.type !== 'junction' || used.has(n.id) || n.source === 'manual');
   }, true);
+}
+
+/** いま選んでいる道（複数選択か、1 本の選択） */
+function selectedEdgeIds(ed: Ed): string[] {
+  if (edgeSel.ids.size > 0) return [...edgeSel.ids];
+  const sel = ed.p.editorState.selection;
+  return sel.kind === 'edge' && sel.id && ed.p.map.edges.some((e) => e.id === sel.id) ? [sel.id] : [];
+}
+
+/** 矩形に一部でも入る道を選ぶ（add なら今の選択に足す） */
+function selectInBox(ed: Ed, b: { x0: number; z0: number; x1: number; z1: number }, add: boolean): void {
+  const x0 = Math.min(b.x0, b.x1);
+  const x1 = Math.max(b.x0, b.x1);
+  const z0 = Math.min(b.z0, b.z1);
+  const z1 = Math.max(b.z0, b.z1);
+  if (add) for (const id of selectedEdgeIds(ed)) edgeSel.ids.add(id);
+  else edgeSel.ids.clear();
+  const rt = ed.runtime();
+  for (const e of ed.p.map.edges) {
+    if (edgePoints(ed.p.map, rt, e).some((p) => p.x >= x0 && p.x <= x1 && p.z >= z0 && p.z <= z1)) edgeSel.ids.add(e.id);
+  }
+  // 1 本だけなら、ふつうの選択（属性を編集できる）にする
+  if (edgeSel.ids.size === 1) {
+    ed.p.editorState.selection = { kind: 'edge', id: [...edgeSel.ids][0]! };
+    edgeSel.ids.clear();
+  } else ed.p.editorState.selection = { kind: null, id: null };
 }
 
 /** 計画ルートから 1 km 以上離れた下書きの道 */
@@ -151,14 +182,46 @@ function finishDrawing(ed: Ed): void {
 }
 
 function tool(ed: Ed): MapTool {
+  let boxAdd = false;
   return {
     cursor: mode === 'select' ? 'pointer' : 'crosshair',
+    // 範囲選択の道具、または「選択」で Shift を押しながらドラッグすると、矩形で囲んで道を選ぶ
+    down(p) {
+      if (mode !== 'box' && !(mode === 'select' && p.ev.shiftKey)) return false;
+      boxAdd = p.ev.shiftKey || p.ev.ctrlKey;
+      edgeSel.box = { x0: p.x, z0: p.z, x1: p.x, z1: p.z };
+      return true;
+    },
+    up(p) {
+      const b = edgeSel.box;
+      if (!b) return;
+      b.x1 = p.x;
+      b.z1 = p.z;
+      edgeSel.box = null;
+      // ほとんど動かさなかったときはクリックとして扱う（click が呼ばれる）
+      if (Math.abs(b.x1 - b.x0) < 1e-6 && Math.abs(b.z1 - b.z0) < 1e-6) return;
+      selectInBox(ed, b, boxAdd);
+      ed.refresh();
+    },
     click(p) {
       const rt = ed.runtime();
-      if (mode === 'select') {
-        const n = hitNode(ed.view, ed.p.map, p.px, p.py);
-        if (n) return ed.select('node', n.id);
+      if (mode === 'select' || mode === 'box') {
+        edgeSel.box = null;
+        const n = mode === 'select' ? hitNode(ed.view, ed.p.map, p.px, p.py) : null;
+        if (n) {
+          clearEdgeSel();
+          return ed.select('node', n.id);
+        }
         const e = hitEdge(ed.view, ed.p.map, rt, p.px, p.py);
+        // Ctrl・Shift を押しながらクリックすると、選んだ道に足す（もう一度で外す）
+        if (e && (p.ev.ctrlKey || p.ev.shiftKey)) {
+          for (const id of selectedEdgeIds(ed)) edgeSel.ids.add(id);
+          if (edgeSel.ids.has(e.edge.id)) edgeSel.ids.delete(e.edge.id);
+          else edgeSel.ids.add(e.edge.id);
+          ed.p.editorState.selection = { kind: null, id: null };
+          return ed.refresh();
+        }
+        clearEdgeSel();
         return ed.select(e ? 'edge' : null, e?.edge.id ?? null);
       }
       if (mode === 'draw') {
@@ -185,7 +248,13 @@ function tool(ed: Ed): MapTool {
     dblclick() {
       if (mode === 'draw') finishDrawing(ed);
     },
-    move(p) {
+    move(p, dragging) {
+      if (dragging && edgeSel.box) {
+        edgeSel.box.x1 = p.x;
+        edgeSel.box.z1 = p.z;
+        ed.view.redraw();
+        return;
+      }
       if (mode !== 'draw' || drawing.length === 0) return;
       // 描画中の線と区間の傾斜
       ed.view.redraw();
@@ -298,6 +367,19 @@ export const trailsPanel: Panel = {
   id: 'trails',
   label: '登山道',
   tool,
+  key(ed, e) {
+    if (e.key === 'Escape' && edgeSel.ids.size > 0) {
+      clearEdgeSel();
+      ed.refresh();
+      return true;
+    }
+    if (e.key !== 'Delete' && e.key !== 'Backspace') return false;
+    const ids = selectedEdgeIds(ed);
+    if (ids.length === 0) return false;
+    removeEdges(ed, ids);
+    ed.toast(`道を ${ids.length} 本削除しました（Ctrl＋Z で戻せます）`);
+    return true;
+  },
   render(ed) {
     const geo = ed.p.map.geo;
     const drafts = ed.p.editorState.draftEdgeIds;
@@ -334,12 +416,30 @@ export const trailsPanel: Panel = {
           e && drafts.includes(e.id) ? button(`${e.id} を確定`, () => confirmDrafts(ed, [e.id])) : null,
         ])
       : null;
-    const modes = select<Mode>('道具', mode, [['select', '選択'], ['draw', '手描き（クリックで頂点、ダブルクリックで終了）'], ['split', 'ノードを挿入（道の上をクリック）'], ['route', '計画ルートを引く（地点を順にクリック）']], (m) => {
+    const modes = toolPalette<Mode>(ed, [
+      { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: 'クリックで選ぶ。Shift＋ドラッグで範囲選択、Ctrl＋クリックで追加。Delete で削除' },
+      { id: 'box', icon: 'selectBox', label: '範囲選択', key: 'm', hint: 'ドラッグで囲んだ道を選ぶ。Delete で削除' },
+      { id: 'draw', icon: 'draw', label: '手描き', key: 'p', hint: 'クリックで頂点、ダブルクリックで終了' },
+      { id: 'split', icon: 'callSplit', label: 'ノードを挿入', key: 'n', hint: '道の上をクリック' },
+      { id: 'route', icon: 'route', label: '計画ルートを引く', key: 'r', hint: '地点を順にクリック' },
+    ], mode, (m) => {
       mode = m;
       drawing = [];
       ed.refresh();
     });
     const route = ed.p.scenario.plan.route;
+    const selIds = selectedEdgeIds(ed);
+    const selSection = edgeSel.ids.size > 0
+      ? section(`選んだ道（${selIds.length} 本）`, [
+          el('p', { class: 'note' }, 'Delete キーか下のボタンで削除。Esc で選択を外す。Ctrl＋クリックで足す・外す。'),
+          button(`選んだ ${selIds.length} 本を削除`, () => removeEdges(ed, selIds), 'danger'),
+          drafts.some((id) => edgeSel.ids.has(id)) ? button('選んだ下書きを確定', () => confirmDrafts(ed, selIds.filter((id) => drafts.includes(id)))) : null,
+          button('選択を外す', () => {
+            clearEdgeSel();
+            ed.refresh();
+          }),
+        ])
+      : null;
     fill(
       ed.inspector,
       el('h2', {}, '登山道'),
@@ -354,6 +454,7 @@ export const trailsPanel: Panel = {
           ])
         : null,
       busy ? el('p', { class: 'note' }, busy) : null,
+      selSection,
       draftList,
       section('計画ルート', [
         el('p', {}, route.length > 0 ? route.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name ?? id).join(' → ') : '（未設定）'),
@@ -363,7 +464,7 @@ export const trailsPanel: Panel = {
         button('推奨方針で試走（下山口に着くか）', () => void quickRun(ed)),
       ]),
       section('分岐の紛らわしさ', [button('紛らわしい分岐を提案する', () => ed.change('紛らわしい分岐の提案', () => ed.toast(`${suggestConfusers(ed.p.map.nodes, ed.p.map.edges)} 件の候補を付けました（地点のインスペクタで編集）`), true))]),
-      e ? edgeInspector(ed, e) : el('p', { class: 'note' }, '道をクリックすると属性を編集できます。'),
+      e ? edgeInspector(ed, e) : edgeSel.ids.size > 0 ? null : el('p', { class: 'note' }, '道をクリックすると属性を編集できます（Delete キーで削除）。範囲選択（または Shift＋ドラッグ）で囲んだ道をまとめて選べます。'),
     );
     ed.bottom.replaceChildren();
   },

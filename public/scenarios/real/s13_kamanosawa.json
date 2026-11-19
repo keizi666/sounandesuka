@@ -16,7 +16,7 @@
   "moon": { "illumination": 0.35, "rise": "23:40", "set": "13:30" },
   "region": { "name": "奥秩父・釜ノ沢東俣", "real": true },
   "briefing": {
-    "text": "9月上旬の土曜日、晴れ。北川さん（52）をリーダーに、宮田さん（47）・小野さん（38）・堀さん（34）の 4 人は、西沢渓谷入口から東沢を遡り、釜ノ沢東俣を詰めて甲武信ヶ岳へ抜ける 1 泊 2 日の沢登りに来た。今日は両門ノ滝の 150〜200 m 上の河原でビバークし、明日、甲武信小屋・甲武信ヶ岳から徳ちゃん新道で下る計画。4 人とも沢登りの経験は長い。ヘルメット・沢靴・ロープ・タープ・シュラフカバー・マット・ヘッドランプ・コンロ・救急用品を持ち、登山届はオンラインで出してある。駐車場では、60 代くらいの女性をリーダーに、20 代の男女が続く 3 人のパーティが、ひと足先に沢支度をして出ていった。沢の中は、ほとんど携帯の電波が入らない。明日は昼すぎから雨の予報。",
+    "text": "9 月上旬の土曜日、晴れ。北川さん（52）・宮田さん（47）・小野さん（38）・堀さん（34）の 4 人は、西沢渓谷から東沢・釜ノ沢東俣を詰めて甲武信ヶ岳へ抜ける、1 泊 2 日の沢登りに来た。今夜は両門ノ滝の 150〜200 m 上の河原でビバークし、明日は甲武信小屋から徳ちゃん新道で下る。4 人とも沢の経験は長く、ロープ・タープ・マット・ヘッドランプ・コンロ・救急用品を持ち、登山届も出してある。ひと足先に、60 代くらいの女性と 20 代の男女の 3 人パーティが沢へ入った。沢の中はほぼ圏外で、明日は昼すぎから雨の予報。北川さんたちが甲武信小屋に着いたら、そこからは前の 3 人パーティ（山根さんたち）を見守る。",
     "forecast": [
       { "label": "今日", "text": "晴れ。沢の中は日中 20℃ 前後", "icon": "sunny" },
       { "label": "夜", "text": "晴れ。両門ノ滝のあたりで 10℃ 前後", "icon": "clear_night" },
@@ -322,7 +322,7 @@
       "trigger": { "after": "D0 07:40" },
       "once": true,
       "effects": [
-        { "type": "log", "text": "西沢渓谷入口の駐車場。北川さんたちがロープと装備を確かめていると、先に沢支度を終えた 3 人のパーティが「お先に」と出ていった。60 代くらいの女性が先頭で、20 代の男女が続く", "important": true },
+        { "type": "log", "text": "西沢渓谷入口の駐車場。装備を確かめていると、先に支度を終えた 3 人パーティが「お先に」と出ていった。60 代くらいの女性が先頭で、20 代の男女が続く", "important": true },
         { "type": "actions", "actions": [{ "type": "rest", "minutes": 45 }, { "type": "continueRoute" }, { "type": "goToNode", "who": "yamane", "node": "RYOMON", "then": "stay" }] }
       ]
     },
@@ -339,7 +339,7 @@
       "id": "ev_mine_first",
       "trigger": { "all": [{ "atNode": "RYOMON" }, { "not": { "flag": "fell" } }] },
       "once": true,
-      "effects": [{ "type": "setFlag", "flag": "mineFirst" }, { "type": "log", "text": "両門ノ滝の下の河原で、ひと休みする。先に出たはずの 3 人パーティは、まだ来ていない" }, { "type": "actions", "actions": [{ "type": "rest", "minutes": 30 }] }]
+      "effects": [{ "type": "setFlag", "flag": "mineFirst" }, { "type": "log", "text": "両門ノ滝の下の河原でひと休み。先に出た 3 人パーティは、まだ来ていない" }, { "type": "actions", "actions": [{ "type": "rest", "minutes": 30 }] }]
     },
     {
       "id": "ev_mine_wait",
@@ -366,7 +366,7 @@
       "effects": [
         { "type": "setFlag", "flag": "fell" },
         { "type": "say", "who": "yamane", "to": "saito", "text": "右から巻くよ。濡れた岩には足を乗せないで" },
-        { "type": "log", "text": "両門ノ滝。休みを終えた前のパーティが、滝の右の斜面を巻きはじめた。先頭の山根さんが濡れた岩で足を滑らせ、5 m ほど下の滝壺に落ちた", "important": true },
+        { "type": "log", "text": "両門ノ滝。前のパーティが滝の右の斜面を巻きはじめた。先頭の山根さんが濡れた岩で足を滑らせ、5 m ほど下の滝壺に落ちた", "important": true },
         { "type": "injure", "who": "yamane", "injury": "headInjury" },
         { "type": "injure", "who": "yamane", "injury": "headInjury" },
         { "type": "injure", "who": "yamane", "injury": "headInjury" },
@@ -381,13 +381,13 @@
       "id": "ev_fall_out",
       "trigger": { "all": [{ "flag": "fell" }, { "var": "c.yamane.conscious", "op": "==", "value": false }, { "var": "c.yamane.alive", "op": "==", "value": true }, { "not": { "flag": "met" } }] },
       "once": true,
-      "effects": [{ "type": "setFlag", "flag": "wasOut" }, { "type": "log", "text": "斎藤さんが滝壺に飛び込み、村井さんと二人で山根さんを岸に引き上げた。山根さんは息をしているが、呼びかけても目を開けない。二人のスマホは圏外だった", "important": true }]
+      "effects": [{ "type": "setFlag", "flag": "wasOut" }, { "type": "log", "text": "斎藤さんが滝壺に飛び込み、村井さんと二人で山根さんを岸に引き上げた。息はあるが、呼びかけても目を開けない。二人のスマホは圏外だった", "important": true }]
     },
     {
       "id": "ev_fall_awake",
       "trigger": { "all": [{ "flag": "fell" }, { "elapsedSince": { "flag": "fell", "min": 1 } }, { "var": "c.yamane.conscious", "op": "==", "value": true }, { "not": { "flag": "wasOut" } }] },
       "once": true,
-      "effects": [{ "type": "log", "text": "斎藤さんと村井さんが、山根さんを滝壺から岸に引き上げた。山根さんは目を開けているが、ぼんやりしていて、話がかみ合わない。二人のスマホは圏外だった", "important": true }]
+      "effects": [{ "type": "log", "text": "斎藤さんと村井さんが、山根さんを滝壺から岸に引き上げた。目は開けているが、ぼんやりして話がかみ合わない。二人のスマホは圏外だった", "important": true }]
     },
     {
       "id": "ev_woke",
@@ -399,7 +399,7 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "setFlag", "flag": "woke" }, { "type": "log", "text": "山根さんが目を開けた。意識が戻ったが、自分がどこにいるのか分からない様子で、同じことを何度も聞く", "important": true }]
+      "effects": [{ "type": "setFlag", "flag": "woke" }, { "type": "log", "text": "山根さんが目を開けた。ここがどこか分からない様子で、同じことを何度も聞く", "important": true }]
     },
     {
       "id": "ev_call_hut",
@@ -417,14 +417,100 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "setFlag", "flag": "calledHut" }, { "type": "log", "text": "甲武信小屋の前で電話がつながった。山根さんの名前と年齢、両門ノ滝で滝壺に落ちて頭を打ったこと、意識の様子、付き添いの人数と装備、現場の天気と経緯度を警察に伝えた。小屋の主人が、空いている寝床を用意してくれた", "important": true }]
+      "effects": [{ "type": "setFlag", "flag": "calledHut" }, { "type": "log", "text": "甲武信小屋の前で電話がつながった。山根さんの名前と年齢、滝壺に落ちて頭を打ったこと、意識の様子、付き添いの人数と装備、天気、経緯度を警察に伝えた。小屋の主人が寝床を用意してくれた", "important": true }]
     },
-    { "id": "ev_call_hut_hurt", "trigger": { "all": [{ "flag": "calledHut" }, { "flag": "hurtOnWay" }] }, "once": true, "effects": [{ "type": "log", "text": "登る途中でけがをして動けなくなった仲間がいることと、その場所も伝えた", "important": true }] },
+    { "id": "ev_call_hut_hurt", "trigger": { "all": [{ "flag": "calledHut" }, { "flag": "hurtOnWay" }] }, "once": true, "effects": [{ "type": "log", "text": "登る途中でけがをした仲間がいることと、その場所も伝えた", "important": true }] },
+    {
+      "id": "ev_focus_walk",
+      "trigger": {
+        "all": [
+          { "flag": "walkHut" },
+          { "not": { "flag": "focusOther" } },
+          {
+            "any": [
+              { "all": [{ "var": "c.kitagawa.state", "op": "==", "value": "FINISHED" }, { "var": "c.kitagawa.alive", "op": "==", "value": true }] },
+              { "all": [{ "var": "c.miyata.state", "op": "==", "value": "FINISHED" }, { "var": "c.miyata.alive", "op": "==", "value": true }] },
+              { "all": [{ "var": "c.ono.state", "op": "==", "value": "FINISHED" }, { "var": "c.ono.alive", "op": "==", "value": true }] },
+              { "all": [{ "var": "c.hori.state", "op": "==", "value": "FINISHED" }, { "var": "c.hori.alive", "op": "==", "value": true }] }
+            ]
+          },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "focusOther" },
+        { "type": "log", "text": "北川さんたちは小屋の主人に事情を話し、受け入れを頼んだ。山根さんは、斎藤さんと村井さんに支えられて、まだ東俣を登っている", "important": true },
+        { "type": "actions", "actions": [{ "type": "focus", "group": "other" }] }
+      ]
+    },
+    {
+      "id": "ev_focus_bivy",
+      "trigger": {
+        "all": [
+          { "flag": "met" },
+          { "flag": "walkUp" },
+          { "not": { "flag": "walkHut" } },
+          { "not": { "flag": "runnersGo" } },
+          { "not": { "flag": "focusOther" } },
+          { "flag": "calledHut" },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "focusOther" },
+        { "type": "log", "text": "東俣の河原では、北川さんと宮田さん、斎藤さんと村井さんが山根さんに付き添っている。通報が届いたことは、まだ知らない", "important": true },
+        { "type": "actions", "actions": [{ "type": "focus", "group": "other" }] }
+      ]
+    },
+    {
+      "id": "ev_focus_all",
+      "trigger": {
+        "all": [
+          { "flag": "met" },
+          { "flag": "upAll" },
+          { "not": { "flag": "walkUp" } },
+          { "not": { "flag": "runnersGo" } },
+          { "not": { "flag": "focusOther" } },
+          { "flag": "calledHut" },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "focusOther" },
+        { "type": "log", "text": "両門ノ滝では、斎藤さんと村井さんが二人だけで山根さんに付き添っている。通報が届いたことは、まだ知らない", "important": true },
+        { "type": "actions", "actions": [{ "type": "focus", "group": "other" }] }
+      ]
+    },
+    {
+      "id": "ev_focus_up2",
+      "trigger": {
+        "all": [
+          { "flag": "met" },
+          { "flag": "upLeft" },
+          { "not": { "flag": "upAll" } },
+          { "not": { "flag": "walkUp" } },
+          { "not": { "flag": "runnersGo" } },
+          { "not": { "flag": "focusOther" } },
+          { "flag": "calledHut" },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "focusOther" },
+        { "type": "log", "text": "両門ノ滝では、北川さんと宮田さん、斎藤さんと村井さんが山根さんに付き添っている。通報が届いたことは、まだ知らない", "important": true },
+        { "type": "actions", "actions": [{ "type": "focus", "group": "other" }] }
+      ]
+    },
     {
       "id": "ev_call_down",
       "trigger": {
         "all": [
           { "event": "RESCUE_CALLED" },
+          { "not": { "flag": "runnersLate" } },
           {
             "any": [
               { "all": [{ "var": "c.saito.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.saito.elevM", "op": "<", "value": 1250 }] },
@@ -434,7 +520,19 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "setFlag", "flag": "calledDown" }, { "type": "log", "text": "西沢山荘の前で電話がつながった。両門ノ滝で山根さんが滝壺に落ちて頭を打ったこと、ほかのパーティの 4 人が付き添っていることを、警察に伝えた", "important": true }]
+      "effects": [{ "type": "setFlag", "flag": "calledDown" }, { "type": "log", "text": "西沢山荘の前で電話がつながった。山根さんが両門ノ滝で滝壺に落ちて頭を打ったこと、4 人が付き添っていることを警察に伝えた", "important": true }]
+    },
+    {
+      "id": "ev_late_out",
+      "trigger": { "all": [{ "flag": "runnersLate" }, { "any": [{ "var": "c.saito.state", "op": "==", "value": "FINISHED" }, { "var": "c.murai.state", "op": "==", "value": "FINISHED" }] }] },
+      "once": true,
+      "effects": [{ "type": "setFlag", "flag": "lateOut" }, { "type": "log", "text": "西沢渓谷入口に下りると、駐車場に警察の車が来ていた。甲武信小屋からの通報は、もう届いていた", "important": true }]
+    },
+    {
+      "id": "ev_late_out_hurt",
+      "trigger": { "all": [{ "flag": "lateOut" }, { "any": [{ "var": "c.saito.injury", "op": "!=", "value": "none" }, { "var": "c.murai.injury", "op": "!=", "value": "none" }] }] },
+      "once": true,
+      "effects": [{ "type": "log", "text": "沢の途中に、けがをした仲間が残っていることも伝えた", "important": true }]
     },
     {
       "id": "ev_hut_in_ono",
@@ -513,6 +611,8 @@
       "trigger": {
         "all": [
           { "flag": "calledHut" },
+          { "var": "clockMin", "op": "<", "value": 780 },
+          { "var": "sun.isDark", "op": "==", "value": false },
           { "var": "c.yamane.state", "op": "==", "value": "RESCUED" },
           { "any": [{ "var": "c.ono.state", "op": "==", "value": "SHELTERED" }, { "var": "c.kitagawa.state", "op": "==", "value": "SHELTERED" }, { "var": "c.hori.state", "op": "==", "value": "SHELTERED" }] },
           { "var": "c.ono.injury", "op": "==", "value": "none" },
@@ -522,13 +622,15 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "log", "text": "甲武信小屋に泊まった仲間は、小屋の主人から山根さんが収容されたことを聞き、徳ちゃん新道を西沢渓谷入口へ下りはじめた", "important": true }]
+      "effects": [{ "type": "log", "text": "甲武信小屋の仲間は、山根さんが収容されたと聞き、徳ちゃん新道を下りはじめた", "important": true }]
     },
     {
       "id": "ev_hut_down_dead",
       "trigger": {
         "all": [
           { "flag": "calledHut" },
+          { "var": "clockMin", "op": "<", "value": 780 },
+          { "var": "sun.isDark", "op": "==", "value": false },
           { "var": "c.yamane.alive", "op": "==", "value": false },
           { "any": [{ "var": "c.ono.state", "op": "==", "value": "SHELTERED" }, { "var": "c.kitagawa.state", "op": "==", "value": "SHELTERED" }, { "var": "c.hori.state", "op": "==", "value": "SHELTERED" }] },
           { "var": "c.ono.injury", "op": "==", "value": "none" },
@@ -538,13 +640,15 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "log", "text": "甲武信小屋に泊まった仲間は、山根さんが亡くなったことを知らされた。言葉少なに、徳ちゃん新道を西沢渓谷入口へ下りはじめた", "important": true }]
+      "effects": [{ "type": "log", "text": "甲武信小屋の仲間は、山根さんが亡くなったと知らされた。言葉少なに、徳ちゃん新道を下りはじめた", "important": true }]
     },
     {
       "id": "ev_hut_down_ono",
       "trigger": {
         "all": [
           { "flag": "calledHut" },
+          { "var": "clockMin", "op": "<", "value": 780 },
+          { "var": "sun.isDark", "op": "==", "value": false },
           { "any": [{ "var": "c.yamane.state", "op": "==", "value": "RESCUED" }, { "var": "c.yamane.alive", "op": "==", "value": false }] },
           { "var": "c.ono.state", "op": "==", "value": "SHELTERED" },
           { "var": "c.ono.injury", "op": "==", "value": "none" },
@@ -561,6 +665,8 @@
       "trigger": {
         "all": [
           { "flag": "calledHut" },
+          { "var": "clockMin", "op": "<", "value": 780 },
+          { "var": "sun.isDark", "op": "==", "value": false },
           { "any": [{ "var": "c.yamane.state", "op": "==", "value": "RESCUED" }, { "var": "c.yamane.alive", "op": "==", "value": false }] },
           { "var": "c.hori.state", "op": "==", "value": "SHELTERED" },
           { "var": "c.ono.injury", "op": "==", "value": "none" },
@@ -577,6 +683,8 @@
       "trigger": {
         "all": [
           { "flag": "calledHut" },
+          { "var": "clockMin", "op": "<", "value": 780 },
+          { "var": "sun.isDark", "op": "==", "value": false },
           { "any": [{ "var": "c.yamane.state", "op": "==", "value": "RESCUED" }, { "var": "c.yamane.alive", "op": "==", "value": false }] },
           { "var": "c.kitagawa.state", "op": "==", "value": "SHELTERED" },
           { "var": "c.ono.injury", "op": "==", "value": "none" },
@@ -593,6 +701,8 @@
       "trigger": {
         "all": [
           { "flag": "calledHut" },
+          { "var": "clockMin", "op": "<", "value": 780 },
+          { "var": "sun.isDark", "op": "==", "value": false },
           { "any": [{ "var": "c.yamane.state", "op": "==", "value": "RESCUED" }, { "var": "c.yamane.alive", "op": "==", "value": false }] },
           { "var": "c.miyata.state", "op": "==", "value": "SHELTERED" },
           { "var": "c.ono.injury", "op": "==", "value": "none" },
@@ -618,7 +728,7 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "log", "text": "暗いホラの貝の高巻きで、ヘッドランプの輪の外の岩に足を乗せた斎藤さんが、足を滑らせた", "important": true }, { "type": "rockfall", "who": "saito", "p": 1, "injuryTable": "EXPOSED" }]
+      "effects": [{ "type": "log", "text": "暗いホラの貝の高巻きで、斎藤さんがライトの輪の外の岩に足を乗せ、滑った", "important": true }, { "type": "rockfall", "who": "saito", "p": 1, "injuryTable": "EXPOSED" }]
     },
     {
       "id": "ev_run_dark2",
@@ -634,7 +744,7 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "log", "text": "暗い東沢の渡渉で、村井さんが流れに足をすくわれ、岩の間に倒れ込んだ", "important": true }, { "type": "rockfall", "who": "murai", "p": 1, "injuryTable": "EXPOSED" }]
+      "effects": [{ "type": "log", "text": "暗い東沢の渡渉で、村井さんが流れに足をすくわれ、岩の間に倒れた", "important": true }, { "type": "rockfall", "who": "murai", "p": 1, "injuryTable": "EXPOSED" }]
     },
     {
       "id": "ev_up_dark2",
@@ -650,7 +760,7 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "log", "text": "暗い東俣の小滝の横で、堀さんが濡れた岩に手をかけそこね、足を滑らせた", "important": true }, { "type": "rockfall", "who": "hori", "p": 1, "injuryTable": "EXPOSED" }]
+      "effects": [{ "type": "log", "text": "暗い東俣の小滝の横で、堀さんが濡れた岩で手を滑らせ、足を踏み外した", "important": true }, { "type": "rockfall", "who": "hori", "p": 1, "injuryTable": "EXPOSED" }]
     },
     {
       "id": "ev_up_dark4",
@@ -666,13 +776,14 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "log", "text": "暗い東俣の小滝の横で、宮田さんが濡れた岩に手をかけそこね、足を滑らせた", "important": true }, { "type": "rockfall", "who": "miyata", "p": 1, "injuryTable": "EXPOSED" }]
+      "effects": [{ "type": "log", "text": "暗い東俣の小滝の横で、宮田さんが濡れた岩で手を滑らせ、足を踏み外した", "important": true }, { "type": "rockfall", "who": "miyata", "p": 1, "injuryTable": "EXPOSED" }]
     },
     {
       "id": "ev_rock",
       "trigger": {
         "all": [
           { "flag": "notMoved" },
+          { "not": { "flag": "movedLate" } },
           { "not": { "flag": "walkUp" } },
           { "var": "c.yamane.elevM", "op": "<", "value": 1600 },
           { "after": "D0 21:00" },
@@ -682,7 +793,7 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "setFlag", "flag": "rocks" }, { "type": "log", "text": "夜、滝の横の斜面から、こぶし大の石がいくつか転がり落ちてきた。滝壺のそばは、落石の通り道だった", "important": true }]
+      "effects": [{ "type": "setFlag", "flag": "rocks" }, { "type": "log", "text": "夜、滝の横の斜面から、こぶし大の石がいくつか落ちてきた。滝壺のそばは落石の通り道だった", "important": true }]
     },
     {
       "id": "ev_rock_hit",
@@ -694,13 +805,14 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "log", "text": "石の一つが、横たわっている山根さんの肩と腰に当たった", "important": true }, { "type": "injure", "who": "yamane", "injury": "bruise" }]
+      "effects": [{ "type": "log", "text": "石の一つが、山根さんの肩と腰に当たった", "important": true }, { "type": "injure", "who": "yamane", "injury": "bruise" }]
     },
     {
       "id": "ev_flood",
       "trigger": {
         "all": [
           { "flag": "notMoved" },
+          { "not": { "flag": "movedLate" } },
           { "not": { "flag": "walkUp" } },
           { "var": "c.yamane.elevM", "op": "<", "value": 1600 },
           { "var": "c.yamane.local.precipMmH", "op": ">", "value": 3 },
@@ -708,7 +820,7 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "log", "text": "雨で沢の水かさが増し、滝壺のそばの岩に寝かせていた山根さんの足もとまで水が来た。皆で少し上へ引き上げたが、体はまたずぶぬれになった", "important": true }, { "type": "soak", "who": "yamane", "level": "full" }]
+      "effects": [{ "type": "log", "text": "雨で沢が増水し、滝壺のそばの岩の上にいた山根さんの足もとまで水が来た。少し上へ移したが、体はまたずぶぬれになった", "important": true }, { "type": "soak", "who": "yamane", "level": "full" }]
     },
     {
       "id": "ev_bivy_mine",
@@ -754,7 +866,7 @@
         ]
       },
       "once": true,
-      "effects": [{ "type": "log", "text": "夕方 6 時。下山予定の 16 時を過ぎても、山根さんたちからも北川さんたちからも連絡がない。家族が気をもみはじめた", "important": true }]
+      "effects": [{ "type": "log", "text": "夕方 6 時。予定の 16 時を過ぎても、どちらのパーティからも連絡がない。家族が心配しはじめた", "important": true }]
     }
   ],
   "choices": [
@@ -762,16 +874,17 @@
       "id": "cp_lunch",
       "title": "山ノ神",
       "trigger": { "atNode": "YAMANOKAMI" },
-      "situation": "山ノ神。沢が開けて、日の当たる河原がある。前を行くパーティの姿は、もう見えない。",
-      "knowledge": ["釜ノ沢出合まで約 1 時間半、両門ノ滝までさらに 1 時間", "ビバーク地には、明るいうちに着いてタープを張りたい", "日の入りは 18:08"],
+      "situation": "山ノ神。日の当たる河原がある。前のパーティの姿は、もう見えない。昼食をどうするか。",
+      "knowledge": ["釜ノ沢出合まで約 1 時間半、両門ノ滝までさらに 1 時間", "ビバーク地には明るいうちに着いて、タープを張りたい", "日の入りは 18:08"],
       "options": [
-        { "id": "long", "label": "日の当たる河原で 30 分、ゆっくり昼食にする", "actions": [{ "type": "eat", "kcal": 600 }, { "type": "drink", "liters": 0.3 }, { "type": "rest", "minutes": 30 }], "bias": { "base": 1 } },
+        { "id": "long", "label": "河原で 30 分、ゆっくり昼食", "actions": [{ "type": "eat", "kcal": 600 }, { "type": "drink", "liters": 0.3 }, { "type": "rest", "minutes": 30 }], "bias": { "base": 1 } },
         {
           "id": "short",
-          "label": "15 分で軽く食べて先へ進む。ビバーク地に早く着きたい",
+          "label": "15 分で軽く食べて進む",
           "actions": [{ "type": "eat", "kcal": 400 }, { "type": "drink", "liters": 0.3 }, { "type": "rest", "minutes": 15 }],
           "tags": ["recommended"],
-          "bias": { "base": 0.6 }
+          "bias": { "base": 0.6 },
+          "detail": "ビバーク地に早く着きたい。"
         }
       ]
     },
@@ -788,16 +901,16 @@
           { "not": { "flag": "met" } }
         ]
       },
-      "situation": "両門ノ滝に着くと、前を行っていたパーティの若い二人が駆け寄ってきた。少し前に、リーダーの山根さん（64）が巻き道で足を滑らせ、滝壺に落ちたという。二人で引き上げたが、山根さんは呼びかけても目を開けない。息はしている。頭を打ったらしい。全身ずぶぬれで、滝のしぶきのかかる岩の上に横たえられている。",
-      "knowledge": ["ここは圏外。電話をかけるには、東俣を甲武信小屋まで登るか、沢を西沢山荘の前まで下るしかない", "滝の後ろに平らな河原がある。増水の心配が少なく、落石の来ない所", "6 人いれば、ツエルトを担架がわりにして、短い距離なら運べる", "山根さんのザックの防水袋に、着替えとツエルトが入っている", "日の入りは 18:08。明日は昼すぎから雨の予報"],
+      "situation": "前のパーティのリーダー山根さん（64）が巻き道で滑って滝壺に落ち、若い二人が引き上げた。息はあるが、呼びかけても目を開けない。頭を打ったらしい。ずぶぬれのまま、しぶきのかかる岩の上にいる。どう手当てするか。",
+      "knowledge": ["ここは圏外。電話は、東俣を登った甲武信小屋か、沢を下った西沢山荘の前でないと通じない", "滝の後ろに平らな河原がある。増水・落石の心配が少ない", "6 人いれば、ツエルトを担架にして短い距離なら運べる", "山根さんのザックの防水袋に、着替えとツエルトがある", "日の入りは 18:08。明日は昼すぎから雨の予報"],
       "options": [
         {
           "id": "care",
-          "label": "頭と首を支えながら、6 人で滝の後ろの河原へ移す。マットの上で濡れた服を着替えさせ、ツエルトとシートで包む",
-          "detail": "着替えは宮田さんと堀さんが受け持つ。打ち身の跡をメモし、山根さんのスマホで写真を撮っておく。",
+          "label": "河原へ移し、着替えさせて包む",
+          "detail": "頭と首を支えて 6 人で運ぶ。マットを敷き、ツエルトとシートで包む。",
           "actions": [
-            { "type": "say", "who": "kitagawa", "text": "落ち着いて。まず安全な所に移そう。頭を動かさないように", "to": "saito" },
-            { "type": "narrate", "text": "6 人でツエルトを担架にして、山根さんを滝の後ろの平らな河原へ移した。マットを敷き、宮田さんと堀さんが濡れた服を脱がせて、防水袋の着替えを着せた。額と右の腰に打ち身があった" },
+            { "type": "say", "who": "kitagawa", "text": "落ち着いて。まず安全な所に移そう。頭は動かさないように", "to": "saito" },
+            { "type": "narrate", "text": "6 人でツエルトを担架にして、山根さんを滝の後ろの河原へ移した。マットを敷き、宮田さんと堀さんが防水袋の着替えに着替えさせた。額と右の腰に打ち身があった" },
             { "type": "changeDry", "who": "yamane" },
             { "type": "bivouac", "who": "yamane", "until": "rescue", "findLee": false },
             { "type": "rest", "minutes": 25 }
@@ -808,11 +921,11 @@
         },
         {
           "id": "cover",
-          "label": "頭を打った人は動かさない方がいい。その場で上着を重ね、エマージェンシーシートを掛けて、目を覚ますのを待つ",
-          "detail": "濡れた服はそのまま。滝のしぶきがかかる岩の上。",
+          "label": "その場で上着とシートを掛ける",
+          "detail": "頭を打った人は動かさない。濡れた服のまま、しぶきのかかる岩の上。",
           "actions": [
             { "type": "say", "who": "kitagawa", "text": "動かさないで。上着とシートを掛けよう", "to": "saito" },
-            { "type": "narrate", "text": "滝のしぶきのかかる岩の上で、山根さんに上着を重ね、エマージェンシーシートを掛けた" },
+            { "type": "narrate", "text": "しぶきのかかる岩の上で、山根さんに上着を重ね、エマージェンシーシートを掛けた" },
             { "type": "addLayer", "who": "yamane" },
             { "type": "stayPut", "who": "yamane" },
             { "type": "rest", "minutes": 15 }
@@ -823,8 +936,8 @@
         },
         {
           "id": "self",
-          "label": "自分たちも濡れて冷えている。まず自分たちが着替えて休み、落ち着いてから考える",
-          "detail": "二次遭難しないことが先だ。",
+          "label": "まず自分たちが着替えて休む",
+          "detail": "自分たちも濡れて冷えている。二次遭難しないことが先だ。",
           "actions": [{ "type": "say", "who": "kitagawa", "text": "こっちが倒れたら元も子もない。まず着替えよう", "to": "miyata" }, { "type": "changeDry" }, { "type": "stayPut", "who": "yamane" }, { "type": "rest", "minutes": 30 }],
           "flags": ["met", "notMoved", "neglect"],
           "tags": ["risky"],
@@ -845,16 +958,16 @@
           { "not": { "flag": "met" } }
         ]
       },
-      "situation": "両門ノ滝に着くと、前を行っていたパーティの若い二人が駆け寄ってきた。少し前に、リーダーの山根さん（64）が巻き道で足を滑らせ、滝壺に落ちたという。山根さんは目を開けているが、ぼんやりしていて、同じことを何度も聞く。頭が痛いと言い、立とうとするとふらつく。頭を打ったらしい。全身ずぶぬれで、滝のしぶきのかかる岩の上に座り込んでいる。",
-      "knowledge": ["ここは圏外。電話をかけるには、東俣を甲武信小屋まで登るか、沢を西沢山荘の前まで下るしかない", "滝の後ろに平らな河原がある。増水の心配が少なく、落石の来ない所", "頭を打った人は、しばらくしてから具合が悪くなることがある", "山根さんのザックの防水袋に、着替えとツエルトが入っている", "日の入りは 18:08。明日は昼すぎから雨の予報"],
+      "situation": "前のパーティのリーダー山根さん（64）が巻き道で滑って滝壺に落ち、若い二人が引き上げた。目は開けているがぼんやりして、同じことを何度も聞く。頭が痛いと言い、立つとふらつく。ずぶぬれのまま、しぶきのかかる岩の上に座り込んでいる。どう手当てするか。",
+      "knowledge": ["ここは圏外。電話は、東俣を登った甲武信小屋か、沢を下った西沢山荘の前でないと通じない", "滝の後ろに平らな河原がある。増水・落石の心配が少ない", "頭を打った人は、しばらくしてから具合が悪くなることがある", "山根さんのザックの防水袋に、着替えとツエルトがある", "日の入りは 18:08。明日は昼すぎから雨の予報"],
       "options": [
         {
           "id": "care",
-          "label": "頭と首を支えながら、6 人で滝の後ろの河原へ移す。マットの上で濡れた服を着替えさせ、ツエルトとシートで包む",
-          "detail": "着替えは宮田さんと堀さんが受け持つ。打ち身の跡をメモし、山根さんのスマホで写真を撮っておく。",
+          "label": "河原へ移し、着替えさせて包む",
+          "detail": "頭と首を支えて 6 人で運ぶ。マットを敷き、ツエルトとシートで包む。",
           "actions": [
-            { "type": "say", "who": "kitagawa", "text": "落ち着いて。まず安全な所に移そう。頭を動かさないように", "to": "saito" },
-            { "type": "narrate", "text": "6 人でツエルトを担架にして、山根さんを滝の後ろの平らな河原へ移した。マットを敷き、宮田さんと堀さんが濡れた服を脱がせて、防水袋の着替えを着せた。額と右の腰に打ち身があった" },
+            { "type": "say", "who": "kitagawa", "text": "落ち着いて。まず安全な所に移そう。頭は動かさないように", "to": "saito" },
+            { "type": "narrate", "text": "6 人でツエルトを担架にして、山根さんを滝の後ろの河原へ移した。マットを敷き、宮田さんと堀さんが防水袋の着替えに着替えさせた。額と右の腰に打ち身があった" },
             { "type": "changeDry", "who": "yamane" },
             { "type": "bivouac", "who": "yamane", "until": "rescue", "findLee": false },
             { "type": "rest", "minutes": 25 }
@@ -865,11 +978,11 @@
         },
         {
           "id": "cover",
-          "label": "頭を打った人は動かさない方がいい。その場で上着を着せ、エマージェンシーシートを掛けて休ませる",
-          "detail": "濡れた服はそのまま。滝のしぶきがかかる岩の上。",
+          "label": "その場で上着を着せ、シートを掛ける",
+          "detail": "頭を打った人は動かさない。濡れた服のまま、しぶきのかかる岩の上。",
           "actions": [
             { "type": "say", "who": "kitagawa", "text": "動かさないで。上着とシートを掛けよう", "to": "saito" },
-            { "type": "narrate", "text": "滝のしぶきのかかる岩の上で、山根さんに上着を重ね、エマージェンシーシートを掛けた" },
+            { "type": "narrate", "text": "しぶきのかかる岩の上で、山根さんに上着を重ね、エマージェンシーシートを掛けた" },
             { "type": "addLayer", "who": "yamane" },
             { "type": "stayPut", "who": "yamane" },
             { "type": "rest", "minutes": 15 }
@@ -880,8 +993,8 @@
         },
         {
           "id": "self",
-          "label": "自分たちも濡れて冷えている。まず自分たちが着替えて休み、落ち着いてから考える",
-          "detail": "二次遭難しないことが先だ。",
+          "label": "まず自分たちが着替えて休む",
+          "detail": "自分たちも濡れて冷えている。二次遭難しないことが先だ。",
           "actions": [{ "type": "say", "who": "kitagawa", "text": "こっちが倒れたら元も子もない。まず着替えよう", "to": "miyata" }, { "type": "changeDry" }, { "type": "stayPut", "who": "yamane" }, { "type": "rest", "minutes": 30 }],
           "flags": ["met", "notMoved", "neglect"],
           "tags": ["risky"],
@@ -889,12 +1002,12 @@
         },
         {
           "id": "walk",
-          "label": "支えれば歩けそうだ。斎藤さんと村井さんが両側から支えて 150 m 上のビバーク地までゆっくり登り、明日、甲武信小屋へ向かう。北川さんたちは先に登ってタープを張り、湯を沸かして待つ",
-          "detail": "原案の筆者が「リーダーが歩けるなら」と挙げた案。頭を打った人を歩かせることになる。",
+          "label": "支えて 150 m 上のビバーク地へ登る",
+          "detail": "明日は甲武信小屋へ。原案の筆者が挙げた案。頭を打った人を歩かせる。",
           "available": { "all": [{ "var": "group.other.count", "op": "==", "value": 3 }, { "var": "group.mine.count", "op": "==", "value": 4 }, { "before": "D0 15:00" }] },
           "hideIfUnavailable": true,
           "actions": [
-            { "type": "narrate", "text": "宮田さんと堀さんが、山根さんを防水袋の着替えに着替えさせた。北川さんたちが先に巻き道を登り、斎藤さんと村井さんが両側から山根さんを支えて後に続く" },
+            { "type": "narrate", "text": "宮田さんと堀さんが、山根さんを防水袋の着替えに着替えさせた。北川さんたちが先に登り、斎藤さんと村井さんが両側から山根さんを支えて続く" },
             { "type": "changeDry", "who": "yamane" },
             { "type": "goToNode", "who": "yamane", "node": "BIVY", "then": "stay" },
             { "type": "goToNode", "who": "saito", "node": "BIVY", "then": "stay" },
@@ -922,21 +1035,21 @@
           { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
         ]
       },
-      "situation": "山根さんは頭を打っていて、自分で下ることも登ることもできそうにない。救助を呼ぶには、電波の入る所まで誰かが行かなければならない。7 人のうち、誰が、どこへ知らせに行くか。",
+      "situation": "山根さんは自分で下ることも登ることもできそうにない。救助を呼ぶには、誰かが電波の入る所まで行くしかない。7 人のうち、誰がどこへ行くか。",
       "knowledge": [
-        "甲武信小屋まで東俣を登って 2 時間半〜3 時間半。小屋の前なら電話が通じる。上部の小滝は難しくないが、暗くなると危ない",
-        "西沢渓谷入口へは沢を下って 4〜5 時間。西沢山荘の前まで下りれば電話が通じる。ホラの貝の高巻きや乙女の滝の巻きを、下りでこなすことになる",
-        "斎藤さん（26）と村井さん（24）は沢登りを始めて 2 年目。今日も山根さんの後をついてきた",
+        "甲武信小屋へ東俣を登って 2 時間半〜3 時間半。小屋の前は電話が通じる。上部の小滝は暗いと危ない",
+        "西沢渓谷入口へ沢を下って 4〜5 時間。西沢山荘の前で電話が通じる。ホラの貝・乙女の滝の巻きを下ることになる",
+        "斎藤さん（26）と村井さん（24）は沢登り 2 年目。今日も山根さんについて来た",
         "特定小電力トランシーバーは、沢の中では数百 m しか届かない",
         "日の入りは 18:08。明日は昼すぎから雨。雲が山にかかれば、ヘリは飛べない"
       ],
       "options": [
         {
           "id": "up2",
-          "label": "小野さんと堀さんが最低限の装備で東俣を登り、甲武信小屋から通報する。北川さんと宮田さんは残り、若い二人と一緒に付き添う",
-          "detail": "暗くなったら無理をせず止まり、朝に通報する約束にする。",
+          "label": "小野さんと堀さんが小屋へ登り通報",
+          "detail": "北川さんと宮田さんは残る。暗くなったら止まり、朝に通報する。",
           "actions": [
-            { "type": "say", "who": "kitagawa", "text": "小野さん、堀さん、頼む。無理はしないで。暗くなったら止まって、明るくなってから電話して", "to": "ono" },
+            { "type": "say", "who": "kitagawa", "text": "小野さん、堀さん、頼む。暗くなったら止まって、明るくなってから電話して", "to": "ono" },
             { "type": "say", "who": "ono", "text": "行ってきます。小屋に着いたら、すぐ電話します", "to": "kitagawa" },
             {
               "type": "splitParty",
@@ -960,10 +1073,10 @@
         },
         {
           "id": "up4",
-          "label": "私たち 4 人で東俣を登り、甲武信小屋から通報する。山根さんには斎藤さんと村井さんが付き添う",
-          "detail": "原案の筆者が選ぶとした案。日没が近ければ途中でビバークし、朝に通報する。",
+          "label": "4 人で甲武信小屋へ登り通報",
+          "detail": "若い二人が山根さんに付き添う。原案の筆者が選んだ案。",
           "actions": [
-            { "type": "say", "who": "kitagawa", "text": "山根さんを頼む。体を冷やさないように。目を覚ましても、動かさないで", "to": "saito" },
+            { "type": "say", "who": "kitagawa", "text": "山根さんを頼む。冷やさないように。目を覚ましても動かさないで", "to": "saito" },
             { "type": "say", "who": "saito", "text": "はい……。お願いします", "to": "kitagawa" },
             { "type": "bivouac", "who": "saito", "until": "rescue", "findLee": false },
             { "type": "bivouac", "who": "murai", "until": "rescue", "findLee": false },
@@ -976,10 +1089,10 @@
         },
         {
           "id": "down",
-          "label": "斎藤さんと村井さんに、沢を下って西沢渓谷入口へ知らせに行ってもらう。私たち 4 人が付き添う",
-          "detail": "二人は沢を下った経験がほとんどない。",
+          "label": "若い二人が沢を下って知らせる",
+          "detail": "4 人が付き添う。二人は沢を下った経験がほとんどない。",
           "actions": [
-            { "type": "say", "who": "kitagawa", "text": "山根さんは私たちが見ている。二人で、気をつけて下ってくれるか", "to": "saito" },
+            { "type": "say", "who": "kitagawa", "text": "山根さんは私たちが見ている。二人で、気をつけて下ってくれ", "to": "saito" },
             { "type": "bivouac", "who": "kitagawa", "until": "rescue", "findLee": false },
             { "type": "bivouac", "who": "miyata", "until": "rescue", "findLee": false },
             { "type": "bivouac", "who": "ono", "until": "rescue", "findLee": false },
@@ -991,10 +1104,10 @@
         },
         {
           "id": "wait",
-          "label": "今日はもう誰も動かない。7 人でここでビバークし、明るくなってから考える",
-          "detail": "暗い沢を歩く人を出さずに済む。通報は明日になる。",
+          "label": "今夜は 7 人でここに泊まる",
+          "detail": "暗い沢を歩く人を出さない。通報は明日になる。",
           "actions": [
-            { "type": "say", "who": "kitagawa", "text": "今から動けば、誰かが暗い沢の中だ。今夜はここで越して、明るくなってから考えよう", "to": "miyata" },
+            { "type": "say", "who": "kitagawa", "text": "今から動けば、誰かが暗い沢の中だ。今夜はここで越そう", "to": "miyata" },
             { "type": "bivouac", "who": "kitagawa", "until": "rescue", "findLee": false },
             { "type": "bivouac", "who": "miyata", "until": "rescue", "findLee": false },
             { "type": "bivouac", "who": "ono", "until": "rescue", "findLee": false },
@@ -1014,12 +1127,12 @@
       "group": "other",
       "priority": 17,
       "trigger": { "all": [{ "flag": "planDown" }, { "var": "c.saito.alive", "op": "==", "value": true }, { "var": "c.murai.alive", "op": "==", "value": true }] },
-      "situation": "斎藤さんと村井さんが、下る支度をしている。二人とも沢を下った経験はほとんどない。西沢山荘の前まで 4〜5 時間。途中で日が暮れる。",
-      "knowledge": ["登るときに通った所を逆にたどる。ホラの貝のゴルジュと乙女の滝は、高巻きの道を下る", "二人ともヘッドランプとスマホを持っている。地図アプリに今日の足跡は残っていない", "日の入りは 18:08"],
+      "situation": "斎藤さんと村井さんが下る支度をしている。二人とも沢を下った経験はほとんどない。西沢山荘の前まで 4〜5 時間で、途中で日が暮れる。どう下るか。",
+      "knowledge": ["登ってきた所を逆にたどる。ホラの貝と乙女の滝は高巻きを下る", "二人ともヘッドランプとスマホを持つ。地図アプリに今日の足跡はない", "日の入りは 18:08"],
       "options": [
         {
           "id": "push",
-          "label": "今すぐ下る。暗くなってもヘッドランプをつけて下り続け、今夜のうちに知らせる",
+          "label": "すぐ下り、暗くても下り続ける",
           "actions": [
             { "type": "say", "who": "saito", "text": "急ごう。今夜のうちに知らせないと", "to": "murai" },
             {
@@ -1032,11 +1145,12 @@
           ],
           "flags": ["runnersGo", "runnersPush"],
           "tags": ["risky"],
-          "bias": { "base": 1 }
+          "bias": { "base": 1 },
+          "detail": "今夜のうちに知らせる。"
         },
         {
           "id": "careful",
-          "label": "今すぐ下るが、暗くなったら無理をせず沢の中でビバークし、明るくなってから下りきる",
+          "label": "すぐ下り、暗くなったら止まる",
           "actions": [
             { "type": "say", "who": "saito", "text": "暗くなったら止まろう。二人で落ちたら、誰も知らせられない", "to": "murai" },
             {
@@ -1049,11 +1163,12 @@
           ],
           "flags": ["runnersGo", "runnersCareful"],
           "tags": ["recommended"],
-          "bias": { "base": 0.6 }
+          "bias": { "base": 0.6 },
+          "detail": "沢の中でビバークし、明るくなってから下りきる。"
         },
         {
           "id": "dawn",
-          "label": "暗い沢を下るのは危ない。今夜はここで越し、明るくなってから二人で下る",
+          "label": "今夜はここで越し、朝に下る",
           "actions": [
             { "type": "say", "who": "saito", "text": "朝いちばんに下ります。今夜はここにいます", "to": "kitagawa" },
             { "type": "bivouac", "who": "saito", "until": "rescue", "findLee": false },
@@ -1084,7 +1199,7 @@
       "options": [
         {
           "id": "go",
-          "label": "二人で沢を下り、西沢山荘の前から通報する",
+          "label": "二人で下り、山荘の前から通報",
           "actions": [
             { "type": "say", "who": "saito", "text": "行ってきます", "to": "kitagawa" },
             {
@@ -1099,7 +1214,7 @@
           "tags": ["recommended"],
           "bias": { "base": 1 }
         },
-        { "id": "stay", "label": "二人だけで下るのはやはり怖い。ここで待つ", "actions": [{ "type": "narrate", "text": "斎藤さんと村井さんは、両門ノ滝に残ることにした" }], "tags": ["risky"], "bias": { "base": 0.3 } }
+        { "id": "stay", "label": "やはり怖い。ここで待つ", "actions": [{ "type": "narrate", "text": "斎藤さんと村井さんは、両門ノ滝に残ることにした" }], "tags": ["risky"], "bias": { "base": 0.3 }, "detail": "二人だけで下るのは怖い。" }
       ]
     },
     {
@@ -1116,21 +1231,21 @@
           { "not": { "flag": "planUp4" } }
         ]
       },
-      "situation": "7 人とも、両門ノ滝の下で夜を越した。空が白んできた。雲が少しずつ増えている。",
+      "situation": "7 人とも両門ノ滝の下で夜を越した。空が白み、雲が少しずつ増えている。誰が知らせに行くか。",
       "knowledge": [
-        "甲武信小屋まで東俣を登って 2 時間半〜3 時間半。小屋の前なら電話が通じる。上部の小滝は難しくないが、暗くなると危ない",
-        "西沢渓谷入口へは沢を下って 4〜5 時間。西沢山荘の前まで下りれば電話が通じる。ホラの貝の高巻きや乙女の滝の巻きを、下りでこなすことになる",
-        "斎藤さん（26）と村井さん（24）は沢登りを始めて 2 年目。今日も山根さんの後をついてきた",
+        "甲武信小屋へ東俣を登って 2 時間半〜3 時間半。小屋の前は電話が通じる。上部の小滝は暗いと危ない",
+        "西沢渓谷入口へ沢を下って 4〜5 時間。西沢山荘の前で電話が通じる。ホラの貝・乙女の滝の巻きを下ることになる",
+        "斎藤さん（26）と村井さん（24）は沢登り 2 年目。今日も山根さんについて来た",
         "特定小電力トランシーバーは、沢の中では数百 m しか届かない",
         "昼すぎから雨の予報。雲が山にかかれば、ヘリは飛べない"
       ],
       "options": [
         {
           "id": "up2",
-          "label": "小野さんと堀さんが最低限の装備で東俣を登り、甲武信小屋から通報する。北川さんと宮田さんは残り、若い二人と一緒に付き添う",
-          "detail": "明るいうちに登れる。",
+          "label": "小野さんと堀さんが小屋へ登り通報",
+          "detail": "北川さんと宮田さんは残る。明るいうちに登れる。",
           "actions": [
-            { "type": "say", "who": "kitagawa", "text": "小野さん、堀さん、頼む。無理はしないで。暗くなったら止まって、明るくなってから電話して", "to": "ono" },
+            { "type": "say", "who": "kitagawa", "text": "小野さん、堀さん、頼む。無理はしないで", "to": "ono" },
             { "type": "say", "who": "ono", "text": "行ってきます。小屋に着いたら、すぐ電話します", "to": "kitagawa" },
             {
               "type": "splitParty",
@@ -1154,10 +1269,10 @@
         },
         {
           "id": "up4",
-          "label": "私たち 4 人で東俣を登り、甲武信小屋から通報する。山根さんには斎藤さんと村井さんが付き添う",
-          "detail": "原案の筆者が選ぶとした案。",
+          "label": "4 人で甲武信小屋へ登り通報",
+          "detail": "若い二人が山根さんに付き添う。原案の筆者が選んだ案。",
           "actions": [
-            { "type": "say", "who": "kitagawa", "text": "山根さんを頼む。体を冷やさないように。目を覚ましても、動かさないで", "to": "saito" },
+            { "type": "say", "who": "kitagawa", "text": "山根さんを頼む。冷やさないように。目を覚ましても動かさないで", "to": "saito" },
             { "type": "say", "who": "saito", "text": "はい……。お願いします", "to": "kitagawa" },
             { "type": "bivouac", "who": "saito", "until": "rescue", "findLee": false },
             { "type": "bivouac", "who": "murai", "until": "rescue", "findLee": false },
@@ -1170,14 +1285,14 @@
         },
         {
           "id": "down",
-          "label": "斎藤さんと村井さんに、沢を下って西沢渓谷入口へ知らせに行ってもらう。私たち 4 人が付き添う",
-          "detail": "二人は沢を下った経験がほとんどない。",
-          "actions": [{ "type": "say", "who": "kitagawa", "text": "山根さんは私たちが見ている。二人で、気をつけて下ってくれるか", "to": "saito" }],
+          "label": "若い二人が沢を下って知らせる",
+          "detail": "4 人が付き添う。二人は沢を下った経験がほとんどない。",
+          "actions": [{ "type": "say", "who": "kitagawa", "text": "山根さんは私たちが見ている。二人で、気をつけて下ってくれ", "to": "saito" }],
           "flags": ["planDownDawn"],
           "tags": ["risky"],
           "bias": { "base": 0.8 }
         },
-        { "id": "wait", "label": "もう少し様子を見る。予定の日に帰らなければ、家族が届け出るはずだ", "detail": "届け出は今夜になる。", "actions": [{ "type": "narrate", "text": "もう少し、ここで様子を見ることにした" }], "tags": ["risky"], "bias": { "base": 0.3 } }
+        { "id": "wait", "label": "もう少し様子を見る", "detail": "帰らなければ家族が届け出る。それは今夜になる。", "actions": [{ "type": "narrate", "text": "もう少し、ここで様子を見ることにした" }], "tags": ["risky"], "bias": { "base": 0.3 } }
       ]
     },
     {
@@ -1193,17 +1308,18 @@
           { "var": "c.yamane.alive", "op": "==", "value": true },
           { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] },
           { "not": { "flag": "walkUp" } },
-          { "any": [{ "flag": "planDown" }, { "flag": "planDownDawn" }, { "flag": "runnersDawn" }, { "flag": "waitDawn" }] }
+          { "any": [{ "flag": "planDown" }, { "flag": "planDownDawn" }, { "flag": "runnersDawn" }, { "flag": "waitDawn" }] },
+          { "not": { "flag": "planUp4" } }
         ]
       },
-      "situation": "朝 9 時。ヘリの音も、救助隊の声も聞こえない。知らせはまだ届いていないのかもしれない。雲が低くなってきた。",
-      "knowledge": ["甲武信小屋まで東俣を登って 2 時間半〜3 時間半。小屋の前なら電話が通じる", "昼すぎから雨の予報。雨になれば沢は増水する", "{c.yamane.name}さんの体温は {c.yamane.coreC:1}℃（推定）"],
+      "situation": "朝 9 時。ヘリの音も、救助隊の声も聞こえない。雲が低くなってきた。どうするか。",
+      "knowledge": ["甲武信小屋へ東俣を登って 2 時間半〜3 時間半。小屋の前は電話が通じる", "昼すぎから雨の予報。雨になれば沢は増水する", "{c.yamane.name}さんの体温は {c.yamane.coreC:1}℃（推定）"],
       "options": [
         {
           "id": "up2",
-          "label": "小野さんと堀さんが東俣を登り、甲武信小屋から通報する。北川さんと宮田さんは残る",
+          "label": "小野さんと堀さんが小屋へ登り通報",
           "actions": [
-            { "type": "say", "who": "kitagawa", "text": "知らせが届いていないのかもしれない。小野さん、堀さん、小屋まで頼む", "to": "ono" },
+            { "type": "say", "who": "kitagawa", "text": "このまま待ってはいられない。小野さん、堀さん、小屋まで頼む", "to": "ono" },
             {
               "type": "splitParty",
               "groups": [
@@ -1220,9 +1336,10 @@
           ],
           "flags": ["planUp2", "lateUp"],
           "tags": ["recommended"],
-          "bias": { "base": 0.8 }
+          "bias": { "base": 0.8 },
+          "detail": "北川さんと宮田さんは残る。"
         },
-        { "id": "wait", "label": "もう少し待つ。知らせは届いているはずだ", "actions": [{ "type": "narrate", "text": "もう少し、ここで待つことにした" }], "tags": ["risky"], "bias": { "base": 0.5 } }
+        { "id": "wait", "label": "もう少しここで待つ", "actions": [{ "type": "narrate", "text": "もう少し、ここで待つことにした" }], "tags": ["risky"], "bias": { "base": 0.5 } }
       ]
     },
     {
@@ -1237,12 +1354,12 @@
           { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
         ]
       },
-      "situation": "山根さんが目を開けた。頭が痛いと言い、何があったのかを何度も聞く。体を起こそうとすると、ふらつく。",
-      "knowledge": ["頭を打って意識を失った人は、意識が戻っても、しばらくしてから具合が悪くなることがある", "{c.yamane.name}さんの体温は {c.yamane.coreC:1}℃（推定）", "日の入りは 18:08"],
+      "situation": "山根さんが目を開けた。頭が痛いと言い、何があったのかを何度も聞く。体を起こすとふらつく。付き添う斎藤さんと村井さんは、どうするか。",
+      "knowledge": ["頭を打って気を失った人は、意識が戻っても、後で具合が悪くなることがある", "{c.yamane.name}さんの体温は {c.yamane.coreC:1}℃（推定）", "日の入りは 18:08"],
       "options": [
         {
           "id": "lie",
-          "label": "横になったまま動かさない。体を冷やさないようにして、救助を待つ",
+          "label": "寝かせたまま、冷やさずに待つ",
           "actions": [{ "type": "narrate", "text": "山根さんを横にしたまま、ツエルトとシートを掛け直した" }, { "type": "bivouac", "who": "yamane", "until": "rescue", "findLee": false }],
           "flags": ["wokeLie"],
           "tags": ["recommended"],
@@ -1250,8 +1367,8 @@
         },
         {
           "id": "sit",
-          "label": "意識が戻ったなら、ひとまず大丈夫だろう。座らせて、温かい飲み物を飲ませる",
-          "detail": "本人は「大丈夫」と言っている。",
+          "label": "座らせて、温かい飲み物を渡す",
+          "detail": "意識が戻ったし、本人も「大丈夫」と言っている。",
           "actions": [{ "type": "narrate", "text": "山根さんを岩に寄りかからせて座らせ、温かい飲み物を渡した" }, { "type": "stayPut", "who": "yamane" }],
           "flags": ["wokeSit"],
           "tags": ["risky"],
@@ -1259,8 +1376,8 @@
         },
         {
           "id": "walk",
-          "label": "支えれば歩けそうだ。斎藤さんと村井さんが両側から支えて 150 m 上のビバーク地までゆっくり登り、明日、甲武信小屋へ向かう。北川さんたちは先に登ってタープを張り、湯を沸かして待つ",
-          "detail": "原案の筆者が「リーダーが歩けるなら」と挙げた案。頭を打った人を歩かせることになる。",
+          "label": "支えて 150 m 上のビバーク地へ登る",
+          "detail": "明日は甲武信小屋へ。原案の筆者が挙げた案。頭を打った人を歩かせる。",
           "available": {
             "all": [
               { "var": "group.other.count", "op": "==", "value": 3 },
@@ -1274,7 +1391,7 @@
           },
           "hideIfUnavailable": true,
           "actions": [
-            { "type": "narrate", "text": "宮田さんと堀さんが、山根さんを防水袋の着替えに着替えさせた。北川さんたちが先に巻き道を登り、斎藤さんと村井さんが両側から山根さんを支えて後に続く" },
+            { "type": "narrate", "text": "宮田さんと堀さんが、山根さんを防水袋の着替えに着替えさせた。北川さんたちが先に登り、斎藤さんと村井さんが両側から山根さんを支えて続く" },
             { "type": "changeDry", "who": "yamane" },
             { "type": "goToNode", "who": "yamane", "node": "BIVY", "then": "stay" },
             { "type": "goToNode", "who": "saito", "node": "BIVY", "then": "stay" },
@@ -1301,12 +1418,12 @@
           { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
         ]
       },
-      "situation": "東俣の河原で、7 人で夜を越した。山根さんは、頭が痛いと言っている。甲武信小屋まで、標高差 600 m の沢が続く。",
+      "situation": "東俣の河原で 7 人で夜を越した。山根さんは頭が痛いと言っている。甲武信小屋まで標高差 600 m の沢が続く。山根さんをどうするか。",
       "knowledge": ["甲武信小屋まで 2 時間半〜3 時間。上部には小滝が続く", "昼すぎから雨の予報。雲が山にかかれば、ヘリは飛べない", "{c.yamane.name}さんの体温は {c.yamane.coreC:1}℃（推定）"],
       "options": [
         {
           "id": "up2",
-          "label": "山根さんは今日は歩かせない。小野さんと堀さんが先に甲武信小屋へ登って通報し、残りは付き添う",
+          "label": "山根さんは歩かせず、通報を頼む",
           "actions": [
             {
               "type": "splitParty",
@@ -1327,11 +1444,12 @@
           ],
           "flags": ["planUp2"],
           "tags": ["recommended"],
-          "bias": { "base": 0.6 }
+          "bias": { "base": 0.6 },
+          "detail": "小野さんと堀さんが甲武信小屋へ登る。残りは付き添う。"
         },
         {
           "id": "walk",
-          "label": "山根さんは若い二人に支えられて、ゆっくり甲武信小屋まで登る。北川さんたちは先に小屋へ登り、小屋の主人に知らせて受け入れを頼む",
+          "label": "支えて甲武信小屋まで登る",
           "actions": [
             { "type": "goToNode", "who": "yamane", "node": "HUT", "then": "stay" },
             { "type": "setRoute", "who": "yamane", "route": ["BIVY", "HUT"], "goalNodes": ["HUT"] },
@@ -1340,7 +1458,8 @@
           ],
           "flags": ["walkHut"],
           "tags": ["risky"],
-          "bias": { "base": 0.8 }
+          "bias": { "base": 0.8 },
+          "detail": "若い二人が支える。北川さんたちは先に登り、小屋に受け入れを頼む。"
         }
       ]
     },
@@ -1349,13 +1468,13 @@
       "title": "下る途中でけが",
       "group": "runners",
       "priority": 17,
-      "trigger": { "all": [{ "flag": "runnersGo" }, { "var": "mates.unwellCount", "op": ">", "value": 0 }] },
-      "situation": "沢を下る途中で、二人のうち一人が足を滑らせてけがをした。自分で歩くのは難しい。",
-      "knowledge": ["斎藤さんのけが: {c.saito.injury}／村井さんのけが: {c.murai.injury}", "西沢山荘の前まで下れば電話が通じる", "両門ノ滝では、山根さんと北川さんたちが待っている"],
+      "trigger": { "all": [{ "flag": "runnersGo" }, { "not": { "flag": "runnersLate" } }, { "var": "mates.unwellCount", "op": ">", "value": 0 }] },
+      "situation": "沢を下る途中で、二人のうち一人が足を滑らせてけがをした。自分で歩くのは難しい。どうするか。",
+      "knowledge": ["斎藤さん: {c.saito.injury}／村井さん: {c.murai.injury}", "西沢山荘の前まで下れば電話が通じる", "両門ノ滝では、山根さんが助けを待っている"],
       "options": [
         {
           "id": "murai",
-          "label": "村井さんが一人で下りきって知らせる。斎藤さんはその場でシートにくるまって待つ",
+          "label": "村井さんが一人で下って知らせる",
           "available": { "all": [{ "var": "c.murai.injury", "op": "==", "value": "none" }, { "var": "c.murai.conscious", "op": "==", "value": true }, { "var": "c.saito.injury", "op": "!=", "value": "none" }] },
           "hideIfUnavailable": true,
           "actions": [
@@ -1364,11 +1483,12 @@
             { "type": "detach", "who": "murai", "then": [{ "type": "goToNode", "node": "SANSO", "then": "call" }] }
           ],
           "tags": ["recommended"],
-          "bias": { "base": 0.8 }
+          "bias": { "base": 0.8 },
+          "detail": "斎藤さんはシートにくるまって待つ。"
         },
         {
           "id": "saito",
-          "label": "斎藤さんが一人で下りきって知らせる。村井さんはその場でシートにくるまって待つ",
+          "label": "斎藤さんが一人で下って知らせる",
           "available": { "all": [{ "var": "c.saito.injury", "op": "==", "value": "none" }, { "var": "c.saito.conscious", "op": "==", "value": true }, { "var": "c.murai.injury", "op": "!=", "value": "none" }] },
           "hideIfUnavailable": true,
           "actions": [
@@ -1377,14 +1497,63 @@
             { "type": "detach", "who": "saito", "then": [{ "type": "goToNode", "node": "SANSO", "then": "call" }] }
           ],
           "tags": ["recommended"],
-          "bias": { "base": 0.8 }
+          "bias": { "base": 0.8 },
+          "detail": "村井さんはシートにくるまって待つ。"
         },
         {
           "id": "both",
-          "label": "一人で暗い沢を歩くのは怖い。二人でその場にとどまり、助けを待つ",
+          "label": "二人でその場で助けを待つ",
           "actions": [{ "type": "bivouac", "who": "saito", "until": "rescue", "findLee": false }, { "type": "bivouac", "who": "murai", "until": "rescue", "findLee": false }],
           "tags": ["risky"],
-          "bias": { "base": 0.4 }
+          "bias": { "base": 0.4 },
+          "detail": "一人で沢を下るのは怖い。"
+        }
+      ]
+    },
+    {
+      "id": "cp_runner_hurt_late",
+      "title": "下る途中でけが",
+      "group": "runners",
+      "priority": 17,
+      "trigger": { "all": [{ "flag": "runnersLate" }, { "var": "mates.unwellCount", "op": ">", "value": 0 }] },
+      "situation": "沢を下る途中で、二人のうち一人が足を滑らせてけがをした。自分で歩くのは難しい。どうするか。",
+      "knowledge": ["斎藤さん: {c.saito.injury}／村井さん: {c.murai.injury}", "西沢渓谷入口まで下れば、人がいる", "両門ノ滝では、山根さんが助けを待っている"],
+      "options": [
+        {
+          "id": "murai",
+          "label": "村井さんが一人で下る",
+          "available": { "all": [{ "var": "c.murai.injury", "op": "==", "value": "none" }, { "var": "c.murai.conscious", "op": "==", "value": true }, { "var": "c.saito.injury", "op": "!=", "value": "none" }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "murai", "text": "下で知らせてくる。ここを動かないで", "to": "saito" },
+            { "type": "bivouac", "who": "saito", "until": "rescue", "findLee": false },
+            { "type": "detach", "who": "murai", "then": [{ "type": "goToNode", "node": "TH", "then": "stay" }] }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.8 },
+          "detail": "斎藤さんはシートにくるまって待つ。"
+        },
+        {
+          "id": "saito",
+          "label": "斎藤さんが一人で下る",
+          "available": { "all": [{ "var": "c.saito.injury", "op": "==", "value": "none" }, { "var": "c.saito.conscious", "op": "==", "value": true }, { "var": "c.murai.injury", "op": "!=", "value": "none" }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "saito", "text": "下で知らせてくる。ここを動かないで", "to": "murai" },
+            { "type": "bivouac", "who": "murai", "until": "rescue", "findLee": false },
+            { "type": "detach", "who": "saito", "then": [{ "type": "goToNode", "node": "TH", "then": "stay" }] }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.8 },
+          "detail": "村井さんはシートにくるまって待つ。"
+        },
+        {
+          "id": "both",
+          "label": "二人でその場で助けを待つ",
+          "actions": [{ "type": "bivouac", "who": "saito", "until": "rescue", "findLee": false }, { "type": "bivouac", "who": "murai", "until": "rescue", "findLee": false }],
+          "tags": ["risky"],
+          "bias": { "base": 0.4 },
+          "detail": "一人で沢を下るのは怖い。"
         }
       ]
     },
@@ -1394,12 +1563,12 @@
       "group": "up",
       "priority": 17,
       "trigger": { "all": [{ "flag": "upLeft" }, { "var": "mates.unwellCount", "op": ">", "value": 0 }] },
-      "situation": "東俣を登る途中で、二人のうち一人が足を滑らせてけがをした。自分で登るのは難しい。",
-      "knowledge": ["小野さんのけが: {c.ono.injury}／堀さんのけが: {c.hori.injury}", "甲武信小屋の前まで登れば電話が通じる"],
+      "situation": "東俣を登る途中で、二人のうち一人が足を滑らせてけがをした。自分で登るのは難しい。どうするか。",
+      "knowledge": ["小野さん: {c.ono.injury}／堀さん: {c.hori.injury}", "甲武信小屋の前まで登れば電話が通じる"],
       "options": [
         {
           "id": "hori",
-          "label": "堀さんが一人で甲武信小屋まで登って知らせる。小野さんはその場でシートにくるまって待つ",
+          "label": "堀さんが一人で小屋へ登って知らせる",
           "available": { "all": [{ "var": "c.hori.injury", "op": "==", "value": "none" }, { "var": "c.hori.conscious", "op": "==", "value": true }, { "var": "c.ono.injury", "op": "!=", "value": "none" }] },
           "hideIfUnavailable": true,
           "actions": [
@@ -1409,11 +1578,12 @@
           ],
           "flags": ["hurtOnWay"],
           "tags": ["recommended"],
-          "bias": { "base": 0.8 }
+          "bias": { "base": 0.8 },
+          "detail": "小野さんはシートにくるまって待つ。"
         },
         {
           "id": "ono",
-          "label": "小野さんが一人で甲武信小屋まで登って知らせる。堀さんはその場でシートにくるまって待つ",
+          "label": "小野さんが一人で小屋へ登って知らせる",
           "available": { "all": [{ "var": "c.ono.injury", "op": "==", "value": "none" }, { "var": "c.ono.conscious", "op": "==", "value": true }, { "var": "c.hori.injury", "op": "!=", "value": "none" }] },
           "hideIfUnavailable": true,
           "actions": [
@@ -1423,11 +1593,12 @@
           ],
           "flags": ["hurtOnWay"],
           "tags": ["recommended"],
-          "bias": { "base": 0.8 }
+          "bias": { "base": 0.8 },
+          "detail": "堀さんはシートにくるまって待つ。"
         },
         {
           "id": "both",
-          "label": "二人でその場にとどまり、朝を待つ",
+          "label": "二人でその場で助けを待つ",
           "actions": [{ "type": "bivouac", "who": "ono", "until": "rescue", "findLee": false }, { "type": "bivouac", "who": "hori", "until": "rescue", "findLee": false }],
           "flags": ["hurtOnWay"],
           "tags": ["risky"],
@@ -1440,12 +1611,12 @@
       "title": "東俣でけが",
       "priority": 17,
       "trigger": { "all": [{ "flag": "upAll" }, { "var": "mates.unwellCount", "op": ">", "value": 0 }, { "not": { "flag": "calledHut" } }] },
-      "situation": "東俣を登る途中で、仲間の一人が足を滑らせてけがをした。自分で登るのは難しい。",
+      "situation": "東俣を登る途中で、仲間の一人が足を滑らせてけがをした。自分で登るのは難しい。どうするか。",
       "knowledge": ["北川さん: {c.kitagawa.injury}／宮田さん: {c.miyata.injury}／小野さん: {c.ono.injury}／堀さん: {c.hori.injury}", "甲武信小屋の前まで登れば電話が通じる"],
       "options": [
         {
           "id": "split",
-          "label": "けがをした仲間に一人が付き添い、ほかの人で甲武信小屋まで登って知らせる",
+          "label": "一人が付き添い、残りが小屋へ",
           "actions": [
             {
               "type": "splitParty",
@@ -1457,9 +1628,194 @@
           ],
           "flags": ["hurtOnWay"],
           "tags": ["recommended"],
+          "bias": { "base": 0.8 },
+          "detail": "けがをした仲間のそばに一人残り、ほかは甲武信小屋へ知らせに登る。"
+        },
+        { "id": "stay", "label": "全員その場で朝を待つ", "actions": [{ "type": "bivouac", "until": "dawn", "findLee": false }], "flags": ["hurtOnWay"], "tags": ["risky"], "bias": { "base": 0.4 } }
+      ]
+    },
+    {
+      "id": "cp_o_dawn",
+      "title": "朝の河原",
+      "group": "other",
+      "priority": 15,
+      "trigger": {
+        "all": [
+          { "flag": "focusOther" },
+          { "after": "D1 05:40" },
+          { "before": "D1 09:30" },
+          { "not": { "flag": "walkHut" } },
+          { "var": "c.yamane.indoors", "op": "==", "value": false },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "situation": "朝になった。斎藤さんと村井さんは、山根さんのそばで夜を越した。知らせに登った人が通報できたかは、ここでは分からない。山根さんをどうするか。",
+      "knowledge": ["{c.yamane.name}さんの体温は {c.yamane.coreC:1}℃（推定）", "昼すぎから雨の予報。雲が山にかかれば、ヘリは飛べない", "頭を打った人は、横にしたまま冷やさないのが基本"],
+      "options": [
+        {
+          "id": "move",
+          "label": "山根さんを滝の後ろの河原へ移す",
+          "detail": "しぶきのかかる岩から、平らな河原へ。",
+          "available": { "all": [{ "flag": "notMoved" }, { "not": { "flag": "movedLate" } }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "saito", "to": "murai", "text": "明るくなった。山根さんを、しぶきの来ない所へ移そう" },
+            { "type": "narrate", "text": "ツエルトに山根さんを乗せ、頭を支えて、滝の後ろの平らな河原まで運んだ。マットを敷き、防水袋の着替えに着替えさせて包んだ" },
+            { "type": "changeDry", "who": "yamane" },
+            { "type": "bivouac", "who": "yamane", "until": "rescue", "findLee": false }
+          ],
+          "flags": ["movedLate"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.9 }
+        },
+        {
+          "id": "signal",
+          "label": "シートを広げ、ヘリを待つ",
+          "detail": "開けた河原に、目立つ色のシートを広げる。",
+          "available": { "any": [{ "not": { "flag": "notMoved" } }, { "flag": "movedLate" }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "narrate", "text": "斎藤さんと村井さんが、河原の開けた所に赤いシートを広げ、石で押さえた。湯を沸かして、交代で飲んだ" },
+            { "type": "drink", "who": "saito", "liters": 0.3 },
+            { "type": "drink", "who": "murai", "liters": 0.3 },
+            { "type": "eat", "who": "saito", "kcal": 300 },
+            { "type": "eat", "who": "murai", "kcal": 300 }
+          ],
+          "tags": ["recommended"],
           "bias": { "base": 0.8 }
         },
-        { "id": "stay", "label": "全員でその場にとどまり、朝を待つ", "actions": [{ "type": "bivouac", "until": "dawn", "findLee": false }], "flags": ["hurtOnWay"], "tags": ["risky"], "bias": { "base": 0.4 } }
+        {
+          "id": "rock",
+          "label": "岩の上のまま、動かさずに待つ",
+          "detail": "頭を打った人は、なるべく動かさない。",
+          "available": { "all": [{ "flag": "notMoved" }, { "not": { "flag": "movedLate" } }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "narrate", "text": "山根さんは岩の上に寝かせたまま、シートを掛け直した" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "sit",
+          "label": "座らせて、温かい物を飲ませる",
+          "detail": "本人は「もう大丈夫」と言っている。",
+          "available": { "all": [{ "var": "c.yamane.conscious", "op": "==", "value": true }, { "not": { "flag": "wokeSit" } }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "narrate", "text": "山根さんを岩に寄りかからせて座らせ、温かい飲み物を渡した" }, { "type": "stayPut", "who": "yamane" }],
+          "flags": ["wokeSit"],
+          "tags": ["risky"],
+          "bias": { "base": 0.4 }
+        }
+      ]
+    },
+    {
+      "id": "cp_o_heli",
+      "title": "ヘリが来ない",
+      "group": "other",
+      "priority": 15,
+      "trigger": {
+        "all": [
+          { "flag": "focusOther" },
+          { "flag": "calledHut" },
+          { "after": "D1 10:00" },
+          { "not": { "flag": "walkHut" } },
+          { "not": { "flag": "runnersGo" } },
+          { "var": "c.yamane.indoors", "op": "==", "value": false },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "situation": "昼が近い。ヘリの音はしない。雲が沢まで下りてきて、昼すぎには雨になる。斎藤さんと村井さんは、どうするか。",
+      "knowledge": ["雲が山にかかっていると、ヘリは飛べない。通報が届いていれば、地上の救助隊が沢を登ってくる", "雨が強まれば、沢は増水する", "西沢渓谷入口まで、沢を下って 4〜5 時間", "{c.yamane.name}さんの体温は {c.yamane.coreC:1}℃（推定）"],
+      "options": [
+        {
+          "id": "move",
+          "label": "雨の前に、山根さんを河原へ移す",
+          "detail": "しぶきのかかる岩から、平らな河原へ。",
+          "available": { "all": [{ "flag": "notMoved" }, { "not": { "flag": "movedLate" } }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "saito", "to": "murai", "text": "雨になる前に、山根さんを水の来ない所へ移そう" },
+            { "type": "narrate", "text": "ツエルトに山根さんを乗せ、頭を支えて、滝の後ろの平らな河原まで運んだ。マットを敷き、防水袋の着替えに着替えさせて包んだ" },
+            { "type": "changeDry", "who": "yamane" },
+            { "type": "bivouac", "who": "yamane", "until": "rescue", "findLee": false }
+          ],
+          "flags": ["movedLate"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.9 }
+        },
+        {
+          "id": "tarp",
+          "label": "シートを張り足し、ここで待つ",
+          "detail": "救助隊は、通報した場所を目指してくる。",
+          "available": { "any": [{ "not": { "flag": "notMoved" } }, { "flag": "movedLate" }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "narrate", "text": "ツエルトの上にシートを張り足し、山根さんの体の下に乾いたマットを入れ直した。ここで救助隊を待つ" }, { "type": "addLayer", "who": "yamane" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.8 }
+        },
+        {
+          "id": "down",
+          "label": "若い二人が沢を下って知らせる",
+          "detail": "通報が届いたか分からない。雨の前に下りたい。",
+          "available": {
+            "all": [
+              { "var": "group.other.count", "op": "==", "value": 3 },
+              { "var": "c.saito.conscious", "op": "==", "value": true },
+              { "var": "c.saito.injury", "op": "==", "value": "none" },
+              { "var": "c.murai.conscious", "op": "==", "value": true },
+              { "var": "c.murai.injury", "op": "==", "value": "none" }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "saito", "to": "murai", "text": "下ろう。雨が強くなる前に、下で知らせないと" },
+            {
+              "type": "splitParty",
+              "groups": [
+                { "id": "runners", "members": ["saito", "murai"], "leader": "saito", "cohesion": "tight", "actions": [{ "type": "setPace", "factor": 0.75 }, { "type": "goToNode", "node": "TH", "then": "stay" }] },
+                { "id": "other", "members": ["yamane"], "leader": "yamane", "cohesion": "tight", "actions": [] }
+              ]
+            }
+          ],
+          "flags": ["runnersGo", "runnersLate"],
+          "tags": ["risky"],
+          "bias": { "base": 0.3 }
+        }
+      ]
+    },
+    {
+      "id": "cp_o_climb",
+      "title": "東俣の上部で",
+      "group": "other",
+      "priority": 15,
+      "trigger": {
+        "all": [
+          { "flag": "focusOther" },
+          { "flag": "walkHut" },
+          { "elapsedSince": { "flag": "focusOther", "min": 10 } },
+          { "var": "c.yamane.elevM", "op": ">", "value": 2230 },
+          { "var": "c.yamane.nearestShelterM", "op": ">", "value": 150 },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "situation": "東俣の上部。山根さんが「少し休ませて」と座り込んだ。頭が痛く、気持ちが悪いという。小屋まであと 1 時間ほど。斎藤さんと村井さんは、どうするか。",
+      "knowledge": ["北川さんたちは先に小屋に着き、受け入れを頼んでいる", "昼すぎから雨の予報", "{c.yamane.name}さんの体温は {c.yamane.coreC:1}℃（推定）"],
+      "options": [
+        {
+          "id": "short",
+          "label": "10 分休んで、支えて登る",
+          "detail": "雨の前に小屋に着きたい。",
+          "actions": [{ "type": "say", "who": "saito", "to": "yamane", "text": "少し休んだら、ゆっくり行きましょう。小屋はもうすぐです" }, { "type": "rest", "minutes": 10 }, { "type": "goToNode", "node": "HUT", "then": "stay" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.8 }
+        },
+        {
+          "id": "long",
+          "label": "ここで 1 時間休ませる",
+          "detail": "落ち着くまで待つ。雨が近づく。",
+          "actions": [{ "type": "narrate", "text": "山根さんを岩陰に座らせ、シートを掛けて休ませた" }, { "type": "rest", "minutes": 60 }, { "type": "goToNode", "node": "HUT", "then": "stay" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.5 }
+        }
       ]
     }
   ],
@@ -1471,16 +1827,17 @@
       "options": [
         {
           "id": "reach",
-          "label": "ヘッドランプをつけて、声のする両門ノ滝まで行く。すぐそこだ",
+          "label": "ライトをつけて両門ノ滝まで行く",
           "available": { "all": [{ "flag": "fell" }, { "not": { "flag": "met" } }, { "var": "leader.id", "op": "==", "value": "kitagawa" }, { "near": { "x": -1216, "z": -736, "r": 800 } }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "setPace", "factor": 0.8 }, { "type": "continueRoute" }],
           "tags": ["recommended"],
-          "bias": { "base": 1.5 }
+          "bias": { "base": 1.5 },
+          "detail": "声がする。すぐそこだ。"
         },
         {
           "id": "bivouac",
-          "label": "無理をせず、平らな所でビバークし、明るくなるのを待つ",
+          "label": "平らな所でビバークし、朝を待つ",
           "available": { "not": { "all": [{ "flag": "fell" }, { "not": { "flag": "met" } }, { "var": "leader.id", "op": "==", "value": "kitagawa" }, { "near": { "x": -1216, "z": -736, "r": 800 } }] } },
           "hideIfUnavailable": true,
           "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "dawn", "findLee": true }],
@@ -1489,7 +1846,7 @@
         },
         {
           "id": "continue",
-          "label": "ヘッドランプをつけて、このまま進む",
+          "label": "ヘッドランプをつけて進む",
           "available": { "var": "leader.headlamp.has", "op": "==", "value": true },
           "hideIfUnavailable": true,
           "actions": [{ "type": "setPace", "factor": 0.8 }, { "type": "continueRoute" }],
@@ -1504,7 +1861,7 @@
       "options": [
         {
           "id": "warm_here",
-          "label": "ありったけ着込んで食べ、マットを敷いてツエルトとシートにくるまる",
+          "label": "着込んで食べ、マットとツエルトにくるまる",
           "available": { "near": { "x": -1216, "z": -736, "r": 200 } },
           "hideIfUnavailable": true,
           "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 300 }, { "type": "bivouac", "until": "rescue", "findLee": false }],
@@ -1513,17 +1870,18 @@
         },
         {
           "id": "warm",
-          "label": "ありったけ着込んで食べ、風の当たらない所でシートにくるまって朝を待つ",
+          "label": "着込んで食べ、風を避けて朝を待つ",
           "available": { "not": { "near": { "x": -1216, "z": -736, "r": 200 } } },
           "hideIfUnavailable": true,
           "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 300 }, { "type": "bivouac", "until": "dawn", "findLee": true }],
           "tags": ["recommended"],
-          "bias": { "base": 0.7 }
+          "bias": { "base": 0.7 },
+          "detail": "シートにくるまる。"
         },
         {
           "id": "move",
-          "label": "着込んで食べ、動いて体を温める",
-          "available": { "not": { "near": { "x": -1216, "z": -736, "r": 200 } } },
+          "label": "着込んで食べ、動いて温まる",
+          "available": { "all": [{ "not": { "near": { "x": -1216, "z": -736, "r": 200 } } }, { "var": "leader.injury", "op": "==", "value": "none" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 300 }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -1545,7 +1903,7 @@
       "knowledge": ["両門ノ滝まで戻れば、右の東俣に入り直せる"],
       "options": [
         { "id": "backtrack", "label": "両門ノ滝まで戻り、東俣に入り直す", "actions": [{ "type": "backtrack" }], "tags": ["recommended"], "bias": { "base": 1 } },
-        { "id": "gps", "label": "地図アプリで現在地を確かめ、斜面を越えて東俣へ移る", "actions": [{ "type": "checkPosition" }, { "type": "navigateToTrail" }], "bias": { "base": 0.4 } }
+        { "id": "gps", "label": "地図アプリで確かめ、斜面を越えて東俣へ", "actions": [{ "type": "checkPosition" }, { "type": "navigateToTrail" }], "bias": { "base": 0.4 } }
       ]
     }
   },
@@ -1580,7 +1938,7 @@
     {
       "key": "s13_k_down",
       "who": "kitagawa",
-      "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "flag": "runnersGo" }, { "before": "D1 04:00" }, { "state": "BIVOUAC" }] },
+      "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "flag": "runnersGo" }, { "before": "D1 00:00" }, { "state": "BIVOUAC" }] },
       "lines": ["あの二人は、無事に下りられただろうか", "暗いホラの貝の高巻きを、下っているころだ"],
       "priority": 8
     },
@@ -1588,27 +1946,53 @@
       "key": "s13_k_wait",
       "who": "kitagawa",
       "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "any": [{ "flag": "waitDawn" }, { "flag": "walkUp" }] }, { "before": "D1 04:00" }, { "state": "BIVOUAC" }] },
-      "lines": ["明日の昼から雨だ。明るくなったら、すぐに動かないと", "誰も知らせに行っていない。助けが来るのは、こちらが知らせてからだ"],
+      "lines": ["明日の昼から雨だ。明るくなったら、すぐに動かないと", "誰も知らせに行っていない。助けは、こちらが知らせてからだ"],
       "priority": 8
     },
+    { "key": "s13_k_dawn", "who": "kitagawa", "when": { "all": [{ "after": "D1 04:40" }, { "before": "D1 05:40" }, { "state": "BIVOUAC" }, { "flag": "met" }] }, "lines": ["空が白んできた。雲が増えている"], "priority": 8 },
     {
-      "key": "s13_k_dawn",
+      "key": "s13_k_dawn_heli",
       "who": "kitagawa",
-      "when": { "all": [{ "after": "D1 04:00" }, { "before": "D1 07:00" }, { "state": "BIVOUAC" }, { "flag": "met" }] },
-      "lines": ["空が白んできた。雲が増えている", "昼までにヘリが来てくれれば"],
+      "when": {
+        "all": [
+          { "after": "D1 04:40" },
+          { "before": "D1 09:00" },
+          { "state": "BIVOUAC" },
+          { "flag": "met" },
+          { "any": [{ "flag": "planUp2" }, { "flag": "planUp4" }, { "flag": "runnersGo" }, { "flag": "calledHut" }, { "flag": "calledDown" }] },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "lines": ["昼までにヘリが来てくれれば"],
       "priority": 8
     },
     {
       "key": "s13_m_care",
       "who": "miyata",
-      "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "before": "D1 03:00" }, { "flag": "cared" }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }] },
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "before": "D1 03:00" },
+          { "flag": "cared" },
+          { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] },
+          { "near": { "x": -1216, "z": -736, "r": 200 } }
+        ]
+      },
       "lines": ["着替えさせておいてよかった。濡れたままだったら", "山根さんの息は落ち着いている"],
       "priority": 8
     },
     {
       "key": "s13_m_wet",
       "who": "miyata",
-      "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "before": "D1 03:00" }, { "flag": "notMoved" }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }] },
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "before": "D1 03:00" },
+          { "flag": "notMoved" },
+          { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] },
+          { "near": { "x": -1216, "z": -736, "r": 200 } }
+        ]
+      },
       "lines": ["濡れた服のまま、岩の上で一晩……大丈夫だろうか", "滝のしぶきが冷たい"],
       "priority": 8
     },
@@ -1640,7 +2024,9 @@
           { "flag": "met" },
           { "var": "leader.local.precipMmH", "op": ">", "value": 0.5 },
           { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }, { "state": "STAYING" }] },
-          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] },
+          { "var": "leader.indoors", "op": "==", "value": false },
+          { "before": "D1 18:00" }
         ]
       },
       "lines": ["雨だ。予報どおりだ", "沢の音が大きくなってきた"],
@@ -1663,17 +2049,92 @@
     {
       "key": "s13_saito_dark",
       "who": "saito",
-      "when": { "all": [{ "flag": "runnersGo" }, { "var": "sun.isDark", "op": "==", "value": true }, { "state": "WALKING" }] },
+      "when": { "all": [{ "flag": "runnersGo" }, { "var": "sun.isDark", "op": "==", "value": true }, { "state": "WALKING" }, { "not": { "flag": "calledDown" } }] },
       "lines": ["ライトの輪の外は、何も見えない", "水の音ばかり大きい。どこを歩いているんだ"],
       "priority": 9
     },
     { "key": "s13_ono_up", "who": "ono", "when": { "all": [{ "flag": "upLeft" }, { "state": "WALKING" }, { "not": { "flag": "calledHut" } }] }, "lines": ["急ごう。でも、ここで落ちたら意味がない", "小屋まであと何時間だ"], "priority": 8 },
-    { "key": "s13_hori_up", "who": "hori", "when": { "all": [{ "flag": "upLeft" }, { "state": "WALKING" }, { "not": { "flag": "calledHut" } }] }, "lines": ["日が暮れる前に小屋に着きたい", "北川さんたち、寒くないかな"], "priority": 7 },
-    { "key": "s13_hut1", "when": { "all": [{ "flag": "calledHut" }, { "state": "SHELTERED" }] }, "lines": ["電話がつながってよかった。あとは待つしかない"], "priority": 8 },
-    { "key": "s13_hut2", "when": { "all": [{ "flag": "calledHut" }, { "state": "SHELTERED" }, { "var": "sun.isDark", "op": "==", "value": true }] }, "lines": ["両門ノ滝の河原は、もう真っ暗だろう", "山根さんは、朝までもつだろうか"], "priority": 8 },
-    { "key": "s13_hut3", "when": { "all": [{ "flag": "calledHut" }, { "state": "SHELTERED" }] }, "lines": ["明日、晴れてくれ。ヘリが飛べるように", "雨は昼すぎからだ。それまでに"], "priority": 8 },
-    { "key": "s13_hut4", "when": { "all": [{ "flag": "calledHut" }, { "flag": "planUp2" }, { "state": "SHELTERED" }] }, "lines": ["北川さんと宮田さん、寒くないかな", "残った 4 人は、交代で山根さんを見ているはずだ"], "priority": 8 },
-    { "key": "s13_hut5", "when": { "all": [{ "flag": "calledHut" }, { "flag": "planUp4" }, { "state": "SHELTERED" }] }, "lines": ["あの二人だけで、山根さんを見ていられるだろうか", "着替えさせて、ツエルトで包んできた。あとは任せるしかない"], "priority": 8 }
+    {
+      "key": "s13_hori_up",
+      "who": "hori",
+      "when": { "all": [{ "flag": "upLeft" }, { "state": "WALKING" }, { "not": { "flag": "calledHut" } }, { "var": "sun.isDark", "op": "==", "value": false }] },
+      "lines": ["北川さんたち、寒くないかな"],
+      "priority": 7
+    },
+    {
+      "key": "s13_hori_dusk",
+      "who": "hori",
+      "when": { "all": [{ "flag": "upLeft" }, { "state": "WALKING" }, { "not": { "flag": "calledHut" } }, { "var": "sun.isDark", "op": "==", "value": false }, { "var": "clockMin", "op": ">", "value": 900 }] },
+      "lines": ["日が暮れる前に小屋に着きたい"],
+      "priority": 7
+    },
+    {
+      "key": "s13_hut1",
+      "when": {
+        "all": [
+          { "flag": "calledHut" },
+          { "state": "SHELTERED" },
+          { "not": { "elapsedSince": { "flag": "calledHut", "min": 180 } } },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "lines": ["電話がつながってよかった。あとは待つしかない"],
+      "priority": 8
+    },
+    {
+      "key": "s13_hut2",
+      "when": {
+        "all": [
+          { "flag": "calledHut" },
+          { "state": "SHELTERED" },
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "lines": ["両門ノ滝の河原は、もう真っ暗だろう", "山根さんは、朝までもつだろうか"],
+      "priority": 8
+    },
+    {
+      "key": "s13_hut3",
+      "when": {
+        "all": [
+          { "flag": "calledHut" },
+          { "state": "SHELTERED" },
+          { "before": "D1 00:00" },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "lines": ["明日、晴れてくれ。ヘリが飛べるように", "雨は昼すぎからだ。それまでに"],
+      "priority": 8
+    },
+    {
+      "key": "s13_hut4",
+      "when": {
+        "all": [
+          { "flag": "calledHut" },
+          { "flag": "planUp2" },
+          { "not": { "elapsedSince": { "flag": "calledHut", "min": 300 } } },
+          { "state": "SHELTERED" },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "lines": ["北川さんと宮田さん、寒くないかな", "残った 4 人は、交代で山根さんを見ているはずだ"],
+      "priority": 8
+    },
+    {
+      "key": "s13_hut5",
+      "when": {
+        "all": [
+          { "flag": "calledHut" },
+          { "flag": "planUp4" },
+          { "not": { "elapsedSince": { "flag": "calledHut", "min": 300 } } },
+          { "state": "SHELTERED" },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "lines": ["あの二人だけで、山根さんを見ていられるだろうか", "あとは、あの二人に任せるしかない"],
+      "priority": 8
+    }
   ],
   "speech": [
     {
@@ -1795,7 +2256,8 @@
           { "flag": "met" },
           { "var": "c.yamane.conscious", "op": "==", "value": false },
           { "var": "c.yamane.alive", "op": "==", "value": true },
-          { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }
+          { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] },
+          { "near": { "x": -1216, "z": -736, "r": 200 } }
         ]
       },
       "lines": ["山根さん、息は落ち着いてる"],
@@ -1808,10 +2270,31 @@
       "who": "murai",
       "to": "saito",
       "when": {
-        "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "flag": "planUp4" }, { "var": "c.yamane.alive", "op": "==", "value": true }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }]
+        "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "flag": "planUp4" }, { "not": { "flag": "runnersGo" } }, { "var": "c.yamane.alive", "op": "==", "value": true }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }]
       },
       "lines": ["山根さん、冷たくなってないかな"],
       "replies": { "who": "saito", "lines": ["シートの中は温かいよ。朝になれば、きっと来てくれる"] },
+      "priority": 14,
+      "once": true
+    },
+    {
+      "key": "s13_o_wait",
+      "who": "saito",
+      "to": "murai",
+      "when": {
+        "all": [
+          { "flag": "focusOther" },
+          { "elapsedSince": { "flag": "focusOther", "min": 20 } },
+          { "not": { "flag": "walkHut" } },
+          { "not": { "flag": "runnersGo" } },
+          { "var": "sun.isDark", "op": "==", "value": false },
+          { "var": "leader.indoors", "op": "==", "value": false },
+          { "var": "leader.moving", "op": "==", "value": false },
+          { "all": [{ "var": "c.yamane.state", "op": "!=", "value": "RESCUED" }, { "var": "c.yamane.state", "op": "!=", "value": "FINISHED" }, { "var": "c.yamane.alive", "op": "==", "value": true }] }
+        ]
+      },
+      "lines": ["上に行った人たち、小屋に着けたかな"],
+      "replies": { "who": "murai", "lines": ["きっと着いてる。電話してくれてるよ"] },
       "priority": 14,
       "once": true
     },
@@ -1822,9 +2305,12 @@
       "when": {
         "all": [
           { "any": [{ "flag": "calledHut" }, { "flag": "calledDown" }] },
+          { "not": { "chose": { "cp": "cp_o_dawn", "option": "signal" } } },
           { "after": "D1 05:30" },
           { "var": "sun.isDark", "op": "==", "value": false },
-          { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }
+          { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] },
+          { "var": "leader.indoors", "op": "==", "value": false },
+          { "var": "leader.elevM", "op": "<", "value": 2200 }
         ]
       },
       "lines": ["ヘリの音がしたら、河原でシートを広げよう"],
@@ -1834,22 +2320,30 @@
     }
   ],
   "endings": [
-    { "kind": "SAFE_SHELTER", "when": { "flag": "walkHut" }, "title": "支えられて甲武信小屋へ", "text": "山根さんは若い二人に支えられて東俣を詰め、甲武信小屋にたどり着いた。先に着いた北川さんたちが小屋の主人に事情を話しておき、小屋から通報した。山根さんはその後、病院で手当てを受けた。頭を打った人を沢の中で歩かせるのは、賭けでもあった。" },
-    { "kind": "SELF_RESCUE", "when": { "flag": "walkHut" }, "title": "支えられて甲武信小屋へ", "text": "山根さんは若い二人に支えられて東俣を詰め、甲武信小屋にたどり着いた。先に着いた北川さんたちが小屋の主人に事情を話しておき、小屋から通報した。山根さんはその後、病院で手当てを受けた。頭を打った人を沢の中で歩かせるのは、賭けでもあった。" },
+    { "kind": "SAFE_SHELTER", "when": { "flag": "walkHut" }, "title": "支えられて甲武信小屋へ", "text": "山根さんは若い二人に支えられて東俣を詰め、甲武信小屋にたどり着いた。先に着いた北川さんたちが小屋から通報し、山根さんは病院で手当てを受けた。頭を打った人を沢で歩かせたのは、賭けでもあった。" },
+    { "kind": "SELF_RESCUE", "when": { "flag": "walkHut" }, "title": "支えられて甲武信小屋へ", "text": "山根さんは若い二人に支えられて東俣を詰め、甲武信小屋にたどり着いた。先に着いた北川さんたちが小屋から通報し、山根さんは病院で手当てを受けた。頭を打った人を沢で歩かせたのは、賭けでもあった。" },
     { "kind": "SAFE_RETURN", "title": "下山", "text": "7 人は沢を出た。" },
     {
       "kind": "RESCUED",
-      "when": { "all": [{ "flag": "calledHut" }, { "flag": "planUp2" }, { "flag": "cared" }] },
+      "when": { "all": [{ "flag": "runnersLate" }, { "any": [{ "var": "c.saito.injury", "op": "!=", "value": "none" }, { "var": "c.murai.injury", "op": "!=", "value": "none" }] }] },
+      "title": "届いていた通報",
+      "text": "甲武信小屋からの通報は届いていた。それを知らずに沢を下った斎藤さんと村井さんのうち一人が、途中でけがをした。救助隊は山根さんと、沢の途中のけが人を収容した。動く前に、動かずに待つ理由がないかを考える。"
+    },
+    { "kind": "RESCUED", "when": { "flag": "runnersLate" }, "title": "届いていた通報", "text": "甲武信小屋からの通報は届いていた。救助隊が山根さんを収容し、沢を下った斎藤さんと村井さんも無事だった。ただ、雨の沢で踏み外していれば、遭難者が増えていた。" },
+    { "kind": "RESCUED", "when": { "all": [{ "flag": "calledHut" }, { "flag": "walkUp" }] }, "title": "甲武信小屋からの通報", "text": "東俣の河原で 7 人で夜を越し、朝、小野さんと堀さんが甲武信小屋から通報した。救助隊が河原で山根さんを収容した。頭を打った人を沢で歩かせたのは、賭けでもあった。" },
+    {
+      "kind": "RESCUED",
+      "when": { "all": [{ "flag": "calledHut" }, { "flag": "planUp2" }, { "flag": "cared" }, { "not": { "flag": "walkUp" } }] },
       "title": "甲武信小屋からの通報",
-      "text": "小野さんと堀さんが東俣を詰めて甲武信小屋から通報し、救助隊が両門ノ滝に着いて山根さんを収容した。滝の後ろの河原に移し、着替えさせてツエルトで包んでおいたことが、夜の冷え込みから山根さんを守った。北川さんたちは、できることをして、自分たちの安全も守った。"
+      "text": "小野さんと堀さんが甲武信小屋から通報し、救助隊が両門ノ滝で山根さんを収容した。滝の後ろの河原へ移し、着替えさせて包んだことが、夜の冷えから山根さんを守った。北川さんたちは、できることをしながら自分たちの安全も守った。"
     },
     {
       "kind": "RESCUED",
-      "when": { "all": [{ "flag": "calledHut" }, { "flag": "planUp4" }, { "flag": "cared" }] },
+      "when": { "all": [{ "flag": "calledHut" }, { "flag": "planUp4" }, { "flag": "cared" }, { "not": { "flag": "walkUp" } }] },
       "title": "甲武信小屋からの通報",
-      "text": "北川さんたち 4 人が東俣を詰めて甲武信小屋から通報し、救助隊が両門ノ滝に着いて山根さんを収容した。付き添った斎藤さんと村井さんは、着替えさせてツエルトで包んだ山根さんのそばで、一晩を越した。"
+      "text": "北川さんたち 4 人が甲武信小屋から通報し、救助隊が両門ノ滝で山根さんを収容した。着替えさせて包んだ山根さんのそばで、斎藤さんと村井さんが一晩を越した。"
     },
-    { "kind": "RESCUED", "when": { "flag": "calledHut" }, "title": "甲武信小屋からの通報", "text": "東俣を詰めて甲武信小屋から通報し、救助隊が両門ノ滝に着いて山根さんを収容した。濡れたまま岩の上で過ごした時間が、山根さんの体を冷やしていた。" },
+    { "kind": "RESCUED", "when": { "flag": "calledHut" }, "title": "甲武信小屋からの通報", "text": "東俣を詰めて甲武信小屋から通報し、救助隊が両門ノ滝で山根さんを収容した。濡れたまま岩の上で過ごした時間が、山根さんの体を冷やしていた。" },
     {
       "kind": "RESCUED",
       "when": {
@@ -1864,25 +2358,26 @@
               { "var": "c.saito.injury", "op": "==", "value": "sprain" },
               { "var": "c.murai.injury", "op": "==", "value": "sprain" }
             ]
-          }
+          },
+          { "any": [{ "var": "c.saito.state", "op": "==", "value": "RESCUED" }, { "var": "c.murai.state", "op": "==", "value": "RESCUED" }] }
         ]
       },
-      "title": "暗い沢でけが人が増えた",
-      "text": "知らせに沢を下った若い二人のうち一人が、暗い沢でけがをして動けなくなった。もう一人が下りきって通報し、救助隊は両門ノ滝の山根さんと、沢の途中のもう一人を収容した。知らせに行く人がけがをすれば、助けを待つ人が増える。"
+      "title": "下る途中でけが人が増えた",
+      "text": "知らせに沢を下った二人のうち一人が、途中でけがをして動けなくなった。もう一人が下りきって通報し、救助隊は山根さんと、沢の途中のもう一人を収容した。知らせに行く人がけがをすれば、助けを待つ人が増える。"
     },
     {
       "kind": "RESCUED",
-      "when": { "all": [{ "flag": "calledDown" }, { "flag": "runnersPush" }] },
+      "when": { "all": [{ "flag": "calledDown" }, { "flag": "runnersGo" }, { "flag": "nightMove" }] },
       "title": "暗い沢を下って",
-      "text": "斎藤さんと村井さんは、暗い沢を下りきって西沢山荘の前から通報した。救助隊が両門ノ滝に着き、山根さんを収容した。二人は無事だったが、夜のホラの貝の高巻きで足を踏み外していれば、遭難者が増えていた。"
+      "text": "斎藤さんと村井さんは暗い沢を下りきり、西沢山荘の前から通報した。救助隊が両門ノ滝で山根さんを収容した。二人は下りきれたが、夜の高巻きで踏み外していれば、遭難者が増えていた。"
     },
-    { "kind": "RESCUED", "when": { "flag": "calledDown" }, "title": "沢を下って知らせた", "text": "斎藤さんと村井さんが沢を下り、西沢山荘の前から通報した。救助隊が両門ノ滝に着き、山根さんを収容した。" },
-    { "kind": "RESCUED", "title": "救助", "text": "山根さんは、救助隊に収容された。通報が遅れた分、沢の中で過ごす時間は長くなった。" },
+    { "kind": "RESCUED", "when": { "flag": "calledDown" }, "title": "沢を下って知らせた", "text": "斎藤さんと村井さんが沢を下り、西沢山荘の前から通報した。救助隊が両門ノ滝で山根さんを収容した。" },
+    { "kind": "RESCUED", "title": "救助", "text": "山根さんは救助隊に収容された。通報が遅れた分、沢で過ごす時間は長くなった。" },
     {
       "kind": "RESCUED_CRITICAL",
       "when": { "any": [{ "var": "c.saito.injury", "op": "==", "value": "severeTrauma" }, { "var": "c.murai.injury", "op": "==", "value": "severeTrauma" }] },
       "title": "二重遭難",
-      "text": "知らせに沢を下った若い二人のうち一人が、暗い沢で倒れて重いけがを負った。救助隊は両門ノ滝の山根さんと、沢の途中のもう一人を収容したが、けがは重かった。沢を下った経験のほとんどない二人に、暗くなる沢を下らせることになった。"
+      "text": "知らせに沢を下った二人のうち一人が、沢で倒れて重いけがを負った。救助隊は山根さんと、沢の途中のもう一人を収容した。沢を下った経験のほとんどない二人だけに、下らせることになった。"
     },
     {
       "kind": "RESCUED_CRITICAL",
@@ -1895,17 +2390,17 @@
         ]
       },
       "title": "二重遭難",
-      "text": "救助を呼びに東俣を登った仲間が、沢で足を滑らせて重いけがを負った。もう一人が甲武信小屋まで登って通報し、救助隊は両門ノ滝の山根さんと、沢の途中の仲間を収容した。知らせに行く人がけがをすれば、助けを待つ人が増える。"
+      "text": "救助を呼びに東俣を登った仲間が、沢で足を滑らせて重いけがを負った。救助隊は山根さんと、沢の途中の仲間を収容した。知らせに行く人がけがをすれば、助けを待つ人が増える。"
     },
     {
       "kind": "RESCUED_CRITICAL",
       "when": { "all": [{ "var": "c.yamane.coreC", "op": "<", "value": 33.5 }, { "flag": "wokeSit" }] },
       "title": "冷えきった体で",
-      "text": "山根さんは救助隊に収容されたが、頭のけがに加えて、低体温症の重い状態だった。意識が戻ったので大丈夫だと思い、座らせたままにしていた。頭を打った人は、寒さに気づくことも、自分で体を守ることも難しい。"
+      "text": "山根さんは収容されたが、頭のけがに加えて低体温症が重かった。意識が戻ったので大丈夫だと思い、座らせたままにしていた。頭を打った人は、寒さに気づくことも、自分で体を守ることも難しい。"
     },
-    { "kind": "RESCUED_CRITICAL", "when": { "var": "c.yamane.coreC", "op": "<", "value": 33.5 }, "title": "冷えきった体で", "text": "山根さんは救助隊に収容されたが、頭のけがに加えて、低体温症の重い状態だった。濡れた服のまま沢で過ごした時間が、体の熱を奪っていった。" },
+    { "kind": "RESCUED_CRITICAL", "when": { "var": "c.yamane.coreC", "op": "<", "value": 33.5 }, "title": "冷えきった体で", "text": "山根さんは収容されたが、頭のけがに加えて低体温症が重かった。沢で過ごした長い時間が、体の熱を奪っていった。" },
     { "kind": "RESCUED_CRITICAL", "title": "重い状態で救助", "text": "救助隊が着いたとき、けがをして動けない人の状態は重かった。病院へ運ばれた。" },
-    { "kind": "MISSING", "title": "まだ沢の中", "text": "3 日目の昼になっても、救助隊は全員のもとにたどり着けていない。雨で沢は増水し、両門ノ滝のまわりには、近づくことも難しくなった。" },
+    { "kind": "MISSING", "title": "まだ沢の中", "text": "3 日目の昼になっても、救助隊は全員のもとにたどり着けていない。雨で沢は増水し、両門ノ滝に近づくのも難しくなった。" },
     {
       "kind": "FATAL",
       "when": {
@@ -1921,7 +2416,7 @@
         ]
       },
       "title": "両門ノ滝の下で",
-      "text": "山根さんは、両門ノ滝の下で亡くなった。意識が戻ったので大丈夫だと思い、ツエルトにも入れずに座らせたままにしていた。頭を打った人は、寒さに気づくことも、自分で体を守ることも難しい。雨に打たれ続けた体は、冷えきっていた。"
+      "text": "山根さんは、両門ノ滝の下で亡くなった。意識が戻ったので大丈夫だと思い、座らせたままにしていた。頭を打った人は、寒さに気づくことも、自分で体を守ることも難しい。"
     },
     {
       "kind": "FATAL",
@@ -1935,11 +2430,12 @@
           { "var": "c.miyata.alive", "op": "==", "value": true },
           { "var": "c.yamane.alive", "op": "==", "value": false },
           { "flag": "notMoved" },
+          { "not": { "flag": "movedLate" } },
           { "not": { "flag": "woke" } }
         ]
       },
       "title": "両門ノ滝の下で",
-      "text": "山根さんは、両門ノ滝の下で亡くなった。頭のけがで意識がないまま、滝のしぶきのかかる岩の上で、濡れた服の体が冷えきっていった。意識のない人は、震えて体を温めることができない。"
+      "text": "山根さんは、両門ノ滝の下で亡くなった。意識のないまま、しぶきのかかる岩の上で、濡れた体が冷えきっていった。意識のない人は、震えて体を温めることができない。"
     },
     {
       "kind": "FATAL",
@@ -1961,31 +2457,26 @@
       "kind": "FATAL",
       "when": { "any": [{ "var": "c.saito.alive", "op": "==", "value": false }, { "var": "c.murai.alive", "op": "==", "value": false }] },
       "title": "二重遭難",
-      "text": "知らせに沢を下った若い二人のうち一人が、沢で足を踏み外し、帰らなかった。沢を下った経験のほとんどない二人に、暗くなる沢を下らせることになった。"
+      "text": "知らせに沢を下った二人のうち一人が、沢で足を踏み外し、帰らなかった。経験の浅い二人だけに、沢を下らせることになった。"
     },
     { "kind": "FATAL", "when": { "any": [{ "flag": "upLeft" }, { "flag": "upAll" }] }, "title": "二重遭難", "text": "救助を呼びに東俣を登った仲間が、沢で足を踏み外し、帰らなかった。" },
     { "kind": "FATAL", "title": "帰らなかった人", "text": "沢から戻らなかった人がいた。" }
   ],
   "lessons": [
-    { "id": "l_fall", "title": "沢では、小さな滝でも落ちてはいけない", "text": "巻き道の一歩、濡れた岩の一歩で落ちれば、滝壺と岩が待っている。アルパイン的な沢登りは、フリークライミングの感覚で登ってはいけない。中間支点は間隔が広く、支点そのものが弱いこともある。自分の力量に合った沢を選び、体力と登攀力を身につける。" },
-    { "id": "l_one", "title": "一人が動けなくなると、パーティ全体が止まる", "text": "一人が行動不能になるだけで、パーティは進むことも戻ることもできなくなる。沢の中は圏外が多く、知らせに行く人を出すにも、地形と時間と人の力量の制約がある。" },
-    { "id": "l_warm", "when": { "flag": "notMoved" }, "title": "濡れた人をそのままにしない", "text": "平らで増水・落石の心配の少ない所へ、頭と首を支えて最小限だけ動かし、マットを敷いて濡れた服を着替えさせ、ツエルトやシュラフカバーで包む。意識のない人は震えることができず、濡れたままでは体温が下がり続ける。" },
-    {
-      "id": "l_messenger",
-      "when": { "any": [{ "flag": "planDown" }, { "flag": "planDownDawn" }] },
-      "title": "経験の浅い人だけを沢へ下らせない",
-      "text": "知らせに行く人が沢で事故を起こせば、二重遭難になる。下りの沢は登りより難しく、暗くなればなおさらだ。誰を行かせるかは、その人の経験と技術、残りの明るさで決める。"
-    },
+    { "id": "l_fall", "title": "沢では、小さな滝でも落ちてはいけない", "text": "巻き道や濡れた岩の一歩で落ちれば、滝壺と岩が待っている。沢登りは、フリークライミングの感覚で登らない。支点は間隔が広く、弱いこともある。力量に合った沢を選び、体力と登攀力をつける。" },
+    { "id": "l_one", "title": "一人が動けなくなると、パーティ全体が止まる", "text": "一人が動けなくなれば、パーティは進むことも戻ることもできない。沢の中は圏外が多く、知らせに行く人を出すにも、地形・時間・力量の制約がある。" },
+    { "id": "l_warm", "when": { "flag": "notMoved" }, "title": "濡れた人をそのままにしない", "text": "頭と首を支えて、増水・落石の心配の少ない平らな所へ最小限だけ動かす。マットを敷いて着替えさせ、ツエルトやシュラフカバーで包む。意識のない人は震えられず、濡れたままでは体温が下がり続ける。" },
+    { "id": "l_messenger", "when": { "any": [{ "flag": "planDown" }, { "flag": "planDownDawn" }, { "flag": "runnersLate" }] }, "title": "経験の浅い人だけを沢へ下らせない", "text": "知らせに行く人が事故を起こせば、二重遭難になる。沢は下りの方が難しく、暗くなればなおさらだ。誰を行かせるかは、経験・技術・残りの明るさで決める。" },
     {
       "id": "l_night",
       "when": { "any": [{ "flag": "nightMove" }, { "var": "rec.darkMinutesMoving", "op": ">", "value": 30 }] },
       "title": "夜の沢は歩かない",
-      "text": "ヘッドランプの輪の外は見えず、淵・小滝の巻き・濡れた岩の見分けがつかない。日没が近ければ途中でビバークし、明るくなってから知らせる方が、結果として早いこともある。"
+      "text": "ライトの輪の外は見えず、淵・巻き道・濡れた岩の見分けがつかない。日没が近ければビバークし、明るくなってから知らせる方が、結果として早いこともある。"
     },
-    { "id": "l_early", "when": { "any": [{ "flag": "waitDawn" }, { "flag": "runnersDawn" }] }, "title": "救助要請は早めに", "text": "通報が一晩遅れれば、天気が崩れてヘリが飛べなくなることもある。リスクが高まる前に判断し、動ける人と明るさがあるうちに、知らせる手を打つ。" },
-    { "id": "l_head", "when": { "flag": "woke" }, "title": "意識が戻っても、頭を打った人は動かさない", "text": "頭を打って意識を失った人は、意識が戻っても、しばらくしてから具合が悪くなることがある。痛みを確かめながら応急処置をし、横にしたまま救助を待つ。" },
-    { "id": "l_info", "title": "通報で伝えること", "text": "要救助者の氏名・年齢・生年月日・電話番号・緊急連絡先・住所、本来の行動予定、居場所の経緯度、けがの様子、装備、食料と水の残り、現場の天気。分かることをメモにまとめてから電話をかける。" },
-    { "id": "l_stance", "title": "他のパーティの遭難に出会ったら", "text": "出来ることはするが、自分たちのリスクが高すぎるなら手を引く。自分たちのパーティの安全を最優先にしたうえで、安全確保・保温・けがの確認・通報の手立てを、順に考える。" }
+    { "id": "l_early", "when": { "any": [{ "flag": "waitDawn" }, { "flag": "runnersDawn" }] }, "title": "救助要請は早めに", "text": "通報が一晩遅れれば、天気が崩れてヘリが飛べなくなることもある。動ける人と明るさがあるうちに、知らせる手を打つ。" },
+    { "id": "l_head", "when": { "flag": "woke" }, "title": "意識が戻っても、頭を打った人は動かさない", "text": "頭を打って気を失った人は、意識が戻っても、後で具合が悪くなることがある。痛みを確かめながら応急処置をし、横にしたまま救助を待つ。" },
+    { "id": "l_info", "title": "通報で伝えること", "text": "要救助者の氏名・年齢・生年月日・電話番号・緊急連絡先・住所、行動予定、居場所の経緯度、けがの様子、装備、食料と水の残り、現場の天気。メモにまとめてから電話する。" },
+    { "id": "l_stance", "title": "他のパーティの遭難に出会ったら", "text": "できることはするが、自分たちのリスクが高すぎれば手を引く。自分たちの安全を最優先に、安全確保・保温・けがの確認・通報を順に考える。" }
   ],
   "balanceTargets": { "recommended": { "rescuedMin": 0.95, "fatalMax": 0.02, "badMax": 0.04 }, "bias": { "rescuedMin": 0.85, "fatalMax": 0.05, "badMax": 0.08 }, "risky": { "fatalMin": 0.1, "badMin": 0.3 } },
   "sources": [

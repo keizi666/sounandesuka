@@ -24,18 +24,35 @@ function fixture(): OsmJson {
 }
 
 describe('Overpass の取り込み', () => {
+  it('境界点から境界点へ出るだけの短い道（500 m 未満）と、その境界点は取り込まない', () => {
+    const h = size / 2;
+    // 範囲の北東の角をかすめる道（約 280 m）と、範囲を横切る長い道
+    const corner = [ll(h - 300, -h - 100), ll(h - 80, -h + 80), ll(h + 100, -h + 300)];
+    const across = [ll(-h - 100, 200), ll(0, 200), ll(h + 100, 200)];
+    const json: OsmJson = {
+      elements: [
+        { type: 'way', id: 1, nodes: [1, 2, 3], tags: { highway: 'path' }, geometry: corner },
+        { type: 'way', id: 2, nodes: [4, 5, 6], tags: { highway: 'path' }, geometry: across },
+      ],
+    };
+    const g = osmToGraph(json, lat0, lon0, size, () => 1500);
+    expect(g.edges).toHaveLength(1);
+    expect(g.nodes.filter((n) => n.type === 'boundary')).toHaveLength(2);
+  });
   it('問い合わせは 1 回分の bbox を含む', () => {
     expect(overpassQuery(lat0, lon0, size)).toMatch(/way\["highway"/);
   });
-  it('共有点・地点で分割し、境界で切って登山口候補を作る', () => {
+  it('共有点・地点で分割し、境界で切って境界点を作る', () => {
     const g = osmToGraph(fixture(), lat0, lon0, size, () => 1500);
     const peak = g.nodes.find((n) => n.type === 'peak')!;
     const hut = g.nodes.find((n) => n.type === 'hut')!;
     expect(peak.name).toBe('試験岳');
     expect(hut.shelter).toEqual({ kind: 'staffed', open: true });
     expect(g.hazards[0]).toMatchObject({ type: 'waterfall', radius: 40 });
-    // 南北の道は 小屋（25 m 以内）・合流点・山頂 で分割され、東の道は境界で切れて登山口候補になる
-    const th = g.nodes.filter((n) => n.type === 'trailhead');
+    // 南北の道は 小屋（25 m 以内）・合流点・山頂 で分割され、東の道は境界で切れて境界点（登山口ではない）になる
+    const th = g.nodes.filter((n) => n.type === 'boundary');
+    expect(g.nodes.some((n) => n.type === 'trailhead')).toBe(false);
+    expect(th[0]!.name).toBe('境界点');
     expect(th.length).toBeGreaterThanOrEqual(1);
     expect(Math.max(Math.abs(th[0]!.x), Math.abs(th[0]!.z))).toBeCloseTo(size / 2, 0);
     // 分岐点は合流点と、エリア内で終わる南端の 2 つ

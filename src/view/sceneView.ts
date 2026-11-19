@@ -24,7 +24,8 @@ import { reportProblem } from '../app/problem';
 import { dlog } from '../app/version';
 import { createPost, type Post } from './post';
 import { createKishouClouds, type KishouClouds } from './kishouClouds';
-import { createSky, skyColors, type Sky } from './sky';
+import { createSky, type Sky } from './sky';
+import { scenarioDateMs, skyState, type SkyState } from './astro';
 import { buildWaterfalls } from './waterfalls';
 import { Ghosts } from './ghosts';
 
@@ -46,7 +47,7 @@ function saveGfx(v: { noBloom?: boolean }): void {
 }
 
 /** 夜の環境光の色（月明かりの空と地面） */
-const MOON_SKY = new THREE.Color(0x6f8fd0);
+const GROUND_DAY = new THREE.Color(0x6a5d4a);
 const MOON_GROUND = new THREE.Color(0x232a3a);
 
 export type Quality = 'low' | 'mid' | 'high';
@@ -468,6 +469,8 @@ export class SceneView {
         this.env.uFocus.value.y += h * 0.55;
         this.env.uFocusR.value = h * 1.0;
       } else this.env.uFocusR.value = 0;
+      // カメラから注目点までの距離の半分より手前の木は透かす（俯瞰・追従。目の高さでは周りの木を見せる）
+      this.env.uNearFade.value = this.mode === 'eye' ? 0 : this.camera.position.distanceTo(this.controls.target) * 0.5;
     }
     if (this.mode !== 'eye') this.controls.update();
     this.keepCameraAboveGround();
@@ -751,38 +754,35 @@ export class SceneView {
     this.lastMode = this.mode;
   }
 
+  private skySt: SkyState | undefined;
+  private lastLightDir = new THREE.Vector3(0, 1, 0);
+  /**
+   * 光（ユーザーの指定: 雨かしらR・ジオノスタルジカのように精緻に）。太陽と月は、シナリオの日付・時刻と場所（実在の山は緯度経度、
+   * 箱庭岳は本州中部）から本当の位置を計算する。光の色と強さ・空の色は大気の散乱と目の慣れから（sky.ts）。
+   * 影を落とす光は、太陽と月の明るい方（夜は月明かりの影）。
+   */
   private updateLight(world: World): void {
-    const el = world.sun.elevDeg;
-    const sunUp = Math.max(0, Math.sin(el * DEG));
-    this.lastSunUp = el > 5;
-    const size = this.map.def.size * UNIT;
-    // 太陽の方位: 6 時に東、12 時に南、18 時に西（日周の近似）
-    const clock = ((world.tMin % 1440) + 1440) % 1440;
-    const az = ((clock / 1440) * 2 - 0.5) * Math.PI;
-    const warm = 1 - Math.min(1, Math.max(0, el) / 22);
+    const geo = this.map.def.geo;
+    const st = (this.skySt = skyState(scenarioDateMs(this.scenario, world.tMin), geo?.centerLat ?? 36.25, geo?.centerLon ?? 137.65, this.skySt));
     const cloud = world.weather.cloudCover;
-    // 明るさは「夜 → 薄明 → 昼」へ一方向に増える（途中で暗くならない）。
-    // dawn: 太陽高度 -9°（夜）から +9°（昼）で 0 → 1。空からの光はこれに沿って増える
-    const dawn = THREE.MathUtils.smoothstep(el, -9, 9);
-    const nightK = 1 - THREE.MathUtils.smoothstep(el, -9, 4);
-    if (el > 0) {
-      // 光の向きは、低すぎる太陽を少し持ち上げ、真上にもしない（影がはっきり落ちる 20°〜55°）
-      const elLight = Math.min(55, Math.max(el, 20 * THREE.MathUtils.smoothstep(el, 0, 6))) * DEG;
-      this.sunDir.set(Math.cos(az) * Math.cos(elLight), Math.sin(elLight), Math.sin(az) * Math.cos(elLight)).normalize();
-      this.sun.color.setRGB(1, 1 - 0.32 * warm, 1 - 0.58 * warm);
-      // 曇りは直射が弱まり、代わりに空全体からの柔らかい光が増える
-      this.sun.intensity = 3.0 * Math.pow(sunUp, 0.6) * (1 - 0.78 * cloud * cloud);
-    } else {
-      // 月（太陽と同じ光源を使い回す）: 高い位置から青白く、弱く照らす。薄明が進むにつれて消える
-      this.sunDir.set(-1.2, 2.2, 0.9).normalize();
-      this.sun.color.setRGB(0.62, 0.74, 1.0);
-      this.sun.intensity = (0.22 + 0.2 * world.sun.moonIllum) * (1 - 0.6 * cloud) * (1 - THREE.MathUtils.smoothstep(el, -6, 0));
+    const L = this.sky.update(this.camera, st, cloud, performance.now() / 1000);
+    const el = st.sunElDeg;
+    this.lastSunUp = el > 5;
+    const useSun = L.sunIntensity >= L.moonIntensity;
+    const dir = useSun ? st.sunDir : st.moonDir;
+    // 影がちらつかないよう、光の向きは地平線から 3° より下にしない
+    this.sunDir.copy(dir);
+    if (this.sunDir.y < 0.052) {
+      const h = Math.hypot(this.sunDir.x, this.sunDir.z) || 1;
+      this.sunDir.set((this.sunDir.x / h) * 0.9986, 0.052, (this.sunDir.z / h) * 0.9986);
     }
-    const sc = skyColors(el, cloud);
-    this.hemi.color.copy(sc.top).lerp(sc.horizon, 0.6).lerp(MOON_SKY, nightK);
-    this.hemi.groundColor.copy(sc.ground).lerp(MOON_GROUND, nightK);
-    this.hemi.intensity = THREE.MathUtils.lerp(0.42, 0.85 + 0.55 * cloud, dawn);
-    this.scene.environmentIntensity = THREE.MathUtils.lerp(0.05, 0.36 + 0.2 * cloud, dawn);
+    this.sun.color.copy(useSun ? L.sunColor : L.moonColor);
+    this.sun.intensity = useSun ? L.sunIntensity : L.moonIntensity;
+    const nightK = L.night;
+    this.hemi.color.copy(L.ambientColor);
+    this.hemi.groundColor.copy(GROUND_DAY).multiplyScalar(0.25 + 0.75 * L.seen).lerp(MOON_GROUND, nightK);
+    this.hemi.intensity = L.ambientIntensity;
+    this.scene.environmentIntensity = THREE.MathUtils.lerp(0.04, 0.36 + 0.2 * cloud, THREE.MathUtils.smoothstep(L.seen, 0.1, 0.8));
     // 夜の色味（シェーダー側）もなめらかに変える。登山道の線の色は 0.1 刻みで更新する
     this.env.uNight.value = nightK;
     const night = Math.round(nightK * 10) / 10;
@@ -797,17 +797,16 @@ export class SceneView {
         m.color.setHex(m.userData['base'] as number).multiplyScalar(1 - 0.8 * night);
       });
     }
-    // 空
-    this.sky.update(this.camera, sc, this.sunDir, this.sun.color, cloud);
-    // 空気遠近の霞: 地平の空の色。曇りや夜は濃く見える
-    this.env.uAirColor.value.copy(sc.horizon).multiplyScalar(1 - 0.55 * nightK);
+    // 空気遠近の霞: 地平の空の色
+    this.env.uAirColor.value.copy(L.horizon);
     this.env.uAirDensity.value = 0.07 + 0.08 * cloud;
     this.env.uAirStart.value = this.mode === 'eye' ? 0 : this.camera.position.distanceTo(this.controls.target) * 0.75;
     if (this.sky.mesh.visible) this.scene.background = null;
-    this.renderer.setClearColor(sc.horizon);
-    // 影は太陽が 0.5° 動いたときだけ更新
-    if (Math.abs(el - this.lastSunElev) > 0.5) {
+    this.renderer.setClearColor(L.horizon);
+    // 影は光の向きが 0.4° 動いたときだけ更新
+    if (this.lastLightDir.angleTo(this.sunDir) > 0.007 || Math.abs(el - this.lastSunElev) > 0.5) {
       this.renderer.shadowMap.needsUpdate = true;
+      this.lastLightDir.copy(this.sunDir);
       this.lastSunElev = el;
     }
   }

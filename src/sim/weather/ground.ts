@@ -4,23 +4,38 @@
  * icy は 1 = 凍結。気温が 1℃ を超えている間は 1/60 ずつ減り、60 分続くと 0（途中で冷えたら 1 に戻る）。
  */
 import { dexp } from '../core/dmath';
-import type { GroundState, StaticContext, World } from '../types';
+import type { ClimberState, GroundState, ScenarioDef, StaticContext, World } from '../types';
 import { precipTypeOf } from './local';
 
 export const GROUND_BIN_M = 50;
 export const GROUND_BINS = 61; // 0〜3,050 m
 
+type Snowpack = NonNullable<ScenarioDef['snowpack']>;
+
+/** 始まりの積雪の深さ（cm）。lineM から fullM（省略は lineM+400）まで増える */
+export function snowpackDepthAt(sp: Snowpack, elevM: number): number {
+  if (sp.depthCm <= 0 || elevM <= sp.lineM) return 0;
+  const full = sp.fullM ?? sp.lineM + 400;
+  return sp.depthCm * (full > sp.lineM ? Math.min(1, (elevM - sp.lineM) / (full - sp.lineM)) : 1);
+}
+
+/**
+ * 足元の雪の深さ（cm）。登山道の上で、シナリオが踏み跡の深さ（trailCm）を決めていれば、始まりの積雪はそこまで踏み固められている
+ * （その後に降った雪はそのまま積もる）。道を外れれば、積もったままの深さ。
+ */
+export function footSnowCm(world: World, ctx: StaticContext, c: ClimberState): number {
+  const g = groundAt(world.ground, c.elevM).snowCm;
+  const sp = ctx.scenario.snowpack;
+  if (!sp || sp.trailCm === undefined || c.pos.mode === 'free') return g;
+  const base = Math.min(g, snowpackDepthAt(sp, c.elevM));
+  return g - base + Math.min(base, sp.trailCm);
+}
+
 /** 始まりの地面。snowpack があれば、その標高より上に積もった状態で始める */
-export function createGround(snowpack?: { lineM: number; depthCm: number; fullM?: number }): GroundState {
+export function createGround(snowpack?: Snowpack): GroundState {
   const snowCm = new Array<number>(GROUND_BINS).fill(0);
   if (snowpack && snowpack.depthCm > 0) {
-    const full = snowpack.fullM ?? snowpack.lineM + 400;
-    for (let b = 0; b < GROUND_BINS; b += 1) {
-      const e = b * GROUND_BIN_M + GROUND_BIN_M / 2;
-      if (e <= snowpack.lineM) continue;
-      const f = full > snowpack.lineM ? Math.min(1, (e - snowpack.lineM) / (full - snowpack.lineM)) : 1;
-      snowCm[b] = snowpack.depthCm * f;
-    }
+    for (let b = 0; b < GROUND_BINS; b += 1) snowCm[b] = snowpackDepthAt(snowpack, b * GROUND_BIN_M + GROUND_BIN_M / 2);
   }
   return {
     snowCm,

@@ -1,6 +1,7 @@
 /**
  * タブ 3 地点（docs/16 §4.5、§5）: ノード（名前・種類・小屋・ID の一括書き換え・紛らわしい分岐の表）、危険箇所（鎖場・滝・落石帯・保護範囲）。
  */
+import { toolPalette } from '../forms/toolPalette';
 import type { HazardDef, NodeDef, NodeType } from '../../sim/types';
 import { el } from '../../ui/dom';
 import type { Ed } from '../context';
@@ -24,6 +25,7 @@ const TYPES: [NodeType, string][] = [
   ['hut', '山小屋'],
   ['shelter', '避難小屋'],
   ['landmark', '目印'],
+  ['boundary', '境界点（範囲の外へ続く道の端）'],
 ];
 
 /** エッジ上の位置（沿った距離 s）。samples の s を使う */
@@ -214,7 +216,15 @@ export const pointsPanel: Panel = {
     fill(
       ed.inspector,
       el('h2', {}, '地点と危険箇所'),
-      select<Mode>('道具', mode, [['select', '選択'], ['move', '地点を動かす（ドラッグ）'], ['node', '地点を置く'], ['waterfall', '滝を置く'], ['protectionZone', '保護範囲を置く'], ['chain', '鎖場（道の上を 2 回クリック）'], ['rockfallZone', '落石帯（道の上を 2 回クリック）']], (m) => {
+      toolPalette<Mode>(ed, [
+        { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: '地点か危険箇所をクリック' },
+        { id: 'move', icon: 'openWith', label: '地点を動かす', key: 'm', hint: '地点をドラッグ' },
+        { id: 'node', icon: 'addLocationAlt', label: '地点を置く', key: 'n', hint: 'クリックした所に置く（種類は下で選ぶ）' },
+        { id: 'waterfall', icon: 'waves', label: '滝を置く', key: 'w', hint: 'クリックした所に置く' },
+        { id: 'protectionZone', icon: 'shield', label: '保護範囲を置く', key: 'z', hint: 'クリックした所に置く' },
+        { id: 'chain', icon: 'link', label: '鎖場', key: 'c', hint: '道の上を 2 回クリック（始まりと終わり）' },
+        { id: 'rockfallZone', icon: 'landslide', label: '落石帯', key: 'f', hint: '道の上を 2 回クリック（始まりと終わり）' },
+      ], mode, (m) => {
         mode = m;
         sectionStart = null;
         ed.refresh();

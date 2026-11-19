@@ -118,10 +118,11 @@ export function weatherEvents(world: World, ctx: StaticContext): void {
   const raining = l.precipMmH >= bt.rainStartMmH;
   if (raining && !m.raining) {
     const gapOk = m.rainStoppedAtMin === null || world.tMin - m.rainStoppedAtMin >= bt.rainRestartGapMin;
-    if (gapOk) ctx.events.push({ tMin: world.tMin, type: 'RAIN_START', climberId: leader.id, important: true, data: { precipMmH: l.precipMmH } });
+    if (gapOk) ctx.events.push({ tMin: world.tMin, type: 'RAIN_START', climberId: leader.id, important: true, data: { precipMmH: l.precipMmH, precipType: l.precipType } });
+    else ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: leader.id, data: { rainAgain: l.precipType } });
   } else if (!raining && m.raining) {
     m.rainStoppedAtMin = world.tMin;
-    ctx.events.push({ tMin: world.tMin, type: 'RAIN_STOP', climberId: leader.id });
+    ctx.events.push({ tMin: world.tMin, type: 'RAIN_STOP', climberId: leader.id, data: { precipType: m.precipType } });
   }
   m.raining = raining;
   if (l.precipType !== m.precipType && l.precipType !== 'none' && m.precipType !== 'none') {

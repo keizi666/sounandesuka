@@ -44,6 +44,9 @@ export const behavior = {
   drinkP: 0.3,
   drinkMin: 1,
   drinkL: 0.5,
+  /** 続けて飲まない間隔（分）と、ひと口に満たない量では飲まない（少しずつ何度も飲む記録を避ける） */
+  drinkGapMin: 15,
+  drinkMinL: 0.1,
   /** 決まった間隔で休む習慣（50 分歩いて 10 分。P2 のコースタイム検証と同じ前提） */
   habitRestEveryMin: 50,
   habitRestMin: 10,

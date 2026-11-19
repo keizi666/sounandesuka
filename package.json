@@ -3,13 +3,16 @@
   "version": "0.20.0",
   "private": true,
   "type": "module",
-  "description": "遭難ですゲーム — 山岳遭難の推移を 3D のジオラマで観察する Web アプリとシナリオエディター",
+  "license": "SEE LICENSE IN LICENSE",
+  "description": "遭難ですか？ — 山岳遭難の推移を 3D のジオラマで観察する Web アプリとシナリオエディター",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:sounan": "vite build --base=/sounandesuka/",
+    "deploy": "tsx tools/deploy.ts",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.sim.json",
     "test": "vitest run",

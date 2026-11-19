@@ -74,14 +74,28 @@ export interface Map2dLayers {
   trackColors?: string[];
   markers?: { x: number; z: number; label: string; color?: string; shape?: 'diamond' | 'dot' | 'triangle' }[];
   showFalse?: boolean;
+  /** 見る範囲（拡大・スクロール）。u0・v0 は左上（地図の幅を 1 とした位置）、k は拡大率（1 で全体） */
+  view?: MapView;
+}
+
+export interface MapView {
+  u0: number;
+  v0: number;
+  k: number;
 }
 
 export function drawMap2d(canvas: HTMLCanvasElement, map: MapRuntime, layers: Map2dLayers = {}): void {
   const g = canvas.getContext('2d')!;
   const W = canvas.width;
   const H = canvas.height;
-  g.drawImage(reliefCanvas(map), 0, 0, W, H);
-  const toPx = (x: number, z: number): [number, number] => [((x + map.half) / map.def.size) * W, ((z + map.half) / map.def.size) * H];
+  const v = layers.view ?? { u0: 0, v0: 0, k: 1 };
+  const relief = reliefCanvas(map);
+  g.imageSmoothingEnabled = true;
+  g.imageSmoothingQuality = 'high';
+  g.fillStyle = '#1a1d22';
+  g.fillRect(0, 0, W, H);
+  g.drawImage(relief, v.u0 * relief.width, v.v0 * relief.height, relief.width / v.k, relief.height / v.k, 0, 0, W, H);
+  const toPx = (x: number, z: number): [number, number] => [((x + map.half) / map.def.size - v.u0) * v.k * W, ((z + map.half) / map.def.size - v.v0) * v.k * H];
   // 登山道
   for (const t of Object.values(map.trails)) {
     if (t.def.kind === 'false' && !layers.showFalse) continue;

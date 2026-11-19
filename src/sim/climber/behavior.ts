@@ -121,7 +121,8 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
     }
   }
   // 飲む
-  if (!waitForRest && c.inv.waterL > 0 && b.waterDeficitL > bt.drinkDeficitL && chance(rng, bt.drinkP * J)) {
+  const drinkGapOk = c.memo.lastDrinkMin === null || world.tMin - c.memo.lastDrinkMin >= bt.drinkGapMin;
+  if (!waitForRest && drinkGapOk && c.inv.waterL >= Math.min(bt.drinkMinL, b.waterDeficitL) && c.inv.waterL > 0 && b.waterDeficitL > bt.drinkDeficitL && chance(rng, bt.drinkP * J)) {
     c.memo.lastDrinkMin = world.tMin;
     return startTask(world, c, `drink:${Math.min(bt.drinkL, c.inv.waterL, b.waterDeficitL)}`, bt.drinkMin);
   }

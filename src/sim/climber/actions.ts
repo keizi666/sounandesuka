@@ -255,6 +255,18 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
     case 'music':
       ctx.events.push({ tMin: world.tMin, type: 'MUSIC', data: { id: a.id, volume: a.volume ?? 1 } });
       return;
+    case 'focus':
+      // 世界の状態なので、対象の人数にかかわらず 1 回だけ
+      if (world.focusGroup === a.group) return;
+      world.focusGroup = a.group;
+      {
+        const start = ctx.scenario.groups?.find((g) => g.id === a.group)?.members;
+        const ids = new Set(world.climbers.filter((x) => x.groupId === a.group).map((x) => x.id));
+        if (Array.isArray(start)) for (const id of start) ids.add(id);
+        world.focusMembers = [...ids];
+      }
+      ctx.events.push({ tMin: world.tMin, type: 'FOCUS', important: true, data: { group: a.group } });
+      return;
     case 'leaveMap':
       // 下山した（救助された）人だけ。山の中にいる人を消さない
       if (c.state !== 'FINISHED' && c.state !== 'RESCUED') return;

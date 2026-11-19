@@ -11,7 +11,7 @@ import { piecewise } from '../climber/capacity';
 import { nearestIndex, sampleElev, sampleNormal } from '../terrain/sample';
 import type { ClimberState, InjuryKind, StaticContext, World } from '../types';
 import { VegClass } from '../types';
-import { groundAt } from '../weather/ground';
+import { footSnowCm, groundAt } from '../weather/ground';
 
 export type SlipClass = 'T1' | 'T2' | 'EXPOSED' | 'OFF' | 'OFF_STEEP' | 'STREAM' | 'CLIFF';
 
@@ -47,7 +47,7 @@ export function slipP10(world: World, ctx: StaticContext, c: ClimberState, cls: 
   let p = ((st.base100[cls] ?? 0) * (st.classScale[cls] ?? 1)) / 10;
   if (gr.wet > 0.5 || cls === 'STREAM') p *= st.wetF;
   if (gr.icy) p *= crampons ? st.icyCramponsF : st.icyF;
-  else if (gr.snowCm > 5 && slope > st.snowSlopeDeg) p *= crampons ? st.snowCramponsF : st.snowF;
+  else if (footSnowCm(world, ctx, c) > 5 && slope > st.snowSlopeDeg) p *= crampons ? st.snowCramponsF : st.snowF;
   // 夜: ヘッドランプの光は狭く、道外では足元の岩・穴・段差が読めない
   const offTrail = cls === 'OFF' || cls === 'OFF_STEEP' || cls === 'STREAM' || cls === 'CLIFF';
   if (world.sun.isDark) p *= c.inv.headlamp.on ? (offTrail ? st.darkLampOffF : st.darkLampF) : st.darkF;

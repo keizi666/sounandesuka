@@ -7,7 +7,7 @@
 import { datan2 } from '../core/dmath';
 import { edgeBetween, segmentIndexAt } from '../terrain/trails';
 import type { ClimberState, MapRuntime, StaticContext, World } from '../types';
-import { groundAt } from '../weather/ground';
+import { footSnowCm, groundAt } from '../weather/ground';
 import { capSpeedByMet, isChainAt, trailSpeedMs, walkMet, type MoveEnv } from './movement';
 import { syncPosition } from './position';
 import { chooseLegAtNode, onWrongNode } from './navigation';
@@ -16,14 +16,14 @@ import { shortestPath } from '../terrain/trails';
 import { transition } from './state';
 
 /** 速度に効く周りの状態を World から集める */
-export function moveEnvFor(world: World, c: ClimberState): MoveEnv {
+export function moveEnvFor(world: World, c: ClimberState, ctx?: StaticContext): MoveEnv {
   const gr = groundAt(world.ground, c.elevM);
   return {
     isDark: world.sun.isDark,
     moonIllum: world.sun.moonIllum,
     visibilityM: c.local.visibilityM,
     windMs: c.local.windMs,
-    snowCm: gr.snowCm,
+    snowCm: ctx ? footSnowCm(world, ctx, c) : gr.snowCm,
     icy: gr.icy,
     groundWet: gr.wet,
   };
@@ -45,7 +45,7 @@ export interface WalkResult {
  */
 export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSec: number, members: readonly ClimberState[] = [c]): WalkResult {
   const map: MapRuntime = ctx.map;
-  const envs = members.map((m) => moveEnvFor(world, m));
+  const envs = members.map((m) => moveEnvFor(world, m, ctx));
   const metTime = members.map(() => 0);
   let t = dtSec;
   let moved = 0;

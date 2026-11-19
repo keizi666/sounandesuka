@@ -9,6 +9,8 @@ import { evalCondition } from '../scenario/conditions';
 import type { ClimberState, StaticContext, World } from '../types';
 import { isIndoors } from './situation';
 
+/** これより強い雨は「小降り」と考えない（mm/h） */
+const RAIN_HEAVY_MMH = 2;
 const MOVING = new Set(['WALKING', 'OFFROUTE_UNAWARE', 'LOST_AWARE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL', 'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL']);
 
 interface Builtin {
@@ -29,7 +31,7 @@ function clockOf(w: World): number {
 }
 
 const BUILTIN: Builtin[] = [
-  { key: 'fine_start', priority: 1, leaderOnly: true, when: (w, ctx, c) => w.tMin < scenarioStartMin(ctx.scenario) + 60 && c.perception.weatherImpression === 'fine' },
+  { key: 'fine_start', priority: 1, leaderOnly: true, when: (w, ctx, c) => w.tMin < scenarioStartMin(ctx.scenario) + 60 && c.perception.weatherImpression === 'fine' && c.state === 'WALKING' && c.body.injury === 'none' && !unwellMate(w, c) },
   // 予定の遅れを気にするのは、ふつうに歩いているときだけ（迷った・けが・急病のときは、それどころではない）
   // 出発した日のうちだけ。仲間に具合の悪い人がいれば、時間どころではない
   { key: 'behind', priority: 3, leaderOnly: true, when: (w, ctx, c) => c.perception.timeBehindMin > 45 && c.state === 'WALKING' && c.body.injury === 'none' && !(c.body.illness?.active ?? false) && !c.perception.awareLost && Math.floor(w.tMin / 1440) === Math.floor(scenarioStartMin(ctx.scenario) / 1440) && !unwellMate(w, c) },
@@ -37,7 +39,9 @@ const BUILTIN: Builtin[] = [
   { key: 'phone_low', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 && c.local.tempC < 10 },
   { key: 'phone_low_warm', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 && c.local.tempC >= 10 },
   // 雨具を後回しにするのは、歩いているときだけ（小屋の中・ビバーク・動けないときは出さない）
-  { key: 'rain_delay', priority: 4, when: (_w, _c, c) => c.local.precipMmH >= 0.5 && !c.body.rainwearOn && c.def.gear.rainwear !== 'none' && c.state === 'WALKING' },
+  { key: 'rain_delay', priority: 4, when: (_w, _c, c) => c.local.precipMmH >= 0.5 && c.local.precipMmH < RAIN_HEAVY_MMH && !c.body.rainwearOn && c.def.gear.rainwear !== 'none' && c.state === 'WALKING' },
+  // 本降りでも着ないでいる（止まって着るのが面倒・どうせ濡れる、という先延ばし）
+  { key: 'rain_delay_heavy', priority: 4, when: (_w, _c, c) => c.local.precipMmH >= RAIN_HEAVY_MMH && !c.body.rainwearOn && c.def.gear.rainwear !== 'none' && c.state === 'WALKING' },
   { key: 'cold_hands', priority: 5, when: (_w, _c, c) => c.body.coreC < 35.8 },
   // 「今夜はここで」は夕方から（昼の雨宿り・休憩では出さない）
   { key: 'sheltered', priority: 5, when: (w, _c, c) => c.state === 'SHELTERED' && (w.sun.isDark || clockOf(w) >= 15 * 60) },

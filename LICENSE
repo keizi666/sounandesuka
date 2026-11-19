@@ -1,0 +1,46 @@
+遭難ですか？ (sounandesuka)
+Copyright (c) 2026 keiziweb
+
+Required Notice: Copyright (c) 2026 keiziweb (https://github.com/keizi666/sounandesuka)
+
+This software and its original content (source code, scenarios, maps, figures,
+portraits, sounds and documents in this repository, except the third-party
+materials listed below) are licensed under the PolyForm Noncommercial License
+1.0.0:
+
+    https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+Noncommercial use (personal use, study, research, education, hobby projects,
+and use by charitable, educational and public organizations as described in
+the license) is permitted under that license.
+
+COMMERCIAL USE REQUIRES PERMISSION. Any commercial use — including selling the
+software or its content, offering it as a paid service, using it in paid
+products, paid training or advertising — needs a separate written permission
+(commercial license) from the author. Please ask via the issues of
+https://github.com/keizi666/sounandesuka .
+
+Third-party materials keep their own licenses and are NOT covered by the
+license above:
+
+  - public/sky/stars.json      HYG Database v4.1 (David Nash) — CC BY-SA 4.0
+  - public/sky/moon.jpg        Solar System Scope — CC BY 4.0
+  - Material Symbols icons     Google — Apache License 2.0
+  - three.js and other npm dependencies — their own licenses (see package-lock.json)
+  - MuseScore_General.sf2 sounds used to make the music — MIT License
+  See public/sky/CREDITS.md and public/audio/CREDITS.md.
+
+Terrain and trail data made from GSI tiles (Geospatial Information Authority
+of Japan) and OpenStreetMap (ODbL) are not included in this repository; the
+tools in tools/ build them locally.
+
+----------------------------------------------------------------------------
+日本語の要約（正式な条件は上の英語と PolyForm Noncommercial License 1.0.0）
+
+- このリポジトリのソースコードと作者のオリジナルの内容（シナリオ・地図・人形・顔の絵・音・文書）は、
+  PolyForm Noncommercial License 1.0.0 で、非商用に限って自由に使えます（個人・学習・研究・教育・
+  趣味、慈善・教育・公共の団体での利用など）。
+- 商用利用は許可制です。販売、有料のサービス・製品・研修・広告での利用などは、作者の書面の許可
+  （商用ライセンス）が必要です。GitHub の Issue でお問い合わせください。
+- 非商用の制限があるため、OSI の定義する「オープンソース」ではなく、ソースを公開した非商用ライセンスです。
+- 上に挙げた外部の素材（星の表・月の画像・アイコン・npm の依存など）は、それぞれのライセンスのままです。
