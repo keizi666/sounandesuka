@@ -15,6 +15,8 @@ import { el } from './dom';
 import { climberCard, forecastPanel, weatherPanel } from './panels';
 
 export interface HudHandlers {
+  /** 環境音の入／切 */
+  sound(): void;
   setSpeed(s: Speed): void;
   togglePause(): void;
   setGod(v: boolean): void;
@@ -65,6 +67,7 @@ export class Hud {
   private forecastEl: HTMLElement;
   private lines: LogLine[] = [];
   private sortByCore = false;
+  private soundBtn: HTMLButtonElement;
   /** 小さくしているカード（登山者の ID） */
   private collapsed = new Set<string>();
   private party = new Map<string, ScenarioDef['party'][number]>();
@@ -76,6 +79,7 @@ export class Hud {
     opts: { god: boolean; observe: boolean; timed: boolean },
   ) {
     this.god = opts.god;
+    this.soundBtn = el('button', { class: 'icon', title: JA.ui.soundOn, 'aria-label': JA.ui.soundOn, onclick: () => h.sound() }, icon('volumeOff'));
     this.party = new Map(scenario.party.map((p) => [p.id, p]));
     this.clock = el('span', { class: 'clock', 'aria-live': 'off' });
     this.pauseBtn = el('button', { class: 'icon', title: `${JA.ui.pause} (Space)`, onclick: () => h.togglePause() }, icon('pause'));
@@ -112,6 +116,7 @@ export class Hud {
       this.godBtn,
       el('div', { class: 'group cams', role: 'group', 'aria-label': JA.ui.camera }, [...this.camBtns.values()]),
       layers,
+      this.soundBtn,
       el('button', { class: 'icon', title: JA.ui.settings, 'aria-label': JA.ui.settings, onclick: () => h.settings() }, icon('settings')),
     ]);
     this.climbersEl = el('div', { class: 'climbers' });
@@ -181,6 +186,15 @@ export class Hud {
     }
   }
 
+  /** 音のボタンの表示 */
+  setSound(on: boolean): void {
+    this.soundBtn.replaceChildren(icon(on ? 'volumeUp' : 'volumeOff'));
+    const label = on ? JA.ui.soundOff : JA.ui.soundOn;
+    this.soundBtn.title = label;
+    this.soundBtn.setAttribute('aria-label', label);
+    this.soundBtn.classList.toggle('on', on);
+  }
+
   /** 保存用: いまのログ（新しいほうから最大 400 行） */
   allLines(): LogLine[] {
     return this.lines.slice(-400);
@@ -226,7 +240,8 @@ export class Hud {
       const cont = this.lastSpeaker === who.id;
       this.lastSpeaker = who.id;
       // 顔の下に、そのときの体力とスマホの電池を丸いメーターで出す
-      const face = cont ? el('span', { class: 'face-gap' }) : el('span', { class: 'face' }, [avatar(who, 52), line.snap ? snapGauges(line.snap) : null]);
+      // 顔、その右の 1 行目に名前とメーター（体力・スマホ）、2 行目に文と時刻（同じ人が続くときは顔と名前の行を省く）
+      const face = cont ? el('span', { class: 'face-gap' }) : el('span', { class: 'face' }, avatar(who, 48));
       // 「＞」: そのときの状態の詳細を出す
       const snap = line.snap;
       const more = snap ? el('button', { class: 'more', type: 'button', title: JA.logDetail.open, 'aria-label': JA.logDetail.open }, icon('chevronRight')) : null;
@@ -234,7 +249,7 @@ export class Hud {
         e.stopPropagation();
         openLogDetail({ who, time, text: line.bubble ?? line.text, snap: snap!, god: this.god, anchor: more });
       });
-      const name = cont ? null : el('div', { class: 'name' }, [el('span', { style: `color:${who.color}` }, who.name), line.to ? el('span', { class: 'to' }, ` → ${line.to}`) : null]);
+      const name = cont ? null : el('div', { class: 'name' }, [el('span', { class: 'who-name' }, who.name), line.to ? el('span', { class: 'to' }, `→ ${line.to}`) : null, line.snap ? snapGauges(line.snap) : null]);
       let body: HTMLElement;
       if (kind === 'speech' || kind === 'thought') {
         body = el('div', { class: 'msg' }, [
@@ -246,7 +261,7 @@ export class Hud {
         // 行動: 顔の横に 1 行（名前は文の中にあるので、見出しは出さない）
         body = el('div', { class: 'msg' }, [el('div', { class: `act${line.important ? ' imp' : ''}` }, [line.text, el('time', {}, time)]), more]);
       }
-      li = el('li', { class: `who ${kind}${cont ? ' cont' : ''}`, 'data-t': line.tMin }, [face, el('div', { class: 'col' }, [kind === 'action' ? null : name, body])]);
+      li = el('li', { class: `who ${kind}${cont ? ' cont' : ''}`, 'data-t': line.tMin }, [face, el('div', { class: 'col' }, [name, body])]);
       li.addEventListener('click', () => this.h.select(who.id));
     }
     if (this.cutoff !== null && line.tMin > this.cutoff + 1e-6) li.hidden = true;

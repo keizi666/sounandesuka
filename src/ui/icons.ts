@@ -14,6 +14,8 @@ import warning from '@material-symbols/svg-400/rounded/warning.svg?raw';
 import wbSunny from '@material-symbols/svg-400/rounded/wb_sunny.svg?raw';
 import chevronRight from '@material-symbols/svg-400/rounded/chevron_right.svg?raw';
 import close from '@material-symbols/svg-400/rounded/close.svg?raw';
+import volumeOff from '@material-symbols/svg-400/rounded/volume_off.svg?raw';
+import volumeUp from '@material-symbols/svg-400/rounded/volume_up.svg?raw';
 import acUnit from '@material-symbols/svg-400/rounded/ac_unit.svg?raw';
 import air from '@material-symbols/svg-400/rounded/air.svg?raw';
 import batteryAlert from '@material-symbols/svg-400/rounded/battery_alert.svg?raw';
@@ -58,6 +60,7 @@ import visibility from '@material-symbols/svg-400/rounded/visibility.svg?raw';
 import waterDrop from '@material-symbols/svg-400/rounded/water_drop.svg?raw';
 
 const ICONS = {
+  volumeOff, volumeUp,
   chevronRight, close,
   arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, warning, wbSunny,
   acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, favorite, flashlightOn, keyboardArrowDown, keyboardArrowUp, foggy, groups, healing, hiking, history, home,

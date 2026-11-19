@@ -109,6 +109,8 @@ export interface LogDetailInput {
   god: boolean;
   /** ポップアップを出す基準の要素（押したボタン） */
   anchor: HTMLElement;
+  /** 下の注記（省略時は「ログが出た時点の値です。」） */
+  note?: string;
 }
 
 /** 行の詳細のポップアップ。外を押す・Esc・×で閉じる */
@@ -130,7 +132,7 @@ export function openLogDetail(d: LogDetailInput): void {
       el('div', { class: 'pop-who' }, [el('strong', {}, `${d.who.name} ${d.who.age}`), el('small', {}, `${d.time} ・ ${JA.labels.state[s.state] ?? s.state} ・ ${s.elevM.toLocaleString()} m`)]),
       close,
     ]),
-    el('p', { class: 'pop-text' }, d.text),
+    d.text ? el('p', { class: 'pop-text' }, d.text) : null,
     el('h4', {}, D.body),
     row('favorite', JA.ui.hp, s.hp / 100, hpLevel(s.hp), `${s.hp}`),
     s.phone !== null ? row('mobile', JA.ui.phoneBattery, s.phone / 100, levelOf(s.phone, 30, 15, 5), s.phone === 0 ? '×' : `${s.phone}%`) : null,
@@ -149,7 +151,7 @@ export function openLogDetail(d: LogDetailInput): void {
           kv('foggy', JA.ui.visibility, s.visM >= 10000 ? '10km以上' : `${s.visM} m`),
         ])
       : null,
-    el('p', { class: 'pop-note' }, D.note),
+    el('p', { class: 'pop-note' }, d.note ?? D.note),
   ]);
   document.body.append(pop);
   // 押したボタンの近くに、画面からはみ出さないように置く

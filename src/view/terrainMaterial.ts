@@ -346,12 +346,22 @@ ${
       `#include <dithering_fragment>
       // 雲の中は灰白色に霞む（俯瞰でも稜線が雲に隠れて見える）
       float hkFog = smoothstep(uCloudBase - 80.0, uCloudBase + 60.0, vElev) * uCloudCover * 0.85;
+      // 注目している登山者の周りと、カメラからの見通しの線の上は霧を薄くする（雲の中でも人と足元が見える）
+      float hkClear = 0.0;
+      if (uFocusR > 0.0) {
+        float hkFd = distance(vWorldPos, uFocus);
+        vec3 hkAB2 = uFocus - cameraPosition;
+        float hkT2 = clamp(dot(vWorldPos - cameraPosition, hkAB2) / max(dot(hkAB2, hkAB2), 1e-9), 0.0, 1.0);
+        float hkLd = length(vWorldPos - (cameraPosition + hkAB2 * hkT2));
+        hkClear = max(1.0 - smoothstep(uFocusR * 3.0, uFocusR * 9.0, hkFd), (1.0 - smoothstep(uFocusR * 2.0, uFocusR * 5.0, hkLd)) * 0.7);
+      }
+      hkFog *= 1.0 - 0.85 * hkClear;
       gl_FragColor.rgb = mix(gl_FragColor.rgb, uFogColor * (1.0 - 0.75 * uNight), hkFog);
       gl_FragColor.rgb *= mix(vec3(1.0), vec3(0.62, 0.7, 0.92), uNight);
       // 空気遠近: 遠いほど、また低いところほど霞の色に寄り、彩度が落ちる
       float hkDist = max(0.0, distance(cameraPosition, vWorldPos) - uAirStart);
       float hkLow = 1.0 - clamp((vWorldPos.y - 0.05) / 1.2, 0.0, 1.0);
-      float hkAir = 1.0 - exp(-hkDist * uAirDensity * (0.75 + 0.6 * hkLow));
+      float hkAir = (1.0 - exp(-hkDist * uAirDensity * (0.75 + 0.6 * hkLow))) * (1.0 - 0.7 * hkClear);
       vec3 hkGrey = vec3(dot(gl_FragColor.rgb, vec3(0.2126, 0.7152, 0.0722)));
       gl_FragColor.rgb = mix(gl_FragColor.rgb, hkGrey, hkAir * 0.3);
       gl_FragColor.rgb = mix(gl_FragColor.rgb, uAirColor, hkAir);`,

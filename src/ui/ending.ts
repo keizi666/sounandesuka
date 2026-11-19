@@ -1,12 +1,19 @@
-/** 結末画面（docs/11 §5、FR-30〜31） */
+/**
+ * 結末画面（docs/11 §5、FR-30〜31）。レイアウト: 結末の色の見出し（題名と物語）→ 要約の数字 → メンバーの状態 → 分岐での選択 → 下に固定した操作。
+ */
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { JA } from '../i18n/ja';
-import { formatDateTime } from '../i18n/format';
+import { formatClock, formatDateTime } from '../i18n/format';
 import { createStaticContext } from '../sim/core/world';
 import { ENDING_SEVERITY, resolveEnding } from '../sim/scenario/endings';
 import { recVars } from '../sim/record/recorder';
-import { el } from './dom';
+import type { ClimberState } from '../sim/types';
+import { avatar } from './avatar';
+import { el, levelOf } from './dom';
+import { hpLevel, hpOf } from './hp';
+import { icon, type IconName } from './icons';
+import { ringGauge } from './logDetail';
 import { optionLabel, type SimResult } from './simScreen';
 
 export function endingTone(kind: string): 'good' | 'mid' | 'bad' {
@@ -19,6 +26,31 @@ function hm(min: number): string {
   return `${h} 時間 ${Math.round(min - h * 60)} 分`;
 }
 
+const DEATH_CAUSE: Record<string, string> = { hypothermia: '低体温症', fall: '滑落', lightning: '落雷', trauma: '外傷', heat: '熱中症' };
+
+function memberCard(c: ClimberState, outcome: string, minCoreC: number): HTMLElement {
+  const b = c.body;
+  const hp = hpOf(b);
+  const tone = endingTone(outcome);
+  const stat = (ic: IconName, label: string, value: string, lv: 'ok' | 'warn' | 'danger' | 'critical'): HTMLElement =>
+    el('div', { class: `en-stat lv-${lv}` }, [icon(ic), el('small', {}, label), el('strong', {}, value)]);
+  return el('li', { class: `en-member tone-${tone}`, style: `--c:${c.def.color}` }, [
+    el('div', { class: 'en-face' }, [avatar(c.def, 72), ringGauge('favorite', hp / 100, hpLevel(hp), `${JA.ui.hp} ${hp}`)]),
+    el('div', { class: 'en-info' }, [
+      el('div', { class: 'en-name' }, [el('strong', {}, c.def.name), el('span', {}, `${c.def.age}歳`), el('span', { class: `en-badge tone-${tone}` }, JA.endings[outcome]?.title ?? outcome)]),
+      el('p', { class: 'en-state' }, [outcome === 'SAFE_SHELTER' && c.state !== 'DEAD' ? '小屋で過ごした' : (JA.labels.state[c.state] ?? c.state), !b.alive && b.deathCause ? `（${DEATH_CAUSE[b.deathCause] ?? b.deathCause}）` : '', b.injury !== 'none' ? ` ・ ${JA.labels.injury[b.injury] ?? b.injury}` : '']),
+      el('div', { class: 'en-stats' }, [
+        stat('favorite', JA.ui.hp, `${hp}`, hpLevel(hp)),
+        stat('thermostat', '最低体温', `${minCoreC.toFixed(1)}℃`, levelOf(minCoreC, 36, 35, 32)),
+        stat('bolt', JA.ui.energy, `${Math.round(b.glycogenKcal)}`, levelOf(b.glycogenKcal, 600, 300, 100)),
+        stat('waterDrop', JA.ui.water, `-${b.waterDeficitL.toFixed(1)}L`, levelOf(b.waterDeficitL, 1, 2, 4, true)),
+        stat('batteryAlert', JA.ui.fatigue, `${Math.round(b.fatigue)}`, levelOf(b.fatigue, 60, 80, 95, true)),
+        stat('rainy', JA.ui.wetness, `${Math.round(b.wetness * 100)}%`, levelOf(b.wetness, 0.3, 0.6, 0.85, true)),
+      ]),
+    ]),
+  ]);
+}
+
 export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimResult): () => void {
   const { scenario: s } = loaded;
   const w = result.world;
@@ -27,43 +59,54 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
   const def = JA.endings[e.kind];
   const r = result.recorder.record;
   const start = r.samples[0]?.t ?? w.tMin;
+  const endMin = w.ended?.atMin ?? w.tMin;
   const decisions = r.decisions.filter((d) => d.by === 'user' || d.by === 'bias');
+  const tone = endingTone(e.kind);
+  const minCore = (id: string): number => Math.min(37, ...r.samples.map((sm) => sm.climbers.find((q) => q.id === id)?.coreC ?? 37));
+  const fact = (ic: IconName, label: string, value: string): HTMLElement => el('div', { class: 'bf-fact' }, [icon(ic), el('span', {}, [el('small', {}, label), el('strong', {}, value)])]);
+
   app.root.append(
-    el('main', { class: `ending tone-${endingTone(e.kind)}` }, [
-      el('div', { class: 'band' }, [el('p', {}, JA.ui.endingTitle), el('h1', {}, e.title ?? def?.title ?? e.kind)]),
-      el('p', { class: 'story' }, e.text ?? def?.text ?? ''),
-      el('section', { class: 'summary' }, [
-        el('h2', {}, JA.ui.summary),
-        el('dl', {}, [
-          el('dt', {}, JA.ui.duration),
-          el('dd', {}, hm((w.ended?.atMin ?? w.tMin) - start)),
-          el('dt', {}, JA.ui.distance),
-          el('dd', {}, `${(r.stats.distanceM / 1000).toFixed(1)} km`),
-          el('dt', {}, JA.ui.minCore),
-          el('dd', {}, `${r.stats.minCoreC.toFixed(1)}℃`),
-          r.stats.rescueCalledAt !== null ? el('dt', {}, JA.ui.rescueAt) : null,
-          r.stats.rescueCalledAt !== null ? el('dd', {}, formatDateTime(s, r.stats.rescueCalledAt)) : null,
+    el('main', { class: `ending2 tone-${tone}` }, [
+      el('header', { class: 'en-hero' }, [
+        el('div', { class: 'en-in' }, [
+          el('p', { class: 'en-kicker' }, [JA.ui.endingTitle, el('span', {}, s.title)]),
+          el('h1', {}, e.title ?? def?.title ?? e.kind),
+          el('p', { class: 'en-story' }, e.text ?? def?.text ?? ''),
+          el('div', { class: 'bf-facts' }, [
+            fact('timer', JA.ui.duration, hm(endMin - start)),
+            fact('route', JA.ui.distance, `${(r.stats.distanceM / 1000).toFixed(1)} km`),
+            fact('thermostat', JA.ui.minCore, `${r.stats.minCoreC.toFixed(1)}℃`),
+            fact('flag', '終わった時刻', formatDateTime(s, endMin)),
+            r.stats.rescueCalledAt !== null ? fact('mobile', JA.ui.rescueAt, formatDateTime(s, r.stats.rescueCalledAt)) : null,
+            r.stats.wasLost ? fact('warning', '道迷い', `${Math.round(r.stats.lostMinutes)} 分`) : null,
+          ]),
+        ]),
+      ]),
+      el('div', { class: 'en-body' }, [
+        el('section', { class: 'bf-card' }, [
+          el('h2', {}, [icon('groups'), JA.ui.perClimber]),
+          el('ul', { class: 'en-members' }, e.perClimber.map((p) => memberCard(w.climbers.find((x) => x.id === p.id)!, p.outcome, minCore(p.id)))),
         ]),
         decisions.length > 0
-          ? el('div', {}, [el('h3', {}, JA.ui.decisions), el('ul', {}, decisions.map((d) => el('li', {}, `${formatDateTime(s, d.tMin)} ${optionLabel(loaded, d.cpId, d.optionId)}`)))])
+          ? el('section', { class: 'bf-card' }, [
+              el('h2', {}, [icon('route'), JA.ui.decisions]),
+              el('ol', { class: 'en-decisions' }, decisions.map((d) => el('li', {}, [el('time', {}, formatClock(d.tMin)), el('span', { class: 'dia' }, '◆'), el('span', {}, optionLabel(loaded, d.cpId, d.optionId)), d.by !== 'user' ? el('small', {}, '（自動）') : null]))),
+            ])
           : null,
+        el('div', { class: 'bf-notes' }, [
+          el('p', { class: 'note' }, JA.disclaimer.endingNote),
+          s.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,
+          s.historical ? el('p', { class: 'note strong' }, s.historical.disclaimer) : null,
+        ]),
       ]),
-      w.climbers.length > 1
-        ? el('section', {}, [
-            el('h2', {}, JA.ui.perClimber),
-            el('ul', { class: 'per' }, e.perClimber.map((p) => {
-              const c = w.climbers.find((x) => x.id === p.id)!;
-              return el('li', {}, [el('span', { style: `color:${c.def.color}` }, '● '), `${c.def.name}: ${JA.endings[p.outcome]?.title ?? p.outcome}（${JA.labels.state[p.state] ?? p.state}）`]);
-            })),
-          ])
-        : null,
-      el('p', { class: 'note' }, JA.disclaimer.endingNote),
-      s.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,
-      s.historical ? el('p', { class: 'note strong' }, s.historical.disclaimer) : null,
-      el('div', { class: 'actions' }, [
-        el('button', { class: 'primary', onclick: () => app.go({ name: 'debrief', loaded, result }) }, JA.ui.debrief),
-        el('button', { onclick: () => app.go({ name: 'briefing', loaded }) }, JA.ui.again),
-        el('button', { onclick: () => app.go({ name: 'select' }) }, JA.ui.toSelect),
+      el('footer', { class: 'bf-bar' }, [
+        el('div', { class: 'bf-bar-in' }, [
+          el('div', { class: 'en-bar-btns' }, [
+            el('button', { onclick: () => app.go({ name: 'briefing', loaded }) }, JA.ui.again),
+            el('button', { onclick: () => app.go({ name: 'select' }) }, JA.ui.toSelect),
+          ]),
+          el('button', { class: 'primary big', onclick: () => app.go({ name: 'debrief', loaded, result }) }, [icon('history'), JA.ui.debrief]),
+        ]),
       ]),
     ]),
   );

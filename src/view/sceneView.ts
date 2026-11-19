@@ -22,6 +22,7 @@ import { buildGroundMasks } from './groundMasks';
 import { reportProblem } from '../app/problem';
 import { dlog } from '../app/version';
 import { createPost, type Post } from './post';
+import { createKishouClouds, type KishouClouds } from './kishouClouds';
 import { createSky, skyColors, type Sky } from './sky';
 
 /** この環境で使えなかった描画機能の覚え書き（localStorage）。設定の「初期化」とは別に、キーを消せば戻る */
@@ -52,6 +53,8 @@ export interface ViewOptions {
   quality: Quality;
   figureScale: number;
   vExag: number;
+  /** 立体の雲（気象の計算） */
+  clouds3d?: boolean;
 }
 
 const QUALITY = {
@@ -117,6 +120,10 @@ export class SceneView {
   private lastShadowAt = 0;
   private sky: Sky;
   private post: Post | null = null;
+  /** 立体の雲（気象の計算）。画質「低」と、後処理が使えない環境ではなし */
+  kishou: KishouClouds | null = null;
+  /** ゲームの速さ（ゲーム内の秒 / 実際の秒）。立体の雲の計算の速さに使う */
+  gameSpeed = 0;
   private frames = 0;
   private drawOk = false;
   private sizeLogTimer = 0;
@@ -226,7 +233,7 @@ export class SceneView {
     this.sun.shadow.bias = -0.0006;
     this.sun.shadow.normalBias = 0.004;
     this.scene.add(this.sun, this.sun.target, this.hemi);
-    this.fx = createWeatherFx(this.scene, map, this.s, opts.quality);
+    this.fx = createWeatherFx(this.scene, map, this.s, opts.quality, this.env);
     // 空・環境光（質感のための映り込み）・後処理
     this.sky = createSky(size * 30);
     this.scene.add(this.sky.mesh);
@@ -235,6 +242,11 @@ export class SceneView {
       this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
       pmrem.dispose();
       this.post = createPost(this.renderer, this.scene, this.camera, opts.quality === 'high');
+      // 立体の雲（テングラフィカの気象の計算）。場面を描いた直後の段に差し込む
+      if (opts.clouds3d !== false) {
+        this.kishou = createKishouClouds(map, scenario, this.s, this.camera, opts.quality === 'high' ? 'high' : 'mid');
+        this.post.insertAfterScene(this.kishou.pass);
+      }
       // 前に「にじみ」で真っ黒になった環境では、最初から切っておく
       if (loadGfx().noBloom) {
         this.post.setStages({ bloom: false, finish: true });
@@ -361,6 +373,22 @@ export class SceneView {
   render(world: World, prev: Record<string, Pose> | null, alpha: number, timeSec: number): void {
     this.updateLight(world);
     this.fx.update(world, this.env, this.camera, timeSec);
+    if (this.kishou) {
+      this.fx.spriteClouds = !this.kishou.active;
+      this.kishou.update(world, {
+        gameSecPerRealSec: this.gameSpeed,
+        timeSec,
+        sunDir: this.sunDir,
+        sunColor: this.sun.color,
+        sunIntensity: this.sun.intensity,
+        skyColor: this.hemi.color,
+        groundColor: this.hemi.groundColor,
+        night: this.env.uNight.value,
+        flash: this.fx.flash,
+        focus: this.env.uFocus.value,
+        focusR: this.mode === 'eye' ? 0 : this.env.uFocusR.value,
+      });
+    }
     for (const f of this.falseTrails) f.visible = this.godView;
     // 同じ場所にいる仲間は、描くときだけ一列に並べる（シミュレーション上は同じ位置を歩いている）
     const rank = new Map<string, number>();
@@ -486,6 +514,16 @@ export class SceneView {
     this.sun.target.position.copy(this.shadowCenter);
     this.sun.position.copy(this.shadowCenter).addScaledVector(this.sunDir, size * 3);
     this.sun.target.updateMatrixWorld();
+  }
+
+  /** 稲妻が光っているか（雷の音のきっかけに使う） */
+  get flashing(): boolean {
+    return this.fx.flash > 0;
+  }
+
+  /** カメラから注目している登山者までの距離（シーン単位 = km） */
+  focusDistance(): number {
+    return this.camera.position.distanceTo(this.env.uFocus.value);
   }
 
   /** 地表の高さ（シーン座標） */
@@ -779,6 +817,7 @@ export class SceneView {
   }
 
   dispose(): void {
+    this.kishou?.dispose();
     for (const f of this.figures.values()) f.dispose();
     for (const sp of this.locators.values()) sp.material.dispose();
     this.locatorTex?.dispose();

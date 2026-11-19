@@ -20,6 +20,11 @@ export interface Settings {
   textSize: 'small' | 'medium' | 'large';
   /** 箱庭らしい上下のぼかし（ミニチュア写真風） */
   tiltShift: boolean;
+  /** 立体の雲（気象の計算）。重い環境では切る */
+  clouds3d: boolean;
+  /** 環境音（雨・風・雷） */
+  sound: boolean;
+  soundVolume: number;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -37,6 +42,9 @@ export const DEFAULT_SETTINGS: Settings = {
   fictionalSpeech: true,
   textSize: 'medium',
   tiltShift: true,
+  clouds3d: true,
+  sound: false,
+  soundVolume: 0.6,
 };
 
 const KEY = 'hks.v1.settings';

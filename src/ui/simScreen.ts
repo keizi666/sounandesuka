@@ -2,6 +2,8 @@
  * シミュレーション画面（docs/11 §2〜3）。World・StaticContext・記録・描画・ループ・HUD・吹き出し・分岐点をつなぐ。
  * モード: 通常（分岐点で止まる）、判断時間制限（登山者は立ち止まって待ち、時間切れで傾向どおり）、観察のみ（傾向どおり自動）。
  */
+import { createAmbientSound } from '../view/ambientSound';
+import { createFigureIcons, ICON_LIFT_PX } from './figureIcons';
 import { closeLogDetail, snapOf } from './logDetail';
 import { Timeline, type TimelineSnap } from '../app/timeline';
 import { createTimelineBar } from './timelineBar';
@@ -9,8 +11,8 @@ import { createDock } from './dockWindows';
 import { dlog, versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
-import { Loop, type Speed } from '../app/loop';
-import { effectiveQuality } from '../app/settings';
+import { Loop, SPEEDS, type Speed } from '../app/loop';
+import { effectiveQuality, saveSettings } from '../app/settings';
 import { addHistory, clearResume, newRunId, saveResume, type ResumeData } from '../app/storage';
 import { JA } from '../i18n/ja';
 import { fill, formatEvent, speechView, formatDateTime } from '../i18n/format';
@@ -69,11 +71,16 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
 
   // ---- 画面 ----
   const canvas = el('canvas', { class: 'scene', 'aria-label': scenario.title });
-  const stage = el('div', { class: 'stage' }, [canvas, attributionLine(loaded)]);
+  const figIcons = createFigureIcons(world.climbers);
+  const stage = el('div', { class: 'stage' }, [canvas, figIcons.el, attributionLine(loaded)]);
   const modalHost = el('div', { class: 'modal-host' });
   let cam: CameraMode = st.autoCamera ? 'follow' : 'overview';
   dlog('シナリオ開始', { scenario: scenario.id, map: map.def.id, size: map.def.size, resolution: map.n, party: scenario.party.length, resume: !!resume, observe, timed, tMin: world.tMin, quality: effectiveQuality(st), settings: st });
-  const view = new SceneView(canvas, map, scenario, { quality: effectiveQuality(st), figureScale: st.figureScale, vExag: st.vExag });
+  const view = new SceneView(canvas, map, scenario, { quality: effectiveQuality(st), figureScale: st.figureScale, vExag: st.vExag, clouds3d: st.clouds3d });
+  // 環境音（雨・風・雷）。最初は止めておき、上のバーのボタンで出す（ブラウザの決まりで、操作のあとでないと鳴らせない）
+  const sound = createAmbientSound();
+  sound.setVolume(st.soundVolume);
+  // 前回、音を出していたら続けて出す（ブラウザが許せば。許されなければボタンで出し直す）
   view.godView = st.godViewDefault;
   view.tiltShift = st.tiltShift;
   view.mode = cam;
@@ -126,6 +133,12 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
           view.tiltShift = app.settings.tiltShift;
           view.godView = hud.god;
         }),
+      sound: () => {
+        sound.setOn(!sound.on);
+        app.settings.sound = sound.on;
+        saveSettings(app.settings);
+        hud.setSound(sound.on);
+      },
       quit: () => {
         if (!confirm(JA.ui.quitConfirm)) return;
         void save().then(() => app.go({ name: 'title' }));
@@ -250,13 +263,25 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
 
   // ---- ループ ----
   let lastFrame = performance.now();
+  let wasFlash = false;
   // 描画が重い（平均 30fps 未満が 5 秒続く）ときは画質を下げる提案を 1 回だけ出す
   let slowSince = 0;
   let suggested = effectiveQuality(st) === 'low';
   loop = new Loop(world, ctx, {
     render: (w, prev, alpha, t) => {
       applySeek();
+      view.gameSpeed = loop.paused || w.pendingChoice || w.ended ? 0 : SPEEDS[loop.speed] * DT_SEC;
       view.render(w, prev, alpha, t);
+      // 音: 注目している登山者の場所の天気。カメラが遠いほど小さく
+      {
+        const fc = w.climbers.find((x) => x.id === view.selected) ?? w.climbers[0];
+        const fd = view.focusDistance();
+        const near = cam === 'eye' ? 1 : Math.max(0.12, Math.min(1, 1.25 - fd / 1.6));
+        if (fc) sound.update(Math.min(0.1, (performance.now() - lastFrame) / 1000), { windMs: fc.local.windMs * w.weather.gust, precipMmH: fc.local.precipMmH, snow: fc.local.precipType === 'snow' || fc.local.precipType === 'sleet', near });
+        const fl = view.flashing;
+        if (fl && !wasFlash) sound.thunder(0.6 + (1 - Math.min(1, w.weather.thunder)) * 8);
+        wasFlash = fl;
+      }
       const now = performance.now();
       if (!suggested && !document.hidden) {
         if (now - lastFrame > 1000 / 30 && now - lastFrame < 500) {
@@ -270,7 +295,13 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       const dt = loop.paused || w.pendingChoice ? 0 : (now - lastFrame) / 1000;
       lastFrame = now;
       const r = canvas.getBoundingClientRect();
-      bubbles.update(dt, (id) => view.headScreen(id, r.width, r.height), r.width);
+      // 頭の上に顔アイコン。吹き出しはその上に出す
+      figIcons.update(w, (id) => view.headScreen(id, r.width, r.height), { god: hud.god, time: formatDateTime(scenario, w.tMin).split(' ')[1] ?? '', hidden: cam === 'eye' });
+      bubbles.update(dt, (id) => {
+        const hs = view.headScreen(id, r.width, r.height);
+        if (hs && cam !== 'eye') hs.y -= ICON_LIFT_PX + 24;
+        return hs;
+      }, r.width);
     },
     onEvents: (evs) => {
       recordTick(recorder, world, ctx, evs, DT_SEC / 60);
@@ -288,6 +319,10 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   });
   if (observe) loop.speed = 15;
   timeline.capture(world, recorder, true);
+  if (st.sound) {
+    sound.setOn(true);
+    hud.setSound(true);
+  }
 
   /** 写しの中身で、いまの世界と記録を置き換える（同じオブジェクトのまま中身を入れ替える） */
   function replaceInPlace(target: object, src: object): void {
@@ -396,6 +431,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     document.removeEventListener('keydown', onKey);
     document.removeEventListener('visibilitychange', onHide);
     bubbles.dispose();
+    sound.dispose();
+    figIcons.dispose();
     closeLogDetail();
     tlBar.dispose();
     dock.dispose();

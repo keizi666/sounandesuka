@@ -215,6 +215,8 @@ export const physiology = {
   staffedTempC: 18,
   staffedDryPerH: 0.6,
   staffedMealKcalPerMin: 6,
+  /** 営業小屋で飲む量（L/時） */
+  staffedDrinkLPerH: 0.6,
   /** 濡れ docs/06 §4 */
   kRainPerMm: 0.12,
   protectPoncho: 0.6,

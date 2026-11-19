@@ -179,6 +179,8 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   const heatF = env.tairC > p.waterHotAboveC ? p.waterHotF : env.tairC > p.waterWarmAboveC ? p.waterWarmF : 1;
   const lossLPerH = p.waterBaseLPerH + p.waterPerMetLPerH * act.metAct * heatF;
   b.waterDeficitL = Math.min(p.waterDeficitMax, b.waterDeficitL + (lossLPerH / 60) * dtMin);
+  // 営業小屋では水や温かい飲み物を買える（避難小屋には水がないことが多いので、飲まない）
+  if (env.staffed) b.waterDeficitL = Math.max(0, b.waterDeficitL - (p.staffedDrinkLPerH / 60) * dtMin);
 
   // ---- 疲労 ----
   if (act.walking) {

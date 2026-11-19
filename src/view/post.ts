@@ -65,6 +65,8 @@ const SanitizeShader = {
 };
 
 export interface Post {
+  /** 場面を描いた直後（にじみなどの前）に段を差し込む。立体の雲など、場面の奥行きを使う段 */
+  insertAfterScene(pass: import('three/examples/jsm/postprocessing/Pass.js').Pass): void;
   render(): void;
   setSize(w: number, h: number): void;
   /** 上下のぼかしの強さ（0 = なし。登山者の視点では切る） */
@@ -79,6 +81,9 @@ export interface Post {
 export function createPost(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera, high: boolean): Post {
   const size = renderer.getDrawingBufferSize(new THREE.Vector2());
   const target = new THREE.WebGLRenderTarget(Math.max(1, size.x), Math.max(1, size.y), { type: THREE.HalfFloatType, samples: high ? 4 : 2 });
+  // 場面の奥行きを後の段（立体の雲）で読めるように
+  target.depthTexture = new THREE.DepthTexture(Math.max(1, size.x), Math.max(1, size.y));
+  target.depthTexture.type = THREE.FloatType;
   const composer = new EffectComposer(renderer, target);
   composer.addPass(new RenderPass(scene, camera));
   composer.addPass(new ShaderPass(SanitizeShader));
@@ -107,6 +112,9 @@ export function createPost(renderer: THREE.WebGLRenderer, scene: THREE.Scene, ca
     },
     setTilt(v) {
       finish.uniforms['uTilt']!.value = v * tilt;
+    },
+    insertAfterScene(pass) {
+      composer.insertPass(pass, 1);
     },
     dispose() {
       composer.dispose();

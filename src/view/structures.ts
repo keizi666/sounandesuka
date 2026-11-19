@@ -106,7 +106,7 @@ function gableWall(d: number, h: number, mat: THREE.Material): THREE.Mesh {
 
 export function buildStructures(map: MapRuntime, s: ViewScale, heightAt: (x: number, z: number) => number, env: EnvUniforms): { group: THREE.Group; windows: THREE.MeshStandardMaterial } {
   const group = new THREE.Group();
-  const k = UNIT * 2.0 * s.vExag; // 建物も樹木と同じくやや大きめ
+  const k = UNIT * 6.0 * s.vExag; // 建物は大きめに（樹木・人形の拡大に合わせる。ユーザーの指定で 3 倍）
   const planks = plankTex();
   const stones = stoneTex();
   const stone = new THREE.MeshStandardMaterial({ map: stones, roughness: 0.95 });

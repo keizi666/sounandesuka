@@ -44,10 +44,14 @@ function cloudTexture(): THREE.CanvasTexture {
 export interface WeatherFx {
   /** 雲のレイヤー表示 */
   showClouds: boolean;
+  /** 従来の点の雲を使うか（立体の雲の計算が動いているときは false） */
+  spriteClouds: boolean;
+  /** 稲妻が光っている強さ 0..1（立体の雲を照らす） */
+  readonly flash: number;
   update(world: World, env: EnvUniforms, camera: THREE.Camera, timeSec: number): void;
 }
 
-export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScale, quality: Quality): WeatherFx {
+export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScale, quality: Quality, env: EnvUniforms): WeatherFx {
   const q = COUNTS[quality];
   const half = map.half * UNIT;
   const tex = cloudTexture();
@@ -78,8 +82,10 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
       uNight: { value: 0 },
       uDark: { value: 0 },
       uScaleH: { value: 1 },
+      uFocus: env.uFocus,
+      uFocusR: env.uFocusR,
     },
-    vertexShader: `attribute float seed; uniform float uBase; uniform float uThick; uniform float uCover; uniform vec2 uDrift; uniform float uHalf; uniform float uSize; uniform float uScaleH;
+    vertexShader: `attribute float seed; uniform vec3 uFocus; uniform float uFocusR; uniform float uBase; uniform float uThick; uniform float uCover; uniform vec2 uDrift; uniform float uHalf; uniform float uSize; uniform float uScaleH;
       varying float vAlpha;
       void main(){
         vec3 p = position;
@@ -89,6 +95,15 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
         vec4 mv = modelViewMatrix * vec4(p, 1.0);
         // カメラに近い塊は薄くする（画面いっぱいの白い玉にしない）
         vAlpha = step(seed, uCover) * (0.35 + 0.4 * uCover) * smoothstep(0.04, 0.6, -mv.z / uHalf);
+        // 注目している登山者を隠す塊（カメラとの見通しの線の近く・登山者のすぐそば）は薄くする
+        if (uFocusR > 0.0) {
+          vec3 wp = (modelMatrix * vec4(p, 1.0)).xyz;
+          vec3 ab = uFocus - cameraPosition;
+          float tt = clamp(dot(wp - cameraPosition, ab) / max(dot(ab, ab), 1e-9), 0.0, 1.0);
+          float ld = length(wp - (cameraPosition + ab * tt));
+          float r = uSize * 0.55;
+          vAlpha *= mix(0.12, 1.0, smoothstep(r * 0.5, r * 1.4, ld));
+        }
         gl_Position = projectionMatrix * mv;
         gl_PointSize = uSize * uScaleH / -mv.z * (0.7 + seed * 0.6);
       }`,
@@ -218,11 +233,16 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
   bolt.frustumCulled = false;
   scene.add(bolt);
   const flash = new THREE.AmbientLight(0xdde8ff, 0);
+  let flashNow = 0;
   scene.add(flash);
   let boltUntil = 0;
 
   return {
     showClouds: true,
+    spriteClouds: true,
+    get flash() {
+      return flashNow;
+    },
     update(world, env, _camera, t) {
       const w = world.weather;
       // 積雪線: 1 cm 以上積もっている最低の標高
@@ -261,7 +281,7 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
       const drift = cu.uDrift!.value as THREE.Vector2;
       drift.set(-Math.sin(wr) * world.tMin * w.windMs * 0.6 * UNIT, Math.cos(wr) * world.tMin * w.windMs * 0.6 * UNIT);
       cu.uScaleH!.value = window.innerHeight / 2;
-      clouds.visible = this.showClouds;
+      clouds.visible = this.showClouds && this.spriteClouds;
 
       // 降水
       const pu = precipMat.uniforms;
@@ -311,6 +331,7 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
       const on = t < boltUntil;
       boltMat.opacity = on ? 1 : 0;
       flash.intensity = on ? 2.5 : 0;
+      flashNow = on ? 1 : 0;
       void groundBin;
     },
   };

@@ -2,6 +2,7 @@
  * 分岐点のモーダル（docs/11 §3、FR-20〜22）。状況の文・把握していること・選択肢（無効な理由つき）・
  * 観察者メモ（神の視点だけ）・判断時間制限モードの残り時間。↑↓ と Enter で選べる。
  */
+import { icon } from './icons';
 import { JA } from '../i18n/ja';
 import { fill, formatDateTime, TEXT_LABELS } from '../i18n/format';
 import { choiceLeader, evaluateOptions, findChoicePoint } from '../sim/scenario/choices';
@@ -74,9 +75,12 @@ export function showChoice(
     .map((o) => {
       const ok = avail.has(o.id);
       const b = el('button', { class: 'option', disabled: !ok, onclick: () => pick(o.id, b) }, [
-        el('strong', {}, t.label(o.id, o.label)),
-        o.detail ? el('span', {}, expand(o.detail)) : null,
-        !ok ? el('small', {}, o.unavailableText ?? '今は選べない') : null,
+        el('span', { class: 'opt-text' }, [
+          el('strong', {}, t.label(o.id, o.label)),
+          o.detail ? el('span', {}, expand(o.detail)) : null,
+          !ok ? el('small', {}, o.unavailableText ?? '今は選べない') : null,
+        ]),
+        ok ? el('span', { class: 'opt-go' }, icon('chevronRight')) : null,
       ]);
       if (ok) buttons.push(b);
       return b;
@@ -89,6 +93,7 @@ export function showChoice(
     found.cp.knowledge?.length
       ? el('div', { class: 'knowledge' }, [el('h3', {}, fill(JA.ui.knowledge, { name: leader.def.name })), el('ul', {}, found.cp.knowledge.map((k) => el('li', {}, expand(k))))])
       : null,
+    el('p', { class: 'options-head' }, JA.ui.chooseAction),
     el('div', { class: 'options' }, options),
     opts.timeoutSec !== null ? timer : null,
     opts.god ? el('details', { class: 'observer' }, [el('summary', {}, JA.ui.observerNote), el('p', {}, observerNote(world, ctx))]) : null,

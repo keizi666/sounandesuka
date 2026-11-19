@@ -2,6 +2,7 @@
  * 振り返り（docs/12 §2〜4、FR-32〜34）: 時系列グラフ・2D 地図・分岐点ごとの What-if・教訓・やり直し。
  * What-if は Worker で順に計算し、結果が出た順に棒グラフを更新する。
  */
+import { memberCharts } from './memberCharts';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { newRunId } from '../app/storage';
@@ -173,6 +174,10 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
         el('h1', {}, `${JA.ui.debrief}: ${s.title} ─ ${JA.endings[w.ended?.kind ?? 'MISSING']?.title ?? ''}`),
       ]),
       el('div', { class: 'cols' }, [el('section', {}, [chart, el('p', { class: 'legend' }, '◆ 分岐点 ● 出来事 ▲ 実際の記録 ／ 上: 体温（35℃ 点線）／ 下: 気温（橙）・体感（橙点線）・風（紫）・降水（青）')]), el('section', { style: 'position:relative' }, [mapCanvas, attributionLine(loaded)])]),
+      el('section', { class: 'bf-card mc-card' }, [
+        el('h2', {}, 'メンバーの状態の推移'),
+        memberCharts(rec, s, { marks: [...rec.decisions.map((d) => ({ tMin: d.tMin, label: d.cpId, kind: 'decision' as const })), ...rec.events.filter((e) => ['FALL', 'DEATH', 'LOST_AWARE', 'LIGHTNING_STRIKE', 'RESCUED'].includes(e.type)).map((e) => ({ tMin: e.tMin, label: e.type, kind: 'event' as const }))] }),
+      ]),
       el('section', { class: 'decisions' }, [el('h2', {}, `${JA.ui.decisions}`), progress, ...decisionsEl]),
       refTable,
       el('section', { class: 'lessons' }, [el('h2', {}, JA.ui.lessons), ...lessons.map((l) => el('article', {}, [el('h3', {}, `■ ${l.title}`), el('p', {}, l.text)]))]),
