@@ -46,10 +46,18 @@ a { color: var(--accent); }
 .fatal { max-width: 560px; margin: 80px auto; padding: 16px; }
 
 /* ---- タイトル・選択・ブリーフィング・履歴 ---- */
-main.title { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; text-align: center;
-  background: radial-gradient(ellipse at 50% 70%, #3a4a3a 0%, var(--bg) 60%); }
-main.title h1 { font-size: clamp(1.8rem, 6vw, 3rem); letter-spacing: 0.08em; margin: 0; }
-main.title .menu { display: flex; flex-direction: column; gap: 10px; min-width: 220px; }
+/* 背景は作者が撮影した写真（霧氷の尾根。public/photos/title-bg.jpg）。文字が読めるよう、暗いグラデーションを重ねる */
+main.title { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; text-align: center;
+  background:
+    linear-gradient(180deg, rgba(12, 16, 22, 0.55) 0%, rgba(12, 16, 22, 0.25) 38%, rgba(12, 16, 22, 0.72) 100%),
+    url('/photos/title-bg.jpg') center 40% / cover no-repeat, var(--bg); }
+main.title h1 { font-size: clamp(1.8rem, 6vw, 3.2rem); letter-spacing: 0.1em; margin: 0; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.75), 0 0 2px rgba(0, 0, 0, 0.6); }
+main.title .note { max-width: 40em; margin: 0; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85); color: #e6e9ee; }
+main.title .note.version { opacity: 0.75; font-size: 0.85em; }
+main.title .menu { display: flex; flex-direction: column; gap: 10px; min-width: 260px; padding: 16px; border-radius: 14px;
+  background: rgba(14, 17, 23, 0.5); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
+main.title .menu button:not(.primary) { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.18); }
+main.title .menu a { color: #e6e9ee; }
 main.select, main.briefing, main.history, main.debrief, main.ending { max-width: 1100px; margin: 0 auto; padding: 16px; }
 main > header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 main > header h1 { font-size: 1.3rem; margin: 8px 0; }
