@@ -107,6 +107,10 @@ export const JA = {
     illnessEased: '{who}の胸の痛みが、少し治まってきた',
     illnessRelapse: '{who}の胸の痛みが、またぶり返した',
     medicated: '{who}は持っていた薬を飲んだ',
+    stung: '{who}がハチに刺された',
+    leftMap: '{who}は{place}へ（地図の外）',
+    anaphylaxisOnset: '{who}の顔と体にじんましんが広がり、息が苦しそうだ。ぐったりしている',
+    epipen: '{who}にエピペンを打った。少し呼吸が楽になったようだ',
     passerby: '通りかかった登山者が{who}さんに気づいた。場所を確かめて、下山して通報してくれることになった',
     shelterEnter: '{who}は{node}に入った',
     shelterLeave: '{who}は小屋を出た',
@@ -387,6 +391,7 @@ export const JA = {
     thunder_near: ['今の光、近かった。どこに逃げればいい？', '音がすぐ後に来た……'],
     sheltered: ['助かった。今夜はここで様子を見よう', '屋根があるだけでこんなに違う'],
     rescue_wait: ['電話はつながった。あとは待つだけだ。体を冷やさないように', '早く来てくれ……'],
+    wait_nocall: ['誰か来てくれるだろうか', 'じっとして待とう。今は動かないほうがいい'],
     phone_low: ['電池が減ってる。寒さのせいか', '電池を節約しないと'],
   } as Record<string, string[]>,
 

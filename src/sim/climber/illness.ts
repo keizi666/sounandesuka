@@ -51,7 +51,7 @@ export function illnessM(c: ClimberState, t = 1): number {
   const k = ill.active ? ILLNESS_M_ACTIVE[ill.kind] : ILLNESS_M_EASED;
   return t * k;
 }
-const ILLNESS_M_ACTIVE: Record<IllnessKind, number> = { angina: 0.35, mi: 0.12, dissection: 0.05, arrhythmia: 0.4, benign: 0.6 };
+const ILLNESS_M_ACTIVE: Record<IllnessKind, number> = { angina: 0.35, mi: 0.12, dissection: 0.05, arrhythmia: 0.4, benign: 0.6, anaphylaxis: 0.2 };
 const ILLNESS_M_EASED = 0.85;
 
 /** 1 ティック。症状の治まり・ぶり返しと、心停止の危険 */
@@ -59,6 +59,20 @@ export function stepIllness(world: World, ctx: StaticContext, c: ClimberState, d
   const ill = c.body.illness;
   if (!ill || !c.body.alive) return;
   const t = ctx.tuning.illness;
+  // アナフィラキシー: 刺されてから少しして症状が出る。エピペンの効いている間は危険が下がる。数時間で治まっていく
+  if (ill.kind === 'anaphylaxis') {
+    if (ill.onsetAtMin !== undefined && world.tMin < ill.onsetAtMin) return;
+    if (ill.onsetAtMin !== undefined && !ill.active && ill.atMin < ill.onsetAtMin) {
+      ill.active = true;
+      ill.atMin = world.tMin;
+      c.body.anxiety = Math.min(100, c.body.anxiety + t.onsetAnxiety);
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { anaphylaxisOnset: true } });
+    }
+    if (ill.active && world.tMin - ill.atMin > t.anaphylaxisResolveH * 60) {
+      ill.active = false;
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, data: { illnessEased: true } });
+    }
+  }
   const sinceH = (world.tMin - ill.atMin) / 60;
   const resting = !walking;
   if (resting) ill.restSinceMin ??= world.tMin;
@@ -89,14 +103,37 @@ export function stepIllness(world: World, ctx: StaticContext, c: ClimberState, d
   if (!ill.active) perH *= t.easedArrestF;
   if (walking) perH *= t.walkingArrestF;
   if (ill.meds) perH *= t.medsArrestF;
+  if ((ill.epiUntilMin ?? -1) > world.tMin) perH *= t.epiArrestF;
   if (chance(world.rng.hazard, (perH * dtMin) / 60)) {
     c.body.alive = false;
     c.body.conscious = false;
-    c.body.deathCause = 'illness';
+    c.body.deathCause = ill.kind === 'anaphylaxis' ? 'anaphylaxis' : 'illness';
     c.J = 0;
     c.M = 0;
     transition(world, ctx, c, 'DEAD', 'illness');
     ctx.events.push({ tMin: world.tMin, type: 'CARDIAC_ARREST', climberId: c.id, important: true });
-    ctx.events.push({ tMin: world.tMin, type: 'DEATH', climberId: c.id, important: true, data: { cause: 'illness' } });
+    ctx.events.push({ tMin: world.tMin, type: 'DEATH', climberId: c.id, important: true, data: { cause: c.body.deathCause } });
   }
+}
+
+/** ハチに襲われる。確率 p で刺され、刺された人は一定の確率でアナフィラキシーを起こす（以前刺されたことがある人は起こしやすい） */
+export function sting(world: World, ctx: StaticContext, c: ClimberState, p: number): void {
+  if (!c.body.alive || !chance(world.rng.hazard, p)) return;
+  const t = ctx.tuning.illness;
+  c.body.stings = (c.body.stings ?? 0) + 1;
+  c.body.anxiety = Math.min(100, c.body.anxiety + t.stingAnxiety);
+  ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { stung: true } });
+  if (c.body.illness) return;
+  const pa = c.def.beeSensitized ? t.anaphylaxisSensitizedP : t.anaphylaxisP;
+  if (!chance(world.rng.hazard, pa)) return;
+  const delay = t.anaphylaxisDelayMin[0] + nextFloat(world.rng.hazard) * (t.anaphylaxisDelayMin[1] - t.anaphylaxisDelayMin[0]);
+  c.body.illness = { kind: 'anaphylaxis', atMin: world.tMin, active: false, restSinceMin: null, meds: false, onsetAtMin: world.tMin + delay, epiUntilMin: null };
+}
+
+/** エピペンを打つ（処方された人の薬。症状が出ているとき） */
+export function epipen(world: World, ctx: StaticContext, c: ClimberState): void {
+  const ill = c.body.illness;
+  if (!ill || ill.kind !== 'anaphylaxis' || !ill.active || !c.def.gear.epipen) return;
+  ill.epiUntilMin = world.tMin + ctx.tuning.illness.epiDurationMin;
+  ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { epipen: true } });
 }

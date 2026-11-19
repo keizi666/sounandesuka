@@ -1,0 +1,49 @@
+{
+  "id": "kawanori",
+  "name": "奥多摩 川苔山（古里〜赤杭尾根〜川苔山〜真名井北稜〜大日向）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "古里駅から赤杭尾根で川苔山へ登り、曲ヶ谷北峰・真名井沢ノ峰から真名井北稜を大丹波の大日向バス停へ下る範囲と、大丹波川沿いの林道・車道が入る範囲。一辺 6 km 程度（513 頂点）。真名井北稜は OpenStreetMap に道がないため、作者が標高から読んだ尾根の筋で描く。1002 m 標高点の先で、尾根は右（南東）へ急に下る北稜と、正面（北）へなだらかに続く尾根に分かれる。北の尾根から東へ 676 m 標高点の小尾根が分かれ、その南と北に、東〜東北東へ流れて大丹波川に出る沢がある。小尾根は末端で沢の出合いに下り、対岸に林道がある（小尾根に道はない）。沢の滝の位置は想定。電波: 尾根の上は南東（青梅方面）から届くことがあるが、大丹波側の斜面と沢は圏外が多い。全域が森林（4 月中旬は新緑の前で、落葉樹の葉はまだ少ない）。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2600, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 100 },
+  "nodes": [
+    { "id": "TH_KORI", "name": "古里駅（赤杭尾根の登山口）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 340 },
+    { "id": "AKANA", "name": "赤杭山", "type": "peak", "x": 0, "z": 0, "osmName": "赤久奈山", "expectedElevM": 920 },
+    { "id": "MANAI_PK", "name": "真名井沢ノ峰（北稜の分岐）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1240 },
+    { "id": "MAGARI", "name": "曲ヶ谷北峰", "type": "peak", "x": 0, "z": 0, "expectedElevM": 1338 },
+    { "id": "SUMMIT", "name": "川苔山", "type": "peak", "x": 0, "z": 0, "osmName": "川苔山", "expectedElevM": 1363 },
+    { "id": "P1002", "name": "1002 m 標高点", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1000 },
+    { "id": "TH_OOHINATA", "name": "大日向バス停", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 350 },
+    { "id": "RINDO_W", "name": "大丹波林道（上流側）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 615 },
+    { "id": "RINDO_DEAI", "name": "大丹波林道（沢の出合い）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 540 },
+    { "id": "P676", "name": "676 m 標高点", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 676 },
+    { "id": "RINDO_GATE", "name": "大丹波林道の入口", "type": "junction", "x": 0, "z": 0, "expectedElevM": 450 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "赤杭尾根（古里〜赤杭山）", "kind": "trail", "from": "TH_KORI", "to": "AKANA", "class": "T1", "markers": 0.85, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "赤杭尾根（赤杭山〜真名井沢ノ峰）", "kind": "trail", "from": "AKANA", "to": "MANAI_PK", "class": "T1", "markers": 0.8, "drift": 0.008, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "真名井沢ノ峰〜曲ヶ谷北峰", "kind": "trail", "from": "MANAI_PK", "to": "MAGARI", "class": "T1", "markers": 0.8, "drift": 0.008, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "曲ヶ谷北峰〜川苔山", "kind": "trail", "from": "MAGARI", "to": "SUMMIT", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "真名井北稜（上部・1002 m 標高点まで）", "kind": "trail", "from": "MANAI_PK", "to": "P1002", "class": "T2", "markers": 0.25, "drift": 0.03, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "真名井北稜（下部・送電線の巡視路の標識が所々）", "kind": "trail", "from": "P1002", "to": "TH_OOHINATA", "class": "T2", "markers": 0.3, "drift": 0.03, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "大丹波林道（上流側）", "kind": "trail", "from": "RINDO_W", "to": "RINDO_DEAI", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E10", "name": "大丹波林道", "kind": "trail", "from": "RINDO_DEAI", "to": "RINDO_GATE", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E9", "name": "676 m 標高点の尾根（道はない。尾根筋をたどる）", "kind": "trail", "from": "RINDO_DEAI", "to": "P676", "class": "T2", "markers": 0.0, "drift": 0.04, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "大丹波川沿いの車道", "kind": "trail", "from": "RINDO_GATE", "to": "TH_OOHINATA", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [
+    { "id": "WF_G", "type": "waterfall", "name": "沢の小さな滝（位置は想定）", "x": 640, "z": -1750, "radius": 30 },
+    { "id": "WF_F", "type": "waterfall", "name": "沢の滝（位置は想定）", "x": 430, "z": -1930, "radius": 35 }
+  ],
+  "radio": { "stations": [] },
+  "attribution": []
+}

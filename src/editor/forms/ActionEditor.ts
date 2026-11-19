@@ -17,10 +17,13 @@ export const ACTION_LABELS: Partial<Record<ActionType, string>> = {
   drink: '飲む',
   drinkAlcohol: '酒を飲む',
   reportMissing: '家族・仲間が警察に届け出る',
+  leaveMap: '地図の外へ移る（下山した人が駅などへ）',
   setPhone: 'スマホをなくす／見つける',
   addAnxiety: '動揺する（不安を足す）',
   illness: '急病の発症',
   medicate: '持病の薬を飲む',
+  sting: 'ハチに襲われる',
+  epipen: 'エピペンを打つ',
   wearRainwear: '雨具を着る',
   addLayer: '防寒着を足す',
   changeDry: '乾いた服に着替える',
@@ -146,7 +149,7 @@ export function actionEditor(list: Action[], s: ScenarioDef, map: MapDef, commit
         })()));
         break;
       case 'goToNode':
-        extra.push(field('地点', choose('node', nodes)), field('着いたら', choose('then', [['stay', 'とどまる'], ['continue', 'ルートへ戻る']])));
+        extra.push(field('地点', choose('node', nodes)), field('着いたら', choose('then', [['stay', 'とどまる'], ['continue', 'ルートへ戻る'], ['call', '着いたら通報する']])));
         break;
       case 'stayInShelter':
         extra.push(field('いつまで', until()));

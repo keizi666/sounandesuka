@@ -5,6 +5,7 @@
 import { formatTimeRef, nextSunriseTMin, sunParamsOf } from '../core/clock';
 import { edgeBetween, legCourseTimeMin, shortestPath } from '../terrain/trails';
 import type { ClimberState, NodeId, StaticContext, World } from '../types';
+import { callRescue } from './actions';
 import { transition } from './state';
 
 /** 今いるノード、またはエッジ上なら前後のノード */
@@ -73,7 +74,7 @@ export function turnBack(ctx: StaticContext, c: ClimberState): void {
 }
 
 /** 経路探索でノードへ向かう。エッジ上なら前後どちら回りが近いかで決める */
-export function goToNode(ctx: StaticContext, c: ClimberState, node: NodeId, then: 'stay' | 'continue'): boolean {
+export function goToNode(ctx: StaticContext, c: ClimberState, node: NodeId, then: 'stay' | 'continue' | 'call'): boolean {
   const w = whereOnGraph(ctx, c);
   const costOf = (path: NodeId[] | null): number => {
     if (!path) return Infinity;
@@ -148,6 +149,18 @@ export function arriveAt(world: World, ctx: StaticContext, c: ClimberState, node
     c.plan.goTo = null;
     // 滞在の後に歩き出したときの行き先を先に引いておく
     ensureRouteAhead(ctx, c);
+    if (g.then === 'call') {
+      // 電波の入る地点まで来たので通報する。つながれば、その場で救助を待つ（救助隊を案内する）
+      callRescue(world, ctx, c, 'auto');
+      // 仲間の急病やけがを知らせに来たのなら、伝える場所はその仲間のいる所（スマホの地図で分かる）
+      const r = world.rescue;
+      if (r.status === 'dispatched' && r.calledAtMin === world.tMin) {
+        const patient = world.climbers.find((o) => o !== c && o.body.alive && (o.body.illness?.active === true || o.body.injury !== 'none'));
+        if (patient) r.locationEstimate = { x: patient.x, z: patient.z, radiusM: c.inv.phone.gpsApp ? 100 : 500 };
+      }
+      transition(world, ctx, c, world.rescue.status === 'dispatched' ? 'WAITING_RESCUE' : 'STAYING', 'signalSought');
+      return true;
+    }
     if (g.then === 'stay') {
       const until = dawnRef(world, ctx);
       if (!enterShelter(world, ctx, c, nodeId, until)) {

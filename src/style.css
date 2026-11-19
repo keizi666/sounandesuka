@@ -25,6 +25,9 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); }
+/* UI の文字や部品はドラッグで選択されないようにする（入力欄だけは選べる。ユーザーの指定） */
+body { -webkit-user-select: none; user-select: none; }
+input, textarea, select, [contenteditable], [contenteditable] * { -webkit-user-select: text; user-select: text; }
 #app { min-height: 100%; }
 button, select, input { font: inherit; color: inherit; }
 button {

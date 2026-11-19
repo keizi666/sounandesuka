@@ -117,10 +117,10 @@ export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options:
     options: [
       opt('seek_signal', [{ type: 'seekSignal' }], 0.5, { tags: ['recommended'] }),
       opt('wait', [{ type: 'waitRescue' }], 0.5),
-      // 胸の痛みがある人・足を骨折した人は、沢を下ろうとは考えない
+      // 胸の痛みがある人・足を骨折した人、そういう仲間を連れている人は、沢を下ろうとは考えない
       opt('descend', [{ type: 'descendDrainage' }], 0.4, {
         tags: ['risky'],
-        available: { all: [{ var: 'leader.illnessActive', op: '==', value: false }, { var: 'leader.injury', op: '!=', value: 'legFracture' }] },
+        available: { all: [{ var: 'leader.illnessActive', op: '==', value: false }, { var: 'leader.injury', op: '!=', value: 'legFracture' }, { var: 'mates.unwellCount', op: '==', value: 0 }] },
         hideIfUnavailable: true,
       }),
     ],
@@ -174,8 +174,15 @@ export function genericTrigger(world: World, ctx: StaticContext, key: GenericCho
     case 'lostAware':
       return rising(world, L, leader.state === 'LOST_AWARE');
     case 'darkness':
-      // 暗くなった瞬間（DARK イベント）に歩いていたら。出発時から暗いときは出ない
-      return world.recentEvents.some((e) => e.type === 'DARK') && leader.state === 'WALKING';
+    {
+      // 暗くなった（DARK イベント）とき歩いていたら。休んでいたら、その夜に歩き出したとき。出発時から暗いときは出ない
+      const P = `${L}:pending`;
+      if (world.recentEvents.some((e) => e.type === 'DARK')) world.latches[P] = true;
+      if (world.recentEvents.some((e) => e.type === 'SUNRISE')) world.latches[P] = false;
+      if (world.latches[P] !== true || leader.state !== 'WALKING') return false;
+      world.latches[P] = false;
+      return true;
+    }
     case 'hypothermia': {
       if (OUTDOOR_EXCLUDE.has(leader.state) || leader.body.shelterNodeId) return false;
       if (!fired) return leader.body.coreC < ctx.tuning.choices.genericHypothermiaC;

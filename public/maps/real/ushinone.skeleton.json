@@ -1,0 +1,198 @@
+{
+  "id": "ushinone",
+  "name": "大菩薩・牛の寝通り（上日川峠〜大菩薩峠〜石丸峠〜大マテイ山〜小菅の湯）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "上日川峠から大菩薩峠・石丸峠を経て、牛の寝通りの長い尾根を大マテイ山の分岐まで歩き、小菅の湯へ下る範囲。一辺 12 km 程度（513 頂点）。牛の寝通りはブナやミズナラの明るい広葉樹林の緩やかな尾根。電波は尾根の北東の開けた所で入ることがある。",
+    "sizeM": 12288
+  },
+  "size": 12288,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap",
+    "encoding": "u16-base64",
+    "minElevM": 0,
+    "maxElevM": 0,
+    "baseElevation": 0,
+    "source": {
+      "dem": "DEM10B",
+      "zoom": 14,
+      "fetchedAt": ""
+    },
+    "data": ""
+  },
+  "vegetation": {
+    "forestLine": 2600,
+    "forestLineNoise": 60,
+    "broadleafLine": 1750,
+    "krummholzBandM": 100
+  },
+  "nodes": [
+    {
+      "id": "KAMIHIKAWA",
+      "name": "上日川峠（バス停・ロッジ）",
+      "type": "trailhead",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 1580
+    },
+    {
+      "id": "DAIBOSATSU",
+      "name": "大菩薩峠（介山荘）",
+      "type": "hut",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 1897,
+      "shelter": {
+        "kind": "staffed",
+        "open": true
+      }
+    },
+    {
+      "id": "ISHIMARU",
+      "name": "石丸峠",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 1925
+    },
+    {
+      "id": "KAYANOO",
+      "name": "榧ノ尾山",
+      "type": "peak",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 1430
+    },
+    {
+      "id": "USHINONE",
+      "name": "牛の寝",
+      "type": "peak",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 1350
+    },
+    {
+      "id": "OMATEI_J",
+      "name": "大マテイ山の分岐",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 1300
+    },
+    {
+      "id": "OPEN_RIDGE",
+      "name": "尾根の開けた所（電波が入る）",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 1180
+    },
+    {
+      "id": "KOSUGE",
+      "name": "小菅の湯（バス停・温泉）",
+      "type": "trailhead",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 680
+    }
+  ],
+  "edges": [
+    {
+      "id": "E1",
+      "name": "上日川峠〜大菩薩峠",
+      "kind": "trail",
+      "from": "KAMIHIKAWA",
+      "to": "DAIBOSATSU",
+      "class": "T1",
+      "markers": 0.95,
+      "drift": 0.003,
+      "sinuosity": 1.0,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E2",
+      "name": "大菩薩峠〜石丸峠（笹原の稜線）",
+      "kind": "trail",
+      "from": "DAIBOSATSU",
+      "to": "ISHIMARU",
+      "class": "T1",
+      "markers": 0.9,
+      "drift": 0.005,
+      "sinuosity": 1.0,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E3",
+      "name": "石丸峠〜榧ノ尾山（急な下り）",
+      "kind": "trail",
+      "from": "ISHIMARU",
+      "to": "KAYANOO",
+      "class": "T2",
+      "markers": 0.8,
+      "drift": 0.008,
+      "sinuosity": 1.0,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E4",
+      "name": "榧ノ尾山〜牛の寝（牛の寝通り）",
+      "kind": "trail",
+      "from": "KAYANOO",
+      "to": "USHINONE",
+      "class": "T1",
+      "markers": 0.85,
+      "drift": 0.006,
+      "sinuosity": 1.0,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E5",
+      "name": "牛の寝〜大マテイ山の分岐（牛の寝通り）",
+      "kind": "trail",
+      "from": "USHINONE",
+      "to": "OMATEI_J",
+      "class": "T1",
+      "markers": 0.85,
+      "drift": 0.006,
+      "sinuosity": 1.0,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E6",
+      "name": "大マテイ山の分岐〜尾根の開けた所",
+      "kind": "trail",
+      "from": "OMATEI_J",
+      "to": "OPEN_RIDGE",
+      "class": "T2",
+      "markers": 0.85,
+      "drift": 0.006,
+      "sinuosity": 1.0,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E7",
+      "name": "尾根の開けた所〜小菅の湯",
+      "kind": "trail",
+      "from": "OPEN_RIDGE",
+      "to": "KOSUGE",
+      "class": "T2",
+      "markers": 0.85,
+      "drift": 0.006,
+      "sinuosity": 1.0,
+      "smooth": false,
+      "waypoints": []
+    }
+  ],
+  "hazards": [],
+  "radio": {
+    "stations": []
+  },
+  "attribution": []
+}

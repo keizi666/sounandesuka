@@ -1,0 +1,53 @@
+{
+  "id": "ishione",
+  "name": "奥多摩 石尾根（水根山〜鷹ノ巣山〜日蔭名栗山〜高丸山〜七ツ石小屋）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "石尾根の水根山の西から、鷹ノ巣山・鷹ノ巣山避難小屋・日蔭名栗山・高丸山・千本ツツジを経て七ツ石小屋までが入る範囲。一辺 8 km 程度（513 頂点）。稜線のピークは防火帯の草地で開けている（森林限界ではないが木がない）。ピークの南側には巻き道があり、小さな沢を木の橋で渡る。電波: 稜線の上と南側の斜面は奥多摩湖の方から届くことがあるが、巻き道の谷や北側（日原側）は圏外が多い。",
+    "sizeM": 8192
+  },
+  "size": 8192,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 1695, "forestLineNoise": 12, "broadleafLine": 1450, "krummholzBandM": 0 },
+  "nodes": [
+    { "id": "START", "name": "水根山の西（石尾根）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 1550 },
+    { "id": "J_MAKI_E", "name": "鷹ノ巣山の巻き道の分岐", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1610 },
+    { "id": "TAKANOSU", "name": "鷹ノ巣山", "type": "peak", "x": 0, "z": 0, "osmName": "鷹巣山", "expectedElevM": 1736 },
+    { "id": "J_MAKI_W", "name": "巻き道の合流（避難小屋の上）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1580 },
+    { "id": "HUT_TAKA", "name": "鷹ノ巣山避難小屋", "type": "shelter", "x": 0, "z": 0, "osmName": "鷹ノ巣山避難小屋", "expectedElevM": 1567,
+      "shelter": { "kind": "emergency", "open": true } },
+    { "id": "J_HUT_W", "name": "避難小屋の西の分岐", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1556 },
+    { "id": "HIKAGE", "name": "日蔭名栗山", "type": "peak", "x": 0, "z": 0, "osmName": "日蔭名栗山", "expectedElevM": 1725 },
+    { "id": "BRIDGE", "name": "巻き道の沢（木の橋）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 1585 },
+    { "id": "J_TAKAMARU_E", "name": "高丸山の東の鞍部", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1631 },
+    { "id": "TAKAMARU", "name": "高丸山", "type": "peak", "x": 0, "z": 0, "osmName": "高丸山", "expectedElevM": 1733 },
+    { "id": "SENBON", "name": "千本ツツジの分岐", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1663 },
+    { "id": "NANA_HUT", "name": "七ツ石小屋", "type": "hut", "x": 0, "z": 0, "osmName": "七ツ石小屋", "expectedElevM": 1593,
+      "shelter": { "kind": "staffed", "open": true } }
+  ],
+  "edges": [
+    { "id": "E1", "name": "水根山の西〜巻き道の分岐", "kind": "trail", "from": "START", "to": "J_MAKI_E", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "鷹ノ巣山への登り（防火帯）", "kind": "trail", "from": "J_MAKI_E", "to": "TAKANOSU", "class": "T1", "markers": 0.8, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "鷹ノ巣山〜避難小屋への下り", "kind": "trail", "from": "TAKANOSU", "to": "J_MAKI_W", "class": "T1", "markers": 0.8, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "M1", "name": "鷹ノ巣山の巻き道", "kind": "trail", "from": "J_MAKI_E", "to": "J_MAKI_W", "class": "T2", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "巻き道の合流〜避難小屋", "kind": "trail", "from": "J_MAKI_W", "to": "HUT_TAKA", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "避難小屋〜西の分岐", "kind": "trail", "from": "HUT_TAKA", "to": "J_HUT_W", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "日蔭名栗山への登り（防火帯）", "kind": "trail", "from": "J_HUT_W", "to": "HIKAGE", "class": "T1", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "日蔭名栗山〜高丸山の東の鞍部", "kind": "trail", "from": "HIKAGE", "to": "J_TAKAMARU_E", "class": "T1", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "M2a", "name": "日蔭名栗山の巻き道（東）", "kind": "trail", "from": "J_HUT_W", "to": "BRIDGE", "class": "T2", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "M2b", "name": "日蔭名栗山の巻き道（西）", "kind": "trail", "from": "BRIDGE", "to": "J_TAKAMARU_E", "class": "T2", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "高丸山への登り（急登）", "kind": "trail", "from": "J_TAKAMARU_E", "to": "TAKAMARU", "class": "T2", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E9", "name": "高丸山〜千本ツツジ", "kind": "trail", "from": "TAKAMARU", "to": "SENBON", "class": "T1", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "M3", "name": "高丸山の巻き道", "kind": "trail", "from": "J_TAKAMARU_E", "to": "SENBON", "class": "T2", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E10", "name": "千本ツツジ〜七ツ石小屋", "kind": "trail", "from": "SENBON", "to": "NANA_HUT", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

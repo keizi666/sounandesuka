@@ -45,6 +45,7 @@ export const CLIMBER_FIELDS = [
   'headlamp.has',
   'illness',
   'illnessActive',
+  'stings',
   'bac',
   'waterL',
   'foodKcal',
@@ -58,7 +59,7 @@ export const DEF_FIELDS = ['experience', 'fitness', 'navSkill', 'riskTolerance',
 export const GLOBAL_FIELDS = ['tempC', 'windMs', 'windDirDeg', 'precipMmH', 'cloudCover', 'cloudBaseM', 'visibilityM', 'inCloudVisibilityM', 'thunder', 'pressureHpa', 'gust'] as const;
 /** 集計（party.* と group.<id>.*）で使える数値フィールド */
 export const AGG_FIELDS = ['coreC', 'wetness', 'glycogenKcal', 'waterDeficitL', 'fatigue', 'anxiety', 'J', 'M', 'elevM', 'timeBehindMin'] as const;
-export const GROUP_COUNTS = ['count', 'incapacitatedCount', 'below35Count'] as const;
+export const GROUP_COUNTS = ['count', 'incapacitatedCount', 'below35Count', 'unwellCount'] as const;
 export const REC_FIELDS = [
   'deathCount',
   'minCoreC',
@@ -116,6 +117,8 @@ function climberField(c: ClimberState, field: string, scope: VarScope): VarValue
       return c.body.illness?.kind ?? 'none';
     case 'illnessActive':
       return c.body.illness?.active ?? false;
+    case 'stings':
+      return c.body.stings ?? 0;
     case 'waterL':
       return c.inv.waterL;
     case 'foodKcal':
@@ -158,11 +161,15 @@ export function membersOf(world: World, groupId: string | null): ClimberState[] 
   return groupId === null ? world.climbers : world.climbers.filter((c) => c.groupId === groupId);
 }
 
+const SERIOUS_INJURY = new Set(['legFracture', 'headInjury', 'severeTrauma']);
+
 function aggregate(cs: ClimberState[], rest: string[], scope: VarScope): VarValue | undefined {
   const [head, field] = rest;
   if (head === 'count') return cs.filter((c) => c.body.alive).length;
   if (head === 'incapacitatedCount') return cs.filter((c) => c.body.alive && (c.M <= 0 || !c.body.conscious)).length;
   if (head === 'below35Count') return cs.filter((c) => c.body.alive && c.body.coreC < 35).length;
+  // 急病の発作中・重いけが・動けない人の数（沢を下るなどの判断に使う）
+  if (head === 'unwellCount') return cs.filter((c) => c.body.alive && (c.body.illness?.active === true || SERIOUS_INJURY.has(c.body.injury) || c.M <= 0 || !c.body.conscious)).length;
   if ((head === 'min' || head === 'max') && field && (AGG_FIELDS as readonly string[]).includes(field)) {
     const vals = cs.filter((c) => c.body.alive).map((c) => climberField(c, field, scope) as number);
     if (vals.length === 0) return 0;
@@ -203,6 +210,9 @@ export function resolveVar(path: string, scope: VarScope): VarValue | undefined 
     }
     case 'party':
       return aggregate(w.climbers, rest, scope);
+    case 'mates':
+      // 分岐点のリーダーと同じグループ（自分を含む）
+      return aggregate(membersOf(w, scope.leader.groupId), rest, scope);
     case 'group': {
       const gid = rest[0] ?? '';
       return aggregate(membersOf(w, gid), rest.slice(1), scope);
@@ -243,6 +253,7 @@ export function isKnownVarPath(path: string, scenario: ScenarioDef, groupIds: re
     case 'c':
       return scenario.party.some((p) => p.id === rest[0]) && climberOk(rest.slice(1));
     case 'party':
+    case 'mates':
       return aggOk(rest);
     case 'group':
       return rest.length >= 2 && (groupIds.length === 0 || groupIds.includes(rest[0]!)) && aggOk(rest.slice(1));

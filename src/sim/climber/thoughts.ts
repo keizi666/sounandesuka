@@ -8,6 +8,8 @@ import { nextFloat, randRange } from '../core/rng';
 import { evalCondition } from '../scenario/conditions';
 import type { ClimberState, StaticContext, World } from '../types';
 
+const MOVING = new Set(['WALKING', 'OFFROUTE_UNAWARE', 'LOST_AWARE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL', 'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL']);
+
 interface Builtin {
   key: string;
   priority: number;
@@ -26,9 +28,12 @@ const BUILTIN: Builtin[] = [
   { key: 'sheltered', priority: 5, when: (_w, _c, c) => c.state === 'SHELTERED' },
   { key: 'unaware_offroute', priority: 6, when: (_w, _c, c) => c.state === 'OFFROUTE_UNAWARE' },
   // 暗いのに明かりがない: 持っていない人と、持っているのに点けていない人で考えが違う
-  { key: 'dark_no_lamp', priority: 6, when: (w, _c, c) => w.sun.isDark && !c.inv.headlamp.has },
-  { key: 'dark_lamp_off', priority: 6, when: (w, _c, c) => w.sun.isDark && c.inv.headlamp.has && !c.inv.headlamp.on },
-  { key: 'rescue_wait', priority: 6, when: (_w, _c, c) => c.state === 'WAITING_RESCUE' },
+  // 足元の暗さを気にするのは、歩いているときだけ（休む・待つ・小屋の中では出さない）
+  { key: 'dark_no_lamp', priority: 6, when: (w, _c, c) => w.sun.isDark && MOVING.has(c.state) && !c.inv.headlamp.has },
+  { key: 'dark_lamp_off', priority: 6, when: (w, _c, c) => w.sun.isDark && MOVING.has(c.state) && c.inv.headlamp.has && !c.inv.headlamp.on },
+  // 通報がつながったときだけ「つながった」。まだなら、誰かが来るのを待つ
+  { key: 'rescue_wait', priority: 6, when: (w, _c, c) => c.state === 'WAITING_RESCUE' && w.rescue.calledAtMin !== null },
+  { key: 'wait_nocall', priority: 6, when: (w, _c, c) => c.state === 'WAITING_RESCUE' && w.rescue.calledAtMin === null },
   { key: 'mild_hypo', priority: 7, when: (_w, _c, c) => c.body.coreC < 35.0 },
   { key: 'aware_lost', priority: 8, when: (_w, _c, c) => c.state === 'LOST_AWARE' },
   { key: 'descend_bias', priority: 8, when: (_w, _c, c) => c.state === 'DESCENDING_DRAINAGE' },

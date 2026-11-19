@@ -1,0 +1,45 @@
+{
+  "id": "okura",
+  "name": "丹沢 大倉尾根（大倉〜見晴茶屋〜堀山の家〜花立山荘〜塔ノ岳）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "大倉バス停（車道を 15 分ほど歩いた登山道の入口）から大倉尾根（観音茶屋・見晴茶屋・駒止茶屋・堀山の家・花立山荘・金冷シ）を経て塔ノ岳山頂までが入る範囲。一辺 6 km 程度（513 頂点）。標高差は約 1200 m。堀山の家より下は森の中、花立山荘の上下は木が少なく日差しをさえぎるものがない階段の道。尾根の上は秦野の市街地から電波が届く。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2600, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 100 },
+  "nodes": [
+    { "id": "TH_OKURA", "name": "大倉（登山道の入口）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 350 },
+    { "id": "KANNON", "name": "観音茶屋", "type": "landmark", "x": 0, "z": 0, "osmName": "観音茶屋", "expectedElevM": 475 },
+    { "id": "MIHARASHI", "name": "見晴茶屋", "type": "landmark", "x": 0, "z": 0, "osmName": "見晴茶屋", "expectedElevM": 610 },
+    { "id": "KOMADOME", "name": "駒止茶屋", "type": "landmark", "x": 0, "z": 0, "osmName": "駒止茶屋", "expectedElevM": 900 },
+    { "id": "HORIYAMA", "name": "堀山の家", "type": "hut", "x": 0, "z": 0, "osmName": "堀山の家", "expectedElevM": 950,
+      "shelter": { "kind": "staffed", "open": true } },
+    { "id": "HANATATE_HUT", "name": "花立山荘", "type": "hut", "x": 0, "z": 0, "osmName": "花立山荘", "expectedElevM": 1300,
+      "shelter": { "kind": "staffed", "open": true } },
+    { "id": "HANATATE", "name": "花立（1380 m 付近）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 1380 },
+    { "id": "KINWARASHI", "name": "金冷シ", "type": "junction", "x": 0, "z": 0, "osmName": "金冷シ", "expectedElevM": 1370 },
+    { "id": "SUMMIT", "name": "塔ノ岳（尊仏山荘）", "type": "hut", "x": 0, "z": 0, "osmName": "尊仏山荘", "expectedElevM": 1491,
+      "shelter": { "kind": "staffed", "open": true } }
+  ],
+  "edges": [
+    { "id": "E1", "name": "大倉〜観音茶屋", "kind": "trail", "from": "TH_OKURA", "to": "KANNON", "class": "T1", "markers": 0.95, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "観音茶屋〜見晴茶屋", "kind": "trail", "from": "KANNON", "to": "MIHARASHI", "class": "T1", "markers": 0.95, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "見晴茶屋〜駒止茶屋（木の階段）", "kind": "trail", "from": "MIHARASHI", "to": "KOMADOME", "class": "T1", "markers": 0.95, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "駒止茶屋〜堀山の家", "kind": "trail", "from": "KOMADOME", "to": "HORIYAMA", "class": "T1", "markers": 0.95, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "堀山の家〜花立山荘（長い階段）", "kind": "trail", "from": "HORIYAMA", "to": "HANATATE_HUT", "class": "T1", "markers": 0.95, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "花立山荘〜花立", "kind": "trail", "from": "HANATATE_HUT", "to": "HANATATE", "class": "T1", "markers": 0.95, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "花立〜金冷シ", "kind": "trail", "from": "HANATATE", "to": "KINWARASHI", "class": "T1", "markers": 0.95, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "金冷シ〜塔ノ岳", "kind": "trail", "from": "KINWARASHI", "to": "SUMMIT", "class": "T1", "markers": 0.95, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

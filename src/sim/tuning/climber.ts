@@ -337,11 +337,20 @@ export const illness = {
   relapseGrade: 0.05,
   relapsePerH: 0.6,
   /** 心筋梗塞: 安静で 48 時間のうちに約 40% が亡くなる程度（治療なし） */
-  arrestPerH: { angina: 0.003, mi: 0.061, dissection: 0.08, arrhythmia: 0.01, benign: 0 } as Record<string, number>,
-  arrestDecayH: { angina: 3, mi: 6, dissection: 12, arrhythmia: 2, benign: 1 } as Record<string, number>,
-  arrestFloorPerH: { angina: 0.0005, mi: 0.003, dissection: 0.005, arrhythmia: 0.001, benign: 0 } as Record<string, number>,
+  arrestPerH: { angina: 0.003, mi: 0.061, dissection: 0.08, arrhythmia: 0.01, benign: 0, anaphylaxis: 0.12 } as Record<string, number>,
+  arrestDecayH: { angina: 3, mi: 6, dissection: 12, arrhythmia: 2, benign: 1, anaphylaxis: 1.0 } as Record<string, number>,
+  arrestFloorPerH: { angina: 0.0005, mi: 0.003, dissection: 0.005, arrhythmia: 0.001, benign: 0, anaphylaxis: 0.002 } as Record<string, number>,
   /** 症状が治まっているとき・歩いているとき・薬を飲んだときの倍率 */
   easedArrestF: 0.3,
   walkingArrestF: 3,
   medsArrestF: 0.8,
+  /** ハチ: 刺された人がアナフィラキシーを起こす確率（以前刺されたことがある人は高い）、症状が出るまで（分）、治まっていくまで（時間） */
+  anaphylaxisP: 0.03,
+  anaphylaxisSensitizedP: 0.3,
+  anaphylaxisDelayMin: [5, 15] as [number, number],
+  anaphylaxisResolveH: 4,
+  stingAnxiety: 20,
+  /** エピペンが効いている時間（分）と、その間の心停止の率の倍率 */
+  epiDurationMin: 25,
+  epiArrestF: 0.08,
 };

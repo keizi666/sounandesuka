@@ -258,6 +258,7 @@ export interface ClimberDef {
   role?: string;                 // 例: "ツアー客", "メインガイド"
   initial?: ClimberInitialDef;   // 前日までの影響
   estimated?: string[];          // 推定値のフィールド名
+  beeSensitized?: boolean;       // 以前ハチに刺されたことがある（アナフィラキシーを起こしやすい）
   notes?: string;
 }
 
@@ -302,6 +303,7 @@ export interface GearDef {
   whistle: boolean;
   tent?: boolean;              // テント（ツェルトより風雨に強い）
   meds?: boolean;              // 持病の薬（ニトログリセリンなど）
+  epipen?: boolean;            // アドレナリン自己注射薬（エピペン。処方された人だけ）
   rescueSheet?: boolean;       // エマージェンシーシート
 }
 
@@ -373,16 +375,19 @@ export type Action = { who?: Who } & (
   | { type: 'continueRoute' }
   | { type: 'setRoute'; route: NodeId[]; goalNodes?: NodeId[] }
   | { type: 'turnBack' }
-  | { type: 'goToNode'; node: NodeId; then: 'stay' | 'continue' }
+  | { type: 'goToNode'; node: NodeId; then: 'stay' | 'continue' | 'call' }   // call: 着いたら通報する（電波の入る地点まで道を歩いて行く）
   | { type: 'stayInShelter'; until: UntilRef }
   | { type: 'rest'; minutes: number }
   | { type: 'eat'; kcal: number }
   | { type: 'drink'; liters: number }
   | { type: 'reportMissing' }                     // 家族・仲間が「帰らない」と警察に届け出る（未帰還の通報を今する）
+  | { type: 'leaveMap'; place: string }            // 下山した人が地図の外（バス停・駅・交番など）へ移る。3D から消え、居場所の名前を出す（下山・救助の後だけ）
   | { type: 'setPhone'; has: boolean }             // スマホをなくす（false）・見つける（true）
   | { type: 'addAnxiety'; amount: number }         // 動揺する（+）・落ち着く（−）。不安 0〜100
   | { type: 'illness'; kind: IllnessKind | 'random'; weights?: Partial<Record<IllnessKind, number>> }  // 急病の発症（原因は本人には分からない）
   | { type: 'medicate' }                            // 持病の薬を飲む（gear.meds があるとき）
+  | { type: 'sting'; p?: number }                  // ハチに襲われる（一人ずつ確率 p で刺される。既定 1）
+  | { type: 'epipen' }                             // エピペンを打つ（gear.epipen があり、アナフィラキシーが出ているとき）
   | { type: 'drinkAlcohol'; grams: number; liters?: number }   // 酒（純アルコールのグラム。缶ビール 350 mL で約 14 g）。liters は飲み物の量（水分になる）
   | { type: 'wearRainwear' }
   | { type: 'addLayer'; clo?: number }
@@ -408,7 +413,7 @@ export type Action = { who?: Who } & (
   | { type: 'splitParty'; groups: (GroupDef & { actions: Action[] })[] }
   | { type: 'setCohesion'; cohesion: 'tight' | 'loose' }
   | { type: 'soak'; level: SoakLevel; snowmelt?: boolean }
-  | { type: 'detach'; then: Action[] }
+  | { type: 'detach'; then: Action[]; returnAfter?: boolean }   // returnAfter: 用事（then）が済んで止まったら元のグループへ戻る
   | { type: 'goToMember'; member: ClimberId }
   | { type: 'say'; text: string; to?: SpeakerRef; tone?: SpeechTone; documented?: boolean; source?: string }
 );
@@ -508,7 +513,7 @@ export type PrecipType = 'none' | 'rain' | 'sleet' | 'snow' | 'hail';
 export type DeathCause = 'hypothermia' | 'fall' | 'lightning' | 'trauma' | 'heat' | 'illness' | 'anaphylaxis';
 
 /** 急病の原因（本人には分からない。src/sim/climber/illness.ts） */
-export type IllnessKind = 'angina' | 'mi' | 'dissection' | 'arrhythmia' | 'benign';
+export type IllnessKind = 'angina' | 'mi' | 'dissection' | 'arrhythmia' | 'benign' | 'anaphylaxis';
 
 export type ClimberPos =
   | { mode: 'edge'; edgeId: EdgeId; s: number; dir: 1 | -1 }
@@ -536,7 +541,9 @@ export interface ClimberBody {
   /** 体内のアルコール（g）。判断力と足元に響き、時間とともに抜ける。古い保存データにはない */
   alcoholG?: number;
   /** 急病（胸の痛みなど）。active は症状が出ているか。restSinceMin は休み始めた時刻 */
-  illness?: { kind: IllnessKind; atMin: number; active: boolean; restSinceMin: number | null; meds: boolean };
+  illness?: { kind: IllnessKind; atMin: number; active: boolean; restSinceMin: number | null; meds: boolean; onsetAtMin?: number; epiUntilMin?: number | null };
+  /** ハチに刺された回数 */
+  stings?: number;
   waterDeficitL: number;
   fatigue: number;
   anxiety: number;
@@ -577,7 +584,7 @@ export interface ClimberPlanState {
   busyUntilMin: number | null; // 雨具着用など所要時間中
   busyWith: string | null;
   /** goToNode の行き先と到着後の行動 */
-  goTo: { node: NodeId; then: 'stay' | 'continue' } | null;
+  goTo: { node: NodeId; then: 'stay' | 'continue' | 'call' } | null;
 }
 
 export interface ClimberPerception {
@@ -607,6 +614,8 @@ export interface ClimberState {
   id: ClimberId;
   def: ClimberDef;               // 初期定義（参照用。変更しない）
   groupId: string | null;        // null = detach 済み（単独行動）
+  /** 地図の外にいる（下山して駅へ向かったなど）。居場所の名前。3D には描かない */
+  offMap?: string;
   state: BehaviorState;
   stateSinceMin: number;
   pos: ClimberPos;

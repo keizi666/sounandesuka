@@ -1,0 +1,2735 @@
+{
+  "id": "s11_ushinone",
+  "version": 1,
+  "title": "尾根道のスズメバチ",
+  "subtitle": "10月・8人・大菩薩 牛の寝通り（実在の地形）",
+  "theme": "mixed",
+  "difficulty": 2,
+  "season": "autumn",
+  "estMinutes": 15,
+  "mapId": "ushinone",
+  "seed": 1003,
+  "startDate": "2026-10-03",
+  "startAt": "D0 08:40",
+  "timeLimit": "D1 12:00",
+  "sun": {
+    "sunrise": "05:38",
+    "sunset": "17:28",
+    "maxElevDeg": 50
+  },
+  "moon": {
+    "illumination": 0.6
+  },
+  "region": {
+    "name": "大菩薩・牛の寝通り",
+    "real": true
+  },
+  "briefing": {
+    "text": "会社の山歩きの会の 8 人（30〜50 代）。土曜日、甲斐大和駅からのバスで上日川峠へ。大菩薩峠・石丸峠から、ブナやミズナラの広葉樹林が続く緩やかな尾根「牛の寝通り」を歩き、大マテイ山の分岐から小菅の湯へ下る。温泉に入って、夕方のバスで帰る計画。リーダーの村上さんは救急セットを持っている。佐伯さんは 2 年前にハチに刺され、エピペンを処方されている。",
+    "forecast": [
+      {
+        "label": "今日",
+        "text": "晴れ。尾根は日中 15℃ 前後",
+        "icon": "sunny"
+      },
+      {
+        "label": "夜",
+        "text": "晴れ。尾根は 7℃ くらいまで下がる",
+        "icon": "clear_night"
+      },
+      {
+        "label": "明日",
+        "text": "晴れのちくもり",
+        "icon": "sunny_cloudy"
+      }
+    ]
+  },
+  "plan": {
+    "route": [
+      "KAMIHIKAWA",
+      "DAIBOSATSU",
+      "ISHIMARU",
+      "KAYANOO",
+      "USHINONE",
+      "OMATEI_J",
+      "OPEN_RIDGE",
+      "KOSUGE"
+    ],
+    "goalNodes": [
+      "KOSUGE"
+    ],
+    "plannedFinish": "D0 16:00",
+    "submittedPlan": false,
+    "reportIfNotBackBy": "D0 22:00"
+  },
+  "passersby": [
+    {
+      "edges": [
+        "E1",
+        "E2"
+      ],
+      "perHour": 4,
+      "from": "08:00",
+      "to": "16:00"
+    },
+    {
+      "edges": [
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7"
+      ],
+      "perHour": 0.8,
+      "from": "09:00",
+      "to": "15:30"
+    }
+  ],
+  "party": [
+    {
+      "id": "murakami",
+      "name": "村上",
+      "age": 52,
+      "sex": "m",
+      "weightKg": 68,
+      "packKg": 7,
+      "experience": 0.75,
+      "fitness": 0.7,
+      "navSkill": 0.7,
+      "riskTolerance": 0.4,
+      "color": "#0e7490",
+      "portrait": "mid_m:6",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.6,
+        "cloPack": 1.0,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "tarp",
+        "headlamp": {
+          "has": true,
+          "batteryH": 8,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": true,
+        "compass": true,
+        "foodKcal": 1100,
+        "waterL": 1.5,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": true,
+        "rescueSheet": true,
+        "meds": false
+      },
+      "notes": "架空の人物。会社の山歩きの会の世話役。救急セット（ポイズンリムーバー・抗ヒスタミンの軟膏・ピンセット・テーピング）を持つ。",
+      "leader": true,
+      "role": "リーダー"
+    },
+    {
+      "id": "saeki",
+      "name": "佐伯",
+      "age": 46,
+      "sex": "f",
+      "weightKg": 54,
+      "packKg": 6,
+      "experience": 0.5,
+      "fitness": 0.6,
+      "navSkill": 0.3,
+      "riskTolerance": 0.3,
+      "color": "#be185d",
+      "portrait": "mid_f:3",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.6,
+        "cloPack": 0.8,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 8,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1.2,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "rescueSheet": false,
+        "meds": false,
+        "epipen": true
+      },
+      "notes": "架空の人物。2 年前、庭の手入れ中にハチに刺されて全身にじんましんが出た。医師からエピペンを処方され、ザックの雨蓋に入れている。",
+      "beeSensitized": true
+    },
+    {
+      "id": "tajima",
+      "name": "田島",
+      "age": 38,
+      "sex": "m",
+      "weightKg": 72,
+      "packKg": 7,
+      "experience": 0.6,
+      "fitness": 0.85,
+      "navSkill": 0.5,
+      "riskTolerance": 0.5,
+      "color": "#1d4ed8",
+      "portrait": "young_m:4",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.6,
+        "cloPack": 0.8,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 8,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1.5,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "rescueSheet": false,
+        "meds": false
+      },
+      "notes": "架空の人物。足が速く、写真を撮りながら先を歩きがち。"
+    },
+    {
+      "id": "kobayashi",
+      "name": "小林",
+      "age": 34,
+      "sex": "f",
+      "weightKg": 52,
+      "packKg": 6,
+      "experience": 0.3,
+      "fitness": 0.65,
+      "navSkill": 0.2,
+      "riskTolerance": 0.4,
+      "color": "#7c3aed",
+      "portrait": "young_f:2",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.6,
+        "cloPack": 0.8,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": false,
+          "batteryH": 0,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1.2,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "rescueSheet": false,
+        "meds": false
+      },
+      "notes": "架空の人物。山は 3 回目。甘い香りの柔軟剤で洗った服を着ている。"
+    },
+    {
+      "id": "eto",
+      "name": "江藤",
+      "age": 55,
+      "sex": "m",
+      "weightKg": 75,
+      "packKg": 7,
+      "experience": 0.7,
+      "fitness": 0.6,
+      "navSkill": 0.6,
+      "riskTolerance": 0.6,
+      "color": "#a16207",
+      "portrait": "senior_m:1",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.6,
+        "cloPack": 0.8,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 8,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1.2,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "rescueSheet": false,
+        "meds": false
+      },
+      "notes": "架空の人物。ハチは手で払えばいいと思っている。"
+    },
+    {
+      "id": "hirano",
+      "name": "平野",
+      "age": 41,
+      "sex": "f",
+      "weightKg": 58,
+      "packKg": 6,
+      "experience": 0.55,
+      "fitness": 0.7,
+      "navSkill": 0.4,
+      "riskTolerance": 0.3,
+      "color": "#15803d",
+      "portrait": "mid_f:5",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.6,
+        "cloPack": 0.8,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 8,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1.2,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "rescueSheet": false,
+        "meds": false
+      },
+      "notes": "架空の人物。看護師。"
+    },
+    {
+      "id": "mori",
+      "name": "森",
+      "age": 48,
+      "sex": "m",
+      "weightKg": 80,
+      "packKg": 7,
+      "experience": 0.5,
+      "fitness": 0.6,
+      "navSkill": 0.4,
+      "riskTolerance": 0.5,
+      "color": "#334155",
+      "portrait": "mid_m:1",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.6,
+        "cloPack": 0.8,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": false,
+          "batteryH": 0,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1.2,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "rescueSheet": false,
+        "meds": false
+      },
+      "notes": "架空の人物。黒い帽子に黒いザック。"
+    },
+    {
+      "id": "ishii",
+      "name": "石井",
+      "age": 31,
+      "sex": "f",
+      "weightKg": 50,
+      "packKg": 6,
+      "experience": 0.35,
+      "fitness": 0.75,
+      "navSkill": 0.3,
+      "riskTolerance": 0.5,
+      "color": "#c2410c",
+      "portrait": "young_f:5",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.6,
+        "cloPack": 0.8,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": false,
+          "batteryH": 0,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1.2,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "rescueSheet": false,
+        "meds": false
+      },
+      "notes": "架空の人物。最年少。"
+    }
+  ],
+  "weather": {
+    "refElevM": 1500,
+    "lapseRateCPer100m": 0.6,
+    "cloudThicknessM": 600,
+    "keyframes": [
+      {
+        "at": "D0 06:00",
+        "tempC": 9,
+        "windMs": 2,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1021
+      },
+      {
+        "at": "D0 13:00",
+        "tempC": 17,
+        "windMs": 3,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1019
+      },
+      {
+        "at": "D0 18:00",
+        "tempC": 12,
+        "windMs": 2,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1020
+      },
+      {
+        "at": "D1 05:00",
+        "tempC": 7,
+        "windMs": 2,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1020
+      },
+      {
+        "at": "D1 12:00",
+        "tempC": 15,
+        "windMs": 3,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.6,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1015
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_scouts",
+      "trigger": {
+        "all": [
+          {
+            "near": {
+              "x": 1500,
+              "z": 592,
+              "r": 50
+            }
+          },
+          {
+            "after": "D0 11:00"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setFlag",
+              "flag": "scouts"
+            }
+          ]
+        },
+        {
+          "type": "say",
+          "who": "tajima",
+          "text": "うわ、でかいハチ！",
+          "tone": "normal"
+        }
+      ]
+    },
+    {
+      "id": "ev_default_how",
+      "trigger": {
+        "all": [
+          {
+            "near": {
+              "x": 1689,
+              "z": 574,
+              "r": 50
+            }
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "flag": "how_quiet"
+                },
+                {
+                  "flag": "how_walk"
+                },
+                {
+                  "flag": "how_swat"
+                },
+                {
+                  "flag": "turnedBack"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setFlag",
+              "flag": "how_walk"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_nest_quiet_prep",
+      "trigger": {
+        "all": [
+          {
+            "near": {
+              "x": 1689,
+              "z": 574,
+              "r": 50
+            }
+          },
+          {
+            "flag": "how_quiet"
+          },
+          {
+            "flag": "prepared"
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "一列になって、静かに早足で巣の脇を抜ける。ハチが何匹か、顔のまわりをかすめて飛んだ",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "sting",
+              "who": "all",
+              "p": 0.042
+            },
+            {
+              "type": "setFlag",
+              "flag": "passedNest"
+            },
+            {
+              "type": "addAnxiety",
+              "who": "all",
+              "amount": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_nest_quiet_noprep",
+      "trigger": {
+        "all": [
+          {
+            "near": {
+              "x": 1689,
+              "z": 574,
+              "r": 50
+            }
+          },
+          {
+            "flag": "how_quiet"
+          },
+          {
+            "not": {
+              "flag": "prepared"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "一列になって、静かに早足で巣の脇を抜ける。ハチが何匹か、顔のまわりをかすめて飛んだ",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "sting",
+              "who": "all",
+              "p": 0.06
+            },
+            {
+              "type": "setFlag",
+              "flag": "passedNest"
+            },
+            {
+              "type": "addAnxiety",
+              "who": "all",
+              "amount": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_nest_walk_prep",
+      "trigger": {
+        "all": [
+          {
+            "near": {
+              "x": 1689,
+              "z": 574,
+              "r": 50
+            }
+          },
+          {
+            "flag": "how_walk"
+          },
+          {
+            "flag": "prepared"
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "道の脇の土の穴から、ハチが一斉に飛び出してきた。悲鳴が上がる。みんな走って尾根の先へ逃げた",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "sting",
+              "who": "all",
+              "p": 0.196
+            },
+            {
+              "type": "setFlag",
+              "flag": "passedNest"
+            },
+            {
+              "type": "addAnxiety",
+              "who": "all",
+              "amount": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_nest_walk_noprep",
+      "trigger": {
+        "all": [
+          {
+            "near": {
+              "x": 1689,
+              "z": 574,
+              "r": 50
+            }
+          },
+          {
+            "flag": "how_walk"
+          },
+          {
+            "not": {
+              "flag": "prepared"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "道の脇の土の穴から、ハチが一斉に飛び出してきた。悲鳴が上がる。みんな走って尾根の先へ逃げた",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "sting",
+              "who": "all",
+              "p": 0.28
+            },
+            {
+              "type": "sting",
+              "who": "mori",
+              "p": 0.35
+            },
+            {
+              "type": "sting",
+              "who": "kobayashi",
+              "p": 0.2
+            },
+            {
+              "type": "setFlag",
+              "flag": "passedNest"
+            },
+            {
+              "type": "addAnxiety",
+              "who": "all",
+              "amount": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_nest_swat_prep",
+      "trigger": {
+        "all": [
+          {
+            "near": {
+              "x": 1689,
+              "z": 574,
+              "r": 50
+            }
+          },
+          {
+            "flag": "how_swat"
+          },
+          {
+            "flag": "prepared"
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "江藤さんが手で払った途端、ハチの群れが一斉に襲ってきた。みんな走って尾根の先へ逃げた",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "sting",
+              "who": "all",
+              "p": 0.315
+            },
+            {
+              "type": "sting",
+              "who": "eto",
+              "p": 0.5
+            },
+            {
+              "type": "setFlag",
+              "flag": "passedNest"
+            },
+            {
+              "type": "addAnxiety",
+              "who": "all",
+              "amount": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_nest_swat_noprep",
+      "trigger": {
+        "all": [
+          {
+            "near": {
+              "x": 1689,
+              "z": 574,
+              "r": 50
+            }
+          },
+          {
+            "flag": "how_swat"
+          },
+          {
+            "not": {
+              "flag": "prepared"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "江藤さんが手で払った途端、ハチの群れが一斉に襲ってきた。みんな走って尾根の先へ逃げた",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "sting",
+              "who": "all",
+              "p": 0.45
+            },
+            {
+              "type": "sting",
+              "who": "mori",
+              "p": 0.35
+            },
+            {
+              "type": "sting",
+              "who": "kobayashi",
+              "p": 0.2
+            },
+            {
+              "type": "sting",
+              "who": "eto",
+              "p": 0.5
+            },
+            {
+              "type": "setFlag",
+              "flag": "passedNest"
+            },
+            {
+              "type": "addAnxiety",
+              "who": "all",
+              "amount": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_lunch",
+      "trigger": {
+        "atNode": "ISHIMARU"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "石丸峠で昼食。笹原の向こうに富士山が見える"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "eat",
+              "who": "all",
+              "kcal": 450
+            },
+            {
+              "type": "drink",
+              "who": "all",
+              "liters": 0.3
+            },
+            {
+              "type": "rest",
+              "minutes": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_ana_onset",
+      "trigger": {
+        "any": [
+          {
+            "var": "c.murakami.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.saeki.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.tajima.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.kobayashi.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.eto.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.hirano.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.mori.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.ishii.illnessActive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setFlag",
+              "flag": "anaOnset"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_after_nest",
+      "trigger": {
+        "all": [
+          {
+            "flag": "passedNest"
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "var": "c.murakami.stings",
+                  "op": ">",
+                  "value": 0
+                },
+                {
+                  "var": "c.saeki.stings",
+                  "op": ">",
+                  "value": 0
+                },
+                {
+                  "var": "c.tajima.stings",
+                  "op": ">",
+                  "value": 0
+                },
+                {
+                  "var": "c.kobayashi.stings",
+                  "op": ">",
+                  "value": 0
+                },
+                {
+                  "var": "c.eto.stings",
+                  "op": ">",
+                  "value": 0
+                },
+                {
+                  "var": "c.hirano.stings",
+                  "op": ">",
+                  "value": 0
+                },
+                {
+                  "var": "c.mori.stings",
+                  "op": ">",
+                  "value": 0
+                },
+                {
+                  "var": "c.ishii.stings",
+                  "op": ">",
+                  "value": 0
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "誰も刺されずに抜けられた。100 m ほど離れると、ハチはもう追ってこなかった"
+        }
+      ]
+    },
+    {
+      "id": "ev_stung",
+      "trigger": {
+        "all": [
+          {
+            "flag": "passedNest"
+          },
+          {
+            "any": [
+              {
+                "var": "c.murakami.stings",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "var": "c.saeki.stings",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "var": "c.tajima.stings",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "var": "c.kobayashi.stings",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "var": "c.eto.stings",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "var": "c.hirano.stings",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "var": "c.mori.stings",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "var": "c.ishii.stings",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setFlag",
+              "flag": "stung"
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "100 m ほど離れると、ハチはもう追ってこなかった。刺された人の腕や首が赤く腫れ、焼けるように痛む",
+          "important": true
+        }
+      ]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_start",
+      "title": "上日川峠を出る",
+      "priority": 20,
+      "trigger": {
+        "after": "D0 08:40"
+      },
+      "situation": "10 月最初の土曜日、朝 8 時 40 分の上日川峠。会社の山歩きの会の 8 人がバスを降りた。登山口の掲示板に「スズメバチに注意」の貼り紙がある。",
+      "knowledge": [
+        "大菩薩峠・石丸峠から牛の寝通りを歩き、大マテイ山の分岐から小菅の湯へ下る。約 13 km、6 時間あまり",
+        "小菅の湯で温泉に入り、夕方のバスで帰る予定",
+        "秋はスズメバチがいちばん攻撃的になる時期。黒い物と甘い香りに寄ってくる",
+        "森さんは黒い帽子に黒いザック。小林さんの服からは柔軟剤の甘い香りがする"
+      ],
+      "options": [
+        {
+          "id": "prep",
+          "label": "みんなに声をかける。黒い帽子はしまい、香りの強い物がないか確かめ、ハッカ油をスプレーする",
+          "detail": "5 分ほどかかる。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "ハチの季節だから、黒い帽子はしまっておこう。ハッカ油、回すね",
+              "to": "mori"
+            },
+            {
+              "type": "setFlag",
+              "flag": "prepared"
+            },
+            {
+              "type": "rest",
+              "minutes": 5
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "go",
+          "label": "貼り紙は毎年のこと。いつものとおり出発する",
+          "actions": [
+            {
+              "type": "say",
+              "text": "じゃあ、出発しましょう！"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_hornet",
+      "title": "ハチが飛んでいる",
+      "priority": 18,
+      "trigger": {
+        "flag": "scouts"
+      },
+      "situation": "大マテイ山の手前、明るい広葉樹の尾根。先頭の田島さんの前を、親指ほどの大きなハチが何匹も行き来している。カチカチと、あごを鳴らす音がする。",
+      "knowledge": [
+        "ハチが多い・カチカチと鳴らすのは、巣が近いという警告",
+        "巣から 100 m ほど離れれば、ハチはたいてい追ってこない",
+        "ここは尾根の一本道。来た道を戻れば、上日川峠まで 4 時間近くかかる（日の入りは 17:28）",
+        "8 人のうちヘッドランプを持っているのは 5 人"
+      ],
+      "options": [
+        {
+          "id": "quiet",
+          "label": "静かに少し下がって様子を見る。帽子を脱ぎ、一列になって、手で払わず、話さず、早足で通り抜ける",
+          "detail": "それでも刺されることはある。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "止まって。手で払わないで。静かに下がろう",
+              "tone": "whisper"
+            },
+            {
+              "type": "setFlag",
+              "flag": "how_quiet"
+            },
+            {
+              "type": "rest",
+              "minutes": 8
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "walk",
+          "label": "気にしすぎだ。話しながら、そのまま進む",
+          "actions": [
+            {
+              "type": "say",
+              "who": "eto",
+              "text": "ハチなんかどこにでもいるよ。行こう行こう"
+            },
+            {
+              "type": "setFlag",
+              "flag": "how_walk"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1.0,
+            "mods": [
+              {
+                "when": {
+                  "not": {
+                    "flag": "prepared"
+                  }
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "swat",
+          "label": "江藤さんが「払えば平気」と、手で払いながら先頭に立つ",
+          "actions": [
+            {
+              "type": "say",
+              "who": "eto",
+              "text": "こんなの払えば平気だって",
+              "tone": "normal"
+            },
+            {
+              "type": "setFlag",
+              "flag": "how_swat"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        },
+        {
+          "id": "back",
+          "label": "巣があるなら通らない。来た道を上日川峠へ引き返す",
+          "detail": "登り返しが長い。暗くなるかもしれない。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "戻ろう。暗くなる前に峠まで行けるだけ行く"
+            },
+            {
+              "type": "setFlag",
+              "flag": "turnedBack"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "OMATEI_J",
+                "USHINONE",
+                "KAYANOO",
+                "ISHIMARU",
+                "DAIBOSATSU",
+                "KAMIHIKAWA"
+              ],
+              "goalNodes": [
+                "KAMIHIKAWA",
+                "DAIBOSATSU"
+              ]
+            }
+          ],
+          "bias": {
+            "base": 0.15
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_stung",
+      "title": "刺された",
+      "priority": 17,
+      "trigger": {
+        "all": [
+          {
+            "flag": "stung"
+          },
+          {
+            "elapsedSince": {
+              "flag": "passedNest",
+              "min": 2
+            }
+          }
+        ]
+      },
+      "situation": "ハチから逃れた。刺された人は、腕や首を押さえてうずくまっている。痛みは強いが、今のところ息は普通にできている。",
+      "knowledge": [
+        "刺されてから 5〜15 分ほどの間に、アナフィラキシー（息苦しさ・全身のじんましん・吐き気・ぐったりする）が起きることがある。起きると数十分で命に関わることもある",
+        "佐伯さんは 2 年前にもハチに刺され、エピペンを処方されている（雨蓋に入れている）",
+        "村上さんの救急セットに、ポイズンリムーバー・抗ヒスタミンの軟膏・ピンセットがある",
+        "ここは圏外。小菅の湯へ下る道を 1.5 km ほど行った尾根の開けた所なら、電波が入るかもしれない",
+        "小菅の湯まで約 1 時間半の下り。日の入りは 17:28"
+      ],
+      "options": [
+        {
+          "id": "rest",
+          "label": "平らな所にシートを敷いて刺された人を横にし、足を少し高くする。毒を吸い出して水で洗い、軟膏を塗る。1 時間、様子を見る",
+          "detail": "平野さん（看護師）が手伝う。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "横になって。足を上げよう。息が苦しくなったらすぐ言って",
+              "tone": "normal"
+            },
+            {
+              "type": "setFlag",
+              "flag": "firstAid"
+            },
+            {
+              "type": "rest",
+              "minutes": 60
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "short",
+          "label": "傷を洗って軟膏を塗り、15 分休んでから下りる",
+          "actions": [
+            {
+              "type": "say",
+              "text": "冷やして、少し休んだら下りよう"
+            },
+            {
+              "type": "setFlag",
+              "flag": "firstAid"
+            },
+            {
+              "type": "rest",
+              "minutes": 15
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "push",
+          "label": "痛いけど歩ける。早く小菅の湯へ下りて、温泉で一息つこう",
+          "actions": [
+            {
+              "type": "say",
+              "who": "eto",
+              "text": "下で風呂に入ってビール飲めば治るよ"
+            },
+            {
+              "type": "setFlag",
+              "flag": "bathBeer"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_ana_saeki",
+      "title": "佐伯さんの様子がおかしい",
+      "priority": 19,
+      "trigger": {
+        "var": "c.saeki.illnessActive",
+        "op": "==",
+        "value": true
+      },
+      "situation": "刺されてしばらくして、佐伯さんの首から胸にじんましんが広がった。「息が……苦しい」。顔色が悪く、ぐったりしている。アナフィラキシーかもしれない。",
+      "knowledge": [
+        "佐伯さんはエピペンを雨蓋に入れている。本人が打てる（太ももの外側に、服の上からでも打てる）",
+        "エピペンの効き目は 20〜30 分ほど。打っても救助は要る",
+        "ここは圏外。小菅の湯へ下る道を 1.5 km ほど行った尾根の開けた所なら、電波が入るかもしれない。来た道にはハチがいる",
+        "歩かせると、心臓に負担がかかる"
+      ],
+      "options": [
+        {
+          "id": "epi_call",
+          "label": "すぐにエピペンを打たせる。佐伯さんを横にしたまま、田島さんが北東の尾根の開けた所（道を 1.5 km ほど先）まで走って 119 番する",
+          "actions": [
+            {
+              "type": "epipen",
+              "who": "saeki"
+            },
+            {
+              "type": "setFlag",
+              "flag": "epi"
+            },
+            {
+              "type": "say",
+              "who": "tajima",
+              "text": "電波のある所まで行ってきます！",
+              "tone": "normal"
+            },
+            {
+              "type": "detach",
+              "who": "tajima",
+              "returnAfter": true,
+              "then": [
+                {
+                  "type": "goToNode",
+                  "node": "OPEN_RIDGE",
+                  "then": "call"
+                }
+              ]
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "call",
+          "label": "エピペンは怖い。横にしたまま、田島さんが北東の尾根の開けた所（道を 1.5 km ほど先）まで走って 119 番する",
+          "actions": [
+            {
+              "type": "say",
+              "who": "tajima",
+              "text": "電波のある所まで行ってきます！",
+              "tone": "normal"
+            },
+            {
+              "type": "detach",
+              "who": "tajima",
+              "returnAfter": true,
+              "then": [
+                {
+                  "type": "goToNode",
+                  "node": "OPEN_RIDGE",
+                  "then": "call"
+                }
+              ]
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "carry",
+          "label": "両側から支えて、小菅の湯まで歩かせる。下れば人も車もある",
+          "actions": [
+            {
+              "type": "say",
+              "text": "肩を貸すから、ゆっくり下りよう",
+              "to": "saeki"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "wait",
+          "label": "横にしたまま、治まるのを待つ",
+          "actions": [
+            {
+              "type": "say",
+              "text": "大丈夫、少し休めば落ち着くよ",
+              "to": "saeki"
+            },
+            {
+              "type": "rest",
+              "minutes": 40
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_ana_other",
+      "title": "息が苦しそうだ",
+      "priority": 19,
+      "trigger": {
+        "any": [
+          {
+            "var": "c.murakami.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.tajima.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.kobayashi.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.eto.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.hirano.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.mori.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.ishii.illnessActive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "situation": "刺された仲間の一人に、全身のじんましんが出た。息が苦しそうで、ぐったりしている。アナフィラキシーかもしれない。本人はエピペンを持っていない。",
+      "knowledge": [
+        "エピペンは処方された佐伯さんの物しかない",
+        "ここは圏外。小菅の湯へ下る道を 1.5 km ほど行った尾根の開けた所なら、電波が入るかもしれない。来た道にはハチがいる",
+        "歩かせると、心臓に負担がかかる"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "横にして足を高くし、田島さんが北東の尾根の開けた所（道を 1.5 km ほど先）まで走って 119 番する",
+          "actions": [
+            {
+              "type": "say",
+              "who": "tajima",
+              "text": "電波のある所まで行ってきます！",
+              "tone": "normal"
+            },
+            {
+              "type": "detach",
+              "who": "tajima",
+              "returnAfter": true,
+              "then": [
+                {
+                  "type": "goToNode",
+                  "node": "OPEN_RIDGE",
+                  "then": "call"
+                }
+              ]
+            },
+            {
+              "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "otherCall"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "carry",
+          "label": "両側から支えて、小菅の湯まで歩かせる",
+          "actions": [
+            {
+              "type": "say",
+              "text": "肩を貸すから、ゆっくり下りよう"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "wait",
+          "label": "横にしたまま、治まるのを待つ",
+          "actions": [
+            {
+              "type": "rest",
+              "minutes": 40
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_after",
+      "title": "1 時間たった",
+      "priority": 15,
+      "trigger": {
+        "all": [
+          {
+            "flag": "firstAid"
+          },
+          {
+            "elapsedSince": {
+              "flag": "passedNest",
+              "min": 62
+            }
+          },
+          {
+            "not": {
+              "state": "WALKING"
+            }
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "var": "c.murakami.illness",
+                  "op": "==",
+                  "value": "anaphylaxis"
+                },
+                {
+                  "var": "c.saeki.illness",
+                  "op": "==",
+                  "value": "anaphylaxis"
+                },
+                {
+                  "var": "c.tajima.illness",
+                  "op": "==",
+                  "value": "anaphylaxis"
+                },
+                {
+                  "var": "c.kobayashi.illness",
+                  "op": "==",
+                  "value": "anaphylaxis"
+                },
+                {
+                  "var": "c.eto.illness",
+                  "op": "==",
+                  "value": "anaphylaxis"
+                },
+                {
+                  "var": "c.hirano.illness",
+                  "op": "==",
+                  "value": "anaphylaxis"
+                },
+                {
+                  "var": "c.mori.illness",
+                  "op": "==",
+                  "value": "anaphylaxis"
+                },
+                {
+                  "var": "c.ishii.illness",
+                  "op": "==",
+                  "value": "anaphylaxis"
+                }
+              ]
+            }
+          },
+          {
+            "not": {
+              "state": "WAITING_RESCUE"
+            }
+          }
+        ]
+      },
+      "situation": "1 時間ほど休んだ。刺された所は腫れて痛むが、息苦しさやじんましんは出ていない。",
+      "knowledge": [
+        "小菅の湯まで約 1 時間半の下り。日の入りは 17:28",
+        "温泉に入ったり酒を飲んだりすると、血の巡りがよくなって症状がぶり返すことがある"
+      ],
+      "options": [
+        {
+          "id": "down",
+          "label": "刺された人のザックは仲間が持ち、ゆっくり小菅の湯へ下りる。温泉はやめて、早いバスで帰る",
+          "actions": [
+            {
+              "type": "say",
+              "text": "ザックはみんなで持とう。今日は風呂はやめて、早いバスで帰ろう"
+            },
+            {
+              "type": "setFlag",
+              "flag": "noBath"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.85
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "bath",
+          "label": "もう大丈夫そうだ。予定どおり小菅の湯で温泉に入って、ビールで打ち上げる",
+          "actions": [
+            {
+              "type": "say",
+              "who": "eto",
+              "text": "せっかくだし、風呂入って帰ろうよ"
+            },
+            {
+              "type": "setFlag",
+              "flag": "bathBeer"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_ana_eased",
+      "title": "症状が引いてきた",
+      "priority": 15,
+      "trigger": {
+        "all": [
+          {
+            "flag": "anaOnset"
+          },
+          {
+            "elapsedSince": {
+              "flag": "anaOnset",
+              "min": 20
+            }
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "var": "c.murakami.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.saeki.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.tajima.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.kobayashi.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.eto.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.hirano.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.mori.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.ishii.illnessActive",
+                  "op": "==",
+                  "value": true
+                }
+              ]
+            }
+          },
+          {
+            "not": {
+              "state": "WALKING"
+            }
+          },
+          {
+            "not": {
+              "state": "WAITING_RESCUE"
+            }
+          },
+          {
+            "var": "leader.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "situation": "じんましんが少しずつ引き、呼吸も落ち着いてきた。ただ、顔色はまだ悪く、足に力が入らないという。",
+      "knowledge": [
+        "アナフィラキシーは、いったん治まってから数時間後にぶり返すことがある",
+        "小菅の湯まで約 1 時間半の下り。日の入りは 17:28",
+        "ヘッドランプを持っているのは 8 人のうち 5 人"
+      ],
+      "options": [
+        {
+          "id": "down",
+          "label": "荷物は仲間が全部持ち、両側から支えてゆっくり小菅の湯へ下りる。下りたらすぐ病院へ",
+          "actions": [
+            {
+              "type": "say",
+              "text": "荷物はみんなで持つ。ゆっくりでいいから下りよう"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.7
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "stay",
+          "label": "今夜はここで過ごし、明るくなってから下りる",
+          "actions": [
+            {
+              "type": "say",
+              "text": "暗い中を歩かせたくない。朝まで待とう"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "darkness": {
+      "situation": "日が暮れた。8 人のうちヘッドランプを持っているのは 5 人だけ。",
+      "options": [
+        {
+          "id": "lamps",
+          "label": "ランプを持つ人を前後と間に入れ、ゆっくり進む",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "phone",
+          "label": "ランプのない人はスマホのライトで足元を照らして進む",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.7
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        }
+      ]
+    }
+  },
+  "thoughts": [
+    {
+      "key": "s11_start",
+      "who": "murakami",
+      "when": {
+        "all": [
+          {
+            "before": "D0 11:30"
+          },
+          {
+            "state": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "8 人だと休憩も長くなる。時間に気をつけないと",
+        "今日は天気がいい。富士山が見えるといいな"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s11_saeki_worry",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "flag": "scouts"
+          },
+          {
+            "not": {
+              "flag": "passedNest"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "ハチ……。前に刺されたとき、全身が真っ赤になった",
+        "エピペン、雨蓋に入ってるよね"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s11_saeki_stung",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "var": "c.saeki.stings",
+            "op": ">",
+            "value": 0
+          },
+          {
+            "var": "c.saeki.illnessActive",
+            "op": "==",
+            "value": false
+          },
+          {
+            "not": {
+              "elapsedSince": {
+                "flag": "passedNest",
+                "min": 60
+              }
+            }
+          }
+        ]
+      },
+      "lines": [
+        "刺された……。また、あのときみたいになったら",
+        "エピペン、手の届く所に出しておこう"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s11_leader_watch",
+      "who": "murakami",
+      "when": {
+        "all": [
+          {
+            "flag": "stung"
+          },
+          {
+            "not": {
+              "state": "WALKING"
+            }
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "var": "c.murakami.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.saeki.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.tajima.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.kobayashi.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.eto.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.hirano.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.mori.illnessActive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.ishii.illnessActive",
+                  "op": "==",
+                  "value": true
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "lines": [
+        "顔色、息づかい、じんましん。目を離さないようにしないと",
+        "1 時間何もなければ、下りよう"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s11_leader_ana",
+      "who": "murakami",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "var": "c.murakami.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.tajima.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kobayashi.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.eto.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.hirano.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.mori.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.ishii.illnessActive",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "elapsedSince": {
+                "flag": "anaOnset",
+                "min": 30
+              }
+            }
+          }
+        ]
+      },
+      "lines": [
+        "落ち着け。まず通報だ",
+        "来た道はハチがいる。北東へ行かせるしかない"
+      ],
+      "priority": 9
+    }
+  ],
+  "speech": [
+    {
+      "key": "s11_ridge",
+      "who": "ishii",
+      "to": "hirano",
+      "when": {
+        "all": [
+          {
+            "beenAt": "KAYANOO"
+          },
+          {
+            "not": {
+              "flag": "scouts"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "牛の寝通りって、ほんとに平らで歩きやすいですね",
+        "紅葉、もう少しかな"
+      ],
+      "replies": {
+        "who": "hirano",
+        "lines": [
+          "ブナの森がきれいだね",
+          "あと 2 週間くらいかな"
+        ]
+      },
+      "priority": 11,
+      "once": true
+    },
+    {
+      "key": "s11_buzz",
+      "who": "kobayashi",
+      "to": "mori",
+      "when": {
+        "all": [
+          {
+            "flag": "scouts"
+          },
+          {
+            "not": {
+              "flag": "passedNest"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "森さん、帽子のまわりにハチが……",
+        "やだ、こっちにも来た"
+      ],
+      "replies": {
+        "who": "mori",
+        "lines": [
+          "えっ、どこどこ",
+          "動かないほうがいいのかな"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s11_ouch_murakami",
+      "who": "murakami",
+      "when": {
+        "var": "c.murakami.stings",
+        "op": ">",
+        "value": 0
+      },
+      "lines": [
+        "くっ、腕を刺された……みんな走れ！"
+      ],
+      "tone": "shout",
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s11_ouch_saeki",
+      "who": "saeki",
+      "when": {
+        "var": "c.saeki.stings",
+        "op": ">",
+        "value": 0
+      },
+      "lines": [
+        "痛い！ 刺された……どうしよう"
+      ],
+      "tone": "normal",
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s11_ouch_tajima",
+      "who": "tajima",
+      "when": {
+        "var": "c.tajima.stings",
+        "op": ">",
+        "value": 0
+      },
+      "lines": [
+        "いてっ！ 耳の後ろだ"
+      ],
+      "tone": "normal",
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s11_ouch_kobayashi",
+      "who": "kobayashi",
+      "when": {
+        "var": "c.kobayashi.stings",
+        "op": ">",
+        "value": 0
+      },
+      "lines": [
+        "きゃっ！ 首が……熱い！"
+      ],
+      "tone": "shout",
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s11_ouch_hirano",
+      "who": "hirano",
+      "when": {
+        "var": "c.hirano.stings",
+        "op": ">",
+        "value": 0
+      },
+      "lines": [
+        "痛っ……手首をやられた"
+      ],
+      "tone": "normal",
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s11_ouch_ishii",
+      "who": "ishii",
+      "when": {
+        "var": "c.ishii.stings",
+        "op": ">",
+        "value": 0
+      },
+      "lines": [
+        "痛い痛い！ 足を刺された！"
+      ],
+      "tone": "shout",
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s11_ouch",
+      "who": "eto",
+      "when": {
+        "var": "c.eto.stings",
+        "op": ">",
+        "value": 0
+      },
+      "lines": [
+        "いってえ！ 首をやられた"
+      ],
+      "tone": "normal",
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s11_ouch_mori",
+      "who": "mori",
+      "when": {
+        "var": "c.mori.stings",
+        "op": ">",
+        "value": 0
+      },
+      "lines": [
+        "痛っ！ 頭を刺された！"
+      ],
+      "tone": "normal",
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s11_nurse",
+      "who": "hirano",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "flag": "stung"
+          },
+          {
+            "not": {
+              "state": "WALKING"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "刺された人、横にして足を上げましょう",
+        "じんましんと息苦しさ、私が見てます"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "頼む。リムーバーはこれ",
+          "ありがとう"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    }
+  ],
+  "endings": [
+    {
+      "kind": "FATAL",
+      "when": {
+        "any": [
+          {
+            "var": "c.murakami.illness",
+            "op": "==",
+            "value": "anaphylaxis"
+          },
+          {
+            "var": "c.saeki.illness",
+            "op": "==",
+            "value": "anaphylaxis"
+          },
+          {
+            "var": "c.tajima.illness",
+            "op": "==",
+            "value": "anaphylaxis"
+          },
+          {
+            "var": "c.kobayashi.illness",
+            "op": "==",
+            "value": "anaphylaxis"
+          },
+          {
+            "var": "c.eto.illness",
+            "op": "==",
+            "value": "anaphylaxis"
+          },
+          {
+            "var": "c.hirano.illness",
+            "op": "==",
+            "value": "anaphylaxis"
+          },
+          {
+            "var": "c.mori.illness",
+            "op": "==",
+            "value": "anaphylaxis"
+          },
+          {
+            "var": "c.ishii.illness",
+            "op": "==",
+            "value": "anaphylaxis"
+          }
+        ]
+      },
+      "title": "帰らぬ人に",
+      "text": "アナフィラキシーで、仲間の一人が尾根の上で亡くなった。刺されてから 1 時間もたっていなかった。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "帰らぬ人に",
+      "text": "仲間の一人が山から戻らなかった。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "epi"
+      },
+      "title": "ヘリで運ばれた",
+      "text": "田島さんの通報で防災ヘリが来て、佐伯さんは病院へ運ばれた。エピペンが時間をつないだ。ほかの 7 人は救助隊に付き添われて小菅の湯へ下りた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "anaOnset"
+      },
+      "title": "ヘリで運ばれた",
+      "text": "通報で防災ヘリが来て、アナフィラキシーを起こした仲間は病院へ運ばれた。ほかの人は救助隊に付き添われて下りた。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助",
+      "text": "救助隊に助けられて下山した。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重い状態で救助",
+      "text": "アナフィラキシーを起こした仲間は、重い状態で病院へ運ばれた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "beenAt": "KAMIHIKAWA"
+      },
+      "title": "上日川峠に戻った",
+      "text": "巣を避けて来た道を引き返し、8 人は上日川峠まで戻った。帰りのバスはもうなく、ロッジで呼んでもらったタクシーで帰った。長い一日だったが、誰も刺されなかった。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "turnedBack"
+      },
+      "title": "大菩薩峠の小屋に",
+      "text": "引き返して大菩薩峠まで登り返したところで日が暮れた。小屋に頼み込んで泊めてもらい、翌朝下りた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "anaOnset"
+      },
+      "title": "症状が引いてから下りた",
+      "text": "アナフィラキシーの症状は数時間で引いていった。8 人は暗くなる前に小菅の湯へ下り、その足で病院へ向かった。運がよかった。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "flag": "stung"
+          },
+          {
+            "flag": "bathBeer"
+          }
+        ]
+      },
+      "title": "小菅の湯へ",
+      "text": "刺された人も歩いて下りられた。温泉に入り、ビールで乾杯した。その夜、刺された所はひどく腫れたが、大事には至らなかった。風呂と酒で、症状がぶり返すこともある。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "stung"
+      },
+      "title": "小菅の湯へ",
+      "text": "刺された人のザックを仲間が分けて持ち、8 人は小菅の湯へ下りた。温泉はやめて早いバスで帰り、刺された人は翌日受診した。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "小菅の湯へ",
+      "text": "誰も刺されずに小菅の湯へ下りた。温泉で汗を流し、夕方のバスで帰った。"
+    },
+    {
+      "kind": "MISSING",
+      "title": "まだ下りてこない",
+      "text": "翌日の夕方になっても、まだ山から下りていない仲間がいる。"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_prevent",
+      "title": "刺されないのがいちばん",
+      "text": "7〜10 月はスズメバチが攻撃的になる。黒い服・帽子・ザック、甘い香りの香水や柔軟剤は避け、ハッカ油のスプレーも使う。観光協会やビジターセンターの「通行止め」や「ハチ注意」の情報も確かめる。"
+    },
+    {
+      "id": "l_quiet",
+      "when": {
+        "any": [
+          {
+            "chose": {
+              "cp": "cp_hornet",
+              "option": "walk"
+            }
+          },
+          {
+            "chose": {
+              "cp": "cp_hornet",
+              "option": "swat"
+            }
+          },
+          {
+            "flag": "how_walk"
+          }
+        ]
+      },
+      "title": "ハチが多い・カチカチ鳴らしたら、静かに離れる",
+      "text": "警告の合図を無視して近づくと、巣を守るハチが一斉に襲ってくる。手で払うとかえって刺激し、つぶすと仲間を呼ぶにおいが出る。静かに下がり、ルートを変えるか、巣から離れて通る。オオスズメバチは地面の中に巣を作るので、道の外を歩くときは特に気をつける。"
+    },
+    {
+      "id": "l_ana",
+      "when": {
+        "flag": "stung"
+      },
+      "title": "刺されたら、まず安静にして様子を見る",
+      "text": "横にして足を高くし、息苦しさ・全身のじんましん・吐き気・意識の乱れが出ないか、1 時間ほど見る。ポイズンリムーバーで吸い出して水で洗い、抗ヒスタミンの軟膏を塗る（口で吸わない。アンモニアや尿は効かない）。歩けそうでも、すぐに急がない。"
+    },
+    {
+      "id": "l_epi",
+      "when": {
+        "flag": "anaOnset"
+      },
+      "title": "アナフィラキシーは数十分で命に関わる",
+      "text": "症状が出てから 15 分ほどで心臓が止まった例もある。エピペンを持っていればすぐに打ち、それでも救助を呼ぶ。自力で歩かせない。ハチに刺されたことのある人は、医師に相談してエピペンを持ち歩き、仲間にも置き場所を伝えておく。"
+    },
+    {
+      "id": "l_bath",
+      "when": {
+        "flag": "bathBeer"
+      },
+      "title": "刺された日は、風呂と酒をやめる",
+      "text": "温まったり酒を飲んだりすると血の巡りがよくなり、腫れや症状がぶり返すことがある。その日は早く帰り、心配なら受診する。"
+    },
+    {
+      "id": "l_numbers",
+      "title": "ハチで亡くなる人は、毎年 20 人ほど",
+      "text": "国内では、ハチに刺されて亡くなる人が毎年 20 人ほどいる。山の中では病院が遠く、アナフィラキシーは命取りになりうる。我慢強さは、ここでは美徳ではない。"
+    }
+  ],
+  "balanceTargets": {
+    "recommended": {
+      "fatalMax": 0.03
+    }
+  },
+  "sources": [
+    "原案: 松本圭司「架空遭難　8名中3名がスズメバチに刺された」note（2024年3月1日） https://note.com/keizi666/n/ne9affdf680a5",
+    "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+    "登山道・地点: © OpenStreetMap contributors"
+  ]
+}

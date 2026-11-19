@@ -111,7 +111,7 @@ export function buildAiPrompt(p: EditorProject, i: AiPromptInput): string {
   out.push(`- 状態（state）: ${STATES.join(', ')}`);
   out.push(`- 汎用の分岐（genericOverrides で上書きできる）: ${GENERIC_KEYS.join('、')}`);
   out.push(`- 結末の種類: ${ENDING_KINDS.join('、')}。同じ種類を when で出し分ける（上から最初に合うもの）。`);
-  out.push('- そのほか: 天気のキーフレームと雷雲（weather.keyframes / thunderCells）、捜索の手がかり（plan.searchLeads）、通りかかる登山者（passersby）、パーティの分割（splitParty・groups）、一人言（thoughts、who）、会話（speech、who / to / replies。返事は言葉と同じ数なら同じ番目が組になる）、急病（illness: angina / mi / dissection / arrhythmia / benign / random）、飲酒（drinkAlcohol）、スマホの紛失（setPhone）、家族の届け出（reportMissing）、動揺（addAnxiety）。');
+  out.push('- そのほか: 天気のキーフレームと雷雲（weather.keyframes / thunderCells）、捜索の手がかり（plan.searchLeads）、通りかかる登山者（passersby）、パーティの分割（splitParty・groups）、一人言（thoughts、who）、会話（speech、who / to / replies。返事は言葉と同じ数なら同じ番目が組になる）、急病（illness: angina / mi / dissection / arrhythmia / benign / random）、ハチ（sting・epipen。刺された人の一部がアナフィラキシー）、飲酒（drinkAlcohol）、スマホの紛失（setPhone）、家族の届け出（reportMissing）、動揺（addAnxiety）、電波の入る地点まで歩いて通報（detach + goToNode の then: "call"）、下山した人が駅・バス停などへ移る（leaveMap。3D から消える。話の筋と位置を合わせるため、下山した人を入口に立たせたままにしない）、自分のグループの集計（mates.count・mates.unwellCount など）。休む → 進むの順に並べると、休み終えてから進む。');
   out.push('');
   out.push('## 形式');
   out.push('');

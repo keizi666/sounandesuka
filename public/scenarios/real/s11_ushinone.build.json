@@ -1,0 +1,62 @@
+{
+  "skeleton": "public/maps/real/ushinone.skeleton.json",
+  "mapId": "ushinone",
+  "center": [
+    35.745,
+    138.9
+  ],
+  "size": 12288,
+  "resolution": 513,
+  "at": {
+    "DAIBOSATSU": [
+      35.73646,
+      138.85325
+    ],
+    "ISHIMARU": [
+      35.73071,
+      138.85959
+    ]
+  },
+  "atXZ": {
+    "KAMIHIKAWA": [
+      -6110,
+      1484
+    ],
+    "KAYANOO": [
+      -1915,
+      981
+    ],
+    "USHINONE": [
+      -1065,
+      580
+    ],
+    "OMATEI_J": [
+      1938,
+      380
+    ],
+    "KOSUGE": [
+      4242,
+      -1240
+    ],
+    "OPEN_RIDGE": [
+      2724,
+      -470
+    ]
+  },
+  "snapM": 80,
+  "paceAdj": {
+    "E3": 1.4,
+    "E6": 1.4,
+    "E7": 1.4
+  },
+  "radio": [
+    {
+      "id": "st_kosuge",
+      "x": 5000,
+      "z": -1300,
+      "elevM": 700,
+      "antennaM": 40,
+      "rangeM": 14000
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "skeleton": "public/maps/real/okura.skeleton.json",
+  "mapId": "okura",
+  "center": [35.4294, 139.166],
+  "size": 6144,
+  "resolution": 513,
+  "at": {
+    "KANNON": [35.41366, 139.16232],
+    "MIHARASHI": [35.41981, 139.16199],
+    "KOMADOME": [35.42839, 139.16564],
+    "HORIYAMA": [35.43627, 139.16236],
+    "HANATATE_HUT": [35.44569, 139.16249],
+    "KINWARASHI": [35.44982, 139.16092],
+    "SUMMIT": [35.45407, 139.16332]
+  },
+  "atXZ": { "TH_OKURA": [-105, 2095] },
+  "snapM": 80,
+  "radio": [{ "id": "st_hadano", "x": 2500, "z": 9000, "elevM": 120, "antennaM": 40, "rangeM": 25000 }]
+}

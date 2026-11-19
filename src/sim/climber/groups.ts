@@ -94,8 +94,9 @@ export function splitParty(world: World, ctx: StaticContext, defs: readonly (Gro
 }
 
 /** 対象をパーティから外し、個別に行動させる */
-export function detach(world: World, ctx: StaticContext, c: ClimberState, then: readonly Action[], apply: Apply): void {
+export function detach(world: World, ctx: StaticContext, c: ClimberState, then: readonly Action[], apply: Apply, returnAfter = false): void {
   const id = `solo_${c.id}`;
+  if (returnAfter && c.groupId !== null && c.groupId !== id) world.latches[`return:${c.id}:${c.groupId}`] = true;
   if (!world.groups.some((g) => g.id === id)) world.groups.push({ id, leader: c.id, cohesion: 'tight', lastHeadcountMin: null });
   c.groupId = id;
   unshare(c);

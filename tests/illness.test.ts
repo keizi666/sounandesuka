@@ -1,6 +1,6 @@
 /** 急病（src/sim/climber/illness.ts）と、通りかかる登山者の較正 */
 import { describe, expect, it } from 'vitest';
-import { onsetIllness, stepIllness } from '../src/sim/climber/illness';
+import { epipen, onsetIllness, stepIllness, sting } from '../src/sim/climber/illness';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
 import type { IllnessKind } from '../src/sim/types';
 import { hakoniwa } from './helpers/map';
@@ -50,5 +50,39 @@ describe('急病', () => {
   });
   it('良性（胃・筋肉・パニックなど）: 亡くならない', () => {
     expect(deaths('benign', 24, true, 100)).toBe(0);
+  });
+});
+
+describe('ハチとアナフィラキシー', () => {
+  /** n 人を刺し、hours 時間安静（エピペンは症状が出たら打つ）で、アナフィラキシーになった人数と亡くなった人数 */
+  function run(sensitized: boolean, withEpi: boolean, walking: boolean, n = 600): { ana: number; dead: number } {
+    let ana = 0;
+    let dead = 0;
+    for (let i = 0; i < n; i += 1) {
+      const s2 = { ...s, seed: 5000 + i, party: s.party.map((p) => ({ ...p, beeSensitized: sensitized, gear: { ...p.gear, epipen: withEpi } })) };
+      const w = createWorld(map, s2);
+      const ctx = createStaticContext(map, s2);
+      const c = w.climbers[0]!;
+      sting(w, ctx, c, 1);
+      if (c.body.illness?.kind === 'anaphylaxis') ana += 1;
+      for (let m = 0; m < 6 * 60 && c.body.alive; m += 1) {
+        w.tMin += 1;
+        stepIllness(w, ctx, c, 1, walking, 0);
+        if (withEpi && c.body.illness?.active && (c.body.illness.epiUntilMin ?? -1) < w.tMin) epipen(w, ctx, c);
+      }
+      if (!c.body.alive) dead += 1;
+    }
+    return { ana: ana / n, dead: dead / n };
+  }
+  it('以前刺されたことがある人はアナフィラキシーを起こしやすい', () => {
+    expect(run(false, false, false).ana).toBeLessThan(0.07);
+    expect(run(true, false, false).ana).toBeGreaterThan(0.2);
+  });
+  it('アナフィラキシーは歩くと危険が増え、エピペンで大きく下がる', () => {
+    const rest = run(true, false, false).dead;
+    const walk = run(true, false, true).dead;
+    const epi = run(true, true, false).dead;
+    expect(walk).toBeGreaterThan(rest * 1.8);
+    expect(epi).toBeLessThan(rest * 0.6);
   });
 });

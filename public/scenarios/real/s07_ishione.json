@@ -1,0 +1,1562 @@
+{
+  "id": "s07_ishione",
+  "version": 1,
+  "title": "石尾根の雷雲",
+  "subtitle": "8月・単独・奥多摩 石尾根（実在の地形）",
+  "theme": "lightning",
+  "difficulty": 3,
+  "season": "summer",
+  "estMinutes": 15,
+  "mapId": "ishione",
+  "seed": 807,
+  "startDate": "2026-08-01",
+  "startAt": "D0 12:50",
+  "timeLimit": "D1 10:00",
+  "sun": { "sunrise": "04:52", "sunset": "18:42", "maxElevDeg": 72 },
+  "moon": { "illumination": 0.6 },
+  "region": { "name": "奥多摩・石尾根", "real": true },
+  "briefing": {
+    "text": "8月初めの土曜日、晴れ。会社員の直樹さん（26歳）は、一人で石尾根を歩いている。朝 8 時半に奥多摩駅を出て、六ツ石山の分岐を過ぎ、いまは鷹ノ巣山の手前、水根山の西の稜線にいる（12 時 50 分）。今夜は七ツ石小屋のテント場に泊まり、明日は雲取山へ登る計画で、テント・寝袋と 1 泊分の水・食料を背負っている。石尾根のピークは巻き道を使わずに全部踏むつもりで、七ツ石小屋には 16 時半に着く予定だ。テント場は予約してあるが、到着が遅れたときの連絡は考えていない。登山を始めて 2 年目。体力には自信がある。",
+    "forecast": [
+      { "label": "今日", "text": "晴れ 時々 くもり。午後は大気の状態が不安定で、山沿いでは雷雨の所がある", "icon": "sunny_cloudy" },
+      { "label": "注意報", "text": "雷注意報（東京都 多摩西部）" },
+      { "label": "日の入り", "text": "18:42" }
+    ]
+  },
+  "plan": {
+    "route": ["START", "J_MAKI_E", "TAKANOSU", "J_MAKI_W", "HUT_TAKA", "J_HUT_W", "HIKAGE", "J_TAKAMARU_E", "TAKAMARU", "SENBON", "NANA_HUT"],
+    "goalNodes": ["NANA_HUT"],
+    "plannedFinish": "D0 16:30",
+    "submittedPlan": false,
+    "reportIfNotBackBy": null,
+    "searchLeads": [
+      {
+        "id": "passerby",
+        "at": "D0 12:50",
+        "when": { "flag": "passerbyReport" },
+        "route": ["START", "J_MAKI_E", "TAKANOSU", "J_MAKI_W", "HUT_TAKA", "J_HUT_W", "HIKAGE", "J_TAKAMARU_E", "TAKAMARU", "SENBON", "NANA_HUT"],
+        "maxRadiusM": 400,
+        "text": "通報した登山者が、倒れていた場所を石尾根の地名で伝えた。救助は石尾根の登山道を中心に向かった"
+      },
+      {
+        "id": "hutReservation",
+        "at": "D0 21:00",
+        "when": { "flag": "hutReported" },
+        "route": ["START", "J_MAKI_E", "TAKANOSU", "J_MAKI_W", "HUT_TAKA", "J_HUT_W", "HIKAGE", "J_TAKAMARU_E", "TAKAMARU", "SENBON", "NANA_HUT"],
+        "maxRadiusM": 500,
+        "findF": 0.7,
+        "text": "七ツ石小屋の予約には「奥多摩駅から石尾根を歩いて来る」とあった。捜索は石尾根の登山道を中心に始まった"
+      }
+    ]
+  },
+  "party": [
+    {
+      "id": "naoki",
+      "name": "直樹",
+      "age": 26,
+      "sex": "m",
+      "weightKg": 63,
+      "packKg": 13,
+      "experience": 0.35,
+      "fitness": 1.1,
+      "navSkill": 0.5,
+      "riskTolerance": 0.65,
+      "color": "#0891b2",
+      "portrait": "young_m:3",
+      "leader": true,
+      "habits": { "eatEveryMin": 120, "drinkEveryMin": 40, "delaysRainwear": 0.4, "gpsCheckEveryMin": 60 },
+      "gear": {
+        "rainwear": "basic",
+        "cloWorn": 0.35,
+        "cloPack": 0.5,
+        "gloves": "none",
+        "hat": true,
+        "bivy": "none",
+        "tent": true,
+        "rescueSheet": false,
+        "headlamp": { "has": true, "batteryH": 8, "inPack": true, "spareBatteryH": 0 },
+        "phone": { "has": true, "batteryPct": 70, "gpsApp": true, "trackRecording": false, "satelliteSos": false, "strap": false },
+        "map": true,
+        "compass": false,
+        "foodKcal": 2600,
+        "waterL": 0.9,
+        "stove": true,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": true,
+        "whistle": false
+      },
+      "initial": { "fatigue": 25, "glycogenKcal": 1100, "waterDeficitL": 0.3 },
+      "notes": "架空の人物。テント泊装備（テント・寝袋・ストーブ）。地図は紙の地図とスマホの地図アプリ。トレッキングポールはアルミ製。"
+    }
+  ],
+  "weather": {
+    "refElevM": 1600,
+    "lapseRateCPer100m": 0.6,
+    "cloudThicknessM": 4000,
+    "keyframes": [
+      {
+        "at": "D0 12:50",
+        "tempC": 21,
+        "windMs": 3,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.5,
+        "cloudBaseM": 2200,
+        "visibilityM": 25000,
+        "pressureHpa": 1008,
+        "thunder": 0
+      },
+      {
+        "at": "D0 13:05",
+        "tempC": 19,
+        "windMs": 5,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.85,
+        "cloudBaseM": 1900,
+        "visibilityM": 15000,
+        "pressureHpa": 1008,
+        "thunder": 0.05,
+        "gustiness": 0.4
+      },
+      {
+        "at": "D0 13:30",
+        "tempC": 17,
+        "windMs": 6,
+        "windDirDeg": 320,
+        "precipMmH": 0.3,
+        "cloudCover": 0.95,
+        "cloudBaseM": 1700,
+        "visibilityM": 8000,
+        "inCloudVisibilityM": 200,
+        "pressureHpa": 1009,
+        "thunder": 0.12,
+        "gustiness": 0.6
+      },
+      {
+        "at": "D0 14:30",
+        "tempC": 16,
+        "windMs": 5,
+        "windDirDeg": 310,
+        "precipMmH": 0.6,
+        "cloudCover": 1,
+        "cloudBaseM": 1550,
+        "visibilityM": 3000,
+        "inCloudVisibilityM": 120,
+        "pressureHpa": 1010,
+        "thunder": 0.15,
+        "gustiness": 0.5
+      },
+      {
+        "at": "D0 15:30",
+        "tempC": 17,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0.1,
+        "cloudCover": 0.9,
+        "cloudBaseM": 1700,
+        "visibilityM": 8000,
+        "inCloudVisibilityM": 200,
+        "pressureHpa": 1010,
+        "thunder": 0.11
+      },
+      {
+        "at": "D0 16:30",
+        "tempC": 18,
+        "windMs": 2,
+        "windDirDeg": 270,
+        "precipMmH": 0,
+        "cloudCover": 0.6,
+        "cloudBaseM": 2000,
+        "visibilityM": 20000,
+        "pressureHpa": 1010,
+        "thunder": 0.03
+      },
+      {
+        "at": "D0 19:00",
+        "tempC": 16,
+        "windMs": 2,
+        "windDirDeg": 250,
+        "precipMmH": 0,
+        "cloudCover": 0.3,
+        "cloudBaseM": 2500,
+        "visibilityM": 25000,
+        "pressureHpa": 1011,
+        "thunder": 0
+      },
+      {
+        "at": "D1 04:30",
+        "tempC": 13,
+        "windMs": 2,
+        "windDirDeg": 250,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 2500,
+        "visibilityM": 30000,
+        "pressureHpa": 1012,
+        "thunder": 0
+      },
+      {
+        "at": "D1 10:00",
+        "tempC": 21,
+        "windMs": 2,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.3,
+        "cloudBaseM": 2500,
+        "visibilityM": 30000,
+        "pressureHpa": 1012,
+        "thunder": 0
+      }
+    ],
+    "thunderCells": [
+      {
+        "id": "cb_nippara",
+        "from": "D0 12:50",
+        "peakAt": "D0 13:38",
+        "to": "D0 15:20",
+        "path": [[700, -3300], [500, -900], [-300, -300], [-900, 1300]],
+        "radiusM": 2000,
+        "peak": 1,
+        "heavyRainMmH": 35,
+        "hail": false
+      },
+      {
+        "id": "cb_kumotori",
+        "from": "D0 14:00",
+        "peakAt": "D0 15:05",
+        "to": "D0 16:10",
+        "path": [[-3300, -2900], [-1700, -1000], [-2300, 1400]],
+        "radiusM": 1800,
+        "peak": 1,
+        "heavyRainMmH": 25,
+        "hail": false
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_dark",
+      "trigger": { "after": "D0 12:58" },
+      "once": true,
+      "effects": [{ "type": "log", "text": "北の日原の谷の方から、黒い雲が盛り上がってきた。さっきまでの夏の日差しが消え、ひんやりした風が稜線を吹き抜ける。雷鳴はまだ聞こえない", "important": true }]
+    },
+    {
+      "id": "ev_passing",
+      "trigger": { "all": [{ "beenAt": "J_MAKI_E" }, { "after": "D0 13:03" }, { "before": "D0 13:20" }] },
+      "once": true,
+      "effects": [{ "type": "log", "text": "鷹ノ巣山の方から下りてきた二人組とすれ違った。「上は真っ黒ですよ。雷が来そうなので引き返します」と言って、足早に奥多摩駅の方へ下っていった" }]
+    },
+    {
+      "id": "ev_radar",
+      "trigger": { "flag": "radar" },
+      "once": true,
+      "effects": [{ "type": "forecastUpdate", "entries": [{ "label": "雨雲レーダー", "text": "日原の谷の上で強い雨雲が育ち、南東の石尾根の方へ動いている。30 分ほどでかかりそう", "icon": "thunder" }] }]
+    },
+    {
+      "id": "ev_first_thunder",
+      "trigger": { "var": "leader.local.thunder", "op": ">", "value": 0.2 },
+      "once": true,
+      "effects": [{ "type": "setFlag", "flag": "thunderHeard" }, { "type": "log", "text": "ゴロゴロ……と、遠くで雷鳴が聞こえた", "important": true }]
+    },
+    {
+      "id": "ev_heavy_rain",
+      "trigger": { "var": "leader.local.precipMmH", "op": ">", "value": 10 },
+      "once": true,
+      "effects": [{ "type": "setFlag", "flag": "heavyRain" }, { "type": "log", "text": "大粒の雨がたたきつけるように降り出した。登山道を茶色い水が流れていく", "important": true }]
+    },
+    { "id": "ev_struck", "trigger": { "event": "LIGHTNING_STRIKE" }, "once": true, "effects": [{ "type": "setFlag", "flag": "struck" }] },
+    {
+      "id": "ev_sideflash_severe",
+      "trigger": { "all": [{ "flag": "underTree" }, { "var": "leader.state", "op": "==", "value": "RESTING" }, { "var": "leader.local.thunder", "op": ">", "value": 0.5 }, { "chance": 0.04 }] },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "sideFlash" },
+        { "type": "injure", "who": "leader", "injury": "severeTrauma" },
+        { "type": "log", "text": "雨宿りしていた大きな木に雷が落ちた。幹から飛び移った電流（側撃雷）が直樹さんを打ち、直樹さんは木の根元に倒れた", "important": true }
+      ]
+    },
+    {
+      "id": "ev_sideflash",
+      "trigger": {
+        "all": [
+          { "flag": "underTree" },
+          { "not": { "flag": "sideFlash" } },
+          { "var": "leader.state", "op": "==", "value": "RESTING" },
+          { "var": "leader.local.thunder", "op": ">", "value": 0.5 },
+          { "chance": 0.08 }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "sideFlash" },
+        { "type": "injure", "who": "leader", "injury": "headInjury" },
+        { "type": "log", "text": "目の前が真っ白になった。雨宿りしていた木に雷が落ち、幹から飛び移った電流（側撃雷）に打たれた", "important": true }
+      ]
+    },
+    {
+      "id": "ev_tent_flash",
+      "trigger": { "all": [{ "flag": "inTent" }, { "var": "leader.state", "op": "==", "value": "RESTING" }, { "var": "leader.local.thunder", "op": ">", "value": 0.5 }, { "chance": 0.06 }] },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "sideFlash" },
+        { "type": "injure", "who": "leader", "injury": "headInjury" },
+        { "type": "log", "text": "テントのすぐそばの木に雷が落ちた。地面と張り綱を伝わった電流が、テントの中の直樹さんを打った", "important": true }
+      ]
+    },
+    {
+      "id": "ev_tree_end",
+      "trigger": { "all": [{ "flag": "underTree" }, { "var": "leader.state", "op": "!=", "value": "RESTING" }] },
+      "once": true,
+      "effects": [{ "type": "clearFlag", "flag": "underTree" }]
+    },
+    {
+      "id": "ev_tent_end",
+      "trigger": { "all": [{ "flag": "inTent" }, { "var": "leader.state", "op": "!=", "value": "RESTING" }] },
+      "once": true,
+      "effects": [{ "type": "clearFlag", "flag": "inTent" }, { "type": "log", "text": "雨がやんだ。直樹さんはぬれたテントをたたんで、ザックにしまった" }]
+    },
+    {
+      "id": "ev_bridge_slip",
+      "trigger": { "all": [{ "flag": "crossedWet" }, { "chance": 0.15 }] },
+      "once": true,
+      "effects": [
+        { "type": "injure", "who": "leader", "injury": "sprain" },
+        { "type": "soak", "who": "leader", "level": "knees" },
+        { "type": "log", "text": "ぬれた丸太の上で靴が滑った。沢に片足を突っ込み、足首をひねった", "important": true }
+      ]
+    },
+    {
+      "id": "ev_ford_fall",
+      "trigger": { "all": [{ "flag": "forded" }, { "chance": 0.12 }] },
+      "once": true,
+      "effects": [
+        { "type": "injure", "who": "leader", "injury": "bruise" },
+        { "type": "soak", "who": "leader", "level": "waist" },
+        { "type": "log", "text": "濁った流れに足をすくわれて転んだ。腰まで水につかり、膝を岩に打った", "important": true }
+      ]
+    },
+    { "id": "ev_hurt", "trigger": { "var": "leader.injury", "op": "!=", "value": "none" }, "once": true, "effects": [{ "type": "setFlag", "flag": "hurt" }] },
+    {
+      "id": "ev_passerby",
+      "trigger": {
+        "all": [
+          { "elapsedSince": { "flag": "hurt", "min": 35 } },
+          {
+            "any": [
+              { "var": "leader.conscious", "op": "==", "value": false },
+              { "var": "leader.injury", "op": "==", "value": "severeTrauma" },
+              { "var": "leader.injury", "op": "==", "value": "headInjury" }
+            ]
+          },
+          { "var": "leader.state", "op": "!=", "value": "SHELTERED" },
+          { "var": "leader.state", "op": "!=", "value": "FINISHED" },
+          { "var": "leader.state", "op": "!=", "value": "RESCUED" },
+          { "chance": 0.65 }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "passerbyReport" },
+        { "type": "actions", "actions": [{ "type": "reportMissing" }] },
+        { "type": "log", "text": "雷雨が弱まったころ、通りかかった登山者が倒れている直樹さんに気づいた。電波の入る所まで登り、110 番した", "important": true }
+      ]
+    },
+    {
+      "id": "ev_call_from_hut",
+      "trigger": { "flag": "wantCallHut" },
+      "once": true,
+      "effects": [{ "type": "setFlag", "flag": "calledHut" }, { "type": "log", "text": "直樹さんは雨上がりの尾根を少し登り、電波の入る所で七ツ石小屋に電話した。「今日は鷹ノ巣の避難小屋に泊まります」。小屋番さんは「それがいい。無理しないで、明日おいで」と言った" }]
+    },
+    {
+      "id": "ev_call_on_way",
+      "trigger": { "all": [{ "flag": "wantCallOnWay" }, { "var": "leader.radio", "op": ">=", "value": 0.3 }] },
+      "once": true,
+      "effects": [{ "type": "setFlag", "flag": "calledHut" }, { "type": "log", "text": "電波の入る所で、七ツ石小屋に電話した。「雷で避難小屋に逃げていて、遅れます」。小屋番さんは「暗くなる前に着けそうになければ、無理しないで」と言った" }]
+    },
+    {
+      "id": "ev_hut_waiting",
+      "trigger": { "all": [{ "after": "D0 19:00" }, { "not": { "flag": "calledHut" } }, { "var": "leader.state", "op": "!=", "value": "FINISHED" }] },
+      "once": true,
+      "effects": [{ "type": "log", "text": "七ツ石小屋では、16 時半に着くはずの予約の登山者が来ないので、小屋番さんが登山道の方を気にしている。電話はつながらない", "important": true }]
+    },
+    {
+      "id": "ev_hut_report",
+      "trigger": {
+        "all": [
+          { "after": "D0 21:00" },
+          { "not": { "flag": "calledHut" } },
+          { "var": "leader.state", "op": "!=", "value": "FINISHED" },
+          { "var": "leader.state", "op": "!=", "value": "SHELTERED" },
+          { "not": { "flag": "reportedMissing" } },
+          { "var": "leader.state", "op": "!=", "value": "RESCUED" },
+          { "var": "leader.state", "op": "!=", "value": "DEAD" }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "hutReported" },
+        { "type": "actions", "actions": [{ "type": "reportMissing" }] },
+        { "type": "log", "text": "21 時。予約の登山者と連絡がつかないため、七ツ石小屋の小屋番さんが警察に相談した", "important": true }
+      ]
+    },
+    {
+      "id": "ev_hut_visitor",
+      "trigger": { "all": [{ "flag": "waitVisitor" }, { "after": "D1 06:30" }, { "chance": 0.85 }] },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "passerbyReport" },
+        { "type": "actions", "actions": [{ "type": "reportMissing" }] },
+        { "type": "log", "text": "朝、避難小屋に立ち寄った登山者に事情を話した。その人が電波の入る所まで登って、110 番してくれた", "important": true }
+      ]
+    },
+    {
+      "id": "ev_call_later",
+      "trigger": { "all": [{ "flag": "wantCallLater" }, { "var": "leader.local.thunder", "op": "<", "value": 0.1 }, { "var": "leader.local.precipMmH", "op": "<", "value": 0.5 }] },
+      "once": true,
+      "effects": [{ "type": "setFlag", "flag": "wantCallHut" }]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_sky",
+      "title": "鷹ノ巣山への分かれ道",
+      "priority": 20,
+      "trigger": { "atNode": "J_MAKI_E" },
+      "situation": "鷹ノ巣山へ登る防火帯の道と、山頂の南側を巻く道の分かれ道に来た。さっきまで晴れていた空が、北から急に暗くなってきた。ひんやりした風が吹いてくる。雷鳴はまだ聞こえない。",
+      "knowledge": ["鷹ノ巣山の山頂まで約 30 分。山頂から避難小屋までは約 15 分", "巻き道なら鷹ノ巣山避難小屋まで約 30 分。この先のピークも全部巻くと、七ツ石小屋まで約 40 分早く着く", "七ツ石小屋の到着予定は 16:30", "電波は弱いが、ときどき入る（スマホの電池 {leader.phone.batteryPct:0}%）"],
+      "options": [
+        {
+          "id": "peak",
+          "label": "予定どおり鷹ノ巣山の山頂へ登る",
+          "detail": "雷鳴はまだ聞こえない。ピークは全部踏むと決めてきた。",
+          "actions": [{ "type": "say", "text": "まだ鳴ってないし、大丈夫だろ。さっさと登っちゃおう", "tone": "whisper" }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 1.2, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.2 }] }
+        },
+        {
+          "id": "radar",
+          "label": "スマホで雨雲レーダーを見る",
+          "detail": "電波が入れば、雨雲の位置と動きが分かる。",
+          "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.radio", "op": ">=", "value": 0.1 }] },
+          "unavailableText": "電波が入らない",
+          "actions": [{ "type": "say", "text": "ちょっとレーダー見とくか", "tone": "whisper" }, { "type": "setFlag", "flag": "radar" }, { "type": "rest", "minutes": 3 }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "maki",
+          "label": "鷹ノ巣山は巻き道で巻いて、避難小屋の方へ急ぐ",
+          "detail": "山頂は惜しいが、樹林の中を行ける。",
+          "actions": [
+            { "type": "say", "text": "山頂はまた今度でいいか。巻いていこう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "maki" },
+            { "type": "setRoute", "route": ["J_MAKI_E", "J_MAKI_W", "HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] }
+          ],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "hut",
+          "label": "鷹ノ巣山避難小屋へ急ぎ、天気の様子を見る",
+          "detail": "まだ降っていないうちに、屋根のある所へ。",
+          "actions": [{ "type": "say", "text": "嫌な空だ。とりあえず避難小屋まで行こう", "tone": "whisper" }, { "type": "goToNode", "node": "HUT_TAKA", "then": "stay" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.3 }
+        }
+      ]
+    },
+    {
+      "id": "cp_radar",
+      "title": "雨雲レーダー",
+      "priority": 19,
+      "trigger": { "elapsedSince": { "flag": "radar", "min": 2 } },
+      "situation": "電波は弱く、レーダーの画面がなかなか開かない。やっと表示されると、北の日原の谷の上に、赤や紫の強い雨雲のかたまりが育っていた。南東へ、こちらの稜線の方へ動いている。30 分ほどでかかりそうだ。",
+      "knowledge": ["鷹ノ巣山の山頂まで約 30 分、巻き道で鷹ノ巣山避難小屋まで約 30 分", "避難小屋は石と木の小さな無人小屋。中では電波が入らない", "雷鳴はまだ聞こえない"],
+      "options": [
+        {
+          "id": "hut",
+          "label": "巻き道で鷹ノ巣山避難小屋へ急ぎ、雷雲が過ぎるまで待つ",
+          "detail": "七ツ石小屋に着くのは遅くなる。",
+          "actions": [{ "type": "say", "text": "これはまずい。避難小屋に逃げ込もう", "tone": "whisper" }, { "type": "setFlag", "flag": "maki" }, { "type": "goToNode", "node": "HUT_TAKA", "then": "stay" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.9, "mods": [{ "when": { "var": "leader.def.experience", "op": ">", "value": 0.5 }, "add": 0.4 }] }
+        },
+        {
+          "id": "maki",
+          "label": "ピークは全部巻いて、雷雲が来る前に七ツ石小屋へ近づく",
+          "detail": "巻き道は樹林の中。急げば 15 時台に着く。",
+          "actions": [
+            { "type": "say", "text": "ピークは全部巻いて、急いで抜けよう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "maki" },
+            { "type": "setPace", "factor": 1.1 },
+            { "type": "setRoute", "route": ["J_MAKI_E", "J_MAKI_W", "HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] }
+          ],
+          "bias": { "base": 0.8 }
+        },
+        {
+          "id": "peak",
+          "label": "まだ鳴っていない。急いで鷹ノ巣山の山頂を踏んでから小屋へ下る",
+          "detail": "山頂まで 30 分。雷雲より先に着けるかもしれない。",
+          "actions": [{ "type": "say", "text": "急げば間に合う。山頂だけ踏んでいこう", "tone": "whisper" }, { "type": "setPace", "factor": 1.15 }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.5, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.2 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_thunder_near_hut",
+      "title": "雷鳴が近い",
+      "priority": 18,
+      "trigger": {
+        "all": [
+          { "var": "leader.local.thunder", "op": ">", "value": 0.45 },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "not": { "flag": "thunderNear" } },
+          { "var": "leader.nearestShelterM", "op": "<", "value": 1500 },
+          { "var": "leader.nearestShelterM", "op": ">", "value": 120 }
+        ]
+      },
+      "situation": "空が光り、ほとんど間を置かずにバリバリと雷鳴が響いた。大粒の雨が落ちてくる。鷹ノ巣山避難小屋はそう遠くない。",
+      "knowledge": ["いちばん近い小屋まで直線で約 {leader.nearestShelterM:0} m", "そばには大きなブナやミズナラの木がある", "テントは持っている"],
+      "options": [
+        {
+          "id": "hut",
+          "label": "避難小屋へ急ぐ",
+          "detail": "ぬれても、屋根と壁のある所まで行く。",
+          "actions": [{ "type": "say", "text": "小屋まで走るぞ", "tone": "whisper" }, { "type": "goToNode", "node": "HUT_TAKA", "then": "stay" }],
+          "flags": ["thunderNear"],
+          "tags": ["recommended"],
+          "bias": { "base": 1.1, "mods": [{ "when": { "flag": "radar" }, "add": 0.3 }] }
+        },
+        {
+          "id": "safe",
+          "label": "高い木から 4 m 以上離れた低い所で、姿勢を低くして待つ",
+          "detail": "雷鳴が遠ざかるまで動かない。",
+          "actions": [{ "type": "wearRainwear" }, { "type": "setFlag", "flag": "safeZone" }, { "type": "lightningPosture", "minutes": 40 }, { "type": "moveOffRidge", "minDropM": 30 }],
+          "flags": ["thunderNear"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.2, "mods": [{ "when": { "var": "leader.def.experience", "op": ">", "value": 0.5 }, "add": 0.4 }] }
+        },
+        {
+          "id": "tree",
+          "label": "近くの大きな木の下で雨宿りする",
+          "detail": "葉が茂っていて、雨はかなりしのげそうだ。雨がやむまでここにいる。",
+          "actions": [{ "type": "say", "text": "とりあえずこの木の下で……", "tone": "whisper" }, { "type": "setFlag", "flag": "underTree" }, { "type": "moveOffRidge", "minDropM": 15 }],
+          "flags": ["thunderNear"],
+          "tags": ["risky"],
+          "bias": { "base": 0.7 }
+        },
+        {
+          "id": "go",
+          "label": "このまま予定の道を進む",
+          "detail": "立ち止まっても仕方がない。",
+          "actions": [{ "type": "say", "text": "止まってても濡れるだけだ。行こう", "tone": "whisper" }, { "type": "continueRoute" }],
+          "flags": ["thunderNear"],
+          "tags": ["risky"],
+          "bias": { "base": 0.35, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.15 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_thunder_near_far",
+      "title": "雷鳴が近い",
+      "priority": 18,
+      "trigger": {
+        "all": [
+          { "var": "leader.local.thunder", "op": ">", "value": 0.45 },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "not": { "flag": "thunderNear" } },
+          { "var": "leader.nearestShelterM", "op": ">=", "value": 1500 }
+        ]
+      },
+      "situation": "空が光り、ほとんど間を置かずにバリバリと雷鳴が響いた。大粒の雨が落ちてくる。避難小屋は遠い。",
+      "knowledge": ["いちばん近い小屋まで直線で約 {leader.nearestShelterM:0} m", "そばには大きなブナやミズナラの木がある", "テントは持っている"],
+      "options": [
+        {
+          "id": "safe",
+          "label": "高い木から 4 m 以上離れた低い所で、姿勢を低くして待つ",
+          "detail": "雷鳴が遠ざかるまで動かない。",
+          "actions": [{ "type": "wearRainwear" }, { "type": "setFlag", "flag": "safeZone" }, { "type": "lightningPosture", "minutes": 40 }, { "type": "moveOffRidge", "minDropM": 30 }],
+          "flags": ["thunderNear"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.3, "mods": [{ "when": { "var": "leader.def.experience", "op": ">", "value": 0.5 }, "add": 0.4 }] }
+        },
+        {
+          "id": "tree",
+          "label": "近くの大きな木の下で雨宿りする",
+          "detail": "葉が茂っていて、雨はかなりしのげそうだ。雨がやむまでここにいる。",
+          "actions": [{ "type": "say", "text": "とりあえずこの木の下で……", "tone": "whisper" }, { "type": "setFlag", "flag": "underTree" }, { "type": "moveOffRidge", "minDropM": 15 }],
+          "flags": ["thunderNear"],
+          "tags": ["risky"],
+          "bias": { "base": 0.9 }
+        },
+        {
+          "id": "tent",
+          "label": "テントを張って、中で雷雨をやり過ごす",
+          "detail": "テントの中なら雨にぬれない。雨がやむまで待つ。",
+          "actions": [
+            { "type": "say", "text": "テント張っちゃおう。中なら濡れない", "tone": "whisper" },
+            { "type": "wearRainwear" },
+            { "type": "setFlag", "flag": "inTent" },
+            { "type": "moveOffRidge", "minDropM": 15 }
+          ],
+          "flags": ["thunderNear"],
+          "tags": ["risky"],
+          "bias": { "base": 0.4 }
+        },
+        {
+          "id": "go",
+          "label": "このまま予定の道を進む",
+          "detail": "立ち止まっても仕方がない。",
+          "actions": [{ "type": "say", "text": "止まってても濡れるだけだ。行こう", "tone": "whisper" }, { "type": "continueRoute" }],
+          "flags": ["thunderNear"],
+          "tags": ["risky"],
+          "bias": { "base": 0.6, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.2 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_hut",
+      "title": "鷹ノ巣山避難小屋",
+      "priority": 17,
+      "trigger": {
+        "all": [
+          { "atNode": "HUT_TAKA" },
+          { "any": [{ "var": "leader.local.thunder", "op": ">=", "value": 0.1 }, { "before": "D0 15:30" }] },
+          { "var": "leader.state", "op": "!=", "value": "SHELTERED" }
+        ]
+      },
+      "situation": "鷹ノ巣山避難小屋の前に着いた。石を積んだ小さな無人の小屋で、中には誰もいない。板の間と、窓がひとつ。",
+      "knowledge": ["七ツ石小屋まで、巻き道で約 1 時間 40 分。ピークを踏むと約 2 時間 10 分", "日の入りは 18:42。ヘッドランプはある", "小屋の中は電波が入らない"],
+      "options": [
+        {
+          "id": "wait",
+          "label": "小屋に入り、雷鳴が聞こえなくなるまで外に出ない",
+          "detail": "壁から少し離れて座り、ぬれた服を着替える。",
+          "actions": [
+            { "type": "say", "text": "雷が鳴りやむまで、ここで待とう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "hutWait" },
+            { "type": "changeDry" },
+            { "type": "eat", "kcal": 300 },
+            { "type": "stayInShelter", "until": "weatherClears" }
+          ],
+          "tags": ["recommended"],
+          "bias": {
+            "base": 0.4,
+            "mods": [
+              { "when": { "var": "leader.local.thunder", "op": ">", "value": 0.3 }, "add": 0.9 },
+              { "when": { "flag": "radar" }, "add": 0.3 },
+              { "when": { "flag": "thunderHeard" }, "add": 0.2 }
+            ]
+          }
+        },
+        {
+          "id": "night",
+          "label": "今日はここに泊まると決める",
+          "detail": "七ツ石小屋には明日向かう。予約の連絡は、電波の入る所で。",
+          "actions": [
+            { "type": "say", "text": "今日はもう、ここに泊まろう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "stayNight" },
+            { "type": "setFlag", "flag": "wantCallLater" },
+            { "type": "changeDry" },
+            { "type": "stayInShelter", "until": "dawn" }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.1, "mods": [{ "when": { "after": "D0 15:00" }, "add": 0.4 }] }
+        },
+        {
+          "id": "maki",
+          "label": "少し休んで、巻き道で七ツ石小屋へ向かう",
+          "detail": "ピークはあきらめて、樹林の中を行く。",
+          "actions": [
+            { "type": "say", "text": "ピークはあきらめて、巻き道で行こう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "maki" },
+            { "type": "rest", "minutes": 10 },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] }
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [{ "when": { "var": "leader.local.thunder", "op": "<", "value": 0.2 }, "add": 0.4 }, { "when": { "var": "leader.local.thunder", "op": ">", "value": 0.3 }, "add": -0.3 }]
+          }
+        },
+        {
+          "id": "peak",
+          "label": "予定どおり、日蔭名栗山と高丸山を踏んで進む",
+          "detail": "16 時半には七ツ石小屋に着ける。",
+          "actions": [
+            { "type": "say", "text": "予定どおり行こう。ピークも踏む", "tone": "whisper" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "HIKAGE", "J_TAKAMARU_E", "TAKAMARU", "SENBON", "NANA_HUT"] }
+          ],
+          "tags": ["risky"],
+          "bias": {
+            "base": 0.5,
+            "mods": [{ "when": { "var": "leader.local.thunder", "op": ">", "value": 0.3 }, "add": -0.45 }, { "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.2 }]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_hut_in",
+      "title": "鷹ノ巣山避難小屋",
+      "priority": 17,
+      "trigger": {
+        "all": [
+          { "atNode": "HUT_TAKA" },
+          { "any": [{ "var": "leader.local.thunder", "op": ">=", "value": 0.1 }, { "before": "D0 15:30" }] },
+          { "var": "leader.state", "op": "==", "value": "SHELTERED" }
+        ]
+      },
+      "situation": "鷹ノ巣山避難小屋に駆け込んだ。石を積んだ小さな無人の小屋で、中には誰もいない。板の間と、窓がひとつ。",
+      "knowledge": ["七ツ石小屋まで、巻き道で約 1 時間 40 分。ピークを踏むと約 2 時間 10 分", "日の入りは 18:42。ヘッドランプはある", "小屋の中は電波が入らない"],
+      "options": [
+        {
+          "id": "wait",
+          "label": "雷鳴が聞こえなくなるまで、ここから出ない",
+          "detail": "壁から少し離れて座り、ぬれた服を着替える。",
+          "actions": [{ "type": "say", "text": "雷が鳴りやむまで、ここで待とう", "tone": "whisper" }, { "type": "setFlag", "flag": "hutWait" }, { "type": "changeDry" }, { "type": "eat", "kcal": 300 }],
+          "tags": ["recommended"],
+          "bias": {
+            "base": 0.4,
+            "mods": [
+              { "when": { "var": "leader.local.thunder", "op": ">", "value": 0.3 }, "add": 0.9 },
+              { "when": { "flag": "radar" }, "add": 0.3 },
+              { "when": { "flag": "thunderHeard" }, "add": 0.2 }
+            ]
+          }
+        },
+        {
+          "id": "night",
+          "label": "今日はここに泊まると決める",
+          "detail": "七ツ石小屋には明日向かう。予約の連絡は、電波の入る所で。",
+          "actions": [
+            { "type": "say", "text": "今日はもう、ここに泊まろう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "stayNight" },
+            { "type": "setFlag", "flag": "wantCallLater" },
+            { "type": "changeDry" }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.1, "mods": [{ "when": { "after": "D0 15:00" }, "add": 0.4 }] }
+        },
+        {
+          "id": "maki",
+          "label": "少し休んで、巻き道で七ツ石小屋へ向かう",
+          "detail": "ピークはあきらめて、樹林の中を行く。",
+          "actions": [
+            { "type": "say", "text": "ピークはあきらめて、巻き道で行こう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "maki" },
+            { "type": "rest", "minutes": 10 },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] }
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [{ "when": { "var": "leader.local.thunder", "op": "<", "value": 0.2 }, "add": 0.4 }, { "when": { "var": "leader.local.thunder", "op": ">", "value": 0.3 }, "add": -0.3 }]
+          }
+        },
+        {
+          "id": "peak",
+          "label": "予定どおり、日蔭名栗山と高丸山を踏んで進む",
+          "detail": "16 時半には七ツ石小屋に着ける。",
+          "actions": [
+            { "type": "say", "text": "予定どおり行こう。ピークも踏む", "tone": "whisper" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "HIKAGE", "J_TAKAMARU_E", "TAKAMARU", "SENBON", "NANA_HUT"] }
+          ],
+          "tags": ["risky"],
+          "bias": {
+            "base": 0.5,
+            "mods": [{ "when": { "var": "leader.local.thunder", "op": ">", "value": 0.3 }, "add": -0.45 }, { "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.2 }]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_rain_stopped",
+      "title": "雨が上がった",
+      "priority": 16,
+      "trigger": {
+        "all": [
+          { "var": "leader.state", "op": "==", "value": "SHELTERED" },
+          { "beenAt": "HUT_TAKA" },
+          { "after": "D0 14:15" },
+          { "var": "leader.local.precipMmH", "op": "<", "value": 0.5 },
+          { "var": "leader.local.thunder", "op": ">", "value": 0.12 },
+          { "not": { "flag": "stayNight" } }
+        ]
+      },
+      "situation": "小屋の屋根をたたいていた雨の音がやんだ。窓の外が少し明るい。でも、まだときどき遠くでゴロゴロと鳴っている。",
+      "knowledge": ["七ツ石小屋まで、巻き道で約 1 時間 40 分", "日の入りは 18:42", "雷鳴はまだ聞こえる"],
+      "options": [
+        {
+          "id": "wait",
+          "label": "雷鳴がまったく聞こえなくなるまで、小屋で待つ",
+          "detail": "雨が上がっても、雷はまだ近くにいる。",
+          "actions": [{ "type": "say", "text": "まだ鳴ってる。もう少し待とう", "tone": "whisper" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5, "mods": [{ "when": { "var": "leader.def.experience", "op": ">", "value": 0.5 }, "add": 0.5 }, { "when": { "flag": "thunderNear" }, "add": 0.3 }] }
+        },
+        {
+          "id": "go_maki",
+          "label": "雨が上がった今のうちに、巻き道で七ツ石小屋へ向かう",
+          "detail": "雷は遠ざかっているようだ。",
+          "actions": [
+            { "type": "say", "text": "雨がやんだ。今のうちに行こう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "maki" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] }
+          ],
+          "tags": ["risky"],
+          "bias": { "base": 0.8, "mods": [{ "when": { "after": "D0 15:00" }, "add": 0.3 }] }
+        },
+        {
+          "id": "go_peak",
+          "label": "雨が上がった今のうちに、日蔭名栗山と高丸山を踏んで向かう",
+          "detail": "せっかく来たのだから、ピークは踏みたい。",
+          "actions": [
+            { "type": "say", "text": "雨もやんだし、ピークも踏んでいこう", "tone": "whisper" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "HIKAGE", "J_TAKAMARU_E", "TAKAMARU", "SENBON", "NANA_HUT"] }
+          ],
+          "tags": ["risky"],
+          "bias": { "base": 0.2, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.15 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_after_storm",
+      "title": "雷鳴がやんだ",
+      "priority": 15,
+      "trigger": {
+        "all": [
+          { "var": "leader.state", "op": "==", "value": "SHELTERED" },
+          { "beenAt": "HUT_TAKA" },
+          { "after": "D0 14:45" },
+          { "var": "leader.local.thunder", "op": "<", "value": 0.1 },
+          { "not": { "flag": "stayNight" } }
+        ]
+      },
+      "situation": "雷鳴が聞こえなくなった。雲が切れて、木々の間から日が差してきた。もう夕方が近い。",
+      "knowledge": ["七ツ石小屋まで、巻き道で約 1 時間 40 分。ピークを踏むと約 2 時間 10 分", "日の入りは 18:42。ヘッドランプはある", "この避難小屋に泊まることもできる。食料・水・寝袋はある", "小屋の中は電波が入らない。裏の尾根を少し登れば入る"],
+      "options": [
+        {
+          "id": "stay",
+          "label": "今日はここに泊まる。電波の入る所で七ツ石小屋に電話する",
+          "detail": "明日の朝早く出て、七ツ石小屋と雲取山へ向かう。",
+          "actions": [{ "type": "setFlag", "flag": "stayNight" }, { "type": "setFlag", "flag": "wantCallHut" }, { "type": "stayInShelter", "until": "dawn" }],
+          "tags": ["recommended"],
+          "bias": {
+            "base": 0.4,
+            "mods": [
+              { "when": { "after": "D0 16:00" }, "add": 0.5 },
+              { "when": { "var": "leader.fatigue", "op": ">", "value": 50 }, "add": 0.3 },
+              { "when": { "var": "leader.anxiety", "op": ">", "value": 40 }, "add": 0.3 }
+            ]
+          }
+        },
+        {
+          "id": "go_call",
+          "label": "七ツ石小屋に遅れると電話してから、巻き道で向かう",
+          "detail": "電波の入る所で電話する。着くのは 18 時ごろ。",
+          "actions": [
+            { "type": "say", "text": "小屋に電話して、巻き道で行こう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "maki" },
+            { "type": "setFlag", "flag": "wantCallOnWay" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "go",
+          "label": "すぐに巻き道で七ツ石小屋へ向かう",
+          "detail": "電話している時間がもったいない。",
+          "actions": [
+            { "type": "say", "text": "急げば明るいうちに着く。行こう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "maki" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] }
+          ],
+          "bias": { "base": 0.7 }
+        },
+        {
+          "id": "go_peak",
+          "label": "雷はもう聞こえない。ピークを踏んで七ツ石小屋へ向かう",
+          "detail": "着くのは日の入りのころになる。",
+          "actions": [
+            { "type": "say", "text": "晴れてきた。やっぱりピークは踏みたい", "tone": "whisper" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "HIKAGE", "J_TAKAMARU_E", "TAKAMARU", "SENBON", "NANA_HUT"] }
+          ],
+          "tags": ["risky"],
+          "bias": { "base": 0.3, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.1 }, { "when": { "after": "D0 16:00" }, "add": -0.2 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_hut_late",
+      "title": "夕方の避難小屋",
+      "priority": 17,
+      "trigger": { "all": [{ "atNode": "HUT_TAKA" }, { "var": "leader.local.thunder", "op": "<", "value": 0.1 }, { "after": "D0 15:30" }] },
+      "situation": "鷹ノ巣山避難小屋の前に着いた。雷雨は過ぎて、雲の切れ間から西日が差している。予定よりだいぶ遅れた。",
+      "knowledge": ["七ツ石小屋まで、巻き道で約 1 時間 40 分。ピークを踏むと約 2 時間 10 分", "日の入りは 18:42。ヘッドランプはある", "この避難小屋に泊まることもできる。食料・水・寝袋はある", "小屋の中は電波が入らない。裏の尾根を少し登れば入る"],
+      "options": [
+        {
+          "id": "stay",
+          "label": "今日はここに泊まる。電波の入る所で七ツ石小屋に電話する",
+          "detail": "明日の朝早く出て、七ツ石小屋と雲取山へ向かう。",
+          "actions": [{ "type": "setFlag", "flag": "stayNight" }, { "type": "setFlag", "flag": "wantCallHut" }, { "type": "stayInShelter", "until": "dawn" }],
+          "tags": ["recommended"],
+          "bias": {
+            "base": 0.4,
+            "mods": [
+              { "when": { "after": "D0 16:00" }, "add": 0.5 },
+              { "when": { "var": "leader.fatigue", "op": ">", "value": 50 }, "add": 0.3 },
+              { "when": { "var": "leader.anxiety", "op": ">", "value": 40 }, "add": 0.3 }
+            ]
+          }
+        },
+        {
+          "id": "go_call",
+          "label": "七ツ石小屋に遅れると電話してから、巻き道で向かう",
+          "detail": "電波の入る所で電話する。着くのは 18 時ごろ。",
+          "actions": [
+            { "type": "say", "text": "小屋に電話して、巻き道で行こう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "maki" },
+            { "type": "setFlag", "flag": "wantCallOnWay" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "go",
+          "label": "すぐに巻き道で七ツ石小屋へ向かう",
+          "detail": "電話している時間がもったいない。",
+          "actions": [
+            { "type": "say", "text": "急げば明るいうちに着く。行こう", "tone": "whisper" },
+            { "type": "setFlag", "flag": "maki" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] }
+          ],
+          "bias": { "base": 0.7 }
+        },
+        {
+          "id": "go_peak",
+          "label": "雷はもう聞こえない。ピークを踏んで七ツ石小屋へ向かう",
+          "detail": "着くのは日の入りのころになる。",
+          "actions": [
+            { "type": "say", "text": "晴れてきた。やっぱりピークは踏みたい", "tone": "whisper" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "HIKAGE", "J_TAKAMARU_E", "TAKAMARU", "SENBON", "NANA_HUT"] }
+          ],
+          "tags": ["risky"],
+          "bias": { "base": 0.3, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.1 }, { "when": { "after": "D0 16:00" }, "add": -0.2 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_bridge",
+      "title": "増水した沢",
+      "priority": 14,
+      "trigger": { "all": [{ "atNode": "BRIDGE" }, { "flag": "heavyRain" }, { "before": "D0 17:00" }] },
+      "situation": "巻き道が小さな沢を渡る所に来た。丸太を並べた木の橋が、雨で黒く光っている。沢の水は茶色く濁り、ふだんより明らかに多い。",
+      "knowledge": ["沢は細く、晴れていればまたいで渡れるくらい", "強い雨のあとの沢は、しばらくすると水が引くことが多い", "避難小屋まで戻ると約 20 分"],
+      "options": [
+        {
+          "id": "wait",
+          "label": "水が引くまで、沢から離れた所で待つ",
+          "detail": "30 分ほど様子を見る。",
+          "actions": [{ "type": "say", "text": "ちょっと待とう。この水じゃ危ない", "tone": "whisper" }, { "type": "rest", "minutes": 30 }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "back",
+          "label": "無理をせず、避難小屋へ引き返す",
+          "detail": "今日は小屋で様子を見る。",
+          "actions": [{ "type": "say", "text": "やめておこう。小屋に戻る", "tone": "whisper" }, { "type": "goToNode", "node": "HUT_TAKA", "then": "stay" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.3 }
+        },
+        {
+          "id": "cross",
+          "label": "滑らないように気をつけて、木の橋を渡る",
+          "detail": "橋は短い。",
+          "actions": [{ "type": "say", "text": "そっと渡れば大丈夫……", "tone": "whisper" }, { "type": "setFlag", "flag": "crossedWet" }, { "type": "continueRoute" }],
+          "bias": { "base": 1 }
+        },
+        {
+          "id": "ford",
+          "label": "滑りそうな橋は避けて、沢の中を歩いて渡る",
+          "detail": "靴はどうせぬれている。",
+          "actions": [{ "type": "setFlag", "flag": "forded" }, { "type": "soak", "level": "knees" }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.3 }
+        }
+      ]
+    },
+    {
+      "id": "cp_morning_hurt",
+      "title": "避難小屋の朝",
+      "priority": 13,
+      "trigger": {
+        "all": [
+          { "after": "D1 04:40" },
+          { "var": "leader.state", "op": "==", "value": "SHELTERED" },
+          { "var": "leader.injury", "op": "!=", "value": "none" },
+          { "var": "leader.injury", "op": "!=", "value": "bruise" }
+        ]
+      },
+      "situation": "夜が明けた。ひと晩休んでも、けがをしたところが痛む。体重をかけると、思わず声が出る。",
+      "knowledge": ["七ツ石小屋まで、巻き道で約 1 時間 40 分（けががなければ）", "小屋の中は電波が入らない。裏の尾根を少し登れば入る", "天気はよい。石尾根は登山者の多い道だ"],
+      "options": [
+        {
+          "id": "call",
+          "label": "電波の入る所まで行き、救助を要請する",
+          "detail": "無理に歩けば、けがが悪くなるかもしれない。",
+          "actions": [{ "type": "say", "text": "これじゃ歩けない。助けを呼ぼう", "tone": "whisper" }, { "type": "seekSignal" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6, "mods": [{ "when": { "var": "leader.injury", "op": "!=", "value": "sprain" }, "add": 0.6 }] },
+          "available": { "var": "leader.phone.has", "op": "==", "value": true },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "visitor",
+          "label": "小屋で待ち、通りかかる登山者に助けを頼む",
+          "detail": "石尾根は登山者の多い道。朝になれば誰か来る。",
+          "actions": [{ "type": "say", "text": "誰か通るまで、ここで待とう", "tone": "whisper" }, { "type": "setFlag", "flag": "waitVisitor" }, { "type": "stayInShelter", "until": "rescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5, "mods": [{ "when": { "var": "leader.phone.has", "op": "==", "value": false }, "add": 0.6 }] }
+        },
+        {
+          "id": "walk",
+          "label": "足をかばいながら、巻き道でゆっくり七ツ石小屋へ向かう",
+          "detail": "時間をかければ着けるかもしれない。",
+          "actions": [
+            { "type": "say", "text": "ゆっくりなら、なんとか行けるはず", "tone": "whisper" },
+            { "type": "setRoute", "route": ["HUT_TAKA", "J_HUT_W", "BRIDGE", "J_TAKAMARU_E", "SENBON", "NANA_HUT"] },
+            { "type": "setPace", "factor": 0.8 }
+          ],
+          "tags": ["risky"],
+          "bias": { "base": 0.8, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.6 }, "add": 0.2 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_lightning_open",
+      "title": "草地の上で雷",
+      "priority": 19,
+      "once": false,
+      "trigger": {
+        "all": [
+          { "any": [{ "onEdge": "E2" }, { "onEdge": "E3" }, { "onEdge": "E6" }, { "onEdge": "E7" }, { "onEdge": "E8" }, { "onEdge": "E9" }] },
+          { "any": [{ "near": { "x": 1112, "z": -433, "r": 150 } }, { "near": { "x": -686, "z": -261, "r": 150 } }, { "near": { "x": -1447, "z": -783, "r": 150 } }] },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "var": "leader.local.thunder", "op": ">", "value": 0.5 }
+        ]
+      },
+      "situation": "防火帯の草地に出たとたん、稲妻と雷鳴がほとんど同時に来た。あたりで一番高いのは、ここに立っている自分だ。",
+      "knowledge": ["いちばん近い小屋まで直線で約 {leader.nearestShelterM:0} m", "草地の両側の斜面は樹林", "手にはアルミのトレッキングポールを持っている"],
+      "options": [
+        {
+          "id": "off_ridge",
+          "label": "すぐに草地を離れ、樹林の中の低い所へ下りて、雷が過ぎるのを待つ",
+          "detail": "木の幹からは離れて、しゃがむ。",
+          "actions": [{ "type": "lightningPosture", "minutes": 30 }, { "type": "moveOffRidge", "minDropM": 60 }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 },
+          "flags": ["safeZone"]
+        },
+        {
+          "id": "hut",
+          "label": "小屋まで走って逃げ込む",
+          "detail": "小屋は近い。",
+          "available": { "var": "leader.nearestShelterM", "op": "<", "value": 1200 },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "setPace", "factor": 1.2 }, { "type": "goToNode", "node": "$nearestShelter", "then": "stay" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.7 }
+        },
+        {
+          "id": "rush",
+          "label": "止まるほうが危ない。一気に駆け抜けて先へ進む",
+          "detail": "あと少しで樹林に入る。",
+          "actions": [{ "type": "setPace", "factor": 1.2 }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.9 }
+        },
+        {
+          "id": "remove_metal",
+          "label": "金属のポールをザックにしまってから、姿勢を低くして進む",
+          "detail": "金属は雷を呼ぶと聞いたことがある。",
+          "actions": [{ "type": "removeMetal" }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.6 }
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "lightning": { "enabled": false },
+    "injured": {
+      "situation": "{leader.name}さんはけがをしている（{leader.injury}）。思うように歩けない。",
+      "options": [
+        {
+          "id": "call",
+          "label": "スマホで救助を要請する",
+          "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.radio", "op": ">=", "value": 0.15 }] },
+          "unavailableText": "スマホがないか、電波が入らない",
+          "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "slow",
+          "label": "近い方の小屋まで、ゆっくり歩く",
+          "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "goToNode", "node": "$nearestShelter", "then": "stay" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.8 }
+        },
+        {
+          "id": "seek_signal",
+          "label": "電波の入る所を探して、救助を呼ぶ",
+          "actions": [{ "type": "seekSignal" }],
+          "bias": { "base": 0.3 },
+          "available": { "var": "leader.phone.has", "op": "==", "value": true },
+          "hideIfUnavailable": true
+        },
+        { "id": "wait", "label": "動かずに、誰かが通るのを待つ", "actions": [{ "type": "bivouac", "until": "rescue", "findLee": true }], "bias": { "base": 0.3 } }
+      ]
+    }
+  },
+  "thoughts": [
+    {
+      "key": "s07_morning",
+      "who": "naoki",
+      "when": { "all": [{ "before": "D0 12:58" }, { "var": "leader.state", "op": "==", "value": "WALKING" }] },
+      "lines": ["8 時半に駅を出て、もう 4 時間半か。けっこう歩いたな", "鷹ノ巣山からの景色、楽しみだ"],
+      "priority": 5
+    },
+    {
+      "key": "s07_sky",
+      "who": "naoki",
+      "when": { "all": [{ "after": "D0 12:58" }, { "var": "leader.state", "op": "==", "value": "WALKING" }, { "not": { "flag": "thunderHeard" } }] },
+      "lines": ["さっきまであんなに晴れてたのに", "風が急に冷たくなった。なんか嫌な感じだ", "雷注意報、出てたっけ……"],
+      "priority": 6
+    },
+    {
+      "key": "s07_radar",
+      "who": "naoki",
+      "when": { "all": [{ "flag": "radar" }, { "var": "leader.state", "op": "==", "value": "WALKING" }, { "not": { "flag": "thunderHeard" } }] },
+      "lines": ["レーダーの赤いかたまり、こっちに来てた", "あと 30 分。間に合うか"],
+      "priority": 7
+    },
+    {
+      "key": "s07_peakclimb",
+      "who": "naoki",
+      "when": {
+        "all": [
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "any": [{ "onEdge": "E2" }, { "onEdge": "E6" }, { "onEdge": "E8" }] },
+          { "var": "leader.local.thunder", "op": "<", "value": 0.3 },
+          { "before": "D0 20:00" }
+        ]
+      },
+      "lines": ["ピークは全部踏むって決めてたんだ", "防火帯の登り、きつい。でも上は開けてるはず"],
+      "priority": 6
+    },
+    {
+      "key": "s07_open",
+      "who": "naoki",
+      "when": {
+        "all": [
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "var": "leader.local.thunder", "op": ">", "value": 0.3 },
+          { "any": [{ "onEdge": "E2" }, { "onEdge": "E3" }, { "onEdge": "E6" }, { "onEdge": "E7" }, { "onEdge": "E8" }, { "onEdge": "E9" }] }
+        ]
+      },
+      "lines": ["ここは周りに何もない。自分が一番高い", "ポールが金属なのが気になる", "早く樹林に入りたい"],
+      "priority": 9
+    },
+    {
+      "key": "s07_maki",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "any": [{ "onEdge": "M1" }, { "onEdge": "M2a" }, { "onEdge": "M2b" }, { "onEdge": "M3" }] }] },
+      "lines": ["ピークを巻くのは少し悔しい。でも今日は仕方ない", "巻き道は木の中で、空がよく見えない", "足元が細い。滑らないように"],
+      "priority": 6
+    },
+    {
+      "key": "s07_thunder_walk",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.local.thunder", "op": ">", "value": 0.45 }] },
+      "lines": ["光って……1、2、3……。近い", "こんな所で雷に遭うなんて", "早く、どこかに……"],
+      "priority": 8
+    },
+    {
+      "key": "s07_hut_storm",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "var": "leader.local.thunder", "op": ">", "value": 0.3 }] },
+      "lines": ["屋根をたたく雨の音がすごい", "小屋があってよかった……", "窓の外が光るたびに、体がびくっとする"],
+      "priority": 7
+    },
+    {
+      "key": "s07_hut_lull",
+      "who": "naoki",
+      "when": {
+        "all": [
+          { "var": "leader.state", "op": "==", "value": "SHELTERED" },
+          { "var": "leader.local.thunder", "op": "<=", "value": 0.3 },
+          { "var": "leader.local.thunder", "op": ">", "value": 0.1 }
+        ]
+      },
+      "lines": ["まだゴロゴロ言ってる", "七ツ石まで、明るいうちに着けるかな"],
+      "priority": 6
+    },
+    {
+      "key": "s07_tree",
+      "who": "naoki",
+      "when": { "all": [{ "flag": "underTree" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
+      "lines": ["この木の下なら、少しは雨がしのげる", "雷って、高い木に落ちるんだっけ……"],
+      "priority": 8
+    },
+    {
+      "key": "s07_tent",
+      "who": "naoki",
+      "when": { "all": [{ "flag": "inTent" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
+      "lines": ["テントの中なら濡れないし、落ち着く", "ポールは金属だけど、大丈夫だよな……"],
+      "priority": 8
+    },
+    {
+      "key": "s07_safe",
+      "who": "naoki",
+      "when": { "all": [{ "flag": "safeZone" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
+      "lines": ["木から少し離れて、しゃがんで待つ", "足をそろえて、できるだけ低く", "雨は冷たいけど、ここでじっとしていよう"],
+      "priority": 8
+    },
+    {
+      "key": "s07_wet",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.wetness", "op": ">", "value": 0.6 }, { "var": "leader.state", "op": "==", "value": "WALKING" }] },
+      "lines": ["びしょ濡れだ。夏なのに寒い", "8 月でも、稜線の雨はこんなに冷たいのか"],
+      "priority": 6
+    },
+    {
+      "key": "s07_late",
+      "who": "naoki",
+      "when": { "all": [{ "after": "D0 16:15" }, { "var": "leader.state", "op": "==", "value": "WALKING" }, { "before": "D0 20:00" }] },
+      "lines": ["思ったより遅くなった。暗くなる前に着けるかな", "小屋の人、心配してないかな"],
+      "priority": 6
+    },
+    { "key": "s07_sprain", "who": "naoki", "when": { "var": "leader.injury", "op": "==", "value": "sprain" }, "lines": ["足首が痛い。七ツ石まで歩けるか……", "ゆっくりなら、なんとか"], "priority": 9 },
+    {
+      "key": "s07_night",
+      "who": "naoki",
+      "when": {
+        "all": [{ "flag": "stayNight" }, { "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "var": "leader.local.thunder", "op": "<", "value": 0.1 }, { "before": "D0 22:00" }]
+      },
+      "lines": ["今夜はここで寝よう。テントを張らなくていいのは楽だ", "明日は早く出て、雲取山まで行こう"],
+      "priority": 6
+    },
+    {
+      "key": "s07_hut_change",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "after": "D0 13:00" }, { "before": "D0 18:30" }] },
+      "lines": ["ぬれたシャツを着替えたら、少し落ち着いた", "壁に寄りかからないように、真ん中に座っておこう"],
+      "priority": 5
+    },
+    {
+      "key": "s07_hut_nocall",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "not": { "flag": "calledHut" } }, { "after": "D0 15:30" }, { "before": "D0 21:00" }] },
+      "lines": ["七ツ石小屋の人に連絡したほうがいいかな。でもここは圏外だ", "16 時半に着くって予約したんだよな……"],
+      "priority": 6
+    },
+    {
+      "key": "s07_n6",
+      "who": "naoki",
+      "when": {
+        "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "var": "sun.isDark", "op": "==", "value": true }, { "before": "D1 04:30" }, { "not": { "flag": "calledHut" } }]
+      },
+      "lines": ["七ツ石小屋の人、心配してるだろうな。電話しておけばよかった"],
+      "priority": 6
+    },
+    {
+      "key": "s07_dawn",
+      "who": "naoki",
+      "when": {
+        "all": [
+          { "after": "D1 04:30" },
+          { "before": "D1 07:00" },
+          { "any": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "var": "leader.state", "op": "==", "value": "WALKING" }] },
+          { "var": "leader.injury", "op": "==", "value": "none" }
+        ]
+      },
+      "lines": ["よく晴れた。昨日の雷がうそみたいだ", "七ツ石小屋に寄って、あいさつしていこう"],
+      "priority": 6
+    },
+    {
+      "key": "s07_n_dinner",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "after": "D0 18:30" }, { "before": "D0 21:00" }] },
+      "lines": ["ストーブでお湯を沸かして、ラーメンを食べた。温かい", "ぬれた靴下、朝までに乾くかな"],
+      "priority": 5
+    },
+    {
+      "key": "s07_n_bed",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "var": "sun.isDark", "op": "==", "value": true }, { "after": "D0 20:00" }, { "before": "D0 22:30" }] },
+      "lines": ["寝袋に入った。板の間でも、屋根があれば眠れそうだ", "七ツ石のテント場、今ごろにぎやかだろうな"],
+      "priority": 5
+    },
+    {
+      "key": "s07_n_wake",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "var": "sun.isDark", "op": "==", "value": true }, { "after": "D0 22:30" }, { "before": "D1 04:30" }] },
+      "lines": ["……風の音で目が覚めた", "うとうと……", "外は静かだ。虫の声だけが聞こえる"],
+      "priority": 5
+    },
+    {
+      "key": "s07_n_reflect",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "var": "sun.isDark", "op": "==", "value": true }, { "after": "D0 19:00" }, { "before": "D1 04:30" }] },
+      "lines": ["昼間の雷がうそみたいだ", "稲妻が光るたびに、体がすくんだ。あんなのは初めてだ"],
+      "priority": 5
+    },
+    {
+      "key": "s07_n_plan",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "var": "sun.isDark", "op": "==", "value": true }, { "after": "D0 19:00" }, { "before": "D0 23:00" }] },
+      "lines": ["明日は 5 時に出よう。早く着けば、午後の雷の前に下りられる"],
+      "priority": 5
+    },
+    {
+      "key": "s07_struck",
+      "who": "naoki",
+      "when": {
+        "all": [{ "any": [{ "flag": "sideFlash" }, { "flag": "struck" }] }, { "var": "leader.conscious", "op": "==", "value": true }, { "var": "leader.injury", "op": "!=", "value": "none" }]
+      },
+      "lines": ["体がしびれて、うまく動かない", "耳鳴りがする。何が起きたんだ……", "足にやけどのような痛みがある"],
+      "priority": 10
+    }
+  ],
+  "speech": [
+    {
+      "key": "s07_first",
+      "who": "naoki",
+      "when": { "var": "leader.local.thunder", "op": ">", "value": 0.2 },
+      "lines": ["……今の、雷？"],
+      "tone": "whisper",
+      "priority": 15,
+      "once": true
+    },
+    {
+      "key": "s07_flash",
+      "who": "naoki",
+      "when": {
+        "all": [
+          { "var": "leader.local.thunder", "op": ">", "value": 0.7 },
+          { "var": "leader.state", "op": "!=", "value": "SHELTERED" },
+          { "var": "leader.conscious", "op": "==", "value": true }
+        ]
+      },
+      "lines": ["うわっ、近い！", "ひっ……！"],
+      "tone": "shout",
+      "priority": 16,
+      "cooldownMin": 25
+    },
+    {
+      "key": "s07_hut_safe",
+      "who": "naoki",
+      "when": { "all": [{ "var": "leader.state", "op": "==", "value": "SHELTERED" }, { "var": "leader.local.thunder", "op": ">", "value": 0.4 }] },
+      "lines": ["はぁ……間に合った"],
+      "tone": "whisper",
+      "priority": 14,
+      "once": true
+    },
+    {
+      "key": "s07_dusk",
+      "who": "naoki",
+      "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "var": "leader.state", "op": "==", "value": "WALKING" }] },
+      "lines": ["真っ暗だ。ヘッドランプの明かりだけが頼りだ"],
+      "tone": "whisper",
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s07_rain_walk",
+      "who": "naoki",
+      "when": { "all": [{ "event": "RAIN_START" }, { "var": "leader.state", "op": "==", "value": "WALKING" }] },
+      "lines": ["……降ってきた", "雨だ。急がないと"],
+      "tone": "whisper",
+      "priority": 12,
+      "cooldownMin": 60
+    },
+    {
+      "key": "s07_rain_hut",
+      "who": "naoki",
+      "when": { "all": [{ "event": "RAIN_START" }, { "var": "leader.state", "op": "==", "value": "SHELTERED" }] },
+      "lines": ["降ってきた。小屋にいてよかった"],
+      "tone": "whisper",
+      "priority": 12,
+      "cooldownMin": 60
+    },
+    {
+      "key": "s07_rain_rest",
+      "who": "naoki",
+      "when": { "all": [{ "event": "RAIN_START" }, { "var": "leader.state", "op": "!=", "value": "WALKING" }, { "var": "leader.state", "op": "!=", "value": "SHELTERED" }] },
+      "lines": ["……降ってきた"],
+      "tone": "whisper",
+      "priority": 12,
+      "cooldownMin": 60
+    }
+  ],
+  "endings": [
+    {
+      "kind": "SAFE_SHELTER",
+      "when": { "all": [{ "flag": "stayNight" }, { "flag": "calledHut" }] },
+      "title": "避難小屋の一夜",
+      "text": "直樹さんは鷹ノ巣山避難小屋で一晩を過ごした。夜は星がよく見えた。翌朝 5 時に小屋を出て、七ツ石小屋で小屋番さんにあいさつしてから雲取山へ向かった。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "when": { "flag": "stayNight" },
+      "title": "連絡のない一夜",
+      "text": "直樹さんは鷹ノ巣山避難小屋で一晩を過ごした。そのころ七ツ石小屋では、予約の登山者が来ないまま夜が更け、小屋番さんは何度も登山道の方を見ていた。翌朝、直樹さんが顔を出すと、小屋番さんはほっとした顔をした。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "when": { "flag": "calledHut" },
+      "title": "雷雨をやり過ごして",
+      "text": "直樹さんは避難小屋で雷雨をやり過ごし、七ツ石小屋に電話を入れてから巻き道を歩いた。テント場に着いたのは 18 時ごろ。雨に洗われた空に、富士山の影が浮かんでいた。"
+    },
+    { "kind": "SAFE_SHELTER", "title": "雷雨をやり過ごして", "text": "直樹さんは避難小屋で雷雨をやり過ごしてから、七ツ石小屋へ向かった。連絡のないまま予定より遅れて着くと、小屋番さんは「雷、すごかったね。どこにいたの？」と聞いた。" },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "any": [
+          { "flag": "underTree" },
+          { "flag": "inTent" },
+          { "chose": { "cp": "cp_thunder_near_far", "option": "tree" } },
+          { "chose": { "cp": "cp_thunder_near_hut", "option": "tree" } },
+          { "chose": { "cp": "cp_thunder_near_far", "option": "tent" } }
+        ]
+      },
+      "title": "何も起きなかっただけ",
+      "text": "直樹さんは雷雨をやり過ごし、七ツ石小屋に着いた。雨宿りした木やテントのそばに雷が落ちなかったのは、たまたまだった。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "all": [{ "flag": "thunderHeard" }, { "not": { "flag": "maki" } }] },
+      "title": "運がよかっただけ",
+      "text": "直樹さんは雷鳴の中、ピークを越えて七ツ石小屋に着いた。テント場では「さっき稜線にいたの？」と驚かれた。雷が落ちなかったのは、運がよかっただけだった。"
+    },
+    { "kind": "SAFE_RETURN", "when": { "flag": "maki" }, "title": "巻き道を急いで", "text": "直樹さんはピークを巻いて樹林の中を歩き、七ツ石小屋に着いた。ずぶぬれになったが、テントを張ってお湯を沸かすと、ようやく落ち着いた。" },
+    { "kind": "SAFE_RETURN", "title": "七ツ石小屋に着いた", "text": "直樹さんは七ツ石小屋のテント場に着いた。" },
+    { "kind": "SELF_RESCUE", "title": "けがをして", "text": "直樹さんはけがをしながらも、一晩を山で越えて自力で小屋にたどり着いた。" },
+    {
+      "kind": "RESCUED",
+      "when": { "any": [{ "flag": "struck" }, { "flag": "sideFlash" }] },
+      "title": "雷に打たれて",
+      "text": "直樹さんは雷に打たれて倒れていたところを救助された。意識は戻ったが、やけどと耳の聞こえにくさがしばらく残った。"
+    },
+    { "kind": "RESCUED", "title": "救助", "text": "直樹さんはけがをして動けなくなり、救助された。" },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": { "any": [{ "flag": "struck" }, { "flag": "sideFlash" }] },
+      "title": "重い状態で救助",
+      "text": "直樹さんは雷に打たれ、意識のない状態で見つかった。雷雨が去るのを待ってヘリコプターが飛び、病院へ運ばれた。"
+    },
+    { "kind": "RESCUED_CRITICAL", "title": "重い状態で救助", "text": "直樹さんは重いけがをした状態で見つかり、病院へ運ばれた。" },
+    {
+      "kind": "MISSING",
+      "when": {
+        "all": [
+          { "var": "leader.injury", "op": "!=", "value": "none" },
+          { "any": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] }
+        ]
+      },
+      "title": "まだ山の中",
+      "text": "翌日の昼が近づいても、直樹さんは痛む足を引きずって、まだ石尾根を歩いていた。七ツ石小屋には着いていない。"
+    },
+    { "kind": "MISSING", "title": "まだ見つからない", "text": "翌朝になっても、直樹さんの行方は分かっていない。登山届は出ておらず、どこを歩いていたかを知っていたのは、七ツ石小屋の予約だけだった。" },
+    { "kind": "FATAL", "when": { "flag": "sideFlash" }, "title": "木の下の側撃雷", "text": "雨宿りしていた大きな木に雷が落ち、幹から飛び移った電流が直樹さんを打った。木の下は雨はしのげても、雷からは守ってくれない。" },
+    { "kind": "FATAL", "when": { "any": [{ "flag": "underTree" }, { "flag": "inTent" }] }, "title": "木のそばの落雷", "text": "雨宿りしていたすぐそばに雷が落ちた。木の下やテントは、雨はしのげても、雷からは守ってくれない。" },
+    { "kind": "FATAL", "when": { "flag": "struck" }, "title": "稜線の落雷", "text": "雷鳴の中、直樹さんは歩き続けていた。落雷を受け、帰らぬ人となった。夕方、雷雨の過ぎた石尾根には、何事もなかったように夏の雲が浮かんでいた。" },
+    { "kind": "FATAL", "when": { "flag": "descendedDrainage" }, "title": "沢への転落", "text": "雷雨の中で道を見失った直樹さんは、沢を下れば道に出ると考えて谷へ下りた。ぬれた岩場で足を滑らせた。" },
+    { "kind": "FATAL", "title": "雷雨の石尾根で", "text": "直樹さんは雷雨の中を歩き続け、山から戻らなかった。" }
+  ],
+  "lessons": [
+    {
+      "id": "l_radar",
+      "when": { "after": "D0 00:00" },
+      "title": "空の変化に気づいたら、まず確かめる",
+      "text": "空が急に暗くなり、冷たい風が吹いてきたら、積乱雲が近くにいるかもしれない。雷鳴が聞こえていなければ、まだ差し迫ってはいない。電波の入る所で雨雲レーダーを見て、雲の位置と動きを確かめる。石尾根では電波の入る所と入らない所がある。"
+    },
+    {
+      "id": "l_peak",
+      "when": {
+        "any": [
+          { "chose": { "cp": "cp_sky", "option": "peak" } },
+          { "chose": { "cp": "cp_radar", "option": "peak" } },
+          { "chose": { "cp": "cp_hut", "option": "peak" } },
+          { "chose": { "cp": "cp_rain_stopped", "option": "go_peak" } },
+          { "chose": { "cp": "cp_lightning_open", "option": "rush" } },
+          { "chose": { "cp": "cp_thunder_near_hut", "option": "go" } },
+          { "chose": { "cp": "cp_thunder_near_far", "option": "go" } }
+        ]
+      },
+      "title": "雷の兆しがあったらピークを目指さない",
+      "text": "雷は山頂や開けた尾根のような、周りより高い所に落ちやすい。石尾根のピークは防火帯の草地で開けている。雷雨の兆しがあれば、ピークを巻き、早めに建物へ逃げる判断をする。"
+    },
+    {
+      "id": "l_hut",
+      "when": { "any": [{ "flag": "hutWait" }, { "flag": "stayNight" }, { "chose": { "cp": "cp_rain_stopped", "option": "wait" } }] },
+      "title": "雷鳴がやむまで建物から出ない",
+      "text": "雷の間は、しっかりした建物の中がいちばん安全。避難小屋では壁から離れて座る。雷鳴が聞こえるうちは出発しない。雷鳴の届く範囲（およそ 10 km）は、いつ落ちてもおかしくない。"
+    },
+    {
+      "id": "l_rainstop",
+      "when": { "any": [{ "chose": { "cp": "cp_rain_stopped", "option": "go_maki" } }, { "chose": { "cp": "cp_rain_stopped", "option": "go_peak" } }] },
+      "title": "雨が上がっただけでは終わっていない",
+      "text": "雨がやんでも、雷鳴が聞こえるうちは雷雲が近くにいる。雨がやんだのを見て雷鳴の残る中を山頂へ向かい、落雷を受けた例もある。"
+    },
+    {
+      "id": "l_tree",
+      "when": { "any": [{ "chose": { "cp": "cp_thunder_near_far", "option": "tree" } }, { "chose": { "cp": "cp_thunder_near_hut", "option": "tree" } }] },
+      "title": "木の下は危険地帯",
+      "text": "木に落ちた雷は、そばにいる人へ飛び移る（側撃雷）。木の下で雨宿りしていて側撃雷で亡くなった事故は、実際に起きている。雷鳴が聞こえたら、木の幹や枝から 4 m 以上離れる。"
+    },
+    {
+      "id": "l_tent",
+      "when": { "chose": { "cp": "cp_thunder_near_far", "option": "tent" } },
+      "title": "テントは雷から守ってくれない",
+      "text": "テントは雨はしのげても、雷に対しては外にいるのと変わらない。雷鳴が聞こえる間は、山小屋などの建物に入るか、建物がなければ高い木から 4 m 以上離れた低い所で待つ。"
+    },
+    {
+      "id": "l_safezone",
+      "when": { "any": [{ "flag": "safeZone" }, { "chose": { "cp": "cp_lightning_open", "option": "off_ridge" } }] },
+      "title": "建物がないときの待ち方",
+      "text": "高さ 5 m 以上の木なら、幹や枝から 4 m 以上離れ、木のてっぺんを 45° 以上の角度で見上げる範囲が比較的安全とされる。そこで姿勢を低くし、雷鳴が遠ざかるまで待つ。ポールなどの金属を外しても、落ちやすさはほとんど変わらない。"
+    },
+    { "id": "l_maki", "when": { "flag": "maki" }, "title": "巻き道にも危険がある", "text": "ピークを巻けば落雷の危険は減り、時間も短くなる。ただし雨の巻き道では、ぬれた木の橋が滑り、沢が急に増水する。渡れないと思ったら無理をせず引き返す。" },
+    {
+      "id": "l_plan",
+      "when": { "after": "D0 00:00" },
+      "title": "15 時には着く計画に",
+      "text": "夏の山は午後に雷雨になりやすい。16 時半に着く計画は遅く、休憩や天気で 19 時ごろになることもある。奥多摩駅から歩くなら遅くとも 7 時、できれば 5〜6 時に歩き出す。前夜に駅の近くに泊まる手もある。早く出られないなら、鷹ノ巣山避難小屋を 1 日目の泊まり場にする計画もある。"
+    },
+    {
+      "id": "l_call",
+      "when": { "not": { "flag": "calledHut" } },
+      "title": "遅れるときは小屋に電話する",
+      "text": "テント場を予約している小屋に、着く時刻を伝えておくと、天気や道の様子を教えてもらえることもある。遅れそうなときや、泊まる場所を変えたときは、電波の入る所で早めに電話する。連絡がないと、小屋の人は事故を心配する。"
+    },
+    {
+      "id": "l_luck",
+      "when": { "all": [{ "flag": "thunderHeard" }, { "not": { "flag": "maki" } }, { "not": { "flag": "hutWait" } }, { "not": { "flag": "stayNight" } }] },
+      "title": "運任せの登山は、いつか外れる",
+      "text": "雷雲がそれたり、たまたま落ちなかったりして無事なこともある。しかし運に頼った判断を続けると、いつか外れを引く。知識を学んでから経験を積む。"
+    },
+    {
+      "id": "l_phone",
+      "when": { "var": "leader.phone.has", "op": "==", "value": false },
+      "title": "スマホはストラップで留める",
+      "text": "転んだはずみに、ポケットのスマホがなくなることがある。スマホは地図であり、レーダーであり、助けを呼ぶ電話でもある。ストラップで体やザックに留め、紙の地図も持つ。"
+    }
+  ],
+  "balanceTargets": { "recommended": { "goodMin": 0.95, "fatalMax": 0.01 }, "bias": { "goodMin": 0.85, "fatalMax": 0.04 }, "risky": { "badMin": 0.06, "fatalMin": 0.01 } },
+  "sources": ["原案: 松本圭司「架空遭難　20代男性ソロ　夏の奥多摩の稜線で悪天候の兆候」note（2024年2月15日） https://note.com/keizi666/n/n1ef6d0498437", "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工", "登山道・地点: © OpenStreetMap contributors"]
+}

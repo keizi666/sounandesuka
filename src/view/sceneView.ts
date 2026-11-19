@@ -434,7 +434,8 @@ export class SceneView {
       // 進行方向（北=0、時計回り）→ three の回転
       fig.root.rotation.y = Math.PI - c.headingRad;
       // 登山者の視点では、道迷い中の人形を推定位置に置く（真の位置は描かない）
-      fig.root.visible = this.godView || !c.perception.awareLost;
+      // 地図の外（駅など）へ移った人は描かない
+      fig.root.visible = !c.offMap && (this.godView || !c.perception.awareLost);
       fig.update(c, timeSec, this.selected === c.id);
       this.updateLocator(c.id, fig, timeSec, c.body.alive, k === 0);
     }

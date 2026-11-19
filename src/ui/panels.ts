@@ -35,7 +35,7 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
   const fat = levelOf(b.fatigue, 60, 80, 95, true);
   const wet = levelOf(b.wetness, 0.3, 0.6, 0.85, true);
   const anx = levelOf(b.anxiety, 40, 60, 80, true);
-  const st = JA.labels.state[c.state] ?? c.state;
+  const st = c.offMap ? `${JA.labels.state[c.state] ?? c.state}・${c.offMap}` : (JA.labels.state[c.state] ?? c.state);
   const chip = (ic: IconName, text: string): HTMLElement => el('span', { class: 'chip' }, [icon(ic), text]);
   const chipPhone: HTMLElement | null = null;
   const chips = [

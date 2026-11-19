@@ -24,6 +24,8 @@ import type { EdgeDef, HakoniwaBundle, MapDef, NodeDef, RadioStationDef, Scenari
 import { fetchHeights, fetchOsmCached, fetchVegSymbolsCached } from './lib/geo-node';
 import { ROOT } from './lib/maps';
 
+type TrailEdgeSpec = { id: string; name: string; from: string; to: string; points: [number, number][]; snap?: 'ridge' | 'valley' | 'none' };
+
 /** 作り方（public/scenarios/real/<id>.build.json） */
 export interface RealBuildSpec {
   /** スケルトンマップ（ROOT からの相対） */
@@ -53,6 +55,8 @@ export interface RealBuildSpec {
     attractiveness?: number;
     confuser?: { whenIntending: string[]; ambiguity: number };
   }[];
+  /** OSM にない登山道・車道（作者が標高から読んだ筋）。from/to は地点 ID、points はローカル座標。頂点グラフに足してから結合する */
+  trailEdges?: TrailEdgeSpec[];
   radio?: RadioStationDef[];
   /** 地理院の植生記号を使う（既定 true） */
   vegetation?: boolean;
@@ -86,6 +90,66 @@ const elevAt = (x: number, z: number): number => {
 const osm = await fetchOsmCached(LAT0, LON0, SIZE);
 const og = osmToGraph(osm, LAT0, LON0, SIZE, elevAt);
 const graph = buildVertexGraph(og.nodes, og.edges);
+
+// ---- OSM にない登山道（作者が標高から読んだ筋。build.json の trailEdges）を頂点グラフに足す ----
+const snapPt = (snap: string | undefined, x0: number, z0: number): [number, number] => {
+  if (snap === 'none' || snap === undefined) return [x0, z0];
+  const sign = snap === 'valley' ? -1 : 1;
+  let bx = x0;
+  let bz = z0;
+  let be = -Infinity;
+  for (let dz = -20; dz <= 20; dz += 4)
+    for (let dx = -20; dx <= 20; dx += 4) {
+      if (dx * dx + dz * dz > 400) continue;
+      const e = sign * elevAt(x0 + dx, z0 + dz);
+      if (e > be) (be = e), (bx = x0 + dx), (bz = z0 + dz);
+    }
+  return [bx, bz];
+};
+const posOf = (id: string): [number, number] => {
+  const xz = spec.atXZ?.[id];
+  if (xz) return xz;
+  const ll = spec.at?.[id];
+  if (!ll) throw new Error(`trailEdges: ${id} の位置がありません`);
+  const p = toXZ(LAT0, LON0, { lat: ll[0], lon: ll[1] });
+  return [p.x, p.z];
+};
+const nearestAny = (x: number, z: number): { v: number; d: number } => {
+  let v = -1;
+  let d = Infinity;
+  for (let i = 0; i < graph.xs.length; i += 1) {
+    const dd = Math.hypot(graph.xs[i]! - x, graph.zs[i]! - z);
+    if (dd < d) (d = dd), (v = i);
+  }
+  return { v, d };
+};
+for (const te of spec.trailEdges ?? []) {
+  const raw: [number, number][] = [posOf(te.from), ...te.points.map(([x, z]) => snapPt(te.snap, x, z)), posOf(te.to)];
+  const dense: [number, number][] = [raw[0]!];
+  for (let i = 1; i < raw.length; i += 1) {
+    const [ax, az] = raw[i - 1]!;
+    const [bx, bz] = raw[i]!;
+    const n = Math.max(1, Math.ceil(Math.hypot(bx - ax, bz - az) / 10));
+    for (let k = 1; k <= n; k += 1) dense.push([ax + ((bx - ax) * k) / n, az + ((bz - az) * k) / n]);
+  }
+  const a = nearestAny(dense[0]![0], dense[0]![1]);
+  const b = nearestAny(dense[dense.length - 1]![0], dense[dense.length - 1]![1]);
+  let prev = -1;
+  const first = graph.xs.length;
+  for (const [x, z] of dense) {
+    graph.xs.push(x);
+    graph.zs.push(z);
+    graph.adj.push([]);
+    const v = graph.xs.length - 1;
+    if (prev >= 0) (graph.adj[prev]!.push(v), graph.adj[v]!.push(prev));
+    prev = v;
+  }
+  if (a.v >= 0 && a.d <= 60) (graph.adj[first]!.push(a.v), graph.adj[a.v]!.push(first));
+  if (b.v >= 0 && b.d <= 60) (graph.adj[prev]!.push(b.v), graph.adj[b.v]!.push(prev));
+  let len = 0;
+  for (let i = 1; i < dense.length; i += 1) len += Math.hypot(dense[i]![0] - dense[i - 1]![0], dense[i]![1] - dense[i - 1]![1]);
+  console.log(`手描きの道 ${te.id} ${te.name}: ${Math.round(len)} m（始点の接続 ${Math.round(a.d)} m、終点 ${Math.round(b.d)} m）  ${raw.filter((_, i) => i % 4 === 0).map((p) => Math.round(elevAt(p[0], p[1]))).join(' → ')} m`);
+}
 
 function componentOf(g: VertexGraph, start: number): Set<number> {
   const seen = new Set<number>([start]);

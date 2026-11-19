@@ -1,0 +1,26 @@
+{
+  "skeleton": "public/maps/real/ishione.skeleton.json",
+  "mapId": "ishione",
+  "center": [35.826, 139.0],
+  "size": 8192,
+  "resolution": 513,
+  "at": {
+    "TAKANOSU": [35.82989, 139.01232],
+    "HUT_TAKA": [35.82753, 139.00397],
+    "HIKAGE": [35.82834, 138.9924],
+    "TAKAMARU": [35.83304, 138.98397],
+    "NANA_HUT": [35.82759, 138.96565]
+  },
+  "atXZ": {
+    "START": [1926, 214],
+    "J_MAKI_E": [1584, 154],
+    "J_MAKI_W": [418, -240],
+    "J_HUT_W": [209, -218],
+    "BRIDGE": [-540, -134],
+    "J_TAKAMARU_E": [-1313, -531],
+    "SENBON": [-2331, -254]
+  },
+  "snapM": 60,
+  "paceAdj": { "M1": 1.2, "M2a": 1.35, "M2b": 1.35, "M3": 1.3, "E8": 1.1, "E9": 1.2 },
+  "radio": [{ "id": "st_okutamako", "x": 5500, "z": 7000, "elevM": 700, "antennaM": 40, "rangeM": 20000 }]
+}

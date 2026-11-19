@@ -2,7 +2,7 @@
  * アクションの適用（docs/09 §6）。対象は既定でグループの全員（who で指定可）。
  * グループの分割・離脱・まとまり方は groups.ts、浸水は physiology.ts。
  */
-import { medicate, onsetIllness } from './illness';
+import { epipen, medicate, onsetIllness, sting } from './illness';
 import { reportMissing } from '../rescue/rescue';
 import { parseTimeRef } from '../core/clock';
 import { chance } from '../core/rng';
@@ -37,7 +37,8 @@ function resolveUntil(world: World, ctx: StaticContext, until: UntilRef): UntilR
 
 function targetsOf(world: World, who: Action['who'], group: readonly ClimberState[], leader: ClimberState): ClimberState[] {
   if (who === 'leader') return [leader];
-  if (who === undefined || who === 'all') return group.filter((c) => c.body.alive);
+  // 同じアクション列の中で離れた人（detach など）は、もう対象にしない
+  if (who === undefined || who === 'all') return group.filter((c) => c.body.alive && c.groupId === leader.groupId);
   const c = world.climbers.find((x) => x.id === who);
   return c && c.body.alive ? [c] : [];
 }
@@ -99,6 +100,11 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
   const bt = ctx.tuning.behavior;
   switch (a.type) {
     case 'continueRoute':
+      // 同じアクション列で「休む → 進む」と並べたときは、休み終えてから進む（休みを打ち消さない）
+      if (c.state === 'RESTING' && c.stateSinceMin === world.tMin && c.plan.restUntilMin !== null && c.plan.restUntilMin > world.tMin) {
+        ensureRouteAhead(ctx, c);
+        return;
+      }
       leaveShelter(world, ctx, c);
       ensureRouteAhead(ctx, c);
       c.plan.restUntilMin = null;
@@ -197,6 +203,13 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
     case 'reportMissing':
       reportMissing(world);
       return;
+    case 'leaveMap':
+      // 下山した（救助された）人だけ。山の中にいる人を消さない
+      if (c.state !== 'FINISHED' && c.state !== 'RESCUED') return;
+      if (c.offMap === a.place) return;
+      c.offMap = a.place;
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, data: { leftMap: a.place } });
+      return;
     case 'setPhone':
       c.inv.phone.has = a.has;
       return;
@@ -205,6 +218,12 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       return;
     case 'medicate':
       medicate(world, ctx, c);
+      return;
+    case 'sting':
+      sting(world, ctx, c, a.p ?? 1);
+      return;
+    case 'epipen':
+      epipen(world, ctx, c);
       return;
     case 'addAnxiety':
       c.body.anxiety = Math.min(100, Math.max(0, c.body.anxiety + a.amount));
@@ -322,7 +341,7 @@ export function applyActions(
       continue;
     }
     if (a.type === 'detach') {
-      for (const c of targetsOf(world, a.who ?? 'leader', group, leader)) detach(world, ctx, c, a.then, apply);
+      for (const c of targetsOf(world, a.who ?? 'leader', group, leader)) detach(world, ctx, c, a.then, apply, a.returnAfter ?? false);
       continue;
     }
     // 1 人だけが電波を探しに行くときは、グループから一時的に離れる（残りの人はその場にとどまる）

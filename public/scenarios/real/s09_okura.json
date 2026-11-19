@@ -1,0 +1,1457 @@
+{
+  "id": "s09_okura",
+  "version": 1,
+  "title": "大倉尾根で座り込んだ友",
+  "subtitle": "7月・50代の2人・丹沢 塔ノ岳（実在の地形）",
+  "theme": "heat",
+  "difficulty": 2,
+  "season": "summer",
+  "estMinutes": 15,
+  "mapId": "okura",
+  "seed": 725,
+  "startDate": "2026-07-25",
+  "startAt": "D0 09:00",
+  "timeLimit": "D1 10:00",
+  "sun": { "sunrise": "04:46", "sunset": "18:52", "maxElevDeg": 76 },
+  "moon": { "illumination": 0.8 },
+  "region": { "name": "丹沢・塔ノ岳", "real": true },
+  "briefing": {
+    "text": "7 月下旬の土曜日。大学の同期の青木さん（54 歳）と坂本さん（52 歳）は、丹沢の塔ノ岳へ日帰りで登る。大倉バス停から大倉尾根を登り、山頂の尊仏山荘で昼ごはんを食べて、同じ道を下る計画。大倉尾根は標高差およそ 1200 m の長い登りが続くが、途中に茶屋や山小屋が並ぶ、よく整備された道だ。坂本さんは月に 1〜2 回は山を歩き、丹沢には何度も来ている。青木さんは年に 1〜2 回で、この春からはほとんど体を動かしていない。前の晩は職場の送別会で日付が変わるまで飲み、朝はコーヒーだけ。渋沢駅のバスに 1 本乗り遅れ、歩き出しは予定より 1 時間遅い 9 時になった。",
+    "forecast": [{ "label": "今日", "text": "快晴・ほぼ無風。秦野の最高気温 35℃。山頂付近でも 27℃ くらい", "icon": "sunny" }, { "label": "注意", "text": "神奈川県に熱中症警戒アラート" }, { "label": "日の入り", "text": "18:52" }]
+  },
+  "plan": {
+    "route": ["TH_OKURA", "KANNON", "MIHARASHI", "KOMADOME", "HORIYAMA", "HANATATE_HUT", "HANATATE", "KINWARASHI", "SUMMIT"],
+    "goalNodes": ["TH_OKURA"],
+    "plannedFinish": "D0 16:00",
+    "submittedPlan": false,
+    "reportIfNotBackBy": "D0 21:00"
+  },
+  "groups": [{ "id": "pair", "members": "all", "leader": "sakamoto", "cohesion": "tight" }],
+  "party": [
+    {
+      "id": "aoki",
+      "name": "青木",
+      "age": 54,
+      "sex": "m",
+      "weightKg": 85,
+      "packKg": 7,
+      "experience": 0.3,
+      "fitness": 0.75,
+      "navSkill": 0.3,
+      "riskTolerance": 0.55,
+      "color": "#dc2626",
+      "portrait": "mid_m:2",
+      "role": "A",
+      "habits": { "eatEveryMin": null, "drinkEveryMin": null, "delaysRainwear": 0.5, "gpsCheckEveryMin": null },
+      "gear": {
+        "rainwear": "basic",
+        "cloWorn": 0.5,
+        "cloPack": 0.2,
+        "gloves": "none",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": { "has": false, "batteryH": 0, "inPack": false, "spareBatteryH": 0 },
+        "phone": { "has": true, "batteryPct": 70, "gpsApp": false, "trackRecording": false, "satelliteSos": false },
+        "map": false,
+        "compass": false,
+        "foodKcal": 1500,
+        "waterL": 0.5,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false
+      },
+      "initial": { "glycogenKcal": 650, "waterDeficitL": 1, "fatigue": 5, "coreC": 37.3 },
+      "estimated": ["initial"],
+      "notes": "架空の人物。前夜の深酒と寝不足、朝食抜き（初めの体の状態に反映）。水は 500 mL 1 本（「途中の茶屋で買えばいい」）。行動食はおにぎり 2 個と菓子パン、あめ。食べ物は、坂本さんが分ける分も含めて青木さんの持ち物として数える（シミュレーションには持ち物を渡す動作がないため）。暑さに体が慣れていない。"
+    },
+    {
+      "id": "sakamoto",
+      "name": "坂本",
+      "age": 52,
+      "sex": "m",
+      "weightKg": 66,
+      "packKg": 8,
+      "experience": 0.65,
+      "fitness": 1,
+      "navSkill": 0.6,
+      "riskTolerance": 0.5,
+      "color": "#2563eb",
+      "portrait": "mid_m:4",
+      "leader": true,
+      "role": "B",
+      "habits": { "eatEveryMin": 90, "drinkEveryMin": 30, "delaysRainwear": 0.2, "gpsCheckEveryMin": 60 },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.35,
+        "cloPack": 0.3,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": { "has": true, "batteryH": 10, "inPack": true, "spareBatteryH": 0 },
+        "phone": { "has": true, "batteryPct": 90, "gpsApp": true, "trackRecording": true, "satelliteSos": false },
+        "map": true,
+        "compass": true,
+        "foodKcal": 800,
+        "waterL": 3,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": true,
+        "whistle": true
+      },
+      "notes": "架空の人物。水 3 L（1 L は凍らせたスポーツドリンク）、行動食と塩タブレットを多めに持つ。"
+    }
+  ],
+  "weather": {
+    "refElevM": 120,
+    "lapseRateCPer100m": 0.6,
+    "keyframes": [
+      {
+        "at": "D0 05:00",
+        "tempC": 26.5,
+        "windMs": 0.5,
+        "windDirDeg": 180,
+        "precipMmH": 0,
+        "cloudCover": 0.02,
+        "cloudBaseM": 3000,
+        "visibilityM": 20000,
+        "pressureHpa": 1011
+      },
+      {
+        "at": "D0 08:00",
+        "tempC": 31.5,
+        "windMs": 0.5,
+        "windDirDeg": 180,
+        "precipMmH": 0,
+        "cloudCover": 0.02,
+        "cloudBaseM": 3000,
+        "visibilityM": 20000,
+        "pressureHpa": 1011
+      },
+      {
+        "at": "D0 10:00",
+        "tempC": 34,
+        "windMs": 0.5,
+        "windDirDeg": 180,
+        "precipMmH": 0,
+        "cloudCover": 0.02,
+        "cloudBaseM": 3000,
+        "visibilityM": 20000,
+        "pressureHpa": 1011
+      },
+      {
+        "at": "D0 12:00",
+        "tempC": 35.5,
+        "windMs": 0.5,
+        "windDirDeg": 180,
+        "precipMmH": 0,
+        "cloudCover": 0.02,
+        "cloudBaseM": 3000,
+        "visibilityM": 20000,
+        "pressureHpa": 1010
+      },
+      { "at": "D0 14:30", "tempC": 36, "windMs": 1, "windDirDeg": 180, "precipMmH": 0, "cloudCover": 0.05, "cloudBaseM": 3000, "visibilityM": 20000, "pressureHpa": 1010 },
+      {
+        "at": "D0 17:00",
+        "tempC": 33,
+        "windMs": 0.5,
+        "windDirDeg": 180,
+        "precipMmH": 0,
+        "cloudCover": 0.05,
+        "cloudBaseM": 3000,
+        "visibilityM": 20000,
+        "pressureHpa": 1010
+      },
+      {
+        "at": "D0 20:00",
+        "tempC": 29,
+        "windMs": 0.5,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.02,
+        "cloudBaseM": 3000,
+        "visibilityM": 20000,
+        "pressureHpa": 1011
+      },
+      {
+        "at": "D1 04:30",
+        "tempC": 26,
+        "windMs": 0.5,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.02,
+        "cloudBaseM": 3000,
+        "visibilityM": 20000,
+        "pressureHpa": 1012
+      },
+      {
+        "at": "D1 10:00",
+        "tempC": 33.5,
+        "windMs": 0.5,
+        "windDirDeg": 180,
+        "precipMmH": 0,
+        "cloudCover": 0.02,
+        "cloudBaseM": 3000,
+        "visibilityM": 20000,
+        "pressureHpa": 1012
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_hangover",
+      "trigger": { "after": "D0 09:00" },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "drinkAlcohol", "who": "aoki", "grams": 12 }] },
+        { "type": "log", "text": "青木さんの体には、ゆうべの酒がまだ少し残っている。寝不足で、朝はコーヒーしか飲んでいない" }
+      ]
+    },
+    {
+      "id": "ev_tea_kannon",
+      "trigger": { "all": [{ "flag": "slowPace" }, { "beenAt": "KANNON" }, { "not": { "flag": "collapsed" } }] },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "rest", "who": "all", "minutes": 10 }, { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.5 }] },
+        { "type": "log", "text": "観音茶屋の日陰で 10 分休んだ。青木さんは冷たいスポーツドリンクを買って飲んだ" }
+      ]
+    },
+    {
+      "id": "ev_tea_miharashi",
+      "trigger": { "all": [{ "flag": "slowPace" }, { "beenAt": "MIHARASHI" }, { "not": { "flag": "collapsed" } }] },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "rest", "who": "all", "minutes": 10 }, { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.5 }] },
+        { "type": "log", "text": "見晴茶屋のベンチで 10 分休んだ。青木さんは麦茶を買って飲み、坂本さんの塩タブレットをなめた" }
+      ]
+    },
+    {
+      "id": "ev_horiyama_leave",
+      "trigger": {
+        "all": [{ "flag": "hutHoriyama" }, { "elapsedSince": { "flag": "hutHoriyama", "min": 30 } }, { "not": { "flag": "turnedBack" } }, { "not": { "flag": "collapsed" } }]
+      },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "continueRoute", "who": "all" }] }, { "type": "log", "text": "堀山の家で 30 分休み、2 人はまた登りはじめた" }]
+    },
+    {
+      "id": "ev_horiyama_back",
+      "trigger": { "all": [{ "flag": "hutHoriyama" }, { "flag": "turnedBack" }, { "elapsedSince": { "flag": "hutHoriyama", "min": 30 } }] },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [{ "type": "setRoute", "who": "all", "route": ["HORIYAMA", "KOMADOME", "MIHARASHI", "KANNON", "TH_OKURA"], "goalNodes": ["TH_OKURA"] }]
+        },
+        { "type": "log", "text": "堀山の家で 30 分休み、2 人は大倉へ下りはじめた" }
+      ]
+    },
+    {
+      "id": "ev_collapse",
+      "trigger": {
+        "all": [
+          { "not": { "flag": "collapsed" } },
+          { "not": { "beenAt": "KINWARASHI" } },
+          { "var": "c.aoki.state", "op": "==", "value": "WALKING" },
+          { "var": "c.aoki.elevM", "op": ">=", "value": 1340 },
+          { "var": "c.aoki.coreC", "op": ">=", "value": 38.4 },
+          { "any": [{ "var": "c.aoki.waterDeficitL", "op": ">=", "value": 2.5 }, { "var": "c.aoki.glycogenKcal", "op": "<", "value": 300 }] }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "stayPut", "who": "all" }] },
+        { "type": "setFlag", "flag": "collapsed" },
+        { "type": "say", "who": "aoki", "to": "sakamoto", "text": "ごめん……ちょっと座らせて。足が前に出ない", "tone": "whisper" },
+        { "type": "say", "who": "sakamoto", "to": "aoki", "text": "おい、大丈夫か。顔が真っ赤だぞ", "tone": "normal" },
+        { "type": "say", "who": "aoki", "to": "sakamoto", "text": "……ごめん。頭がくらくらする", "tone": "whisper" },
+        { "type": "log", "text": "標高 {c.aoki.elevM:0} m。青木さんが登山道の脇に座り込んだ", "important": true }
+      ]
+    },
+    {
+      "id": "ev_relapse",
+      "trigger": {
+        "all": [
+          { "flag": "collapsed" },
+          { "not": { "flag": "relapse" } },
+          { "any": [{ "flag": "pushOn" }, { "flag": "summitAfter" }] },
+          { "var": "c.aoki.state", "op": "==", "value": "WALKING" },
+          { "var": "c.aoki.coreC", "op": ">=", "value": 38.5 },
+          { "chance": 0.35 }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "stayPut", "who": "all" }] },
+        { "type": "setFlag", "flag": "relapse" },
+        { "type": "say", "who": "aoki", "text": "ごめん……気持ち悪い", "tone": "whisper" },
+        { "type": "log", "text": "登り返しの途中で、青木さんがまた座り込み、吐いた。一度倒れた人が無理をして動くと、ぶり返すことがある", "important": true }
+      ]
+    },
+    {
+      "id": "ev_hut_arrive",
+      "trigger": { "all": [{ "flag": "toHut" }, { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" }] },
+      "once": true,
+      "effects": [
+        { "type": "setFlag", "flag": "inHut" },
+        { "type": "actions", "actions": [{ "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.5 }] },
+        { "type": "log", "text": "花立山荘の人が、日陰の長いすを空けてくれた。青木さんは横になり、冷たいスポーツドリンクを少しずつ飲んだ。首と脇には、ぬらしたタオルを当てた" }
+      ]
+    },
+    {
+      "id": "ev_lunch_leave",
+      "trigger": { "all": [{ "flag": "lunchHut" }, { "elapsedSince": { "flag": "lunchHut", "min": 40 } }] },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setRoute",
+              "who": "all",
+              "route": ["SUMMIT", "KINWARASHI", "HANATATE", "HANATATE_HUT", "HORIYAMA", "KOMADOME", "MIHARASHI", "KANNON", "TH_OKURA"],
+              "goalNodes": ["TH_OKURA"]
+            }
+          ]
+        },
+        { "type": "log", "text": "尊仏山荘で昼ごはんを食べ、2 人は大倉へ下りはじめた" }
+      ]
+    },
+    {
+      "id": "ev_horiyama_down_leave",
+      "trigger": { "all": [{ "flag": "hutHoriyamaDown" }, { "elapsedSince": { "flag": "hutHoriyamaDown", "min": 20 } }] },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [{ "type": "setRoute", "who": "all", "route": ["HORIYAMA", "KOMADOME", "MIHARASHI", "KANNON", "TH_OKURA"], "goalNodes": ["TH_OKURA"] }]
+        },
+        { "type": "log", "text": "堀山の家で休んで、2 人はまた下りはじめた" }
+      ]
+    },
+    {
+      "id": "ev_b_summit",
+      "trigger": { "all": [{ "flag": "split" }, { "var": "c.sakamoto.state", "op": "==", "value": "SHELTERED" }] },
+      "once": true,
+      "effects": [{ "type": "setFlag", "flag": "bAtSummit" }, { "type": "log", "text": "坂本さんは塔ノ岳の山頂に着いた。富士山は暑さでかすんで見えない" }]
+    },
+    {
+      "id": "ev_b_return",
+      "trigger": { "all": [{ "flag": "bAtSummit" }, { "elapsedSince": { "flag": "bAtSummit", "min": 5 } }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "goToNode", "who": "sakamoto", "node": "HANATATE", "then": "stay" }] }, { "type": "setFlag", "flag": "bReturning" }]
+    },
+    {
+      "id": "ev_b_back",
+      "trigger": {
+        "all": [
+          { "flag": "bReturning" },
+          { "elapsedSince": { "flag": "bReturning", "min": 5 } },
+          { "var": "c.sakamoto.state", "op": "==", "value": "RESTING" },
+          { "var": "c.sakamoto.elevM", "op": ">=", "value": 1355 },
+          { "var": "c.sakamoto.elevM", "op": "<=", "value": 1385 }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setCohesion", "cohesion": "tight" }, { "type": "stayPut", "who": "aoki" }, { "type": "stayPut", "who": "sakamoto" }] },
+        { "type": "setFlag", "flag": "reunited" },
+        { "type": "say", "who": "sakamoto", "to": "aoki", "text": "ただいま。……おい、大丈夫か", "tone": "normal" }
+      ]
+    },
+    {
+      "id": "ev_alone_fall",
+      "trigger": {
+        "all": [
+          { "flag": "split" },
+          { "not": { "flag": "reunited" } },
+          { "elapsedSince": { "flag": "split", "min": 20 } },
+          { "var": "c.aoki.coreC", "op": ">=", "value": 38 },
+          { "chance": 0.35 }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "injure", "who": "aoki", "injury": "sprain" },
+        { "type": "setFlag", "flag": "aloneFall" },
+        { "type": "say", "who": "aoki", "text": "うわっ……痛っ", "tone": "whisper" },
+        { "type": "log", "text": "青木さんは日陰を探そうと立ち上がり、ふらついて階段で足首をひねった。そばには誰もいない", "important": true }
+      ]
+    },
+    {
+      "id": "ev_b_waits",
+      "trigger": {
+        "all": [
+          { "var": "c.sakamoto.state", "op": "==", "value": "FINISHED" },
+          { "not": { "var": "c.aoki.state", "op": "==", "value": "FINISHED" } },
+          { "not": { "var": "c.aoki.state", "op": "==", "value": "RESCUED" } }
+        ]
+      },
+      "once": true,
+      "effects": [{ "type": "log", "text": "坂本さんは先に大倉に着き、登山口の日陰で青木さんを待った" }]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_start",
+      "title": "大倉の登山口",
+      "priority": 20,
+      "trigger": { "after": "D0 09:00" },
+      "situation": "大倉バス停から車道を 15 分歩いて登山道の入口に着いた。それだけで 2 人とも汗びっしょりだ。日なたは 32℃ を超えている。青木さんは「ゆうべ飲みすぎた。朝はコーヒーだけ」と笑う。水は 500 mL のペットボトル 1 本しか持っていない。",
+      "knowledge": [
+        "計画: 大倉尾根を塔ノ岳へ（コースタイムは約 3 時間半）。山頂の尊仏山荘で昼ごはんにして、同じ道を下る",
+        "途中の観音茶屋・見晴茶屋・堀山の家・花立山荘は、週末は営業していて飲み物を買える",
+        "青木さんの水は {c.aoki.waterL:1} L、行動食はおにぎりとパン。坂本さんは水 3 L（1 L は凍らせたスポーツドリンク）と行動食・塩タブレットを多めに持っている",
+        "神奈川県に熱中症警戒アラートが出ている。登るほど気温は下がるが、尾根の上のほうは木が少なく日差しが強い"
+      ],
+      "options": [
+        {
+          "id": "go",
+          "label": "予定どおり登る。山頂の小屋で昼にしよう",
+          "detail": "夏山が暑いのはいつものこと。登れば少しは涼しくなる。",
+          "actions": [{ "type": "say", "text": "暑いなあ。まあ、上に行けば少しは涼しいだろう", "to": "aoki" }, { "type": "continueRoute" }],
+          "flags": ["goNormal"],
+          "bias": { "base": 1.4 }
+        },
+        {
+          "id": "slow",
+          "label": "自販機でスポーツドリンクを買って飲み、ペースを落として、茶屋ごとに休んで飲みながら登る",
+          "detail": "山頂に着くのは遅くなる。",
+          "actions": [
+            { "type": "say", "text": "青木、ゆっくり行こう。茶屋ごとに休んで、こまめに飲もう", "to": "aoki" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.5 },
+            { "type": "setPace", "who": "all", "factor": 0.92 },
+            { "type": "continueRoute" }
+          ],
+          "flags": ["slowPace"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "abort",
+          "label": "この暑さで二日酔いは危ない。今日はやめて、別の日に朝早く出直す",
+          "detail": "せっかく来たのに、と思う。",
+          "actions": [{ "type": "say", "text": "今日はやめとこう。来週、始発で来ればいい", "to": "aoki" }, { "type": "abortTrip" }],
+          "flags": ["aborted"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.08 }
+        }
+      ]
+    },
+    {
+      "id": "cp_horiyama",
+      "title": "堀山の家",
+      "priority": 15,
+      "trigger": {
+        "all": [
+          { "atNode": "HORIYAMA" },
+          { "not": { "flag": "collapsed" } },
+          { "not": { "beenAt": "SUMMIT" } },
+          { "not": { "flag": "turnedBack" } },
+          { "not": { "flag": "descend" } },
+          { "any": [{ "var": "c.aoki.coreC", "op": ">=", "value": 38.2 }, { "var": "c.aoki.waterDeficitL", "op": ">=", "value": 1.5 }] }
+        ]
+      },
+      "situation": "堀山の家に着いた。青木さんは数歩ごとに立ち止まるようになり、顔が赤く、汗が滝のように流れている。「大丈夫、ちょっと暑いだけ」と言うが、水はもう飲み切ったらしい。ここから花立山荘までは、日なたの長い階段が続く。",
+      "knowledge": ["山頂まではコースタイムであと 1 時間半ほど。花立山荘までは木の少ない長い階段", "堀山の家は営業中。冷たい飲み物を買って、日陰で休める", "青木さんの水は {c.aoki.waterL:1} L。坂本さんの水は {c.sakamoto.waterL:1} L"],
+      "options": [
+        {
+          "id": "hutBack",
+          "label": "堀山の家で 30 分休んで冷たいものを飲み、今日はここから引き返す",
+          "detail": "山頂まであと 1 時間半。でも、この暑さで青木さんの様子は普通ではない。",
+          "actions": [
+            { "type": "say", "text": "今日はここまでにしよう。休んで、冷たいものを飲んでから下りよう。山は逃げないよ", "to": "aoki" },
+            { "type": "stayInShelter", "who": "all", "until": "D1 06:00" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.5 }
+          ],
+          "flags": ["hutHoriyama", "turnedBack"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.25, "mods": [{ "when": { "flag": "slowPace" }, "add": 0.25 }] }
+        },
+        {
+          "id": "hut",
+          "label": "堀山の家で 30 分休み、冷たい飲み物を飲んでから山頂へ向かう",
+          "detail": "休めば持ち直すかもしれない。",
+          "actions": [
+            { "type": "say", "text": "ここで少し休もう。冷たいものでも飲もう", "to": "aoki" },
+            { "type": "stayInShelter", "who": "all", "until": "D1 06:00" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.5 }
+          ],
+          "flags": ["hutHoriyama"],
+          "bias": { "base": 0.5, "mods": [{ "when": { "flag": "slowPace" }, "add": 0.4 }] }
+        },
+        {
+          "id": "share",
+          "label": "日陰で 10 分休み、坂本さんの水を青木さんに分けて先へ進む",
+          "actions": [
+            { "type": "say", "text": "水、分けるよ。飲んで", "to": "aoki" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.4 },
+            { "type": "rest", "who": "all", "minutes": 10 }
+          ],
+          "flags": ["shared"],
+          "bias": { "base": 0.9 }
+        },
+        {
+          "id": "push",
+          "label": "このまま登る。山頂の小屋でゆっくり休めばいい",
+          "detail": "止まると、かえって動けなくなりそうだと青木さんは言う。",
+          "actions": [{ "type": "say", "who": "aoki", "text": "大丈夫、行ける。止まると、かえって足が動かなくなりそうだ", "to": "sakamoto" }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.9, "mods": [{ "when": { "flag": "goNormal" }, "add": 0.2 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_late",
+      "title": "引き返す時刻",
+      "priority": 14,
+      "trigger": {
+        "all": [
+          { "after": "D0 13:30" },
+          { "not": { "beenAt": "SUMMIT" } },
+          { "not": { "flag": "collapsed" } },
+          { "not": { "flag": "turnedBack" } },
+          { "not": { "flag": "descend" } },
+          { "var": "c.sakamoto.state", "op": "==", "value": "WALKING" }
+        ]
+      },
+      "situation": "13 時半。山頂まではまだ少しある。いまから山頂を往復すると、大倉に着くのは日の入りのころになりそうだ。青木さんはヘッドランプを持っていない。",
+      "knowledge": ["標高 {c.sakamoto.elevM:0} m。大倉までは下りで 2 時間半以上", "日の入りは 18:52。坂本さんのヘッドランプは 1 つだけ", "青木さんの水は {c.aoki.waterL:1} L。坂本さんの水は {c.sakamoto.waterL:1} L"],
+      "options": [
+        {
+          "id": "back",
+          "label": "ここで引き返す。山頂はまた今度",
+          "actions": [{ "type": "say", "text": "時間切れだ。今日はここで引き返そう", "to": "aoki" }, { "type": "turnBack", "who": "all" }],
+          "flags": ["turnedBack"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "go",
+          "label": "あと少しだ。山頂まで行こう",
+          "detail": "下りは速いから、なんとかなる。",
+          "actions": [{ "type": "say", "who": "aoki", "text": "ここまで来たら、山頂は踏みたいな", "to": "sakamoto" }, { "type": "continueRoute", "who": "all" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.9 }
+        }
+      ]
+    },
+    {
+      "id": "cp_collapse",
+      "title": "座り込んだ青木さん",
+      "priority": 25,
+      "trigger": { "flag": "collapsed" },
+      "situation": "青木さんが登山道の脇に座り込んだ。「ごめん、ちょっと休ませて……足が前に出ない」。呼びかけには答えるが、顔は赤く、息が荒く、汗が止まらない。頭が痛くて、少し気持ちが悪いとも言う。山頂まではあと 30〜40 分。このあたりは木が少なく、日差しをさえぎるものがない。",
+      "knowledge": [
+        "標高 {c.aoki.elevM:0} m、気温 {c.aoki.local.tempC:0}℃。快晴でほぼ無風",
+        "青木さんの水は空。坂本さんの水は残り {c.sakamoto.waterL:1} L。青木さんのザックには食べ物が少し残っている（{c.aoki.foodKcal:0} kcal）",
+        "考えられる原因: 熱中症（熱疲労）、脱水、低血糖（シャリバテ）。50 代なので心臓や脳の病気も否定できない",
+        "少し下に花立山荘（営業中）がある。冷たい飲み物やかき氷を売っている",
+        "携帯電話は通じる。意識がおかしい・何度も吐く・水が飲めない・体がひどく熱いなら、迷わず 110 番"
+      ],
+      "options": [
+        {
+          "id": "treat",
+          "label": "日陰を作って横にし、服とベルトをゆるめる。首・脇・足の付け根に水をかけて扇ぎ、スポーツドリンクと甘いものを少しずつ口にさせる",
+          "detail": "40 分ほど、ここで様子を見る。",
+          "actions": [
+            { "type": "say", "text": "横になって。ベルト、ゆるめるぞ。ゆっくり飲んで", "to": "aoki" },
+            { "type": "stayPut", "who": "all" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.6 },
+            { "type": "eat", "who": "aoki", "kcal": 200 }
+          ],
+          "flags": ["treated"],
+          "tags": ["recommended"],
+          "bias": { "base": 1 }
+        },
+        {
+          "id": "hut",
+          "label": "肩を貸して花立山荘まで下り、小屋の日陰で休ませてもらう",
+          "detail": "冷たい飲み物もある。少し歩かせることになる。",
+          "actions": [
+            { "type": "say", "text": "小屋まで下りよう。肩につかまって。ゆっくりでいい", "to": "aoki" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.3 },
+            { "type": "goToNode", "who": "all", "node": "HANATATE_HUT", "then": "stay" }
+          ],
+          "flags": ["toHut"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "rest10",
+          "label": "10 分休めば落ち着くだろう。休んだら山頂まで行ってしまおう",
+          "detail": "山頂の小屋で、ゆっくり休めばいい。青木さんも「せっかくここまで来たんだし」と言う。",
+          "actions": [
+            { "type": "say", "who": "aoki", "text": "……ちょっと休めば大丈夫。せっかくここまで来たんだし", "to": "sakamoto" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.3 },
+            { "type": "rest", "who": "all", "minutes": 10 }
+          ],
+          "flags": ["pushOn"],
+          "tags": ["risky"],
+          "bias": { "base": 0.8 }
+        },
+        {
+          "id": "split",
+          "label": "青木さんには花立の道標のところで休んでいてもらい、坂本さんだけ山頂を往復する（1 時間ほど）",
+          "detail": "青木さんは「待ってるから行ってきなよ」と言う。水は置いていく。",
+          "actions": [
+            { "type": "say", "who": "aoki", "text": "俺はここで休んでるから、行ってきなよ。せっかくだし", "to": "sakamoto" },
+            { "type": "setCohesion", "cohesion": "loose" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.5 },
+            { "type": "goToNode", "who": "aoki", "node": "HANATATE", "then": "stay" },
+            { "type": "goToNode", "who": "sakamoto", "node": "SUMMIT", "then": "stay" }
+          ],
+          "flags": ["split"],
+          "tags": ["risky"],
+          "bias": { "base": 0.3 }
+        }
+      ]
+    },
+    {
+      "id": "cp_recover_ok",
+      "title": "少し落ち着いた",
+      "priority": 22,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              { "all": [{ "elapsedSince": { "flag": "treated", "min": 40 } }, { "not": { "flag": "recoverAsked" } }] },
+              { "all": [{ "elapsedSince": { "flag": "inHut", "min": 50 } }, { "not": { "flag": "recoverAsked" } }] },
+              { "elapsedSince": { "flag": "waitMore", "min": 30 } }
+            ]
+          },
+          { "not": { "flag": "called" } },
+          { "not": { "flag": "descend" } },
+          { "var": "c.aoki.conscious", "op": "==", "value": true },
+          { "var": "c.aoki.coreC", "op": "<", "value": 38.5 }
+        ]
+      },
+      "situation": "休んでいるうちに、青木さんの顔色が少し戻ってきた。汗も落ち着き、「だいぶ楽になった。ごめんな、迷惑かけて」と言う。ただ、まだ足に力が入らないようだ。",
+      "knowledge": [
+        "山頂まではあと 30〜40 分。大倉までは下りで 2 時間半ほど",
+        "下るほど気温は上がる。大倉のあたりは午後には 33℃ を超える",
+        "坂本さんの水は残り {c.sakamoto.waterL:1} L。下の堀山の家・見晴茶屋・観音茶屋で飲み物を買える",
+        "日の入りは 18:52。青木さんはヘッドランプを持っていない"
+      ],
+      "options": [
+        {
+          "id": "descend",
+          "label": "山頂はあきらめ、2 人でゆっくり下る。青木さんの荷物の一部は坂本さんが持つ",
+          "available": { "not": { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" } },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "今日はここまでにしよう。荷物、貸して", "to": "aoki" }, { "type": "turnBack", "who": "all" }, { "type": "setPace", "who": "all", "factor": 0.85 }],
+          "flags": ["descend", "recoverAsked"],
+          "tags": ["recommended"],
+          "bias": { "base": 1.2 }
+        },
+        {
+          "id": "descendHut",
+          "label": "山頂はあきらめ、2 人でゆっくり下る。青木さんの荷物の一部は坂本さんが持つ",
+          "available": { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "今日はここまでにしよう。荷物、貸して", "to": "aoki" },
+            { "type": "setRoute", "who": "all", "route": ["HANATATE_HUT", "HORIYAMA", "KOMADOME", "MIHARASHI", "KANNON", "TH_OKURA"], "goalNodes": ["TH_OKURA"] },
+            { "type": "setPace", "who": "all", "factor": 0.85 }
+          ],
+          "flags": ["descend", "recoverAsked"],
+          "tags": ["recommended"],
+          "bias": { "base": 1.2 }
+        },
+        {
+          "id": "summit",
+          "label": "楽になったなら、山頂まで行こう。あと 30 分だ",
+          "detail": "青木さんも「山頂だけは踏みたい」と言う。",
+          "actions": [{ "type": "say", "who": "aoki", "text": "ここまで来たんだし、山頂だけは踏みたいな", "to": "sakamoto" }, { "type": "continueRoute", "who": "all" }],
+          "flags": ["summitAfter", "recoverAsked"],
+          "tags": ["risky"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "call",
+          "label": "念のため 110 番して、相談する",
+          "actions": [
+            { "type": "say", "text": "もしもし、塔ノ岳の大倉尾根です。連れが暑さで倒れて、いまは少し落ち着いたんですが……", "tone": "normal" },
+            { "type": "callRescue", "via": "phone" },
+            { "type": "waitRescue", "who": "all" }
+          ],
+          "flags": ["called", "recoverAsked"],
+          "bias": { "base": 0.1 }
+        }
+      ]
+    },
+    {
+      "id": "cp_recover_bad",
+      "title": "よくならない",
+      "priority": 22,
+      "trigger": {
+        "all": [
+          { "any": [{ "elapsedSince": { "flag": "treated", "min": 40 } }, { "elapsedSince": { "flag": "inHut", "min": 50 } }] },
+          { "not": { "flag": "recoverAsked" } },
+          { "not": { "flag": "called" } },
+          { "var": "c.aoki.conscious", "op": "==", "value": true },
+          { "var": "c.aoki.coreC", "op": ">=", "value": 38.5 }
+        ]
+      },
+      "situation": "休ませても、青木さんの様子はあまり変わらない。顔は赤いまま、ぼんやりして、受け答えが遅い。「頭が痛い」「吐きそう」と言う。",
+      "knowledge": ["大倉までは下りで 2 時間半ほど。下るほど気温は上がる", "携帯電話は通じる"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して救助を頼み、冷やしながら待つ",
+          "actions": [
+            { "type": "say", "text": "もしもし、塔ノ岳の大倉尾根です。連れが暑さで倒れて、よくならないんです", "tone": "normal" },
+            { "type": "callRescue", "via": "phone" },
+            { "type": "waitRescue", "who": "all" }
+          ],
+          "flags": ["called", "recoverAsked"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.8 }
+        },
+        {
+          "id": "wait",
+          "label": "もう 30 分、冷やしながら様子を見る",
+          "actions": [{ "type": "say", "text": "もう少し休もう。水、まだあるから", "to": "aoki" }, { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.3 }],
+          "flags": ["waitMore", "recoverAsked"],
+          "bias": { "base": 0.9 }
+        },
+        {
+          "id": "descend",
+          "label": "ここにいても暑いだけだ。ゆっくりでも下り始める",
+          "available": { "not": { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" } },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "少しずつでも下りよう。下には茶屋もある", "to": "aoki" }, { "type": "turnBack", "who": "all" }, { "type": "setPace", "who": "all", "factor": 0.7 }],
+          "flags": ["descend", "recoverAsked"],
+          "tags": ["risky"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "descendHut",
+          "label": "ここにいても暑いだけだ。ゆっくりでも下り始める",
+          "available": { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "少しずつでも下りよう。下には茶屋もある", "to": "aoki" },
+            { "type": "setRoute", "who": "all", "route": ["HANATATE_HUT", "HORIYAMA", "KOMADOME", "MIHARASHI", "KANNON", "TH_OKURA"], "goalNodes": ["TH_OKURA"] },
+            { "type": "setPace", "who": "all", "factor": 0.7 }
+          ],
+          "flags": ["descend", "recoverAsked"],
+          "tags": ["risky"],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_recover_late",
+      "title": "まだよくならない",
+      "priority": 22,
+      "trigger": {
+        "all": [
+          { "elapsedSince": { "flag": "waitMore", "min": 30 } },
+          { "not": { "flag": "called" } },
+          { "not": { "flag": "descend" } },
+          { "var": "c.aoki.conscious", "op": "==", "value": true },
+          { "var": "c.aoki.coreC", "op": ">=", "value": 38.5 }
+        ]
+      },
+      "situation": "さらに 30 分休ませたが、青木さんはぐったりしたままだ。顔が赤く、受け答えもはっきりしない。",
+      "knowledge": ["大倉までは下りで 2 時間半ほど。下るほど気温は上がる", "携帯電話は通じる"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して救助を頼み、冷やしながら待つ",
+          "actions": [
+            { "type": "say", "text": "もしもし、塔ノ岳の大倉尾根です。連れが暑さで倒れて、よくならないんです", "tone": "normal" },
+            { "type": "callRescue", "via": "phone" },
+            { "type": "waitRescue", "who": "all" }
+          ],
+          "flags": ["called", "recoverAsked"],
+          "tags": ["recommended"],
+          "bias": { "base": 1.2 }
+        },
+        {
+          "id": "descend",
+          "label": "ここにいても暑いだけだ。ゆっくりでも下り始める",
+          "available": { "not": { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" } },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "少しずつでも下りよう。下には茶屋もある", "to": "aoki" }, { "type": "turnBack", "who": "all" }, { "type": "setPace", "who": "all", "factor": 0.7 }],
+          "flags": ["descend", "recoverAsked"],
+          "tags": ["risky"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "descendHut",
+          "label": "ここにいても暑いだけだ。ゆっくりでも下り始める",
+          "available": { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "少しずつでも下りよう。下には茶屋もある", "to": "aoki" },
+            { "type": "setRoute", "who": "all", "route": ["HANATATE_HUT", "HORIYAMA", "KOMADOME", "MIHARASHI", "KANNON", "TH_OKURA"], "goalNodes": ["TH_OKURA"] },
+            { "type": "setPace", "who": "all", "factor": 0.7 }
+          ],
+          "flags": ["descend", "recoverAsked"],
+          "tags": ["risky"],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_relapse",
+      "title": "ぶり返した",
+      "priority": 26,
+      "trigger": { "all": [{ "flag": "relapse" }, { "not": { "flag": "called" } }] },
+      "situation": "青木さんがまた座り込み、吐いた。顔は赤く、受け答えがさっきより鈍い。「大丈夫、少し休めば」と言うが、立ち上がろうとするとふらつく。",
+      "knowledge": ["標高 {c.aoki.elevM:0} m、気温 {c.aoki.local.tempC:0}℃", "何度も吐く・受け答えが鈍いのは、重い熱中症のサインかもしれない", "携帯電話は通じる"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して救助を頼む。日陰で冷やしながら待つ",
+          "actions": [
+            { "type": "say", "text": "もしもし、塔ノ岳の大倉尾根です。連れが暑さで倒れて、吐いています", "tone": "normal" },
+            { "type": "callRescue", "via": "phone" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.3 },
+            { "type": "waitRescue", "who": "all" }
+          ],
+          "flags": ["called"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.9 }
+        },
+        {
+          "id": "restDown",
+          "label": "1 時間休ませてから、山頂はあきらめてゆっくり下る",
+          "actions": [
+            { "type": "say", "text": "もう登らない。休んだら下りよう", "to": "aoki" },
+            { "type": "turnBack", "who": "all" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.3 },
+            { "type": "setPace", "who": "all", "factor": 0.8 },
+            { "type": "rest", "who": "all", "minutes": 60 }
+          ],
+          "flags": ["descend"],
+          "bias": { "base": 0.8 }
+        },
+        {
+          "id": "goDown",
+          "label": "すぐに肩を貸して下り始める。下には茶屋がある",
+          "actions": [{ "type": "say", "text": "下ろう。肩につかまって", "to": "aoki" }, { "type": "turnBack", "who": "all" }, { "type": "setPace", "who": "all", "factor": 0.7 }],
+          "flags": ["descend"],
+          "tags": ["risky"],
+          "bias": { "base": 0.4 }
+        }
+      ]
+    },
+    {
+      "id": "cp_severe",
+      "title": "様子がおかしい",
+      "priority": 30,
+      "trigger": {
+        "all": [
+          { "not": { "flag": "called" } },
+          { "var": "c.aoki.alive", "op": "==", "value": true },
+          { "not": { "var": "c.aoki.state", "op": "==", "value": "FINISHED" } },
+          { "any": [{ "not": { "flag": "split" } }, { "flag": "reunited" }] },
+          { "any": [{ "var": "c.aoki.coreC", "op": ">=", "value": 40 }, { "var": "c.aoki.conscious", "op": "==", "value": false }] }
+        ]
+      },
+      "situation": "青木さんの様子がおかしい。呼びかけへの返事がはっきりせず、話がかみ合わない。吐いた。首すじを触ると驚くほど熱い。",
+      "knowledge": ["重い熱中症の疑い。体を冷やし続けながら、一刻も早く病院へ運ぶ必要がある", "携帯電話は通じる"],
+      "options": [
+        {
+          "id": "call",
+          "label": "すぐに 110 番する。日陰で体を冷やし続けながら待つ",
+          "actions": [
+            { "type": "say", "text": "110 番です。塔ノ岳の大倉尾根で、連れが熱中症で意識がおかしいんです", "tone": "normal" },
+            { "type": "callRescue", "via": "phone" },
+            { "type": "waitRescue", "who": "all" }
+          ],
+          "flags": ["called", "severe"],
+          "tags": ["recommended"],
+          "bias": { "base": 1.5 }
+        },
+        {
+          "id": "carry",
+          "label": "肩を貸して、小屋まで連れて行く",
+          "actions": [{ "type": "say", "text": "小屋まで行くぞ。がんばれ", "to": "aoki" }, { "type": "goToNode", "who": "all", "node": "HANATATE_HUT", "then": "stay" }],
+          "flags": ["severe"],
+          "tags": ["risky"],
+          "bias": { "base": 0.3 }
+        }
+      ]
+    },
+    {
+      "id": "cp_b_back",
+      "title": "山頂から戻ると",
+      "priority": 22,
+      "trigger": { "flag": "reunited" },
+      "situation": "坂本さんが山頂から戻ってきた。青木さんは道標の陰で座り込んだまま、ぼんやりしている。置いていった水は空になっていた。",
+      "knowledge": ["大倉までは下りで 2 時間半ほど。下るほど気温は上がる", "少し下に花立山荘がある", "携帯電話は通じる"],
+      "options": [
+        {
+          "id": "descend",
+          "label": "2 人でゆっくり下る。坂本さんは青木さんの歩く速さに合わせる",
+          "actions": [
+            { "type": "say", "text": "待たせてごめん。下りよう。ゆっくりでいい", "to": "aoki" },
+            {
+              "type": "setRoute",
+              "who": "all",
+              "route": ["HANATATE", "HANATATE_HUT", "HORIYAMA", "KOMADOME", "MIHARASHI", "KANNON", "TH_OKURA"],
+              "goalNodes": ["TH_OKURA"]
+            },
+            { "type": "setPace", "who": "all", "factor": 0.85 }
+          ],
+          "flags": ["descend"],
+          "tags": ["recommended"],
+          "bias": { "base": 1 }
+        },
+        {
+          "id": "hut",
+          "label": "花立山荘まで下り、小屋で休ませてもらう",
+          "actions": [{ "type": "say", "text": "小屋で休もう。もう少しだけ歩ける？", "to": "aoki" }, { "type": "goToNode", "who": "all", "node": "HANATATE_HUT", "then": "stay" }],
+          "flags": ["toHut"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "call",
+          "label": "110 番して救助を頼む",
+          "actions": [
+            { "type": "say", "text": "もしもし、塔ノ岳の大倉尾根、花立のあたりです。連れが暑さで動けなくなって……", "tone": "normal" },
+            { "type": "callRescue", "via": "phone" },
+            { "type": "waitRescue", "who": "all" }
+          ],
+          "flags": ["called"],
+          "bias": { "base": 0.3, "mods": [{ "when": { "flag": "aloneFall" }, "add": 0.5 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_summit",
+      "title": "塔ノ岳の山頂",
+      "priority": 12,
+      "trigger": { "all": [{ "atNode": "SUMMIT" }, { "not": { "flag": "split" } }] },
+      "situation": "塔ノ岳の山頂に着いた。広い山頂は日差しが照りつけ、富士山は暑さでかすんでいる。尊仏山荘では、冷たい飲み物と食事が買える。",
+      "knowledge": ["大倉までは下りで 2 時間半ほど。下るほど気温が上がる", "青木さんの水は {c.aoki.waterL:1} L。坂本さんの水は {c.sakamoto.waterL:1} L", "日の入りは 18:52"],
+      "options": [
+        {
+          "id": "lunch",
+          "label": "尊仏山荘で 40 分休み、昼ごはんを食べ、飲み物を買って飲んでから下る",
+          "actions": [
+            { "type": "say", "text": "小屋で昼にしよう。冷たいものも飲もう", "to": "aoki" },
+            { "type": "stayInShelter", "who": "all", "until": "D1 06:00" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.5 }
+          ],
+          "flags": ["lunchHut"],
+          "tags": ["recommended"],
+          "bias": { "base": 1 }
+        },
+        {
+          "id": "quick",
+          "label": "山頂で 15 分休んで、すぐに下りはじめる",
+          "detail": "暑くなる前に、少しでも早く下りたい。",
+          "actions": [
+            {
+              "type": "setRoute",
+              "who": "all",
+              "route": ["SUMMIT", "KINWARASHI", "HANATATE", "HANATATE_HUT", "HORIYAMA", "KOMADOME", "MIHARASHI", "KANNON", "TH_OKURA"],
+              "goalNodes": ["TH_OKURA"]
+            },
+            { "type": "rest", "who": "all", "minutes": 15 }
+          ],
+          "bias": { "base": 0.6 }
+        }
+      ]
+    },
+    {
+      "id": "cp_horiyama_down",
+      "title": "堀山の家まで下りてきた",
+      "priority": 11,
+      "trigger": { "all": [{ "atNode": "HORIYAMA" }, { "any": [{ "beenAt": "SUMMIT" }, { "flag": "collapsed" }, { "flag": "turnedBack" }] }, { "not": { "flag": "called" } }] },
+      "situation": "堀山の家まで下りてきた。ここから下は森の中だが、気温はさらに上がる。青木さんは汗をぬぐいながら「足がふわふわする」と言っている。",
+      "knowledge": ["大倉まではあと 1 時間半ほど", "堀山の家は営業中。冷たい飲み物を買える"],
+      "options": [
+        {
+          "id": "rest",
+          "label": "堀山の家で 20 分休み、冷たい飲み物を飲んでから下る",
+          "actions": [
+            { "type": "say", "text": "ここで一息入れよう", "to": "aoki" },
+            { "type": "stayInShelter", "who": "all", "until": "D1 06:00" },
+            { "type": "drinkAlcohol", "who": "aoki", "grams": 0, "liters": 0.5 }
+          ],
+          "flags": ["hutHoriyamaDown"],
+          "tags": ["recommended"],
+          "bias": { "base": 1 }
+        },
+        { "id": "go", "label": "休まずにそのまま下る。早く下りたい", "actions": [{ "type": "continueRoute", "who": "all" }], "tags": ["risky"], "bias": { "base": 0.6 } }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "injured": { "situation": "{leader.name}さんは足首をひねった。体重をかけると痛むが、ゆっくりなら歩けそうだ。暑さで頭もぼんやりしている。" },
+    "darkness": { "situation": "日が沈み、尾根の階段道が暗くなってきた。夜になっても蒸し暑い。青木さんはヘッドランプを持っていない。" },
+    "straggler": { "enabled": false }
+  },
+  "thoughts": [
+    {
+      "key": "s09_b_hot1",
+      "who": "sakamoto",
+      "when": { "all": [{ "before": "D0 10:05" }, { "var": "c.sakamoto.state", "op": "==", "value": "WALKING" }] },
+      "lines": ["暑い。まだ朝の 9 時なのに、汗が止まらない", "風がない。森の中でも蒸し暑い"],
+      "priority": 2
+    },
+    { "key": "s09_b_hot2", "who": "sakamoto", "when": { "before": "D0 10:05" }, "lines": ["青木のやつ、ゆうべ何時まで飲んでたんだ", "今日は茶屋で何回か休まないとな"], "priority": 2 },
+    { "key": "s09_b_hot3", "who": "sakamoto", "when": { "before": "D0 10:05" }, "lines": ["日なたに出ると、焼けるようだ", "冷やしてきたスポーツドリンクが、もうぬるい"], "priority": 2 },
+    {
+      "key": "s09_a_hot",
+      "who": "aoki",
+      "when": { "all": [{ "var": "c.aoki.state", "op": "==", "value": "WALKING" }, { "var": "c.aoki.coreC", "op": ">=", "value": 38 }, { "not": { "flag": "collapsed" } }] },
+      "lines": ["暑い……頭がぼーっとする", "坂本のペースについていかないと", "足が重い。汗が目にしみる"],
+      "priority": 5
+    },
+    {
+      "key": "s09_a_water",
+      "who": "aoki",
+      "when": {
+        "all": [
+          { "var": "c.aoki.waterL", "op": "<=", "value": 0 },
+          { "var": "c.aoki.waterDeficitL", "op": ">=", "value": 1.5 },
+          { "not": { "flag": "collapsed" } },
+          { "not": { "flag": "slowPace" } },
+          { "not": { "flag": "hutHoriyama" } },
+          { "not": { "flag": "shared" } },
+          { "before": "D0 15:00" }
+        ]
+      },
+      "lines": ["水、もうないや。茶屋で買えばよかった", "坂本に水をくれって言うのも、かっこ悪いな"],
+      "priority": 6
+    },
+    {
+      "key": "s09_b_worry",
+      "who": "sakamoto",
+      "when": { "all": [{ "var": "c.aoki.coreC", "op": ">=", "value": 38.4 }, { "not": { "flag": "collapsed" } }, { "var": "c.sakamoto.state", "op": "==", "value": "WALKING" }] },
+      "lines": ["青木、だいぶ遅れてきたな", "顔が真っ赤だ。大丈夫か"],
+      "priority": 6
+    },
+    {
+      "key": "s09_b_downheat",
+      "who": "sakamoto",
+      "when": {
+        "all": [
+          { "any": [{ "flag": "turnedBack" }, { "flag": "descend" }, { "beenAt": "SUMMIT" }] },
+          { "var": "c.aoki.coreC", "op": ">=", "value": 38.6 },
+          { "var": "c.sakamoto.state", "op": "==", "value": "WALKING" }
+        ]
+      },
+      "lines": ["下に行くほど暑い。青木の顔がまた赤くなってきた", "次の茶屋で、また休ませよう"],
+      "priority": 7
+    },
+    {
+      "key": "s09_a_down",
+      "who": "aoki",
+      "when": { "all": [{ "flag": "collapsed" }, { "var": "c.aoki.state", "op": "==", "value": "STAYING" }, { "var": "c.aoki.coreC", "op": ">=", "value": 38.5 }] },
+      "lines": ["情けない……迷惑かけてるな", "頭が痛い。少し吐き気がする"],
+      "priority": 8
+    },
+    {
+      "key": "s09_a_cool",
+      "who": "aoki",
+      "when": {
+        "all": [
+          { "flag": "collapsed" },
+          { "any": [{ "var": "c.aoki.state", "op": "==", "value": "STAYING" }, { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" }] },
+          { "var": "c.aoki.coreC", "op": "<", "value": 38.5 }
+        ]
+      },
+      "lines": ["冷たい水が気持ちいい。少し楽になってきた", "ゆうべ、あんなに飲むんじゃなかった"],
+      "priority": 8
+    },
+    {
+      "key": "s09_b_watch",
+      "who": "sakamoto",
+      "when": {
+        "all": [
+          { "flag": "collapsed" },
+          { "not": { "flag": "split" } },
+          { "not": { "elapsedSince": { "flag": "collapsed", "min": 70 } } },
+          { "any": [{ "var": "c.sakamoto.state", "op": "==", "value": "STAYING" }, { "var": "c.sakamoto.state", "op": "==", "value": "SHELTERED" }] }
+        ]
+      },
+      "lines": ["呼びかけには答えている。顔色はどうだ", "無理に登らせたのは俺かもしれない"],
+      "priority": 7
+    },
+    {
+      "key": "s09_hut_a1",
+      "who": "aoki",
+      "when": { "all": [{ "before": "D0 17:30" }, { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" }] },
+      "lines": ["日陰に入るだけで、こんなに違うのか", "冷たい麦茶がしみる"],
+      "priority": 4
+    },
+    {
+      "key": "s09_hut_a2",
+      "who": "aoki",
+      "when": { "all": [{ "before": "D0 17:30" }, { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" }] },
+      "lines": ["ここで休めてよかった", "小屋の人が、ぬれタオルを貸してくれた"],
+      "priority": 4
+    },
+    {
+      "key": "s09_hut_b1",
+      "who": "sakamoto",
+      "when": { "all": [{ "before": "D0 17:30" }, { "var": "c.sakamoto.state", "op": "==", "value": "SHELTERED" }] },
+      "lines": ["青木の顔色、少し戻ってきたか", "小屋があってよかった"],
+      "priority": 4
+    },
+    {
+      "key": "s09_hut_b2",
+      "who": "sakamoto",
+      "when": { "all": [{ "before": "D0 17:30" }, { "var": "c.sakamoto.state", "op": "==", "value": "SHELTERED" }] },
+      "lines": ["このあとの時間を考えないと", "冷たいものを飲むと、生き返る"],
+      "priority": 4
+    },
+    {
+      "key": "s09_hut_a3",
+      "who": "aoki",
+      "when": { "all": [{ "before": "D0 17:30" }, { "var": "c.aoki.state", "op": "==", "value": "SHELTERED" }] },
+      "lines": ["汗が引いてきた。頭痛も少しましになった", "次は朝早く来よう"],
+      "priority": 4
+    },
+    {
+      "key": "s09_hut_b3",
+      "who": "sakamoto",
+      "when": { "all": [{ "before": "D0 17:30" }, { "var": "c.sakamoto.state", "op": "==", "value": "SHELTERED" }] },
+      "lines": ["下りの時間を考えると、あまりゆっくりもできない", "青木に、もっと早く声をかければよかった"],
+      "priority": 4
+    },
+    {
+      "key": "s09_a_alone",
+      "who": "aoki",
+      "when": { "all": [{ "flag": "split" }, { "not": { "flag": "reunited" } }] },
+      "lines": ["一人になると、急に心細い", "置いていった水、もう半分飲んじゃった", "目を閉じると、ぐるぐる回る"],
+      "priority": 8
+    },
+    {
+      "key": "s09_b_alone",
+      "who": "sakamoto",
+      "when": { "all": [{ "flag": "split" }, { "not": { "flag": "reunited" } }] },
+      "lines": ["青木、大丈夫かな。早く戻ろう", "やっぱり、置いてくるんじゃなかったか"],
+      "priority": 8
+    },
+    {
+      "key": "s09_wait1",
+      "when": { "all": [{ "var": "c.sakamoto.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "sun.isDark", "op": "==", "value": false }] },
+      "lines": ["日陰に寝かせて、ずっと扇いでいる。早く来てくれ", "ヘリの音はまだか"],
+      "priority": 6,
+      "who": "sakamoto"
+    },
+    {
+      "key": "s09_wait2",
+      "who": "aoki",
+      "when": { "all": [{ "var": "c.aoki.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.aoki.coreC", "op": ">=", "value": 37.8 }] },
+      "lines": ["……あつい。頭が痛い", "大げさなことになっちゃったな"],
+      "priority": 6
+    },
+    {
+      "key": "s09_wait3",
+      "who": "aoki",
+      "when": { "var": "c.aoki.state", "op": "==", "value": "WAITING_RESCUE" },
+      "lines": ["坂本に悪いことをした", "少し楽になってきた気がする"],
+      "priority": 6
+    },
+    {
+      "key": "s09_wait4",
+      "who": "aoki",
+      "when": { "all": [{ "var": "c.aoki.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "sun.isDark", "op": "==", "value": true }] },
+      "lines": ["暗くなった。虫の声がする", "ヘリは夜でも来るんだろうか"],
+      "priority": 7
+    },
+    {
+      "key": "s09_wait5",
+      "who": "sakamoto",
+      "when": { "all": [{ "var": "c.sakamoto.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "sun.isDark", "op": "==", "value": true }] },
+      "lines": ["ヘッドランプを出しておこう。場所を知らせないと", "水はあと少し。青木に回そう"],
+      "priority": 7
+    },
+    {
+      "key": "s09_wait6",
+      "who": "sakamoto",
+      "when": { "all": [{ "var": "c.sakamoto.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "sun.isDark", "op": "==", "value": false }] },
+      "lines": ["タオルをぬらして、首に当て直そう", "場所はちゃんと伝わっただろうか"],
+      "priority": 6
+    },
+    {
+      "key": "s09_wait7",
+      "who": "sakamoto",
+      "when": { "all": [{ "var": "c.sakamoto.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "sun.isDark", "op": "==", "value": false }] },
+      "lines": ["水はあと少し。青木に回そう", "ザックで日陰を作っておこう"],
+      "priority": 6
+    },
+    {
+      "key": "s09_wait8",
+      "who": "aoki",
+      "when": { "all": [{ "var": "c.aoki.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "sun.isDark", "op": "==", "value": false }] },
+      "lines": ["空が高い。ヘリの音はまだしない", "情けない。でも、動けない"],
+      "priority": 6
+    },
+    {
+      "key": "s09_descend",
+      "who": "aoki",
+      "when": { "all": [{ "flag": "descend" }, { "var": "c.aoki.state", "op": "==", "value": "WALKING" }] },
+      "lines": ["下りは楽だな……でも、まだ足がふわふわする", "下に行くほど暑くなる"],
+      "priority": 5
+    }
+  ],
+  "speech": [
+    {
+      "key": "s09_start",
+      "who": "sakamoto",
+      "to": "aoki",
+      "when": { "all": [{ "after": "D0 09:03" }, { "before": "D0 09:40" }] },
+      "lines": ["暑いなあ。まだ朝の 9 時だぞ", "顔色悪いな。ゆうべ何時まで飲んでた？"],
+      "replies": { "who": "aoki", "lines": ["ゆうべ飲みすぎた……。でも歩けば抜けるよ", "2 時くらい。大丈夫、汗で抜ける"] },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s09_kannon",
+      "who": "aoki",
+      "to": "sakamoto",
+      "when": { "all": [{ "beenAt": "KANNON" }, { "not": { "beenAt": "MIHARASHI" } }, { "not": { "flag": "slowPace" } }] },
+      "lines": ["もう汗でシャツがびしょびしょだ", "茶屋か。飲み物は帰りに買えばいいか"],
+      "replies": { "who": "sakamoto", "lines": ["この先、もっと階段が続くぞ", "まだ序の口だぞ"] },
+      "priority": 11,
+      "once": true
+    },
+    {
+      "key": "s09_kannon_slow",
+      "who": "aoki",
+      "to": "sakamoto",
+      "when": { "all": [{ "beenAt": "KANNON" }, { "not": { "beenAt": "MIHARASHI" } }, { "flag": "slowPace" }] },
+      "lines": ["冷たいのがうまい。生き返った", "もう汗でシャツがびしょびしょだ"],
+      "replies": { "who": "sakamoto", "lines": ["この先も茶屋ごとに休もう", "一気に飲むなよ"] },
+      "priority": 11,
+      "once": true
+    },
+    {
+      "key": "s09_water_ask",
+      "who": "sakamoto",
+      "to": "aoki",
+      "when": {
+        "all": [
+          { "var": "c.aoki.waterL", "op": "<=", "value": 0 },
+          { "var": "c.aoki.waterDeficitL", "op": ">=", "value": 1.5 },
+          { "not": { "flag": "collapsed" } },
+          { "not": { "flag": "shared" } },
+          { "before": "D0 15:00" },
+          { "not": { "flag": "hutHoriyama" } },
+          { "not": { "flag": "slowPace" } },
+          { "not": { "flag": "turnedBack" } }
+        ]
+      },
+      "lines": ["水、足りてる？", "ちゃんと飲んでるか？"],
+      "replies": { "who": "aoki", "lines": ["ああ、まだある。大丈夫", "うん、平気平気"] },
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s09_treat",
+      "who": "aoki",
+      "to": "sakamoto",
+      "when": { "all": [{ "flag": "treated" }, { "elapsedSince": { "flag": "treated", "min": 15 } }, { "var": "c.aoki.coreC", "op": "<", "value": 38.8 }] },
+      "lines": ["冷たい……。少し楽になってきた", "甘いのがうまい"],
+      "replies": { "who": "sakamoto", "lines": ["ゆっくり飲んで。一気に飲むなよ", "無理するな。急がなくていい"] },
+      "priority": 14,
+      "once": true
+    },
+    {
+      "key": "s09_descend_talk",
+      "who": "sakamoto",
+      "to": "aoki",
+      "when": { "all": [{ "flag": "descend" }, { "var": "c.sakamoto.state", "op": "==", "value": "WALKING" }] },
+      "lines": ["ゆっくりでいい。休みながら行こう", "茶屋に着いたら、また何か飲もう"],
+      "replies": { "who": "aoki", "lines": ["悪いな。今度、何かおごるよ", "うん。次は朝早く来よう"] },
+      "priority": 11,
+      "once": true
+    },
+    {
+      "key": "s09_severe",
+      "who": "sakamoto",
+      "to": "aoki",
+      "when": { "all": [{ "flag": "severe" }, { "var": "c.aoki.state", "op": "!=", "value": "RESCUED" }] },
+      "lines": ["青木！ 聞こえるか！", "しっかりしろ。すぐ助けが来るから"],
+      "tone": "shout",
+      "priority": 20,
+      "cooldownMin": 20
+    },
+    {
+      "key": "s09_summit_talk",
+      "who": "aoki",
+      "to": "sakamoto",
+      "when": { "all": [{ "beenAt": "SUMMIT" }, { "not": { "flag": "split" } }, { "var": "c.aoki.elevM", "op": ">=", "value": 1470 }] },
+      "lines": ["着いた……。もう一歩も登りたくない", "富士山、見えないな"],
+      "replies": { "who": "sakamoto", "lines": ["よく頑張った。少し休もう", "暑すぎて、かすんでるな"] },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s09_confess",
+      "who": "aoki",
+      "to": "sakamoto",
+      "when": { "all": [{ "flag": "collapsed" }, { "not": { "flag": "shared" } }, { "not": { "flag": "split" } }] },
+      "lines": ["実は、水はとっくに空だったんだ。言い出せなくて", "水、最初の 1 時間で飲み切ってた。かっこ悪くて言えなかった"],
+      "replies": { "who": "sakamoto", "lines": ["なんで早く言わないんだ。俺の水があるのに", "そういうのは早く言ってくれよ"] },
+      "priority": 17,
+      "once": true
+    },
+    {
+      "key": "s09_alone_hurt",
+      "who": "aoki",
+      "to": "sakamoto",
+      "when": { "all": [{ "flag": "reunited" }, { "flag": "aloneFall" }] },
+      "lines": ["日陰に移ろうとしたら、足をひねった……", "ごめん、立とうとしたら転んだ"],
+      "replies": { "who": "sakamoto", "lines": ["……置いていくんじゃなかった", "見せてみろ。歩けそうか？"] },
+      "priority": 19,
+      "once": true
+    }
+  ],
+  "endings": [
+    { "kind": "ABORTED", "title": "出直す勇気", "text": "2 人は大倉のバス停に引き返し、渋沢駅前で冷たいそばを食べて帰った。翌週の土曜、始発のバスで来て、まだ涼しい朝のうちに大倉尾根を登った。" },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "flag": "relapse" },
+      "title": "ぶり返し",
+      "text": "青木さんは一度持ち直したが、無理をして登り返したところで再び倒れた。長く休んでから、2 人は時間をかけて大倉へ下りた。家に着いてからも、頭痛と吐き気が翌日まで続いた。"
+    },
+    { "kind": "SAFE_RETURN", "when": { "flag": "split" }, "title": "1 時間の別行動", "text": "坂本さんが山頂を往復している 1 時間、青木さんは一人で日なたに座っていた。2 人は大倉まで下りたが、その 1 時間に何かあっても、気づく人はいなかった。" },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "all": [{ "flag": "collapsed" }, { "beenAt": "SUMMIT" }] },
+      "title": "山頂には立ったが",
+      "text": "青木さんは、座り込んだあと少し休んで山頂まで登り、なんとか大倉まで下りた。家に着くと、ひどい頭痛と吐き気で、翌日まで寝込んだ。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "flag": "collapsed" },
+      "title": "山頂をあきらめて下山",
+      "text": "日陰で体を冷やし、水分と甘いものをとって休むと、青木さんは少しずつ回復した。2 人は山頂をあきらめ、休み休み大倉へ下りた。時間はかかったが、自分の足で下山できた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "flag": "turnedBack" },
+      "title": "山頂の手前で引き返す",
+      "text": "2 人は山頂の手前で引き返し、大倉へ下りた。山頂には立てなかったが、青木さんは大倉の売店で冷たい飲み物を 2 本飲み干し、「引き返してよかった」と言った。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "all": [{ "flag": "slowPace" }, { "beenAt": "SUMMIT" }] },
+      "title": "暑さと付き合って",
+      "text": "2 人は塔ノ岳の山頂に立ち、夕方に大倉へ下りた。ゆっくり歩き、茶屋や小屋ごとに休んで飲み物を買って飲んだことで、青木さんは最後まで歩き通せた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "beenAt": "SUMMIT" },
+      "title": "山頂を往復",
+      "text": "2 人は塔ノ岳の山頂に立ち、夕方に大倉へ下りた。青木さんは何度も足が止まりかけたが、休みながら最後まで歩き通した。夏の大倉尾根は、思っていたよりずっと暑かった。"
+    },
+    { "kind": "SAFE_RETURN", "title": "下山", "text": "2 人は大倉へ下りた。夏の大倉尾根は、思っていたよりずっと暑かった。" },
+    { "kind": "SAFE_SHELTER", "when": { "after": "D1 00:00" }, "title": "小屋に泊まる", "text": "2 人は山小屋に泊めてもらい、涼しい翌朝に大倉へ下りた。" },
+    {
+      "kind": "SAFE_SHELTER",
+      "when": { "flag": "relapse" },
+      "title": "ぶり返し",
+      "text": "青木さんは一度持ち直したが、無理をして登り返したところで再び倒れた。長く休んでから、2 人は時間をかけて大倉へ下りた。家に着いてからも、頭痛と吐き気が翌日まで続いた。"
+    },
+    { "kind": "SAFE_SHELTER", "when": { "flag": "split" }, "title": "1 時間の別行動", "text": "坂本さんが山頂を往復している 1 時間、青木さんは一人で日なたに座っていた。2 人は大倉まで下りたが、その 1 時間に何かあっても、気づく人はいなかった。" },
+    {
+      "kind": "SAFE_SHELTER",
+      "when": { "all": [{ "flag": "collapsed" }, { "beenAt": "SUMMIT" }] },
+      "title": "山頂には立ったが",
+      "text": "青木さんは、座り込んだあと少し休んで山頂まで登り、なんとか大倉まで下りた。家に着くと、ひどい頭痛と吐き気で、翌日まで寝込んだ。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "when": { "flag": "collapsed" },
+      "title": "山頂をあきらめて下山",
+      "text": "日陰で体を冷やし、水分と甘いものをとって休むと、青木さんは少しずつ回復した。2 人は山頂をあきらめ、休み休み大倉へ下りた。時間はかかったが、自分の足で下山できた。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "when": { "flag": "turnedBack" },
+      "title": "山頂の手前で引き返す",
+      "text": "2 人は山頂の手前で引き返し、大倉へ下りた。山頂には立てなかったが、青木さんは大倉の売店で冷たい飲み物を 2 本飲み干し、「引き返してよかった」と言った。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "when": { "all": [{ "flag": "slowPace" }, { "beenAt": "SUMMIT" }] },
+      "title": "暑さと付き合って",
+      "text": "2 人は塔ノ岳の山頂に立ち、夕方に大倉へ下りた。ゆっくり歩き、茶屋や小屋ごとに休んで飲み物を買って飲んだことで、青木さんは最後まで歩き通せた。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "when": { "beenAt": "SUMMIT" },
+      "title": "山頂を往復",
+      "text": "2 人は塔ノ岳の山頂に立ち、夕方に大倉へ下りた。青木さんは何度も足が止まりかけたが、休みながら最後まで歩き通した。夏の大倉尾根は、思っていたよりずっと暑かった。"
+    },
+    { "kind": "SAFE_SHELTER", "title": "下山", "text": "2 人は大倉へ下りた。夏の大倉尾根は、思っていたよりずっと暑かった。" },
+    { "kind": "SELF_RESCUE", "title": "自力で下山", "text": "2 人は救助を待たずに、自分たちで大倉まで下りた。" },
+    { "kind": "RESCUED", "when": { "flag": "relapse" }, "title": "無理をした後で", "text": "一度は持ち直した青木さんは、登り返しの途中で再び倒れた。ヘリコプターで病院へ運ばれ、熱中症と脱水と診断されて 2 日入院した。" },
+    { "kind": "RESCUED", "when": { "flag": "severe" }, "title": "重い熱中症", "text": "青木さんはヘリコプターで病院へ運ばれ、重い熱中症と診断された。体を冷やす治療を受け、数日入院した。" },
+    { "kind": "RESCUED", "when": { "flag": "aloneFall" }, "title": "一人のときに", "text": "坂本さんが山頂を往復している間に、青木さんは一人で足をひねった。2 人は救助を頼み、青木さんはヘリコプターで病院へ運ばれた。熱中症と足首のねんざと診断された。" },
+    { "kind": "RESCUED", "title": "救助", "text": "青木さんは救助隊に収容され、病院へ運ばれた。熱中症（熱疲労）と脱水と診断され、点滴を受けて、その日のうちに帰宅した。" },
+    { "kind": "RESCUED_CRITICAL", "title": "重い状態で救助", "text": "青木さんは重い状態で病院へ運ばれた。" },
+    { "kind": "MISSING", "title": "下りてこない", "text": "翌朝になっても、2 人は下りてきていない。" },
+    { "kind": "FATAL", "title": "帰らぬ人に", "text": "青木さんは、熱中症で亡くなった。倒れたのは、よく整備された人の多い登山道の、山頂まであと 30 分の所だった。" }
+  ],
+  "lessons": [
+    {
+      "id": "l_early",
+      "when": { "after": "D0 00:00" },
+      "title": "暑い日は、涼しいうちに低い所を通る",
+      "text": "標高が低い所ほど暑い。真夏の低山では、気温が上がりきらない早朝に歩き出し、暑さの厳しい低い所を朝のうちに通り過ぎる。暑い時間帯に下りが重なる計画も避ける。下山には時間がかかるので、明るいうちに下りられる余裕を持つ。"
+    },
+    {
+      "id": "l_tell",
+      "when": { "after": "D0 00:00" },
+      "title": "不調は早く伝え、早く切り上げる",
+      "text": "「迷惑をかけたくない」「かっこ悪い」と不調を隠すと、動けなくなってから気づくことになる。調子が悪ければ遠慮なく伝えて引き返す。仲間から申し出があったら、渋らずに従う。"
+    },
+    {
+      "id": "l_treat",
+      "when": { "flag": "collapsed" },
+      "title": "暑さで動けなくなったら",
+      "text": "日陰で横にし、服やベルトをゆるめる。首・脇・足の付け根を冷やし、水をかけて扇ぐ。塩分と糖分を含む冷たい飲み物を少しずつ飲ませる（シャリバテなら甘いもので回復することが多い）。意識がおかしい・何度も吐く・水が飲めない・体がひどく熱いときは、迷わず 110 番する。"
+    },
+    {
+      "id": "l_split",
+      "when": { "flag": "split" },
+      "title": "具合の悪い人を一人にしない",
+      "text": "体調を崩した人を残して山頂を往復すると、その間に悪くなっても誰も気づけない。立ち上がってふらついたり、転んだりすることもある。2 人パーティは、1 人が倒れると残る 1 人で全部を担うことになる。できれば 3 人以上で行く。"
+    },
+    {
+      "id": "l_water",
+      "when": { "after": "D0 00:00" },
+      "title": "水は「途中で買えばいい」に頼らない",
+      "text": "夏の登りでは 1 時間に 0.5 L 以上の汗をかく。凍らせた飲み物をザックに入れ、溶けた分をこまめに飲む。塩分と糖分を含む粉末を溶かすとよい。行動食は、動けなくなる前に少しずつこまめにとる。うちわや日よけの帽子も役に立つ。"
+    },
+    {
+      "id": "l_prep",
+      "when": { "after": "D0 00:00" },
+      "title": "前の晩から山は始まっている",
+      "text": "深酒・寝不足・朝食抜きは、暑さに対する体の備えを弱める。前の晩は早く寝る。夏の前に、暑い中を少しずつ歩いて体を暑さに慣らしておく（暑熱順化）。持病や体調のことは、仲間に前もって伝えておく。"
+    },
+    {
+      "id": "l_message",
+      "when": { "after": "D0 00:00" },
+      "title": "電話が通じないときは",
+      "text": "近くの登山者に伝言を頼むか、山小屋の人に助けを求める。伝言は紙に書いて渡す: 動けない人の名前・性別・年齢・症状、こちらの連絡先、場所（緯度経度、地名、道標の番号）。"
+    },
+    {
+      "id": "l_call",
+      "when": { "flag": "called" },
+      "title": "救助要請は大げさではない",
+      "text": "意識の状態が悪いとき、良くならないとき、自力で下りられるか分からないときは、早めに 110 番して相談する。場所（尾根の名前・近くの小屋や道標）と症状を落ち着いて伝える。"
+    }
+  ],
+  "balanceTargets": { "recommended": { "goodMin": 0.95, "fatalMax": 0.01 }, "bias": { "goodMin": 0.8, "fatalMax": 0.02 }, "risky": { "goodMin": 0.6, "fatalMax": 0.05 } },
+  "sources": [
+    "原案: 松本圭司「架空遭難　50代男性、夏の低山で行動不能」note（2024年2月13日） https://note.com/keizi666/n/n56a45423b46c",
+    "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+    "登山道・地点: © OpenStreetMap contributors"
+  ]
+}

@@ -27,6 +27,17 @@ interface Builtin {
 const ev = (w: World, type: string): boolean => w.recentEvents.some((e) => e.type === type);
 const isLeader = (w: World, c: ClimberState): boolean => groupLeader(w, c.groupId) === c;
 const mates = (w: World, c: ClimberState): ClimberState[] => w.climbers.filter((x) => x !== c && x.groupId === c.groupId && x.body.alive);
+/** m にいちばん近い、意識のある仲間 */
+function nearestMate(w: World, m: ClimberState): ClimberState | undefined {
+  let best: ClimberState | undefined;
+  let bd = Infinity;
+  for (const x of mates(w, m)) {
+    if (!x.body.conscious) continue;
+    const d = (x.x - m.x) * (x.x - m.x) + (x.z - m.z) * (x.z - m.z);
+    if (d < bd) (bd = d), (best = x);
+  }
+  return best;
+}
 
 const BUILTIN: Builtin[] = [
   { key: 'gust_crouch', priority: 10, tone: 'shout', speaker: (w, _x, c) => isLeader(w, c) && c.local.windMs * w.weather.gust > 20 && mates(w, c).length > 0 },
@@ -38,7 +49,8 @@ const BUILTIN: Builtin[] = [
     reply: (to) => (to.body.coreC >= 35 ? 'reply_ok' : 'reply_bad'),
   },
   { key: 'headcount', priority: 10, tone: 'shout', speaker: (w, _x, c) => ev(w, 'STRAGGLER') && isLeader(w, c) },
-  { key: 'call_help', priority: 10, tone: 'shout', speaker: (w, _x, c) => mates(w, c).some((m) => m.state === 'INCAPACITATED' && w.tMin - m.stateSinceMin < 30) },
+  // 仲間が倒れたら、いちばん近くにいる人とリーダーが声を上げる（全員が同じことを叫ばない）
+  { key: 'call_help', priority: 10, tone: 'shout', speaker: (w, _x, c) => mates(w, c).some((m) => m.state === 'INCAPACITATED' && w.tMin - m.stateSinceMin < 30 && (isLeader(w, c) || nearestMate(w, m) === c)) },
   { key: 'phone_call', priority: 10, speaker: (w, _x, c) => w.recentEvents.some((e) => e.type === 'RESCUE_CALLED' && e.climberId === c.id) },
   { key: 'whistle', priority: 10, tone: 'sound', speaker: (w, _x, c) => c.def.gear.whistle && w.sun.isDark && c.state === 'WAITING_RESCUE' },
   {
