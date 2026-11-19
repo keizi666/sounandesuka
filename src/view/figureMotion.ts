@@ -47,6 +47,8 @@ const POSES = {
   lie: pose({ shL: -0.9, shLz: -0.3, elL: -0.8, shR: -0.5, shRz: -0.1, elR: -1.2, hipL: -0.75, knL: 1.15, anL: -0.3, hipR: -0.35, knR: 0.7, anR: -0.3, bodyRoll: Math.PI / 2 - 0.06, bodyY: 0.185, bodyX: 0.48, spinePitch: 0.22, neckPitch: 0.25, neckYaw: -0.15 }),
   /** 電波を探して携帯を見る */
   phone: pose({ ...sym({}, { hip: -0.03, hipz: 0.03, kn: 0.06, an: -0.03 }), shL: 0.05, shLz: 0.1, elL: -0.2, shR: -0.95, shRz: 0.1, elR: -1.7, spinePitch: 0.04, neckPitch: 0.32, neckYaw: -0.12 }),
+  /** 這って進む（四つんばい。急病の発作中・足の骨折・力が尽きかけているのに動くとき） */
+  crawl: pose({ ...sym({ sh: -1.2, shz: 0.08, el: -0.1 }, { hip: -1.2, hipz: 0.08, kn: 1.5, an: 0.4 }), bodyPitch: 1.2, bodyY: -0.5, spinePitch: 0.05, neckPitch: -0.75 }),
   /** 手を止めて作業（かがんでザックや服を扱う） */
   busy: pose({ ...sym({ sh: -0.7, shz: -0.05, el: -1.2 }, { hip: -0.35, hipz: 0.05, kn: 0.5, an: -0.15 }), bodyY: -0.03, spinePitch: 0.4, neckPitch: 0.3 }),
 } satisfies Record<string, Pose>;
@@ -77,6 +79,7 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
   let lastX = c0.x;
   let lastZ = c0.z;
   let lastElev = c0.elevM;
+  let crawlPhase = 0;
   let yaw = Number.NaN;
   let first = true;
 
@@ -90,6 +93,8 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
     if (c.state === 'RESTING' || c.state === 'SHELTERED' || c.state === 'RESCUED') return POSES.sit;
     if (c.plan.busyWith !== null) return POSES.busy;
     if (c.state === 'SEEKING_SIGNAL' && c.speedMs < 0.02) return POSES.phone;
+    // 発作中・足の骨折・力が尽きかけているのに動くときは這う
+    if (WALKING_STATES.has(c.state) && c.speedMs > 0.02 && (b.illness?.active === true || b.injury === 'legFracture' || c.M < 0.25)) return POSES.crawl;
     return hasPoles ? POSES.standPoles : POSES.stand;
   }
 
@@ -212,6 +217,17 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
         if (target === POSES.slump) p.neckPitch += wobble(t * 0.25, seed) * 0.1;
       }
 
+      // 這う動き: 手と反対の膝を交互に前へ
+      if (target === POSES.crawl && c.speedMs > 0.02) {
+        crawlPhase += dt * 2.2;
+        const cs = Math.sin(crawlPhase);
+        p.shL += cs * 0.28;
+        p.shR -= cs * 0.28;
+        p.hipL -= cs * 0.22;
+        p.hipR += cs * 0.22;
+        p.bodyRoll += cs * 0.04;
+        p.bodyY += Math.abs(cs) * 0.01;
+      }
       // 足を斜面に合わせる（2 関節の IK）。腰から見た足首の位置を、進行方向の勾配に沿ってずらし、地面より下に入らないようにする
       if (upright) {
         const D = rig.dims;
@@ -257,7 +273,7 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
         const hang = upright ? 0.28 + sn * 0.3 * walkW : 0.9;
         pole.rotation.x = hang - (p.hipsPitch + p.spinePitch + sh + el);
         pole.rotation.z = -limb.upper.rotation.z * 0.8;
-        pole.visible = target !== POSES.lie && target !== POSES.phone && target !== POSES.crouch && target !== POSES.busy;
+        pole.visible = target !== POSES.lie && target !== POSES.phone && target !== POSES.crouch && target !== POSES.busy && target !== POSES.crawl;
       };
       poleAim(rig.armL, p.shL, p.elL, s, rig.poleL);
       poleAim(rig.armR, p.shR, p.elR, -s, rig.poleR);

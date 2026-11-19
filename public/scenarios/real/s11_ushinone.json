@@ -1229,6 +1229,61 @@
           "important": true
         }
       ]
+    },
+    {
+      "id": "ev_back_home",
+      "trigger": {
+        "all": [
+          {
+            "flag": "turnedBack"
+          },
+          {
+            "atNode": "KAMIHIKAWA"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setFlag",
+              "flag": "backHome"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_back_hut",
+      "trigger": {
+        "all": [
+          {
+            "flag": "turnedBack"
+          },
+          {
+            "atNode": "DAIBOSATSU"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setFlag",
+              "flag": "backHut"
+            }
+          ]
+        }
+      ]
     }
   ],
   "choices": [
@@ -2607,7 +2662,22 @@
     {
       "kind": "SAFE_RETURN",
       "when": {
-        "beenAt": "KAMIHIKAWA"
+        "all": [
+          {
+            "flag": "backHome"
+          },
+          {
+            "flag": "stung"
+          }
+        ]
+      },
+      "title": "上日川峠に戻った",
+      "text": "刺された人を気づかいながら、8 人は来た道を上日川峠まで引き返した。帰りのバスはもうなく、ロッジで呼んでもらったタクシーで帰り、刺された人はその足で受診した。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "backHome"
       },
       "title": "上日川峠に戻った",
       "text": "巣を避けて来た道を引き返し、8 人は上日川峠まで戻った。帰りのバスはもうなく、ロッジで呼んでもらったタクシーで帰った。長い一日だったが、誰も刺されなかった。"
@@ -2615,7 +2685,7 @@
     {
       "kind": "SAFE_RETURN",
       "when": {
-        "flag": "turnedBack"
+        "flag": "backHut"
       },
       "title": "大菩薩峠の小屋に",
       "text": "引き返して大菩薩峠まで登り返したところで日が暮れた。小屋に頼み込んで泊めてもらい、翌朝下りた。"

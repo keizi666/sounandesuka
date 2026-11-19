@@ -232,15 +232,101 @@
     "refElevM": 1000,
     "lapseRateCPer100m": 0.6,
     "keyframes": [
-      {"at": "D0 08:00", "tempC": 19, "windMs": 2, "windDirDeg": 180, "precipMmH": 0, "cloudCover": 0.5, "cloudBaseM": 2600, "visibilityM": 20000},
-      {"at": "D0 11:00", "tempC": 21, "windMs": 3, "windDirDeg": 190, "precipMmH": 0, "cloudCover": 0.7, "cloudBaseM": 2300, "visibilityM": 15000},
-      {"at": "D0 13:00", "tempC": 20, "windMs": 4, "windDirDeg": 200, "precipMmH": 0, "cloudCover": 0.9, "cloudBaseM": 2000, "visibilityM": 8000, "inCloudVisibilityM": 50},
-      {"at": "D0 14:30", "tempC": 18, "windMs": 4, "windDirDeg": 200, "precipMmH": 0.5, "cloudCover": 1.0, "cloudBaseM": 1800, "visibilityM": 5000, "inCloudVisibilityM": 40},
-      {"at": "D0 17:00", "tempC": 16, "windMs": 3, "windDirDeg": 210, "precipMmH": 1.0, "cloudCover": 1.0, "cloudBaseM": 1650, "visibilityM": 4000, "inCloudVisibilityM": 40},
-      {"at": "D0 20:00", "tempC": 14, "windMs": 3, "windDirDeg": 210, "precipMmH": 1.5, "cloudCover": 1.0, "cloudBaseM": 1600, "visibilityM": 3000, "inCloudVisibilityM": 40},
-      {"at": "D1 02:00", "tempC": 13, "windMs": 2, "windDirDeg": 220, "precipMmH": 1.0, "cloudCover": 1.0, "cloudBaseM": 1600, "visibilityM": 3000, "inCloudVisibilityM": 40},
-      {"at": "D1 06:00", "tempC": 13, "windMs": 2, "windDirDeg": 220, "precipMmH": 0.2, "cloudCover": 0.9, "cloudBaseM": 1900, "visibilityM": 8000},
-      {"at": "D1 09:00", "tempC": 17, "windMs": 2, "windDirDeg": 220, "precipMmH": 0, "cloudCover": 0.6, "cloudBaseM": 2500, "visibilityM": 20000}
+      {
+        "at": "D0 08:00",
+        "tempC": 19,
+        "windMs": 2,
+        "windDirDeg": 180,
+        "precipMmH": 0,
+        "cloudCover": 0.5,
+        "cloudBaseM": 2600,
+        "visibilityM": 20000
+      },
+      {
+        "at": "D0 11:00",
+        "tempC": 21,
+        "windMs": 3,
+        "windDirDeg": 190,
+        "precipMmH": 0,
+        "cloudCover": 0.7,
+        "cloudBaseM": 2300,
+        "visibilityM": 15000
+      },
+      {
+        "at": "D0 13:00",
+        "tempC": 20,
+        "windMs": 4,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.9,
+        "cloudBaseM": 2000,
+        "visibilityM": 8000,
+        "inCloudVisibilityM": 50
+      },
+      {
+        "at": "D0 14:30",
+        "tempC": 18,
+        "windMs": 4,
+        "windDirDeg": 200,
+        "precipMmH": 0.5,
+        "cloudCover": 1.0,
+        "cloudBaseM": 1800,
+        "visibilityM": 5000,
+        "inCloudVisibilityM": 40
+      },
+      {
+        "at": "D0 17:00",
+        "tempC": 16,
+        "windMs": 3,
+        "windDirDeg": 210,
+        "precipMmH": 1.0,
+        "cloudCover": 1.0,
+        "cloudBaseM": 1650,
+        "visibilityM": 4000,
+        "inCloudVisibilityM": 40
+      },
+      {
+        "at": "D0 20:00",
+        "tempC": 14,
+        "windMs": 3,
+        "windDirDeg": 210,
+        "precipMmH": 1.5,
+        "cloudCover": 1.0,
+        "cloudBaseM": 1600,
+        "visibilityM": 3000,
+        "inCloudVisibilityM": 40
+      },
+      {
+        "at": "D1 02:00",
+        "tempC": 13,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 1.0,
+        "cloudCover": 1.0,
+        "cloudBaseM": 1600,
+        "visibilityM": 3000,
+        "inCloudVisibilityM": 40
+      },
+      {
+        "at": "D1 06:00",
+        "tempC": 13,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0.2,
+        "cloudCover": 0.9,
+        "cloudBaseM": 1900,
+        "visibilityM": 8000
+      },
+      {
+        "at": "D1 09:00",
+        "tempC": 17,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.6,
+        "cloudBaseM": 2500,
+        "visibilityM": 20000
+      }
     ]
   },
   "events": [
@@ -292,6 +378,47 @@
           "x": -380,
           "z": -860,
           "label": "北の鞍部の分岐"
+        }
+      ]
+    },
+    {
+      "id": "ev_hut_stop",
+      "trigger": {
+        "all": [
+          {
+            "atNode": "HUT_RIDGE"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          },
+          {
+            "state": "WALKING"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setFlag",
+              "flag": "hutStop"
+            },
+            {
+              "type": "rest",
+              "minutes": 10
+            },
+            {
+              "type": "continueRoute"
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "稜線小屋に寄った。トイレを借り、小屋番に聞くと「この先は午後から霧が濃くなる。分岐は見落としやすいから気をつけて」と言われた"
         }
       ]
     }
@@ -1295,7 +1422,8 @@
   },
   "thoughts": [
     {
-      "key": "s02_trace", "who": "sato",
+      "key": "s02_trace",
+      "who": "sato",
       "when": {
         "state": "OFFROUTE_UNAWARE"
       },
@@ -1306,7 +1434,8 @@
       "priority": 5
     },
     {
-      "key": "s02_partner", "who": "sato",
+      "key": "s02_partner",
+      "who": "sato",
       "when": {
         "all": [
           {
@@ -1322,7 +1451,8 @@
       ]
     },
     {
-      "key": "s02_late_start", "who": "sato",
+      "key": "s02_late_start",
+      "who": "sato",
       "when": {
         "all": [
           {
@@ -1340,7 +1470,8 @@
       "priority": 5
     },
     {
-      "key": "s02_responsible", "who": "sato",
+      "key": "s02_responsible",
+      "who": "sato",
       "when": {
         "state": "LOST_AWARE"
       },
@@ -1351,7 +1482,8 @@
       "priority": 7
     },
     {
-      "key": "s02_family", "who": "sato",
+      "key": "s02_family",
+      "who": "sato",
       "when": {
         "all": [
           {
@@ -1565,7 +1697,7 @@
   ],
   "balanceTargets": {
     "recommended": {
-      "goodMin": 0.9,
+      "goodMin": 0.86,
       "fatalMax": 0.02,
       "lostMax": 0.15
     },
@@ -1801,17 +1933,15 @@
       "who": "leader",
       "to": "tanaka",
       "when": {
-        "beenAt": "HUT_RIDGE"
+        "flag": "hutStop"
       },
       "lines": [
-        "小屋の人に、この先の様子を聞いておこうか",
-        "ここが稜線小屋。帰りに寄ってもいいね"
+        "小屋の人に、この先の様子を聞いておこうか"
       ],
       "replies": {
         "who": "tanaka",
         "lines": [
-          "うん、トイレも借りたい",
-          "泊まってみたいなあ、こういう小屋"
+          "うん、トイレも借りたい"
         ]
       },
       "priority": 11,
@@ -1922,18 +2052,44 @@
         "state": "DESCENDING_DRAINAGE"
       },
       "lines": [
-        "沢って下っちゃいけないって聞いたことあるけど……",
+        "沢って下っちゃいけないって聞いたことあるけど……"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "下れば林道に出るはずなんだ"
+        ]
+      },
+      "priority": 20,
+      "once": true
+    },
+    {
+      "key": "s02_drainage_slip",
+      "who": "tanaka",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "DESCENDING_DRAINAGE"
+          },
+          {
+            "var": "c.tanaka.injury",
+            "op": "==",
+            "value": "none"
+          }
+        ]
+      },
+      "lines": [
         "滑る！ 石が全部ぬるぬるしてる"
       ],
       "replies": {
         "who": "leader",
         "lines": [
-          "下れば林道に出るはずなんだ",
           "足元に気をつけて。ゆっくり"
         ]
       },
       "priority": 20,
-      "cooldownMin": 45
+      "once": true
     },
     {
       "key": "s02_backtrack",
@@ -2003,9 +2159,23 @@
       "who": "leader",
       "to": "tanaka",
       "when": {
-        "var": "leader.phone.batteryPct",
-        "op": "<",
-        "value": 15
+        "all": [
+          {
+            "var": "leader.phone.batteryPct",
+            "op": "<",
+            "value": 15
+          },
+          {
+            "var": "c.tanaka.phone.has",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.tanaka.phone.batteryPct",
+            "op": ">",
+            "value": 15
+          }
+        ]
       },
       "lines": [
         "スマホの電池が15%を切った。地図はもう見られないかもしれない"
@@ -2016,6 +2186,41 @@
           "私のスマホ、まだ電池あるよ。地図はないけど"
         ]
       },
+      "priority": 17,
+      "once": true
+    },
+    {
+      "key": "s02_phone_low_alone",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "leader.phone.batteryPct",
+            "op": "<",
+            "value": 15
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "var": "c.tanaka.phone.has",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.tanaka.phone.batteryPct",
+                  "op": ">",
+                  "value": 15
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "lines": [
+        "スマホの電池が15%を切った。地図はもう見られないかもしれない"
+      ],
+      "tone": "whisper",
       "priority": 17,
       "once": true
     },

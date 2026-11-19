@@ -75,6 +75,10 @@ export const nav = {
   knowsPositionForgetM: 300,
   /** 電波を探す範囲 */
   seekSignalRadiusM: 600,
+  /** 電波を探すときに下ってよい高さ（m）。谷は電波が入りにくく、道を外れて谷へ下りると危ない（ユーザーの指摘） */
+  seekSignalMaxDropM: 10,
+  /** 今いる所より電波がこれだけ強くなければ、動かずにその場でかける */
+  seekSignalMinGain: 0.03,
   /** 風下の避難地点の探索（docs/04 §8） */
   leeRadiusM: 150,
   leeLookM: 100,

@@ -157,7 +157,7 @@ ol.log time { color: var(--muted); font-variant-numeric: tabular-nums; }
 .choice .observer summary { cursor: pointer; color: var(--muted); }
 
 /* ---- 吹き出し（docs/11 §8） ---- */
-.bubbles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.bubbles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 3; }
 .bubble { position: absolute; left: 0; top: 0; max-width: 220px; padding: 6px 10px; color: var(--bubble-fg); font-size: 14px; line-height: 1.35; animation: bubble-in 0.12s ease-out; transition: opacity 0.2s; will-change: transform; }
 .bubble > svg { position: absolute; left: -2px; top: -2px; z-index: -1; overflow: visible; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25)); }
 .bubble > svg path { fill: var(--bubble-bg); stroke-width: 1.5; }
@@ -658,3 +658,10 @@ main.select2 { min-height: 100dvh; background: radial-gradient(1200px 600px at 2
 @media (max-width: 520px) { .sel-grid { grid-template-columns: 1fr; } .sel-titles { right: 84px; } .sel-map { width: 64px; height: 64px; } }
 .sel-bar-in { justify-content: flex-start; }
 .sel-bar h1 { flex: 1; }
+/* 音の操作パネル */
+.snd-panel { position: fixed; z-index: 60; width: 260px; padding: 10px 12px 12px; border-radius: 12px; background: rgba(24, 27, 33, 0.97); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45); color: #e9ecf1; display: flex; flex-direction: column; gap: 8px; }
+.snd-head { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.snd-head .ic { color: var(--accent, #d4a64a); }
+.snd-row { display: flex; flex-direction: column; gap: 2px; }
+.snd-on { display: flex; align-items: center; gap: 6px; font-size: 0.92em; cursor: pointer; }
+.snd-row input[type='range'] { width: 100%; }

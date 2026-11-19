@@ -19,6 +19,6 @@ export function selectLessons(world: World, ctx: StaticContext, rec: Record<stri
   const w2 = JSON.parse(JSON.stringify(world)) as World;
   const scope2 = { ...scope, world: w2, leader: w2.climbers.find((c) => c.id === scope.leader.id)! };
   return ctx.scenario.lessons
-    .filter((l, i) => evalCondition(l.when, scope2, `lessons[${i}].when`))
+    .filter((l, i) => l.when === undefined || evalCondition(l.when, scope2, `lessons[${i}].when`))
     .map((l) => ({ id: l.id, title: l.title, text: expandText(l.text, (p) => resolveVar(p, scope), labels) }));
 }

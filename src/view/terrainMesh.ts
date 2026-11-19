@@ -19,7 +19,8 @@ export function vegColors(season: string): Record<number, THREE.Color> {
     [VegClass.KRUMMHOLZ]: new THREE.Color(0x55703f),
     [VegClass.ALPINE]: new THREE.Color(autumn ? 0x9a8a62 : 0x8c8a73),
     [VegClass.ROCK]: new THREE.Color(0x7b7670),
-    [VegClass.STREAM]: new THREE.Color(0x6c7e86),
+    // 沢のセルは岸辺の草木の色（水面は地面の塗り分けで細く描く。セル全体を灰色にすると沢が太く見える）
+    [VegClass.STREAM]: new THREE.Color(autumn ? 0x6f5a32 : winter ? 0x5e5a4c : 0x4b6a36),
     [VegClass.CLIFF]: new THREE.Color(0x5d5751),
   };
 }
@@ -107,7 +108,7 @@ export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, se
     const tr = masks ? masks.trail(xm, zm) : 0;
     const st = masks ? masks.stream(xm, zm) : 0;
     const relief = ((vnoise(xm, zm, 34) - 0.5) * 1.5 + (vnoise(xm + 91, zm + 37, 11) - 0.5) * 0.7) * (1 - tr);
-    const carve = tr * 0.9 + THREE.MathUtils.smoothstep(st, 0.08, 0.9) * 4.5;
+    const carve = tr * 0.9 + THREE.MathUtils.smoothstep(st, 0.08, 0.9) * 3;
     return base + (relief - carve) * edge;
   };
   const cells = Math.floor((n - 1) / step) * sub;

@@ -343,7 +343,7 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
     checkTexts(v, `endings[${i}].text`, e.text, r);
   });
   s.lessons.forEach((l, i) => {
-    checkCondition(v, `lessons[${i}].when`, l.when, r);
+    if (l.when !== undefined) checkCondition(v, `lessons[${i}].when`, l.when, r);
     checkTexts(v, `lessons[${i}].text`, l.text, r);
   });
   if (s.region?.real && !s.sources?.length) v.warn('sources', 'sources', '実在の山のシナリオに sources（データの出どころ）がありません');

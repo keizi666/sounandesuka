@@ -407,22 +407,60 @@ function nearHazardCell(map: StaticContext['map'], gx: number, gz: number, rc: n
 }
 
 /** 半径内で電波が最大の格子点への経路 */
+/**
+ * 電波の入る所への道筋。登山道の上にいるなら、その道に沿って前後を探し（道を外れない）、
+ * 道の外にいるなら周りの高い所だけを探す。どちらも今より低い所（谷）へは行かない。
+ * 今いる所より良い所がなければ空の道筋（その場でかける）。
+ */
 export function pathToSignal(ctx: StaticContext, c: ClimberState): [number, number][] | null {
   const map = ctx.map;
-  const r = ctx.tuning.nav.seekSignalRadiusM;
-  let best = -1;
-  let bestI = -1;
+  const t = ctx.tuning.nav;
+  const r = t.seekSignalRadiusM;
+  const minElev = c.elevM - t.seekSignalMaxDropM;
+  const here = map.radio[nearestIndex(map, c.x, c.z)] ?? 0;
   const n = map.n;
+  // 登山道の上: 道に沿って前後 r m を見る
+  const on = trailAt(ctx, c.x, c.z);
+  if (on) {
+    const tr = map.trails[on.edgeId]!;
+    const ss = tr.samples;
+    let k0 = 0;
+    for (let k = 1; k < ss.length; k += 1) if (Math.abs(ss[k]!.s - on.s) < Math.abs(ss[k0]!.s - on.s)) k0 = k;
+    let best = here + t.seekSignalMinGain;
+    let bestK = -1;
+    for (let k = 0; k < ss.length; k += 1) {
+      const p = ss[k]!;
+      if (Math.abs(p.s - on.s) > r || p.elevM < minElev) continue;
+      // 途中で低い所（谷）を通る道筋は選ばない
+      let dip = false;
+      for (let j = Math.min(k, k0); j <= Math.max(k, k0); j += 1) if (ss[j]!.elevM < minElev) dip = true;
+      if (dip) continue;
+      const v = map.radio[nearestIndex(map, p.x, p.z)] ?? 0;
+      if (v > best || (v === best && bestK >= 0 && p.elevM > ss[bestK]!.elevM)) {
+        best = v;
+        bestK = k;
+      }
+    }
+    if (bestK < 0) return [];
+    const path: [number, number][] = [];
+    const step = bestK >= k0 ? 1 : -1;
+    for (let k = k0; k !== bestK + step; k += step) path.push([ss[k]!.x, ss[k]!.z]);
+    return path;
+  }
+  // 道の外: 周りの高い所だけ
+  let best = here + t.seekSignalMinGain;
+  let bestI = -1;
   for (let i = 0; i < n * n; i += 1) {
     const dx = vertexX(map, i % n) - c.x;
     const dz = vertexZ(map, Math.floor(i / n)) - c.z;
-    if (dx * dx + dz * dz > r * r || map.cliff[i]) continue;
-    if (map.radio[i]! > best) {
-      best = map.radio[i]!;
+    if (dx * dx + dz * dz > r * r || map.cliff[i] || map.heights[i]! < minElev) continue;
+    const v = map.radio[i]!;
+    if (v > best || (v === best && bestI >= 0 && map.heights[i]! > map.heights[bestI]!)) {
+      best = v;
       bestI = i;
     }
   }
-  if (bestI < 0) return null;
+  if (bestI < 0) return [];
   return findPath(map, c.x, c.z, (i) => i === bestI, { tuning: ctx.tuning, heuristicTo: [vertexX(map, bestI % n), vertexZ(map, Math.floor(bestI / n))] });
 }
 

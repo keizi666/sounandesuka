@@ -12,7 +12,7 @@ import { dlog, versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { Loop, SPEEDS, type Speed } from '../app/loop';
-import { effectiveQuality, saveSettings } from '../app/settings';
+import { effectiveQuality } from '../app/settings';
 import { addHistory, clearResume, newRunId, saveResume, type ResumeData } from '../app/storage';
 import { JA } from '../i18n/ja';
 import { fill, formatEvent, speechView, formatDateTime } from '../i18n/format';
@@ -28,6 +28,7 @@ import { el, toast } from './dom';
 import { Hud } from './simHud';
 import { openSettings } from './settingsDialog';
 import { audio } from './audio';
+import { anySoundOn, toggleSoundPanel } from './soundPanel';
 import { autoMusic, eventSound } from './simAudio';
 
 export interface SimResult {
@@ -138,12 +139,16 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
           view.tiltShift = app.settings.tiltShift;
           view.godView = hud.god;
         }),
-      sound: () => {
-        sound.setOn(!sound.on);
-        app.settings.sound = sound.on;
-        saveSettings(app.settings);
-        hud.setSound(sound.on);
-      },
+      // 音のパネル（音楽・効果音・環境音のオンオフと音量）
+      sound: () =>
+        toggleSoundPanel(app, hud.soundBtn, {
+          ambient: true,
+          onChange: () => {
+            sound.setOn(app.settings.sound);
+            sound.setVolume(app.settings.soundVolume);
+            hud.setSound(anySoundOn(app.settings, true));
+          },
+        }),
       quit: () => {
         if (!confirm(JA.ui.quitConfirm)) return;
         void save().then(() => app.go({ name: 'title' }));
@@ -315,11 +320,15 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       const dt = loop.paused || w.pendingChoice ? 0 : (now - lastFrame) / 1000;
       lastFrame = now;
       const r = canvas.getBoundingClientRect();
-      // 頭の上に顔アイコン。吹き出しはその上に出す
+      // 頭の上に顔アイコン。吹き出しはアイコンの左上に出し（アイコンが吹き出しの右に来る）、アイコンより手前に重ねる
       figIcons.update(w, (id) => view.headScreen(id, r.width, r.height), { god: hud.god, time: formatDateTime(scenario, w.tMin).split(' ')[1] ?? '', hidden: cam === 'eye' });
+      bubbles.align = cam === 'eye' ? 'center' : 'left';
       bubbles.update(dt, (id) => {
         const hs = view.headScreen(id, r.width, r.height);
-        if (hs && cam !== 'eye') hs.y -= ICON_LIFT_PX + 24;
+        if (hs && cam !== 'eye') {
+          hs.x -= 16;
+          hs.y -= ICON_LIFT_PX + 12;
+        }
         return hs;
       }, r.width);
     },
@@ -339,10 +348,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   });
   if (observe) loop.speed = 15;
   timeline.capture(world, recorder, true);
-  if (st.sound) {
-    sound.setOn(true);
-    hud.setSound(true);
-  }
+  if (st.sound) sound.setOn(true);
+  hud.setSound(anySoundOn(st, true));
 
   /** 写しの中身で、いまの世界と記録を置き換える（同じオブジェクトのまま中身を入れ替える） */
   function replaceInPlace(target: object, src: object): void {

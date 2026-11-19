@@ -69,10 +69,12 @@ import thermostat from '@material-symbols/svg-400/rounded/thermostat.svg?raw';
 import thunderstorm from '@material-symbols/svg-400/rounded/thunderstorm.svg?raw';
 import visibility from '@material-symbols/svg-400/rounded/visibility.svg?raw';
 import waterDrop from '@material-symbols/svg-400/rounded/water_drop.svg?raw';
+import edit from '@material-symbols/svg-400/rounded/edit.svg?raw';
+import replay from '@material-symbols/svg-400/rounded/replay.svg?raw';
 
 const ICONS = {
   star, starFill, explore, cardiology, emergencyHeat, pestControl, smartToy, contentCopy, download, folderOpen, person,
-  volumeOff, volumeUp,
+  volumeOff, volumeUp, edit, replay,
   chevronRight, close,
   arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, warning, wbSunny,
   acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, favorite, flashlightOn, keyboardArrowDown, keyboardArrowUp, foggy, groups, healing, hiking, history, home,

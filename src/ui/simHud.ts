@@ -67,7 +67,7 @@ export class Hud {
   private forecastEl: HTMLElement;
   private lines: LogLine[] = [];
   private sortByCore = false;
-  private soundBtn: HTMLButtonElement;
+  readonly soundBtn: HTMLButtonElement;
   /** 小さくしているカード（登山者の ID） */
   private collapsed = new Set<string>();
   private party = new Map<string, ScenarioDef['party'][number]>();
@@ -189,7 +189,7 @@ export class Hud {
   /** 音のボタンの表示 */
   setSound(on: boolean): void {
     this.soundBtn.replaceChildren(icon(on ? 'volumeUp' : 'volumeOff'));
-    const label = on ? JA.ui.soundOff : JA.ui.soundOn;
+    const label = JA.soundPanel.title;
     this.soundBtn.title = label;
     this.soundBtn.setAttribute('aria-label', label);
     this.soundBtn.classList.toggle('on', on);

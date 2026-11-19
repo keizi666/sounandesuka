@@ -1,5 +1,5 @@
 // =============================================================
-// 箱庭遭難シミュレータ — 型定義（仕様の正）
+// 山の遭難シミュレータ — 型定義（仕様の正）
 // P0 で src/sim/types.ts にコピーして使う。変更したら docs も直す。
 // =============================================================
 
@@ -494,7 +494,8 @@ export interface SpeechDef {
 
 export type EndingKind = 'SAFE_RETURN' | 'SAFE_SHELTER' | 'ABORTED' | 'SELF_RESCUE' | 'RESCUED' | 'RESCUED_CRITICAL' | 'MISSING' | 'FATAL';
 export interface EndingDef { kind: EndingKind; when?: Condition; title: string; text: string }
-export interface LessonDef { id: string; when: Condition; title: string; text: string }
+/** when を省くと、いつも出す */
+export interface LessonDef { id: string; when?: Condition; title: string; text: string }
 
 export type PolicyName = 'recommended' | 'bias' | 'random' | 'risky' | 'historical';
 export interface BalanceTarget {

@@ -37,6 +37,8 @@ interface Live {
 const SVGNS = 'http://www.w3.org/2000/svg';
 
 export class BubbleLayer {
+  /** 吹き出しの置き方（left: 先端の左に置く。顔のアイコンが右に来る） */
+  align: 'center' | 'left' = 'center';
   readonly root: HTMLElement;
   private live: Live[] = [];
   private queue: { at: number; item: Live }[] = [];
@@ -149,7 +151,7 @@ export class BubbleLayer {
       l.node.classList.toggle('occluded', h.occluded);
       items.push({ id: l.id, headX: Math.max(4, Math.min(viewW - 4, h.x)), headY: Math.max(l.h + 30, h.y), w: l.w, h: l.h, priority: l.priority });
     }
-    const out = layoutBubbles(items, viewW);
+    const out = layoutBubbles(items, viewW, this.align);
     for (const o of out) {
       const l = this.live.find((x) => x.id === o.id);
       if (!l) continue;

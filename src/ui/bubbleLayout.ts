@@ -10,6 +10,8 @@ export const MAX_SHIFT_STEPS = 3;
 export const MAX_TAIL = 40;
 export const EDGE_MARGIN = 8;
 export const OVERLAP_PX = 4;
+/** align: 'left' のとき、尻尾の先端が本体の右端からどれだけ内側か */
+export const LEFT_TAIL_INSET = 22;
 
 /** 角丸の吹き出しと尻尾を 1 本の輪郭で描く SVG path（左上が原点、尻尾は下辺から tailX の位置で下へ） */
 export function bubblePath(w: number, h: number, r: number, tailX: number, tailLen: number, tailW = TAIL_W): string {
@@ -68,13 +70,14 @@ function overlaps(a: { x: number; y: number; w: number; h: number }, b: { x: num
  * 重なりを避けて並べる。手前（headY が大きい）順に置き、重なれば上へずらす（最大 3 段、尻尾は最大 40px）。
  * 左右は画面端から 8px 内側に収め、尻尾の先端は頭を指したままにする。
  */
-export function layoutBubbles(items: readonly BubbleIn[], viewW: number): BubbleOut[] {
+export function layoutBubbles(items: readonly BubbleIn[], viewW: number, align: 'center' | 'left' = 'center'): BubbleOut[] {
   const order = [...items].sort((a, b) => b.headY - a.headY || b.priority - a.priority);
   const placed: { x: number; y: number; w: number; h: number }[] = [];
   const out: BubbleOut[] = [];
   const clampX = (x: number, w: number): number => Math.max(EDGE_MARGIN, Math.min(viewW - EDGE_MARGIN - w, x));
   for (const it of order) {
-    const x0 = clampX(it.headX - it.w / 2, it.w);
+    // left: 吹き出しを先端の左に置き、尻尾は右端の近くから出す（右に顔のアイコンが来る）
+    const x0 = clampX(align === 'left' ? it.headX - it.w + LEFT_TAIL_INSET : it.headX - it.w / 2, it.w);
     // 横へのずらし候補（尻尾の根元は本体の中で動き、先端は頭のまま）
     const dxs = [0, -(it.w / 2 + 4), it.w / 2 + 4, -(it.w + 4), it.w + 4];
     let best: { x: number; y: number; tailLen: number } | null = null;

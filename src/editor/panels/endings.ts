@@ -194,7 +194,7 @@ export const endingsPanel: Panel = {
             text('ID', l.id, (v) => set('教訓の ID', () => (l.id = v))),
             text('題', l.title, (v) => set('教訓の題', () => (l.title = v)), { wide: true }),
             area('文', l.text, (v) => set('教訓の文', () => (l.text = v)), 3),
-            conditionBuilder(l.when, ctx, (c) => set('教訓の条件', () => (l.when = c))),
+            conditionBuilder(l.when ?? { after: 'D0 00:00' }, ctx, (c) => set('教訓の条件', () => (l.when = c))),
             button('削除', () => set('教訓の削除', () => s.lessons.splice(i, 1))),
           ]),
         ),
