@@ -13,6 +13,17 @@ import type { ClimberState, ScenarioDef, SpeakerRef, SpeechTone, StaticContext, 
 export const SPEECH_GAP_MIN = 3;
 export const SPEECH_COOLDOWN_MIN = 60;
 export const SPEECH_MAX_SPEAKERS = 3;
+/** 声の届く距離（m）。ふつうの声と叫び声。地図の外の人どうしは同じ場所にいるときだけ */
+export const EARSHOT_M = 80;
+export const SHOUT_EARSHOT_M = 300;
+
+/** a の声が b に届くか（話しかけ・返事の条件。電話はイベントの文で表す） */
+function canHear(a: ClimberState, b: ClimberState, tone: string): boolean {
+  if (!b.body.alive || !b.body.conscious) return false;
+  if (a.offMap || b.offMap) return a.offMap === b.offMap;
+  const r = tone === 'shout' ? SHOUT_EARSHOT_M : EARSHOT_M;
+  return (a.x - b.x) * (a.x - b.x) + (a.z - b.z) * (a.z - b.z) <= r * r;
+}
 const LAST = 'speech:';
 
 interface Builtin {
@@ -145,6 +156,11 @@ export function maybeSpeak(world: World, ctx: StaticContext): void {
     });
   }
   if (cands.length === 0) return;
+  // 話しかける相手に声が届かないセリフは出さない（離れた家族に向かって話す、などをなくす）
+  for (let i = cands.length - 1; i >= 0; i -= 1) {
+    const k = cands[i]!;
+    if (k.to && !canHear(k.c, k.to, k.tone)) cands.splice(i, 1);
+  }
   cands.sort((a, b) => b.priority - a.priority);
   const spoke = new Set<ClimberState>();
   for (const k of cands) {
@@ -166,7 +182,7 @@ export function maybeSpeak(world: World, ctx: StaticContext): void {
       data: { key: k.key, r, to: k.to?.id ?? null, tone: k.tone, distortLevel: distortLevel(k.c), documented: k.documented ?? false, source: k.source ?? null },
     });
     const rw = k.replyWho;
-    if (rw && rw !== k.c && distortLevel(rw) < 3 && (k.replyKey || k.replyLines)) {
+    if (rw && rw !== k.c && distortLevel(rw) < 3 && canHear(k.c, rw, k.tone) && (k.replyKey || k.replyLines)) {
       const r2 = nextFloat(rng);
       // 返事が言葉と同じ数なら、同じ番目どうしを組にする（問いと答えがかみ合うように）
       const ri = k.replyLines && k.lines && k.replyLines.length === k.lines.length && lineIdx >= 0 ? lineIdx : Math.floor(r2 * (k.replyLines?.length ?? 0));
