@@ -12,6 +12,7 @@ import { callRescue } from './actions';
 import { walkMet } from './movement';
 import { checkPosition as navCheck, pathToSignal, pathToTrail, rejoinTrail, trailAt, utilityStep } from './navigation';
 import { transition } from './state';
+import { returnAfterErrand } from './groups';
 import { footSnowCm } from '../weather/ground';
 import { dawnRef, enterShelter } from './route';
 import type { WalkResult } from './walk';
@@ -102,6 +103,8 @@ function arrivedSignal(world: World, ctx: StaticContext, c: ClimberState): void 
     if (mate) r.locationEstimate = { x: mate.x, z: mate.z, radiusM: c.inv.phone.gpsApp ? 100 : 500 };
   }
   transition(world, ctx, c, world.rescue.status === 'dispatched' ? 'WAITING_RESCUE' : 'STAYING', 'signalSought');
+  // 用事で離れた人は、電話を終えたらその場に座らず、歩いて仲間のところへ戻り始める
+  returnAfterErrand(world, ctx, c);
 }
 
 /** path を最後までたどったとき */
@@ -206,6 +209,11 @@ export function stepFree(world: World, ctx: StaticContext, c: ClimberState, dtSe
     if (LOST_MOVING.has(c.state)) {
       const hut = hutInSight(ctx, c);
       if (hut && goIntoHut(world, ctx, c, hut)) break;
+    }
+    if (c.state === 'SEEKING_SIGNAL' && (ctx.map.radio[nearestIndex(ctx.map, c.x, c.z)] ?? 0) >= ctx.tuning.radio.callableMin) {
+      c.nav.path = [];
+      arrivedSignal(world, ctx, c);
+      break;
     }
     if (d >= dist - EPS) {
       c.nav.path.shift();

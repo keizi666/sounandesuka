@@ -7,6 +7,8 @@ import type { Action, ClimberState, GroupDef, ScenarioDef, StaticContext, World 
 import { groupLeader, groupMembers } from './party';
 import { goToNode, whereOnGraph } from './route';
 import { transition } from './state';
+import { findPath } from '../terrain/pathing';
+import { nearestIndex, vertexX, vertexZ } from '../terrain/sample';
 
 type Apply = (actions: readonly Action[], group: readonly ClimberState[], leader: ClimberState) => void;
 
@@ -142,13 +144,35 @@ function handleReturns(world: World, ctx: StaticContext): void {
       if (c.state !== 'WAITING_RESCUE') transition(world, ctx, c, 'WAITING_RESCUE', 'rejoin');
       continue;
     }
-    // 通報（成否を問わず）が済んで止まったら戻り始める
-    if (c.state !== 'WAITING_RESCUE' && c.state !== 'STAYING') continue;
-    world.latches[`returning:${cid}`] = true;
-    if (c.pos.mode !== 'free') c.pos = { mode: 'free', x: c.x, z: c.z };
-    c.nav.path = [[mate.x, mate.z]];
-    if (c.state !== 'WAITING_RESCUE') transition(world, ctx, c, 'WAITING_RESCUE', 'returning');
+    // 通報（成否を問わず）が済んで止まったら戻り始める。電波を探す途中でほかの動き（来た道を戻る・道に出て歩く など）に
+    // 変わったときも、用事は終わりにして仲間のところへ戻る（「すぐ戻る」と言って離れた人が、そのまま下山してしまわない）。
+    // 足を骨折した・力が尽きかけているなど、歩いて戻れないときはその場で待つ
+    if (c.state === 'SEEKING_SIGNAL') continue;
+    if (c.body.injury === 'legFracture' || c.M < 0.25 || c.state === 'INCAPACITATED' || c.state === 'UNCONSCIOUS') continue;
+    if (c.state === 'RESTING' || c.state === 'BIVOUAC' || c.state === 'SHELTERED') continue;
+    beginReturn(world, ctx, c, mate);
   }
+}
+
+/** 仲間のところへ歩いて戻り始める（地形に沿った道筋。戻る間の見た目は歩く姿勢） */
+function beginReturn(world: World, ctx: StaticContext, c: ClimberState, mate: ClimberState): void {
+  world.latches[`returning:${c.id}`] = true;
+  if (c.pos.mode !== 'free') c.pos = { mode: 'free', x: c.x, z: c.z };
+  const n = ctx.map.n;
+  const goal = nearestIndex(ctx.map, mate.x, mate.z);
+  const path = findPath(ctx.map, c.x, c.z, (i) => i === goal, { tuning: ctx.tuning, heuristicTo: [vertexX(ctx.map, goal % n), vertexZ(ctx.map, Math.floor(goal / n))] });
+  c.nav.path = path && path.length > 0 ? [...path, [mate.x, mate.z]] : [[mate.x, mate.z]];
+  if (c.state !== 'WAITING_RESCUE') transition(world, ctx, c, 'WAITING_RESCUE', 'returning');
+}
+
+/** 用事（電波を探して通報）を終えた人が、すぐ戻り始める（電話したら、座らずに歩いて戻る） */
+export function returnAfterErrand(world: World, ctx: StaticContext, c: ClimberState): void {
+  const key = Object.keys(world.latches).find((k) => k.startsWith(`return:${c.id}:`) && world.latches[k]);
+  if (!key || world.latches[`returning:${c.id}`]) return;
+  const gid = key.split(':')[2];
+  const mate = world.climbers.find((x) => x.groupId === gid && x.body.alive && x.id !== c.id);
+  if (!mate || c.body.injury === 'legFracture' || c.M < 0.25) return;
+  beginReturn(world, ctx, c, mate);
 }
 
 export function setCohesion(world: World, c: ClimberState, cohesion: 'tight' | 'loose'): void {

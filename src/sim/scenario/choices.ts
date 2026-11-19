@@ -107,6 +107,13 @@ export function evaluateOptions(world: World, ctx: StaticContext, cp: ChoicePoin
  * 発火を判定する（docs/03 §4 の 7）。未発火（once）かつ trigger が真のもののうち priority 最大を 1 つ。
  * once: false は trigger が偽→真に変わったときだけ発火する。発火したら pendingChoice を立てて true を返す。
  */
+/** 用事（電波を探して通報し、戻る）で仲間から離れている人か */
+function onErrand(world: World, c: ClimberState): boolean {
+  const pre = `return:${c.id}:`;
+  for (const k of Object.keys(world.latches)) if (world.latches[k] && k.startsWith(pre)) return true;
+  return false;
+}
+
 export function checkChoices(world: World, ctx: StaticContext): boolean {
   if (world.pendingChoice) return false;
   let best: ChoiceItem | null = null;
@@ -121,6 +128,7 @@ export function checkChoices(world: World, ctx: StaticContext): boolean {
         if (!single && !hasLiving(world, g.id)) continue;
         const gl = groupLeader(world, g.id);
         if (!gl.body.alive) continue;
+        if (onErrand(world, gl)) continue;
         const suffix = g.id === firstGid ? '' : `@${g.id}`;
         if (genericTrigger(world, ctx, item.generic, gl, suffix) && (!best || cpPriority(cp) > cpPriority(best.cp))) {
           best = item;

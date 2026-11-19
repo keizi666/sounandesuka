@@ -88,6 +88,9 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
     if (!b.alive || c.state === 'DEAD' || c.state === 'UNCONSCIOUS' || !b.conscious) return POSES.lie;
     if (c.state === 'INCAPACITATED') return POSES.slump;
     if (c.plan.postureUntilMin !== null && tMinNow < c.plan.postureUntilMin) return POSES.crouch;
+    // 歩いて動いているときは、状態（救助待ち・その場で待つ など）によらず歩く姿勢（座ったまま滑らない）
+    const walkingNow = c.speedMs > 0.05 && c.pos.mode === 'free';
+    if (walkingNow) return b.illness?.active === true || b.injury === 'legFracture' || c.M < 0.25 ? POSES.crawl : hasPoles ? POSES.standPoles : POSES.stand;
     if (c.state === 'BIVOUAC' || c.state === 'WAITING_RESCUE') return POSES.huddle;
     if (c.state === 'STAYING') return b.coreC < 36.2 || c.local.windChillC < 2 ? POSES.huddle : POSES.sit;
     if (c.state === 'RESTING' || c.state === 'SHELTERED' || c.state === 'RESCUED') return POSES.sit;
@@ -108,7 +111,7 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
       // tMin は World にあるが、ここでは姿勢の期限だけ見ればよいので stateSinceMin 以降の経過は使わない
       const target = basePose(c, c.plan.postureUntilMin !== null ? c.plan.postureUntilMin - 1 : 0);
       const upright = target === POSES.stand || target === POSES.standPoles;
-      const moving = upright && WALKING_STATES.has(c.state) && c.speedMs > 0.02;
+      const moving = upright && (WALKING_STATES.has(c.state) || (c.pos.mode === 'free' && c.speedMs > 0.05)) && c.speedMs > 0.02;
 
       // 勾配（位置の変化から。上り正）
       const dx = c.x - lastX;
