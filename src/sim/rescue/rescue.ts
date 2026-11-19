@@ -203,6 +203,8 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
     if (dx * dx + dz * dz > rt.contactRadiusM * rt.contactRadiusM) continue;
     transition(world, ctx, c, 'RESCUED', by);
     ctx.events.push({ tMin: world.tMin, type: 'RESCUED', climberId: c.id, important: true, data: { by } });
+    // 収容された人は、その場に残らない（ヘリなら病院へ、地上の救助隊なら一緒に下山）。3D から消え、居場所を出す
+    if (!c.offMap) c.offMap = by === 'heli' ? 'ヘリで病院' : '救助隊と下山';
   }
   if (safeInHut(found)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, data: { foundSafe: true } });
   // 別の場所にまだ人が残っていれば（パーティが分かれた場合）、収容した人から場所を聞いて、近い順に向かう。

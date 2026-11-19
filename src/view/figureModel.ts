@@ -162,7 +162,8 @@ function bodyPrims(sk: Skeleton, o: BodyOpts): Prim[] {
   // 首と頭
   cap(sk.neck, v(0, -0.02, 0), v(0, 0.04, 0), 0.036, 0.036, R.skin, 0.02);
   ell(sk.neck, v(0, 0.135, 0.008), v(D.headR * 0.98, D.headR * 1.04, D.headR * 0.98), R.skin, 0.02);
-  // 鼻は付けない（顔はアイコンの絵を貼るので、立体の鼻があると二重になる）
+  // 鼻: 顔はアイコンの絵を貼るので、立体の鼻は頭の中へ小さく縮めて隠す（体の色は部位の順番で塗るので、抜くと帽子などの色がずれる）
+  ell(sk.neck, v(0, 0.12, 0.03), v(0.004, 0.004, 0.004), R.skin, 0.004);
   for (const sx of [-1, 1]) ell(sk.neck, v(sx * 0.113, 0.128, 0.004), v(0.014, 0.024, 0.02), R.skin, 0.012); // 耳
   if (o.helmet) {
     ell(sk.neck, v(0, 0.178, 0.004), v(0.134, 0.098, 0.136), R.hat, 0.006, { cutY: -0.035 });
@@ -274,7 +275,8 @@ export function buildFigure(def: ClimberDef): FigureRig {
   palette[R.pants] = new THREE.Color(PANTS[Math.floor(hash01(def.id, 1) * PANTS.length) % PANTS.length]!);
   palette[R.boots] = new THREE.Color(0x4a3426);
   palette[R.glove] = new THREE.Color(0x2a2d33);
-  palette[R.hat] = def.gear.helmet ? new THREE.Color(0xeae5d8) : hsl(color, -0.1, -0.08 + hash01(def.id, 5) * 0.22);
+  // ヘルメットもその人の色に（白一色だと誰か分からない。ユーザーの指定）。帽子より少し明るく、つやのある色
+  palette[R.hat] = def.gear.helmet ? hsl(color, 0.05, 0.06) : hsl(color, -0.1, -0.08 + hash01(def.id, 5) * 0.22);
   palette[R.hair] = def.age >= 58 ? new THREE.Color(0xbdb9b2) : new THREE.Color().setHSL(0.08, 0.35, 0.1 + hash01(def.id, 3) * 0.1);
   const packC = new THREE.Color().setHSL((hash01(def.id, 4) * 0.5 + 0.55) % 1, 0.5, 0.36);
   palette[R.strap] = hsl(packC, -0.1, -0.14);

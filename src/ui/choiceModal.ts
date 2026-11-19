@@ -8,7 +8,7 @@ import { fill, formatDateTime, TEXT_LABELS } from '../i18n/format';
 import { choiceLeader, evaluateOptions, findChoicePoint } from '../sim/scenario/choices';
 import { expandText } from '../sim/scenario/text';
 import { resolveVar } from '../sim/scenario/vars';
-import type { StaticContext, World } from '../sim/types';
+import type { ClimberState, StaticContext, World } from '../sim/types';
 import { effectiveKeyframes, interpolateKeyframes } from '../sim/weather/global';
 import { el } from './dom';
 
@@ -43,6 +43,15 @@ function observerNote(world: World, ctx: StaticContext): string {
     temp = Math.min(temp, b.tempC);
   }
   return `この先 1 時間: 風 最大 ${wind.toFixed(0)} m/s、降水 最大 ${precip.toFixed(1)} mm/h、基準標高の気温 ${temp.toFixed(1)}℃（山頂はさらに低い）`;
+}
+
+/** 判断する人: リーダーがけが（頭・骨折・重いけが）・急病の発作・意識なしなら、同じグループで元気な人（判断力のいちばん高い人） */
+function deciderOf(world: World, leader: ClimberState): ClimberState {
+  const unable = (c: ClimberState): boolean =>
+    !c.body.alive || !c.body.conscious || c.body.illness?.active === true || ['headInjury', 'legFracture', 'severeTrauma'].includes(c.body.injury) || c.state === 'INCAPACITATED' || c.state === 'UNCONSCIOUS';
+  if (!unable(leader)) return leader;
+  const others = world.climbers.filter((c) => c !== leader && c.groupId === leader.groupId && !unable(c));
+  return others.length > 0 ? others.reduce((a, b) => (b.J > a.J ? b : a)) : leader;
 }
 
 export function showChoice(
@@ -91,7 +100,7 @@ export function showChoice(
     el('header', {}, [el('h2', {}, `◆ ${t.title}`), el('span', {}, formatDateTime(ctx.scenario, world.tMin))]),
     el('p', { class: 'situation' }, expand(t.situation)),
     found.cp.knowledge?.length
-      ? el('div', { class: 'knowledge' }, [el('h3', {}, fill(JA.ui.knowledge, { name: leader.def.name })), el('ul', {}, found.cp.knowledge.map((k) => el('li', {}, expand(k))))])
+      ? el('div', { class: 'knowledge' }, [el('h3', {}, fill(JA.ui.knowledge, { name: deciderOf(world, leader).def.name })), el('ul', {}, found.cp.knowledge.map((k) => el('li', {}, expand(k))))])
       : null,
     el('p', { class: 'options-head' }, JA.ui.chooseAction),
     el('div', { class: 'options' }, options),

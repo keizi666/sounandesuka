@@ -110,6 +110,7 @@ export interface EdgeDef {
   via?: string[];              // スケルトン結合で経由する OSM 地点名
   paceAdj?: number;            // コースタイム合わせの速度係数 0.6〜1.4（既定 1）
   streamBedM?: number;         // 沢登りの区間（道が沢床そのもの）の水面の幅（m）。見た目だけ（水として太く描く）
+  noRest?: boolean;            // 休むのに向かない区間（ゴルジュ・鎖場など）。抜けるまで決まった休憩・疲れの休憩をしない
   source?: 'manual' | 'osm' | 'gpx';
   osmIds?: string[];
   waypoints: [number, number][];

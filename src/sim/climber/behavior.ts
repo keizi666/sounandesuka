@@ -130,14 +130,16 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   // 小屋に着いたとき休む時間が近ければ小屋で休み、休む時間でも行く先のすぐそこに小屋があれば、小屋まで歩く
   const atHut = c.state === 'WALKING' && hutHere(ctx, c);
   const dueAtHut = atHut && c.memo.walkSinceRestMin >= bt.habitRestEveryMin - bt.hutEarlyMin;
-  if ((c.state === 'WALKING' && c.memo.walkSinceRestMin >= bt.habitRestEveryMin && (atHut || !hutAhead(ctx, c, bt.hutAheadM))) || dueAtHut) {
+  // 休むのに向かない区間（ゴルジュ・鎖場など、道の noRest）では、抜けるまで休まない
+  const noRestHere = c.pos.mode === 'edge' && ctx.map.trails[c.pos.edgeId]?.def.noRest === true;
+  if (!noRestHere && ((c.state === 'WALKING' && c.memo.walkSinceRestMin >= bt.habitRestEveryMin && (atHut || !hutAhead(ctx, c, bt.hutAheadM))) || dueAtHut)) {
     c.memo.walkSinceRestMin = 0;
     c.plan.restUntilMin = world.tMin + bt.habitRestMin;
     transition(world, ctx, c, 'RESTING', 'habit');
     return;
   }
   // 疲れて休む（ひどく疲れていなければ、すぐ先の小屋・茶屋まで歩いてそこで休む）
-  if (!waitForRest && c.state === 'WALKING' && b.fatigue > bt.restFatigue && (hutHere(ctx, c) || b.fatigue > bt.restFatigueNow || !hutAhead(ctx, c, bt.hutAheadM)) && chance(rng, bt.restP)) {
+  if (!waitForRest && !noRestHere && c.state === 'WALKING' && b.fatigue > bt.restFatigue && (hutHere(ctx, c) || b.fatigue > bt.restFatigueNow || !hutAhead(ctx, c, bt.hutAheadM)) && chance(rng, bt.restP)) {
     c.plan.restUntilMin = world.tMin + bt.restMin;
     transition(world, ctx, c, 'RESTING', 'fatigue');
     return;
