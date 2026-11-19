@@ -144,7 +144,8 @@ export function maybeSpeak(world: World, ctx: StaticContext): void {
     spoke.add(k.c);
     k.c.thoughtHistory[LAST] = world.tMin;
     k.c.thoughtHistory[LAST + k.key] = world.tMin;
-    const text = k.lines && k.lines.length > 0 ? k.lines[Math.floor(r * k.lines.length)] : undefined;
+    const lineIdx = k.lines && k.lines.length > 0 ? Math.floor(r * k.lines.length) : -1;
+    const text = lineIdx >= 0 ? k.lines![lineIdx] : undefined;
     ctx.events.push({
       tMin: world.tMin,
       type: 'SPEECH',
@@ -155,7 +156,9 @@ export function maybeSpeak(world: World, ctx: StaticContext): void {
     const rw = k.replyWho;
     if (rw && rw !== k.c && distortLevel(rw) < 3 && (k.replyKey || k.replyLines)) {
       const r2 = nextFloat(rng);
-      const text2 = k.replyLines && k.replyLines.length > 0 ? k.replyLines[Math.floor(r2 * k.replyLines.length)] : undefined;
+      // 返事が言葉と同じ数なら、同じ番目どうしを組にする（問いと答えがかみ合うように）
+      const ri = k.replyLines && k.lines && k.replyLines.length === k.lines.length && lineIdx >= 0 ? lineIdx : Math.floor(r2 * (k.replyLines?.length ?? 0));
+      const text2 = k.replyLines && k.replyLines.length > 0 ? k.replyLines[ri] : undefined;
       ctx.events.push({
         tMin: world.tMin,
         type: 'SPEECH',

@@ -42,6 +42,7 @@ export const CLIMBER_FIELDS = [
   'phone.batteryPct',
   'phone.gpsApp',
   'phone.has',
+  'headlamp.has',
   'bac',
   'waterL',
   'foodKcal',
@@ -107,6 +108,8 @@ function climberField(c: ClimberState, field: string, scope: VarScope): VarValue
       return c.inv.phone.gpsApp && c.inv.phone.has;
     case 'phone.has':
       return c.inv.phone.has;
+    case 'headlamp.has':
+      return c.inv.headlamp.has;
     case 'waterL':
       return c.inv.waterL;
     case 'foodKcal':

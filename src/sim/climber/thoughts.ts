@@ -11,18 +11,22 @@ import type { ClimberState, StaticContext, World } from '../types';
 interface Builtin {
   key: string;
   priority: number;
+  /** 計画や時間の考えは、グループのリーダー（計画を立てた人）だけ */
+  leaderOnly?: boolean;
   when: (w: World, ctx: StaticContext, c: ClimberState) => boolean;
 }
 
 const BUILTIN: Builtin[] = [
-  { key: 'fine_start', priority: 1, when: (w, ctx, c) => w.tMin < scenarioStartMin(ctx.scenario) + 60 && c.perception.weatherImpression === 'fine' },
-  { key: 'behind', priority: 3, when: (_w, _c, c) => c.perception.timeBehindMin > 45 },
+  { key: 'fine_start', priority: 1, leaderOnly: true, when: (w, ctx, c) => w.tMin < scenarioStartMin(ctx.scenario) + 60 && c.perception.weatherImpression === 'fine' },
+  { key: 'behind', priority: 3, leaderOnly: true, when: (_w, _c, c) => c.perception.timeBehindMin > 45 },
   { key: 'phone_low', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 },
   { key: 'rain_delay', priority: 4, when: (_w, _c, c) => c.local.precipMmH >= 0.5 && !c.body.rainwearOn && c.def.gear.rainwear !== 'none' },
   { key: 'cold_hands', priority: 5, when: (_w, _c, c) => c.body.coreC < 35.8 },
   { key: 'sheltered', priority: 5, when: (_w, _c, c) => c.state === 'SHELTERED' },
   { key: 'unaware_offroute', priority: 6, when: (_w, _c, c) => c.state === 'OFFROUTE_UNAWARE' },
-  { key: 'dark_no_lamp', priority: 6, when: (w, _c, c) => w.sun.isDark && !c.inv.headlamp.on },
+  // 暗いのに明かりがない: 持っていない人と、持っているのに点けていない人で考えが違う
+  { key: 'dark_no_lamp', priority: 6, when: (w, _c, c) => w.sun.isDark && !c.inv.headlamp.has },
+  { key: 'dark_lamp_off', priority: 6, when: (w, _c, c) => w.sun.isDark && c.inv.headlamp.has && !c.inv.headlamp.on },
   { key: 'rescue_wait', priority: 6, when: (_w, _c, c) => c.state === 'WAITING_RESCUE' },
   { key: 'mild_hypo', priority: 7, when: (_w, _c, c) => c.body.coreC < 35.0 },
   { key: 'aware_lost', priority: 8, when: (_w, _c, c) => c.state === 'LOST_AWARE' },
@@ -36,6 +40,8 @@ export function maybeThink(world: World, ctx: StaticContext, c: ClimberState): v
   const t = ctx.tuning.thoughts;
   const rng = world.rng.thoughts;
   if (!c.body.alive || !c.body.conscious) return;
+  // 下山した人・救助された人は、山の考えをしない
+  if (c.state === 'FINISHED' || c.state === 'RESCUED') return;
   if (c.memo.nextThoughtMin === null) {
     c.memo.nextThoughtMin = world.tMin + randRange(rng, 0, t.maxGapMin);
     return;
@@ -54,7 +60,8 @@ export function maybeThink(world: World, ctx: StaticContext, c: ClimberState): v
   };
   type Cand = { key: string; priority: number; lines?: string[] };
   const cands: Cand[] = [];
-  for (const b of BUILTIN) if (!recent(b.key) && b.when(world, ctx, c)) cands.push({ key: b.key, priority: b.priority });
+  const isLeader = world.groups.find((g) => g.id === c.groupId)?.leader === c.id || world.groups.length === 0;
+  for (const b of BUILTIN) if (!recent(b.key) && (!b.leaderOnly || isLeader) && b.when(world, ctx, c)) cands.push({ key: b.key, priority: b.priority });
   (ctx.scenario.thoughts ?? []).forEach((th, i) => {
     if (recent(th.key)) return;
     // 誰の考えか（ほかの人には浮かばない）

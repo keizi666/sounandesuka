@@ -5,14 +5,23 @@
  */
 import { lightningExposure } from '../hazards/lightning';
 import { TUNING } from '../tuning';
-import type { ChoiceOptionDef, ChoicePointDef, ClimberState, GenericChoiceKey, StaticContext, World } from '../types';
+import type { ChoiceOptionDef, ChoicePointDef, ClimberState, Condition, GenericChoiceKey, StaticContext, World } from '../types';
 
 const opt = (id: string, actions: ChoiceOptionDef['actions'], base: number, extra: Partial<ChoiceOptionDef> = {}): ChoiceOptionDef => {
   const { bias, ...rest } = extra;
   return { id, label: '', actions, bias: bias ?? { base }, ...rest };
 };
 
-const CALL_OK = { var: 'leader.radio', op: '>=', value: TUNING.radio.messageOnlyMin } as const;
+/** 通報できる: 電波があり、使えるスマホを手に持っている（なくした・電池切れでは出さない） */
+const CALL_OK: Condition = {
+  all: [
+    { var: 'leader.radio', op: '>=', value: TUNING.radio.messageOnlyMin },
+    { var: 'leader.phone.has', op: '==', value: true },
+    { var: 'leader.phone.batteryPct', op: '>', value: 0 },
+  ],
+};
+const HAS_PHONE: Condition = { all: [{ var: 'leader.phone.has', op: '==', value: true }, { var: 'leader.phone.batteryPct', op: '>', value: 0 }] };
+const HAS_LAMP: Condition = { var: 'leader.headlamp.has', op: '==', value: true };
 
 /** 既定の選択肢（docs/09 §7 の表） */
 export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options: ChoiceOptionDef[] }> = {
@@ -36,10 +45,19 @@ export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options:
   darkness: {
     priority: 2,
     options: [
+      // ヘッドランプを持っている人だけ「つけて進む」。持っていない人には「手探りで進む」
       opt('continue', [{ type: 'continueRoute' }], 1.0, {
         bias: { base: 1.0, mods: [{ when: { var: 'leader.def.riskTolerance', op: '>', value: 0.5 }, add: 0.4 }] },
+        available: HAS_LAMP,
+        hideIfUnavailable: true,
       }),
-      opt('bivouac', [{ type: 'bivouac', until: 'dawn', findLee: true }], 0.4, { tags: ['recommended'] }),
+      opt('grope', [{ type: 'setPace', factor: 0.5 }, { type: 'continueRoute' }], 0.6, {
+        tags: ['risky'],
+        available: { not: HAS_LAMP },
+        hideIfUnavailable: true,
+        bias: { base: 0.6, mods: [{ when: { var: 'leader.def.riskTolerance', op: '>', value: 0.5 }, add: 0.3 }] },
+      }),
+      opt('bivouac', [{ type: 'bivouac', until: 'dawn', findLee: true }], 0.4, { tags: ['recommended'], bias: { base: 0.4, mods: [{ when: { not: HAS_LAMP }, add: 0.5 }] } }),
       opt('toShelter', [{ type: 'goToNode', node: '$nearestShelter', then: 'stay' }], 0.6, {
         available: { var: 'leader.nearestShelterM', op: '<=', value: 2000 },
         hideIfUnavailable: true,
@@ -61,10 +79,12 @@ export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options:
   injured: {
     priority: 5,
     options: [
-      opt('slow_descend', [{ type: 'setPace', factor: 0.6 }, { type: 'continueRoute' }], 0.8),
-      opt('bivouac', [{ type: 'bivouac', until: 'rescue', findLee: true }], 0.3),
+      // 足の骨折では歩いて下りられない（這うしかない）
+      opt('slow_descend', [{ type: 'setPace', factor: 0.6 }, { type: 'continueRoute' }], 0.8, { available: { var: 'leader.injury', op: '!=', value: 'legFracture' }, hideIfUnavailable: true }),
+      opt('crawl', [{ type: 'continueRoute' }], 0.3, { tags: ['risky'], available: { var: 'leader.injury', op: '==', value: 'legFracture' }, hideIfUnavailable: true }),
+      opt('bivouac', [{ type: 'bivouac', until: 'rescue', findLee: true }], 0.3, { bias: { base: 0.3, mods: [{ when: { var: 'leader.injury', op: '==', value: 'legFracture' }, add: 0.6 }] } }),
       opt('call', [{ type: 'callRescue', via: 'auto' }, { type: 'waitRescue' }], 0.5, { tags: ['recommended'], available: CALL_OK }),
-      opt('seek_signal', [{ type: 'seekSignal' }], 0.3),
+      opt('seek_signal', [{ type: 'seekSignal' }], 0.3, { available: HAS_PHONE, hideIfUnavailable: true }),
     ],
   },
   lightning: {
