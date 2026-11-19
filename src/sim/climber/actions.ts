@@ -194,6 +194,8 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
     }
     case 'drinkAlcohol':
       c.body.alcoholG = (c.body.alcoholG ?? 0) + Math.max(0, a.grams);
+      // 飲み物そのものは水分になる（あとで利尿で一部が出ていく）
+      if (a.liters) c.body.waterDeficitL = Math.max(0, c.body.waterDeficitL - a.liters);
       return;
     case 'wearRainwear':
       if (c.def.gear.rainwear !== 'none' && !c.body.rainwearOn) startTask(world, c, 'rainwear', taskMinutes(c, bt.rainwearMin, ctx));

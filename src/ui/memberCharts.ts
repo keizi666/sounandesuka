@@ -1,5 +1,6 @@
 /**
  * 振り返り: メンバーの状態の推移。1 人ずつのグラフに、体力（HP）・体温・エネルギー・水分・疲労・濡れ・不安を重ねて描く。
+ * 判断力（J: 体温・疲れ・不安・脱水・飲酒などで下がる）と飲酒（血中アルコール濃度）も出せる。
  * 上の切り替えで出す項目を選べる。グラフの上を指すと、その時刻の値を出す。分岐点（◆）と出来事（●）の時刻に縦の印。
  * 値は記録の 5 分ごとの標本（RecordSample）から。けがと意識は標本にないので、HP は体温と消耗だけから求めた目安。
  */
@@ -34,6 +35,9 @@ const SERIES: Series[] = [
   { key: 'fatigue', label: '疲労', color: '#fb923c', norm: (c) => c.fatigue / 100, text: (c) => `${Math.round(c.fatigue)}`, dash: [5, 3] },
   { key: 'wet', label: '濡れ', color: '#818cf8', norm: (c) => c.wetness, text: (c) => `${Math.round(c.wetness * 100)}%`, dash: [5, 3] },
   { key: 'anx', label: '不安', color: '#c084fc', norm: (c) => c.anxiety / 100, text: (c) => `${Math.round(c.anxiety)}`, dash: [2, 3] },
+  { key: 'judge', label: '判断力', color: '#e2e8f0', norm: (c) => c.J, text: (c) => c.J.toFixed(2) },
+  // 0.1% を上端に（0.05% で半分の高さ）
+  { key: 'bac', label: '飲酒', color: '#f472b6', norm: (c) => (c.bac ?? 0) / 0.1, text: (c) => `${(c.bac ?? 0).toFixed(3)}%`, dash: [6, 2] },
 ];
 
 export interface MemberChartsOptions {
@@ -41,7 +45,9 @@ export interface MemberChartsOptions {
 }
 
 export function memberCharts(rec: RunRecord, s: ScenarioDef, o: MemberChartsOptions): HTMLElement {
-  const on = new Set(['hp', 'core', 'energy', 'fatigue']);
+  // 飲酒は記録にあるときだけ最初から出す
+  const on = new Set(['hp', 'core', 'energy', 'fatigue', 'judge']);
+  if (rec.samples.some((sm) => sm.climbers.some((c) => (c.bac ?? 0) > 0))) on.add('bac');
   const ids = rec.samples[0]?.climbers.map((c) => c.id) ?? [];
   const defs = new Map(s.party.map((p) => [p.id, p]));
   const charts: { canvas: HTMLCanvasElement; id: string; draw: (hoverT: number | null) => void }[] = [];

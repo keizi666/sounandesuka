@@ -232,6 +232,17 @@ export const physiology = {
   alcoholElimGPerH: 7,
   /** 体内のアルコールが体に行き渡る割合（Widmark の r） */
   alcoholWidmarkR: { m: 0.68, f: 0.55 } as Record<string, number>,
+  /**
+   * アルコールの体への影響（血中濃度 % あたり）: 寒さで皮膚の血管が縮むのを抑える（0.05% で半分。上限 0.8）、
+   * 皮膚の血流が増えて熱が逃げる（0.05% で +10%）、震えが弱まる（0.05% で 20% 減。上限 50%）
+   */
+  alcoholVasoK: 10,
+  alcoholVasoMax: 0.8,
+  alcoholHeatLossK: 2,
+  alcoholShiverK: 4,
+  alcoholShiverMax: 0.5,
+  /** 利尿: 分解したアルコール 1 g あたりの余分な尿（L） */
+  alcoholDiuresisLPerG: 0.01,
   /** ツエルト・タープで止まっているときに雨水をためる量（L/時、雨 1 mm/h あたり）と上限 */
   rainCollectLPerHPerMm: 0.08,
   rainCollectMaxLPerH: 0.4,

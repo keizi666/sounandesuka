@@ -81,6 +81,8 @@ export function shiverMet(c: ClimberState, metAct: number, tuning: Tuning = TUNI
   let s = Math.min(p.shiverMaxMet, (p.shiverStartC - b.coreC) * p.shiverPerC) * ageS * fuel;
   if (b.coreC < p.shiverFadeFromC) s *= Math.max(0, (b.coreC - (p.shiverFadeFromC - p.shiverFadeSpanC)) / p.shiverFadeSpanC);
   if (metAct > p.shiverWalkingMet) s *= p.shiverWalkingF;
+  // 酒を飲むと震えが弱まる
+  s *= 1 - Math.min(p.alcoholShiverMax, p.alcoholShiverK * bacPct(c, tuning));
   return s;
 }
 
@@ -124,7 +126,9 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   const hc = p.hcBase + p.hcPerSqrtV * Math.sqrt(vEff);
   const R = p.cloToR * cloEff + 1 / (hc + p.radiativeH);
   const ageV = Math.max(p.ageVMin, 1 - p.ageVPerYear * Math.max(0, d.age - p.ageRefYears));
-  const vaso = 1 - p.vasoK * ageV * Math.min(1, Math.max(0, (37 - b.coreC) / p.vasoSpanC));
+  // 酒を飲むと、寒くても皮膚の血管が縮みにくく、皮膚の血流が増えて熱が逃げる
+  const bac = bacPct(c, tuning);
+  const vaso = (1 - p.vasoK * ageV * Math.min(1, Math.max(0, (37 - b.coreC) / p.vasoSpanC)) * (1 - Math.min(p.alcoholVasoMax, p.alcoholVasoK * bac))) * (1 + p.alcoholHeatLossK * bac);
   const airArea = env.groundContact ? A * p.groundAirFrac : A;
   let qDry = (airArea * (tsk - env.tairC) * vaso) / R;
   if (!d.gear.hat) qDry *= p.noHatLossF;
@@ -203,8 +207,12 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
     const l = (Math.min(p.rainCollectMaxLPerH, p.rainCollectLPerHPerMm * env.precipMmH) / 60) * dtMin;
     c.inv.waterL = Math.min(d.gear.waterL, c.inv.waterL + l);
   }
-  // アルコールは時間とともに抜ける
-  if (b.alcoholG !== undefined && b.alcoholG > 0) b.alcoholG = Math.max(0, b.alcoholG - (p.alcoholElimGPerH / 60) * dtMin);
+  // アルコールは時間とともに抜ける。分解した分に応じて尿が増える（利尿）
+  if (b.alcoholG !== undefined && b.alcoholG > 0) {
+    const g = Math.min(b.alcoholG, (p.alcoholElimGPerH / 60) * dtMin);
+    b.alcoholG -= g;
+    b.waterDeficitL = Math.min(p.waterDeficitMax, b.waterDeficitL + g * p.alcoholDiuresisLPerG);
+  }
 
   // ---- 疲労 ----
   if (act.walking) {

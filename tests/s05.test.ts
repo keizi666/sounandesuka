@@ -14,6 +14,7 @@ import { buildMapRuntime } from '../src/sim/terrain/map';
 import type { HakoniwaBundle, MapDef, ScenarioDef } from '../src/sim/types';
 import { hakoniwa } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
+import { runCalib } from './helpers/calib';
 
 const root = resolve(import.meta.dirname, '..');
 const scenario = JSON.parse(readFileSync(resolve(root, 'public/scenarios/real/s05_shounoiwa.json'), 'utf8')) as ScenarioDef;
@@ -61,6 +62,23 @@ describe('アルコール', () => {
     expect(j1).toBeGreaterThan(j0 * 0.7);
     delete c.body.alcoholG;
     expect(computeJ(c)).toBeCloseTo(j0, 6);
+  });
+});
+
+describe('アルコールの体への影響', () => {
+  const cold = { hours: 2, env: { tairC: 5, windMs: 4 }, gear: { cloWorn: 1.0 }, state: 'RESTING' as const, metAct: 1.4 };
+  it('寒い中で休むと、飲んでいる方が体温が下がる（血管が縮みにくく、震えが弱い）', () => {
+    const sober = runCalib(cold);
+    const drunk = runCalib({ ...cold, body: { alcoholG: 40 } });
+    const end = (r: ReturnType<typeof runCalib>): number => r.samples[r.samples.length - 1]!.coreC;
+    expect(end(drunk)).toBeLessThan(end(sober) - 0.1);
+  });
+  it('分解した分だけ尿が増える（1 g あたり 10 mL）', () => {
+    const r0 = runCalib({ ...cold, env: { tairC: 20, windMs: 0 }, hours: 3 });
+    const r1 = runCalib({ ...cold, env: { tairC: 20, windMs: 0 }, hours: 3, body: { alcoholG: 40 } });
+    const d = r1.climber.body.waterDeficitL - r0.climber.body.waterDeficitL;
+    expect(d).toBeGreaterThan(0.15);
+    expect(d).toBeLessThan(0.25);
   });
 });
 

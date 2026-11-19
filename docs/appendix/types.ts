@@ -359,7 +359,7 @@ export type Action = { who?: Who } & (
   | { type: 'rest'; minutes: number }
   | { type: 'eat'; kcal: number }
   | { type: 'drink'; liters: number }
-  | { type: 'drinkAlcohol'; grams: number }       // 酒（純アルコールのグラム。缶ビール 350 mL で約 14 g）
+  | { type: 'drinkAlcohol'; grams: number; liters?: number }   // 酒（純アルコールのグラム。缶ビール 350 mL で約 14 g）。liters は飲み物の量（水分になる）
   | { type: 'wearRainwear' }
   | { type: 'addLayer'; clo?: number }
   | { type: 'changeDry' }
@@ -716,7 +716,7 @@ export interface StaticContext {
 // ---------- 記録 ----------
 export interface RecordSample {
   t: number;
-  climbers: { id: ClimberId; x: number; z: number; elevM: number; coreC: number; glycogenKcal: number; waterDeficitL: number; fatigue: number; wetness: number; anxiety: number; J: number; M: number; state: BehaviorState }[];
+  climbers: { id: ClimberId; x: number; z: number; elevM: number; coreC: number; glycogenKcal: number; waterDeficitL: number; fatigue: number; wetness: number; anxiety: number; J: number; M: number; state: BehaviorState; bac?: number }[];
   local: Pick<LocalWeather, 'tempC' | 'windMs' | 'precipMmH' | 'precipType' | 'visibilityM' | 'thunder' | 'windChillC'>;
 }
 

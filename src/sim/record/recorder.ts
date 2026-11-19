@@ -2,6 +2,7 @@
  * 記録（docs/12 §1）。RunRecord は World とは別のオブジェクトで、決定論の対象（hashRecord）。
  * ループ・ヘッドレスがティックごとに onTick を呼ぶ。サンプルはゲーム内 5 分ごと。
  */
+import { bacPct } from '../climber/physiology';
 import { partyLeader } from '../climber/party';
 import { findChoicePoint } from '../scenario/choices';
 import { resolveEnding } from '../scenario/endings';
@@ -120,6 +121,8 @@ export function recordTick(rs: RecorderState, world: World, ctx: StaticContext, 
         J: c.J,
         M: c.M,
         state: c.state,
+        // 血中アルコール濃度（%）。飲んでいるときだけ
+        ...(c.body.alcoholG ? { bac: bacPct(c) } : {}),
       })),
       local: { tempC: l.tempC, windMs: l.windMs, precipMmH: l.precipMmH, precipType: l.precipType, visibilityM: l.visibilityM, thunder: l.thunder, windChillC: l.windChillC },
     });

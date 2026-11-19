@@ -206,7 +206,7 @@
           "detail": "今日はこのために来たようなものだ。",
           "actions": [
             { "type": "say", "text": "くうっ、うまい。山で飲むビールは格別だ", "tone": "whisper" },
-            { "type": "drinkAlcohol", "grams": 40 },
+            { "type": "drinkAlcohol", "grams": 40, "liters": 1.0 },
             { "type": "eat", "kcal": 700 },
             { "type": "drink", "liters": 0.3 },
             { "type": "rest", "minutes": 90 }
