@@ -2,6 +2,7 @@
  * データの読み込み（public/ の JSON、バンドル）。fetch は BASE_URL を前置する（docs/03 §10）。
  * マップの派生レイヤーは本体で作り、重い電波圏だけ Worker で計算して待つ（sim の結果を Node と一致させるため）。
  */
+import type { StartConditions } from '../sim/scenario/startConditions';
 import { validateScenario } from '../sim/scenario/validate';
 import { buildMapRuntime } from '../sim/terrain/map';
 import type { HakoniwaBundle, MapDef, MapRuntime, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
@@ -85,6 +86,8 @@ export interface LoadedScenario {
   scenario: ScenarioDef;
   map: MapRuntime;
   attribution: HakoniwaBundle['attribution'];
+  /** 始まりの条件を変えて試しているとき（scenario はもう当てたあと） */
+  conditions?: StartConditions;
 }
 
 /** エディターのプロジェクト（同一オリジンの IndexedDB）をバンドルにして読む（docs/18 §6.3） */

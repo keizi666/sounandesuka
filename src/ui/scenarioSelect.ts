@@ -1,10 +1,16 @@
 /**
- * シナリオ選択（FR-01、FR-74）。上のバー、カード一覧（3D の地形の画・2D の地図・登場人物の顔・季節や人数のアイコン）、
+ * トップページ＝シナリオ選択（FR-01、FR-74。ユーザーの指定でタイトル画面と一つにした）。
+ * 上のバー（題名と、音・履歴・設定・エディターのカプセルボタン）、カード一覧（3D の地形の画・2D の地図・登場人物の顔・季節や人数のアイコン）。
+ * 途中まで遊んだシナリオには「再開」（と小さく「最初から」）、それ以外は「はじめる」。
  * エディターで作ったシナリオ、バンドルのファイル読み込み（ドラッグ＆ドロップ可）。
  * 絵は npm run thumbs で作る（public/scenarios/thumbs/、実在の山は public/scenarios/real/thumbs/）。なければ色の帯だけ。
  */
 import type { AppContext } from '../app/App';
 import { assetUrl, buildRuntime, bundleExists, listEditorProjects, loadEditorProject, loadEntry, loadIndex, loadScenarioFile } from '../app/data';
+import { isLocalHost } from '../app/local';
+import { loadResume, resumableScenarios } from '../app/storage';
+import { versionLabel } from '../app/version';
+import { applyConditions } from '../sim/scenario/startConditions';
 import { JA } from '../i18n/ja';
 import { validateScenario } from '../sim/scenario/validate';
 import type { HakoniwaBundle, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
@@ -13,6 +19,8 @@ import { avatar } from './avatar';
 import { el, toast } from './dom';
 import { icon, type IconName } from './icons';
 import { progressTo, showLoading } from './loading';
+import { openSettings } from './settingsDialog';
+import { anySoundOn, toggleSoundPanel } from './soundPanel';
 
 /** バンドル（*.hakoniwa.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
 async function openBundle(app: AppContext, file: File): Promise<void> {
@@ -59,7 +67,7 @@ function stars(n: number): HTMLElement {
   return el('span', { class: 'sel-stars', 'aria-label': `${JA.ui.difficulty} ${n}` }, Array.from({ length: 5 }, (_, i) => icon(i < n ? 'starFill' : 'star')));
 }
 
-function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement): HTMLElement {
+function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumable: boolean): HTMLElement {
   const hue = THEME_HUE[e.theme] ?? 200;
   const img = el('img', { class: 'sel-shot', alt: '', loading: 'lazy', src: `${thumbBase(e)}.jpg` }) as HTMLImageElement;
   img.addEventListener('error', () => img.remove());
@@ -68,30 +76,55 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement): HTMLEl
   const people = el('div', { class: 'sel-people' });
   const facts = el('div', { class: 'sel-facts' }, [chip('timer', `${e.estMinutes} 分`)]);
   const note = e.region?.real ? el('p', { class: 'sel-note' }, [icon('warning'), JA.disclaimer.realMountainShort.replace(/^※/, '')]) : null;
-  const btn = el('button', { class: 'sel-card', style: `--h:${hue}` }, [
-    el('div', { class: 'sel-hero' }, [
-      img,
-      el('div', { class: 'sel-shade' }),
-      el('div', { class: 'sel-top' }, [chip(THEME_ICON[e.theme] ?? 'warning', JA.labels.theme[e.theme] ?? e.theme, 'theme'), e.region?.real ? chip('landscape', e.region.name, 'real') : chip('landscape', '箱庭岳'), el('span', { class: 'sel-grow' }), stars(e.difficulty)]),
-      el('div', { class: 'sel-titles' }, [el('h2', {}, e.title), e.subtitle ? el('p', {}, e.subtitle) : null]),
-      mapImg,
-    ]),
-    el('div', { class: 'sel-body' }, [people, facts, note]),
-  ]);
-  btn.addEventListener('click', async () => {
-    if (btn.disabled) return;
+  let busy = false;
+  let disabled = false;
+  /** resume: 保存した続きから（変えた条件も当て直す）。保存が読めなければブリーフィングから */
+  const open = async (resume: boolean): Promise<void> => {
+    if (busy || disabled) return;
+    busy = true;
     list.setAttribute('aria-busy', 'true');
     const ld = showLoading(JA.ui.loadingTitle);
     try {
+      const data = resume ? await loadResume(e.id) : null;
       const loaded = await loadEntry(e, progressTo(ld, { data: JA.ui.loadingData, terrain: JA.ui.loadingTerrain }));
       ld.done();
-      app.go({ name: 'briefing', loaded });
+      if (data) {
+        const cond = data.conditions;
+        app.go({ name: 'sim', loaded: cond ? { ...loaded, scenario: applyConditions(loaded.scenario, cond), conditions: cond } : loaded, resume: data });
+      } else app.go({ name: 'briefing', loaded });
     } catch (err) {
       ld.done();
+      busy = false;
       list.removeAttribute('aria-busy');
       toast(String(err), 6000);
     }
-  });
+  };
+  const primary = el('button', { class: 'primary sel-go', onclick: () => void open(resumable) }, resumable ? [icon('playCircle'), JA.ui.resumeShort] : [icon('playArrow'), JA.ui.start]);
+  const restart = resumable ? el('button', { class: 'sel-restart', onclick: () => void open(false), title: JA.ui.fromStartHint }, [icon('replay'), JA.ui.fromStart]) : null;
+  const hero = el('div', {
+    class: 'sel-hero',
+    role: 'button',
+    tabindex: 0,
+    'aria-label': `${e.title}（${resumable ? JA.ui.resumeShort : JA.ui.start}）`,
+    onclick: () => void open(resumable),
+    onkeydown: (e0: Event) => {
+      const ev = e0 as KeyboardEvent;
+      if (ev.key !== 'Enter' && ev.key !== ' ') return;
+      ev.preventDefault();
+      void open(resumable);
+    },
+  }, [
+    img,
+    el('div', { class: 'sel-shade' }),
+    el('div', { class: 'sel-top' }, [chip(THEME_ICON[e.theme] ?? 'warning', JA.labels.theme[e.theme] ?? e.theme, 'theme'), e.region?.real ? chip('landscape', e.region.name, 'real') : chip('landscape', '箱庭岳'), el('span', { class: 'sel-grow' }), stars(e.difficulty)]),
+    el('div', { class: 'sel-titles' }, [el('h2', {}, e.title), e.subtitle ? el('p', {}, e.subtitle) : null]),
+    mapImg,
+    resumable ? el('span', { class: 'sel-badge' }, JA.ui.inProgress) : null,
+  ]);
+  const btn = el('article', { class: `sel-card${resumable ? ' resumable' : ''}`, style: `--h:${hue}` }, [
+    hero,
+    el('div', { class: 'sel-body' }, [people, facts, note, el('div', { class: 'sel-actions' }, [primary, restart])]),
+  ]);
   // 登場人物・季節・人数（シナリオ本体を読んでから）
   void scenarioOf(e).then((s) => {
     if (!s) return;
@@ -109,7 +142,10 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement): HTMLEl
   if (e.bundle)
     void bundleExists(e).then((ok) => {
       if (ok) return;
-      btn.disabled = true;
+      disabled = true;
+      btn.classList.add('disabled');
+      primary.disabled = true;
+      if (restart) restart.disabled = true;
       btn.append(el('p', { class: 'sel-note warn' }, [icon('warning'), JA.ui.bundleMissing]));
     });
   return btn;
@@ -136,21 +172,34 @@ export function showScenarioSelect(app: AppContext): () => void {
     const f = e.dataTransfer?.files[0];
     if (f) void openBundle(app, f);
   };
+  // 上のカプセルボタン: 音・履歴・設定・エディター（エディターは手元＝localhost だけ）
+  const soundCap = el('button', { class: 'cap', 'aria-label': JA.soundPanel.title }, [icon(anySoundOn(app.settings, false) ? 'volumeUp' : 'volumeOff'), JA.soundPanel.title]);
+  soundCap.addEventListener('click', () =>
+    toggleSoundPanel(app, soundCap, { ambient: false, onChange: () => soundCap.replaceChildren(icon(anySoundOn(app.settings, false) ? 'volumeUp' : 'volumeOff'), JA.soundPanel.title) }),
+  );
+  const historyCap = el('button', { class: 'cap', onclick: () => app.go({ name: 'history' }) }, [icon('history'), JA.ui.history]);
+  const settingsCap = el('button', { class: 'cap', onclick: () => openSettings(app) }, [icon('settings'), JA.ui.settings]);
+  const editorCap = isLocalHost() ? el('a', { class: 'cap', href: `${import.meta.env.BASE_URL}editor.html` }, [icon('edit'), JA.ui.editorShort]) : null;
   document.addEventListener('dragover', onOver);
   document.addEventListener('drop', onDrop);
   app.root.append(
     el('main', { class: 'select2' }, [
       el('header', { class: 'sel-bar' }, [
         el('div', { class: 'sel-bar-in' }, [
-          el('button', { class: 'sel-back', onclick: () => app.go({ name: 'title' }), 'aria-label': JA.ui.back }, [icon('arrowBack'), JA.ui.back]),
-          el('h1', {}, [icon('hiking'), JA.ui.selectTitle]),
+          el('h1', {}, [icon('hiking'), JA.app.title]),
           count,
+          el('nav', { class: 'sel-caps' }, [soundCap, historyCap, settingsCap, editorCap]),
         ]),
       ]),
       el('div', { class: 'sel-wrap' }, [
-        el('section', { class: 'sel-section' }, [el('h2', { class: 'sel-h' }, [icon('landscape'), '収録のシナリオ']), list]),
+        el('p', { class: 'sel-lead' }, JA.disclaimer.fictional),
+        el('section', { class: 'sel-section' }, [el('h2', { class: 'sel-h' }, [icon('landscape'), JA.ui.selectTitle]), list]),
         mine,
         drop,
+        el('footer', { class: 'sel-foot' }, [
+          el('span', {}, versionLabel()),
+          el('span', {}, [JA.ui.audioCredit, ' ', el('a', { href: `${import.meta.env.BASE_URL}audio/CREDITS.md`, target: '_blank', rel: 'noopener' }, JA.ui.audioCreditLink)]),
+        ]),
       ]),
     ]),
   );
@@ -172,7 +221,10 @@ export function showScenarioSelect(app: AppContext): () => void {
   });
   void loadIndex().then((idx) => {
     count.textContent = `${idx.length} 本`;
-    list.replaceChildren(...idx.map((e) => card(app, e, list)));
+    const saved = new Set(resumableScenarios());
+    // 途中のシナリオを先に
+    const sorted = [...idx.filter((e) => saved.has(e.id)), ...idx.filter((e) => !saved.has(e.id))];
+    list.replaceChildren(...sorted.map((e) => card(app, e, list, saved.has(e.id))));
   });
   return () => {
     document.removeEventListener('dragover', onOver);

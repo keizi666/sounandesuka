@@ -187,7 +187,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   async function save(): Promise<void> {
     if (world.ended) return;
     lastSave = performance.now();
-    const ok = await saveResume({ scenarioId: scenario.id, world: structuredClone(world), recorder: structuredClone(recorder), choiceSnapshots: snapshots, log: hud.allLines(), savedAt: new Date().toISOString(), runId, parentRunId });
+    const ok = await saveResume({ scenarioId: scenario.id, world: structuredClone(world), recorder: structuredClone(recorder), choiceSnapshots: snapshots, log: hud.allLines(), savedAt: new Date().toISOString(), runId, parentRunId, conditions: loaded.conditions });
     if (!ok) toast(JA.ui.saveFailed);
   }
 
@@ -452,6 +452,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (world.pendingChoice) onChoice();
 
   return () => {
+    // 画面を離れるとき（ブラウザの戻るなど）も続きを保存する（結末に着いていれば何もしない）
+    void save();
     loop.dispose();
     choiceUi?.close();
     ro.disconnect();

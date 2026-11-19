@@ -409,7 +409,7 @@
             },
             {
               "type": "rest",
-              "minutes": 10
+              "minutes": 8
             },
             {
               "type": "continueRoute"

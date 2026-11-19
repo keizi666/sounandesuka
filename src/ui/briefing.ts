@@ -15,6 +15,7 @@ import { el } from './dom';
 import { icon, type IconName } from './icons';
 import { drawMap2d } from './map2d';
 import { audio } from './audio';
+import { applyConditions, DEFAULT_CONDITIONS, isDefaultConditions, type Health, type SeasonOverride, type StartConditions, type WeatherOverride } from '../sim/scenario/startConditions';
 
 /** 予報の文から、天気のアイコンを選ぶ */
 function forecastIcon(label: string, text: string): IconName {
@@ -57,6 +58,47 @@ function climberCard(p: ClimberDef): HTMLElement {
       p.estimated?.length ? el('small', { class: 'estimated' }, `${JA.ui.estimated}: ${p.estimated.join(', ')}`) : null,
     ]),
   ]);
+}
+
+/** 始まりの条件のカード（選ぶと cond を書き換える） */
+function conditionsCard(s: LoadedScenario['scenario'], cond: StartConditions): HTMLElement {
+  const C = JA.conditions;
+  const select = <T extends string>(value: T, opts: [T, string][], set: (v: T) => void): HTMLSelectElement => {
+    const sel = el('select', {}, opts.map(([v, l]) => el('option', { value: v, selected: v === value }, l))) as HTMLSelectElement;
+    sel.addEventListener('change', () => {
+      set(sel.value as T);
+      refresh();
+    });
+    return sel;
+  };
+  const summary = el('p', { class: 'hint' });
+  const refresh = (): void => {
+    summary.textContent = isDefaultConditions(cond) ? C.asScenario : C.changedNote;
+    card.classList.toggle('changed', !isDefaultConditions(cond));
+  };
+  const temp = el('input', { type: 'range', min: -10, max: 10, step: 1, value: cond.tempOffsetC }) as HTMLInputElement;
+  const tempLabel = el('output', {}, '');
+  const showTemp = (): void => {
+    tempLabel.textContent = `${cond.tempOffsetC > 0 ? '+' : ''}${cond.tempOffsetC}℃`;
+  };
+  temp.addEventListener('input', () => {
+    cond.tempOffsetC = Number(temp.value);
+    showTemp();
+    refresh();
+  });
+  showTemp();
+  const row = (label: string, ctrl: HTMLElement | HTMLElement[]): HTMLElement => el('label', { class: 'bf-cond-row' }, [el('span', {}, label), ...(Array.isArray(ctrl) ? ctrl : [ctrl])]);
+  const healthOpts: [Health, string][] = [['good', C.health.good], ['sleepy', C.health.sleepy], ['tired', C.health.tired], ['cold', C.health.cold]];
+  const card = el('section', { class: 'bf-card bf-cond' }, [
+    el('h2', {}, [icon('thermostat'), C.title]),
+    row(C.weather, select<WeatherOverride>(cond.weather, [['asIs', C.asIs], ['clear', C.w.clear], ['rain', C.w.rain], ['fog', C.w.fog], ['snow', C.w.snow], ['storm', C.w.storm]], (v) => (cond.weather = v))),
+    row(C.temp, [temp, tempLabel]),
+    row(C.season, select<SeasonOverride>(cond.season, [['asIs', C.asIs], ['spring', JA.labels.season['spring'] ?? '春'], ['summer', JA.labels.season['summer'] ?? '夏'], ['autumn', JA.labels.season['autumn'] ?? '秋'], ['winter', JA.labels.season['winter'] ?? '冬']], (v) => (cond.season = v))),
+    ...s.party.map((p) => row(`${p.name}${C.healthOf}`, select<Health>(cond.health[p.id] ?? 'good', healthOpts, (v) => (cond.health[p.id] = v)))),
+    summary,
+  ]);
+  refresh();
+  return card;
 }
 
 export function showBriefing(app: AppContext, loaded: LoadedScenario): () => void {
@@ -113,7 +155,14 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
     loaded.attribution.length > 0 ? el('p', { class: 'note' }, `${JA.ui.attribution}: ${loaded.attribution.map((a) => a.text).join(' / ')}`) : null,
     s.sources && s.sources.length > 0 ? el('p', { class: 'note' }, `${JA.ui.sources}: ${s.sources.join(' / ')}`) : null,
   ]);
-  const depart = (): void => app.go({ name: 'sim', loaded, observe: app.settings.observe });
+  // 始まりの条件を変えて試す（天気・気温・季節・体調）
+  const cond: StartConditions = structuredClone(loaded.conditions ?? DEFAULT_CONDITIONS);
+  const condCard = conditionsCard(s, cond);
+  const depart = (): void => {
+    const changed = !isDefaultConditions(cond);
+    const next: LoadedScenario = changed ? { ...loaded, scenario: applyConditions(loaded.scenario, cond), conditions: structuredClone(cond) } : { ...loaded, conditions: undefined };
+    app.go({ name: 'sim', loaded: next, observe: app.settings.observe });
+  };
 
   app.root.append(
     el('main', { class: 'briefing' }, [
@@ -152,6 +201,7 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
                 return el('li', { class: ic === 'warning' ? 'warn' : '' }, [icon(ic), el('span', { class: 'when' }, f.label), el('span', { class: 'what' }, f.text)]);
               })),
             ]),
+            condCard,
             notes,
           ]),
         ]),

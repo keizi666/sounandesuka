@@ -259,6 +259,8 @@ export interface ClimberDef {
   gear: GearDef;
   role?: string;                 // 例: "ツアー客", "メインガイド"
   initial?: ClimberInitialDef;   // 前日までの影響
+  /** 体調（始まりの条件を変えて試すとき。省くと万全）: sleepy 寝不足・tired 疲れが残る・cold 風邪ぎみ */
+  health?: 'good' | 'sleepy' | 'tired' | 'cold';
   estimated?: string[];          // 推定値のフィールド名
   beeSensitized?: boolean;       // 以前ハチに刺されたことがある（アナフィラキシーを起こしやすい）
   notes?: string;

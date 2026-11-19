@@ -3,6 +3,7 @@
  * 容量を超えたら古い履歴から消し、それでも失敗したらあきらめる（呼び出し側がトースト表示）。
  */
 import type { LogLine } from '../ui/simHud';
+import type { StartConditions } from '../sim/scenario/startConditions';
 import type { RecorderState } from '../sim/record/recorder';
 import type { EndingKind, World } from '../sim/types';
 
@@ -17,6 +18,8 @@ export interface ResumeData {
   savedAt: string;
   runId: string;
   parentRunId: string | null;
+  /** 始まりの条件を変えて試していたとき（再開のときに同じように当てる） */
+  conditions?: StartConditions;
 }
 
 export interface HistoryEntry {

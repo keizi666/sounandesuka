@@ -41,7 +41,8 @@ export function computeJ(c: ClimberState, tuning: Tuning = TUNING): number {
   const fHead = b.injury === 'headInjury' ? k.headInjuryJ : 1;
   const fHeat = b.coreC >= k.heatExhaustionC ? k.heatExhaustionJ : 1;
   const fAlc = Math.max(0.5, 1 - k.alcoholJK * bacPct(c, tuning));
-  const j = j0 * fCore * fGly * fFat * fAnx * fDehyd * fHead * fHeat * fAlc;
+  const fHealth = k.healthJ[c.def.health ?? 'good'] ?? 1;
+  const j = j0 * fCore * fGly * fFat * fAnx * fDehyd * fHead * fHeat * fAlc * fHealth;
   return Math.min(1, Math.max(k.jMin, j));
 }
 
@@ -53,6 +54,7 @@ export function computeM(c: ClimberState, tuning: Tuning = TUNING): number {
   const fInj = k.injuryM[b.injury];
   const fGly = b.glycogenKcal < k.veryLowGlycogenKcal ? k.veryLowGlycogenM : 1;
   let m = illnessM(c, fCore * fInj * fGly);
+  m *= k.healthM[c.def.health ?? 'good'] ?? 1;
   if (b.coreC >= k.heatStrokeC) m = Math.min(m, k.heatStrokeM);
   else if (b.coreC >= k.heatExhaustionC) m *= k.heatExhaustionSpeed;
   return Math.min(1, Math.max(0, m));

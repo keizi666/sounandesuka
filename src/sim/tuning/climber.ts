@@ -58,6 +58,9 @@ export const movement = {
 
 /** docs/06 §6 判断力・運動能力 */
 export const capacity = {
+  /** 体調（始まりの条件）ごとの判断力 J と運動能力 M の倍率。寝不足は判断が鈍り、風邪は力が出ない */
+  healthJ: { good: 1, sleepy: 0.85, tired: 0.93, cold: 0.9 } as Record<string, number>,
+  healthM: { good: 1, sleepy: 0.96, tired: 0.92, cold: 0.85 } as Record<string, number>,
   j0Base: 0.4,
   j0PerExperience: 0.6,
   /** 深部体温 → J の係数（線形補間の表 [体温, 係数]、昇順） */

@@ -14,7 +14,6 @@ import { showEnding } from '../ui/ending';
 import { showHistory } from '../ui/history';
 import { showScenarioSelect } from '../ui/scenarioSelect';
 import { showSimScreen, type SimResult } from '../ui/simScreen';
-import { showTitle } from '../ui/title';
 import { checkWebGL2, el } from '../ui/dom';
 import { nextPaint, progressTo, showLoading } from '../ui/loading';
 import type { LoadedScenario } from './data';
@@ -56,14 +55,29 @@ export function startApp(root: HTMLElement): void {
     root,
     settings,
     go(screen) {
+      navigate(screen, false);
+    },
+  };
+  /**
+   * 画面を切り替える。ブラウザの履歴は「トップ → いまの画面」の 2 段だけにし、戻るボタンでいつもトップへ戻る（ユーザーの指定）。
+   * fromPop: ブラウザの戻る・進むから来たとき（履歴は動かさない）
+   */
+  let onTop = false;
+  const navigate = (screen: Screen, fromPop: boolean): void => {
+    const top = screen.name === 'title' || screen.name === 'select';
+    if (!fromPop) {
+      if (top) history.replaceState({ hk: 'top' }, '');
+      else if (onTop) history.pushState({ hk: screen.name }, '');
+      else history.replaceState({ hk: screen.name }, '');
+    }
+    onTop = top;
+    {
       cleanup?.();
       cleanup = null;
       root.replaceChildren();
       root.className = `screen-${screen.name}`;
       switch (screen.name) {
         case 'title':
-          cleanup = showTitle(app);
-          break;
         case 'select':
           cleanup = showScenarioSelect(app);
           break;
@@ -100,8 +114,17 @@ export function startApp(root: HTMLElement): void {
           cleanup = showDebrief(app, screen.loaded, screen.result);
           break;
       }
-    },
+    }
   };
+  // ブラウザの戻る（・進む）: どの画面からでもトップへ
+  window.addEventListener('popstate', () => {
+    if (onTop) {
+      history.replaceState({ hk: 'top' }, '');
+      return;
+    }
+    navigate({ name: 'select' }, true);
+    history.replaceState({ hk: 'top' }, '');
+  });
   const params = new URLSearchParams(location.search);
   const bundleRef = params.get('bundle');
   if (bundleRef?.startsWith('editor:')) {
