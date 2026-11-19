@@ -147,6 +147,13 @@ export const JA = {
     noBivy: 'ツェルトなし',
     poles: 'ストック',
   },
+  logDetail: {
+    title: 'そのときの状態',
+    open: '詳しく見る',
+    body: '体の状態',
+    weather: 'その場所の天気',
+    note: 'ログが出た時点の値です。',
+  },
   ui: {
     loading: '読み込み中…',
     noWebgl: 'このブラウザは WebGL2 に対応していないため、3D の箱庭を表示できません。最新の Chrome / Edge / Firefox / Safari でお試しください。',
@@ -258,7 +265,7 @@ export const JA = {
     wholeParty: 'パーティ',
     autoChose: '◆ 観察: 「{label}」になった',
     timeUp: '◆ 時間切れ: 「{label}」になった',
-    keyHelp: '左ドラッグ パン / 右ドラッグ 視点を回す / ホイール 拡大 / Space 一時停止 / 1〜4 速度 / G 情報モード / C カメラ',
+    keyHelp: '左ドラッグ パン / 右ドラッグ 視点を回す / ホイール 拡大 / Space 一時停止 / 1〜4 速度 / G 情報モード / C カメラ / 視点: ドラッグで見回す・ダブルクリックで正面',
     resumeAsk: '前回の続きがあります',
     editorScenarios: 'エディターで作ったシナリオ',
     bundleBroken: 'バンドルを読み込めませんでした',

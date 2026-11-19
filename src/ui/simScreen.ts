@@ -2,6 +2,7 @@
  * シミュレーション画面（docs/11 §2〜3）。World・StaticContext・記録・描画・ループ・HUD・吹き出し・分岐点をつなぐ。
  * モード: 通常（分岐点で止まる）、判断時間制限（登山者は立ち止まって待ち、時間切れで傾向どおり）、観察のみ（傾向どおり自動）。
  */
+import { closeLogDetail, snapOf } from './logDetail';
 import { Timeline, type TimelineSnap } from '../app/timeline';
 import { createTimelineBar } from './timelineBar';
 import { createDock } from './dockWindows';
@@ -185,11 +186,14 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       if (v && e.climberId) bubbles.add(e.climberId, v, fast);
       const text = formatEvent(e, { scenario, nodeName });
       if (!text || (e.type === 'THOUGHT' && !hud.god)) continue;
+      // そのときの状態（顔の下のメーターと詳細に使う）
+      const cs = e.climberId ? world.climbers.find((x) => x.id === e.climberId) : undefined;
+      const snap = cs ? snapOf(cs) : undefined;
       if (v) {
         // 吹き出しの中は文だけ。注記（記録・架空・ろれつ）は下に小さく
         const tag = v.log.replace(/^.*[」）]/, '');
-        hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: v.thought ? 'thought' : 'speech', bubble: v.thought ? v.display : v.display, tag, to: v.to ? (party.get(v.to)?.name ?? v.to) : undefined, shout: v.tone === 'shout' });
-      } else hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: e.climberId ? 'action' : 'system' });
+        hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: v.thought ? 'thought' : 'speech', bubble: v.thought ? v.display : v.display, tag, to: v.to ? (party.get(v.to)?.name ?? v.to) : undefined, shout: v.tone === 'shout', snap });
+      } else hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: e.climberId ? 'action' : 'system', snap });
     }
   }
 
@@ -392,6 +396,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     document.removeEventListener('keydown', onKey);
     document.removeEventListener('visibilitychange', onHide);
     bubbles.dispose();
+    closeLogDetail();
     tlBar.dispose();
     dock.dispose();
     view.dispose();

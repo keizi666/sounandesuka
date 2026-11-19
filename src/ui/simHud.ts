@@ -2,6 +2,7 @@
  * シミュレーション画面の HUD（docs/11 §2）: 上部バー（時刻・速度・情報モード・カメラ・レイヤー・設定）、
  * 右の登山者パネル・気象パネル・予報、下のイベントログ。スマホ幅ではパネルを下のタブにまとめる。
  */
+import { closeLogDetail, openLogDetail, snapGauges, type LogSnap } from './logDetail';
 import { avatar } from './avatar';
 import { icon } from './icons';
 import { JA } from '../i18n/ja';
@@ -41,6 +42,8 @@ export interface LogLine {
   to?: string;
   /** 叫び */
   shout?: boolean;
+  /** そのときの登山者の状態（顔の下のメーターと、詳細のポップアップに使う） */
+  snap?: LogSnap;
 }
 
 const SPEED_LIST: Speed[] = [1, 4, 15, 60];
@@ -199,6 +202,7 @@ export class Hud {
 
   /** この時刻より後のログを消す（戻した先からやり直すとき） */
   truncate(tMin: number): void {
+    closeLogDetail();
     this.lines = this.lines.filter((l) => l.tMin <= tMin + 1e-6);
     for (const li of [...this.logEl.children]) if (Number((li as HTMLElement).dataset['t']) > tMin + 1e-6) li.remove();
     this.lastSpeaker = null;
@@ -221,17 +225,26 @@ export class Hud {
     } else {
       const cont = this.lastSpeaker === who.id;
       this.lastSpeaker = who.id;
-      const face = cont ? el('span', { class: 'face-gap' }) : avatar(who, 52);
+      // 顔の下に、そのときの体力とスマホの電池を丸いメーターで出す
+      const face = cont ? el('span', { class: 'face-gap' }) : el('span', { class: 'face' }, [avatar(who, 52), line.snap ? snapGauges(line.snap) : null]);
+      // 「＞」: そのときの状態の詳細を出す
+      const snap = line.snap;
+      const more = snap ? el('button', { class: 'more', type: 'button', title: JA.logDetail.open, 'aria-label': JA.logDetail.open }, icon('chevronRight')) : null;
+      more?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLogDetail({ who, time, text: line.bubble ?? line.text, snap: snap!, god: this.god, anchor: more });
+      });
       const name = cont ? null : el('div', { class: 'name' }, [el('span', { style: `color:${who.color}` }, who.name), line.to ? el('span', { class: 'to' }, ` → ${line.to}`) : null]);
       let body: HTMLElement;
       if (kind === 'speech' || kind === 'thought') {
         body = el('div', { class: 'msg' }, [
           el('div', { class: `bubble ${kind}${line.shout ? ' shout' : ''}${cont ? ' cont' : ''}` }, line.bubble ?? line.text),
           el('div', { class: 'meta' }, [line.tag ? el('span', { class: 'tag' }, line.tag) : null, el('time', {}, time)]),
+          more,
         ]);
       } else {
         // 行動: 顔の横に 1 行（名前は文の中にあるので、見出しは出さない）
-        body = el('div', { class: 'msg' }, [el('div', { class: `act${line.important ? ' imp' : ''}` }, [line.text, el('time', {}, time)])]);
+        body = el('div', { class: 'msg' }, [el('div', { class: `act${line.important ? ' imp' : ''}` }, [line.text, el('time', {}, time)]), more]);
       }
       li = el('li', { class: `who ${kind}${cont ? ' cont' : ''}`, 'data-t': line.tMin }, [face, el('div', { class: 'col' }, [kind === 'action' ? null : name, body])]);
       li.addEventListener('click', () => this.h.select(who.id));

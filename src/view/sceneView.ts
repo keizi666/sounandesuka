@@ -13,7 +13,7 @@ import { buildDiorama, buildTerrain } from './terrainMesh';
 import { createEnvUniforms, type EnvUniforms } from './terrainMaterial';
 import { buildStructures } from './structures';
 import { buildTrails } from './trails';
-import { buildVegetation, placeTrees, type Vegetation } from './vegetation';
+import { buildVegetation, placeTrees, TREE_SCALE, type Vegetation } from './vegetation';
 import { createWeatherFx, type WeatherFx } from './weatherFx';
 import { Overlay } from './overlay';
 import { loadHqAssets, type HqState } from './assets';
@@ -107,6 +107,12 @@ export class SceneView {
   godView = true;
   private followTarget = new THREE.Vector3();
   private lastMode: CameraMode = 'overview';
+  /** 登山者の視点での見回し（ドラッグで動かす。進行方向からの左右の角度と、上下の角度） */
+  private eyeYaw = 0;
+  private eyePitch = 0;
+  /** 進行方向の地面の傾き（上りでは少し見上げる）。なめらかに追従させる */
+  private eyeSlope = 0;
+  private nearSaved = 0.01;
   private lastSunElev = 999;
   private lastShadowAt = 0;
   private sky: Sky;
@@ -156,6 +162,7 @@ export class SceneView {
     this.controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
     // 視点の回転は控えめに（既定の 1.0 では過敏で操作しづらい。ユーザーの指定）
     this.controls.rotateSpeed = 0.3;
+    this.installEyeLook(canvas);
     this.controls.minDistance = size * 0.01;
     this.controls.maxDistance = size * 3;
     this.controls.minPolarAngle = 15 * DEG;
@@ -416,7 +423,7 @@ export class SceneView {
         this.env.uFocusR.value = h * 1.0;
       } else this.env.uFocusR.value = 0;
     }
-    this.controls.update();
+    if (this.mode !== 'eye') this.controls.update();
     this.keepCameraAboveGround();
     this.sky.mesh.position.copy(this.camera.position);
     // 人形の影が付いてくるよう、影は 0.4 秒ごとにも更新する
@@ -572,11 +579,51 @@ export class SceneView {
     }
   }
 
+  /** 登山者の視点から戻る: 操作を元に戻し、登山者を斜め上から見る位置にカメラを置く */
+  private leaveEye(target: THREE.Vector3): void {
+    this.controls.enabled = true;
+    this.camera.near = this.nearSaved;
+    this.camera.updateProjectionMatrix();
+    const d = this.figureHeight() * 9;
+    this.controls.target.copy(target);
+    this.camera.position.set(target.x + d * 0.6, target.y + d * 0.6, target.z + d * 0.7);
+  }
+
+  /** 登山者の視点での見回し: ドラッグ（マウス・タッチ）で向きを変え、ダブルクリック（ダブルタップ）で正面に戻す */
+  private installEyeLook(canvas: HTMLCanvasElement): void {
+    let drag: { id: number; x: number; y: number } | null = null;
+    canvas.addEventListener('pointerdown', (e) => {
+      if (this.mode !== 'eye') return;
+      drag = { id: e.pointerId, x: e.clientX, y: e.clientY };
+      canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id || this.mode !== 'eye') return;
+      const k = 0.0045;
+      this.eyeYaw -= (e.clientX - drag.x) * k;
+      this.eyePitch = Math.max(-1.2, Math.min(1.2, this.eyePitch + (e.clientY - drag.y) * k));
+      drag.x = e.clientX;
+      drag.y = e.clientY;
+    });
+    const end = (e: PointerEvent): void => {
+      if (drag && e.pointerId === drag.id) drag = null;
+    };
+    canvas.addEventListener('pointerup', end);
+    canvas.addEventListener('pointercancel', end);
+    canvas.addEventListener('dblclick', () => {
+      if (this.mode !== 'eye') return;
+      this.eyeYaw = 0;
+      this.eyePitch = 0;
+    });
+    canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+  }
+
   private updateCamera(world: World): void {
     const c = world.climbers.find((x) => x.id === this.selected) ?? world.climbers[0];
     if (!c) return;
     const target = new THREE.Vector3(c.x * UNIT, this.heightAt(c.x * UNIT, c.z * UNIT), c.z * UNIT);
     if (this.mode === 'follow') {
+      if (this.lastMode === 'eye') this.leaveEye(target);
       if (this.lastMode !== 'follow') {
         // 追従に切り替えた瞬間: 見ている向きと「カメラから登山者までの距離」を保ったまま、登山者を中心に据える。
         // （注視点が登山者から離れていると、そのままの相対位置では引いた画になってしまう）
@@ -592,13 +639,33 @@ export class SceneView {
       this.camera.position.sub(d);
       this.controls.enablePan = false;
     } else if (this.mode === 'eye') {
-      const eye = target.clone().add(new THREE.Vector3(0, 1.6 * UNIT * this.s.vExag, 0));
-      const dir = new THREE.Vector3(Math.sin(c.headingRad), 0, -Math.cos(c.headingRad));
+      if (this.lastMode !== 'eye') {
+        this.eyeYaw = 0;
+        this.eyePitch = 0;
+        this.controls.enabled = false;
+        // 目の高さより手前で地面が切れないよう、手前の描画の限界を近づける
+        this.nearSaved = this.camera.near;
+        this.camera.near = 0.0006;
+        this.camera.updateProjectionMatrix();
+      }
+      // 目の高さは、木や草の拡大率に合わせる（等身大の 1.6 m では、拡大した草に埋もれる）
+      const eye = target.clone().add(new THREE.Vector3(0, 1.6 * TREE_SCALE * UNIT * this.s.vExag, 0));
+      // 上りで地面しか見えなくならないよう、30 m 先の地面の高さに合わせて視線を上下させる
+      const ahead = 30 * UNIT;
+      const fx = Math.sin(c.headingRad);
+      const fz = -Math.cos(c.headingRad);
+      const slope = Math.atan2(this.heightAt(target.x + fx * ahead, target.z + fz * ahead) - target.y, ahead);
+      this.eyeSlope += (slope - this.eyeSlope) * 0.05;
+      const yaw = c.headingRad + this.eyeYaw;
+      const pitch = Math.max(-1.3, Math.min(1.3, this.eyeSlope * 0.9 + this.eyePitch));
+      const dir = new THREE.Vector3(Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), -Math.cos(yaw) * Math.cos(pitch));
       this.camera.position.copy(eye);
       this.controls.target.copy(eye.clone().add(dir.multiplyScalar(0.05)));
+      this.camera.lookAt(this.controls.target);
       const vis = Math.max(20, c.local.visibilityM);
       this.scene.fog = new THREE.FogExp2(world.sun.isDark ? 0x05070c : 0xc8cdd2, 3.0 / (vis * UNIT));
     } else {
+      if (this.lastMode === 'eye') this.leaveEye(target);
       this.followTarget.copy(this.controls.target);
       this.controls.enablePan = true;
     }
@@ -703,9 +770,12 @@ export class SceneView {
   lookAt(id: string): void {
     const f = this.figures.get(id);
     if (!f) return;
-    const d = this.camera.position.clone().sub(this.controls.target);
+    // 見ている向きと「カメラからその登山者までの距離」を保つ（注視点が離れていても、引いた画にならない）
+    const dir = this.camera.position.clone().sub(this.controls.target).normalize();
+    const dist = Math.max(this.controls.minDistance, this.camera.position.distanceTo(f.root.position));
     this.controls.target.copy(f.root.position);
-    this.camera.position.copy(f.root.position).add(d);
+    this.camera.position.copy(f.root.position).addScaledVector(dir, dist);
+    this.followTarget.copy(f.root.position);
   }
 
   dispose(): void {
