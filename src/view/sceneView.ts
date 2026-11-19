@@ -378,6 +378,15 @@ export class SceneView {
     }
   }
 
+  /** 地表の高さ（シーン座標） */
+  groundY(x: number, z: number): number {
+    return this.heightAt(x, z);
+  }
+
+  gpu(): string {
+    return this.gpuName();
+  }
+
   private gpuName(): string {
     const gl = this.renderer.getContext();
     const ext = gl.getExtension('WEBGL_debug_renderer_info');

@@ -22,7 +22,8 @@
     "assets:hq": "tsx tools/make-hq-assets.ts",
     "fixture:bundle": "tsx tools/make-fixture-bundle.ts",
     "make:s04": "tsx tools/make-s04.ts",
-    "mc:s04": "tsx tools/mc-s04.ts"
+    "mc:s04": "tsx tools/mc-s04.ts",
+    "shots": "tsx tools/shots.ts"
   },
   "dependencies": {
     "three": "^0.187.0"
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@types/node": "^26.6.6",
     "@types/three": "^0.187.0",
+    "playwright-core": "^1.65.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vite": "^8.3.8",
