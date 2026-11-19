@@ -87,3 +87,5 @@ textarea.mono { width: 100%; min-height: 60vh; }
 .portrait-row { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px 0; }
 .f-row.portrait-pick { display: block; }
 .f-row.portrait-pick > .f-label { display: block; margin-bottom: 4px; }
+
+.ed-locked { max-width: 560px; margin: 15vh auto; padding: 24px; text-align: center; color: var(--fg); }

@@ -10,6 +10,7 @@ import { choicesPanel } from './choices';
 import { endingsPanel } from './endings';
 import { testPanel } from './test';
 import { jsonPanel } from './json';
+import { aiPanel } from './ai';
 
 export const PANELS: Panel[] = [
   areaPanel,
@@ -22,4 +23,5 @@ export const PANELS: Panel[] = [
   endingsPanel,
   testPanel,
   jsonPanel,
+  aiPanel,
 ];

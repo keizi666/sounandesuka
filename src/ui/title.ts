@@ -7,6 +7,7 @@ import { loadResume, resumableScenarios } from '../app/storage';
 import { JA } from '../i18n/ja';
 import { el } from './dom';
 import { progressTo, showLoading } from './loading';
+import { isLocalHost } from '../app/local';
 import { openSettings } from './settingsDialog';
 
 export function showTitle(app: AppContext): () => void {
@@ -47,7 +48,8 @@ export function showTitle(app: AppContext): () => void {
         el('button', { class: resumeBtn ? '' : 'primary', onclick: () => app.go({ name: 'select' }) }, [icon('hiking'), JA.ui.start]),
         el('button', { onclick: () => app.go({ name: 'history' }) }, [icon('history'), JA.ui.history]),
         el('button', { onclick: () => openSettings(app) }, [icon('settings'), JA.ui.settings]),
-        el('a', { href: `${import.meta.env.BASE_URL}editor.html` }, [icon('map'), JA.editor.title]),
+        // シナリオの作成・編集は手元（localhost）だけ
+        isLocalHost() ? el('a', { href: `${import.meta.env.BASE_URL}editor.html` }, [icon('map'), JA.editor.title]) : null,
       ]),
     ]),
   );

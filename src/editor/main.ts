@@ -1,6 +1,7 @@
 // シナリオエディターのエントリポイント（editor.html、docs/15）
 import '../style.css';
 import './editor.css';
+import { isLocalHost } from '../app/local';
 import { installProblemReporter } from '../app/problem';
 import { logStartup } from '../app/version';
 import { JA } from '../i18n/ja';
@@ -14,7 +15,15 @@ logStartup('editor');
 const root = document.querySelector<HTMLDivElement>('#app');
 let current: EditorApp | null = null;
 
-if (root) {
+if (root && !isLocalHost()) {
+  // シナリオの作成・編集は手元（localhost）だけ
+  document.title = JA.editor.title;
+  root.innerHTML = '';
+  const p = document.createElement('main');
+  p.className = 'ed-locked';
+  p.innerHTML = `<h1>${JA.editor.title}</h1><p>${JA.editor.localOnly}</p><p><a href="${import.meta.env.BASE_URL}index.html">${JA.editor.backToPlayer}</a></p>`;
+  root.append(p);
+} else if (root) {
   document.title = JA.editor.title;
   root.className = 'editor-root';
   const host: ProjectsHost = {

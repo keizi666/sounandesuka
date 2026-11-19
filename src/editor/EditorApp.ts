@@ -79,7 +79,7 @@ export class EditorApp implements Ed {
       exp,
     ]);
     const side = el('nav', { class: 'ed-tabs' }, PANELS.map((pn, i) => {
-      const b = el('button', { onclick: () => this.goTab(pn.id), title: pn.label }, [el('b', {}, pn.id === 'json' ? '{ }' : String(i + 1)), el('small', {}, pn.label)]);
+      const b = el('button', { onclick: () => this.goTab(pn.id), title: pn.label }, [el('b', {}, pn.id === 'json' ? '{ }' : pn.id === 'ai' ? 'AI' : String(i + 1)), el('small', {}, pn.id === 'ai' ? 'プロンプト' : pn.label)]);
       this.tabs.set(pn.id, b);
       return b;
     }));

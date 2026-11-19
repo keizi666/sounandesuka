@@ -16,11 +16,11 @@ export interface Issue {
 
 const ENDING_KINDS = ['SAFE_RETURN', 'SAFE_SHELTER', 'ABORTED', 'SELF_RESCUE', 'RESCUED', 'RESCUED_CRITICAL', 'MISSING', 'FATAL'];
 const GENERIC_KEYS = ['lostAware', 'darkness', 'hypothermia', 'injured', 'lightning', 'waterfall', 'straggler', 'rescueFailed'];
-const STATES = [
+export const STATES = [
   'WALKING', 'RESTING', 'SHELTERED', 'BIVOUAC', 'OFFROUTE_UNAWARE', 'LOST_AWARE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL',
   'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL', 'STAYING', 'WAITING_RESCUE', 'INCAPACITATED', 'UNCONSCIOUS', 'FINISHED', 'RESCUED', 'DEAD',
 ];
-const ACTION_TYPES = [
+export const ACTION_TYPES = [
   'continueRoute', 'setRoute', 'turnBack', 'goToNode', 'stayInShelter', 'rest', 'eat', 'drink', 'drinkAlcohol', 'reportMissing', 'setPhone', 'addAnxiety', 'illness', 'medicate', 'wearRainwear', 'addLayer', 'changeDry',
   'stopAndCheck', 'checkPosition', 'bivouac', 'stayPut', 'backtrack', 'navigateToTrail', 'descendDrainage', 'seekSignal', 'callRescue',
   'waitRescue', 'setPace', 'lightningPosture', 'moveOffRidge', 'removeMetal', 'setFlag', 'clearFlag', 'narrate', 'abortTrip', 'splitParty',

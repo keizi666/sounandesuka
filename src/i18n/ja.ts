@@ -5,6 +5,8 @@ export const JA = {
     preparing: '準備中です。シミュレーションは描画なしで先に作っています。',
   },
   editor: {
+    localOnly: 'シナリオの作成と編集は、手元の環境（localhost）でだけ使えます。公開しているサイトでは使えません。',
+    backToPlayer: 'シミュレーターに戻る',
     title: '箱庭遭難シミュレータ シナリオエディター',
     preparing: 'シナリオエディターは準備中です。',
   },

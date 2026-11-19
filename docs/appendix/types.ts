@@ -800,7 +800,7 @@ export interface EditorProject {
   raw: { osm?: unknown; gpx?: string[]; weather?: unknown };
   editorState: {
     mapView: { lat: number; lon: number; zoom: number };
-    tab: 'area' | 'trails' | 'points' | 'environment' | 'weather' | 'party' | 'choices' | 'endings' | 'test' | 'json';
+    tab: 'area' | 'trails' | 'points' | 'environment' | 'weather' | 'party' | 'choices' | 'endings' | 'test' | 'json' | 'ai';
     selection: { kind: 'node' | 'edge' | 'hazard' | 'choice' | 'event' | 'keyframe' | 'cell' | null; id: string | null };
     draftEdgeIds: EdgeId[];          // 取り込み後、未確定の道
     probePoints: { label: string; x: number; z: number }[];
