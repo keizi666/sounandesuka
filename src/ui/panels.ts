@@ -2,6 +2,8 @@
  * 登山者パネル・気象パネル・予報（docs/11 §2、§4）。
  * 段階は色だけでなくアイコンと文字でも示す。登山者の視点では数値を出さず、言葉で表す（docs/02 §4）。
  */
+import { avatar } from './avatar';
+import { hpLevel, hpOf } from './hp';
 import { icon, type IconName } from './icons';
 import { JA } from '../i18n/ja';
 import type { ClimberState, ScenarioDef, World } from '../sim/types';
@@ -13,7 +15,7 @@ function bar(ic: IconName, label: string, frac: number, level: Level, text: stri
   return el('div', { class: `bar lv-${level}`, role: 'meter', 'aria-label': `${label} ${text}` }, [
     el('span', { class: 'lbl' }, [icon(ic), label]),
     el('span', { class: 'track' }, el('span', { class: 'fill', style: `width:${Math.max(0, Math.min(1, frac)) * 100}%` })),
-    el('span', { class: 'val' }, `${LEVEL_ICON[level]} ${text}`),
+    el('span', { class: 'val' }, text === '' ? LEVEL_ICON[level] : `${LEVEL_ICON[level]} ${text}`),
   ]);
 }
 
@@ -25,7 +27,7 @@ function coreWords(c: number): string {
   return '反応がない';
 }
 
-export function climberCard(c: ClimberState, god: boolean, selected: boolean, onSelect: () => void): HTMLElement {
+export function climberCard(c: ClimberState, god: boolean, selected: boolean, onSelect: () => void, collapsed = false, onToggle?: () => void): HTMLElement {
   const b = c.body;
   const core = levelOf(b.coreC, 36, 35, 32);
   const gly = levelOf(b.glycogenKcal, 600, 300, 100);
@@ -35,14 +37,30 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
   const anx = levelOf(b.anxiety, 40, 60, 80, true);
   const st = JA.labels.state[c.state] ?? c.state;
   const chip = (ic: IconName, text: string): HTMLElement => el('span', { class: 'chip' }, [icon(ic), text]);
+  const chipPhone: HTMLElement | null = null;
   const chips = [
     b.rainwearOn ? chip('checkroom', JA.ui.rainwearOn) : null,
     c.inv.headlamp.on ? chip('flashlightOn', JA.ui.headlampOn) : null,
-    c.inv.phone.has ? chip('mobile', c.inv.phone.dead ? '×' : `${Math.round(c.inv.phone.batteryPct)}%`) : null,
+    null as HTMLElement | null,
     b.injury !== 'none' ? chip('healing', JA.labels.injury[b.injury] ?? b.injury) : null,
   ];
+  // 総合の体力（HP）とスマホの電池は、小さくしたときも出す
+  const hp = hpOf(b);
+  const phonePct = c.inv.phone.has && !c.inv.phone.dead ? Math.round(c.inv.phone.batteryPct) : 0;
+  const summary = el('div', { class: 'summary' }, [
+    bar('favorite', JA.ui.hp, hp / 100, hpLevel(hp), god ? `${hp}` : ''),
+    c.inv.phone.has ? bar('mobile', JA.ui.phoneBattery, phonePct / 100, levelOf(phonePct, 30, 15, 5), c.inv.phone.dead ? '×' : `${phonePct}%`) : null,
+  ]);
+  const toggle = el('button', { class: 'fold', type: 'button', title: collapsed ? JA.ui.cardExpand : JA.ui.cardCollapse, 'aria-label': collapsed ? JA.ui.cardExpand : JA.ui.cardCollapse, 'aria-expanded': !collapsed }, icon(collapsed ? 'keyboardArrowDown' : 'keyboardArrowUp'));
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    onToggle?.();
+  });
+  const head = el('header', { class: 'who' }, [avatar(c.def, 34), el('h3', {}, [`${c.def.name} ${c.def.age}`, el('small', {}, ` ${st}`)]), toggle]);
+  if (collapsed) return el('section', { class: `climber mini${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [head, summary]);
   return el('section', { class: `climber${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [
-    el('h3', {}, [el('span', { style: `color:${c.def.color}` }, '● '), `${c.def.name} ${c.def.age}`, el('small', {}, ` ${st}`)]),
+    head,
+    summary,
     god
       ? el('div', {}, [
           bar('thermostat', JA.ui.core, (b.coreC - 30) / 8, core, `${b.coreC.toFixed(1)}℃（${JA.ui.estimated}）`),
@@ -54,7 +72,7 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
           el('p', { class: 'jm' }, [icon('psychology'), `${JA.ui.judgement} ${c.J.toFixed(2)} ・ ${JA.ui.motor} ${c.M.toFixed(2)}`]),
         ])
       : el('p', { class: 'words' }, `${coreWords(b.coreC)}。${b.fatigue > 70 ? '足が重い。' : ''}${b.wetness > 0.6 ? '服が濡れて冷たい。' : ''}`),
-    el('p', { class: 'icons' }, chips),
+    el('p', { class: 'icons' }, chips.filter((x) => x !== chipPhone)),
   ]);
 }
 

@@ -4,7 +4,7 @@
  */
 import { Timeline, type TimelineSnap } from '../app/timeline';
 import { createTimelineBar } from './timelineBar';
-import { createFloatWindow } from './floatWindow';
+import { createDock } from './dockWindows';
 import { dlog, versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
@@ -132,10 +132,20 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     },
     { god: view.godView, observe, timed },
   );
-  // 3D 画面を全面に敷き、状況とログは動かせるウィンドウとして重ねる（狭い画面では最小化して始める）
+  // 3D 画面を全面に敷き、ログ・登山者・気象は「合体できるタブ式のウィンドウ」として重ねる（狭い画面では最小化して始める）
   const narrow = window.innerWidth < 900;
-  const sideWin = createFloatWindow(hud.side, { id: 'status', title: JA.ui.statusWindow, icon: 'monitorHeart', right: 12, top: 60, width: 320, height: Math.round(window.innerHeight * 0.62), minimized: narrow });
-  const logWin = createFloatWindow(hud.logEl, { id: 'log', title: JA.ui.log, icon: 'listAlt', left: 12, bottom: 96, width: Math.min(560, Math.round(window.innerWidth * 0.5)), height: 180, minimized: narrow });
+  const sideW = Math.min(330, window.innerWidth - 16);
+  const dock = createDock(
+    [
+      { id: 'climbers', title: JA.ui.climbers, icon: 'groups', content: hud.climbersPane },
+      { id: 'weather', title: JA.ui.weatherTab, icon: 'partlyCloudyDay', content: hud.weatherPane },
+      { id: 'log', title: JA.ui.log, icon: 'listAlt', content: hud.logEl },
+    ],
+    [
+      { x: window.innerWidth - sideW - 12, y: 60, w: sideW, h: Math.round(window.innerHeight * 0.6), min: narrow, tabs: ['climbers', 'weather'], active: 'climbers' },
+      { x: 12, y: window.innerHeight - 180 - 96, w: Math.min(560, Math.round(window.innerWidth * 0.5)), h: 180, min: narrow, tabs: ['log'], active: 'log' },
+    ],
+  );
   // ---- タイムライン（時間を戻す） ----
   const timeline = new Timeline(scenario.party.length > 6 ? 5 : 2);
   const tlBar = createTimelineBar({
@@ -143,7 +153,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     latest: () => seekTo(Infinity),
     formatTime: (t) => formatDateTime(scenario, t).split(' ')[1] ?? '',
   });
-  app.root.append(el('main', { class: 'sim' }, [stage, hud.top, sideWin.el, logWin.el, tlBar.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
+  app.root.append(el('main', { class: 'sim' }, [stage, hud.top, dock.el, tlBar.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
 
   // ---- 保存 ----
   let lastSave = performance.now();
@@ -377,8 +387,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     document.removeEventListener('visibilitychange', onHide);
     bubbles.dispose();
     tlBar.dispose();
-    sideWin.dispose();
-    logWin.dispose();
+    dock.dispose();
     view.dispose();
   };
 }

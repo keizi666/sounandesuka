@@ -2,6 +2,7 @@
  * シミュレーション画面の HUD（docs/11 §2）: 上部バー（時刻・速度・情報モード・カメラ・レイヤー・設定）、
  * 右の登山者パネル・気象パネル・予報、下のイベントログ。スマホ幅ではパネルを下のタブにまとめる。
  */
+import { avatar } from './avatar';
 import { icon } from './icons';
 import { JA } from '../i18n/ja';
 import { formatDateTime } from '../i18n/format';
@@ -35,7 +36,10 @@ const SPEED_LIST: Speed[] = [1, 4, 15, 60];
 
 export class Hud {
   readonly top: HTMLElement;
-  readonly side: HTMLElement;
+  /** 登山者のパネル */
+  readonly climbersPane: HTMLElement;
+  /** 気象のパネル（気象と予報） */
+  readonly weatherPane: HTMLElement;
   readonly logEl: HTMLElement;
   private clock: HTMLElement;
   private speedBtns = new Map<Speed, HTMLButtonElement>();
@@ -47,6 +51,9 @@ export class Hud {
   private forecastEl: HTMLElement;
   private lines: LogLine[] = [];
   private sortByCore = false;
+  /** 小さくしているカード（登山者の ID） */
+  private collapsed = new Set<string>();
+  private party = new Map<string, ScenarioDef['party'][number]>();
   god: boolean;
 
   constructor(
@@ -55,6 +62,7 @@ export class Hud {
     opts: { god: boolean; observe: boolean; timed: boolean },
   ) {
     this.god = opts.god;
+    this.party = new Map(scenario.party.map((p) => [p.id, p]));
     this.clock = el('span', { class: 'clock', 'aria-live': 'off' });
     this.pauseBtn = el('button', { class: 'icon', title: `${JA.ui.pause} (Space)`, onclick: () => h.togglePause() }, icon('pause'));
     for (const s of SPEED_LIST) {
@@ -96,12 +104,10 @@ export class Hud {
     this.weatherEl = el('div');
     this.forecastEl = el('div');
     const sortBtn = scenario.party.length > 6 ? el('button', { class: 'small', onclick: () => (this.sortByCore = !this.sortByCore) }, JA.ui.sortByCore) : null;
-    this.side = el('aside', { class: 'side' }, [
-      el('h2', {}, [el('span', { class: 'hd' }, [icon('groups'), JA.ui.climbers]), sortBtn]),
-      this.climbersEl,
-      this.weatherEl,
-      this.forecastEl,
-    ]);
+    this.climbersPane = el('div', { class: 'side' }, [sortBtn ? el('p', { class: 'tools' }, sortBtn) : null, this.climbersEl]);
+    this.weatherPane = el('div', { class: 'side' }, [this.weatherEl, this.forecastEl]);
+    // 人数が多いときは、小さいカード（名前・体力・スマホ）で始める
+    if (scenario.party.length > 3) for (const p of scenario.party) this.collapsed.add(p.id);
     this.logEl = el('ol', { class: 'log', 'aria-label': JA.ui.log });
   }
 
@@ -124,7 +130,14 @@ export class Hud {
   /** パネルの更新（4Hz） */
   updatePanels(world: World, selected: string | null): void {
     const sel = world.climbers.find((c) => c.id === selected) ?? world.climbers[0];
-    const cards = (list: ClimberState[]): HTMLElement[] => list.map((c) => climberCard(c, this.god, c === sel, () => this.h.select(c.id)));
+    const cards = (list: ClimberState[]): HTMLElement[] =>
+      list.map((c) =>
+        climberCard(c, this.god, c === sel, () => this.h.select(c.id), this.collapsed.has(c.id), () => {
+          if (this.collapsed.has(c.id)) this.collapsed.delete(c.id);
+          else this.collapsed.add(c.id);
+          this.updatePanels(world, selected);
+        }),
+      );
     let list = world.climbers;
     if (this.sortByCore) list = [...list].sort((a, b) => a.body.coreC - b.body.coreC);
     if (world.climbers.length > 6) {
@@ -178,7 +191,8 @@ export class Hud {
   log(line: LogLine): void {
     this.lines.push(line);
     const time = formatDateTime(this.scenario, line.tMin).split(' ')[1] ?? '';
-    const li = el('li', { class: line.important ? 'imp' : '', 'data-t': line.tMin }, [el('time', {}, time), ' ', line.text]);
+    const who = line.climberId ? this.party.get(line.climberId) : undefined;
+    const li = el('li', { class: line.important ? 'imp' : '', 'data-t': line.tMin }, [el('time', {}, time), who ? avatar(who, 18) : null, ' ', line.text]);
     if (this.cutoff !== null && line.tMin > this.cutoff + 1e-6) li.hidden = true;
     if (line.climberId) li.addEventListener('click', () => this.h.select(line.climberId!));
     this.logEl.append(li);

@@ -213,6 +213,31 @@ canvas.chart { width: 100%; height: auto; background: var(--panel); border-radiu
 .lessons h3 { margin: 6px 0; font-size: 1rem; }
 progress { width: 100%; }
 
+/* ---- 顔アイコン（丸形。外枠は各人のテーマカラー） ---- */
+.avatar { display: inline-flex; align-items: center; justify-content: center; flex: none; border-radius: 50%; border: 2.5px solid #888; color: #fff; font-weight: 700; line-height: 1; overflow: hidden; background-repeat: no-repeat; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); }
+ol.log .avatar { border-width: 1.5px; vertical-align: -4px; margin: 0 2px 0 4px; }
+/* ---- 登山者カード（小さくできる） ---- */
+section.climber .who { display: flex; align-items: center; gap: 8px; }
+section.climber .who h3 { flex: 1; margin: 0; font-size: 0.98rem; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+section.climber .fold { min-height: 24px; padding: 0 4px; background: transparent; border-color: transparent; display: inline-flex; align-items: center; }
+section.climber .fold:hover:not(:disabled) { background: rgba(255, 255, 255, 0.12); }
+section.climber .summary { margin-top: 4px; }
+section.climber:not(.mini) .summary { padding-bottom: 4px; margin-bottom: 4px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+section.climber.mini { padding: 5px 8px; }
+.side .tools { margin: 0 0 6px; text-align: right; }
+/* ---- タブ式のウィンドウ ---- */
+.fwin-bar[role='tablist'] { padding: 4px 6px 0 6px; gap: 2px; align-items: stretch; cursor: default; }
+.fwin-tab { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 10px; border: 1px solid transparent; border-bottom: 0; border-radius: 8px 8px 0 0; background: transparent; color: #a9b0bb; font-size: 0.9em; white-space: nowrap; cursor: grab; touch-action: none; user-select: none; }
+.fwin-tab.on { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.14); color: #e9ecf1; font-weight: 600; }
+.fwin-tab:hover:not(.on) { background: rgba(255, 255, 255, 0.06); border-color: transparent; }
+.fwin-grip { flex: 1; min-width: 24px; cursor: grab; touch-action: none; }
+.fwin.dragging .fwin-grip, .fwin.dragging .fwin-tab { cursor: grabbing; }
+.fwin.drop { outline: 2px solid var(--accent); outline-offset: 1px; }
+.fwin-bar[role='tablist'] .fwin-btn { align-self: center; margin-bottom: 3px; }
+.fwin-ghost { position: fixed; z-index: 100; display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 8px; pointer-events: none; color: #e9ecf1; background: rgba(14, 17, 23, 0.9); border: 1px solid var(--accent); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45); font-size: 0.9em; }
+.side { padding: 8px 10px; }
+.side section.weather h3, .side h4 { margin: 4px 0 6px; font-size: 0.95rem; }
+
 /* ---- タイムライン（時間を戻すスライダー） ---- */
 .timeline { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); width: min(760px, calc(100vw - 24px)); z-index: 7; padding: 6px 12px 8px; color: #e9ecf1;
   background: rgba(14, 17, 23, 0.58); -webkit-backdrop-filter: blur(16px) saturate(1.25); backdrop-filter: blur(16px) saturate(1.25); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38); }
