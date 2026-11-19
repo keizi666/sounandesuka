@@ -25,7 +25,7 @@
     ]
   },
   "plan": {
-    "route": ["TH", "SANSO", "FUTAMATA", "KEIKAN", "HORA", "YAMANOKAMI", "OTOME", "KAMA", "SENJO", "RYOMON", "BIVY", "HUT", "TOKUSA", "TOWATARI", "SANSO", "TH"],
+    "route": ["TH", "SANSO", "FUTAMATA", "KEIKAN", "HORA", "MAKIDE", "YAMANOKAMI", "OTOME", "KAMA", "UODOME", "SENJO", "RYOMON", "BIVY", "HUT", "TOKUSA", "TOWATARI", "SANSO", "TH"],
     "goalNodes": ["TH"],
     "plannedFinish": "D1 16:00",
     "submittedPlan": true,
@@ -327,6 +327,7 @@
       ]
     },
     { "id": "ev_keikan", "trigger": { "atNode": "KEIKAN" }, "once": true, "effects": [{ "type": "log", "text": "鶏冠谷出合。ここから先は、膝まで水に浸かる渡渉が続く" }, { "type": "soak", "who": "all", "level": "knees" }] },
+    { "id": "ev_makide", "trigger": { "atNode": "MAKIDE" }, "once": true, "effects": [{ "type": "log", "text": "ホラの貝の高巻きを終え、ゴルジュの上の広い河原に下りた。巻き道からは、岩壁の間を白く泡立って流れる水が見下ろせた。ここでひと息入れる" }, { "type": "actions", "actions": [{ "type": "rest", "minutes": 10 }, { "type": "continueRoute" }] }] },
     { "id": "ev_kama", "trigger": { "atNode": "KAMA" }, "once": true, "effects": [{ "type": "log", "text": "釜ノ沢出合。魚止ノ滝を越えると、一枚岩の千畳のナメが続く" }, { "type": "soak", "who": "all", "level": "knees" }] },
     {
       "id": "ev_other_ryomon",
@@ -722,8 +723,8 @@
           { "flag": "nightMove" },
           { "var": "sun.isDark", "op": "==", "value": true },
           { "var": "c.saito.state", "op": "==", "value": "WALKING" },
-          { "var": "c.saito.elevM", "op": ">", "value": 1225 },
-          { "var": "c.saito.elevM", "op": "<", "value": 1330 },
+          { "var": "c.saito.elevM", "op": ">", "value": 1220 },
+          { "var": "c.saito.elevM", "op": "<", "value": 1265 },
           { "chance": 0.35 }
         ]
       },
@@ -739,7 +740,7 @@
           { "var": "sun.isDark", "op": "==", "value": true },
           { "var": "c.murai.state", "op": "==", "value": "WALKING" },
           { "var": "c.murai.elevM", "op": ">", "value": 1140 },
-          { "var": "c.murai.elevM", "op": "<", "value": 1225 },
+          { "var": "c.murai.elevM", "op": "<", "value": 1212 },
           { "chance": 0.3 }
         ]
       },
@@ -1670,12 +1671,12 @@
         },
         {
           "id": "signal",
-          "label": "シートを広げ、ヘリを待つ",
-          "detail": "開けた河原に、目立つ色のシートを広げる。",
+          "label": "河原でヘリを待つ",
+          "detail": "上着を振って合図する。飛ぶ物は押さえておく。",
           "available": { "any": [{ "not": { "flag": "notMoved" } }, { "flag": "movedLate" }] },
           "hideIfUnavailable": true,
           "actions": [
-            { "type": "narrate", "text": "斎藤さんと村井さんが、河原の開けた所に赤いシートを広げ、石で押さえた。湯を沸かして、交代で飲んだ" },
+            { "type": "narrate", "text": "斎藤さんと村井さんが、ヘリから見える開けた河原に出た。シートやツエルトはヘリの風で舞い上がるのでたたんで石の下に入れ、赤い雨具を合図に振れるよう手に持った。湯を沸かして、交代で飲んだ" },
             { "type": "drink", "who": "saito", "liters": 0.3 },
             { "type": "drink", "who": "murai", "liters": 0.3 },
             { "type": "eat", "who": "saito", "kcal": 300 },
@@ -2161,7 +2162,7 @@
       "key": "s13_hora",
       "who": "hori",
       "to": "kitagawa",
-      "when": { "all": [{ "onEdge": "E5" }, { "state": "WALKING" }] },
+      "when": { "all": [{ "state": "WALKING" }, { "any": [{ "all": [{ "onEdge": "E4" }, { "near": { "x": 172, "z": 962, "r": 150 } }] }, { "onEdge": "E5" }] }] },
       "lines": ["ホラの貝、右から巻くんですよね"],
       "replies": { "who": "kitagawa", "lines": ["うん。巻き道は狭いから、一人ずつ"] },
       "priority": 12,
@@ -2313,7 +2314,7 @@
           { "var": "leader.elevM", "op": "<", "value": 2200 }
         ]
       },
-      "lines": ["ヘリの音がしたら、河原でシートを広げよう"],
+      "lines": ["ヘリの音がしたら、河原に出て赤い雨具を振ろう。シートは飛ばないようにたたんでおく"],
       "replies": { "who": "miyata", "lines": ["雲が下りてくる前に来てくれれば"] },
       "priority": 14,
       "once": true
