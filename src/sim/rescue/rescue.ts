@@ -25,16 +25,82 @@ function safeInHut(c: ClimberState): boolean {
   return c.body.shelterNodeId !== null && c.body.injury === 'none' && c.body.coreC >= 35;
 }
 
-/** ヘリが飛べるか（docs/08 §5.2） */
-export function heliFlyable(world: World, ctx: StaticContext, x: number, z: number): boolean {
+export type HeliNoGo = 'night' | 'cloud' | 'visibility' | 'precip' | 'wind' | 'thunder';
+export type GroundNoGo = 'night' | 'weather';
+
+/** まわり r m の中でいちばん高い所（m） */
+function ridgeTop(ctx: StaticContext, x: number, z: number, r: number): number {
+  const map = ctx.map;
+  const k = Math.max(1, Math.round(r / map.cell));
+  const cx = Math.round((x + map.half) / map.cell);
+  const cz = Math.round((z + map.half) / map.cell);
+  let top = -Infinity;
+  const step = Math.max(1, Math.floor(k / 12));
+  for (let dz = -k; dz <= k; dz += step)
+    for (let dx = -k; dx <= k; dx += step) {
+      if (dx * dx + dz * dz > k * k) continue;
+      const ix = cx + dx;
+      const iz = cz + dz;
+      if (ix < 0 || iz < 0 || ix >= map.n || iz >= map.n) continue;
+      top = Math.max(top, map.heights[iz * map.n + ix]!);
+    }
+  return top;
+}
+
+/**
+ * ヘリが飛べない理由（飛べるなら null）。救助ヘリは有視界飛行で、地上を目で見て飛ぶ（docs/08 §5.2）。
+ * 夜（日の出の少し後〜日の入りの 1 時間前のほかは飛ばない）、雲（目標やまわりの尾根が雲に入っている・低い雲が空を覆う）、
+ * 視界（1,500 m 未満）、強い雨や雪、強い風、雷のどれかがあれば飛ばない。
+ */
+export function heliNoGo(world: World, ctx: StaticContext, x: number, z: number): HeliNoGo | null {
   const rt = ctx.tuning.rescue;
   const sun = ctx.scenario.sun;
   const clock = clockMinOf(world.tMin);
   const light = clock >= parseHHMM(sun.sunrise) + rt.heliAfterSunriseMin && clock <= parseHHMM(sun.sunset) - rt.heliBeforeSunsetMin;
-  if (!light) return false;
+  if (!light) return 'night';
+  const elev = ctx.map.heights[nearestIndex(ctx.map, x, z)]!;
+  const g = world.weather;
+  if (elev + rt.heliCloudClearM >= g.cloudBaseM || ridgeTop(ctx, x, z, rt.heliRidgeRadiusM) >= g.cloudBaseM) return 'cloud';
+  if (g.cloudCover >= rt.heliOvercastCover && g.cloudBaseM < elev + rt.heliOvercastAboveM) return 'cloud';
+  const l = sampleLocal(world, ctx, x, z, elev);
+  if (l.thunder >= rt.heliMaxThunder) return 'thunder';
+  if (l.visibilityM < rt.heliMinVisM) return 'visibility';
+  if (l.precipMmH > rt.heliMaxPrecipMmH) return 'precip';
+  if (l.windMs * g.gust >= rt.heliMaxWindMs) return 'wind';
+  return null;
+}
+
+/** ヘリが飛べるか */
+export function heliFlyable(world: World, ctx: StaticContext, x: number, z: number): boolean {
+  return heliNoGo(world, ctx, x, z) === null;
+}
+
+/**
+ * 地上の救助隊が山で動けない理由（動けるなら null）。夜は山に入らない（日の出から、日の入りの 30 分前まで）。
+ * 強い雨・強い風・雷・目の前も見えない霧や吹雪では出発を見合わせ、捜索も止める（二次遭難を避ける）。
+ */
+export function groundNoGo(world: World, ctx: StaticContext, x: number, z: number): GroundNoGo | null {
+  const rt = ctx.tuning.rescue;
+  const sun = ctx.scenario.sun;
+  const clock = clockMinOf(world.tMin);
+  if (clock < parseHHMM(sun.sunrise) || clock > parseHHMM(sun.sunset) - rt.groundBeforeSunsetMin) return 'night';
   const elev = ctx.map.heights[nearestIndex(ctx.map, x, z)]!;
   const l = sampleLocal(world, ctx, x, z, elev);
-  return l.visibilityM > rt.heliMinVisM && elev < world.weather.cloudBaseM - rt.heliCloudMarginM && l.windMs < rt.heliMaxWindMs && l.thunder < rt.heliMaxThunder;
+  if (l.precipMmH > rt.groundMaxPrecipMmH || l.windMs * world.weather.gust >= rt.groundMaxWindMs || l.thunder >= rt.groundMaxThunder || l.visibilityM < rt.groundMinVisM) return 'weather';
+  return null;
+}
+
+/** 見合わせの理由が変わったときだけ、ログに 1 行出す（null は「動きはじめた」） */
+function holdLog(world: World, ctx: StaticContext, by: 'heli' | 'ground', reason: string | null): void {
+  const key = `hold:${by}`;
+  const prev = Object.keys(world.latches).find((k) => k.startsWith(`${key}:`) && world.latches[k]) ?? null;
+  const now = reason ? `${key}:${reason}` : null;
+  if (prev === now) return;
+  if (prev) world.latches[prev] = false;
+  if (now) world.latches[now] = true;
+  // 動きはじめは、それまで見合わせていたときだけ知らせる
+  if (!now && !prev) return;
+  ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', important: true, data: { rescueHold: reason ?? 'go', by } });
 }
 
 const routePtsCache = new WeakMap<readonly NodeId[], Float64Array>();
@@ -296,24 +362,30 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
     }
   }
   // 計画ルートからの捜索範囲は時間とともに広がる
-  if (r.via === 'overdue' || r.locationEstimate === null || world.flags['rescueNotThere'] !== undefined) r.searchRadiusM += (rt.searchGrowMPerH / 60) * dtMin;
+  const searchingNow = r.ground.state === 'searching' || r.heli.state === 'searching';
+  if ((r.via === 'overdue' || r.locationEstimate === null || world.flags['rescueNotThere'] !== undefined) && searchingNow) r.searchRadiusM += (rt.searchGrowMPerH / 60) * dtMin;
   const precise = (r.locationEstimate?.radiusM ?? Infinity) <= rt.preciseM;
   const tgt = target(world);
 
   // ヘリ
   const h = r.heli;
   if ((h.state === 'preparing' && world.tMin >= (h.readyAtMin ?? Infinity)) || (h.state === 'waiting' && world.tMin >= (h.nextCheckMin ?? Infinity))) {
-    if (heliFlyable(world, ctx, tgt.x, tgt.z)) {
+    const ng = heliNoGo(world, ctx, tgt.x, tgt.z);
+    if (!ng) {
       h.state = precise ? 'flying' : 'searching';
       h.readyAtMin = world.tMin + (precise ? rt.heliHoistMin : 0);
+      holdLog(world, ctx, 'heli', null);
     } else {
       h.state = 'waiting';
       h.nextCheckMin = world.tMin + rt.heliRecheckMin;
+      holdLog(world, ctx, 'heli', ng);
     }
   } else if (h.state === 'flying' || h.state === 'searching') {
-    if (!heliFlyable(world, ctx, tgt.x, tgt.z)) {
+    const ng = heliNoGo(world, ctx, tgt.x, tgt.z);
+    if (ng) {
       h.state = 'waiting';
       h.nextCheckMin = world.tMin + rt.heliRecheckMin;
+      holdLog(world, ctx, 'heli', ng);
     } else if (h.state === 'flying' && world.tMin >= (h.readyAtMin ?? Infinity)) {
       const c = nearestMissing(world, ctx, tgt);
       if (c && nearReported(ctx, c, tgt)) return contact(world, ctx, c, 'heli');
@@ -324,8 +396,23 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
     }
   }
 
-  // 地上隊
+  // 地上隊: 夜・悪天候では山に入らず、捜索も止めて下山する（翌朝・天気の回復を待って、登山口から入り直す）
   const g = r.ground;
+  const active = g.state === 'mobilizing' || g.state === 'moving' || g.state === 'searching' || g.state === 'standby';
+  if (active) {
+    const ng = groundNoGo(world, ctx, tgt.x, tgt.z);
+    if (ng) {
+      if (g.state === 'moving' || g.state === 'searching' || (g.state === 'mobilizing' && world.tMin >= (g.readyAtMin ?? Infinity))) {
+        g.state = 'standby';
+        holdLog(world, ctx, 'ground', ng);
+      }
+    } else if (g.state === 'standby') {
+      // 隊はもう集まっている。登山口から入り直す
+      g.state = 'mobilizing';
+      g.readyAtMin = world.tMin;
+      holdLog(world, ctx, 'ground', null);
+    }
+  }
   if (g.state === 'mobilizing' && world.tMin >= (g.readyAtMin ?? Infinity)) {
     // 最寄りの登山口から目標までの道のり（直線距離 × groundPathF を登山道の速さで）
     let bestD = Infinity;
@@ -347,8 +434,7 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
       if (c) notThere(world, ctx, 'ground');
     }
   } else if (g.state === 'searching') {
-    const visF = world.sun.isDark ? rt.groundNightFindF : 1;
-    const c = search(world, ctx, rt.groundFindPerH * visF, 'ground', dtMin);
+    const c = search(world, ctx, rt.groundFindPerH, 'ground', dtMin);
     if (c) return contact(world, ctx, c, 'ground');
   }
 }

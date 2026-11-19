@@ -183,8 +183,23 @@ export const rescue = {
   heliBeforeSunsetMin: 60,
   heliMinVisM: 1500,
   heliCloudMarginM: 100,
-  heliMaxWindMs: 15,
+  heliMaxWindMs: 13,
   heliMaxThunder: 0.2,
+  /** ヘリ: 目標の上の雲との間をこれだけあける（m）。まわり heliRidgeRadiusM の尾根が雲に入っていても飛ばない（有視界飛行。雲があれば飛ばない） */
+  heliCloudClearM: 300,
+  heliRidgeRadiusM: 1500,
+  /** ヘリ: 空の大半が雲（この割合以上）で、雲の底が目標より heliOvercastAboveM 以内なら飛ばない */
+  heliOvercastCover: 0.85,
+  heliOvercastAboveM: 800,
+  /** ヘリ: 雨・雪の強さの上限（mm/h）。視界が悪くなる */
+  heliMaxPrecipMmH: 4,
+  /** 地上隊: 夜は山に入らない（二次遭難を避ける）。日の出から、日の入りのこの分前まで動く */
+  groundBeforeSunsetMin: 30,
+  /** 地上隊: 悪天候で出ない・捜索を止める条件（目標の場所の天気） */
+  groundMaxPrecipMmH: 10,
+  groundMaxWindMs: 15,
+  groundMaxThunder: 0.3,
+  groundMinVisM: 30,
   heliHoistMin: 15,
   heliFindPerH: 0.6,
   heliFindForestPerH: 0.25,

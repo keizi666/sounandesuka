@@ -685,7 +685,7 @@ export interface RescueState {
   via: 'phone' | 'satellite' | 'overdue' | 'script' | 'passerby' | null;
   locationEstimate: { x: number; z: number; radiusM: number } | null;
   heli: { readyAtMin: number | null; nextCheckMin: number | null; state: 'idle' | 'preparing' | 'waiting' | 'flying' | 'searching' | 'done' };
-  ground: { readyAtMin: number | null; x: number; z: number; state: 'idle' | 'mobilizing' | 'moving' | 'searching' | 'done' };
+  ground: { readyAtMin: number | null; x: number; z: number; state: 'idle' | 'mobilizing' | 'moving' | 'searching' | 'standby' | 'done' };   // standby: 夜・悪天候で山に入らずに待つ
   searchRadiusM: number;
 }
 
