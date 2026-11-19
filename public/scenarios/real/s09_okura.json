@@ -397,6 +397,424 @@
       ]
     },
     {
+      "id": "ev_tea_komadome",
+      "trigger": {
+        "all": [
+          {
+            "flag": "slowPace"
+          },
+          {
+            "atNode": "KOMADOME"
+          },
+          {
+            "not": {
+              "flag": "collapsed"
+            }
+          },
+          {
+            "not": {
+              "beenAt": "SUMMIT"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          },
+          {
+            "not": {
+              "flag": "descend"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "rest",
+              "who": "all",
+              "minutes": 10
+            },
+            {
+              "type": "drinkAlcohol",
+              "who": "aoki",
+              "grams": 0,
+              "liters": 0.5
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "駒止茶屋のベンチで 10 分休んだ。青木さんは冷たい麦茶を買って飲んだ"
+        }
+      ]
+    },
+    {
+      "id": "ev_tea_horiyama",
+      "trigger": {
+        "all": [
+          {
+            "flag": "slowPace"
+          },
+          {
+            "atNode": "HORIYAMA"
+          },
+          {
+            "not": {
+              "flag": "collapsed"
+            }
+          },
+          {
+            "not": {
+              "beenAt": "SUMMIT"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          },
+          {
+            "not": {
+              "flag": "descend"
+            }
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "var": "c.aoki.coreC",
+                  "op": ">=",
+                  "value": 38.2
+                },
+                {
+                  "var": "c.aoki.waterDeficitL",
+                  "op": ">=",
+                  "value": 1.5
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "rest",
+              "who": "all",
+              "minutes": 10
+            },
+            {
+              "type": "drinkAlcohol",
+              "who": "aoki",
+              "grams": 0,
+              "liters": 0.5
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "堀山の家の日陰で 10 分休んだ。青木さんはスポーツドリンクを買って飲んだ"
+        }
+      ]
+    },
+    {
+      "id": "ev_tea_hanatate",
+      "trigger": {
+        "all": [
+          {
+            "flag": "slowPace"
+          },
+          {
+            "atNode": "HANATATE_HUT"
+          },
+          {
+            "not": {
+              "flag": "collapsed"
+            }
+          },
+          {
+            "not": {
+              "beenAt": "SUMMIT"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          },
+          {
+            "not": {
+              "flag": "descend"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "rest",
+              "who": "all",
+              "minutes": 10
+            },
+            {
+              "type": "drinkAlcohol",
+              "who": "aoki",
+              "grams": 0,
+              "liters": 0.5
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "花立山荘で 10 分休んだ。青木さんは冷たい飲み物を買って飲み、首すじを冷やした"
+        }
+      ]
+    },
+    {
+      "id": "ev_tea_down_komadome",
+      "trigger": {
+        "all": [
+          {
+            "atNode": "KOMADOME"
+          },
+          {
+            "any": [
+              {
+                "beenAt": "SUMMIT"
+              },
+              {
+                "flag": "turnedBack"
+              },
+              {
+                "flag": "descend"
+              },
+              {
+                "flag": "collapsed"
+              }
+            ]
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "flag": "split"
+                },
+                {
+                  "not": {
+                    "flag": "reunited"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "var": "c.aoki.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "rest",
+              "who": "all",
+              "minutes": 10
+            },
+            {
+              "type": "drinkAlcohol",
+              "who": "aoki",
+              "grams": 0,
+              "liters": 0.5
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "下りの途中、駒止茶屋で 10 分休んだ。2 人は冷たい飲み物を買って飲んだ"
+        }
+      ]
+    },
+    {
+      "id": "ev_tea_down_miharashi",
+      "trigger": {
+        "all": [
+          {
+            "atNode": "MIHARASHI"
+          },
+          {
+            "any": [
+              {
+                "beenAt": "SUMMIT"
+              },
+              {
+                "flag": "turnedBack"
+              },
+              {
+                "flag": "descend"
+              },
+              {
+                "flag": "collapsed"
+              }
+            ]
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "flag": "split"
+                },
+                {
+                  "not": {
+                    "flag": "reunited"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "var": "c.aoki.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "rest",
+              "who": "all",
+              "minutes": 10
+            },
+            {
+              "type": "drinkAlcohol",
+              "who": "aoki",
+              "grams": 0,
+              "liters": 0.5
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "下りの途中、見晴茶屋で 10 分休んだ。2 人は冷たい飲み物を買って飲んだ"
+        }
+      ]
+    },
+    {
+      "id": "ev_tea_down_kannon",
+      "trigger": {
+        "all": [
+          {
+            "atNode": "KANNON"
+          },
+          {
+            "any": [
+              {
+                "beenAt": "SUMMIT"
+              },
+              {
+                "flag": "turnedBack"
+              },
+              {
+                "flag": "descend"
+              },
+              {
+                "flag": "collapsed"
+              }
+            ]
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "flag": "split"
+                },
+                {
+                  "not": {
+                    "flag": "reunited"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "var": "c.aoki.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "rest",
+              "who": "all",
+              "minutes": 10
+            },
+            {
+              "type": "drinkAlcohol",
+              "who": "aoki",
+              "grams": 0,
+              "liters": 0.5
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "下りの途中、観音茶屋で 10 分休んだ。2 人は冷たい飲み物を買って飲んだ"
+        }
+      ]
+    },
+    {
       "id": "ev_horiyama_leave",
       "trigger": {
         "all": [
@@ -1435,7 +1853,7 @@
         "青木さんの水は空。坂本さんの水は残り {c.sakamoto.waterL:1} L。青木さんのザックには食べ物が少し残っている（{c.aoki.foodKcal:0} kcal）",
         "考えられる原因: 熱中症（熱疲労）、脱水、低血糖（シャリバテ）。50 代なので心臓や脳の病気も否定できない",
         "少し下に花立山荘（営業中）がある。冷たい飲み物やかき氷を売っている",
-        "携帯電話は通じる。意識がおかしい・何度も吐く・水が飲めない・体がひどく熱いなら、迷わず 110 番"
+        "携帯電話は、尾根のたいていの所で通じる（堀山の家と金冷シのあたりは入りにくい）。意識がおかしい・何度も吐く・水が飲めない・体がひどく熱いなら、迷わず 110 番"
       ],
       "options": [
         {
@@ -1849,7 +2267,7 @@
       "situation": "休ませても、青木さんの様子はあまり変わらない。顔は赤いまま、ぼんやりして、受け答えが遅い。「頭が痛い」「吐きそう」と言う。",
       "knowledge": [
         "大倉までは下りで 2 時間半ほど。下るほど気温は上がる",
-        "携帯電話は通じる"
+        "携帯電話は、尾根のたいていの所で通じる（堀山の家と金冷シのあたりは入りにくい）"
       ],
       "options": [
         {
@@ -2029,7 +2447,7 @@
       "situation": "さらに 30 分休ませたが、青木さんはぐったりしたままだ。顔が赤く、受け答えもはっきりしない。",
       "knowledge": [
         "大倉までは下りで 2 時間半ほど。下るほど気温は上がる",
-        "携帯電話は通じる"
+        "携帯電話は、尾根のたいていの所で通じる（堀山の家と金冷シのあたりは入りにくい）"
       ],
       "options": [
         {
@@ -2053,6 +2471,64 @@
           "flags": [
             "called",
             "recoverAsked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.2
+          },
+          "available": {
+            "var": "c.sakamoto.radio",
+            "op": ">=",
+            "value": 0.3
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "callSeek",
+          "label": "ここは電波が入らない。青木さんを日陰に寝かせ、坂本さんが道沿いに電波の入る所を探して 110 番し、すぐ戻る",
+          "available": {
+            "all": [
+              {
+                "var": "c.sakamoto.radio",
+                "op": "<",
+                "value": 0.3
+              },
+              {
+                "var": "c.sakamoto.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.sakamoto.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "to": "aoki",
+              "text": "電波を探してくる。すぐ戻るから、ここで横になってろ"
+            },
+            {
+              "type": "waitRescue",
+              "who": "aoki"
+            },
+            {
+              "type": "seekSignal",
+              "who": "sakamoto",
+              "returnAfter": true
+            }
+          ],
+          "flags": [
+            "called",
+            "recoverAsked",
+            "seekDone"
           ],
           "tags": [
             "recommended"
@@ -2168,7 +2644,7 @@
       "knowledge": [
         "標高 {c.aoki.elevM:0} m、気温 {c.aoki.local.tempC:0}℃",
         "何度も吐く・受け答えが鈍いのは、重い熱中症のサインかもしれない",
-        "携帯電話は通じる"
+        "携帯電話は、尾根のたいていの所で通じる（堀山の家と金冷シのあたりは入りにくい）"
       ],
       "options": [
         {
@@ -2203,58 +2679,72 @@
           ],
           "bias": {
             "base": 0.9
+          },
+          "available": {
+            "var": "c.sakamoto.radio",
+            "op": ">=",
+            "value": 0.3
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "callSeek",
+          "label": "ここは電波が入らない。青木さんを日陰に寝かせ、坂本さんが道沿いに電波の入る所を探して 110 番し、すぐ戻る",
+          "available": {
+            "all": [
+              {
+                "var": "c.sakamoto.radio",
+                "op": "<",
+                "value": 0.3
+              },
+              {
+                "var": "c.sakamoto.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.sakamoto.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "to": "aoki",
+              "text": "電波を探してくる。すぐ戻るから、ここで横になってろ"
+            },
+            {
+              "type": "waitRescue",
+              "who": "aoki"
+            },
+            {
+              "type": "seekSignal",
+              "who": "sakamoto",
+              "returnAfter": true
+            }
+          ],
+          "flags": [
+            "called",
+            "seekDone"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9
           }
         },
         {
           "id": "restDown",
-          "label": "1 時間休ませてから、山頂はあきらめてゆっくり下る",
-          "actions": [
-            {
-              "type": "say",
-              "text": "もう登らない。休んだら下りよう",
-              "to": "aoki"
-            },
-            {
-              "type": "turnBack",
-              "who": "all"
-            },
-            {
-              "type": "drinkAlcohol",
-              "who": "aoki",
-              "grams": 0,
-              "liters": 0.3
-            },
-            {
-              "type": "setPace",
-              "who": "all",
-              "factor": 0.8
-            },
-            {
-              "type": "rest",
-              "who": "all",
-              "minutes": 60
-            }
-          ],
-          "flags": [
-            "descend"
-          ],
-          "bias": {
-            "base": 0.8
-          },
-          "available": {
-            "not": {
-              "beenAt": "SUMMIT"
-            }
-          },
-          "hideIfUnavailable": true
-        },
-        {
-          "id": "restDownFromSummit",
           "label": "1 時間休ませてから、ゆっくり大倉へ下る",
           "actions": [
             {
               "type": "say",
-              "text": "休んだら、ゆっくり下りよう",
+              "text": "もう無理はしない。休んだら、ゆっくり下りよう",
               "to": "aoki"
             },
             {
@@ -2283,11 +2773,7 @@
           ],
           "bias": {
             "base": 0.8
-          },
-          "available": {
-            "beenAt": "SUMMIT"
-          },
-          "hideIfUnavailable": true
+          }
         },
         {
           "id": "goDown",
@@ -2374,7 +2860,7 @@
       "situation": "青木さんの様子がおかしい。呼びかけへの返事がはっきりせず、話がかみ合わない。吐いた。首すじを触ると驚くほど熱い。",
       "knowledge": [
         "重い熱中症の疑い。体を冷やし続けながら、一刻も早く病院へ運ぶ必要がある",
-        "携帯電話は通じる"
+        "携帯電話は、尾根のたいていの所で通じる（堀山の家と金冷シのあたりは入りにくい）"
       ],
       "options": [
         {
@@ -2398,6 +2884,64 @@
           "flags": [
             "called",
             "severe"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.5
+          },
+          "available": {
+            "var": "c.sakamoto.radio",
+            "op": ">=",
+            "value": 0.3
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "callSeek",
+          "label": "ここは電波が入らない。青木さんを日陰に寝かせ、坂本さんが道沿いに電波の入る所を探して 110 番し、すぐ戻る",
+          "available": {
+            "all": [
+              {
+                "var": "c.sakamoto.radio",
+                "op": "<",
+                "value": 0.3
+              },
+              {
+                "var": "c.sakamoto.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.sakamoto.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "to": "aoki",
+              "text": "電波を探してくる。すぐ戻るから、ここで横になってろ"
+            },
+            {
+              "type": "waitRescue",
+              "who": "aoki"
+            },
+            {
+              "type": "seekSignal",
+              "who": "sakamoto",
+              "returnAfter": true
+            }
+          ],
+          "flags": [
+            "called",
+            "severe",
+            "seekDone"
           ],
           "tags": [
             "recommended"
@@ -2439,13 +2983,23 @@
       "title": "山頂から戻ると",
       "priority": 22,
       "trigger": {
-        "flag": "reunited"
+        "all": [
+          {
+            "flag": "reunited"
+          },
+          {
+            "elapsedSince": {
+              "flag": "reunited",
+              "min": 1
+            }
+          }
+        ]
       },
       "situation": "坂本さんが山頂から戻ってきた。青木さんは道標の陰で座り込んだまま、ぼんやりしている。置いていった水は空になっていた。",
       "knowledge": [
         "大倉までは下りで 2 時間半ほど。下るほど気温は上がる",
         "少し下に花立山荘がある",
-        "携帯電話は通じる"
+        "携帯電話は、尾根のたいていの所で通じる（堀山の家と金冷シのあたりは入りにくい）"
       ],
       "options": [
         {
@@ -2543,6 +3097,156 @@
                 "add": 0.5
               }
             ]
+          },
+          "available": {
+            "var": "c.sakamoto.radio",
+            "op": ">=",
+            "value": 0.3
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "callSeek",
+          "label": "ここは電波が入らない。青木さんを日陰に寝かせ、坂本さんが道沿いに電波の入る所を探して 110 番し、すぐ戻る",
+          "available": {
+            "all": [
+              {
+                "var": "c.sakamoto.radio",
+                "op": "<",
+                "value": 0.3
+              },
+              {
+                "var": "c.sakamoto.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.sakamoto.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "to": "aoki",
+              "text": "電波を探してくる。すぐ戻るから、ここで横になってろ"
+            },
+            {
+              "type": "waitRescue",
+              "who": "aoki"
+            },
+            {
+              "type": "seekSignal",
+              "who": "sakamoto",
+              "returnAfter": true
+            }
+          ],
+          "flags": [
+            "called",
+            "seekDone"
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "flag": "aloneFall"
+                },
+                "add": 0.5
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_nocall",
+      "title": "電話がつながらない",
+      "priority": 20,
+      "trigger": {
+        "all": [
+          {
+            "flag": "called"
+          },
+          {
+            "not": {
+              "elapsedSince": {
+                "flag": "called",
+                "min": 0.5
+              }
+            }
+          },
+          {
+            "not": {
+              "flag": "seekDone"
+            }
+          },
+          {
+            "var": "c.sakamoto.radio",
+            "op": "<",
+            "value": 0.15
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WAITING_RESCUE"
+          }
+        ]
+      },
+      "situation": "110 番にかけたが、つながらない。スマートフォンの電波の表示は「圏外」だ。",
+      "knowledge": [
+        "堀山の家と金冷シのあたりは電波が入りにくい。道を少し登るか下れば入るかもしれない",
+        "青木さんを一人で歩かせるのは危ない"
+      ],
+      "options": [
+        {
+          "id": "seek",
+          "label": "青木さんを日陰に寝かせ、坂本さんが道沿いに電波の入る所を探して 110 番し、すぐ戻る",
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "to": "aoki",
+              "text": "電波を探してくる。すぐ戻るから、ここで横になってろ"
+            },
+            {
+              "type": "waitRescue",
+              "who": "aoki"
+            },
+            {
+              "type": "seekSignal",
+              "who": "sakamoto",
+              "returnAfter": true
+            }
+          ],
+          "flags": [
+            "seekDone"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "wait",
+          "label": "電話はあきらめ、2 人でここにとどまって冷やしながら様子を見る",
+          "actions": [
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "seekDone",
+            "gaveUpCall"
+          ],
+          "bias": {
+            "base": 0.4
           }
         }
       ]
@@ -2726,10 +3430,94 @@
       "situation": "{leader.name}さんは足首をひねった。体重をかけると痛むが、ゆっくりなら歩けそうだ。暑さで頭もぼんやりしている。"
     },
     "darkness": {
-      "situation": "日が沈み、尾根の階段道が暗くなってきた。夜になっても蒸し暑い。青木さんはヘッドランプを持っていない。"
+      "situation": "日が沈み、尾根の階段道が暗くなってきた。夜になっても蒸し暑い。青木さんはヘッドランプを持っていない。",
+      "options": [
+        {
+          "id": "lamp",
+          "label": "坂本さんのヘッドランプで 2 人の足元を照らし、ゆっくり進む",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "その場で夜を明かし、明るくなってから動く",
+          "actions": [
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": false
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        }
+      ]
     },
     "straggler": {
       "enabled": false
+    },
+    "rescueFailed": {
+      "situation": "電話がつながらない。ここは電波が弱いようだ。",
+      "knowledge": [
+        "道を少し登るか下れば、電波が入るかもしれない",
+        "青木さんを一人で歩かせるのは危ない"
+      ],
+      "options": [
+        {
+          "id": "seek",
+          "label": "青木さんを日陰に寝かせ、坂本さんが道沿いに電波の入る所を探してかけ直し、すぐ戻る",
+          "actions": [
+            {
+              "type": "waitRescue",
+              "who": "aoki"
+            },
+            {
+              "type": "seekSignal",
+              "who": "sakamoto",
+              "returnAfter": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          },
+          "flags": [
+            "seekDone"
+          ]
+        },
+        {
+          "id": "wait",
+          "label": "電話はあきらめ、2 人でここにとどまって冷やしながら様子を見る",
+          "actions": [
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "bias": {
+            "base": 0.4
+          },
+          "flags": [
+            "seekDone",
+            "gaveUpCall"
+          ]
+        }
+      ]
     }
   },
   "thoughts": [
@@ -2908,6 +3696,11 @@
             "var": "c.sakamoto.state",
             "op": "==",
             "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.elevM",
+            "op": ">=",
+            "value": 500
           }
         ]
       },
@@ -3203,6 +3996,11 @@
             "var": "sun.isDark",
             "op": "==",
             "value": false
+          },
+          {
+            "not": {
+              "flag": "gaveUpCall"
+            }
           }
         ]
       },
@@ -3264,6 +4062,11 @@
             "var": "sun.isDark",
             "op": "==",
             "value": true
+          },
+          {
+            "not": {
+              "flag": "gaveUpCall"
+            }
           }
         ]
       },
@@ -3310,6 +4113,11 @@
             "var": "sun.isDark",
             "op": "==",
             "value": false
+          },
+          {
+            "not": {
+              "flag": "gaveUpCall"
+            }
           }
         ]
       },
@@ -3356,6 +4164,11 @@
             "var": "sun.isDark",
             "op": "==",
             "value": false
+          },
+          {
+            "not": {
+              "flag": "gaveUpCall"
+            }
           }
         ]
       },
@@ -3593,6 +4406,11 @@
             "var": "c.sakamoto.state",
             "op": "==",
             "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.elevM",
+            "op": ">=",
+            "value": 500
           }
         ]
       },
@@ -3765,6 +4583,21 @@
     {
       "kind": "SAFE_RETURN",
       "when": {
+        "all": [
+          {
+            "flag": "split"
+          },
+          {
+            "flag": "aloneFall"
+          }
+        ]
+      },
+      "title": "1 時間の別行動",
+      "text": "坂本さんが山頂を往復している間に、青木さんは一人で足首をひねった。2 人は時間をかけて大倉まで下りたが、その 1 時間に何かあっても、気づく人はいなかった。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
         "flag": "split"
       },
       "title": "1 時間の別行動",
@@ -3863,6 +4696,21 @@
     {
       "kind": "SAFE_SHELTER",
       "when": {
+        "all": [
+          {
+            "flag": "split"
+          },
+          {
+            "flag": "aloneFall"
+          }
+        ]
+      },
+      "title": "1 時間の別行動",
+      "text": "坂本さんが山頂を往復している間に、青木さんは一人で足首をひねった。2 人は時間をかけて大倉まで下りたが、その 1 時間に何かあっても、気づく人はいなかった。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "when": {
         "flag": "split"
       },
       "title": "1 時間の別行動",
@@ -3930,7 +4778,7 @@
     {
       "kind": "SELF_RESCUE",
       "title": "自力で下山",
-      "text": "2 人は救助を待たずに、自分たちで大倉まで下りた。"
+      "text": "2 人は山中で夜を明かし、明るくなってから自分たちの足で大倉まで下りた。"
     },
     {
       "kind": "RESCUED",
@@ -3945,7 +4793,7 @@
         ]
       },
       "title": "無理をした後で",
-      "text": "一度は持ち直した青木さんは、無理をして山頂まで登り、下る途中で再び倒れた。ヘリコプターで病院へ運ばれ、熱中症と脱水と診断されて 2 日入院した。"
+      "text": "一度は持ち直した青木さんは、無理をして山頂まで登り、下る途中で再び倒れた。救助隊に収容されて病院へ運ばれ、熱中症と脱水と診断されて 2 日入院した。"
     },
     {
       "kind": "RESCUED",
@@ -3953,7 +4801,7 @@
         "flag": "relapse"
       },
       "title": "無理をした後で",
-      "text": "一度は持ち直した青木さんは、登り返しの途中で再び倒れた。ヘリコプターで病院へ運ばれ、熱中症と脱水と診断されて 2 日入院した。"
+      "text": "一度は持ち直した青木さんは、登り返しの途中で再び倒れた。救助隊に収容されて病院へ運ばれ、熱中症と脱水と診断されて 2 日入院した。"
     },
     {
       "kind": "RESCUED",
@@ -3961,7 +4809,22 @@
         "flag": "severe"
       },
       "title": "重い熱中症",
-      "text": "青木さんはヘリコプターで病院へ運ばれ、重い熱中症と診断された。体を冷やす治療を受け、数日入院した。"
+      "text": "青木さんは救助隊に収容されて病院へ運ばれ、重い熱中症と診断された。体を冷やす治療を受け、数日入院した。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "flag": "aloneFall"
+          },
+          {
+            "flag": "called"
+          }
+        ]
+      },
+      "title": "一人のときに",
+      "text": "坂本さんが山頂を往復している間に、青木さんは一人で足をひねった。2 人は救助を頼み、青木さんは救助隊に収容されて病院へ運ばれた。熱中症と足首のねんざと診断された。"
     },
     {
       "kind": "RESCUED",
@@ -3969,7 +4832,24 @@
         "flag": "aloneFall"
       },
       "title": "一人のときに",
-      "text": "坂本さんが山頂を往復している間に、青木さんは一人で足をひねった。2 人は救助を頼み、青木さんはヘリコプターで病院へ運ばれた。熱中症と足首のねんざと診断された。"
+      "text": "坂本さんが山頂を往復している間に、青木さんは一人で足をひねった。下りに時間がかかって山中で夜になり、家族の届け出で出た救助隊に収容された。熱中症と足首のねんざと診断された。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "after": "D1 00:00"
+          }
+        ]
+      },
+      "title": "夜を越して",
+      "text": "下りきれずに山中で夜を明かした 2 人は、家族の届け出で出た救助隊に、翌朝収容された。青木さんは病院で、熱中症（熱疲労）と脱水と診断された。"
     },
     {
       "kind": "RESCUED",

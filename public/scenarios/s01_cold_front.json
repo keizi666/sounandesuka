@@ -314,6 +314,115 @@
           "important": true
         }
       ]
+    },
+    {
+      "id": "ev_hut_call",
+      "trigger": {
+        "all": [
+          {
+            "state": "SHELTERED"
+          },
+          {
+            "near": {
+              "x": 620,
+              "z": 60,
+              "r": 150
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "{leader.name}さんは小屋の電話で家族に「今夜は稜線小屋に泊まる。明日の朝に下りる」と伝えた",
+          "important": true
+        },
+        {
+          "type": "setFlag",
+          "flag": "familyNotified"
+        },
+        {
+          "type": "setFlag",
+          "flag": "nightHutRidge"
+        }
+      ]
+    },
+    {
+      "id": "ev_saddle_msg",
+      "trigger": {
+        "all": [
+          {
+            "state": "SHELTERED"
+          },
+          {
+            "near": {
+              "x": -386,
+              "z": -865,
+              "r": 150
+            }
+          },
+          {
+            "var": "leader.phone.has",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.phone.batteryPct",
+            "op": ">",
+            "value": 0
+          },
+          {
+            "var": "leader.radio",
+            "op": ">=",
+            "value": 0.15
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "電波は弱いが、家族にメッセージが届いた（「北の鞍部の避難小屋に泊まる。明日の朝に下りる」）",
+          "important": true
+        },
+        {
+          "type": "setFlag",
+          "flag": "familyNotified"
+        }
+      ]
+    },
+    {
+      "id": "ev_hut_night",
+      "trigger": {
+        "all": [
+          {
+            "atNode": "HUT_RIDGE"
+          },
+          {
+            "chose": {
+              "cp": "cp_eboshi",
+              "option": "hut"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "say",
+              "text": "今夜、泊めてもらえますか"
+            },
+            {
+              "type": "stayInShelter",
+              "until": "D1 07:00"
+            }
+          ]
+        }
+      ]
     }
   ],
   "choices": [
@@ -397,7 +506,7 @@
       "trigger": {
         "atNode": "EBOSHI"
       },
-      "situation": "{leader.name}さんは烏帽子ノ頭に着いた。西の空が暗く、雲が稜線に下りてきている。風が強まり、体感温度は{leader.local.windChillC:0}℃。",
+      "situation": "{leader.name}さんは烏帽子ノ頭に着いた。西の空に雲が広がり、稜線の上の空が暗くなってきた。風が強まり、体感温度は{leader.local.windChillC:0}℃。",
       "knowledge": [
         "ここから稜線小屋まで約40分",
         "引き返せば登山口まで約2時間",
@@ -439,13 +548,21 @@
         },
         {
           "id": "hut",
-          "label": "稜線小屋まで行き、今日は小屋に泊まるつもりで進む",
+          "label": "稜線小屋まで行って泊まり、明日の朝に来た道を下りる",
           "detail": "稜線を歩くのは40分だけにする。",
           "actions": [
             {
-              "type": "goToNode",
-              "node": "HUT_RIDGE",
-              "then": "stay"
+              "type": "setRoute",
+              "route": [
+                "EBOSHI",
+                "HUT_RIDGE",
+                "EBOSHI",
+                "J_FOREST",
+                "TH_SAWA"
+              ],
+              "goalNodes": [
+                "TH_SAWA"
+              ]
             }
           ],
           "bias": {
@@ -490,6 +607,21 @@
             "var": "leader.rainwearOn",
             "op": "==",
             "value": false
+          },
+          {
+            "any": [
+              {
+                "state": "WALKING"
+              },
+              {
+                "state": "RESTING"
+              }
+            ]
+          },
+          {
+            "var": "leader.nearestShelterM",
+            "op": ">",
+            "value": 150
           }
         ]
       },
@@ -559,7 +691,7 @@
           }
         ]
       },
-      "situation": "稜線小屋に着いた。外は{leader.local.precipMmH:0}mm/hの{leader.local.precipType}、風は{leader.local.windMs:0}m/s。小屋番が「この先の岩稜は今日は荒れる。泊まっていったら」と声をかけてきた。",
+      "situation": "稜線小屋に着いた。外は風が{leader.local.windMs:0}m/s、体感温度は{leader.local.windChillC:0}℃。小屋番が「この先の岩稜は今日は荒れる。泊まっていったら」と声をかけてきた。",
       "knowledge": [
         "山頂まで約45分、北の鞍部の避難小屋まで約1時間40分",
         "北登山口までは約4時間",
@@ -569,7 +701,7 @@
       "options": [
         {
           "id": "stay",
-          "label": "小屋に泊まり、明日の朝に下りる",
+          "label": "小屋に泊まり、明日の朝に来た道を下りる",
           "detail": "家族には小屋から連絡を入れる。",
           "actions": [
             {
@@ -577,12 +709,20 @@
               "text": "今夜、泊めてもらえますか"
             },
             {
-              "type": "stayInShelter",
-              "until": "D1 07:00"
+              "type": "setRoute",
+              "route": [
+                "HUT_RIDGE",
+                "EBOSHI",
+                "J_FOREST",
+                "TH_SAWA"
+              ],
+              "goalNodes": [
+                "TH_SAWA"
+              ]
             },
             {
-              "type": "setFlag",
-              "flag": "familyNotified"
+              "type": "stayInShelter",
+              "until": "D1 07:00"
             }
           ],
           "tags": [
@@ -703,28 +843,37 @@
       "situation": "震えが止まらない。指先がかじかんでザックのバックルがうまく外せない。{leader.name}さんは「早く下りなければ」と思っている。",
       "knowledge": [
         "気温 {leader.local.tempC:0}℃、風 {leader.local.windMs:0}m/s",
-        "ツェルトはない。予備の防寒着と食料は少し残っている",
+        "ツェルトはない。食料の残りは約 {leader.foodKcal:0} kcal",
         "スマホの電池は {leader.phone.batteryPct:0}%"
       ],
       "options": [
         {
           "id": "call",
-          "label": "救助を要請し、風を避けて待つ",
+          "label": "救助を要請し、岩陰で風を避けて待つ",
           "available": {
-            "var": "leader.radio",
-            "op": ">=",
-            "value": 0.15
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.15
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
           },
-          "unavailableText": "電波が届いていない",
+          "unavailableText": "電波が届いていないか、スマホが使えない",
           "actions": [
             {
               "type": "callRescue",
               "via": "auto"
-            },
-            {
-              "type": "say",
-              "text": "山で動けなくなりました。稜線の、小屋と山頂の間です",
-              "tone": "normal"
             },
             {
               "type": "addLayer"
@@ -734,7 +883,9 @@
               "kcal": 300
             },
             {
-              "type": "waitRescue"
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
             }
           ],
           "tags": [
@@ -752,7 +903,8 @@
                 "add": 0.3
               }
             ]
-          }
+          },
+          "detail": "電波が弱いと、つながらないこともある。"
         },
         {
           "id": "bivy",
@@ -814,6 +966,109 @@
   "genericOverrides": {
     "hypothermia": {
       "enabled": false
+    },
+    "darkness": {
+      "situation": "あたりが暗くなってきた。足元が見えにくい。",
+      "options": [
+        {
+          "id": "continue",
+          "label": "ヘッドランプをつけて進む",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "available": {
+            "all": [
+              {
+                "var": "leader.headlamp.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.coreC",
+                "op": ">=",
+                "value": 34
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "bias": {
+            "base": 1.0,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "numb",
+          "label": "ライトを出せないまま、暗い中を進む",
+          "detail": "指がかじかんで、ザックのヘッドランプが取り出せない。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "available": {
+            "not": {
+              "var": "leader.coreC",
+              "op": ">=",
+              "value": 34
+            }
+          },
+          "hideIfUnavailable": true,
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "その場でビバークする",
+          "actions": [
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "toShelter",
+          "label": "近くの小屋を目指す",
+          "actions": [
+            {
+              "type": "goToNode",
+              "node": "$nearestShelter",
+              "then": "stay"
+            }
+          ],
+          "available": {
+            "var": "leader.nearestShelterM",
+            "op": "<=",
+            "value": 2000
+          },
+          "hideIfUnavailable": true,
+          "bias": {
+            "base": 0.6
+          }
+        }
+      ]
     }
   },
   "thoughts": [
@@ -846,14 +1101,67 @@
             "value": 2
           },
           {
-            "var": "leader.timeBehindMin",
+            "before": "D0 14:00"
+          },
+          {
+            "state": "WALKING"
+          },
+          {
+            "var": "leader.coreC",
             "op": ">",
-            "value": 20
+            "value": 35
           }
         ]
       },
       "lines": [
         "予報より早いじゃないか",
+        "昼過ぎからと言っていたのに、もう本降りだ"
+      ]
+    },
+    {
+      "key": "s01_sunk",
+      "when": {
+        "all": [
+          {
+            "var": "leader.local.precipMmH",
+            "op": ">",
+            "value": 2
+          },
+          {
+            "var": "leader.timeBehindMin",
+            "op": ">",
+            "value": 20
+          },
+          {
+            "state": "WALKING"
+          },
+          {
+            "before": "D0 15:00"
+          },
+          {
+            "var": "leader.coreC",
+            "op": ">",
+            "value": 35
+          },
+          {
+            "not": {
+              "chose": {
+                "cp": "cp_eboshi",
+                "option": "back"
+              }
+            }
+          },
+          {
+            "not": {
+              "chose": {
+                "cp": "cp_hut",
+                "option": "down"
+              }
+            }
+          }
+        ]
+      },
+      "lines": [
         "ここまで来たんだ、引き返すほうが時間がかかる"
       ]
     }
@@ -867,7 +1175,7 @@
     {
       "kind": "SAFE_SHELTER",
       "when": {
-        "beenAt": "HUT_RIDGE"
+        "flag": "nightHutRidge"
       },
       "title": "稜線小屋の一夜",
       "text": "窓を叩くみぞれの音を聞きながら、村井さんはストーブの前で濡れた手袋を乾かした。翌朝、稜線はうっすらと白くなっていた。"
@@ -879,8 +1187,59 @@
     },
     {
       "kind": "SAFE_RETURN",
+      "when": {
+        "before": "D0 11:45"
+      },
+      "title": "無事下山",
+      "text": "村井さんは、雨が強まる前に登山口へ下りた。昼過ぎ、稜線は寒冷前線の通過で荒れ、山ではみぞれが降った。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "var": "rec.minCoreC",
+        "op": ">=",
+        "value": 35.5
+      },
+      "title": "無事下山",
+      "text": "村井さんは雨の中を下りきった。登山口の車の中で、濡れた服を着替えた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
       "title": "無事下山",
       "text": "村井さんは雨の中を下りきった。登山口の車の中で、震える手で暖房をつけた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "any": [
+          {
+            "near": {
+              "x": 620,
+              "z": 60,
+              "r": 150
+            }
+          },
+          {
+            "near": {
+              "x": -386,
+              "z": -865,
+              "r": 150
+            }
+          }
+        ]
+      },
+      "title": "小屋で救助を待った",
+      "text": "村井さんは小屋で夜を明かし、家族の届け出で入山した救助隊に収容された。いちばん下がったときの体温は {rec.minCoreC:1}℃ だった。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "var": "rec.minCoreC",
+        "op": ">=",
+        "value": 36
+      },
+      "title": "救助",
+      "text": "村井さんは救助隊に収容された。冷えてはいたが、体温は大きく下がらずに済んだ。"
     },
     {
       "kind": "RESCUED",
@@ -900,12 +1259,22 @@
         "value": 34
       },
       "title": "救助",
-      "text": "村井さんは救助隊に収容された。体温は 35℃ を割り、震えが止まらない軽度の低体温症になっていた。もう少し遅れていれば、命に関わるところだった。"
+      "text": "村井さんは救助隊に収容された。体温は一時 35℃ を割り、震えが止まらない軽度の低体温症になっていた。もう少し遅れていれば、命に関わるところだった。"
     },
     {
       "kind": "RESCUED",
       "title": "救助",
-      "text": "村井さんは救助隊に収容された。体温は 34℃ を割る低体温症で、足がもつれ、受け答えもあやしくなっていた。非常に危険な状態だった。"
+      "text": "村井さんは救助隊に収容された。体温は一時 34℃ を割り、足がもつれ、受け答えもあやしくなるほどだった。非常に危険な状態だった。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": {
+        "var": "rec.minCoreC",
+        "op": ">=",
+        "value": 34
+      },
+      "title": "重いけがで救助",
+      "text": "村井さんは大けがをして動けない状態で救助隊に発見され、病院へ搬送された。"
     },
     {
       "kind": "RESCUED_CRITICAL",
@@ -915,12 +1284,41 @@
     {
       "kind": "MISSING",
       "title": "未帰還",
-      "text": "翌日の昼になっても、村井さんは見つかっていない。"
+      "text": "翌日の昼になっても、村井さんは山から下りてきていない。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "all": [
+          {
+            "var": "rec.minCoreC",
+            "op": "<",
+            "value": 30
+          },
+          {
+            "var": "leader.elevM",
+            "op": ">=",
+            "value": 1950
+          }
+        ]
+      },
+      "title": "帰らぬ人に",
+      "text": "村井さんは稜線上で動けなくなり、低体温症で亡くなった。出発した朝、登山口の空は晴れていた。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "var": "rec.minCoreC",
+        "op": "<",
+        "value": 30
+      },
+      "title": "帰らぬ人に",
+      "text": "村井さんは稜線から下りる途中で動けなくなり、低体温症で亡くなった。出発した朝、登山口の空は晴れていた。"
     },
     {
       "kind": "FATAL",
       "title": "帰らぬ人に",
-      "text": "村井さんは稜線上で動けなくなり、低体温症で亡くなった。前日の朝、登山口の空は晴れていた。"
+      "text": "村井さんは荒れた山の中で命を落とした。出発した朝、登山口の空は晴れていた。"
     }
   ],
   "lessons": [
@@ -1007,6 +1405,11 @@
             "var": "leader.local.windMs",
             "op": ">",
             "value": 12
+          },
+          {
+            "not": {
+              "state": "SHELTERED"
+            }
           }
         ]
       },

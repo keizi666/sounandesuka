@@ -1209,6 +1209,12 @@
                 "value": 0
               }
             ]
+          },
+          {
+            "elapsedSince": {
+              "flag": "passedNest",
+              "min": 2
+            }
           }
         ]
       },
@@ -1225,7 +1231,7 @@
         },
         {
           "type": "log",
-          "text": "100 m ほど離れると、ハチはもう追ってこなかった。刺された人の腕や首が赤く腫れ、焼けるように痛む",
+          "text": "100 m ほど離れると、ハチはもう追ってこなかった。刺された所が赤く腫れ、焼けるように痛む",
           "important": true
         }
       ]
@@ -1264,11 +1270,6 @@
           },
           {
             "atNode": "DAIBOSATSU"
-          },
-          {
-            "var": "sun.isDark",
-            "op": "==",
-            "value": true
           }
         ]
       },
@@ -1468,7 +1469,6 @@
             {
               "type": "setRoute",
               "route": [
-                "OMATEI_J",
                 "USHINONE",
                 "KAYANOO",
                 "ISHIMARU",
@@ -1499,12 +1499,12 @@
           {
             "elapsedSince": {
               "flag": "passedNest",
-              "min": 2
+              "min": 3
             }
           }
         ]
       },
-      "situation": "ハチから逃れた。刺された人は、腕や首を押さえてうずくまっている。痛みは強いが、今のところ息は普通にできている。",
+      "situation": "ハチから逃れた。刺された人は、刺された所を押さえてうずくまっている。痛みは強いが、今のところ息は普通にできている。",
       "knowledge": [
         "刺されてから 5〜15 分ほどの間に、アナフィラキシー（息苦しさ・全身のじんましん・吐き気・ぐったりする）が起きることがある。起きると数十分で命に関わることもある",
         "佐伯さんは 2 年前にもハチに刺され、エピペンを処方されている（雨蓋に入れている）",
@@ -1638,6 +1638,10 @@
             },
             {
               "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
             }
           ],
           "tags": [
@@ -1671,6 +1675,10 @@
             },
             {
               "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
             }
           ],
           "bias": {
@@ -1712,7 +1720,7 @@
             },
             {
               "type": "rest",
-              "minutes": 40
+              "minutes": 300
             }
           ],
           "tags": [
@@ -1802,6 +1810,10 @@
             {
               "type": "setFlag",
               "flag": "otherCall"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
             }
           ],
           "tags": [
@@ -1809,7 +1821,60 @@
           ],
           "bias": {
             "base": 0.8
-          }
+          },
+          "available": {
+            "var": "c.tajima.illnessActive",
+            "op": "==",
+            "value": false
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "call_eto",
+          "label": "横にして足を高くし、江藤さんが北東の尾根の開けた所（道を 1.5 km ほど先）まで走って 119 番する",
+          "actions": [
+            {
+              "type": "say",
+              "who": "eto",
+              "text": "電波のある所まで行ってきます！",
+              "tone": "normal"
+            },
+            {
+              "type": "detach",
+              "who": "eto",
+              "returnAfter": true,
+              "then": [
+                {
+                  "type": "goToNode",
+                  "node": "OPEN_RIDGE",
+                  "then": "call"
+                }
+              ]
+            },
+            {
+              "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "otherCall"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          },
+          "available": {
+            "var": "c.tajima.illnessActive",
+            "op": "==",
+            "value": true
+          },
+          "hideIfUnavailable": true
         },
         {
           "id": "carry",
@@ -1840,7 +1905,589 @@
           "actions": [
             {
               "type": "rest",
-              "minutes": 40
+              "minutes": 300
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_signal",
+      "title": "電波が入った",
+      "priority": 19,
+      "trigger": {
+        "all": [
+          {
+            "flag": "anaOnset"
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "var": "leader.radio",
+            "op": ">=",
+            "value": 0.3
+          },
+          {
+            "any": [
+              {
+                "var": "c.murakami.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.tajima.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kobayashi.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.eto.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.hirano.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.mori.illnessActive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.ishii.illnessActive",
+                "op": "==",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "situation": "尾根の開けた所に出た。スマートフォンに電波が入っている。支えて歩かせている仲間は、まだ息が苦しそうだ。",
+      "knowledge": [
+        "小菅の湯までは、まだ 2 km ほどの下り",
+        "ここなら救助を呼べる。呼んだら、ここを動かずに待つ"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "すぐ 119 番して、ここで救助を待つ",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "go",
+          "label": "このまま小菅の湯まで下りる",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_dead",
+      "title": "仲間が倒れた",
+      "priority": 21,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              {
+                "var": "c.murakami.alive",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.saeki.alive",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.tajima.alive",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.kobayashi.alive",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.eto.alive",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.hirano.alive",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.mori.alive",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.ishii.alive",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          }
+        ]
+      },
+      "situation": "仲間の一人の呼吸が止まった。呼びかけても反応がない。そばにいた仲間がすぐに胸を押し始めた。",
+      "knowledge": [
+        "ここが圏外なら、電波が入るのは小菅の湯へ下る道の尾根の開けた所",
+        "心臓マッサージは、救助が来るまで交代で続ける"
+      ],
+      "options": [
+        {
+          "id": "call_here",
+          "label": "ここは電波が入る。すぐ 119 番する",
+          "available": {
+            "var": "leader.radio",
+            "op": ">=",
+            "value": 0.3
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "call_run",
+          "label": "交代で胸を押し続け、田島さんが尾根の開けた所まで走って 119 番する",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": "<",
+                "value": 0.3
+              },
+              {
+                "all": [
+                  {
+                    "var": "c.tajima.alive",
+                    "op": "==",
+                    "value": true
+                  },
+                  {
+                    "var": "c.tajima.illnessActive",
+                    "op": "==",
+                    "value": false
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "tajima",
+              "text": "電波のある所まで行ってきます！",
+              "tone": "normal"
+            },
+            {
+              "type": "detach",
+              "who": "tajima",
+              "returnAfter": true,
+              "then": [
+                {
+                  "type": "goToNode",
+                  "node": "OPEN_RIDGE",
+                  "then": "call"
+                }
+              ]
+            },
+            {
+              "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "call_run_eto",
+          "label": "交代で胸を押し続け、江藤さんが尾根の開けた所まで走って 119 番する",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": "<",
+                "value": 0.3
+              },
+              {
+                "not": {
+                  "all": [
+                    {
+                      "var": "c.tajima.alive",
+                      "op": "==",
+                      "value": true
+                    },
+                    {
+                      "var": "c.tajima.illnessActive",
+                      "op": "==",
+                      "value": false
+                    }
+                  ]
+                }
+              },
+              {
+                "all": [
+                  {
+                    "var": "c.eto.alive",
+                    "op": "==",
+                    "value": true
+                  },
+                  {
+                    "var": "c.eto.illnessActive",
+                    "op": "==",
+                    "value": false
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "eto",
+              "text": "電波のある所まで行ってきます！",
+              "tone": "normal"
+            },
+            {
+              "type": "detach",
+              "who": "eto",
+              "returnAfter": true,
+              "then": [
+                {
+                  "type": "goToNode",
+                  "node": "OPEN_RIDGE",
+                  "then": "call"
+                }
+              ]
+            },
+            {
+              "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "all_go",
+          "label": "みんなで尾根の開けた所まで行って 119 番する",
+          "available": {
+            "var": "leader.radio",
+            "op": "<",
+            "value": 0.3
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "goToNode",
+              "node": "OPEN_RIDGE",
+              "then": "call"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
+            }
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_hurt",
+      "title": "仲間が大けがをした",
+      "priority": 18,
+      "trigger": {
+        "any": [
+          {
+            "var": "c.murakami.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          {
+            "var": "c.murakami.injury",
+            "op": "==",
+            "value": "headInjury"
+          },
+          {
+            "var": "c.murakami.injury",
+            "op": "==",
+            "value": "severeTrauma"
+          },
+          {
+            "var": "c.saeki.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          {
+            "var": "c.saeki.injury",
+            "op": "==",
+            "value": "headInjury"
+          },
+          {
+            "var": "c.saeki.injury",
+            "op": "==",
+            "value": "severeTrauma"
+          },
+          {
+            "var": "c.tajima.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          {
+            "var": "c.tajima.injury",
+            "op": "==",
+            "value": "headInjury"
+          },
+          {
+            "var": "c.tajima.injury",
+            "op": "==",
+            "value": "severeTrauma"
+          },
+          {
+            "var": "c.kobayashi.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          {
+            "var": "c.kobayashi.injury",
+            "op": "==",
+            "value": "headInjury"
+          },
+          {
+            "var": "c.kobayashi.injury",
+            "op": "==",
+            "value": "severeTrauma"
+          },
+          {
+            "var": "c.eto.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          {
+            "var": "c.eto.injury",
+            "op": "==",
+            "value": "headInjury"
+          },
+          {
+            "var": "c.eto.injury",
+            "op": "==",
+            "value": "severeTrauma"
+          },
+          {
+            "var": "c.hirano.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          {
+            "var": "c.hirano.injury",
+            "op": "==",
+            "value": "headInjury"
+          },
+          {
+            "var": "c.hirano.injury",
+            "op": "==",
+            "value": "severeTrauma"
+          },
+          {
+            "var": "c.mori.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          {
+            "var": "c.mori.injury",
+            "op": "==",
+            "value": "headInjury"
+          },
+          {
+            "var": "c.mori.injury",
+            "op": "==",
+            "value": "severeTrauma"
+          },
+          {
+            "var": "c.ishii.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          {
+            "var": "c.ishii.injury",
+            "op": "==",
+            "value": "headInjury"
+          },
+          {
+            "var": "c.ishii.injury",
+            "op": "==",
+            "value": "severeTrauma"
+          }
+        ]
+      },
+      "situation": "転んだ仲間が、大けがをした。自分では歩けそうにない。",
+      "knowledge": [
+        "8 人で支えても、暗い山道を運ぶのは難しい",
+        "帰りが遅ければ、家族が警察に届け出る（今夜 22 時の予定）"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "電波が入る。すぐ 119 番して、ここで待つ",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.3
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "stay",
+          "label": "これ以上は動かない。みんなで寄り添い、着込んで助けを待つ",
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "go",
+          "label": "両側から支えて、このまま進む",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.5
             }
           ],
           "tags": [
@@ -1859,7 +2506,10 @@
       "trigger": {
         "all": [
           {
-            "flag": "firstAid"
+            "chose": {
+              "cp": "cp_stung",
+              "option": "rest"
+            }
           },
           {
             "elapsedSince": {
@@ -2159,6 +2809,138 @@
           }
         }
       ]
+    },
+    "lostAware": {
+      "options": [
+        {
+          "id": "backtrack",
+          "label": "来た道を戻る",
+          "actions": [
+            {
+              "type": "backtrack"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "gps",
+          "label": "地図アプリで現在地を確かめる",
+          "available": {
+            "all": [
+              {
+                "var": "leader.phone.gpsApp",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "call",
+          "label": "その場で救助を要請する",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.3
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
+            }
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        },
+        {
+          "id": "descend",
+          "label": "下れば道に出るはずだ",
+          "available": {
+            "all": [
+              {
+                "not": {
+                  "flag": "anaOnset"
+                }
+              },
+              {
+                "var": "mates.unwellCount",
+                "op": "==",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.6
+              }
+            ]
+          }
+        }
+      ]
     }
   },
   "thoughts": [
@@ -2193,6 +2975,14 @@
             "not": {
               "flag": "passedNest"
             }
+          },
+          {
+            "not": {
+              "elapsedSince": {
+                "flag": "scouts",
+                "min": 30
+              }
+            }
           }
         ]
       },
@@ -2224,6 +3014,20 @@
                 "min": 60
               }
             }
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "flag": "anaOnset"
+                },
+                {
+                  "var": "c.saeki.illness",
+                  "op": "==",
+                  "value": "anaphylaxis"
+                }
+              ]
+            }
           }
         ]
       },
@@ -2239,7 +3043,10 @@
       "when": {
         "all": [
           {
-            "flag": "stung"
+            "chose": {
+              "cp": "cp_stung",
+              "option": "rest"
+            }
           },
           {
             "not": {
@@ -2290,6 +3097,14 @@
                   "value": true
                 }
               ]
+            }
+          },
+          {
+            "not": {
+              "elapsedSince": {
+                "flag": "passedNest",
+                "min": 62
+              }
             }
           }
         ]
@@ -2356,12 +3171,17 @@
                 "min": 30
               }
             }
+          },
+          {
+            "var": "c.murakami.illnessActive",
+            "op": "==",
+            "value": false
           }
         ]
       },
       "lines": [
-        "落ち着け。まず通報だ",
-        "来た道はハチがいる。北東へ行かせるしかない"
+        "落ち着け。今できることを考えろ",
+        "来た道にはハチがいる。戻れない"
       ],
       "priority": 9
     }
@@ -2414,7 +3234,7 @@
         ]
       },
       "lines": [
-        "森さん、帽子のまわりにハチが……",
+        "森さん、ザックのまわりにハチが……",
         "やだ、こっちにも来た"
       ],
       "replies": {
@@ -2560,6 +3380,24 @@
             "not": {
               "state": "WALKING"
             }
+          },
+          {
+            "flag": "firstAid"
+          },
+          {
+            "not": {
+              "flag": "anaOnset"
+            }
+          },
+          {
+            "var": "c.hirano.illnessActive",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.murakami.illnessActive",
+            "op": "==",
+            "value": false
           }
         ]
       },
@@ -2579,6 +3417,75 @@
     }
   ],
   "endings": [
+    {
+      "kind": "FATAL",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "var": "c.murakami.illness",
+                "op": "==",
+                "value": "anaphylaxis"
+              },
+              {
+                "var": "c.saeki.illness",
+                "op": "==",
+                "value": "anaphylaxis"
+              },
+              {
+                "var": "c.tajima.illness",
+                "op": "==",
+                "value": "anaphylaxis"
+              },
+              {
+                "var": "c.kobayashi.illness",
+                "op": "==",
+                "value": "anaphylaxis"
+              },
+              {
+                "var": "c.eto.illness",
+                "op": "==",
+                "value": "anaphylaxis"
+              },
+              {
+                "var": "c.hirano.illness",
+                "op": "==",
+                "value": "anaphylaxis"
+              },
+              {
+                "var": "c.mori.illness",
+                "op": "==",
+                "value": "anaphylaxis"
+              },
+              {
+                "var": "c.ishii.illness",
+                "op": "==",
+                "value": "anaphylaxis"
+              }
+            ]
+          },
+          {
+            "any": [
+              {
+                "chose": {
+                  "cp": "cp_ana_saeki",
+                  "option": "carry"
+                }
+              },
+              {
+                "chose": {
+                  "cp": "cp_ana_other",
+                  "option": "carry"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "title": "帰らぬ人に",
+      "text": "両側から支えて歩かせていた仲間が、アナフィラキシーで尾根の上で亡くなった。"
+    },
     {
       "kind": "FATAL",
       "when": {
@@ -2626,7 +3533,7 @@
         ]
       },
       "title": "帰らぬ人に",
-      "text": "アナフィラキシーで、仲間の一人が尾根の上で亡くなった。刺されてから 1 時間もたっていなかった。"
+      "text": "アナフィラキシーで、仲間の一人が尾根の上で亡くなった。"
     },
     {
       "kind": "FATAL",
@@ -2636,18 +3543,48 @@
     {
       "kind": "RESCUED",
       "when": {
+        "all": [
+          {
+            "flag": "epi"
+          },
+          {
+            "before": "D0 23:59"
+          }
+        ]
+      },
+      "title": "救助",
+      "text": "通報を受けて救助隊が来て、佐伯さんは病院へ運ばれた。エピペンが時間をつないだ。ほかの 7 人は救助隊に付き添われて下りた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
         "flag": "epi"
       },
-      "title": "ヘリで運ばれた",
-      "text": "田島さんの通報で防災ヘリが来て、佐伯さんは病院へ運ばれた。エピペンが時間をつないだ。ほかの 7 人は救助隊に付き添われて小菅の湯へ下りた。"
+      "title": "尾根で夜を越して",
+      "text": "暗くなって救助は来られず、8 人は尾根で夜を明かした。朝になって救助隊が来て、佐伯さんは病院へ運ばれた。エピペンが時間をつないだ。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "flag": "anaOnset"
+          },
+          {
+            "before": "D0 23:59"
+          }
+        ]
+      },
+      "title": "救助",
+      "text": "通報を受けて救助隊が来て、アナフィラキシーを起こした仲間は病院へ運ばれた。ほかの人は救助隊に付き添われて下りた。"
     },
     {
       "kind": "RESCUED",
       "when": {
         "flag": "anaOnset"
       },
-      "title": "ヘリで運ばれた",
-      "text": "通報で防災ヘリが来て、アナフィラキシーを起こした仲間は病院へ運ばれた。ほかの人は救助隊に付き添われて下りた。"
+      "title": "尾根で夜を越して",
+      "text": "暗くなって救助は来られず、8 人は尾根で夜を明かした。朝になって救助隊が来て、アナフィラキシーを起こした仲間は病院へ運ばれた。"
     },
     {
       "kind": "RESCUED",
@@ -2657,7 +3594,23 @@
     {
       "kind": "RESCUED_CRITICAL",
       "title": "重い状態で救助",
-      "text": "アナフィラキシーを起こした仲間は、重い状態で病院へ運ばれた。"
+      "text": "アナフィラキシーを起こした仲間は、重い状態で病院へ運ばれた。",
+      "when": {
+        "flag": "anaOnset"
+      }
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重い状態で救助",
+      "text": "弱った仲間は、重い状態で病院へ運ばれた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "backHut"
+      },
+      "title": "大菩薩峠の小屋に",
+      "text": "引き返して大菩薩峠まで登り返したときには、日が沈みかけていた。介山荘に頼んで泊めてもらい、翌朝、上日川峠へ下りた。"
     },
     {
       "kind": "SAFE_RETURN",
@@ -2685,18 +3638,43 @@
     {
       "kind": "SAFE_RETURN",
       "when": {
-        "flag": "backHut"
+        "all": [
+          {
+            "flag": "anaOnset"
+          },
+          {
+            "chose": {
+              "cp": "cp_ana_eased",
+              "option": "stay"
+            }
+          }
+        ]
       },
-      "title": "大菩薩峠の小屋に",
-      "text": "引き返して大菩薩峠まで登り返したところで日が暮れた。小屋に頼み込んで泊めてもらい、翌朝下りた。"
+      "title": "朝になってから下りた",
+      "text": "アナフィラキシーの症状は引いていった。8 人は尾根で夜を明かし、明るくなってから小菅の湯へ下りて、その足で病院へ向かった。運がよかった。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "flag": "anaOnset"
+          },
+          {
+            "before": "D0 17:50"
+          }
+        ]
+      },
+      "title": "症状が引いてから下りた",
+      "text": "アナフィラキシーの症状は引いていった。8 人は暗くなる前に小菅の湯へ下り、その足で病院へ向かった。運がよかった。"
     },
     {
       "kind": "SAFE_RETURN",
       "when": {
         "flag": "anaOnset"
       },
-      "title": "症状が引いてから下りた",
-      "text": "アナフィラキシーの症状は数時間で引いていった。8 人は暗くなる前に小菅の湯へ下り、その足で病院へ向かった。運がよかった。"
+      "title": "暗い中を下りた",
+      "text": "アナフィラキシーの症状は引いていった。8 人は暗い中、ヘッドランプやスマートフォンの明かりを頼りに小菅の湯へ下り、その足で病院へ向かった。運がよかった。"
     },
     {
       "kind": "SAFE_RETURN",
@@ -2716,10 +3694,25 @@
     {
       "kind": "SAFE_RETURN",
       "when": {
-        "flag": "stung"
+        "all": [
+          {
+            "flag": "stung"
+          },
+          {
+            "flag": "noBath"
+          }
+        ]
       },
       "title": "小菅の湯へ",
       "text": "刺された人のザックを仲間が分けて持ち、8 人は小菅の湯へ下りた。温泉はやめて早いバスで帰り、刺された人は翌日受診した。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "stung"
+      },
+      "title": "小菅の湯へ",
+      "text": "刺された人も、痛みをこらえて小菅の湯まで歩いた。刺された所はその夜ひどく腫れ、翌日受診した。"
     },
     {
       "kind": "SAFE_RETURN",

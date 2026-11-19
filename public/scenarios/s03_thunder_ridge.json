@@ -353,7 +353,7 @@
       "effects": [
         {
           "type": "log",
-          "text": "南東の空で積雲がもくもくと立ち上がり始めた",
+          "text": "北東の空の積雲が、もくもくと高く立ち上がってきた",
           "important": true
         }
       ]
@@ -371,6 +371,10 @@
           "type": "log",
           "text": "遠くで雷鳴が聞こえた",
           "important": true
+        },
+        {
+          "type": "setFlag",
+          "flag": "heardThunder"
         }
       ]
     },
@@ -389,6 +393,103 @@
           "important": true
         }
       ]
+    },
+    {
+      "id": "ev_struck",
+      "trigger": {
+        "event": "LIGHTNING_STRIKE"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "struck"
+        }
+      ]
+    },
+    {
+      "id": "ev_hut_call",
+      "trigger": {
+        "all": [
+          {
+            "state": "SHELTERED"
+          },
+          {
+            "near": {
+              "x": 620,
+              "z": 60,
+              "r": 150
+            }
+          },
+          {
+            "after": "D0 13:00"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "小屋の電話で家族に「雷で遅れている。小屋にいる」と伝えた",
+          "important": true
+        },
+        {
+          "type": "setFlag",
+          "flag": "familyNotified"
+        },
+        {
+          "type": "setFlag",
+          "flag": "hutCall"
+        }
+      ]
+    },
+    {
+      "id": "ev_saddle_msg",
+      "trigger": {
+        "all": [
+          {
+            "state": "SHELTERED"
+          },
+          {
+            "near": {
+              "x": -386,
+              "z": -865,
+              "r": 150
+            }
+          },
+          {
+            "var": "leader.phone.has",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.phone.batteryPct",
+            "op": ">",
+            "value": 0
+          },
+          {
+            "var": "leader.radio",
+            "op": ">=",
+            "value": 0.15
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "電波は弱いが、家族にメッセージが届いた（「北の鞍部の避難小屋にいる。明日の朝に下りる」）",
+          "important": true
+        },
+        {
+          "type": "setFlag",
+          "flag": "familyNotified"
+        },
+        {
+          "type": "setFlag",
+          "flag": "hutCall"
+        }
+      ]
     }
   ],
   "choices": [
@@ -398,7 +499,7 @@
       "trigger": {
         "atNode": "EBOSHI"
       },
-      "situation": "烏帽子ノ頭に着いた。日差しが強く暑い。南東の空に入道雲が育ち始めている。木下さんのスマホに雷注意報の通知が来た。",
+      "situation": "烏帽子ノ頭に着いた。日差しが強く暑い。北東の空に白い雲がわき始めている。木下さんのスマホに雷注意報の通知が来た。",
       "knowledge": [
         "ここから先は森林限界を超えた稜線が約3時間続く",
         "稜線小屋まで約40分、北の鞍部の避難小屋まで約2時間20分",
@@ -475,7 +576,7 @@
       "trigger": {
         "atNode": "HUT_RIDGE"
       },
-      "situation": "稜線小屋に着いた。南の空の入道雲は大きくなり、底が黒い。ときどき遠くでゴロゴロと音がする。",
+      "situation": "稜線小屋に着いた。北東の空の積雲は大きくなり、底が黒くなってきた。",
       "knowledge": [
         "山頂まで約45分、北の鞍部の避難小屋まで約1時間40分",
         "その先、見返り峰を越えて樹林帯に入るまで約2時間20分",
@@ -484,19 +585,36 @@
       "options": [
         {
           "id": "wait",
-          "label": "小屋で雷雲が過ぎるのを待つ",
-          "detail": "下山は遅くなるが、日没までは十分時間がある。",
+          "label": "小屋で雷雲が過ぎるのを待ち、午後に来た道を下る",
+          "detail": "下山は遅くなるが、日没までには登山口に着ける。",
           "actions": [
             {
+              "type": "say",
+              "who": "leader",
+              "text": "雷が過ぎるまで、小屋で待たせてもらおう"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "HUT_RIDGE",
+                "EBOSHI",
+                "J_FOREST",
+                "TH_SAWA"
+              ],
+              "goalNodes": [
+                "TH_SAWA"
+              ]
+            },
+            {
               "type": "stayInShelter",
-              "until": "weatherClears"
+              "until": "D0 14:50"
             }
           ],
           "tags": [
             "recommended"
           ],
           "bias": {
-            "base": 0.5,
+            "base": 0.3,
             "mods": [
               {
                 "when": {
@@ -553,15 +671,909 @@
           }
         }
       ]
+    },
+    {
+      "id": "cp_member_down",
+      "title": "仲間が動かない",
+      "priority": 14,
+      "trigger": {
+        "all": [
+          {
+            "event": "DEATH"
+          },
+          {
+            "var": "leader.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          },
+          {
+            "not": {
+              "state": "RESCUED"
+            }
+          }
+        ]
+      },
+      "situation": "仲間が倒れたまま動かない。何度呼びかけても返事がない。",
+      "knowledge": [
+        "{leader.name}さんのスマホ: 電池 {leader.phone.batteryPct:0}%",
+        "木下さんのスマホは衛星通信で救助を呼べる"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "救助を要請し、そばで待つ",
+          "available": {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "any": [
+                  {
+                    "var": "leader.radio",
+                    "op": ">=",
+                    "value": 0.15
+                  },
+                  {
+                    "var": "leader.id",
+                    "op": "==",
+                    "value": "kinoshita"
+                  }
+                ]
+              }
+            ]
+          },
+          "unavailableText": "電波が届いていないか、スマホが使えない",
+          "actions": [
+            {
+              "type": "say",
+              "who": "leader",
+              "text": "救助を呼ぶ。ここで待とう"
+            },
+            {
+              "type": "callRescue",
+              "who": "leader",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.0
+          }
+        },
+        {
+          "id": "stay",
+          "label": "そばを離れず、助けが来るのを待つ",
+          "actions": [
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "go",
+          "label": "電波の入る所まで、来た道を下って通報する",
+          "available": {
+            "all": [
+              {
+                "not": {
+                  "all": [
+                    {
+                      "var": "leader.phone.has",
+                      "op": "==",
+                      "value": true
+                    },
+                    {
+                      "var": "leader.phone.batteryPct",
+                      "op": ">",
+                      "value": 0
+                    },
+                    {
+                      "any": [
+                        {
+                          "var": "leader.radio",
+                          "op": ">=",
+                          "value": 0.15
+                        },
+                        {
+                          "var": "leader.id",
+                          "op": "==",
+                          "value": "kinoshita"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "var": "leader.awareLost",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "mates.unwellCount",
+                "op": "==",
+                "value": 0
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "leader",
+              "text": "ここは電波が入らない。下りて知らせよう"
+            },
+            {
+              "type": "goToNode",
+              "node": "TH_SAWA",
+              "then": "call"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        }
+      ]
     }
   ],
   "genericOverrides": {
     "lightning": {
-      "situation": "稲妻が走り、ほとんど間を置かずに雷鳴が響いた。髪の毛が逆立つような感覚がある。3人は稜線の上にいる。",
+      "situation": "稲妻が走り、ほとんど間を置かずに雷鳴が響いた。髪の毛が逆立つような感覚がある。{mates.count}人は稜線の上にいる。",
       "knowledge": [
         "近くに建物はない",
         "稜線の両側は急な斜面とハイマツ",
         "森さんは金属製のストックを持っていないが、ザックにカラビナがついている"
+      ]
+    },
+    "injured": {
+      "options": [
+        {
+          "id": "slow_descend",
+          "label": "ゆっくり下山する",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "legFracture"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "severeTrauma"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "headInjury"
+                  }
+                ]
+              },
+              {
+                "var": "leader.M",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "var": "leader.state",
+                "op": "!=",
+                "value": "INCAPACITATED"
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "crawl",
+          "label": "這ってでも下りる（足は地面につけない）",
+          "available": {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "ビバークして助けを待つ",
+          "actions": [
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "not": {
+                    "all": [
+                      {
+                        "all": [
+                          {
+                            "var": "leader.injury",
+                            "op": "!=",
+                            "value": "legFracture"
+                          },
+                          {
+                            "var": "leader.injury",
+                            "op": "!=",
+                            "value": "severeTrauma"
+                          },
+                          {
+                            "var": "leader.injury",
+                            "op": "!=",
+                            "value": "headInjury"
+                          }
+                        ]
+                      },
+                      {
+                        "var": "leader.M",
+                        "op": ">",
+                        "value": 0
+                      },
+                      {
+                        "var": "leader.state",
+                        "op": "!=",
+                        "value": "INCAPACITATED"
+                      }
+                    ]
+                  }
+                },
+                "add": 0.6
+              }
+            ]
+          }
+        },
+        {
+          "id": "call",
+          "label": "救助を要請する",
+          "available": {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "any": [
+                  {
+                    "var": "leader.radio",
+                    "op": ">=",
+                    "value": 0.15
+                  },
+                  {
+                    "var": "leader.id",
+                    "op": "==",
+                    "value": "kinoshita"
+                  }
+                ]
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "callRescue",
+              "who": "leader",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "call_a",
+          "label": "青山さんのスマホで救助を要請する",
+          "available": {
+            "all": [
+              {
+                "not": {
+                  "all": [
+                    {
+                      "var": "leader.phone.has",
+                      "op": "==",
+                      "value": true
+                    },
+                    {
+                      "var": "leader.phone.batteryPct",
+                      "op": ">",
+                      "value": 0
+                    },
+                    {
+                      "any": [
+                        {
+                          "var": "leader.radio",
+                          "op": ">=",
+                          "value": 0.15
+                        },
+                        {
+                          "var": "leader.id",
+                          "op": "==",
+                          "value": "kinoshita"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "var": "leader.id",
+                "op": "!=",
+                "value": "aoyama"
+              },
+              {
+                "all": [
+                  {
+                    "var": "c.aoyama.alive",
+                    "op": "==",
+                    "value": true
+                  },
+                  {
+                    "var": "c.aoyama.phone.has",
+                    "op": "==",
+                    "value": true
+                  },
+                  {
+                    "var": "c.aoyama.phone.batteryPct",
+                    "op": ">",
+                    "value": 0
+                  },
+                  {
+                    "var": "c.aoyama.radio",
+                    "op": ">=",
+                    "value": 0.15
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "who": "aoyama",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "call_m",
+          "label": "森さんのスマホで救助を要請する",
+          "available": {
+            "all": [
+              {
+                "not": {
+                  "all": [
+                    {
+                      "var": "leader.phone.has",
+                      "op": "==",
+                      "value": true
+                    },
+                    {
+                      "var": "leader.phone.batteryPct",
+                      "op": ">",
+                      "value": 0
+                    },
+                    {
+                      "any": [
+                        {
+                          "var": "leader.radio",
+                          "op": ">=",
+                          "value": 0.15
+                        },
+                        {
+                          "var": "leader.id",
+                          "op": "==",
+                          "value": "kinoshita"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "all": [
+                    {
+                      "not": {
+                        "all": [
+                          {
+                            "var": "leader.phone.has",
+                            "op": "==",
+                            "value": true
+                          },
+                          {
+                            "var": "leader.phone.batteryPct",
+                            "op": ">",
+                            "value": 0
+                          },
+                          {
+                            "any": [
+                              {
+                                "var": "leader.radio",
+                                "op": ">=",
+                                "value": 0.15
+                              },
+                              {
+                                "var": "leader.id",
+                                "op": "==",
+                                "value": "kinoshita"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "var": "leader.id",
+                      "op": "!=",
+                      "value": "aoyama"
+                    },
+                    {
+                      "all": [
+                        {
+                          "var": "c.aoyama.alive",
+                          "op": "==",
+                          "value": true
+                        },
+                        {
+                          "var": "c.aoyama.phone.has",
+                          "op": "==",
+                          "value": true
+                        },
+                        {
+                          "var": "c.aoyama.phone.batteryPct",
+                          "op": ">",
+                          "value": 0
+                        },
+                        {
+                          "var": "c.aoyama.radio",
+                          "op": ">=",
+                          "value": 0.15
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "var": "leader.id",
+                "op": "!=",
+                "value": "mori"
+              },
+              {
+                "all": [
+                  {
+                    "var": "c.mori.alive",
+                    "op": "==",
+                    "value": true
+                  },
+                  {
+                    "var": "c.mori.phone.has",
+                    "op": "==",
+                    "value": true
+                  },
+                  {
+                    "var": "c.mori.phone.batteryPct",
+                    "op": ">",
+                    "value": 0
+                  },
+                  {
+                    "var": "c.mori.radio",
+                    "op": ">=",
+                    "value": 0.15
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "who": "mori",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "seek_signal",
+          "label": "電波を探して移動する",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "all": [
+                      {
+                        "var": "leader.injury",
+                        "op": "!=",
+                        "value": "legFracture"
+                      },
+                      {
+                        "var": "leader.injury",
+                        "op": "!=",
+                        "value": "severeTrauma"
+                      },
+                      {
+                        "var": "leader.injury",
+                        "op": "!=",
+                        "value": "headInjury"
+                      }
+                    ]
+                  },
+                  {
+                    "var": "leader.M",
+                    "op": ">",
+                    "value": 0
+                  },
+                  {
+                    "var": "leader.state",
+                    "op": "!=",
+                    "value": "INCAPACITATED"
+                  }
+                ]
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "not": {
+                  "all": [
+                    {
+                      "var": "leader.phone.has",
+                      "op": "==",
+                      "value": true
+                    },
+                    {
+                      "var": "leader.phone.batteryPct",
+                      "op": ">",
+                      "value": 0
+                    },
+                    {
+                      "any": [
+                        {
+                          "var": "leader.radio",
+                          "op": ">=",
+                          "value": 0.15
+                        },
+                        {
+                          "var": "leader.id",
+                          "op": "==",
+                          "value": "kinoshita"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "seekSignal"
+            }
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
+    },
+    "darkness": {
+      "options": [
+        {
+          "id": "continue",
+          "label": "ヘッドランプをつけて進む",
+          "available": {
+            "var": "leader.headlamp.has",
+            "op": "==",
+            "value": true
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1.0,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "その場でビバークする",
+          "actions": [
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "toShelter",
+          "label": "近くの小屋を目指す",
+          "available": {
+            "all": [
+              {
+                "var": "leader.nearestShelterM",
+                "op": "<=",
+                "value": 2000
+              },
+              {
+                "var": "leader.awareLost",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "goToNode",
+              "node": "$nearestShelter",
+              "then": "stay"
+            }
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        }
+      ]
+    },
+    "hypothermia": {
+      "options": [
+        {
+          "id": "bivouac",
+          "label": "風下でビバークする",
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 300
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "push_eat",
+          "label": "食べて着込み、歩き続ける",
+          "available": {
+            "var": "mates.unwellCount",
+            "op": "==",
+            "value": 0
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 300
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "keep_walking",
+          "label": "歩き続けて体を温める",
+          "available": {
+            "var": "mates.unwellCount",
+            "op": "==",
+            "value": 0
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 1.1
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.8,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.6
+              }
+            ]
+          }
+        },
+        {
+          "id": "call",
+          "label": "救助を要請する",
+          "available": {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "any": [
+                  {
+                    "var": "leader.radio",
+                    "op": ">=",
+                    "value": 0.15
+                  },
+                  {
+                    "var": "leader.id",
+                    "op": "==",
+                    "value": "kinoshita"
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "who": "leader",
+              "via": "auto"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
       ]
     }
   },
@@ -577,23 +1589,83 @@
             "var": "leader.local.tempC",
             "op": ">",
             "value": 18
+          },
+          {
+            "state": "WALKING"
           }
         ]
       },
       "lines": [
-        "暑いな。早く稜線の風に当たりたい",
+        "暑いな。早く稜線の風に当たりたい"
+      ]
+    },
+    {
+      "key": "s03_cloud",
+      "when": {
+        "all": [
+          {
+            "after": "D0 08:00"
+          },
+          {
+            "before": "D0 10:30"
+          },
+          {
+            "var": "leader.local.thunder",
+            "op": "<",
+            "value": 0.2
+          },
+          {
+            "state": "WALKING"
+          }
+        ]
+      },
+      "lines": [
         "雲が湧いてきた。でも予報は午後からだ"
       ]
     },
     {
       "key": "s03_count",
       "when": {
-        "var": "leader.local.thunder",
-        "op": ">",
-        "value": 0.4
+        "all": [
+          {
+            "var": "leader.local.thunder",
+            "op": ">",
+            "value": 0.4
+          },
+          {
+            "not": {
+              "state": "SHELTERED"
+            }
+          }
+        ]
       },
       "lines": [
-        "光ってから音まで……5秒もない",
+        "光ってから音まで……5秒もない"
+      ],
+      "priority": 6
+    },
+    {
+      "key": "s03_exposed",
+      "when": {
+        "all": [
+          {
+            "var": "leader.local.thunder",
+            "op": ">",
+            "value": 0.4
+          },
+          {
+            "not": {
+              "state": "SHELTERED"
+            }
+          },
+          {
+            "var": "leader.elevM",
+            "op": ">=",
+            "value": 1950
+          }
+        ]
+      },
+      "lines": [
         "ここは稜線のど真ん中だ"
       ],
       "priority": 6
@@ -603,30 +1675,176 @@
     {
       "kind": "SAFE_SHELTER",
       "when": {
-        "beenAt": "HUT_RIDGE"
+        "chose": {
+          "cp": "cp_hut_t",
+          "option": "wait"
+        }
       },
       "title": "小屋の窓から",
       "text": "小屋の窓越しに、稜線を稲妻が何度も打つのが見えた。雷雲が過ぎた後の空は、嘘のように青かった。"
     },
     {
+      "kind": "SAFE_SHELTER",
+      "title": "小屋で一夜",
+      "text": "3人は小屋で夜を明かした。雷雨の去った朝の稜線は、静かだった。"
+    },
+    {
       "kind": "SAFE_RETURN",
+      "when": {
+        "any": [
+          {
+            "flag": "struck"
+          },
+          {
+            "any": [
+              {
+                "chose": {
+                  "cp": "generic:lightning",
+                  "option": "off_ridge"
+                }
+              },
+              {
+                "chose": {
+                  "cp": "generic:lightning",
+                  "option": "rush"
+                }
+              },
+              {
+                "chose": {
+                  "cp": "generic:lightning",
+                  "option": "crouch"
+                }
+              },
+              {
+                "chose": {
+                  "cp": "generic:lightning",
+                  "option": "remove_metal"
+                }
+              }
+            ]
+          }
+        ]
+      },
       "title": "無事下山",
       "text": "3人は無事に下りてきた。下山後、森さんは「あの稲妻、近かったよな」と何度も言った。"
     },
     {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "chose": {
+          "cp": "cp_eboshi_t",
+          "option": "back"
+        }
+      },
+      "title": "引き返した日",
+      "text": "烏帽子ノ頭から引き返した3人は、昼前に登山口へ戻った。昼過ぎ、稜線は黒い雷雲に包まれた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "heardThunder"
+      },
+      "title": "無事下山",
+      "text": "遠くの雷鳴を聞きながら、3人は無事に下りてきた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "無事下山",
+      "text": "3人は無事に下りてきた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "hutCall"
+      },
+      "title": "小屋からの連絡",
+      "text": "小屋から家族に連絡したときには、もう届け出が出ていた。朝、3人は入山してきた救助隊と会い、収容された。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "flag": "struck"
+          },
+          {
+            "var": "rec.rescueCalledAt",
+            "op": "<",
+            "value": 1200
+          }
+        ]
+      },
+      "title": "救助",
+      "text": "落雷の後、救助を要請した。雷雲が去った後にヘリが飛んだ。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "struck"
+      },
+      "title": "救助",
+      "text": "落雷の後、3人はその場で助けを待った。下山予定を過ぎて家族が届け出て、翌朝、救助隊に収容された。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "var": "rec.rescueCalledAt",
+        "op": "<",
+        "value": 1200
+      },
+      "title": "救助",
+      "text": "通報を受けた救助隊に、3人は収容された。"
+    },
+    {
       "kind": "RESCUED",
       "title": "救助",
-      "text": "落雷の後、木下さんが衛星通信で救助を要請した。雷雲が去った後にヘリが飛んだ。"
+      "text": "下山予定を過ぎても連絡がなく、家族が届け出た。3人は救助隊に収容された。"
     },
     {
       "kind": "RESCUED_CRITICAL",
+      "when": {
+        "flag": "struck"
+      },
       "title": "重傷で救助",
       "text": "落雷による負傷者は、意識が戻らないままヘリで搬送された。"
     },
     {
+      "kind": "RESCUED_CRITICAL",
+      "when": {
+        "var": "rec.minCoreC",
+        "op": "<",
+        "value": 33.5
+      },
+      "title": "重い状態で救助",
+      "text": "雨に濡れて体温が下がりきった仲間が、重い状態で搬送された。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重傷で救助",
+      "text": "大けがをした仲間が、重い状態でヘリで搬送された。"
+    },
+    {
       "kind": "FATAL",
+      "when": {
+        "flag": "struck"
+      },
       "title": "稜線の落雷",
       "text": "稜線上で落雷があった。周りに身を隠す場所はなかった。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "var": "rec.minCoreC",
+        "op": "<",
+        "value": 30
+      },
+      "title": "帰らなかった仲間",
+      "text": "雷雨に濡れ、冷えきった体で夜を越せなかった仲間がいた。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "帰らなかった仲間",
+      "text": "雷雨の山で、転落事故が起きた。3人そろって下りることはできなかった。"
     }
   ],
   "lessons": [
@@ -685,19 +1903,45 @@
       "text": "雷の間は、しっかりした建物の中が最も安全。夏の雷雨は1〜2時間で通り過ぎることが多い。待つ時間を計画に組み込んでおく。"
     }
   ],
-  "balanceTargets": {"recommended": {"goodMin": 0.92, "fatalMax": 0.02}, "bias": {"fatalMin": 0.01, "fatalMax": 0.25}, "risky": {"fatalMin": 0.02}},
+  "balanceTargets": {
+    "recommended": {
+      "goodMin": 0.92,
+      "fatalMax": 0.02
+    },
+    "bias": {
+      "fatalMin": 0.01,
+      "fatalMax": 0.25
+    },
+    "risky": {
+      "fatalMin": 0.02
+    }
+  },
   "speech": [
     {
       "key": "s03_flash",
       "who": "leader",
       "when": {
-        "var": "leader.local.thunder",
-        "op": ">",
-        "value": 0.5
+        "all": [
+          {
+            "var": "leader.local.thunder",
+            "op": ">",
+            "value": 0.5
+          },
+          {
+            "not": {
+              "state": "SHELTERED"
+            }
+          },
+          {
+            "var": "leader.elevM",
+            "op": ">=",
+            "value": 1950
+          }
+        ]
       },
       "lines": [
-        "稜線から下りるぞ！ 間をあけて！",
-        "姿勢を低く！ くっつかないで！"
+        "雷だ！ 間をあけて！",
+        "近いぞ！ くっつかないで、間をあけて！"
       ],
       "tone": "shout",
       "priority": 25,
@@ -707,9 +1951,18 @@
       "key": "s03_count",
       "who": "aoyama",
       "when": {
-        "var": "leader.local.thunder",
-        "op": ">",
-        "value": 0.3
+        "all": [
+          {
+            "var": "leader.local.thunder",
+            "op": ">",
+            "value": 0.3
+          },
+          {
+            "not": {
+              "state": "SHELTERED"
+            }
+          }
+        ]
       },
       "lines": [
         "今の、光ってから何秒だった？"
@@ -722,9 +1975,18 @@
       "key": "s03_metal",
       "who": "mori",
       "when": {
-        "var": "leader.local.thunder",
-        "op": ">",
-        "value": 0.4
+        "all": [
+          {
+            "var": "leader.local.thunder",
+            "op": ">",
+            "value": 0.4
+          },
+          {
+            "not": {
+              "state": "SHELTERED"
+            }
+          }
+        ]
       },
       "lines": [
         "カラビナ外したほうがいいのかな"
@@ -736,7 +1998,7 @@
     {
       "key": "s03_talk_plan",
       "who": "aoyama",
-      "to": "leader",
+      "to": "kinoshita",
       "when": {
         "all": [
           {
@@ -752,10 +2014,10 @@
         "山頂には何時に着きたいですか？"
       ],
       "replies": {
-        "who": "leader",
+        "who": "kinoshita",
         "lines": [
           "13時半には下りていたい。午後は雷の予報だからね",
-          "昼前には稜線を抜ける。遅れたら引き返すよ"
+          "昼前には稜線を抜けたいね"
         ]
       },
       "priority": 12,
@@ -782,7 +2044,7 @@
       "replies": {
         "who": "aoyama",
         "lines": [
-          "ごめん、少し落とすね",
+          "木下さん、速いよね。がんばろう",
           "私も木下さんについていくので精一杯で……"
         ]
       },
@@ -811,7 +2073,7 @@
         "who": "mori",
         "lines": [
           "半分くらい。思ったより減りが早い",
-          "まだ1リットルはあるよ。塩飴いる？"
+          "まだあるよ。塩飴いる？"
         ]
       },
       "priority": 12,
@@ -819,7 +2081,7 @@
     },
     {
       "key": "s03_talk_cloud",
-      "who": "leader",
+      "who": "kinoshita",
       "to": "mori",
       "when": {
         "all": [
@@ -835,11 +2097,22 @@
             "var": "leader.local.thunder",
             "op": "<",
             "value": 0.3
+          },
+          {
+            "var": "c.kinoshita.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "state": "WALKING"
+          },
+          {
+            "before": "D0 11:30"
           }
         ]
       },
       "lines": [
-        "西の雲、さっきより背が高くなっていないか",
+        "北東の雲、さっきより背が高くなっていないか",
         "あの雲の底、黒くなってきたな"
       ],
       "replies": {
