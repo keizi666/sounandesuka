@@ -107,6 +107,8 @@ export class SceneView {
     this.controls.enableDamping = true;
     // マウス: 左ドラッグでパン（地図を動かす）、右ドラッグで視点を回す、ホイールで拡大縮小（ユーザーの指定）
     this.controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
+    // 視点の回転は控えめに（既定の 1.0 では過敏で操作しづらい。ユーザーの指定）
+    this.controls.rotateSpeed = 0.3;
     this.controls.minDistance = size * 0.01;
     this.controls.maxDistance = size * 3;
     this.controls.minPolarAngle = 15 * DEG;
