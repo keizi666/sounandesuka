@@ -5,10 +5,12 @@
  */
 import { JA } from '../i18n/ja';
 import { el } from './dom';
+import { icon, type IconName } from './icons';
 
 export interface FloatWindowOptions {
   id: string;
   title: string;
+  icon?: IconName;
   /** 初期の位置と大きさ（px）。right / bottom を指定すると右端・下端からの距離 */
   left?: number;
   top?: number;
@@ -58,7 +60,7 @@ export function createFloatWindow(content: HTMLElement, o: FloatWindowOptions): 
   };
 
   const minBtn = el('button', { class: 'fwin-btn', type: 'button' });
-  const titleEl = el('span', { class: 'fwin-title' }, o.title);
+  const titleEl = el('span', { class: 'fwin-title' }, [o.icon ? icon(o.icon) : null, o.title]);
   const bar = el('div', { class: 'fwin-bar' }, [titleEl, minBtn]);
   const body = el('div', { class: 'fwin-body' }, [content]);
   const win = el('section', { class: 'fwin', 'aria-label': o.title }, [bar, body]);
@@ -85,7 +87,7 @@ export function createFloatWindow(content: HTMLElement, o: FloatWindowOptions): 
     win.style.width = `${Math.round(st.w)}px`;
     win.style.height = st.min ? '' : `${Math.round(st.h)}px`;
     win.classList.toggle('min', st.min);
-    minBtn.textContent = st.min ? '▢' : '–';
+    minBtn.replaceChildren(icon(st.min ? 'openInFull' : 'minimize'));
     const label = st.min ? JA.ui.windowRestore : JA.ui.windowMinimize;
     minBtn.title = label;
     minBtn.setAttribute('aria-label', label);

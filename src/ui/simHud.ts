@@ -2,6 +2,7 @@
  * シミュレーション画面の HUD（docs/11 §2）: 上部バー（時刻・速度・情報モード・カメラ・レイヤー・設定）、
  * 右の登山者パネル・気象パネル・予報、下のイベントログ。スマホ幅ではパネルを下のタブにまとめる。
  */
+import { icon } from './icons';
 import { JA } from '../i18n/ja';
 import { formatDateTime } from '../i18n/format';
 import type { ClimberState, ScenarioDef, World } from '../sim/types';
@@ -55,14 +56,15 @@ export class Hud {
   ) {
     this.god = opts.god;
     this.clock = el('span', { class: 'clock', 'aria-live': 'off' });
-    this.pauseBtn = el('button', { class: 'icon', title: `${JA.ui.pause} (Space)`, onclick: () => h.togglePause() }, '⏸');
+    this.pauseBtn = el('button', { class: 'icon', title: `${JA.ui.pause} (Space)`, onclick: () => h.togglePause() }, icon('pause'));
     for (const s of SPEED_LIST) {
       const b = el('button', { class: 'speed', title: `×${s}`, onclick: () => h.setSpeed(s) }, `×${s}`);
       this.speedBtns.set(s, b);
     }
     this.godBtn = el('button', { class: 'toggle', title: 'G', onclick: () => h.setGod(!this.god) });
     const cams: [CameraMode, string][] = [['overview', JA.ui.camOverview], ['follow', JA.ui.camFollow], ['eye', JA.ui.camEye]];
-    for (const [m, label] of cams) this.camBtns.set(m, el('button', { class: 'cam', onclick: () => h.setCamera(m) }, label));
+    const camIcon = { overview: 'landscape', follow: 'myLocation', eye: 'directionsWalk' } as const;
+    for (const [m, label] of cams) this.camBtns.set(m, el('button', { class: 'cam', onclick: () => h.setCamera(m) }, [icon(camIcon[m]), label]));
     const layerBox = (name: 'trail' | 'track' | 'cloud', label: string, on: boolean): HTMLElement => {
       const cb = el('input', { type: 'checkbox', checked: on, onchange: () => h.setLayer(name, cb.checked) });
       return el('label', {}, [cb, label]);
@@ -75,27 +77,27 @@ export class Hud {
       el('option', { value: 'hazard' }, JA.ui.layerHazard),
     ]);
     const layers = el('details', { class: 'layers' }, [
-      el('summary', {}, JA.ui.layers),
+      el('summary', {}, [icon('layers'), JA.ui.layers]),
       el('div', { class: 'menu' }, [layerBox('trail', JA.ui.layerTrail, true), layerBox('track', JA.ui.layerTrack, true), layerBox('cloud', JA.ui.layerCloud, true), el('label', {}, [JA.ui.layerOverlay, ov])]),
     ]);
     const modeTag = opts.observe ? el('span', { class: 'tag' }, JA.settingsUi.observe) : opts.timed ? el('span', { class: 'tag' }, JA.settingsUi.timed) : null;
     this.top = el('header', { class: 'topbar' }, [
-      el('button', { class: 'icon', title: JA.ui.quit, onclick: () => h.quit() }, '☰'),
+      el('button', { class: 'icon', title: JA.ui.quit, 'aria-label': JA.ui.quit, onclick: () => h.quit() }, icon('home')),
       el('strong', { class: 'title' }, scenario.title),
-      this.clock,
+      el('span', { class: 'clockbox' }, [icon('schedule'), this.clock]),
       modeTag,
-      el('div', { class: 'group speeds', role: 'group', 'aria-label': JA.ui.speed }, [this.pauseBtn, ...this.speedBtns.values()]),
+      el('div', { class: 'group speeds', role: 'group', 'aria-label': JA.ui.speed }, [this.pauseBtn, el('span', { class: 'grp-ic', title: JA.ui.speed }, icon('speed')), ...this.speedBtns.values()]),
       this.godBtn,
       el('div', { class: 'group cams', role: 'group', 'aria-label': JA.ui.camera }, [...this.camBtns.values()]),
       layers,
-      el('button', { class: 'icon', title: JA.ui.settings, onclick: () => h.settings() }, '⚙'),
+      el('button', { class: 'icon', title: JA.ui.settings, 'aria-label': JA.ui.settings, onclick: () => h.settings() }, icon('settings')),
     ]);
     this.climbersEl = el('div', { class: 'climbers' });
     this.weatherEl = el('div');
     this.forecastEl = el('div');
     const sortBtn = scenario.party.length > 6 ? el('button', { class: 'small', onclick: () => (this.sortByCore = !this.sortByCore) }, JA.ui.sortByCore) : null;
     this.side = el('aside', { class: 'side' }, [
-      el('h2', {}, [JA.ui.climbers, sortBtn]),
+      el('h2', {}, [el('span', { class: 'hd' }, [icon('groups'), JA.ui.climbers]), sortBtn]),
       this.climbersEl,
       this.weatherEl,
       this.forecastEl,
@@ -105,11 +107,18 @@ export class Hud {
 
   setState(world: World, paused: boolean, speed: Speed, cam: CameraMode): void {
     this.clock.textContent = formatDateTime(this.scenario, world.tMin);
-    this.pauseBtn.textContent = paused ? '▶' : '⏸';
+    if (this.pauseBtn.dataset['p'] !== String(paused)) {
+      this.pauseBtn.dataset['p'] = String(paused);
+      this.pauseBtn.replaceChildren(icon(paused ? 'playArrow' : 'pause'));
+    }
+    this.pauseBtn.setAttribute('aria-label', paused ? JA.ui.play : JA.ui.pause);
     this.pauseBtn.title = `${paused ? JA.ui.play : JA.ui.pause} (Space)`;
     for (const [s, b] of this.speedBtns) b.classList.toggle('on', s === speed && !paused);
     for (const [m, b] of this.camBtns) b.classList.toggle('on', m === cam);
-    this.godBtn.textContent = this.god ? `👁 ${JA.ui.godView}` : `🧍 ${JA.ui.climberView}`;
+    if (this.godBtn.dataset['g'] !== String(this.god)) {
+      this.godBtn.dataset['g'] = String(this.god);
+      this.godBtn.replaceChildren(icon(this.god ? 'visibility' : 'hiking'), this.god ? JA.ui.godView : JA.ui.climberView);
+    }
   }
 
   /** パネルの更新（4Hz） */

@@ -1,4 +1,5 @@
 /** タイトル画面（docs/11 §1） */
+import { icon } from './icons';
 import { versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
 import { loadEntry, loadIndex } from '../app/data';
@@ -25,7 +26,7 @@ export function showTitle(app: AppContext): () => void {
             }
             app.go({ name: 'sim', loaded: await loadEntry(e), resume: data });
           },
-        }, JA.ui.resume)
+        }, [icon('playCircle'), JA.ui.resume])
       : null;
   app.root.append(
     el('main', { class: 'title' }, [
@@ -34,10 +35,10 @@ export function showTitle(app: AppContext): () => void {
       el('p', { class: 'note version' }, versionLabel()),
       el('div', { class: 'menu' }, [
         resumeBtn,
-        el('button', { class: resumeBtn ? '' : 'primary', onclick: () => app.go({ name: 'select' }) }, JA.ui.start),
-        el('button', { onclick: () => app.go({ name: 'history' }) }, JA.ui.history),
-        el('button', { onclick: () => openSettings(app) }, JA.ui.settings),
-        el('a', { href: `${import.meta.env.BASE_URL}editor.html` }, JA.editor.title),
+        el('button', { class: resumeBtn ? '' : 'primary', onclick: () => app.go({ name: 'select' }) }, [icon('hiking'), JA.ui.start]),
+        el('button', { onclick: () => app.go({ name: 'history' }) }, [icon('history'), JA.ui.history]),
+        el('button', { onclick: () => openSettings(app) }, [icon('settings'), JA.ui.settings]),
+        el('a', { href: `${import.meta.env.BASE_URL}editor.html` }, [icon('map'), JA.editor.title]),
       ]),
     ]),
   );

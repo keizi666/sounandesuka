@@ -2,15 +2,16 @@
  * 登山者パネル・気象パネル・予報（docs/11 §2、§4）。
  * 段階は色だけでなくアイコンと文字でも示す。登山者の視点では数値を出さず、言葉で表す（docs/02 §4）。
  */
+import { icon, type IconName } from './icons';
 import { JA } from '../i18n/ja';
 import type { ClimberState, ScenarioDef, World } from '../sim/types';
 import { el, LEVEL_ICON, levelOf, type Level } from './dom';
 import { activeCells } from '../sim/weather/global';
 import { interpolateKeyframes, effectiveKeyframes } from '../sim/weather/global';
 
-function bar(label: string, frac: number, level: Level, text: string): HTMLElement {
+function bar(ic: IconName, label: string, frac: number, level: Level, text: string): HTMLElement {
   return el('div', { class: `bar lv-${level}`, role: 'meter', 'aria-label': `${label} ${text}` }, [
-    el('span', { class: 'lbl' }, label),
+    el('span', { class: 'lbl' }, [icon(ic), label]),
     el('span', { class: 'track' }, el('span', { class: 'fill', style: `width:${Math.max(0, Math.min(1, frac)) * 100}%` })),
     el('span', { class: 'val' }, `${LEVEL_ICON[level]} ${text}`),
   ]);
@@ -33,26 +34,27 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
   const wet = levelOf(b.wetness, 0.3, 0.6, 0.85, true);
   const anx = levelOf(b.anxiety, 40, 60, 80, true);
   const st = JA.labels.state[c.state] ?? c.state;
-  const icons = [
-    b.rainwearOn ? '🧥雨具' : '',
-    c.inv.headlamp.on ? '🔦' : '',
-    c.inv.phone.has ? `📱${c.inv.phone.dead ? '×' : Math.round(c.inv.phone.batteryPct) + '%'}` : '',
-    b.injury !== 'none' ? `🩹${JA.labels.injury[b.injury]}` : '',
-  ].filter(Boolean);
+  const chip = (ic: IconName, text: string): HTMLElement => el('span', { class: 'chip' }, [icon(ic), text]);
+  const chips = [
+    b.rainwearOn ? chip('checkroom', JA.ui.rainwearOn) : null,
+    c.inv.headlamp.on ? chip('flashlightOn', JA.ui.headlampOn) : null,
+    c.inv.phone.has ? chip('mobile', c.inv.phone.dead ? '×' : `${Math.round(c.inv.phone.batteryPct)}%`) : null,
+    b.injury !== 'none' ? chip('healing', JA.labels.injury[b.injury] ?? b.injury) : null,
+  ];
   return el('section', { class: `climber${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [
     el('h3', {}, [el('span', { style: `color:${c.def.color}` }, '● '), `${c.def.name} ${c.def.age}`, el('small', {}, ` ${st}`)]),
     god
       ? el('div', {}, [
-          bar(JA.ui.core, (b.coreC - 30) / 8, core, `${b.coreC.toFixed(1)}℃（${JA.ui.estimated}）`),
-          bar(JA.ui.energy, b.glycogenKcal / 2000, gly, `${Math.round(b.glycogenKcal)}`),
-          bar(JA.ui.water, 1 - b.waterDeficitL / 6, water, `-${b.waterDeficitL.toFixed(1)}L`),
-          bar(JA.ui.fatigue, b.fatigue / 100, fat, `${Math.round(b.fatigue)}`),
-          bar(JA.ui.wetness, b.wetness, wet, `${Math.round(b.wetness * 100)}%`),
-          bar(JA.ui.anxiety, b.anxiety / 100, anx, `${Math.round(b.anxiety)}`),
-          el('p', { class: 'jm' }, `${JA.ui.judgement} ${c.J.toFixed(2)} ・ ${JA.ui.motor} ${c.M.toFixed(2)}`),
+          bar('thermostat', JA.ui.core, (b.coreC - 30) / 8, core, `${b.coreC.toFixed(1)}℃（${JA.ui.estimated}）`),
+          bar('bolt', JA.ui.energy, b.glycogenKcal / 2000, gly, `${Math.round(b.glycogenKcal)}`),
+          bar('waterDrop', JA.ui.water, 1 - b.waterDeficitL / 6, water, `-${b.waterDeficitL.toFixed(1)}L`),
+          bar('batteryAlert', JA.ui.fatigue, b.fatigue / 100, fat, `${Math.round(b.fatigue)}`),
+          bar('rainy', JA.ui.wetness, b.wetness, wet, `${Math.round(b.wetness * 100)}%`),
+          bar('sentimentWorried', JA.ui.anxiety, b.anxiety / 100, anx, `${Math.round(b.anxiety)}`),
+          el('p', { class: 'jm' }, [icon('psychology'), `${JA.ui.judgement} ${c.J.toFixed(2)} ・ ${JA.ui.motor} ${c.M.toFixed(2)}`]),
         ])
       : el('p', { class: 'words' }, `${coreWords(b.coreC)}。${b.fatigue > 70 ? '足が重い。' : ''}${b.wetness > 0.6 ? '服が濡れて冷たい。' : ''}`),
-    el('p', { class: 'icons' }, icons.join(' ')),
+    el('p', { class: 'icons' }, chips),
   ]);
 }
 
@@ -73,18 +75,18 @@ export function weatherPanel(world: World, c: ClimberState | undefined, god: boo
       l.visibilityM < 60 ? `霧で ${Math.round(l.visibilityM)}m 先が見えない` : l.visibilityM < 500 ? '霧が出ている' : '見通しはよい',
       l.thunder > 0.5 ? '雷鳴が近い' : l.thunder > 0.1 ? '遠くで雷鳴' : '',
     ].filter(Boolean);
-    return el('section', { class: 'weather' }, [el('h3', {}, JA.ui.weather), el('ul', {}, words.map((w) => el('li', {}, w)))]);
+    return el('section', { class: 'weather' }, [el('h3', {}, [icon('partlyCloudyDay'), JA.ui.weather]), el('ul', {}, words.map((w) => el('li', {}, w)))]);
   }
-  const row = (k: string, v: string): HTMLElement => el('div', { class: 'kv' }, [el('span', {}, k), el('span', {}, v)]);
+  const row = (ic: IconName, k: string, v: string): HTMLElement => el('div', { class: 'kv' }, [el('span', { class: 'k' }, [icon(ic), k]), el('span', {}, v)]);
   return el('section', { class: 'weather' }, [
-    el('h3', {}, JA.ui.weather),
-    row(JA.ui.temp, `${l.tempC.toFixed(1)}℃`),
-    row(JA.ui.feels, `${l.windChillC.toFixed(1)}℃`),
-    row(JA.ui.wind, `${l.windMs.toFixed(0)} m/s ${windDir(l.windDirDeg)}`),
-    row(JA.ui.precip, l.precipMmH > 0.05 ? `${pt} ${l.precipMmH.toFixed(1)}mm/h` : JA.ui.none),
-    row(JA.ui.visibility, `${l.visibilityM >= 10000 ? '10km以上' : Math.round(l.visibilityM) + ' m'}`),
-    row(JA.ui.cloudBase, `${Math.round(world.weather.cloudBaseM).toLocaleString()} m`),
-    row(JA.ui.thunder, l.thunder > 0.05 ? `${Math.round(l.thunder * 100)}%` : JA.ui.none),
+    el('h3', {}, [icon('partlyCloudyDay'), JA.ui.weather]),
+    row('deviceThermostat', JA.ui.temp, `${l.tempC.toFixed(1)}℃`),
+    row('acUnit', JA.ui.feels, `${l.windChillC.toFixed(1)}℃`),
+    row('air', JA.ui.wind, `${l.windMs.toFixed(0)} m/s ${windDir(l.windDirDeg)}`),
+    row('rainy', JA.ui.precip, l.precipMmH > 0.05 ? `${pt} ${l.precipMmH.toFixed(1)}mm/h` : JA.ui.none),
+    row('foggy', JA.ui.visibility, `${l.visibilityM >= 10000 ? '10km以上' : Math.round(l.visibilityM) + ' m'}`),
+    row('cloud', JA.ui.cloudBase, `${Math.round(world.weather.cloudBaseM).toLocaleString()} m`),
+    row('thunderstorm', JA.ui.thunder, l.thunder > 0.05 ? `${Math.round(l.thunder * 100)}%` : JA.ui.none),
   ]);
 }
 

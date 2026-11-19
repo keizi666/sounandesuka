@@ -130,8 +130,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   );
   // 3D 画面を全面に敷き、状況とログは動かせるウィンドウとして重ねる（狭い画面では最小化して始める）
   const narrow = window.innerWidth < 900;
-  const sideWin = createFloatWindow(hud.side, { id: 'status', title: JA.ui.statusWindow, right: 12, top: 60, width: 320, height: Math.round(window.innerHeight * 0.62), minimized: narrow });
-  const logWin = createFloatWindow(hud.logEl, { id: 'log', title: JA.ui.log, left: 12, bottom: 34, width: Math.min(560, Math.round(window.innerWidth * 0.5)), height: 180, minimized: narrow });
+  const sideWin = createFloatWindow(hud.side, { id: 'status', title: JA.ui.statusWindow, icon: 'monitorHeart', right: 12, top: 60, width: 320, height: Math.round(window.innerHeight * 0.62), minimized: narrow });
+  const logWin = createFloatWindow(hud.logEl, { id: 'log', title: JA.ui.log, icon: 'listAlt', left: 12, bottom: 34, width: Math.min(560, Math.round(window.innerWidth * 0.5)), height: 180, minimized: narrow });
   app.root.append(el('main', { class: 'sim' }, [stage, hud.top, sideWin.el, logWin.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]));
 
   // ---- 保存 ----

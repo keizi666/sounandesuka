@@ -163,6 +163,8 @@ export const JA = {
     weather: '気象',
     log: 'ログ',
     statusWindow: '登山者と気象',
+    rainwearOn: '雨具',
+    headlampOn: 'ライト',
     windowMinimize: '最小化',
     windowRestore: '元の大きさに戻す',
     knowledge: '{name}さんが把握していること',
