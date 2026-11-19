@@ -530,7 +530,8 @@
   "thoughts": [
     { "key": "s05_quiet", "when": { "all": [{ "before": "D0 11:00" }, { "state": "WALKING" }] }, "lines": ["平日の奥多摩は静かでいい", "鳥屋戸尾根は前から歩いてみたかった"] },
     { "key": "s05_beer", "when": { "all": [{ "var": "leader.bac", "op": ">", "value": 0.02 }, { "state": "WALKING" }] }, "lines": ["少し顔がほてる。いい気分だ", "足取りが軽い。下りは任せておけ"], "priority": 6 },
-    { "key": "s05_fog", "when": { "all": [{ "var": "leader.local.visibilityM", "op": "<", "value": 300 }, { "state": "WALKING" }] }, "lines": ["ガスってきたな。急ごう", "踏み跡が薄い。たぶんこっちだ"], "priority": 6 },
+    { "key": "s05_fog", "when": { "all": [{ "var": "leader.local.visibilityM", "op": "<", "value": 300 }, { "state": "WALKING" }, { "any": [{ "onEdge": "E4" }, { "onEdge": "E5" }, { "onEdge": "E6" }] }] }, "lines": ["ガスってきたな。急ごう", "踏み跡が薄い。たぶんこっちだ"], "priority": 6 },
+    { "key": "s05_fog_back", "when": { "all": [{ "var": "leader.local.visibilityM", "op": "<", "value": 300 }, { "state": "WALKING" }, { "chose": { "cp": "cp_sobatsubu", "option": "back" } }] }, "lines": ["ガスってきた。引き返して正解だったな", "知っている道でよかった。足元だけ気をつけよう"], "priority": 7 },
     { "key": "s05_off", "when": { "state": "OFFROUTE_UNAWARE" }, "lines": ["急に下りがきつくなった", "道は合ってるはずだ。地図はあとで見ればいい"], "priority": 7 },
     { "key": "s05_family", "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }, { "not": { "flag": "planShared" } }] }, "lines": ["家族には「奥多摩」としか言っていない", "どこを探せばいいか、誰にも分からない"], "priority": 8 },
     { "key": "s05_rain", "when": { "all": [{ "var": "leader.local.precipMmH", "op": ">", "value": 2 }, { "any": [{ "state": "BIVOUAC" }, { "state": "WAITING_RESCUE" }] }] }, "lines": ["ツエルトを打つ雨の音しかしない", "水はとっておかないと。雨水をためよう"], "priority": 6 }
