@@ -7,6 +7,7 @@ import { chance, nextFloat, randRange } from '../core/rng';
 import { isChainAt } from '../climber/movement';
 import { bacPct } from '../climber/physiology';
 import { transition } from '../climber/state';
+import { piecewise } from '../climber/capacity';
 import { nearestIndex, sampleElev, sampleNormal } from '../terrain/sample';
 import type { ClimberState, InjuryKind, StaticContext, World } from '../types';
 import { VegClass } from '../types';
@@ -116,9 +117,17 @@ export function slipCheck(world: World, ctx: StaticContext, c: ClimberState, mov
   const downhill = moveGrade < 0;
   if (!c.body.alive) return;
   const st = ctx.tuning.slip;
-  const cls = slipClassAt(ctx, c, moveGrade);
-  const p = slipP10(world, ctx, c, cls, downhill);
-  if (!chance(world.rng.hazard, p)) return;
+  let cls = slipClassAt(ctx, c, moveGrade);
+  let p = slipP10(world, ctx, c, cls, downhill);
+  // 足を骨折して這っている: 急な斜面では体を支えきれず滑る。確率はその場の傾斜で決め、急なら道の外へ滑り落ちる
+  const crawling = c.body.injury === 'legFracture';
+  if (crawling) {
+    const slope = ctx.map.slopeDeg[nearestIndex(ctx.map, c.x, c.z)] ?? 0;
+    const gr = groundAt(world.ground, c.elevM);
+    p = piecewise(st.crawlP10, slope) * (gr.wet > 0.5 || gr.icy ? st.wetF : 1) * (world.sun.isDark && !c.inv.headlamp.on ? st.darkF : 1);
+    if (slope > st.crawlSlideDeg) cls = slope > st.offCliffDeg ? 'CLIFF' : 'OFF_STEEP';
+  }
+  if (!chance(world.rng.hazard, Math.min(1, p))) return;
   const table = st.outcomes[cls]!;
   let r = nextFloat(world.rng.hazard);
   let k = 0;
@@ -127,7 +136,7 @@ export function slipCheck(world: World, ctx: StaticContext, c: ClimberState, mov
   const injury = outcome[k]!;
   const gust = c.local.windMs * world.weather.gust > st.gustFromMs;
   ctx.events.push({ tMin: world.tMin, type: gust ? 'GUST_FALL' : 'FALL', climberId: c.id, important: injury !== 'none', data: { severity: injury, injury, cls, x: c.x, z: c.z } });
-  if ((cls === 'EXPOSED' || cls === 'OFF_STEEP' || cls === 'CLIFF') && injury !== 'none') {
+  if ((cls === 'EXPOSED' || cls === 'OFF_STEEP' || cls === 'CLIFF') && (injury !== 'none' || crawling)) {
     fallDownslope(world, ctx, c, randRange(world.rng.hazard, st.fallMinM, st.fallMaxM));
   }
   // けがをするほど転ぶと、ポケットや胸のスマホが飛んでなくなることがある（ストラップで留めていれば残る）

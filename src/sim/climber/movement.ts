@@ -2,7 +2,7 @@
  * 登山道上の移動（docs/07 §1.1）と歩行の代謝（docs/06 §2.1〜2.2）。
  * 速度は実距離（s）あたり。勾配も実距離に対する値（シヌオシティ考慮後）。
  */
-import { dexp } from '../core/dmath';
+import { datan, DEG, dexp } from '../core/dmath';
 import { dehydrationF } from './capacity';
 import { TUNING, type Tuning } from '../tuning';
 import type { ClimberDef, ClimberState, EdgeDef, MapRuntime } from '../types';
@@ -48,6 +48,14 @@ export function isChainAt(map: MapRuntime, edgeId: string, s: number): boolean {
   return false;
 }
 
+/** 足を骨折して這うときの速さの上限（m/s）。傾斜（度）が急なほど遅い。骨折していなければ Infinity */
+export function crawlCapMs(c: ClimberState, slopeDeg: number, tuning: Tuning = TUNING): number {
+  if (c.body.injury !== 'legFracture') return Infinity;
+  const m = tuning.movement;
+  const f = Math.max(m.crawlMinF, 1 - Math.abs(slopeDeg) / m.crawlSlopeStopDeg);
+  return (m.crawlKmh / 3.6) * f * c.plan.paceFactor;
+}
+
 /** 登山道上の候補速度（m/s、MET 上限の前） */
 export function trailSpeedMs(
   c: ClimberState,
@@ -88,7 +96,9 @@ export function trailSpeedMs(
     c.plan.paceFactor *
     (edge.paceAdj ?? 1) *
     windF;
-  return Math.max(0, kmh / 3.6);
+  // 足を骨折したら這う（勾配から傾斜の角度にして遅くする）
+  const crawl = crawlCapMs(c, datan(Math.abs(grade)) / DEG, tuning);
+  return Math.max(0, Math.min(kmh / 3.6, crawl));
 }
 
 /** 歩行の MET（ACSM の歩行式を簡略化。docs/06 §2.1） */

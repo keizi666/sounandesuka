@@ -2,6 +2,10 @@
 
 /** docs/07 §1 移動、docs/06 §2 代謝 */
 export const movement = {
+  /** 足を骨折した人は歩けず、這って動く: 平らな所での速さ（km/h。1 時間に 70 m ほど）と、傾斜（度）で遅くなる割合（この傾斜で止まる手前まで落ちる） */
+  crawlKmh: 0.07,
+  crawlSlopeStopDeg: 50,
+  crawlMinF: 0.25,
   toblerMaxKmh: 6,
   toblerK: 3.5,
   toblerOffset: 0.05,

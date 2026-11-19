@@ -13,6 +13,7 @@ import { walkMet } from './movement';
 import { checkPosition as navCheck, pathToSignal, pathToTrail, rejoinTrail, trailAt, utilityStep } from './navigation';
 import { transition } from './state';
 import type { WalkResult } from './walk';
+import { crawlCapMs } from './movement';
 
 const EPS = 1e-9;
 
@@ -23,7 +24,9 @@ export function offTrailSpeedMs(world: World, ctx: StaticContext, c: ClimberStat
   let darkF = 1;
   if (world.sun.isDark) darkF = c.inv.headlamp.on ? m.darkHeadlampF : m.darkNoLampBase + m.darkNoLampMoon * world.sun.moonIllum;
   const f = c.body.fatigue / 100;
-  return ((m.offTrailKmh / 3.6) * offTrailFactor(ctx.map, i, ctx.tuning) * darkF * c.M * (1 - m.fatigueSpeedK * f * f)) * c.plan.paceFactor;
+  const v = ((m.offTrailKmh / 3.6) * offTrailFactor(ctx.map, i, ctx.tuning) * darkF * c.M * (1 - m.fatigueSpeedK * f * f)) * c.plan.paceFactor;
+  // 足を骨折したら這う（その場の斜面の傾斜で遅くなる）
+  return Math.min(v, crawlCapMs(c, ctx.map.slopeDeg[i] ?? 0, ctx.tuning));
 }
 
 /** path が尽きたとき、状態に応じて次の目標を足す。false なら止まる */
