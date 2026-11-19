@@ -143,7 +143,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     ],
     [
       { x: window.innerWidth - sideW - 12, y: 60, w: sideW, h: Math.round(window.innerHeight * 0.6), min: narrow, tabs: ['climbers', 'weather'], active: 'climbers' },
-      { x: 12, y: Math.max(60, window.innerHeight - 300 - 96), w: Math.min(440, Math.round(window.innerWidth * 0.42)), h: 300, min: narrow, tabs: ['log'], active: 'log' },
+      { x: 12, y: Math.max(60, window.innerHeight - 460 - 96), w: Math.min(540, Math.round(window.innerWidth * 0.46)), h: Math.min(460, window.innerHeight - 160), min: narrow, tabs: ['log'], active: 'log' },
     ],
   );
   // ---- タイムライン（時間を戻す） ----

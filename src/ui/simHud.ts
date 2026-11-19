@@ -216,7 +216,7 @@ export class Hud {
     } else {
       const cont = this.lastSpeaker === who.id;
       this.lastSpeaker = who.id;
-      const face = cont ? el('span', { class: 'face-gap' }) : avatar(who, 40);
+      const face = cont ? el('span', { class: 'face-gap' }) : avatar(who, 52);
       const name = cont ? null : el('div', { class: 'name' }, [el('span', { style: `color:${who.color}` }, who.name), line.to ? el('span', { class: 'to' }, ` → ${line.to}`) : null]);
       let body: HTMLElement;
       if (kind === 'speech' || kind === 'thought') {

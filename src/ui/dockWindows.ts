@@ -2,7 +2,7 @@
  * 合体できるタブ式のウィンドウ（3D 画面に重ねる、暗い半透明・ぼかし背景）。
  * - 各パネル（ログ・登山者・気象など）はタブになる。タブを別のウィンドウへドラッグすると合体し、外へドラッグすると切り離される。
  * - ウィンドウはタブの並びの空いたところ（またはタブが 1 枚ならそのタブ）をドラッグして動かす。最小化、右下の角で大きさ変更。
- * - 配置は localStorage（hks.v1.dock）に覚える。
+ * - 配置は localStorage（hks.v1.dock.2）に覚える。
  */
 import { JA } from '../i18n/ja';
 import { el } from './dom';
@@ -31,7 +31,8 @@ export interface Dock {
   dispose(): void;
 }
 
-const KEY = 'hks.v1.dock';
+/** 配置を覚えるキー。既定の配置を変えたら末尾の番号を上げて、古い配置を読まないようにする */
+const KEY = 'hks.v1.dock.2';
 const DRAG_START_PX = 6;
 
 function loadLayout(ids: string[]): DockWindowState[] | null {
