@@ -143,7 +143,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     ],
     [
       { x: window.innerWidth - sideW - 12, y: 60, w: sideW, h: Math.round(window.innerHeight * 0.6), min: narrow, tabs: ['climbers', 'weather'], active: 'climbers' },
-      { x: 12, y: window.innerHeight - 180 - 96, w: Math.min(560, Math.round(window.innerWidth * 0.5)), h: 180, min: narrow, tabs: ['log'], active: 'log' },
+      { x: 12, y: Math.max(60, window.innerHeight - 300 - 96), w: Math.min(440, Math.round(window.innerWidth * 0.42)), h: 300, min: narrow, tabs: ['log'], active: 'log' },
     ],
   );
   // ---- タイムライン（時間を戻す） ----
@@ -181,12 +181,15 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         hud.log({ tMin: e.tMin, important: true, text: by === 'user' ? fill(JA.ui.chose, { label }) : fill(observe ? JA.ui.autoChose : JA.ui.timeUp, { label }) });
         continue;
       }
-      if ((e.type === 'SPEECH' || e.type === 'THOUGHT') && e.climberId) {
-        const v = speechView(e, scenario);
-        if (v) bubbles.add(e.climberId, v, fast);
-      }
+      const v = (e.type === 'SPEECH' || e.type === 'THOUGHT') && e.climberId ? speechView(e, scenario) : null;
+      if (v && e.climberId) bubbles.add(e.climberId, v, fast);
       const text = formatEvent(e, { scenario, nodeName });
-      if (text && (e.type !== 'THOUGHT' || hud.god)) hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId });
+      if (!text || (e.type === 'THOUGHT' && !hud.god)) continue;
+      if (v) {
+        // 吹き出しの中は文だけ。注記（記録・架空・ろれつ）は下に小さく
+        const tag = v.log.replace(/^.*[」）]/, '');
+        hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: v.thought ? 'thought' : 'speech', bubble: v.thought ? v.display : v.display, tag, to: v.to ? (party.get(v.to)?.name ?? v.to) : undefined, shout: v.tone === 'shout' });
+      } else hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: e.climberId ? 'action' : 'system' });
     }
   }
 

@@ -27,9 +27,20 @@ export interface HudHandlers {
 
 export interface LogLine {
   tMin: number;
+  /** 1 行の文（タイムラインの点の説明・検索用。表示はこれと下の項目から組み立てる） */
   text: string;
   important: boolean;
   climberId?: string;
+  /** 表示の種類: セリフ（吹き出し）・心の声（点線の吹き出し）・行動（顔＋1 行）・全体の出来事（中央の帯） */
+  kind?: 'speech' | 'thought' | 'action' | 'system';
+  /** 吹き出しの中の文（セリフ・心の声） */
+  bubble?: string;
+  /** 吹き出しの下の注記（記録・架空・ろれつ など） */
+  tag?: string;
+  /** 話しかけた相手の名前 */
+  to?: string;
+  /** 叫び */
+  shout?: boolean;
 }
 
 const SPEED_LIST: Speed[] = [1, 4, 15, 60];
@@ -185,16 +196,42 @@ export class Hud {
   truncate(tMin: number): void {
     this.lines = this.lines.filter((l) => l.tMin <= tMin + 1e-6);
     for (const li of [...this.logEl.children]) if (Number((li as HTMLElement).dataset['t']) > tMin + 1e-6) li.remove();
+    this.lastSpeaker = null;
     this.setCutoff(null);
   }
+
+  /** 直前の行の話し手（同じ人が続くときは顔と名前を省く。LINE のトーク画面と同じ） */
+  private lastSpeaker: string | null = null;
 
   log(line: LogLine): void {
     this.lines.push(line);
     const time = formatDateTime(this.scenario, line.tMin).split(' ')[1] ?? '';
     const who = line.climberId ? this.party.get(line.climberId) : undefined;
-    const li = el('li', { class: line.important ? 'imp' : '', 'data-t': line.tMin }, [el('time', {}, time), who ? avatar(who, 27) : null, ' ', line.text]);
+    const kind = line.kind ?? (who ? 'action' : 'system');
+    let li: HTMLElement;
+    if (kind === 'system' || !who) {
+      // 全体の出来事: 中央の帯
+      this.lastSpeaker = null;
+      li = el('li', { class: `sys${line.important ? ' imp' : ''}`, 'data-t': line.tMin }, el('span', { class: 'pill' }, [el('time', {}, time), line.text]));
+    } else {
+      const cont = this.lastSpeaker === who.id;
+      this.lastSpeaker = who.id;
+      const face = cont ? el('span', { class: 'face-gap' }) : avatar(who, 40);
+      const name = cont ? null : el('div', { class: 'name' }, [el('span', { style: `color:${who.color}` }, who.name), line.to ? el('span', { class: 'to' }, ` → ${line.to}`) : null]);
+      let body: HTMLElement;
+      if (kind === 'speech' || kind === 'thought') {
+        body = el('div', { class: 'msg' }, [
+          el('div', { class: `bubble ${kind}${line.shout ? ' shout' : ''}${cont ? ' cont' : ''}` }, line.bubble ?? line.text),
+          el('div', { class: 'meta' }, [line.tag ? el('span', { class: 'tag' }, line.tag) : null, el('time', {}, time)]),
+        ]);
+      } else {
+        // 行動: 顔の横に 1 行（名前は文の中にあるので、見出しは出さない）
+        body = el('div', { class: 'msg' }, [el('div', { class: `act${line.important ? ' imp' : ''}` }, [line.text, el('time', {}, time)])]);
+      }
+      li = el('li', { class: `who ${kind}${cont ? ' cont' : ''}`, 'data-t': line.tMin }, [face, el('div', { class: 'col' }, [kind === 'action' ? null : name, body])]);
+      li.addEventListener('click', () => this.h.select(who.id));
+    }
     if (this.cutoff !== null && line.tMin > this.cutoff + 1e-6) li.hidden = true;
-    if (line.climberId) li.addEventListener('click', () => this.h.select(line.climberId!));
     this.logEl.append(li);
     while (this.logEl.childElementCount > 300) this.logEl.firstElementChild?.remove();
     // ログはウィンドウの本体（親）がスクロールする
