@@ -26,6 +26,11 @@ export interface EnvUniforms {
   /** 樹木の揺れ: 時刻（秒）と、揺れの大きさ */
   uTime: { value: number };
   uSway: { value: number };
+  /** 空気遠近: 霞の色と濃さ（シーン 1 単位 = 1 km あたり） */
+  uAirColor: { value: THREE.Color };
+  uAirDensity: { value: number };
+  /** 霞が始まる距離（手前は霞ませない。俯瞰では箱庭の手前側がくっきり見えるように） */
+  uAirStart: { value: number };
 }
 
 export function createEnvUniforms(): EnvUniforms {
@@ -47,6 +52,9 @@ export function createEnvUniforms(): EnvUniforms {
     uDetailOn: { value: 0 },
     uTime: { value: 0 },
     uSway: { value: 0.01 },
+    uAirColor: { value: new THREE.Color(0xbfd9ee) },
+    uAirDensity: { value: 0.05 },
+    uAirStart: { value: 0 },
   };
 }
 
@@ -68,6 +76,9 @@ uniform sampler2D uDetail;
 uniform float uDetailOn;
 uniform float uTime;
 uniform float uSway;
+uniform vec3 uAirColor;
+uniform float uAirDensity;
+uniform float uAirStart;
 varying float vElev;
 varying vec3 vWorldPos;
 varying float vSlopeUp;
@@ -171,7 +182,14 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
       // 雲の中は灰白色に霞む（俯瞰でも稜線が雲に隠れて見える）
       float hkFog = smoothstep(uCloudBase - 80.0, uCloudBase + 60.0, vElev) * uCloudCover * 0.85;
       gl_FragColor.rgb = mix(gl_FragColor.rgb, uFogColor * (1.0 - 0.75 * uNight), hkFog);
-      gl_FragColor.rgb *= mix(vec3(1.0), vec3(0.62, 0.7, 0.92), uNight);`,
+      gl_FragColor.rgb *= mix(vec3(1.0), vec3(0.62, 0.7, 0.92), uNight);
+      // 空気遠近: 遠いほど、また低いところほど霞の色に寄り、彩度が落ちる
+      float hkDist = max(0.0, distance(cameraPosition, vWorldPos) - uAirStart);
+      float hkLow = 1.0 - clamp((vWorldPos.y - 0.05) / 1.2, 0.0, 1.0);
+      float hkAir = 1.0 - exp(-hkDist * uAirDensity * (0.75 + 0.6 * hkLow));
+      vec3 hkGrey = vec3(dot(gl_FragColor.rgb, vec3(0.2126, 0.7152, 0.0722)));
+      gl_FragColor.rgb = mix(gl_FragColor.rgb, hkGrey, hkAir * 0.3);
+      gl_FragColor.rgb = mix(gl_FragColor.rgb, uAirColor, hkAir);`,
     );
 }
 

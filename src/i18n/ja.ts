@@ -238,6 +238,7 @@ export const JA = {
     qualityMid: '中',
     qualityHigh: '高',
     figureScale: 'フィギュア拡大率',
+    tiltShift: '箱庭風のぼかし（上下）',
     vExag: '鉛直誇張',
     autoPause: '自動一時停止',
     autoPauseChoice: '分岐点のみ',

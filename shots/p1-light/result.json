@@ -1,0 +1,33 @@
+{
+  "label": "p1-light",
+  "at": "2026-11-19T00:36:44.523Z",
+  "info": {
+    "quality": "high",
+    "scenario": "s01_cold_front",
+    "tMin": 570,
+    "canvas": "1600x900",
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 SUPER (0x00001F06) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "climber": "WALKING"
+  },
+  "overview": {
+    "msPerFrame": 4.22,
+    "fps": 236.8,
+    "calls": 1,
+    "triangles": 1
+  },
+  "forest": {
+    "msPerFrame": 10.52,
+    "fps": 95.1,
+    "calls": 1,
+    "triangles": 1
+  },
+  "ridge": {
+    "msPerFrame": 9.83,
+    "fps": 101.7,
+    "calls": 1,
+    "triangles": 1
+  },
+  "errors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+}

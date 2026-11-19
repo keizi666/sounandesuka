@@ -18,6 +18,8 @@ export interface Settings {
   thoughtBubbles: boolean;
   fictionalSpeech: boolean;
   textSize: 'small' | 'medium' | 'large';
+  /** 箱庭らしい上下のぼかし（ミニチュア写真風） */
+  tiltShift: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -34,6 +36,7 @@ export const DEFAULT_SETTINGS: Settings = {
   thoughtBubbles: true,
   fictionalSpeech: true,
   textSize: 'medium',
+  tiltShift: true,
 };
 
 const KEY = 'hks.v1.settings';

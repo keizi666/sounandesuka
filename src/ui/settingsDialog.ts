@@ -31,6 +31,7 @@ export function openSettings(app: AppContext, onChange?: (s: Settings) => void):
     row(S.quality, select('quality', [['auto', S.qualityAuto], ['low', S.qualityLow], ['mid', S.qualityMid], ['high', S.qualityHigh]])),
     row(S.figureScale, range('figureScale', 10, 50, 1)),
     row(S.vExag, range('vExag', 0.8, 1.5, 0.05)),
+    row(S.tiltShift, toggle('tiltShift')),
     row(S.autoPause, select('autoPause', [['choice', S.autoPauseChoice], ['important', S.autoPauseImportant], ['all', S.autoPauseAll]])),
     row(S.timed, toggle('timed')),
     row(S.observe, toggle('observe')),

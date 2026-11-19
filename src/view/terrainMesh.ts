@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import type { MapRuntime } from '../sim/types';
 import { VegClass } from '../sim/types';
 import { plinthTopY, toSceneY, UNIT, type ViewScale } from './scale';
-import { createTerrainMaterial, type EnvUniforms } from './terrainMaterial';
+import { createTerrainMaterial, injectEnv, type EnvUniforms } from './terrainMaterial';
 
 /** 植生の基本色（docs/10 §3.2）。秋は広葉樹を紅葉に寄せる */
 export function vegColors(season: string): Record<number, THREE.Color> {
@@ -51,6 +51,18 @@ export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, se
       const aspect = map.aspect[gi]!;
       const shade = 0.92 + 0.08 * -Math.cos(aspect) * Math.min(1, map.slopeDeg[gi]! / 30);
       tmp.multiplyScalar(shade);
+      // 林床は樹冠の陰で暗い。林縁（隣が林でないセル）ほど明るく残す
+      const v = map.veg[gi]!;
+      if (v === VegClass.BROADLEAF || v === VegClass.CONIFER) {
+        let forestNb = 0;
+        for (const [ox, oz] of [[-2, 0], [2, 0], [0, -2], [0, 2]] as const) {
+          const nx = Math.min(n - 1, Math.max(0, gx + ox * step));
+          const nz = Math.min(n - 1, Math.max(0, gz + oz * step));
+          const nv = map.veg[nz * n + nx]!;
+          if (nv === VegClass.BROADLEAF || nv === VegClass.CONIFER) forestNb += 1;
+        }
+        tmp.multiplyScalar((v === VegClass.CONIFER ? 0.62 : 0.74) + (4 - forestNb) * 0.07);
+      }
       col[k] = tmp.r;
       col[k + 1] = tmp.g;
       col[k + 2] = tmp.b;
@@ -157,9 +169,13 @@ export function buildDiorama(map: MapRuntime, s: ViewScale, env: EnvUniforms): T
   grd.addColorStop(1, 'rgba(255,255,255,0)');
   fg.fillStyle = grd;
   fg.fillRect(0, 0, 128, 128);
+  // 机も霞む（遠い側は空の色に溶ける）
+  const feltMat = new THREE.MeshStandardMaterial({ color: 0x8f958f, roughness: 0.95, transparent: true, alphaMap: new THREE.CanvasTexture(fade), depthWrite: false });
+  injectEnv(feltMat, env);
+  injectEnv(wood, env);
   const table = new THREE.Mesh(
     new THREE.CircleGeometry(half * 5, 64),
-    new THREE.MeshStandardMaterial({ color: 0xa39d90, roughness: 0.95, transparent: true, alphaMap: new THREE.CanvasTexture(fade), depthWrite: false }),
+    feltMat,
   );
   table.rotation.x = -Math.PI / 2;
   table.position.y = -0.001;

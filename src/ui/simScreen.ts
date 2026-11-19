@@ -72,6 +72,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   dlog('シナリオ開始', { scenario: scenario.id, map: map.def.id, size: map.def.size, resolution: map.n, party: scenario.party.length, resume: !!resume, observe, timed, tMin: world.tMin, quality: effectiveQuality(st), settings: st });
   const view = new SceneView(canvas, map, scenario, { quality: effectiveQuality(st), figureScale: st.figureScale, vExag: st.vExag });
   view.godView = st.godViewDefault;
+  view.tiltShift = st.tiltShift;
   view.mode = cam;
   const party = new Map(scenario.party.map((p) => [p.id, p]));
   const bubbles = new BubbleLayer(stage, scenario, (id) => ({ name: party.get(id)?.name ?? id, color: party.get(id)?.color ?? '#888' }));
@@ -117,6 +118,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       settings: () =>
         openSettings(app, () => {
           applyBubbleSettings();
+          view.tiltShift = app.settings.tiltShift;
           view.godView = hud.god;
         }),
       quit: () => {

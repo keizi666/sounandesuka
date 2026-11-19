@@ -98,6 +98,8 @@ export class SceneView {
   /** 高品質の追加アセットの状態 */
   hq: HqState = 'none';
   selected: string | null = null;
+  /** 箱庭風の上下ぼかし（設定で切替） */
+  tiltShift = true;
   godView = true;
   private followTarget = new THREE.Vector3();
   private lastSunElev = 999;
@@ -110,6 +112,9 @@ export class SceneView {
   private blackStage = 0;
   private lastSunUp = false;
   private sunDir = new THREE.Vector3(0, 1, 0);
+  /** 影を落とす範囲の中心と半径（視点に合わせて動かす） */
+  private shadowCenter = new THREE.Vector3();
+  private shadowR = 0;
   private lastNight = -1;
 
   constructor(
@@ -173,7 +178,7 @@ export class SceneView {
     this.scene.add(st.group);
 
     this.sun.castShadow = q.shadow > 0;
-    this.sun.shadow.mapSize.set(q.shadow || 512, q.shadow || 512);
+    this.sun.shadow.mapSize.set((q.shadow || 256) * 2, (q.shadow || 256) * 2);
     const sc = this.sun.shadow.camera;
     sc.left = -size * 0.75;
     sc.right = size * 0.75;
@@ -181,7 +186,8 @@ export class SceneView {
     sc.bottom = -size * 0.75;
     sc.near = 0.01;
     sc.far = size * 6;
-    this.sun.shadow.bias = -0.0004;
+    this.sun.shadow.bias = -0.0006;
+    this.sun.shadow.normalBias = 0.004;
     this.scene.add(this.sun, this.sun.target, this.hemi);
     this.fx = createWeatherFx(this.scene, map, this.s, opts.quality);
     // 空・環境光（質感のための映り込み）・後処理
@@ -342,12 +348,14 @@ export class SceneView {
     this.keepCameraAboveGround();
     this.sky.mesh.position.copy(this.camera.position);
     // 人形の影が付いてくるよう、影は 0.4 秒ごとにも更新する
-    if (timeSec - this.lastShadowAt > 0.4 || timeSec < this.lastShadowAt) {
+    const moved = this.shadowCenter.distanceTo(this.controls.target) > this.shadowR * 0.2 || Math.abs(this.camera.position.distanceTo(this.controls.target) * 0.8 - this.shadowR) > this.shadowR * 0.25;
+    if (timeSec - this.lastShadowAt > 0.4 || timeSec < this.lastShadowAt || moved) {
       this.lastShadowAt = timeSec;
+      this.fitShadow();
       this.renderer.shadowMap.needsUpdate = true;
     }
     if (this.post) {
-      this.post.setTilt(this.mode === 'eye' ? 0 : 1);
+      this.post.setTilt(this.mode === 'eye' || !this.tiltShift ? 0 : 1);
       this.post.render();
     } else this.renderer.render(this.scene, this.camera);
     this.frames += 1;
@@ -376,6 +384,29 @@ export class SceneView {
       p.y = minY;
       this.camera.lookAt(this.controls.target);
     }
+  }
+
+  /**
+   * 影を落とす範囲を、いま見ているあたりに絞る（地図全体を 1 枚で覆うと、木 1 本の影がぼやけて消える）。
+   * 影の地図を描き直すときにだけ動かす（途中で動かすと影がずれる）。
+   */
+  private fitShadow(): void {
+    const size = this.map.def.size * UNIT;
+    const dist = this.camera.position.distanceTo(this.controls.target);
+    const r = Math.min(size * 0.8, Math.max(size * 0.05, dist * 0.8));
+    this.shadowR = r;
+    this.shadowCenter.copy(this.controls.target);
+    const sc = this.sun.shadow.camera;
+    sc.left = -r;
+    sc.right = r;
+    sc.top = r;
+    sc.bottom = -r;
+    sc.near = 0.01;
+    sc.far = size * 6;
+    sc.updateProjectionMatrix();
+    this.sun.target.position.copy(this.shadowCenter);
+    this.sun.position.copy(this.shadowCenter).addScaledVector(this.sunDir, size * 3);
+    this.sun.target.updateMatrixWorld();
   }
 
   /** 地表の高さ（シーン座標） */
@@ -508,13 +539,15 @@ export class SceneView {
     const dawn = THREE.MathUtils.smoothstep(el, -9, 9);
     const nightK = 1 - THREE.MathUtils.smoothstep(el, -9, 4);
     if (el > 0) {
-      this.sun.position.set(Math.cos(az) * size * 2, Math.max(0.05, Math.sin(el * DEG)) * size * 2.5, Math.sin(az) * size * 2);
+      // 光の向きは、低すぎる太陽を少し持ち上げ、真上にもしない（影がはっきり落ちる 20°〜55°）
+      const elLight = Math.min(55, Math.max(el, 20 * THREE.MathUtils.smoothstep(el, 0, 6))) * DEG;
+      this.sunDir.set(Math.cos(az) * Math.cos(elLight), Math.sin(elLight), Math.sin(az) * Math.cos(elLight)).normalize();
       this.sun.color.setRGB(1, 1 - 0.32 * warm, 1 - 0.58 * warm);
       // 曇りは直射が弱まり、代わりに空全体からの柔らかい光が増える
       this.sun.intensity = 3.0 * Math.pow(sunUp, 0.6) * (1 - 0.78 * cloud * cloud);
     } else {
       // 月（太陽と同じ光源を使い回す）: 高い位置から青白く、弱く照らす。薄明が進むにつれて消える
-      this.sun.position.set(-size * 1.2, size * 2.2, size * 0.9);
+      this.sunDir.set(-1.2, 2.2, 0.9).normalize();
       this.sun.color.setRGB(0.62, 0.74, 1.0);
       this.sun.intensity = (0.22 + 0.2 * world.sun.moonIllum) * (1 - 0.6 * cloud) * (1 - THREE.MathUtils.smoothstep(el, -6, 0));
     }
@@ -538,8 +571,11 @@ export class SceneView {
       });
     }
     // 空
-    this.sunDir.copy(this.sun.position).normalize();
     this.sky.update(this.camera, sc, this.sunDir, this.sun.color, cloud);
+    // 空気遠近の霞: 地平の空の色。曇りや夜は濃く見える
+    this.env.uAirColor.value.copy(sc.horizon).multiplyScalar(1 - 0.55 * nightK);
+    this.env.uAirDensity.value = 0.07 + 0.08 * cloud;
+    this.env.uAirStart.value = this.mode === 'eye' ? 0 : this.camera.position.distanceTo(this.controls.target) * 0.75;
     if (this.sky.mesh.visible) this.scene.background = null;
     this.renderer.setClearColor(sc.horizon);
     // 影は太陽が 0.5° 動いたときだけ更新
