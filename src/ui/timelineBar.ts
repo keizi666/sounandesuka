@@ -1,6 +1,6 @@
 /**
  * タイムラインのスライダー。表示中の時刻を中央に固定し、左が過去・右が未来。表示する時間の幅（窓）は時刻に合わせて動く。
- * - 線の上を押すとその時刻へ、左右にドラッグすると時間を前後に動かす（つまみは中央のまま、目盛りと点が流れる）
+ * - 線の上を押すとその時刻へ、左右にドラッグすると目盛りをつかんで動かす（右へドラッグで過去、左へで先。つまみは中央のまま、目盛りと点が流れる）
  * - 出来事の点（分岐点はひし形）を押すとその時刻へ。まだ来ていない未来（記録の先）は斜線で、そこへは進めない
  * - 窓の幅は 1・2・4・8 時間から選べる
  */
@@ -122,7 +122,7 @@ export function createTimelineBar(h: TimelineBarHandlers): TimelineBar {
     }
   }
 
-  // ドラッグ: 少し動かしたら時間を前後に動かす（右へ動かすと先へ）。動かさずに離したら、押した所の時刻へ
+  // ドラッグ: 目盛りをつかんで動かす（右へ動かすと過去へ、左へ動かすと先へ。ユーザーの指定）。動かさずに離したら、押した所の時刻へ
   let drag: { id: number; x0: number; t0: number; moved: boolean } | null = null;
   track.addEventListener('pointerdown', (e) => {
     if (e.button !== 0) return;
@@ -134,7 +134,7 @@ export function createTimelineBar(h: TimelineBarHandlers): TimelineBar {
     if (drag && e.pointerId === drag.id) {
       const dx = e.clientX - drag.x0;
       if (Math.abs(dx) > 4) drag.moved = true;
-      if (drag.moved) h.seek(clampT(drag.t0 + (dx / width()) * span()));
+      if (drag.moved) h.seek(clampT(drag.t0 - (dx / width()) * span()));
     }
     const p = (e.target as HTMLElement).closest<HTMLElement>('.tl-point');
     const t = p ? Number(p.dataset['t']) : timeAtX(e.clientX);
