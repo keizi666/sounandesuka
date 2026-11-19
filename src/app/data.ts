@@ -2,6 +2,7 @@
  * データの読み込み（public/ の JSON、バンドル）。fetch は BASE_URL を前置する（docs/03 §10）。
  * マップの派生レイヤーは本体で作り、重い電波圏だけ Worker で計算して待つ（sim の結果を Node と一致させるため）。
  */
+import { validateScenario } from '../sim/scenario/validate';
 import { buildMapRuntime } from '../sim/terrain/map';
 import type { HakoniwaBundle, MapDef, MapRuntime, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
 
@@ -119,11 +120,26 @@ export async function bundleExists(e: ScenarioIndexEntry): Promise<boolean> {
 /** 読み込みの段階（data: データの取得、terrain: 地形と電波の計算）と進み具合 */
 export type LoadProgress = (stage: 'data' | 'terrain', frac: number | null) => void;
 
+/**
+ * 実在の山のシナリオは、バンドルの横にある元の JSON（<id>.json）を優先する（バンドルの中のシナリオは作ったときのままで古いことがある）。
+ * 元の JSON が読めない・バンドルの地形と合わないときは、バンドルの中のシナリオを使う。
+ */
+async function freshScenario(bundlePath: string, b: HakoniwaBundle): Promise<ScenarioDef> {
+  try {
+    const s = await loadScenarioFile(bundlePath.replace(/\.hakoniwa\.json$/, '.json'));
+    const fresh = { ...s, mapId: b.map.id };
+    if (s.id === b.scenario.id && validateScenario(fresh, b.map).every((x) => x.level !== 'error')) return fresh;
+  } catch {
+    // 元の JSON がない（バンドルだけを配った）
+  }
+  return b.scenario;
+}
+
 export async function loadEntry(e: ScenarioIndexEntry, onProgress?: LoadProgress): Promise<LoadedScenario> {
   if (e.bundle) {
     const b = await getJsonWithProgress<HakoniwaBundle>(`scenarios/${e.bundle}`, onProgress && ((f) => onProgress('data', f)));
     onProgress?.('terrain', null);
-    return { scenario: b.scenario, map: await buildRuntime(b.map), attribution: b.attribution };
+    return { scenario: await freshScenario(e.bundle, b), map: await buildRuntime(b.map), attribution: b.attribution };
   }
   onProgress?.('data', null);
   const scenario = await loadScenarioFile(e.file ?? `${e.id}.json`);

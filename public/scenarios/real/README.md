@@ -23,7 +23,7 @@ npm run make:real -- <シナリオ ID>     （s05 は npm run make:s05 でも同
 `<シナリオ ID>.build.json` に作り方を書く（`tools/make-real.ts` の `RealBuildSpec`）。
 
 国土地理院の標高タイルと OpenStreetMap の登山道を取り込み（応答は `.scratch/geo-cache/` に保存）、スケルトンマップと結合してバンドルを書き出す。
-シナリオ（`s05_shounoiwa.json`）を直したら、もう一度実行してバンドルに入れ直す（ゲームはバンドルの中のシナリオを使う。`sim:check`・`mc` は元の JSON を使う）。
+ゲームは、バンドルの横にある元の JSON（`<id>.json`）がバンドルの地形で検証を通れば、そちらを使う（シナリオを直したらバンドルを作り直さなくても反映される。地形・地点・道を変えたときは作り直す）。元の JSON がなければバンドルの中のシナリオを使う。`sim:check`・`mc` は元の JSON を使う。
 
 ## 扱いの方針
 
