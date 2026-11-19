@@ -10,6 +10,8 @@ import type { ClimberState, ScriptEffect, StaticContext, Who, World } from '../t
 import { evalCondition } from './conditions';
 import { eventOnce } from './load';
 import { fireChoiceById, scopeFor } from './choices';
+import { expandText } from './text';
+import { resolveVar } from './vars';
 
 function radioAtLeader(world: World, ctx: StaticContext): number {
   const l = partyLeader(world);
@@ -33,9 +35,13 @@ function applyEffect(world: World, ctx: StaticContext, ef: ScriptEffect, evId: s
   const leader = partyLeader(world);
   const party = groupMembers(world, leader.groupId);
   switch (ef.type) {
-    case 'log':
-      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', text: ef.text, important: ef.important ?? false, data: { event: evId } });
+    case 'log': {
+      // 文の {leader.name} などを、そのときの値で展開する
+      const scope = scopeFor(world, ctx, leader);
+      const text = expandText(ef.text, (path) => resolveVar(path, scope));
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', text, important: ef.important ?? false, data: { event: evId } });
       return;
+    }
     case 'forecastUpdate':
       for (const c of world.climbers) c.perception.forecast = ef.entries.map((x) => ({ ...x }));
       ctx.events.push({ tMin: world.tMin, type: 'FORECAST_UPDATE', important: true, data: { event: evId } });

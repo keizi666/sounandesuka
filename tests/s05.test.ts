@@ -77,3 +77,14 @@ describe('捜索の手がかり（searchLeads）の検証', () => {
     expect(errs).toContain('plan.searchLeads[1].route[1]');
   });
 });
+
+describe('イベントのログの文', () => {
+  it('{leader.name} などを展開する', () => {
+    const { map } = hakoniwa();
+    const s = loadScenario('s01_cold_front');
+    s.events = [...s.events, { id: 'ev_name', trigger: { after: 'D0 05:40' }, once: true, effects: [{ type: 'log', text: '{leader.name}さんの記録' }] }];
+    const r = runHeadless(map, s, { policy: 'recommended', seed: 1, collectEvents: true });
+    const e = r.events.find((x) => x.type === 'SCRIPT_LOG' && x.data?.['event'] === 'ev_name');
+    expect(e?.text).toBe('村井さんの記録');
+  });
+});
