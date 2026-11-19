@@ -1,8 +1,8 @@
 /**
  * プロジェクト一覧（docs/15 §3.1、docs/18 §8）: 新規（架空の箱庭岳 / 実在の山）、開く、複製、同じマップで新しいシナリオ、削除、読み込み。
  */
-import { assetUrl } from '../app/data';
-import type { HakoniwaBundle, MapDef, ScenarioDef } from '../sim/types';
+import { assetUrl, bundleExists, loadBundleFile, loadIndex, loadScenarioFile } from '../app/data';
+import type { HakoniwaBundle, MapDef, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
 import { el, toast } from '../ui/dom';
 import { createAreaPicker } from './areaPicker';
 import { gridFor } from './geo/projection';
@@ -70,6 +70,61 @@ function newDialog(host: ProjectsHost): void {
   dlg.addEventListener('close', () => dlg.remove());
   document.body.append(dlg);
   dlg.showModal();
+}
+
+/**
+ * 収録のシナリオ（public/scenarios/index.json）を、編集用のプロジェクトとしてコピーして開く。
+ * 実地形のシナリオはバンドル（地形）を使い、シナリオは元の JSON（あれば）を使う。シナリオの ID は元のまま（書き出した JSON で置き換えられるように）
+ */
+async function editBuiltin(host: ProjectsHost, e: ScenarioIndexEntry): Promise<void> {
+  try {
+    let p;
+    if (e.bundle) {
+      const b = await loadBundleFile(e.bundle);
+      p = fromBundle(b, `${e.title}（編集）`);
+      try {
+        const src = await loadScenarioFile(e.bundle.replace(/\.hakoniwa\.json$/, '.json'));
+        p.scenario = { ...src, mapId: b.map.id };
+      } catch {
+        // 元の JSON がなければバンドルの中のシナリオのまま
+      }
+    } else {
+      const s = await loadScenarioFile(e.file ?? `${e.id}.json`);
+      const map = s.mapId === 'hakoniwa' ? await loadHakoniwa() : null;
+      if (!map) throw new Error(`マップ ${s.mapId} が見つかりません`);
+      p = createFictionalProject(`${e.title}（編集）`, map);
+      p.scenario = s;
+    }
+    await putProject(p);
+    host.open(p.id);
+  } catch (err) {
+    toast(`開けませんでした: ${String(err)}`, 6000);
+  }
+}
+
+async function builtinSection(host: ProjectsHost): Promise<HTMLElement> {
+  let idx: ScenarioIndexEntry[] = [];
+  try {
+    idx = await loadIndex();
+  } catch {
+    return el('div');
+  }
+  const rows = await Promise.all(
+    idx.map(async (e) => {
+      const ok = await bundleExists(e);
+      return el('tr', {}, [
+        el('td', {}, e.title),
+        el('td', {}, e.subtitle ?? ''),
+        el('td', {}, e.region?.real ? '実在の山' : '箱庭岳'),
+        el('td', {}, ok ? el('button', { onclick: () => void editBuiltin(host, e) }, '編集用にコピーして開く') : el('span', { class: 'note' }, '地形データ未作成')),
+      ]);
+    }),
+  );
+  return el('section', { class: 'ed-builtin' }, [
+    el('h2', {}, '収録のシナリオを編集する'),
+    el('table', {}, [el('tr', {}, ['題名', '', '舞台', ''].map((t) => el('th', {}, t))), ...rows]),
+    el('p', { class: 'note' }, '収録のシナリオをコピーしたプロジェクトを作って開きます（元のファイルは変わりません）。編集したシナリオは、同じブラウザのプレイヤーの「エディターで作ったシナリオ」から遊べます。収録の分を置き換えるときは、編集画面の「シナリオだけ書き出す」（実在の山はバンドル）で保存し、public/scenarios/ の同じ名前のファイルと入れ替えてください。'),
+  ]);
 }
 
 /** バンドル・シナリオ JSON・マップ JSON の読み込み */
@@ -148,12 +203,15 @@ export async function showProjects(host: ProjectsHost): Promise<void> {
       ]),
     ]),
   );
+  const builtinHost = el('div');
   host.root.replaceChildren(
     el('main', { class: 'ed-projects' }, [
       el('header', {}, [el('h1', {}, '箱庭遭難シミュレータ シナリオエディター'), el('a', { href: `${import.meta.env.BASE_URL}index.html` }, 'プレイヤーへ')]),
       el('div', { class: 'actions' }, [el('button', { class: 'primary', onclick: () => newDialog(host) }, '新しいプロジェクト'), el('label', { class: 'drop' }, ['ファイルから読み込む（バンドル・シナリオ・マップ）', input])]),
       list.length === 0 ? el('p', { class: 'note' }, 'まだプロジェクトがありません。') : el('table', {}, [el('tr', {}, ['名前', '舞台', '更新', ''].map((t) => el('th', {}, t))), ...rows]),
       el('p', { class: 'note' }, `プロジェクトはこのブラウザの中（IndexedDB）に保存されます。別の端末へは「書き出し」したバンドルで移してください。`),
+      builtinHost,
     ]),
   );
+  builtinHost.replaceWith(await builtinSection(host));
 }
