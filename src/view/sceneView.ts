@@ -30,7 +30,10 @@ import { buildWaterfalls } from './waterfalls';
 import { Ghosts } from './ghosts';
 
 /** この環境で使えなかった描画機能の覚え書き（localStorage）。設定の「初期化」とは別に、キーを消せば戻る */
-const GFX_KEY = 'hks.v1.gfx';
+// v2: 描き始めの一瞬（シェーダーを組み立てている間）を真っ黒と取り違えて記録した「にじみなし」を、一度やり直す
+/** 黒画面の検査を始めるフレーム（約 2 秒後） */
+const BLACK_CHECK_FROM = 120;
+const GFX_KEY = 'hks.v2.gfx';
 function loadGfx(): { noBloom?: boolean } {
   try {
     return JSON.parse(localStorage.getItem(GFX_KEY) ?? '{}') as { noBloom?: boolean };
@@ -133,6 +136,7 @@ export class SceneView {
   gameSpeed = 0;
   private frames = 0;
   private drawOk = false;
+  private blackHits = 0;
   private sizeLogTimer = 0;
   private blackStage = 0;
   private lastSunUp = false;
@@ -491,8 +495,9 @@ export class SceneView {
       const info = this.renderer.info;
       dlog(`フレーム ${this.frames}`, { calls: info.render.calls, triangles: info.render.triangles, programs: info.programs?.length, textures: info.memory.textures, geometries: info.memory.geometries, sunUp: this.lastSunUp, post: !!this.post, glError: this.renderer.getContext().getError() });
     }
-    // 画面が一度でも正しく描けたと確かめられるまで、ときどき調べる（夜も月明かりがあるので真っ黒にはならない）
-    if (!this.drawOk && this.frames % 30 === 4) this.checkBlack();
+    // 画面が一度でも正しく描けたと確かめられるまで、ときどき調べる（夜も月明かりがあるので真っ黒にはならない）。
+    // 描き始めはシェーダーを組み立てている間で何も描かれないことがある（初めて開いたとき）ので、2 秒ほど待ってから調べる
+    if (!this.drawOk && this.frames >= BLACK_CHECK_FROM && this.frames % 30 === 4) this.checkBlack();
   }
 
   /** カメラが地面にめり込まないよう、地表（地図の外では台の面）より少し上に保つ */
@@ -591,6 +596,9 @@ export class SceneView {
       this.drawOk = true;
       return;
     }
+    // 1 回だけの真っ黒は、組み立ての途中かもしれない。2 回続けて真っ黒なときだけ切り分ける
+    this.blackHits += 1;
+    if (this.blackHits < 2) return;
     const gpu = this.gpuName();
     this.blackStage += 1;
     if (this.blackStage === 1 && this.post) {

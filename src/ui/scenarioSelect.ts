@@ -69,10 +69,16 @@ function stars(n: number): HTMLElement {
 
 function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumable: boolean): HTMLElement {
   const hue = THEME_HUE[e.theme] ?? 200;
-  const img = el('img', { class: 'sel-shot', alt: '', loading: 'lazy', src: `${thumbBase(e)}.jpg` }) as HTMLImageElement;
+  // 実地形のシナリオは、バンドルがあると分かってから絵を読む（公開版では地形データと絵を配っていないので、読みに行かない）
+  const img = el('img', { class: 'sel-shot', alt: '', loading: 'lazy' }) as HTMLImageElement;
   img.addEventListener('error', () => img.remove());
-  const mapImg = el('img', { class: 'sel-map', alt: '地図', loading: 'lazy', src: `${thumbBase(e)}.map.png` }) as HTMLImageElement;
+  const mapImg = el('img', { class: 'sel-map', alt: '地図', loading: 'lazy' }) as HTMLImageElement;
   mapImg.addEventListener('error', () => mapImg.remove());
+  const showThumbs = (): void => {
+    img.src = `${thumbBase(e)}.jpg`;
+    mapImg.src = `${thumbBase(e)}.map.png`;
+  };
+  if (!e.bundle) showThumbs();
   const people = el('div', { class: 'sel-people' });
   const facts = el('div', { class: 'sel-facts' }, [chip('timer', `${e.estMinutes} 分`)]);
   const note = e.region?.real ? el('p', { class: 'sel-note' }, [icon('warning'), JA.disclaimer.realMountainShort.replace(/^※/, '')]) : null;
@@ -141,7 +147,9 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
   // 実地形のバンドルがまだ作られていなければ、選べないことを示す
   if (e.bundle)
     void bundleExists(e).then((ok) => {
-      if (ok) return;
+      if (ok) return showThumbs();
+      img.remove();
+      mapImg.remove();
       disabled = true;
       btn.classList.add('disabled');
       primary.disabled = true;
