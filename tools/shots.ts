@@ -12,7 +12,7 @@ const flag = (name: string): string | null => {
   const i = args.indexOf(`--${name}`);
   return i >= 0 ? (args[i + 1] ?? '') : null;
 };
-const PRESETS = ['overview', 'forest', 'ridge'] as const;
+const PRESETS = ['overview', 'forest', 'ridge', 'stream'] as const;
 const outRoot = resolve(ROOT, 'shots');
 
 if (args[0] === '--compare') {

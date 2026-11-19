@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import type { MapRuntime } from '../sim/types';
 import { VegClass } from '../sim/types';
 import { plinthTopY, toSceneY, UNIT, type ViewScale } from './scale';
+import type { GroundMasks } from './groundMasks';
 import { createTerrainMaterial, injectEnv, type EnvUniforms } from './terrainMaterial';
 
 /** 植生の基本色（docs/10 §3.2）。秋は広葉樹を紅葉に寄せる */
@@ -29,43 +30,105 @@ export interface TerrainBuild {
   heightAt: (x: number, z: number) => number;
 }
 
-/** step: 頂点の間引き（1 = 全頂点、2 = 半分） */
-export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, season: string, step = 1): TerrainBuild {
+function hash2(x: number, z: number): number {
+  const v = Math.sin(x * 127.1 + z * 311.7) * 43758.5453;
+  return v - Math.floor(v);
+}
+
+/** なめらかなノイズ（0..1）。x・z はメートル */
+function vnoise(x: number, z: number, scaleM: number): number {
+  const fx = x / scaleM;
+  const fz = z / scaleM;
+  const ix = Math.floor(fx);
+  const iz = Math.floor(fz);
+  const tx = fx - ix;
+  const tz = fz - iz;
+  const ux = tx * tx * (3 - 2 * tx);
+  const uz = tz * tz * (3 - 2 * tz);
+  const a = hash2(ix, iz);
+  const b = hash2(ix + 1, iz);
+  const c = hash2(ix, iz + 1);
+  const d = hash2(ix + 1, iz + 1);
+  return a + (b - a) * ux + (c - a) * uz + (a - b - c + d) * ux * uz;
+}
+
+/**
+ * step: 頂点の間引き（1 = 全頂点、2 = 半分）。sub: 1 セルをさらに分ける数（2 で 4 倍の細かさ）。
+ * 地表には細かな起伏を足し、登山道は少し、沢は V 字に掘り下げる（masks。docs/19 フェーズ 4）。
+ * heightAt も同じ形を返すので、人形・樹木・建物は掘り下げた地面に乗る（シミュレーションの標高は変えない）。
+ */
+export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, season: string, step = 1, masks: GroundMasks | null = null, sub = 1): TerrainBuild {
   const n = map.n;
-  const m = Math.floor((n - 1) / step) + 1;
-  const pos = new Float32Array(m * m * 3);
-  const col = new Float32Array(m * m * 3);
   const colors = vegColors(season);
   const tmp = new THREE.Color();
-  for (let j = 0; j < m; j += 1) {
-    for (let i = 0; i < m; i += 1) {
-      const gx = Math.min(n - 1, i * step);
-      const gz = Math.min(n - 1, j * step);
+  // セルごとの色と、地面の種類（林・草地・岩）
+  const cellCol = new Float32Array(n * n * 3);
+  const cellCover = new Float32Array(n * n * 3);
+  for (let gz = 0; gz < n; gz += 1) {
+    for (let gx = 0; gx < n; gx += 1) {
       const gi = gz * n + gx;
-      const k = (j * m + i) * 3;
-      pos[k] = (-map.half + gx * map.cell) * UNIT;
-      pos[k + 1] = toSceneY(s, map.heights[gi]!);
-      pos[k + 2] = (-map.half + gz * map.cell) * UNIT;
-      tmp.copy(colors[map.veg[gi]!] ?? colors[VegClass.ALPINE]!);
+      const v = map.veg[gi]!;
+      tmp.copy(colors[v] ?? colors[VegClass.ALPINE]!);
       // 南向き（方位 π 付近）は明るく、北向きは暗く
       const aspect = map.aspect[gi]!;
-      const shade = 0.92 + 0.08 * -Math.cos(aspect) * Math.min(1, map.slopeDeg[gi]! / 30);
-      tmp.multiplyScalar(shade);
+      tmp.multiplyScalar(0.92 + 0.08 * -Math.cos(aspect) * Math.min(1, map.slopeDeg[gi]! / 30));
+      const forest = v === VegClass.BROADLEAF || v === VegClass.CONIFER;
       // 林床は樹冠の陰で暗い。林縁（隣が林でないセル）ほど明るく残す
-      const v = map.veg[gi]!;
-      if (v === VegClass.BROADLEAF || v === VegClass.CONIFER) {
+      if (forest) {
         let forestNb = 0;
         for (const [ox, oz] of [[-2, 0], [2, 0], [0, -2], [0, 2]] as const) {
-          const nx = Math.min(n - 1, Math.max(0, gx + ox * step));
-          const nz = Math.min(n - 1, Math.max(0, gz + oz * step));
-          const nv = map.veg[nz * n + nx]!;
+          const nv = map.veg[Math.min(n - 1, Math.max(0, gz + oz)) * n + Math.min(n - 1, Math.max(0, gx + ox))]!;
           if (nv === VegClass.BROADLEAF || nv === VegClass.CONIFER) forestNb += 1;
         }
         tmp.multiplyScalar((v === VegClass.CONIFER ? 0.62 : 0.74) + (4 - forestNb) * 0.07);
       }
-      col[k] = tmp.r;
-      col[k + 1] = tmp.g;
-      col[k + 2] = tmp.b;
+      cellCol.set([tmp.r, tmp.g, tmp.b], gi * 3);
+      cellCover.set([forest ? (v === VegClass.CONIFER ? 0.6 : 1) : 0, v === VegClass.ALPINE || v === VegClass.KRUMMHOLZ ? 1 : 0, v === VegClass.ROCK || v === VegClass.CLIFF ? 1 : 0], gi * 3);
+    }
+  }
+  const bilinear = (arr: ArrayLike<number>, stride: number, off: number, fx: number, fz: number): number => {
+    const ix = Math.min(n - 2, Math.floor(fx));
+    const iz = Math.min(n - 2, Math.floor(fz));
+    const tx = fx - ix;
+    const tz = fz - iz;
+    const a = arr[(iz * n + ix) * stride + off]!;
+    const b = arr[(iz * n + ix + 1) * stride + off]!;
+    const c = arr[((iz + 1) * n + ix) * stride + off]!;
+    const d = arr[((iz + 1) * n + ix + 1) * stride + off]!;
+    return (a * (1 - tx) + b * tx) * (1 - tz) + (c * (1 - tx) + d * tx) * tz;
+  };
+  /** 地表の高さ（m）: 標高 + 細かな起伏 − 道と沢の掘り下げ。地図の縁では足さない（側面の断面と合わせる） */
+  const elevAt = (xm: number, zm: number): number => {
+    const fx = Math.min(n - 1, Math.max(0, (xm + map.half) / map.cell));
+    const fz = Math.min(n - 1, Math.max(0, (zm + map.half) / map.cell));
+    const base = bilinear(map.heights, 1, 0, fx, fz);
+    const edge = Math.min(1, Math.min(fx, fz, n - 1 - fx, n - 1 - fz) / 2);
+    if (edge <= 0) return base;
+    const tr = masks ? masks.trail(xm, zm) : 0;
+    const st = masks ? masks.stream(xm, zm) : 0;
+    const relief = ((vnoise(xm, zm, 34) - 0.5) * 1.5 + (vnoise(xm + 91, zm + 37, 11) - 0.5) * 0.7) * (1 - tr);
+    const carve = tr * 0.9 + THREE.MathUtils.smoothstep(st, 0.08, 0.9) * 4.5;
+    return base + (relief - carve) * edge;
+  };
+  const cells = Math.floor((n - 1) / step) * sub;
+  const m = cells + 1;
+  const pos = new Float32Array(m * m * 3);
+  const col = new Float32Array(m * m * 3);
+  const cover = new Float32Array(m * m * 3);
+  for (let j = 0; j < m; j += 1) {
+    for (let i = 0; i < m; i += 1) {
+      const fx = Math.min(n - 1, (i * step) / sub);
+      const fz = Math.min(n - 1, (j * step) / sub);
+      const xm = -map.half + fx * map.cell;
+      const zm = -map.half + fz * map.cell;
+      const k = (j * m + i) * 3;
+      pos[k] = xm * UNIT;
+      pos[k + 1] = toSceneY(s, elevAt(xm, zm));
+      pos[k + 2] = zm * UNIT;
+      for (let c = 0; c < 3; c += 1) {
+        col[k + c] = bilinear(cellCol, 3, c, fx, fz);
+        cover[k + c] = bilinear(cellCover, 3, c, fx, fz);
+      }
     }
   }
   const idx: number[] = [];
@@ -78,23 +141,13 @@ export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, se
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  g.setAttribute('aCover', new THREE.BufferAttribute(cover, 3));
   g.setIndex(idx);
   g.computeVertexNormals();
   const mesh = new THREE.Mesh(g, createTerrainMaterial(env));
   mesh.receiveShadow = true;
   mesh.castShadow = true;
-  const heightAt = (x: number, z: number): number => {
-    const fx = Math.min(n - 1, Math.max(0, (x / UNIT + map.half) / map.cell));
-    const fz = Math.min(n - 1, Math.max(0, (z / UNIT + map.half) / map.cell));
-    const ix = Math.min(n - 2, Math.floor(fx));
-    const iz = Math.min(n - 2, Math.floor(fz));
-    const tx = fx - ix;
-    const tz = fz - iz;
-    const h = map.heights;
-    const a = h[iz * n + ix]! + (h[iz * n + ix + 1]! - h[iz * n + ix]!) * tx;
-    const b = h[(iz + 1) * n + ix]! + (h[(iz + 1) * n + ix + 1]! - h[(iz + 1) * n + ix]!) * tx;
-    return toSceneY(s, a + (b - a) * tz);
-  };
+  const heightAt = (x: number, z: number): number => toSceneY(s, elevAt(x / UNIT, z / UNIT));
   return { mesh, heightAt };
 }
 

@@ -1,0 +1,39 @@
+{
+  "label": "p4-terrain",
+  "at": "2026-11-19T01:29:07.219Z",
+  "info": {
+    "quality": "high",
+    "scenario": "s01_cold_front",
+    "tMin": 570,
+    "canvas": "1600x900",
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 SUPER (0x00001F06) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "climber": "WALKING"
+  },
+  "overview": {
+    "msPerFrame": 6.94,
+    "fps": 144.1,
+    "calls": 1,
+    "triangles": 1
+  },
+  "forest": {
+    "msPerFrame": 4.16,
+    "fps": 240.4,
+    "calls": 1,
+    "triangles": 1
+  },
+  "ridge": {
+    "msPerFrame": 4.3,
+    "fps": 232.3,
+    "calls": 1,
+    "triangles": 1
+  },
+  "stream": {
+    "msPerFrame": 4.35,
+    "fps": 230.1,
+    "calls": 1,
+    "triangles": 1
+  },
+  "errors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+}

@@ -16,7 +16,7 @@ const quality = (params.get('quality') ?? 'high') as Quality;
 const scenarioId = params.get('scenario') ?? 's01_cold_front';
 const untilMin = Number(params.get('t') ?? 450);
 
-export type Preset = 'overview' | 'forest' | 'ridge';
+export type Preset = 'overview' | 'forest' | 'ridge' | 'stream';
 
 interface ShotsApi {
   ready: boolean;
@@ -32,7 +32,7 @@ interface ShotsApi {
 const api: ShotsApi = {
   ready: false,
   error: null,
-  presets: ['overview', 'forest', 'ridge'],
+  presets: ['overview', 'forest', 'ridge', 'stream'],
   setPreset: () => undefined,
   measure: () => ({ msPerFrame: 0, fps: 0, calls: 0, triangles: 0 }),
   info: () => ({}),
@@ -89,6 +89,19 @@ async function main(): Promise<void> {
       view.controls.target.set(cx, cy + h * 0.9, cz);
       const d = h * 6;
       view.camera.position.set(cx + Math.sin(back) * d, cy + h * 2.6, cz + Math.cos(back) * d);
+    } else if (p === 'stream') {
+      // 登山者にいちばん近い沢を、低い位置から見る（水面と岸の確認用）
+      let best = { d: Infinity, x: 0, z: 0 };
+      for (let i = 0; i < map.n * map.n; i += 3) {
+        if (map.veg[i] !== VegClass.STREAM) continue;
+        const x = (-map.half + (i % map.n) * map.cell) * UNIT;
+        const z = (-map.half + Math.floor(i / map.n) * map.cell) * UNIT;
+        const d = Math.hypot(x - cx, z - cz);
+        if (d < best.d) best = { d, x, z };
+      }
+      const ty = view.groundY(best.x, best.z);
+      view.controls.target.set(best.x, ty, best.z);
+      view.camera.position.set(best.x + size * 0.05, ty + size * 0.085, best.z + size * 0.06);
     } else {
       // 最も高い地点の近くから、いちばん近い沢と稜線を見下ろす
       const nodes = Object.values(map.nodes);
@@ -131,6 +144,15 @@ async function main(): Promise<void> {
 
   api.info = () => ({ quality, scenario: scenarioId, tMin: world.tMin, canvas: `${canvas.width}x${canvas.height}`, gpu: view.gpu(), climber: world.climbers[0]?.state });
 
+  // 写真のテクスチャが届くのを待つ（最長 4 秒）
+  await new Promise<void>((resolve) => {
+    const t0 = performance.now();
+    const tick = (): void => {
+      if (view.env.uTexOn.value > 0.5 || performance.now() - t0 > 4000) resolve();
+      else window.setTimeout(tick, 50);
+    };
+    tick();
+  });
   api.setPreset('overview');
   api.ready = true;
 }

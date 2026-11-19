@@ -40,19 +40,19 @@ export function buildTrails(map: MapRuntime, s: ViewScale, heightAt: (x: number,
   const group = new THREE.Group();
   const falseTrails: THREE.Object3D[] = [];
   const lift = 1.2 * UNIT * s.vExag;
-  const trailMat = new THREE.MeshBasicMaterial({ color: 0xe8d9b5, transparent: true, opacity: 0.85, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
   const falseMat = new THREE.MeshBasicMaterial({ color: 0xc89a6a, transparent: true, opacity: 0.4, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
+  // 正規の登山道は地形に描き込む（groundMasks.ts と地形のシェーダー）。ここでは偽の道だけを薄い帯にする
   for (const t of Object.values(map.trails)) {
+    if (t.def.kind !== 'false') continue;
     const pts = t.samples.map((p) => {
       const x = p.x * UNIT;
       const z = p.z * UNIT;
       return new THREE.Vector3(x, heightAt(x, z) + lift, z);
     });
-    const w = (t.def.kind === 'false' ? 5 : 7) * UNIT * 1.6;
-    const mesh = new THREE.Mesh(ribbon(pts, w), t.def.kind === 'false' ? falseMat : trailMat);
+    const mesh = new THREE.Mesh(ribbon(pts, 5 * UNIT * 1.6), falseMat);
     mesh.renderOrder = 2;
     group.add(mesh);
-    if (t.def.kind === 'false') falseTrails.push(mesh);
+    falseTrails.push(mesh);
   }
   return { group, falseTrails };
 }

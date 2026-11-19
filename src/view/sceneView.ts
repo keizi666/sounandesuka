@@ -17,6 +17,8 @@ import { buildVegetation, placeTrees, type Vegetation } from './vegetation';
 import { createWeatherFx, type WeatherFx } from './weatherFx';
 import { Overlay } from './overlay';
 import { loadHqAssets, type HqState } from './assets';
+import { assetUrl } from '../app/data';
+import { buildGroundMasks } from './groundMasks';
 import { reportProblem } from '../app/problem';
 import { dlog } from '../app/version';
 import { createPost, type Post } from './post';
@@ -159,7 +161,32 @@ export class SceneView {
     this.controls.minPolarAngle = 15 * DEG;
     this.controls.maxPolarAngle = 80 * DEG;
 
-    const terrain = buildTerrain(map, this.s, this.env, scenario.season, q.step);
+    // 登山道と沢の地図（地面の塗り分けと掘り下げに使う）と、写真から作ったテクスチャ
+    const masks = buildGroundMasks(map);
+    this.env.uMask.value = masks.texture;
+    this.env.uMaskOn.value = 1;
+    this.env.uMapHalf.value = map.half * UNIT;
+    this.env.uAutumn.value = scenario.season === 'autumn' ? 1 : 0;
+    if (opts.quality !== 'low') {
+      const loader = new THREE.TextureLoader();
+      const load = (name: string): Promise<THREE.Texture> =>
+        loader.loadAsync(assetUrl(`textures/${name}.jpg`)).then((t) => {
+          t.wrapS = THREE.RepeatWrapping;
+          t.wrapT = THREE.RepeatWrapping;
+          t.colorSpace = THREE.SRGBColorSpace;
+          t.anisotropy = 4;
+          return t;
+        });
+      void Promise.all([load('rock'), load('gravel'), load('soil')])
+        .then(([rock, gravel, soil]) => {
+          this.env.uTexRock.value = rock!;
+          this.env.uTexGravel.value = gravel!;
+          this.env.uTexSoil.value = soil!;
+          this.env.uTexOn.value = 1;
+        })
+        .catch(() => undefined); // 読めなければ、テクスチャなしの塗り分けのまま続ける
+    }
+    const terrain = buildTerrain(map, this.s, this.env, scenario.season, q.step, masks, opts.quality === 'high' ? 2 : 1);
     this.heightAt = terrain.heightAt;
     this.scene.add(terrain.mesh, buildDiorama(map, this.s, this.env));
     this.veg = buildVegetation(placeTrees(map, this.s, this.heightAt, q.trees), scenario.season, this.env, q.shadow > 0);
@@ -240,7 +267,10 @@ export class SceneView {
 
   /** レイヤーの表示切替（docs/11 §2.3） */
   setLayer(name: 'trail' | 'track' | 'cloud', on: boolean): void {
-    if (name === 'trail') this.trailGroup.visible = on;
+    if (name === 'trail') {
+      this.trailGroup.visible = on;
+      this.env.uTrailOn.value = on ? 1 : 0;
+    }
     else if (name === 'track') this.trackLine.visible = on;
     else this.fx.showClouds = on;
   }

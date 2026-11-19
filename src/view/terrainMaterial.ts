@@ -34,6 +34,16 @@ export interface EnvUniforms {
   /** 注目している登山者の位置と、その手前を透かす半径（0 = 透かさない） */
   uFocus: { value: THREE.Vector3 };
   uFocusR: { value: number };
+  /** 地面の塗り分け: 登山道（R）と沢（G）の地図、写真から作った岩・石・土のテクスチャ */
+  uMask: { value: THREE.Texture | null };
+  uMaskOn: { value: number };
+  uTrailOn: { value: number };
+  uTexRock: { value: THREE.Texture | null };
+  uTexGravel: { value: THREE.Texture | null };
+  uTexSoil: { value: THREE.Texture | null };
+  uTexOn: { value: number };
+  /** 秋（落ち葉・草紅葉）の度合い */
+  uAutumn: { value: number };
 }
 
 export function createEnvUniforms(): EnvUniforms {
@@ -60,6 +70,14 @@ export function createEnvUniforms(): EnvUniforms {
     uAirStart: { value: 0 },
     uFocus: { value: new THREE.Vector3() },
     uFocusR: { value: 0 },
+    uMask: { value: null },
+    uMaskOn: { value: 0 },
+    uTrailOn: { value: 1 },
+    uTexRock: { value: null },
+    uTexGravel: { value: null },
+    uTexSoil: { value: null },
+    uTexOn: { value: 0 },
+    uAutumn: { value: 0 },
   };
 }
 
@@ -86,6 +104,15 @@ uniform float uAirDensity;
 uniform float uAirStart;
 uniform vec3 uFocus;
 uniform float uFocusR;
+uniform sampler2D uMask;
+uniform float uMaskOn;
+uniform float uTrailOn;
+uniform sampler2D uTexRock;
+uniform sampler2D uTexGravel;
+uniform sampler2D uTexSoil;
+uniform float uTexOn;
+uniform float uAutumn;
+varying vec3 vCover;
 varying float vElev;
 varying vec3 vWorldPos;
 varying float vSlopeUp;
@@ -94,6 +121,7 @@ varying vec2 vHkVar;
 float hkRamp(float d) {
   return smoothstep(0.03, 0.24, d) * 0.6 + smoothstep(0.5, 0.74, d) * 0.4;
 }
+float hkWater;
 float hk_hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float hk_noise(vec2 p) {
   vec2 i = floor(p); vec2 f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
@@ -102,7 +130,7 @@ float hk_noise(vec2 p) {
 `;
 
 /** 頂点シェーダに標高と世界座標を渡す処理を入れる */
-function patchVertex(shader: { vertexShader: string }, sway: boolean): void {
+function patchVertex(shader: { vertexShader: string }, sway: boolean, terrain: boolean): void {
   if (sway) {
     // 高いところほど大きく、木ごとに位相をずらして揺らす（形は高さ 1 に正規化してある）
     shader.vertexShader = shader.vertexShader.replace(
@@ -118,7 +146,7 @@ function patchVertex(shader: { vertexShader: string }, sway: boolean): void {
     );
   }
   shader.vertexShader = shader.vertexShader
-    .replace('#include <common>', `#include <common>\n${COMMON}`)
+    .replace('#include <common>', `#include <common>\n${terrain ? 'attribute vec3 aCover;\n' : ''}${COMMON}`)
     .replace(
       '#include <worldpos_vertex>',
       `#include <worldpos_vertex>
@@ -131,6 +159,7 @@ function patchVertex(shader: { vertexShader: string }, sway: boolean): void {
       vElev = hkWorld.y / uScaleY - uPlinth + uBaseElev;
       vSlopeUp = normalize(mat3(modelMatrix) * objectNormal).y;
       vHkVar = vec2(0.5);
+      vCover = ${terrain ? 'aCover' : 'vec3(0.0)'};
       #ifdef USE_INSTANCING
         vec2 hkIp = (modelMatrix * vec4(instanceMatrix[3].xyz, 1.0)).xz;
         vHkVar = vec2(hk_noise(hkIp * 2.3) * 0.6 + hk_noise(hkIp * 9.0) * 0.4, hk_noise(hkIp * 1.4 + 17.0) * 0.65 + hk_noise(hkIp * 6.0 + 5.0) * 0.35);
@@ -172,6 +201,9 @@ function patchToon(shader: { fragmentShader: string }, style: ToonStyle): void {
       outgoingLight = mix(outgoingLight * vec3(0.84, 0.88, 1.32) + diffuseColor.rgb * vec3(0.018, 0.02, 0.05), outgoingLight, hkLit);
       ${style.rim ? `float hkRim = pow(1.0 - clamp(dot(normal, normalize(vViewPosition)), 0.0, 1.0), 2.6);
       outgoingLight += uAirColor * diffuseColor.rgb * hkRim * ${style.rim.toFixed(2)} * (0.4 + 0.6 * hkLit);` : ''}
+      // 水面: 浅い角度で見るほど空を映す（フレネル）
+      float hkFres = pow(1.0 - clamp(dot(normal, normalize(vViewPosition)), 0.0, 1.0), 3.0);
+      outgoingLight = mix(outgoingLight, uAirColor * 0.95, hkWater * (0.06 + 0.45 * hkFres));
     }
     #include <opaque_fragment>`,
   );
@@ -185,6 +217,7 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean, fad
     .replace(
       '#include <color_fragment>',
       `#include <color_fragment>
+      hkWater = 0.0;
       ${
         terrain
           ? `float hkN = hk_noise(vWorldPos.xz * 900.0) * 0.6 + hk_noise(vWorldPos.xz * 3500.0) * 0.4;
@@ -193,14 +226,69 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean, fad
         vec3 hkD2 = texture2D(uDetail, vWorldPos.xz * 7.0).rgb;
         hkN = hkD1.r * 0.55 + hkD2.g * 0.3 + hkD1.b * 0.15 * (1.0 - vSlopeUp);
       }
-      diffuseColor.rgb *= 0.86 + 0.28 * hkN;
-      // 大きな色むら（植生のまだら）と、急な面の岩肌（地層の縞）
-      float hkBig = hk_noise(vWorldPos.xz * 11.0) * 0.6 + hk_noise(vWorldPos.xz * 37.0) * 0.4;
-      diffuseColor.rgb *= 0.88 + 0.24 * hkBig;
-      float hkSteep = (1.0 - smoothstep(0.56, 0.8, vSlopeUp));
-      float hkStrata = hk_noise(vec2(vWorldPos.y * 240.0 + hk_noise(vWorldPos.xz * 30.0) * 4.0, vWorldPos.x * 12.0 + vWorldPos.z * 9.0));
-      vec3 hkRock = mix(vec3(0.17, 0.16, 0.145), vec3(0.33, 0.31, 0.28), hkStrata) * (0.8 + 0.4 * hkN);
-      diffuseColor.rgb = mix(diffuseColor.rgb, hkRock, hkSteep * 0.8);
+      diffuseColor.rgb *= 0.93 + 0.14 * hkN;
+      // ---- 地面の描き分け（docs/19 フェーズ 4）----
+      vec2 hkP = vWorldPos.xz;
+      float hkBig = hk_noise(hkP * 11.0) * 0.6 + hk_noise(hkP * 37.0) * 0.4;
+      float hkMid = hk_noise(hkP * 140.0);
+      float hkFine = hk_noise(hkP * 620.0);
+      float hkSpeck = hk_noise(hkP * 2100.0);
+      diffuseColor.rgb *= 0.9 + 0.2 * hkBig;
+      // 写真から作ったテクスチャ（明るさを平均で割って、模様だけを使う）
+      vec3 hkSoilT = vec3(1.0);
+      vec3 hkGravelT = vec3(1.0);
+      vec3 hkRockT = vec3(1.0);
+      if (uTexOn > 0.5) {
+        hkSoilT = texture2D(uTexSoil, hkP * 55.0).rgb / vec3(0.3);
+        hkGravelT = texture2D(uTexGravel, hkP * 38.0).rgb / vec3(0.27);
+        // 岩はトライプラナー（急な面でも伸びない）
+        vec3 hkRx = texture2D(uTexRock, vWorldPos.zy * 26.0).rgb;
+        vec3 hkRy = texture2D(uTexRock, vWorldPos.xz * 26.0).rgb;
+        vec3 hkRz = texture2D(uTexRock, vWorldPos.xy * 26.0).rgb;
+        hkRockT = mix((hkRx + hkRz) * 0.5, hkRy, clamp(vSlopeUp * vSlopeUp, 0.0, 1.0)) / vec3(0.09);
+      }
+      // 林床: 秋は落ち葉（茶〜橙〜黄のまだら）、ほかの季節は暗い土と苔
+      vec3 hkLitterA = mix(vec3(0.16, 0.10, 0.055), mix(vec3(0.42, 0.2, 0.06), vec3(0.5, 0.36, 0.08), hkSpeck), smoothstep(0.35, 0.75, hkFine));
+      vec3 hkLitterS = mix(vec3(0.06, 0.07, 0.035), vec3(0.09, 0.13, 0.05), hkFine);
+      vec3 hkLitter = mix(hkLitterS, hkLitterA, uAutumn) * (0.75 + 0.5 * hkMid) * mix(vec3(1.0), hkSoilT, 0.35);
+      diffuseColor.rgb = mix(diffuseColor.rgb, hkLitter * (0.55 + 0.9 * dot(diffuseColor.rgb, vec3(0.6, 1.2, 0.3))), vCover.x * 0.72);
+      // 草地: 草の筋とまだら。ところどころ土がのぞく
+      vec3 hkGrass = diffuseColor.rgb * (0.82 + 0.36 * hkFine) * mix(vec3(1.0, 0.98, 0.9), vec3(0.9, 1.04, 0.92), hkMid);
+      // 土がのぞくところは、大きめのゆるい模様で、控えめに
+      float hkBare = smoothstep(0.58, 0.82, hkBig * 0.7 + hkMid * 0.3);
+      hkGrass = mix(hkGrass, vec3(0.3, 0.24, 0.16) * hkSoilT, hkBare * 0.32);
+      diffuseColor.rgb = mix(diffuseColor.rgb, hkGrass, vCover.y);
+      // 岩: 急な面と岩場。地層の縞と写真の岩肌
+      float hkSteep = max(1.0 - smoothstep(0.56, 0.8, vSlopeUp), vCover.z * 0.85);
+      float hkStrata = hk_noise(vec2(vWorldPos.y * 240.0 + hk_noise(hkP * 30.0) * 4.0, vWorldPos.x * 12.0 + vWorldPos.z * 9.0));
+      vec3 hkRock = mix(vec3(0.2, 0.19, 0.175), vec3(0.36, 0.345, 0.32), hkStrata) * (0.8 + 0.4 * hkN) * mix(vec3(1.0), hkRockT, 0.6);
+      diffuseColor.rgb = mix(diffuseColor.rgb, hkRock, hkSteep * 0.85);
+      hkWater = 0.0;
+      if (uMaskOn > 0.5) {
+        vec4 hkM = texture2D(uMask, hkP / (uMapHalf * 2.0) + 0.5);
+        // 登山道: 踏み固めた土。縁は不規則に草がはみ出し、小石が混じる
+        float hkTr = smoothstep(0.34, 0.62, hkM.r + (hkMid - 0.5) * 0.42 + (hkFine - 0.5) * 0.16) * uTrailOn;
+        vec3 hkPath = mix(vec3(0.25, 0.185, 0.125), vec3(0.34, 0.27, 0.19), hkFine) * hkSoilT;
+        hkPath = mix(hkPath, vec3(0.4, 0.39, 0.37) * hkGravelT, smoothstep(0.78, 0.9, hkSpeck) * 0.7);
+        // 縁は少し暗い（踏まれて湿った土）
+        hkPath *= 0.82 + 0.18 * smoothstep(0.5, 0.9, hkM.r);
+        diffuseColor.rgb = mix(diffuseColor.rgb, hkPath, hkTr);
+        // 沢: 岸は濡れて暗い土と丸石、その内側が浅瀬、中心が流れ
+        float hkS = hkM.g + (hkMid - 0.5) * 0.18;
+        float hkBank = smoothstep(0.12, 0.4, hkS);
+        vec3 hkBed = mix(vec3(0.16, 0.13, 0.1), vec3(0.3, 0.29, 0.27) * hkGravelT, smoothstep(0.3, 0.7, hkFine));
+        diffuseColor.rgb = mix(diffuseColor.rgb, hkBed, hkBank * 0.9);
+        hkWater = smoothstep(0.42, 0.62, hkS);
+        // 流れ: 模様を時間でずらす。浅いところは底が透け、深いところは青緑
+        vec2 hkFlow = hkP * 420.0 + vec2(uTime * 0.9, uTime * 1.3);
+        float hkRip = hk_noise(hkFlow) * 0.6 + hk_noise(hkFlow * 2.3 + 3.0) * 0.4;
+        float hkDeep = smoothstep(0.55, 0.95, hkS);
+        vec3 hkWcol = mix(mix(hkBed, vec3(0.12, 0.36, 0.4), 0.6), vec3(0.03, 0.17, 0.23), hkDeep) * (0.85 + 0.3 * hkRip);
+        // 白波: 岸の近くと、流れの模様の山
+        float hkFoam = smoothstep(0.72, 0.9, hkRip) * (1.0 - hkDeep * 0.6);
+        hkWcol = mix(hkWcol, vec3(0.9, 0.95, 0.96), hkFoam * 0.75);
+        diffuseColor.rgb = mix(diffuseColor.rgb, hkWcol, hkWater);
+      }
       if (uOverlayOn > 0.5) {
         vec4 hkOv = texture2D(uOverlay, vWorldPos.xz / (uMapHalf * 2.0) + 0.5);
         diffuseColor.rgb = mix(diffuseColor.rgb, hkOv.rgb, hkOv.a);
@@ -230,6 +318,11 @@ ${
       diffuseColor.rgb *= 1.0 - 0.15 * hkWet;`,
     )
     .replace(
+      '#include <roughnessmap_fragment>',
+      `#include <roughnessmap_fragment>
+      ${terrain ? 'roughnessFactor = mix(roughnessFactor, 0.16, hkWater);' : ''}`,
+    )
+    .replace(
       '#include <normal_fragment_maps>',
       `#include <normal_fragment_maps>
       ${
@@ -241,7 +334,7 @@ ${
         float hkB0 = hk_noise(hkP * 170.0) * 0.65 + hk_noise(hkP * 560.0) * 0.35;
         float hkBx = hk_noise((hkP + vec2(hkE, 0.0)) * 170.0) * 0.65 + hk_noise((hkP + vec2(hkE, 0.0)) * 560.0) * 0.35;
         float hkBz = hk_noise((hkP + vec2(0.0, hkE)) * 170.0) * 0.65 + hk_noise((hkP + vec2(0.0, hkE)) * 560.0) * 0.35;
-        float hkFade = (1.0 - smoothstep(0.6, 5.0, distance(cameraPosition, vWorldPos)));
+        float hkFade = (1.0 - smoothstep(0.6, 5.0, distance(cameraPosition, vWorldPos))) * (1.0 - hkWater * 0.8);
         vec3 hkG = vec3(hkB0 - hkBx, 0.0, hkB0 - hkBz) * 1.6 * hkFade;
         normal = normalize(normal + (viewMatrix * vec4(hkG, 0.0)).xyz);
       }`
@@ -268,7 +361,7 @@ ${
 export function injectEnv(material: THREE.Material, env: EnvUniforms, terrain = false, sway = false, style: ToonStyle = {}): void {
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, env);
-    patchVertex(shader, sway);
+    patchVertex(shader, sway, terrain);
     patchFragment(shader, terrain, !style.noFade);
     patchToon(shader, style);
   };
