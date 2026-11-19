@@ -5,6 +5,7 @@
  * （AI が存在しない仕組みを書かないように）。純粋な関数（テストできる）。
  */
 import { CLIMBER_FIELDS, DEF_FIELDS, GLOBAL_FIELDS, LOCAL_FIELDS, REC_FIELDS } from '../sim/scenario/vars';
+import { BGM_IDS, SE_IDS } from '../sim/scenario/soundCatalog';
 import { ACTION_TYPES, STATES } from '../sim/scenario/validate';
 import type { EditorProject } from '../sim/types';
 
@@ -111,7 +112,7 @@ export function buildAiPrompt(p: EditorProject, i: AiPromptInput): string {
   out.push(`- 状態（state）: ${STATES.join(', ')}`);
   out.push(`- 汎用の分岐（genericOverrides で上書きできる）: ${GENERIC_KEYS.join('、')}`);
   out.push(`- 結末の種類: ${ENDING_KINDS.join('、')}。同じ種類を when で出し分ける（上から最初に合うもの）。`);
-  out.push('- そのほか: 天気のキーフレームと雷雲（weather.keyframes / thunderCells）、捜索の手がかり（plan.searchLeads）、通りかかる登山者（passersby）、パーティの分割（splitParty・groups）、一人言（thoughts、who）、会話（speech、who / to / replies。返事は言葉と同じ数なら同じ番目が組になる）、急病（illness: angina / mi / dissection / arrhythmia / benign / random）、ハチ（sting・epipen。刺された人の一部がアナフィラキシー）、飲酒（drinkAlcohol）、スマホの紛失（setPhone）、家族の届け出（reportMissing）、動揺（addAnxiety）、電波の入る地点まで歩いて通報（detach + goToNode の then: "call"）、下山した人が駅・バス停などへ移る（leaveMap。3D から消える。話の筋と位置を合わせるため、下山した人を入口に立たせたままにしない）、自分のグループの集計（mates.count・mates.unwellCount など）。休む → 進むの順に並べると、休み終えてから進む。');
+  out.push(`- そのほか: 天気のキーフレームと雷雲（weather.keyframes / thunderCells）、捜索の手がかり（plan.searchLeads）、通りかかる登山者（passersby）、パーティの分割（splitParty・groups）、一人言（thoughts、who）、会話（speech、who / to / replies。返事は言葉と同じ数なら同じ番目が組になる）、急病（illness: angina / mi / dissection / arrhythmia / benign / random）、ハチ（sting・epipen。刺された人の一部がアナフィラキシー）、飲酒（drinkAlcohol）、スマホの紛失（setPhone）、家族の届け出（reportMissing）、動揺（addAnxiety）、電波の入る地点まで歩いて通報（detach + goToNode の then: "call"）、下山した人が駅・バス停などへ移る（leaveMap。3D から消える。話の筋と位置を合わせるため、下山した人を入口に立たせたままにしない）、自分のグループの集計（mates.count・mates.unwellCount など）。効果音（sound: ${SE_IDS.join(' / ')}。電話・救助・転落・急病・分岐点は自動でも鳴る）、音楽（music アクション、シナリオの music: briefing / play / night / distress / good / bad。曲: ${BGM_IDS.join(' / ')}）。休む → 進むの順に並べると、休み終えてから進む。`);
   out.push('');
   out.push('## 形式');
   out.push('');

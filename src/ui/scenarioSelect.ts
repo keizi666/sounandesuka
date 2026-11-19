@@ -8,6 +8,7 @@ import { assetUrl, buildRuntime, bundleExists, listEditorProjects, loadEditorPro
 import { JA } from '../i18n/ja';
 import { validateScenario } from '../sim/scenario/validate';
 import type { HakoniwaBundle, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
+import { audio } from './audio';
 import { avatar } from './avatar';
 import { el, toast } from './dom';
 import { icon, type IconName } from './icons';
@@ -115,6 +116,7 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement): HTMLEl
 }
 
 export function showScenarioSelect(app: AppContext): () => void {
+  audio().music('wilderness');
   const list = el('div', { class: 'sel-grid' }, el('p', { class: 'note' }, JA.ui.loading));
   const input = el('input', { type: 'file', accept: '.json,application/json', onchange: (e: Event) => {
     const f = (e.target as HTMLInputElement).files?.[0];

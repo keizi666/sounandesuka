@@ -203,6 +203,12 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
     case 'reportMissing':
       reportMissing(world);
       return;
+    case 'sound':
+      ctx.events.push({ tMin: world.tMin, type: 'SOUND', data: { id: a.id, volume: a.volume ?? 1 } });
+      return;
+    case 'music':
+      ctx.events.push({ tMin: world.tMin, type: 'MUSIC', data: { id: a.id, volume: a.volume ?? 1 } });
+      return;
     case 'leaveMap':
       // 下山した（救助された）人だけ。山の中にいる人を消さない
       if (c.state !== 'FINISHED' && c.state !== 'RESCUED') return;
@@ -317,7 +323,7 @@ export function soak(world: World, ctx: StaticContext, c: ClimberState, level: '
 }
 
 /** フラグ・narrate・救助要請のように、全員に適用すると重複するアクション（リーダーが 1 回だけ行う） */
-const ONCE_PER_LIST = new Set(['setFlag', 'clearFlag', 'narrate', 'callRescue', 'setCohesion']);
+const ONCE_PER_LIST = new Set(['setFlag', 'clearFlag', 'narrate', 'callRescue', 'setCohesion', 'sound', 'music']);
 
 /**
  * アクション列を先頭から順に適用する。group はその分岐点・イベントの対象グループ、leader はそのリーダー。

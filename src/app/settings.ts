@@ -25,6 +25,11 @@ export interface Settings {
   /** 環境音（雨・風・雷） */
   sound: boolean;
   soundVolume: number;
+  /** 効果音（電話・ヘリ・鼓動・知らせなど）と音楽 */
+  se: boolean;
+  seVolume: number;
+  music: boolean;
+  musicVolume: number;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -45,6 +50,10 @@ export const DEFAULT_SETTINGS: Settings = {
   clouds3d: true,
   sound: false,
   soundVolume: 0.6,
+  se: true,
+  seVolume: 0.7,
+  music: true,
+  musicVolume: 0.3,
 };
 
 const KEY = 'hks.v1.settings';
@@ -66,6 +75,13 @@ export function saveSettings(s: Settings): void {
     // 保存できなくても動作は続ける
   }
   document.documentElement.dataset['textSize'] = s.textSize;
+  for (const f of prefsListeners) f(s);
+}
+
+const prefsListeners: ((s: Settings) => void)[] = [];
+/** 設定が保存されたときに呼ぶ（音量の反映など） */
+export function onSettingsSaved(f: (s: Settings) => void): void {
+  prefsListeners.push(f);
 }
 
 export function effectiveQuality(s: Settings): 'low' | 'mid' | 'high' {

@@ -14,6 +14,7 @@ import { avatar } from './avatar';
 import { el } from './dom';
 import { icon, type IconName } from './icons';
 import { drawMap2d } from './map2d';
+import { audio } from './audio';
 
 /** 予報の文から、天気のアイコンを選ぶ */
 function forecastIcon(label: string, text: string): IconName {
@@ -61,6 +62,7 @@ function climberCard(p: ClimberDef): HTMLElement {
 export function showBriefing(app: AppContext, loaded: LoadedScenario): () => void {
   const { scenario: s, map } = loaded;
   const B = JA.briefing;
+  audio().music(s.music?.briefing ?? 'ambient-mist-lake');
   const canvas = el('canvas', { width: 640, height: 640, class: 'map2d', 'aria-label': JA.ui.plan });
   drawMap2d(canvas, map, { route: s.plan.route });
 

@@ -188,6 +188,8 @@ export interface ScenarioDef {
   sources?: string[];                                   // 例: "気象の下書き: Open-Meteo ERA5 2025-10-12 36.40,137.71"
   /** 通りかかる登山者（人の少ない道では少ない）。困っている人に気づけば下山して通報してくれる */
   passersby?: PasserbyDef[];
+  /** 音楽（soundCatalog.ts の BGM の ID）。briefing: 出発前、play: ふだん、night: 夜、distress: 道迷い・けが・急病・救助待ちの間、good / bad: 結末。省くと既定の曲、null で無音 */
+  music?: { briefing?: string; play?: string | null; night?: string | null; distress?: string | null; good?: string; bad?: string };
 }
 
 export interface PasserbyDef {
@@ -381,6 +383,8 @@ export type Action = { who?: Who } & (
   | { type: 'eat'; kcal: number }
   | { type: 'drink'; liters: number }
   | { type: 'reportMissing' }                     // 家族・仲間が「帰らない」と警察に届け出る（未帰還の通報を今する）
+  | { type: 'sound'; id: string; volume?: number } // 効果音を鳴らす（src/sim/scenario/soundCatalog.ts の ID）。記録には残らない
+  | { type: 'music'; id: string | null; volume?: number } // 音楽を切り替える（null で自動の曲に戻す）
   | { type: 'leaveMap'; place: string }            // 下山した人が地図の外（バス停・駅・交番など）へ移る。3D から消え、居場所の名前を出す（下山・救助の後だけ）
   | { type: 'setPhone'; has: boolean }             // スマホをなくす（false）・見つける（true）
   | { type: 'addAnxiety'; amount: number }         // 動揺する（+）・落ち着く（−）。不安 0〜100
@@ -729,7 +733,8 @@ export type SimEventType =
   | 'SHELTER_ENTER' | 'SHELTER_LEAVE' | 'BIVOUAC_START' | 'DEATH' | 'FINISHED'
   | 'CHOICE_FIRED' | 'CHOICE_RESOLVED' | 'SCRIPT_LOG' | 'FORECAST_UPDATE' | 'PIN' | 'THOUGHT' | 'ENDED'
   | 'SOAK' | 'CARDIAC_ARREST' | 'LEADER_CHANGED' | 'PARTY_SPLIT' | 'STRAGGLER' | 'GUST_FALL'
-  | 'SPEECH';   // data: { to, tone, distortLevel(0-3), documented }。text は変形前の原文
+  | 'SPEECH'
+  | 'SOUND' | 'MUSIC';   // 効果音・音楽（data: { id, volume }）。画面だけが使う   // data: { to, tone, distortLevel(0-3), documented }。text は変形前の原文
 
 export interface SimEvent {
   tMin: number;

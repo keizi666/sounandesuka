@@ -5,7 +5,8 @@
  */
 import { JA } from '../i18n/ja';
 import { loadEditorProject, loadEntry, loadIndex } from './data';
-import { loadSettings, saveSettings, type Settings } from './settings';
+import { loadSettings, onSettingsSaved, saveSettings, type Settings } from './settings';
+import { audio } from '../ui/audio';
 import { detectQuality } from './quality';
 import { showBriefing } from '../ui/briefing';
 import { showDebrief } from '../ui/debrief';
@@ -48,6 +49,9 @@ export function startApp(root: HTMLElement): void {
     saveSettings(settings);
   }
   document.documentElement.dataset['textSize'] = settings.textSize;
+  const prefs = (s: Settings): void => audio().setPrefs({ se: s.se, seVolume: s.seVolume, music: s.music, musicVolume: s.musicVolume });
+  prefs(settings);
+  onSettingsSaved(prefs);
   const app: AppContext = {
     root,
     settings,

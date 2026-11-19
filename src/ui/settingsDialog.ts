@@ -17,7 +17,7 @@ export function openSettings(app: AppContext, onChange?: (s: Settings) => void):
     return sel;
   };
   const toggle = (key: keyof Settings): HTMLSelectElement => select(key, [[true, S.on], [false, S.off]] as never);
-  const range = (key: 'figureScale' | 'vExag', min: number, max: number, step: number): HTMLInputElement => {
+  const range = (key: 'figureScale' | 'vExag' | 'seVolume' | 'musicVolume' | 'soundVolume', min: number, max: number, step: number): HTMLInputElement => {
     const r = el('input', { type: 'range', min, max, step, value: s[key], oninput: () => {
       s[key] = Number(r.value);
       saveSettings(s);
@@ -33,6 +33,11 @@ export function openSettings(app: AppContext, onChange?: (s: Settings) => void):
     row(S.vExag, range('vExag', 0.8, 1.5, 0.05)),
     row(S.tiltShift, toggle('tiltShift')),
     row(S.clouds3d, toggle('clouds3d')),
+    row(S.music, toggle('music')),
+    row(S.musicVolume, range('musicVolume', 0, 1, 0.05)),
+    row(S.se, toggle('se')),
+    row(S.seVolume, range('seVolume', 0, 1, 0.05)),
+    row(S.soundVolume, range('soundVolume', 0, 1, 0.05)),
     row(S.autoPause, select('autoPause', [['choice', S.autoPauseChoice], ['important', S.autoPauseImportant], ['all', S.autoPauseAll]])),
     row(S.timed, toggle('timed')),
     row(S.observe, toggle('observe')),

@@ -27,6 +27,8 @@ import { showChoice, type ChoiceUi } from './choiceModal';
 import { el, toast } from './dom';
 import { Hud } from './simHud';
 import { openSettings } from './settingsDialog';
+import { audio } from './audio';
+import { autoMusic, eventSound } from './simAudio';
 
 export interface SimResult {
   world: World;
@@ -132,6 +134,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       settings: () =>
         openSettings(app, () => {
           applyBubbleSettings();
+          sound.setVolume(app.settings.soundVolume);
           view.tiltShift = app.settings.tiltShift;
           view.godView = hud.god;
         }),
@@ -186,9 +189,15 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // ---- 分岐点 ----
   let choiceUi: ChoiceUi | null = null;
   let shownCp: string | null = null;
+  /** シナリオの music アクションで指定された曲（なければ自動） */
+  let scriptMusic: string | undefined;
   function handleEvents(evs: readonly SimEvent[]): void {
     const fast = loop?.speed >= 15;
     for (const e of evs) {
+      // 効果音・音楽（シナリオの指定と、出来事に合わせた組み込みの音）
+      if (e.type === 'MUSIC') scriptMusic = typeof e.data?.['id'] === 'string' ? (e.data['id'] as string) : undefined;
+      const se = eventSound(e);
+      if (se) audio().play(se.id, se.volume);
       if (e.type === 'CHOICE_FIRED') {
         const id = String(e.data?.['cp'] ?? '');
         snapshots[id] = { world: structuredClone(world), recorder: structuredClone(recorder) };
@@ -269,6 +278,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // ---- ループ ----
   let lastFrame = performance.now();
   let wasFlash = false;
+  let lastMusicAt = 0;
   // 描画が重い（平均 30fps 未満が 5 秒続く）ときは画質を下げる提案を 1 回だけ出す
   let slowSince = 0;
   let suggested = effectiveQuality(st) === 'low';
@@ -288,6 +298,11 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         wasFlash = fl;
       }
       const now = performance.now();
+      // 曲: シナリオの指定がなければ、昼・夜・遭難のさなかで選ぶ（2 秒ごと）
+      if (now - lastMusicAt > 2000) {
+        lastMusicAt = now;
+        audio().music(w.ended ? null : scriptMusic ?? autoMusic(w, scenario));
+      }
       if (!suggested && !document.hidden) {
         if (now - lastFrame > 1000 / 30 && now - lastFrame < 500) {
           slowSince ||= now;

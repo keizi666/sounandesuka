@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { applyActions } from '../src/sim/climber/actions';
 import { stepWorld } from '../src/sim/core/step';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
+import { validateScenario } from '../src/sim/scenario/validate';
 import type { ScenarioDef } from '../src/sim/types';
 import { hakoniwa } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
@@ -56,5 +57,19 @@ describe('アクションの並び', () => {
     applyActions(w, ctx, [{ type: 'leaveMap', who: b!.id, place: '駅' }], w.climbers, a!);
     expect(b!.offMap).toBe('駅');
     expect(JSON.parse(JSON.stringify(w)).climbers[1].offMap).toBe('駅');
+  });
+
+  it('sound / music: 何人いても 1 回だけ出来事を出す。未知の ID は検証で弾く', () => {
+    const s = party3();
+    const w = createWorld(map, s);
+    const ctx = createStaticContext(map, s);
+    applyActions(w, ctx, [{ type: 'sound', who: 'all', id: 'phone' }, { type: 'music', id: null }], w.climbers, w.climbers[0]!);
+    expect(ctx.events.filter((e) => e.type === 'SOUND')).toHaveLength(1);
+    expect(ctx.events.filter((e) => e.type === 'MUSIC')).toHaveLength(1);
+    const bad = structuredClone(s);
+    bad.events = [{ id: 'e', trigger: { after: 'D0 10:00' }, once: true, effects: [{ type: 'actions', actions: [{ type: 'sound', id: 'nope' }] }] }];
+    bad.music = { play: 'nope' };
+    const codes = validateScenario(bad, map.def).map((i) => i.code);
+    expect(codes.filter((c) => c === 'unknownSound' || c === 'unknownMusic')).toHaveLength(2);
   });
 });

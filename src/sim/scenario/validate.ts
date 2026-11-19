@@ -4,6 +4,7 @@
  */
 import { tryParseTimeRef } from '../core/clock';
 import type { Action, Condition, MapDef, ScenarioDef, ScriptEffect } from '../types';
+import { BGM_IDS, SE_IDS } from './soundCatalog';
 import { placeholderPaths } from './text';
 import { isKnownVarPath } from './vars';
 
@@ -21,7 +22,7 @@ export const STATES = [
   'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL', 'STAYING', 'WAITING_RESCUE', 'INCAPACITATED', 'UNCONSCIOUS', 'FINISHED', 'RESCUED', 'DEAD',
 ];
 export const ACTION_TYPES = [
-  'continueRoute', 'setRoute', 'turnBack', 'goToNode', 'stayInShelter', 'rest', 'eat', 'drink', 'drinkAlcohol', 'reportMissing', 'leaveMap', 'setPhone', 'addAnxiety', 'illness', 'medicate', 'sting', 'epipen', 'wearRainwear', 'addLayer', 'changeDry',
+  'continueRoute', 'setRoute', 'turnBack', 'goToNode', 'stayInShelter', 'rest', 'eat', 'drink', 'drinkAlcohol', 'reportMissing', 'leaveMap', 'sound', 'music', 'setPhone', 'addAnxiety', 'illness', 'medicate', 'sting', 'epipen', 'wearRainwear', 'addLayer', 'changeDry',
   'stopAndCheck', 'checkPosition', 'bivouac', 'stayPut', 'backtrack', 'navigateToTrail', 'descendDrainage', 'seekSignal', 'callRescue',
   'waitRescue', 'setPace', 'lightningPosture', 'moveOffRidge', 'removeMetal', 'setFlag', 'clearFlag', 'narrate', 'abortTrip', 'splitParty',
   'setCohesion', 'soak', 'detach', 'goToMember', 'say',
@@ -175,6 +176,12 @@ function checkActions(v: Collector, path: string, actions: readonly Action[] | u
       case 'detach':
         checkActions(v, `${p}.then`, a.then, r);
         break;
+      case 'sound':
+        if (!SE_IDS.includes(a.id)) v.err(`${p}.id`, 'unknownSound', `未知の効果音 "${a.id}"（${SE_IDS.join(', ')}）`);
+        break;
+      case 'music':
+        if (a.id !== null && !BGM_IDS.includes(a.id)) v.err(`${p}.id`, 'unknownMusic', `未知の曲 "${a.id}"（${BGM_IDS.join(', ')}）`);
+        break;
       case 'setPace':
         if (!(a.factor >= 0.6 && a.factor <= 1.2)) v.warn(`${p}.factor`, 'range', 'setPace の factor は 0.6〜1.2（範囲外は切り詰める）');
         break;
@@ -259,6 +266,7 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
     s.plan.goalNodes.forEach((n, i) => nodes.has(n) || v.err(`plan.goalNodes[${i}]`, 'undefinedNode', `未定義のノード "${n}"`));
     Object.keys(s.nodeOverrides ?? {}).forEach((n) => nodes.has(n) || v.err(`nodeOverrides.${n}`, 'undefinedNode', `未定義のノード "${n}"`));
     const edgeIds = new Set((map.edges ?? []).map((e) => e.id));
+    for (const [k, id] of Object.entries(s.music ?? {})) if (typeof id === 'string' && !BGM_IDS.includes(id)) v.err(`music.${k}`, 'unknownMusic', `未知の曲 "${id}"（${BGM_IDS.join(', ')}）`);
     (s.passersby ?? []).forEach((p, pi) => p.edges.forEach((e, i) => edgeIds.has(e) || v.err(`passersby[${pi}].edges[${i}]`, 'undefinedEdge', `未定義のエッジ "${e}"`)));
     (s.plan.searchLeads ?? []).forEach((l, li) => {
       const p = `plan.searchLeads[${li}]`;

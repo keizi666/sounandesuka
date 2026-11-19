@@ -9,8 +9,10 @@ import { el } from './dom';
 import { progressTo, showLoading } from './loading';
 import { isLocalHost } from '../app/local';
 import { openSettings } from './settingsDialog';
+import { audio } from './audio';
 
 export function showTitle(app: AppContext): () => void {
+  audio().music('wilderness');
   const resumables = resumableScenarios();
   const resumeBtn =
     resumables.length > 0
@@ -43,6 +45,7 @@ export function showTitle(app: AppContext): () => void {
       el('h1', {}, JA.app.title),
       el('p', { class: 'note' }, JA.disclaimer.fictional),
       el('p', { class: 'note version' }, versionLabel()),
+      el('p', { class: 'note credits' }, [JA.ui.audioCredit, ' ', el('a', { href: `${import.meta.env.BASE_URL}audio/CREDITS.md`, target: '_blank', rel: 'noopener' }, JA.ui.audioCreditLink)]),
       el('div', { class: 'menu' }, [
         resumeBtn,
         el('button', { class: resumeBtn ? '' : 'primary', onclick: () => app.go({ name: 'select' }) }, [icon('hiking'), JA.ui.start]),

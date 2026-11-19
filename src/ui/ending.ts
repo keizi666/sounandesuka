@@ -15,6 +15,8 @@ import { hpLevel, hpOf } from './hp';
 import { icon, type IconName } from './icons';
 import { ringGauge } from './logDetail';
 import { optionLabel, type SimResult } from './simScreen';
+import { audio } from './audio';
+import { endingMusic } from './simAudio';
 
 export function endingTone(kind: string): 'good' | 'mid' | 'bad' {
   const s = ENDING_SEVERITY[kind as keyof typeof ENDING_SEVERITY] ?? 0;
@@ -57,6 +59,7 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
   const ctx = createStaticContext(loaded.map, s);
   const e = resolveEnding(w, ctx, recVars(result.recorder, w))!;
   const def = JA.endings[e.kind];
+  audio().music(endingMusic(e.kind, s));
   const r = result.recorder.record;
   const start = r.samples[0]?.t ?? w.tMin;
   const endMin = w.ended?.atMin ?? w.tMin;

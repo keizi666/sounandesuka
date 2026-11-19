@@ -3,6 +3,7 @@
  */
 import type { Action, MapDef, ScenarioDef } from '../../sim/types';
 import { el } from '../../ui/dom';
+import { BGM_CATALOG, SE_CATALOG } from '../../sim/scenario/soundCatalog';
 
 type ActionType = Action['type'];
 
@@ -18,6 +19,8 @@ export const ACTION_LABELS: Partial<Record<ActionType, string>> = {
   drinkAlcohol: '酒を飲む',
   reportMissing: '家族・仲間が警察に届け出る',
   leaveMap: '地図の外へ移る（下山した人が駅などへ）',
+  sound: '効果音を鳴らす',
+  music: '音楽を切り替える',
   setPhone: 'スマホをなくす／見つける',
   addAnxiety: '動揺する（不安を足す）',
   illness: '急病の発症',
@@ -101,6 +104,12 @@ export function defaultAction(t: ActionType, s: ScenarioDef, map: MapDef): Actio
       return { type: t, member: s.party[0]?.id ?? '' };
     case 'say':
       return { type: t, text: '' };
+    case 'sound':
+      return { type: t, id: SE_CATALOG[0]!.id };
+    case 'music':
+      return { type: t, id: 'drama-dive' };
+    case 'leaveMap':
+      return { type: t, place: '駅' };
     default:
       return { type: t } as Action;
   }
@@ -206,6 +215,18 @@ export function actionEditor(list: Action[], s: ScenarioDef, map: MapDef, commit
         break;
       case 'goToMember':
         extra.push(field('仲間', choose('member', s.party.map((p) => [p.id, p.name]))));
+        break;
+      case 'sound':
+        extra.push(field('音', choose('id', SE_CATALOG.map((x) => [x.id, `${x.name}（${x.note}）`]))), field('音量', input('volume', 'number', '4em')));
+        break;
+      case 'music': {
+        const s2 = el('select', {}, [el('option', { value: '', selected: x['id'] === null }, '（自動の曲に戻す）'), ...BGM_CATALOG.map((b) => el('option', { value: b.id, selected: x['id'] === b.id }, `${b.name}（${b.note}）`))]);
+        s2.addEventListener('change', () => set({ id: s2.value || null } as Partial<Action>));
+        extra.push(field('曲', s2));
+        break;
+      }
+      case 'leaveMap':
+        extra.push(field('行き先', input('place', 'text', '10em')));
         break;
       default:
         break;
