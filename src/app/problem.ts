@@ -11,7 +11,7 @@ export function reportProblem(title: string, detail = ''): void {
   const key = `${title}|${detail}`.slice(0, 300);
   if (seen.has(key) || seen.size >= 6) return;
   seen.add(key);
-  console.error(`[hakoniwa] ${title}\n${detail}`);
+  console.error(`[sounan] ${title}\n${detail}`);
   if (!box) {
     box = document.createElement('div');
     box.style.cssText =

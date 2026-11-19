@@ -1,7 +1,7 @@
 // npm run make:real -- <scenarioId> — 実在の山のシナリオを実地形で動かすバンドルを作る（docs/16 §8 の手順を、座標で結合）。
 // 作り方は public/scenarios/real/<scenarioId>.build.json（範囲・地点の座標・偽の道・速度係数・基地局）に書く。
 // スケルトンマップを、国土地理院の標高タイル・OpenStreetMap の登山道・地理院ベクトルタイルの植生記号に結合し、
-// public/scenarios/real/<scenarioId>.hakoniwa.json に書き出す。
+// public/scenarios/real/<scenarioId>.sounan.json に書き出す。
 //
 // 注意:
 // - 通信する（地理院の標高タイル・ベクトルタイル、Overpass 1 回）。応答は .scratch/geo-cache/ に保存し、2 回目からは通信しない。
@@ -20,7 +20,7 @@ import { runHeadless } from '../src/sim/headless';
 import { validateScenario } from '../src/sim/scenario/validate';
 import { encodeHeights } from '../src/sim/terrain/codec';
 import { buildMapRuntime } from '../src/sim/terrain/map';
-import type { EdgeDef, HakoniwaBundle, MapDef, NodeDef, RadioStationDef, ScenarioDef } from '../src/sim/types';
+import type { EdgeDef, SounanBundle, MapDef, NodeDef, RadioStationDef, ScenarioDef } from '../src/sim/types';
 import { fetchHeights, fetchOsmCached, fetchVegSymbolsCached } from './lib/geo-node';
 import { ROOT } from './lib/maps';
 
@@ -261,10 +261,10 @@ const issues = validateScenario(s, map);
 for (const i of issues) console.log(`${i.level === 'error' ? '✖' : '⚠'} ${i.path} ${i.message}`);
 if (issues.some((i) => i.level === 'error')) process.exit(1);
 
-const bundle: HakoniwaBundle = { format: 'hakoniwa-bundle', version: 1, createdAt: new Date().toISOString(), generator: `tools/make-real.ts ${id}`, map, scenario: s, attribution: [ATTR.gsi, ATTR.osm] };
+const bundle: SounanBundle = { format: 'sounan-bundle', version: 1, createdAt: new Date().toISOString(), generator: `tools/make-real.ts ${id}`, map, scenario: s, attribution: [ATTR.gsi, ATTR.osm] };
 const outDir = resolve(ROOT, 'public/scenarios/real');
 mkdirSync(outDir, { recursive: true });
-const out = resolve(outDir, `${id}.hakoniwa.json`);
+const out = resolve(outDir, `${id}.sounan.json`);
 writeFileSync(out, JSON.stringify(bundle));
 console.log(`${out}  ${(JSON.stringify(bundle).length / 1024).toFixed(0)} KB`);
 

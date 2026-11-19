@@ -2,7 +2,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { buildMapRuntime } from '../../src/sim/terrain/map';
-import type { HakoniwaBundle, MapDef, MapRuntime, ScenarioDef, ScenarioIndexEntry } from '../../src/sim/types';
+import type { SounanBundle, MapDef, MapRuntime, ScenarioDef, ScenarioIndexEntry } from '../../src/sim/types';
 import { loadMapDef, ROOT } from './maps';
 
 export function loadIndex(): ScenarioIndexEntry[] {
@@ -38,13 +38,13 @@ export function loadEntryRuntime(e: ScenarioIndexEntry): { scenario: ScenarioDef
   }
   const file = resolve(ROOT, 'public', 'scenarios', e.bundle);
   if (!existsSync(file)) return null;
-  const b = JSON.parse(readFileSync(file, 'utf8')) as HakoniwaBundle;
+  const b = JSON.parse(readFileSync(file, 'utf8')) as SounanBundle;
   let m = maps.get(`bundle:${e.id}`);
   if (!m) {
     m = buildMapRuntime(b.map).map;
     maps.set(`bundle:${e.id}`, m);
   }
-  const src = resolve(ROOT, 'public', 'scenarios', e.bundle.replace(/\.hakoniwa\.json$/, '.json'));
+  const src = resolve(ROOT, 'public', 'scenarios', e.bundle.replace(/\.sounan\.json$/, '.json'));
   const scenario = existsSync(src) ? { ...(JSON.parse(readFileSync(src, 'utf8')) as ScenarioDef), mapId: b.map.id } : b.scenario;
   return { scenario, map: m };
 }

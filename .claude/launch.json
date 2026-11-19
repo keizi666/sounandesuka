@@ -10,7 +10,7 @@
     {
       "name": "preview-sub",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["vite", "preview", "--base", "/hakoniwa/", "--port", "4281", "--strictPort"],
+      "runtimeArgs": ["vite", "preview", "--base", "/sounan/", "--port", "4281", "--strictPort"],
       "port": 4281
     }
   ]

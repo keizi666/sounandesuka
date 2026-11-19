@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { parseGpx, trackAsTrails, trackToRoute, trackToXZ } from '../src/editor/geo/gpx';
 import { toLatLon } from '../src/editor/geo/projection';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 
 const lat0 = 36.4;
 const lon0 = 137.71;
@@ -44,7 +44,7 @@ describe('GPX', () => {
     expect(r.edges[0]!.source).toBe('gpx');
   });
   it('計画ルートとして使う: 箱庭岳の登山道にマップマッチングする', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const ids = Object.keys(map.adjacency).filter((id) => map.adjacency[id]!.length > 0);
     const a = map.nodes[ids[0]!]!;
     const e = map.trails[map.adjacency[a.id]![0]!]!;

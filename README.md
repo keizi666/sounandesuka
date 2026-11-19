@@ -35,7 +35,7 @@
 | `docs/17_editor_weather.md` | 天候タイムライン・天気パターン9種・過去の天気の取り込み・雷雲 |
 | `docs/18_editor_scenario.md` | 登山者・計画・分岐点（条件ビルダー）・試走・書き出し |
 | `docs/appendix/types.ts` | 型定義（`src/sim/types.ts` の元） |
-| `public/maps/hakoniwa.json` | 箱庭岳のマップ |
+| `public/maps/sounan.json` | 箱庭岳のマップ |
 | `public/scenarios/*.json` | サンプルシナリオ 3 本と一覧 |
 
 ## サンプルシナリオ

@@ -15,11 +15,11 @@ import { heliFlyable } from '../src/sim/rescue/rescue';
 import { nearestOnPolyline, newNearest, preparePolyline } from '../src/sim/terrain/geom';
 import { nearestIndex } from '../src/sim/terrain/sample';
 import type { PolicyName, ProceduralTerrainDef, ScenarioDef } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 function lostRate(id: string, policy: PolicyName, n: number): number {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   const s = loadScenario(id);
   let lost = 0;
   for (let i = 0; i < n; i += 1) {
@@ -40,7 +40,7 @@ describe('道迷い（docs/13 P6）', () => {
   }, 120_000);
 
   it('分岐の誤り率は手がかりの見えにくさで増え、ナビ技術で減る', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s02_fog_descent');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
@@ -55,7 +55,7 @@ describe('道迷い（docs/13 P6）', () => {
   });
 
   it('道迷い中に沢下りを強制した 100 回: 60% 以上が鬼ヶ沢に入り、20% 以上が魚止ノ滝に着く', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const base = loadScenario('s02_fog_descent');
     const sc: ScenarioDef = { ...base, choices: [], events: [], genericOverrides: { waterfall: { enabled: false }, lostAware: { enabled: false } } };
     const oni = preparePolyline((map.def.terrain as ProceduralTerrainDef).valleys.find((v) => v.id === 'oni')!.points);
@@ -95,7 +95,7 @@ describe('道迷い（docs/13 P6）', () => {
 
 describe('落雷（docs/08 §2）', () => {
   function strikeRate(nodeId: string, n: number): number {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s03_thunder_ridge');
     let hit = 0;
     for (let i = 0; i < n; i += 1) {
@@ -129,7 +129,7 @@ describe('落雷（docs/08 §2）', () => {
 
 describe('転倒（docs/08 §1）', () => {
   it('道外の急斜面・崖は登山道より転びやすく、暗さ・下りで増える', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s01_cold_front');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
@@ -146,7 +146,7 @@ describe('転倒（docs/08 §1）', () => {
 
 describe('電波と救助（docs/08 §4〜5）', () => {
   it('電波のない地点で救助要請は失敗し、電波を探して移動すると成功する', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc: ScenarioDef = { ...loadScenario('s01_cold_front'), choices: [], events: [] };
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
@@ -174,7 +174,7 @@ describe('電波と救助（docs/08 §4〜5）', () => {
   });
 
   it('夜間はヘリが飛ばない', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s03_thunder_ridge');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
@@ -188,7 +188,7 @@ describe('電波と救助（docs/08 §4〜5）', () => {
   });
 
   it('未帰還通報: 家族の通報時刻を過ぎると捜索が始まる', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const base = loadScenario('s01_cold_front');
     // 動けなくなって山中に残る
     const sc: ScenarioDef = { ...base, choices: [], events: [] };

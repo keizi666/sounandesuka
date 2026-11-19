@@ -166,7 +166,7 @@ export const testPanel: Panel = {
       ]),
       section('遊ぶ・書き出す', [
         button('3D で遊ぶ（プレイヤーを新しいタブで開く）', () => void playIn3d(ed)),
-        button('バンドルを書き出す（*.hakoniwa.json）', () => void exportBundle(ed), 'primary'),
+        button('バンドルを書き出す（*.sounan.json）', () => void exportBundle(ed), 'primary'),
         !ed.p.map.geo ? button('シナリオだけ書き出す（既存マップを使う）', () => exportScenarioOnly(ed)) : null,
       ]),
     );

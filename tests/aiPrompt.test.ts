@@ -7,7 +7,7 @@ import { buildAiPrompt } from '../src/editor/aiPrompt';
 import { createFictionalProject } from '../src/editor/store/project';
 import type { MapDef } from '../src/sim/types';
 
-const map = JSON.parse(readFileSync(resolve(import.meta.dirname, '../public/maps/hakoniwa.json'), 'utf8')) as MapDef;
+const map = JSON.parse(readFileSync(resolve(import.meta.dirname, '../public/maps/sounan.json'), 'utf8')) as MapDef;
 
 describe('AI プロンプト', () => {
   const p = createFictionalProject('テスト', map);

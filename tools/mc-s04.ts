@@ -8,16 +8,16 @@ import { formatTimeRef } from '../src/sim/core/clock';
 import { deriveSeed } from '../src/sim/core/rng';
 import { runHeadless } from '../src/sim/headless';
 import { buildMapRuntime } from '../src/sim/terrain/map';
-import type { HakoniwaBundle, PolicyName } from '../src/sim/types';
+import type { SounanBundle, PolicyName } from '../src/sim/types';
 import { ROOT } from './lib/maps';
 
 const { values } = parseArgs({ options: { n: { type: 'string', default: '200' }, policy: { type: 'string' } } });
-const file = resolve(ROOT, 'public/scenarios/historical/s04_tomuraushi_2009.hakoniwa.json');
+const file = resolve(ROOT, 'public/scenarios/historical/s04_tomuraushi_2009.sounan.json');
 if (!existsSync(file)) {
   console.log('バンドルがありません。先に npm run make:s04 を実行してください。');
   process.exit(1);
 }
-const b = JSON.parse(readFileSync(file, 'utf8')) as HakoniwaBundle;
+const b = JSON.parse(readFileSync(file, 'utf8')) as SounanBundle;
 const rt = buildMapRuntime(b.map).map;
 const n = Number(values.n);
 const med = (a: number[]): number => (a.length ? [...a].sort((x, y) => x - y)[Math.floor(a.length / 2)]! : NaN);

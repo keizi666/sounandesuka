@@ -22,7 +22,7 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(appVersion()),
     __APP_BUILT__: JSON.stringify(new Date().toISOString()),
   },
-  // サブディレクトリに置く場合は VITE_BASE=/hakoniwa/ のように指定する（docs/03 §10）
+  // サブディレクトリに置く場合は VITE_BASE=/sounan/ のように指定する（docs/03 §10）
   base: process.env['VITE_BASE'] ?? '/',
   // 開発サーバーの番号。よく使われる 5173 / 4173 は他のサービスと重なるので避ける（使用中なら起動を止める）
   server: { port: 5281, strictPort: true },

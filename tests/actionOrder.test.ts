@@ -7,7 +7,7 @@ import { stepWorld } from '../src/sim/core/step';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { validateScenario } from '../src/sim/scenario/validate';
 import type { ScenarioDef } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 function party3(): ScenarioDef {
@@ -20,7 +20,7 @@ function party3(): ScenarioDef {
 }
 
 describe('アクションの並び', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
 
   it('「休む → 進む」は、休み終えてから進む（休みを打ち消さない）', () => {
     const s = party3();

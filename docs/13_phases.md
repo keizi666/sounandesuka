@@ -128,7 +128,7 @@ P1〜P7 は **描画なし** で sim を完成させる（ヘッドレスで遊�
 ## P13 可変マップとバンドル
 - `MapRuntime` の `cell`/`half` 化、`terrain.type: "heightmap"` の復元、`smooth: false`、`paceAdj`、`vegetation.overrides`、`radio.paint`、`nodeOverrides`
 - バンドルの読み込み（`index.json` の `bundle`、ファイル選択、ドラッグ＆ドロップ）、出典表示、実在の山の注記
-- テスト用に、箱庭岳を 385 頂点で高さマップ化したバンドル `tests/fixtures/hakoniwa385.hakoniwa.json` を生成するスクリプト（`tools/make-fixture-bundle.ts`）
+- テスト用に、箱庭岳を 385 頂点で高さマップ化したバンドル `tests/fixtures/sounan385.sounan.json` を生成するスクリプト（`tools/make-fixture-bundle.ts`）
 
 **受け入れ**: 既存 3 シナリオの mc 結果（P7 時点）が変わらない（決定論ハッシュ一致）。fixture バンドルで s01 相当のシナリオが最後まで走る。一辺 12,288 m・513 頂点のダミー高さマップで派生レイヤーが 8 秒以内（Worker）に計算できる。`heightmap.test.ts` 合格。
 

@@ -11,7 +11,7 @@ import { runHeadless } from '../src/sim/headless';
 import type { ScenarioDef } from '../src/sim/types';
 import { buildVertexGraph, candidatesFor, joinSkeleton, normalizeName } from '../src/editor/geo/skeleton';
 import { calibClimber } from './helpers/calib';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario, standardClimber } from './helpers/scenario';
 
 /** s03（3 人）をもとに 5 人パーティにしたシナリオ */
@@ -28,7 +28,7 @@ function party5(): ScenarioDef {
 }
 
 describe('グループ', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
 
   it('groups の定義どおりにグループができ、全員が同じ位置で歩く（tight）', () => {
     const s = party5();

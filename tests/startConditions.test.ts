@@ -7,11 +7,11 @@ import { createWorld } from '../src/sim/core/world';
 import { runHeadless } from '../src/sim/headless';
 import { applyConditions, DEFAULT_CONDITIONS, isDefaultConditions } from '../src/sim/scenario/startConditions';
 import { validateScenario } from '../src/sim/scenario/validate';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 describe('始まりの条件', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   const s0 = loadScenario('s01_cold_front');
 
   it('何も変えなければ元のシナリオのまま', () => {

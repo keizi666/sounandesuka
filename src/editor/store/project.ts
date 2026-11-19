@@ -2,9 +2,9 @@
  * エディターのプロジェクト（docs/15 §3）: 新規作成、高さの出し入れ、バンドルとの変換、出典の自動付与。
  */
 import { decodeHeights, encodeHeights } from '../../sim/terrain/codec';
-import type { Attribution, ClimberDef, EditorProject, HakoniwaBundle, HeightmapTerrainDef, MapDef, ScenarioDef } from '../../sim/types';
+import type { Attribution, ClimberDef, EditorProject, SounanBundle, HeightmapTerrainDef, MapDef, ScenarioDef } from '../../sim/types';
 
-export const GENERATOR = 'hakoniwa-editor 0.1';
+export const GENERATOR = 'sounan-editor 0.1';
 
 export const ATTR = {
   gsi: { id: 'gsi', text: '出典：国土地理院（標高タイル）を加工して作成', url: 'https://maps.gsi.go.jp/development/ichiran.html', modified: true },
@@ -102,9 +102,9 @@ function emptyEditorState(lat: number, lon: number): EditorProject['editorState'
   return { mapView: { lat, lon, zoom: 13 }, tab: 'area', selection: { kind: null, id: null }, draftEdgeIds: [], probePoints: [], rightsConfirmed: false };
 }
 
-/** 架空の箱庭岳で作る（マップは既存の hakoniwa をそのまま使う） */
-export function createFictionalProject(name: string, hakoniwa: MapDef): EditorProject {
-  const map = structuredClone(hakoniwa);
+/** 架空の箱庭岳で作る（マップは既存の sounan をそのまま使う） */
+export function createFictionalProject(name: string, sounan: MapDef): EditorProject {
+  const map = structuredClone(sounan);
   const t = nowIso();
   const scenarioId = newId('s_');
   return { id: newId(), name, createdAt: t, updatedAt: t, map, heightsBuffer: null, scenario: blankScenario(map, scenarioId), raw: {}, editorState: { ...emptyEditorState(0, 0), tab: 'trails' } };
@@ -174,13 +174,13 @@ export function attributionFor(p: EditorProject): Attribution[] {
   return out;
 }
 
-export function toBundle(p: EditorProject): HakoniwaBundle {
+export function toBundle(p: EditorProject): SounanBundle {
   const map = mapWithHeights(p);
-  return { format: 'hakoniwa-bundle', version: 1, createdAt: nowIso(), generator: GENERATOR, map, scenario: { ...p.scenario, mapId: map.id }, attribution: attributionFor(p) };
+  return { format: 'sounan-bundle', version: 1, createdAt: nowIso(), generator: GENERATOR, map, scenario: { ...p.scenario, mapId: map.id }, attribution: attributionFor(p) };
 }
 
-export function fromBundle(b: HakoniwaBundle, name?: string): EditorProject {
-  if (b.format !== 'hakoniwa-bundle' || b.version !== 1) throw new Error('バンドルの形式が違います');
+export function fromBundle(b: SounanBundle, name?: string): EditorProject {
+  if ((b.format !== 'sounan-bundle' && b.format !== 'hakoniwa-bundle') || b.version !== 1) throw new Error('バンドルの形式が違います');
   const t = nowIso();
   const map = structuredClone(b.map);
   let heightsBuffer: ArrayBuffer | null = null;

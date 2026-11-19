@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { computeRadioCoverage, stationStrength } from '../src/sim/terrain/coverage';
 import { nearestIndex, type HeightGrid } from '../src/sim/terrain/sample';
 import type { RadioStationDef } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 
 describe('電波圏（docs/04 §7）', () => {
   it('SUMMIT・EBOSHI・HUT_RIDGE で 0.5 以上、魚止ノ滝で 0.1 未満', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     for (const id of ['SUMMIT', 'EBOSHI', 'HUT_RIDGE']) {
       const nd = map.nodes[id]!;
       expect(map.radio[nearestIndex(map, nd.x, nd.z)]!, id).toBeGreaterThanOrEqual(0.5);
@@ -15,7 +15,7 @@ describe('電波圏（docs/04 §7）', () => {
   });
 
   it('値域は 0..1', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     for (const v of map.radio) if (v < 0 || v > 1) throw new Error(`radio ${v}`);
   });
 });

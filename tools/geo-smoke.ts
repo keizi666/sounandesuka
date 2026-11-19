@@ -27,7 +27,7 @@ await step('地理院 標高タイル（dem_png z14）', async () => {
   return `${png.width}×${png.height}、標高 ${Math.round(Math.min(...h))}〜${Math.round(Math.max(...h))} m`;
 });
 await step('Overpass（登山道・地点、一辺 2 km）', async () => {
-  const j = await fetchOsm(LAT, LON, 2048, { 'User-Agent': 'hakoniwa-sim-tools/0.1' });
+  const j = await fetchOsm(LAT, LON, 2048, { 'User-Agent': 'sounan-sim-tools/0.1' });
   const g = osmToGraph(j, LAT, LON, 2048, () => 2000);
   return `要素 ${j.elements.length}、道 ${g.edges.length} 本、地点 ${g.nodes.length}`;
 });

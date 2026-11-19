@@ -10,7 +10,7 @@
   "id": "s01_cold_front", "version": 1,
   "title": "稜線の冷たい雨", "subtitle": "10月・単独・寒冷前線",
   "theme": "hypothermia", "difficulty": 3, "season": "autumn", "estMinutes": 15,
-  "mapId": "hakoniwa", "seed": 1017,
+  "mapId": "sounan", "seed": 1017,
   "startDate": "2026-10-17",
   "startAt": "D0 05:30",
   "timeLimit": "D1 12:00",
@@ -313,8 +313,8 @@ JSON で表す論理式。`eval` は使わない。
 
 ## 12. バンドル
 
-マップとシナリオを 1 ファイルにまとめた形式（`docs/15` §3.2、型 `HakoniwaBundle`）。`index.json` のエントリは `file`（シナリオのみ）か `bundle` のどちらかを持つ。
-`npm run validate` はバンドルも検証する（`public/scenarios/*.hakoniwa.json`）。
+マップとシナリオを 1 ファイルにまとめた形式（`docs/15` §3.2、型 `SounanBundle`）。`index.json` のエントリは `file`（シナリオのみ）か `bundle` のどちらかを持つ。
+`npm run validate` はバンドルも検証する（`public/scenarios/*.sounan.json`）。
 
 ## 13. 検証（`npm run validate`）
 

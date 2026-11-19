@@ -24,13 +24,13 @@
 ## 2. ディレクトリ構成
 
 ```
-hakoniwa-sim/
+sounan-sim/
 ├─ CLAUDE.md
 ├─ docs/                         仕様（本書）
 ├─ index.html                    プレイヤー
 ├─ editor.html                   シナリオエディター
 ├─ public/
-│  ├─ maps/hakoniwa.json
+│  ├─ maps/sounan.json
 │  └─ scenarios/
 │     ├─ index.json              一覧（id, file または bundle, title, theme, difficulty, season, estMinutes, region）
 │     ├─ s01_cold_front.json
@@ -237,6 +237,6 @@ Worker でも同じ `sim/` コードを使う（Vite の `new Worker(new URL(...
 
 ## 10. ビルドと配置
 
-- `vite build` で `dist/` を生成。`VITE_BASE` 環境変数で `base` を設定（例: `/hakoniwa/`）。
+- `vite build` で `dist/` を生成。`VITE_BASE` 環境変数で `base` を設定（例: `/sounan/`）。
 - `public/` 配下の JSON は相対パスで fetch（`import.meta.env.BASE_URL` を前置）。
 - さくらのレンタルサーバーには `dist/` をそのまま配置する。`.htaccess` 不要（SPA ルーティングを使わず、画面遷移はハッシュなしの内部状態）。

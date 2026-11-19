@@ -9,10 +9,10 @@ import { base64Decode, base64Encode, decodeGrid, decodeHeights, encodeGrid, enco
 import { buildMapRuntime } from '../src/sim/terrain/map';
 import { nearestIndex } from '../src/sim/terrain/sample';
 import { validateScenario } from '../src/sim/scenario/validate';
-import type { HakoniwaBundle, MapDef } from '../src/sim/types';
+import type { SounanBundle, MapDef } from '../src/sim/types';
 import { VegClass } from '../src/sim/types';
 
-const bundle = JSON.parse(readFileSync(resolve(import.meta.dirname, 'fixtures', 'hakoniwa385.hakoniwa.json'), 'utf8')) as HakoniwaBundle;
+const bundle = JSON.parse(readFileSync(resolve(import.meta.dirname, 'fixtures', 'sounan385.sounan.json'), 'utf8')) as SounanBundle;
 
 describe('符号化', () => {
   it('base64 は Node の Buffer と一致し、往復で戻る', () => {

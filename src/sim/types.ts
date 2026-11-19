@@ -782,8 +782,8 @@ export interface RunRecord {
 }
 
 // ---------- バンドル・エディター ----------
-export interface HakoniwaBundle {
-  format: 'hakoniwa-bundle';
+export interface SounanBundle {
+  format: 'sounan-bundle' | 'hakoniwa-bundle';   // hakoniwa-bundle は旧名（読み込みだけ）
   version: 1;
   createdAt: string;
   generator: string;

@@ -7,12 +7,12 @@ import { piecewise } from '../src/sim/climber/capacity';
 import { stepWorld } from '../src/sim/core/step';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { TUNING } from '../src/sim/tuning';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 describe('足の骨折で這う', () => {
   it('速さは 1 時間に 100 m 未満で、急な所ほど遅い', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const s = loadScenario('s01_cold_front');
     const c = createWorld(map, s).climbers[0]!;
     expect(crawlCapMs(c, 0)).toBe(Infinity);
@@ -22,7 +22,7 @@ describe('足の骨折で這う', () => {
   });
 
   it('登山道を這っても、1 時間で 100 m も進まない', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const s = structuredClone(loadScenario('s01_cold_front'));
     s.choices = [];
     s.events = [];

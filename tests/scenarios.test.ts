@@ -8,14 +8,14 @@ import { autoResolve, checkChoices, evaluateOptions, findChoicePoint, resolveCho
 import { validateMap, validateScenario } from '../src/sim/scenario/validate';
 import { pickByBias } from '../src/sim/policy';
 import type { PolicyName, ScenarioDef } from '../src/sim/types';
-import { hakoniwa, loadHakoniwaDef } from './helpers/map';
+import { sounanMap, loadSounanDef } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 const IDS = ['s01_cold_front', 's02_fog_descent', 's03_thunder_ridge'];
 
 describe('検証（docs/09 §13、P5 の受け入れ）', () => {
   it('3 シナリオと箱庭岳マップにエラーがない', () => {
-    const map = loadHakoniwaDef();
+    const map = loadSounanDef();
     expect(validateMap(map).filter((i) => i.level === 'error')).toEqual([]);
     for (const id of IDS) expect(validateScenario(loadScenario(id), map).filter((i) => i.level === 'error'), id).toEqual([]);
   });
@@ -34,7 +34,7 @@ describe('検証（docs/09 §13、P5 の受け入れ）', () => {
       'bad_placeholder.json': 'choices[0].situation',
     };
     expect(readdirSync(dir).sort()).toEqual(Object.keys(expected).sort());
-    const map = loadHakoniwaDef();
+    const map = loadSounanDef();
     for (const [f, path] of Object.entries(expected)) {
       const s = JSON.parse(readFileSync(resolve(dir, f), 'utf8')) as ScenarioDef;
       const errs = validateScenario(s, map).filter((i) => i.level === 'error');
@@ -45,7 +45,7 @@ describe('検証（docs/09 §13、P5 の受け入れ）', () => {
 
 describe('分岐点（docs/09 §5）', () => {
   it('s01: 出発時に cp_start が発火し、選ぶとアクションとフラグが適用される', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s01_cold_front');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc, { mode: 'interactive' });
@@ -62,7 +62,7 @@ describe('分岐点（docs/09 §5）', () => {
   });
 
   it('abortTrip で ABORTED になる', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s01_cold_front');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc, { mode: 'interactive' });
@@ -72,7 +72,7 @@ describe('分岐点（docs/09 §5）', () => {
   });
 
   it('自律バイアスは mods を足した重みに比例する（10,000 回で ±3%）', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s01_cold_front');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
@@ -91,7 +91,7 @@ describe('分岐点（docs/09 §5）', () => {
   });
 
   it('available を満たさない選択肢は自動選択されない（電波のない所で救助要請しない）', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s01_cold_front');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc, { policy: 'recommended' });
@@ -108,7 +108,7 @@ describe('分岐点（docs/09 §5）', () => {
   });
 
   it('priority の高い分岐点が先に発火する', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const base = loadScenario('s01_cold_front');
     const sc: ScenarioDef = {
       ...base,
@@ -126,7 +126,7 @@ describe('分岐点（docs/09 §5）', () => {
 });
 
 describe('通し実行（P5 の受け入れ、docs/14 scenarios.test）', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   for (const id of IDS) {
     for (const policy of ['recommended', 'bias', 'random', 'risky'] as PolicyName[]) {
       it(`${id} を ${policy} で結末まで例外なく走る`, () => {

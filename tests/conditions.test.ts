@@ -5,11 +5,11 @@ import { expandText } from '../src/sim/scenario/text';
 import { isKnownVarPath, resolveVar, type VarScope } from '../src/sim/scenario/vars';
 import { TEXT_LABELS } from '../src/i18n/format';
 import type { Condition } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 function setup(): VarScope {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   const sc = loadScenario('s02_fog_descent');
   const world = createWorld(map, sc);
   createStaticContext(map, sc);

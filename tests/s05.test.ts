@@ -11,15 +11,15 @@ import { createWorld } from '../src/sim/core/world';
 import { runHeadless } from '../src/sim/headless';
 import { validateScenario } from '../src/sim/scenario/validate';
 import { buildMapRuntime } from '../src/sim/terrain/map';
-import type { HakoniwaBundle, MapDef, ScenarioDef } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import type { SounanBundle, MapDef, ScenarioDef } from '../src/sim/types';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 import { runCalib } from './helpers/calib';
 
 const root = resolve(import.meta.dirname, '..');
 const scenario = JSON.parse(readFileSync(resolve(root, 'public/scenarios/real/s05_shounoiwa.json'), 'utf8')) as ScenarioDef;
 const skeleton = JSON.parse(readFileSync(resolve(root, 'public/maps/real/shounoiwa.skeleton.json'), 'utf8')) as MapDef;
-const bundleFile = resolve(root, 'public/scenarios/real/s05_shounoiwa.hakoniwa.json');
+const bundleFile = resolve(root, 'public/scenarios/real/s05_shounoiwa.sounan.json');
 
 describe('s05（鳥屋戸尾根の転落）', () => {
   it('スケルトンマップに対して検証エラーがない', () => {
@@ -35,7 +35,7 @@ describe('s05（鳥屋戸尾根の転落）', () => {
     expect(scenario.plan.searchLeads?.map((l) => l.id)).toEqual(['shared', 'bus', 'notebook', 'wide']);
   });
   it.skipIf(!existsSync(bundleFile))('実地形のバンドル: 推奨の方針では無事に下りる。記録に近い方針でも最後まで走る', { timeout: 120000 }, () => {
-    const b = JSON.parse(readFileSync(bundleFile, 'utf8')) as HakoniwaBundle;
+    const b = JSON.parse(readFileSync(bundleFile, 'utf8')) as SounanBundle;
     const rt = buildMapRuntime(b.map).map;
     const s = { ...scenario, mapId: b.map.id };
     const r = runHeadless(rt, s, { policy: 'recommended', seed: 3 });
@@ -46,7 +46,7 @@ describe('s05（鳥屋戸尾根の転落）', () => {
 });
 
 describe('アルコール', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   const w = createWorld(map, loadScenario('s01_cold_front'));
   const c = w.climbers[0]!;
   it('血中濃度は Widmark の式（g ÷ 体重 × r ÷ 10）', () => {
@@ -85,7 +85,7 @@ describe('アルコールの体への影響', () => {
 describe('捜索の手がかり（searchLeads）の検証', () => {
   it('未定義のノードとつながらないルートはエラー', () => {
     const s = loadScenario('s02_fog_descent');
-    const map = JSON.parse(readFileSync(resolve(root, 'public/maps/hakoniwa.json'), 'utf8')) as MapDef;
+    const map = JSON.parse(readFileSync(resolve(root, 'public/maps/sounan.json'), 'utf8')) as MapDef;
     s.plan.searchLeads = [
       { id: 'a', at: 'D1 08:00', route: ['TH_SAWA', 'NOWHERE'], text: 'x' },
       { id: 'b', at: 'D1 08:00', route: ['TH_SAWA', 'SUMMIT'], text: 'y' },
@@ -98,7 +98,7 @@ describe('捜索の手がかり（searchLeads）の検証', () => {
 
 describe('イベントのログの文', () => {
   it('{leader.name} などを展開する', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const s = loadScenario('s01_cold_front');
     s.events = [...s.events, { id: 'ev_name', trigger: { after: 'D0 05:40' }, once: true, effects: [{ type: 'log', text: '{leader.name}さんの記録' }] }];
     const r = runHeadless(map, s, { policy: 'recommended', seed: 1, collectEvents: true });
@@ -109,7 +109,7 @@ describe('イベントのログの文', () => {
 
 describe('一人言の持ち主（thoughts.who）', () => {
   it('佐藤さんの考え（s02）は、田中さんには浮かばない', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const s = loadScenario('s02_fog_descent');
     const satoOnly = new Set((s.thoughts ?? []).filter((t) => t.who === 'sato').map((t) => t.key));
     let seen = 0;

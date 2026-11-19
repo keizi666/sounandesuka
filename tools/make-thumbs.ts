@@ -8,7 +8,7 @@ import { resolve } from 'node:path';
 import { chromium } from 'playwright-core';
 import { resolveRoute } from '../src/sim/terrain/trails';
 import { buildMapRuntime } from '../src/sim/terrain/map';
-import { VegClass, type HakoniwaBundle, type MapDef, type ScenarioDef, type ScenarioIndexEntry } from '../src/sim/types';
+import { VegClass, type SounanBundle, type MapDef, type ScenarioDef, type ScenarioIndexEntry } from '../src/sim/types';
 import { writePng } from './lib/image';
 import { loadMapDef, ROOT } from './lib/maps';
 
@@ -22,7 +22,7 @@ function load(e: ScenarioIndexEntry): { map: MapDef; scenario: ScenarioDef } | n
   if (e.bundle) {
     const f = resolve(ROOT, 'public/scenarios', e.bundle);
     if (!existsSync(f)) return null;
-    const b = JSON.parse(readFileSync(f, 'utf8')) as HakoniwaBundle;
+    const b = JSON.parse(readFileSync(f, 'utf8')) as SounanBundle;
     return { map: b.map, scenario: b.scenario };
   }
   const scenario = JSON.parse(readFileSync(resolve(ROOT, 'public/scenarios', e.file ?? `${e.id}.json`), 'utf8')) as ScenarioDef;

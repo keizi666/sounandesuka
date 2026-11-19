@@ -1,6 +1,6 @@
 // npm run make:s04 — 史実シナリオ s04 を実地形で動かすためのバンドルを作る（docs/13 P19、docs/16 §8）。
 // スケルトンマップ（public/maps/historical/tomuraushi.skeleton.json）を、国土地理院の標高タイルと OpenStreetMap の登山道に結合し、
-// public/scenarios/historical/s04_tomuraushi_2009.hakoniwa.json に書き出す。
+// public/scenarios/historical/s04_tomuraushi_2009.sounan.json に書き出す。
 //
 // 注意:
 // - 通信する（地理院の標高タイル約 64 枚、Overpass 1 回）。応答は .scratch/geo-cache/ に保存し、2 回目からは通信しない。
@@ -19,7 +19,7 @@ import { runHeadless } from '../src/sim/headless';
 import { validateScenario } from '../src/sim/scenario/validate';
 import { encodeHeights } from '../src/sim/terrain/codec';
 import { buildMapRuntime } from '../src/sim/terrain/map';
-import type { HakoniwaBundle, MapDef, ScenarioDef } from '../src/sim/types';
+import type { SounanBundle, MapDef, ScenarioDef } from '../src/sim/types';
 import { fetchHeights, fetchOsmCached } from './lib/geo-node';
 import { ROOT } from './lib/maps';
 
@@ -97,10 +97,10 @@ const issues = validateScenario(s, map);
 for (const i of issues) console.log(`${i.level === 'error' ? '✖' : '⚠'} ${i.path} ${i.message}`);
 if (issues.some((i) => i.level === 'error')) process.exit(1);
 
-const bundle: HakoniwaBundle = { format: 'hakoniwa-bundle', version: 1, createdAt: new Date().toISOString(), generator: 'tools/make-s04.ts', map, scenario: s, attribution: [ATTR.gsi, ATTR.osm] };
+const bundle: SounanBundle = { format: 'sounan-bundle', version: 1, createdAt: new Date().toISOString(), generator: 'tools/make-s04.ts', map, scenario: s, attribution: [ATTR.gsi, ATTR.osm] };
 const outDir = resolve(ROOT, 'public/scenarios/historical');
 mkdirSync(outDir, { recursive: true });
-const out = resolve(outDir, 's04_tomuraushi_2009.hakoniwa.json');
+const out = resolve(outDir, 's04_tomuraushi_2009.sounan.json');
 writeFileSync(out, JSON.stringify(bundle));
 console.log(`${out}  ${(JSON.stringify(bundle).length / 1024).toFixed(0)} KB`);
 

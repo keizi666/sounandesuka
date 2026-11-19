@@ -5,11 +5,11 @@ import { describe, expect, it } from 'vitest';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { groundNoGo, heliNoGo, stepRescue } from '../src/sim/rescue/rescue';
 import { stepWorld } from '../src/sim/core/step';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 function setup(clock: string) {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   const s = structuredClone(loadScenario('s01_cold_front'));
   s.choices = [];
   s.events = [];

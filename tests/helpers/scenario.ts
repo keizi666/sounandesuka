@@ -51,7 +51,7 @@ export function testScenario(route: NodeId[], over: Partial<ScenarioDef> = {}): 
     difficulty: 1,
     season: 'autumn',
     estMinutes: 1,
-    mapId: 'hakoniwa',
+    mapId: 'sounan',
     seed: 1,
     startDate: '2026-10-17',
     startAt: 'D0 06:00',

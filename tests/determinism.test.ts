@@ -10,13 +10,13 @@ import { selectLessons } from '../src/sim/record/lessons';
 import { createRecorder, recordTick, recVars } from '../src/sim/record/recorder';
 import { autoResolve } from '../src/sim/scenario/choices';
 import type { PolicyName } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 const IDS = ['s01_cold_front', 's02_fog_descent', 's03_thunder_ridge'];
 
 describe('決定論（docs/14 §2）', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   for (const id of IDS) {
     for (const policy of ['recommended', 'bias', 'random'] as PolicyName[]) {
       it(`${id} ${policy}: 同じシード・方針なら記録のハッシュが一致`, () => {
@@ -56,7 +56,7 @@ describe('決定論（docs/14 §2）', () => {
 });
 
 describe('記録と教訓（docs/12 §1、docs/09 §10）', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
 
   it('サンプルは 5 分ごと、決定・統計・結末が入る', () => {
     const r = runHeadless(map, loadScenario('s01_cold_front'), { policy: 'recommended' });
@@ -100,7 +100,7 @@ describe('記録と教訓（docs/12 §1、docs/09 §10）', () => {
 
 describe('速さ（docs/13 P7）', () => {
   it('1 人の 24 時間分の通し実行が十分速い（束ねた Node で約 47 ms。テスト環境では 150 ms 以下を確認）', { retry: 2 }, () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s01_cold_front');
     runHeadless(map, sc, { policy: 'risky', seed: 1 }); // 温める
     // 5 回走らせて、いちばん速かった回で判定する。ほかのテストやブラウザと同時に走ると CPU が混んで平均は大きく揺れるが、

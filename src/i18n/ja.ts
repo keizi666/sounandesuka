@@ -214,7 +214,7 @@ export const JA = {
     back: '戻る',
     depart: '出発する',
     selectTitle: 'シナリオを選ぶ',
-    loadFile: 'ファイルから読み込む（*.hakoniwa.json）',
+    loadFile: 'ファイルから読み込む（*.sounan.json）',
     dropHint: 'ここにバンドルをドラッグ＆ドロップ',
     difficulty: '難易度',
     minutes: '目安 {m} 分',

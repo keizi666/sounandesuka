@@ -3,10 +3,10 @@ import { describe, expect, it } from 'vitest';
 import { epipen, onsetIllness, stepIllness, sting } from '../src/sim/climber/illness';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
 import type { IllnessKind } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
-const { map } = hakoniwa();
+const { map } = sounanMap();
 const s = loadScenario('s01_cold_front');
 
 /** n 人分、発症してから hours 時間、安静（または歩き続ける）で何人亡くなるか */

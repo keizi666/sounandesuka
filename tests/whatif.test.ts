@@ -8,11 +8,11 @@ import { runHeadless } from '../src/sim/headless';
 import { runWhatIf } from '../src/sim/record/whatif';
 import { evaluateOptions, findChoicePoint } from '../src/sim/scenario/choices';
 import type { World } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 describe('What-if', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   it('s01 の最初の分岐点で選択肢ごとに n 回走り、件数が合う', () => {
     const s = loadScenario('s01_cold_front');
     const w = createWorld(map, s);
@@ -37,7 +37,7 @@ describe('What-if', () => {
 });
 
 describe('セリフ（docs/07 §7）', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   it('s03 で複数人のセリフが出て、同時に話すのは 3 人まで・同じ人は 3 分あける', () => {
     const r = runHeadless(map, loadScenario('s03_thunder_ridge'), { policy: 'bias', seed: 3, collectEvents: true });
     const sp = r.events.filter((e) => e.type === 'SPEECH');

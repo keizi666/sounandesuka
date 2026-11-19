@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { runHeadless } from '../src/sim/headless';
 import { validateScenario } from '../src/sim/scenario/validate';
 import { buildMapRuntime } from '../src/sim/terrain/map';
-import type { HakoniwaBundle, MapDef, ScenarioDef } from '../src/sim/types';
+import type { SounanBundle, MapDef, ScenarioDef } from '../src/sim/types';
 
 const root = resolve(import.meta.dirname, '..');
 const dir = resolve(root, 'public/scenarios/real');
@@ -24,9 +24,9 @@ describe.each(ids)('実在の山のシナリオ %s', (id) => {
     expect(scenario.region?.real).toBe(true);
     expect(index.some((e) => e.id === id)).toBe(true);
   });
-  const bundleFile = resolve(dir, `${id}.hakoniwa.json`);
+  const bundleFile = resolve(dir, `${id}.sounan.json`);
   it.skipIf(!existsSync(bundleFile))('実地形: 推奨の方針では誰も亡くならない', { timeout: 120000 }, () => {
-    const b = JSON.parse(readFileSync(bundleFile, 'utf8')) as HakoniwaBundle;
+    const b = JSON.parse(readFileSync(bundleFile, 'utf8')) as SounanBundle;
     const rt = buildMapRuntime(b.map).map;
     const r = runHeadless(rt, { ...scenario, mapId: b.map.id }, { policy: 'recommended', seed: 2 });
     expect(r.world.ended).not.toBeNull();

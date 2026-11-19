@@ -5,7 +5,7 @@
 import type { StartConditions } from '../sim/scenario/startConditions';
 import { validateScenario } from '../sim/scenario/validate';
 import { buildMapRuntime } from '../sim/terrain/map';
-import type { HakoniwaBundle, MapDef, MapRuntime, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
+import type { SounanBundle, MapDef, MapRuntime, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
 
 export function assetUrl(path: string): string {
   return `${import.meta.env.BASE_URL}${path}`;
@@ -22,15 +22,16 @@ export function loadIndex(): Promise<ScenarioIndexEntry[]> {
 }
 
 export function loadMapDef(id: string): Promise<MapDef> {
-  return getJson<MapDef>(`maps/${id}.json`);
+  // 旧名の地図 ID（hakoniwa）も読めるように
+  return getJson<MapDef>(`maps/${id === 'hakoniwa' ? 'sounan' : id}.json`);
 }
 
 export function loadScenarioFile(file: string): Promise<ScenarioDef> {
   return getJson<ScenarioDef>(`scenarios/${file}`);
 }
 
-export function loadBundleFile(file: string): Promise<HakoniwaBundle> {
-  return getJson<HakoniwaBundle>(`scenarios/${file}`);
+export function loadBundleFile(file: string): Promise<SounanBundle> {
+  return getJson<SounanBundle>(`scenarios/${file}`);
 }
 
 /** 進み具合を知らせながら JSON を取る（大きなバンドル用。サイズが分からなければ frac は null） */
@@ -85,7 +86,7 @@ export function buildRuntime(def: MapDef): Promise<MapRuntime> {
 export interface LoadedScenario {
   scenario: ScenarioDef;
   map: MapRuntime;
-  attribution: HakoniwaBundle['attribution'];
+  attribution: SounanBundle['attribution'];
   /** 始まりの条件を変えて試しているとき（scenario はもう当てたあと） */
   conditions?: StartConditions;
 }
@@ -127,9 +128,9 @@ export type LoadProgress = (stage: 'data' | 'terrain', frac: number | null) => v
  * 実在の山のシナリオは、バンドルの横にある元の JSON（<id>.json）を優先する（バンドルの中のシナリオは作ったときのままで古いことがある）。
  * 元の JSON が読めない・バンドルの地形と合わないときは、バンドルの中のシナリオを使う。
  */
-async function freshScenario(bundlePath: string, b: HakoniwaBundle): Promise<ScenarioDef> {
+async function freshScenario(bundlePath: string, b: SounanBundle): Promise<ScenarioDef> {
   try {
-    const s = await loadScenarioFile(bundlePath.replace(/\.hakoniwa\.json$/, '.json'));
+    const s = await loadScenarioFile(bundlePath.replace(/\.sounan\.json$/, '.json'));
     const fresh = { ...s, mapId: b.map.id };
     if (s.id === b.scenario.id && validateScenario(fresh, b.map).every((x) => x.level !== 'error')) return fresh;
   } catch {
@@ -140,7 +141,7 @@ async function freshScenario(bundlePath: string, b: HakoniwaBundle): Promise<Sce
 
 export async function loadEntry(e: ScenarioIndexEntry, onProgress?: LoadProgress): Promise<LoadedScenario> {
   if (e.bundle) {
-    const b = await getJsonWithProgress<HakoniwaBundle>(`scenarios/${e.bundle}`, onProgress && ((f) => onProgress('data', f)));
+    const b = await getJsonWithProgress<SounanBundle>(`scenarios/${e.bundle}`, onProgress && ((f) => onProgress('data', f)));
     onProgress?.('terrain', null);
     return { scenario: await freshScenario(e.bundle, b), map: await buildRuntime(b.map), attribution: b.attribution };
   }

@@ -5,12 +5,12 @@ import { describe, expect, it } from 'vitest';
 import { stepWorld } from '../src/sim/core/step';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { vertexX, vertexZ, sampleElev } from '../src/sim/terrain/sample';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 describe('沢の水', () => {
   it('沢に手が届く所にいれば、のどの渇きが減り、水筒も満たされる', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const s = structuredClone(loadScenario('s01_cold_front'));
     s.choices = [];
     s.events = [];

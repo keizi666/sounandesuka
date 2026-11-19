@@ -8,7 +8,7 @@ import type { MapRuntime, ScenarioDef, World } from '../src/sim/types';
 
 // コースタイムは休憩を含まない歩行時間なので、決まった間隔で休む習慣を切って測る
 const NO_HABIT = { ...TUNING, behavior: { ...TUNING.behavior, habitRestEveryMin: Infinity } };
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario, standardClimber, testScenario } from './helpers/scenario';
 
 /** 1 人が FINISHED になるまで回し、かかった分を返す。restPattern があれば 50 分歩いて 10 分休み、休憩ごとに 250 kcal 食べて 0.5 L 飲む */
@@ -35,7 +35,7 @@ function walkMinutes(map: MapRuntime, sc: ScenarioDef, restPattern = false): { m
 }
 
 describe('コースタイムの検証（docs/07 §1.3）', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   for (const e of map.def.edges) {
     if (e.kind !== 'trail' || !e.to || !e.courseTimeMin) continue;
     const ct = e.courseTimeMin;
@@ -50,7 +50,7 @@ describe('コースタイムの検証（docs/07 §1.3）', () => {
 
 describe('s01 の計画ルート（docs/13 P2）', () => {
   it('標準登山者が 50 分歩いて 10 分休む固定パターンで 7.5〜10 時間', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const s01 = loadScenario('s01_cold_front');
     const sc = testScenario(s01.plan.route, { plan: { ...s01.plan, goalNodes: ['TH_KITA'] } });
     const { minutes, world } = walkMinutes(map, sc, true);
@@ -75,7 +75,7 @@ describe('速度と代謝', () => {
   });
 
   it('暗さ・霧・風・疲労で遅くなる', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = testScenario(['TH_SAWA', 'J_FOREST']);
     const c = createWorld(map, sc).climbers[0]!;
     const e = map.trails['E1']!.def;
@@ -93,7 +93,7 @@ describe('速度と代謝', () => {
     expect(walkMet(1, 0.2, def, 0)).toBeGreaterThan(walkMet(1, 0, def, 0));
     expect(walkMet(1, 0, { ...def, packKg: 20 }, 0)).toBeGreaterThan(walkMet(1, 0, def, 0));
     expect(walkMet(1, -0.3, def, 0)).toBeGreaterThan(walkMet(1, -0.1, def, 0));
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const c = createWorld(map, testScenario(['TH_SAWA', 'J_FOREST'])).climbers[0]!;
     c.body.glycogenKcal = 100; // シャリバテ
     const r = capSpeedByMet(2.0, 0.3, c, 0);
@@ -104,7 +104,7 @@ describe('速度と代謝', () => {
 
 describe('World（docs/03 §3）', () => {
   it('プレーンな JSON で往復でき、往復後の続きが同じ', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s03_thunder_ridge');
     const a = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
@@ -119,7 +119,7 @@ describe('World（docs/03 §3）', () => {
   });
 
   it('3 シナリオで World を作れ、全員が計画ルートの最初のノードにいる', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     for (const id of ['s01_cold_front', 's02_fog_descent', 's03_thunder_ridge']) {
       const sc = loadScenario(id);
       const w = createWorld(map, sc);
@@ -132,7 +132,7 @@ describe('World（docs/03 §3）', () => {
   });
 
   it('ノード到着と状態遷移のイベントが出る', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = testScenario(['TH_SAWA', 'J_FOREST']);
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);

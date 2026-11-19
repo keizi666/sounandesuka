@@ -11,7 +11,7 @@
 4. **天候を組み立てる**: タイムラインでキーフレームを編集する。「寒冷前線通過」「夏の雷雨」などの天気パターンを差し込む。過去の実際の日の気象（再解析データ）を取り込んで下書きにする。雷雲の進路を地図上に描く。
 5. **シナリオを書く**: 登山者と装備、計画ルート、予報、分岐点（条件をフォームで組み立てる）、イベント、結末、教訓。
 6. **試す**: 検証（エラー一覧）、ヘッドレス試走のログ、モンテカルロで結末分布、そのまま 3D で遊ぶ。
-7. **書き出す**: マップとシナリオを 1 ファイルにまとめた **バンドル（`*.hakoniwa.json`）** として保存。プレイヤー画面で読み込めるほか、サーバーの `public/scenarios/` に置けば一覧に出る。
+7. **書き出す**: マップとシナリオを 1 ファイルにまとめた **バンドル（`*.sounan.json`）** として保存。プレイヤー画面で読み込めるほか、サーバーの `public/scenarios/` に置けば一覧に出る。
 
 ## 2. 画面構成
 
@@ -60,14 +60,14 @@
 
 IndexedDB は `src/editor/store/idb.ts` で扱う（素の API、または確認のうえ小さなラッパーライブラリ）。データベース `hakoniwa-editor`、ストア `projects`（キー `id`）。
 
-### 3.2 バンドル（`HakoniwaBundle`、書き出し形式）
+### 3.2 バンドル（`SounanBundle`、書き出し形式）
 
 ```jsonc
 {
-  "format": "hakoniwa-bundle",
+  "format": "sounan-bundle",
   "version": 1,
   "createdAt": "2026-11-17T08:00:00+09:00",
-  "generator": "hakoniwa-editor 0.1",
+  "generator": "sounan-editor 0.1",
   "map": { /* MapDef。terrain.type="heightmap"、data は base64 */ },
   "scenario": { /* ScenarioDef。mapId は map.id */ },
   "attribution": [
@@ -83,7 +83,7 @@ IndexedDB は `src/editor/store/idb.ts` で扱う（素の API、または確認
 
 ### 3.3 プレイヤー側の読み込み
 
-- `public/scenarios/index.json` のエントリに `"bundle": "tsubakuro_winter.hakoniwa.json"` を書ける（`file` の代わり）。
+- `public/scenarios/index.json` のエントリに `"bundle": "tsubakuro_winter.sounan.json"` を書ける（`file` の代わり）。
 - シナリオ選択画面に「ファイルから読み込む」（ドラッグ＆ドロップ可）と「エディターで作ったシナリオ」（同一オリジンの IndexedDB）を追加。
 - バンドルの `attribution` はブリーフィング画面と 3D 画面の隅（小さな文字）に必ず表示する。
 

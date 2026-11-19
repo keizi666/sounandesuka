@@ -12,7 +12,7 @@ import {
 import { groundBin } from '../src/sim/weather/ground';
 import { precipTypeOf, sampleLocal, upwindVector, visibilityOf, windChillC } from '../src/sim/weather/local';
 import type { ScenarioDef, WeatherKeyframe, World } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 const kf = (at: string, o: Partial<WeatherKeyframe> = {}): { t: number; kf: WeatherKeyframe } => ({
@@ -58,7 +58,7 @@ describe('時間ノイズ（docs/05 §1.2）', () => {
   });
 
   it('突風係数は 1〜1 + 1.6 × gustiness', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s01_cold_front');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
@@ -72,7 +72,7 @@ describe('時間ノイズ（docs/05 §1.2）', () => {
 
 /** s01 を指定時刻まで進める */
 function runUntil(sc: ScenarioDef, until: string): { w: World; ctx: ReturnType<typeof createStaticContext> } {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   const w = createWorld(map, sc);
   const ctx = createStaticContext(map, sc);
   const end = parseTimeRef(until);
@@ -85,7 +85,7 @@ function runUntil(sc: ScenarioDef, until: string): { w: World; ctx: ReturnType<t
 
 describe('局地補正（docs/05 §2、P3 の受け入れ）', () => {
   it('同時刻の SUMMIT と TH_SAWA の気温差 = 気温減率 × 標高差（±0.5℃）', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s01_cold_front');
     const S = map.nodes['SUMMIT']!;
     const T = map.nodes['TH_SAWA']!;
@@ -97,7 +97,7 @@ describe('局地補正（docs/05 §2、P3 の受け入れ）', () => {
   });
 
   it('SUMMIT の風速は J_FOREST（森林）の 2 倍以上', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const S = map.nodes['SUMMIT']!;
     const J = map.nodes['J_FOREST']!;
     for (const id of ['s01_cold_front', 's02_fog_descent', 's03_thunder_ridge']) {
@@ -117,7 +117,7 @@ describe('局地補正（docs/05 §2、P3 の受け入れ）', () => {
   });
 
   it('s01: 15:00 以降、2,200 m 以上の降水はみぞれか雪', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s01_cold_front');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
@@ -212,7 +212,7 @@ describe('雷雲セル（docs/05 §1.3）', () => {
   });
 
   it('山頂の雷の強さが雷雲の通過時に 0.6 を超え、局地降水はひょうになる時間がある', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s03_thunder_ridge');
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);
@@ -233,7 +233,7 @@ describe('雷雲セル（docs/05 §1.3）', () => {
 
 describe('決定論', () => {
   it('同じシードなら気象・地面が一致する', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = loadScenario('s03_thunder_ridge');
     const run = (): string => {
       const w = createWorld(map, sc);

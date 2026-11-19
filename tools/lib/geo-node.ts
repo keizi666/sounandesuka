@@ -48,7 +48,7 @@ export async function fetchOsmCached(lat0: number, lon0: number, size: number): 
   mkdirSync(CACHE, { recursive: true });
   const file = resolve(CACHE, `osm_${lat0.toFixed(4)}_${lon0.toFixed(4)}_${size}.json`);
   if (existsSync(file)) return JSON.parse(readFileSync(file, 'utf8')) as OsmJson;
-  const j = await fetchOsm(lat0, lon0, size, { 'User-Agent': 'hakoniwa-sim-tools/0.1' });
+  const j = await fetchOsm(lat0, lon0, size, { 'User-Agent': 'sounan-sim-tools/0.1' });
   writeFileSync(file, JSON.stringify(j));
   return j;
 }
@@ -67,7 +67,7 @@ export async function fetchVegSymbolsCached(lat0: number, lon0: number, size: nu
       let buf: Uint8Array;
       if (existsSync(file)) buf = readFileSync(file);
       else {
-        const res = await fetch(vectorTileUrl(z, t.x, t.y), { headers: { 'User-Agent': 'hakoniwa-sim-tools/0.1' } });
+        const res = await fetch(vectorTileUrl(z, t.x, t.y), { headers: { 'User-Agent': 'sounan-sim-tools/0.1' } });
         if (res.status === 404) continue;
         if (!res.ok) throw new Error(`ベクトルタイルを取得できませんでした（${res.status}）`);
         buf = new Uint8Array(await res.arrayBuffer());

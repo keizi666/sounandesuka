@@ -14,7 +14,7 @@
 
 ```jsonc
 {
-  "id": "hakoniwa",
+  "id": "sounan",
   "name": "箱庭岳",
   "size": 4096,
   "resolution": 257,
@@ -27,7 +27,7 @@
 }
 ```
 
-完全な例は `public/maps/hakoniwa.json`。
+完全な例は `public/maps/sounan.json`。
 
 ## 3. 地形生成（`sim/terrain/generate.ts`）
 

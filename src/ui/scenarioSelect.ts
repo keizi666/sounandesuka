@@ -13,7 +13,7 @@ import { versionLabel } from '../app/version';
 import { applyConditions } from '../sim/scenario/startConditions';
 import { JA } from '../i18n/ja';
 import { validateScenario } from '../sim/scenario/validate';
-import type { HakoniwaBundle, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
+import type { SounanBundle, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
 import { audio } from './audio';
 import { avatar } from './avatar';
 import { el, toast } from './dom';
@@ -22,12 +22,12 @@ import { progressTo, showLoading } from './loading';
 import { openSettings } from './settingsDialog';
 import { anySoundOn, toggleSoundPanel } from './soundPanel';
 
-/** バンドル（*.hakoniwa.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
+/** バンドル（*.sounan.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
 async function openBundle(app: AppContext, file: File): Promise<void> {
-  let b: HakoniwaBundle;
+  let b: SounanBundle;
   try {
-    b = JSON.parse(await file.text()) as HakoniwaBundle;
-    if (b.format !== 'hakoniwa-bundle' || b.version !== 1 || !b.map || !b.scenario) throw new Error('format');
+    b = JSON.parse(await file.text()) as SounanBundle;
+    if ((b.format !== 'sounan-bundle' && b.format !== 'hakoniwa-bundle') || b.version !== 1 || !b.map || !b.scenario) throw new Error('format');
   } catch {
     toast(JA.ui.bundleBroken, 5000);
     return;
@@ -52,7 +52,7 @@ const thumbBase = (e: ScenarioIndexEntry): string => assetUrl(`scenarios/${e.reg
 /** 一覧の項目のシナリオ本体（登場人物などを出すため。実在の山はバンドルではなく元の JSON を読む） */
 async function scenarioOf(e: ScenarioIndexEntry): Promise<ScenarioDef | null> {
   try {
-    if (e.bundle) return await loadScenarioFile(e.bundle.replace(/\.hakoniwa\.json$/, '.json'));
+    if (e.bundle) return await loadScenarioFile(e.bundle.replace(/\.sounan\.json$/, '.json'));
     return await loadScenarioFile(e.file ?? `${e.id}.json`);
   } catch {
     return null;

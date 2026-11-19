@@ -1,6 +1,6 @@
 // npm run sim — ヘッドレスで 1 回実行する
 //   npm run sim -- <scenarioId> [--policy recommended|bias|random|risky|historical] [--seed N] [--log]
-//   npm run sim -- --dump-terrain [--map hakoniwa] [--layer heights|hillshade|slope|veg|radio|flow|tpi|sky] [--out file.pgm] [--png]
+//   npm run sim -- --dump-terrain [--map sounan] [--layer heights|hillshade|slope|veg|radio|flow|tpi|sky] [--out file.pgm] [--png]
 import { parseArgs } from 'node:util';
 import { DEG, dcos, dsin, datan2 } from '../src/sim/core/dmath';
 import { buildMapRuntime } from '../src/sim/terrain/map';
@@ -80,7 +80,7 @@ const { values, positionals } = parseArgs({
     seed: { type: 'string' },
     log: { type: 'boolean' },
     'dump-terrain': { type: 'boolean' },
-    map: { type: 'string', default: 'hakoniwa' },
+    map: { type: 'string', default: 'sounan' },
     layer: { type: 'string', default: 'heights' },
     out: { type: 'string' },
     png: { type: 'boolean' },
@@ -93,7 +93,7 @@ if (values['dump-terrain']) {
     console.error(`--layer は ${LAYERS.join(' / ')} のどれか`);
     process.exit(1);
   }
-  dumpTerrain(values.map ?? 'hakoniwa', layer, values.out, values.png ?? false);
+  dumpTerrain(values.map ?? 'sounan', layer, values.out, values.png ?? false);
 } else if (positionals[0]) {
   runScenario(positionals[0], values.policy as PolicyName, values.seed !== undefined ? Number(values.seed) : undefined, values.log ?? false);
 } else {

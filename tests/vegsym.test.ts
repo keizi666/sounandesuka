@@ -5,7 +5,7 @@ import { toLatLon } from '../src/editor/geo/projection';
 import { vegOverridesFromSymbols, vegSymbolsFromTile } from '../src/editor/geo/vegsym';
 import { decodeGrid } from '../src/sim/terrain/codec';
 import { VegClass } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 
 /** テスト用の最小の PBF 書き出し（点 1 つの層） */
 function pbfTile(layer: string, points: { x: number; y: number; code: number }[]): Uint8Array {
@@ -61,7 +61,7 @@ describe('植生記号', () => {
     expect(vegSymbolsFromTile(buf, 16, 58085, 25766).map((s) => s.code)).toEqual([6322, 6321]);
   });
   it('いちばん近い記号の植生を森のセルに塗り、遠いセルは自動のまま', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const lat0 = 35.85;
     const lon0 = 139.06;
     // 地図の中央に針葉樹林、西の端に広葉樹林

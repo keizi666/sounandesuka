@@ -11,7 +11,7 @@ import { mergeRuns, suggestTarget } from '../src/editor/mcMerge';
 import { attributionFor, createFictionalProject, createRealProject, duplicateProject, fromBundle, hasTerrain, setHeights, toBundle } from '../src/editor/store/project';
 import { validateEditor } from '../src/editor/validateMap';
 import type { McRun } from '../src/workers/editorRun.worker';
-import { hakoniwa, loadHakoniwaDef } from './helpers/map';
+import { sounanMap, loadSounanDef } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 /** なだらかな円錐の山（257 頂点・3,072 m）と、登山口→山頂の 1 本道 */
@@ -32,7 +32,7 @@ describe('バンドル', () => {
     const p = realProject();
     expect(hasTerrain(p)).toBe(true);
     const b = toBundle(p);
-    expect(b.format).toBe('hakoniwa-bundle');
+    expect(b.format).toBe('sounan-bundle');
     expect(b.map.terrain.type).toBe('heightmap');
     expect(b.scenario.mapId).toBe(b.map.id);
     expect(validateScenario(b.scenario, b.map).filter((i) => i.level === 'error')).toEqual([]);
@@ -59,18 +59,18 @@ describe('バンドル', () => {
     expect(attributionFor(p).map((a) => a.id)).toEqual(['gsi']);
     p.scenario.sources = ['気象の下書き: Open-Meteo（ERA5 再解析）2025-10-12 36.40,137.71'];
     expect(toBundle(p).attribution.map((a) => a.id)).toEqual(['gsi', 'open-meteo']);
-    const f = createFictionalProject('架空', loadHakoniwaDef());
+    const f = createFictionalProject('架空', loadSounanDef());
     expect(attributionFor(f)).toEqual([]);
     for (const a of toBundle(p).attribution) expect(a.url).toMatch(/^https:\/\//);
   });
 
   it('架空の箱庭岳のプロジェクトは既存マップを参照し、検証エラーは計画ルートの不足だけにならない', () => {
-    const f = createFictionalProject('架空', loadHakoniwaDef());
-    expect(f.scenario.mapId).toBe('hakoniwa');
+    const f = createFictionalProject('架空', loadSounanDef());
+    expect(f.scenario.mapId).toBe('sounan');
     f.scenario = { ...loadScenario('s01_cold_front') };
     const b = toBundle(f);
     expect(validateScenario(b.scenario, b.map).filter((i) => i.level === 'error')).toEqual([]);
-    expect(validateEditor(f, hakoniwa().map).filter((i) => i.level === 'error')).toEqual([]);
+    expect(validateEditor(f, sounanMap().map).filter((i) => i.level === 'error')).toEqual([]);
   });
 
   it('複製: そのまま／同じマップで新しいシナリオ', () => {
@@ -100,7 +100,7 @@ describe('バンドル', () => {
 
 describe('まとめて試すの集計', () => {
   it('偶数番・奇数番に分けて回した結果を合わせると、順に回した集計と一致する', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const s = loadScenario('s03_thunder_ridge');
     const n = 12;
     const seq = runMonteCarlo(map, s, 'bias', n);

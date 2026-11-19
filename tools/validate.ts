@@ -65,7 +65,7 @@ if (files.length > 0) {
   const index = readJson(resolve(dir, 'index.json'), acc) as { id: string; file?: string; bundle?: string }[] | null;
   for (const e of index ?? []) {
     if (e.file) validateScenarioFile(resolve(dir, e.file), maps, acc);
-    // バンドル（*.hakoniwa.json）の検証は P13
+    // バンドル（*.sounan.json）の検証は P13
   }
   // 史実シナリオ（historical/）はスケルトンマップを実地形に結合してから検証する（P19）
 }

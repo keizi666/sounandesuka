@@ -9,12 +9,12 @@ import { runHeadless } from '../src/sim/headless';
 import { validateScenario } from '../src/sim/scenario/validate';
 import { buildMapRuntime } from '../src/sim/terrain/map';
 import { classify } from '../src/sim/climber/speech';
-import type { HakoniwaBundle, MapDef, ScenarioDef } from '../src/sim/types';
+import type { SounanBundle, MapDef, ScenarioDef } from '../src/sim/types';
 
 const root = resolve(import.meta.dirname, '..');
 const scenario = JSON.parse(readFileSync(resolve(root, 'public/scenarios/historical/s04_tomuraushi_2009.json'), 'utf8')) as ScenarioDef;
 const skeleton = JSON.parse(readFileSync(resolve(root, 'public/maps/historical/tomuraushi.skeleton.json'), 'utf8')) as MapDef;
-const bundleFile = resolve(root, 'public/scenarios/historical/s04_tomuraushi_2009.hakoniwa.json');
+const bundleFile = resolve(root, 'public/scenarios/historical/s04_tomuraushi_2009.sounan.json');
 
 describe('s04（史実シナリオ）', () => {
   it('スケルトンマップに対して検証エラーがない', () => {
@@ -32,7 +32,7 @@ describe('s04（史実シナリオ）', () => {
     expect(classify({ documented: true, source: '報告書' }, scenario)).toBe('documented');
   });
   it.skipIf(!existsSync(bundleFile))('実地形のバンドル: 記録どおりの方針で最後まで走り、推奨の方針では誰も亡くならない', { timeout: 120000 }, () => {
-    const b = JSON.parse(readFileSync(bundleFile, 'utf8')) as HakoniwaBundle;
+    const b = JSON.parse(readFileSync(bundleFile, 'utf8')) as SounanBundle;
     const rt = buildMapRuntime(b.map).map;
     const r = runHeadless(rt, b.scenario, { policy: 'historical', seed: 3, collectEvents: true });
     expect(r.world.ended).not.toBeNull();

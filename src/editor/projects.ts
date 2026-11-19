@@ -2,7 +2,7 @@
  * プロジェクト一覧（docs/15 §3.1、docs/18 §8）: 新規（架空の箱庭岳 / 実在の山）、開く、複製、同じマップで新しいシナリオ、削除、読み込み。
  */
 import { assetUrl, bundleExists, loadBundleFile, loadIndex, loadScenarioFile } from '../app/data';
-import type { HakoniwaBundle, MapDef, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
+import type { SounanBundle, MapDef, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
 import { el, toast } from '../ui/dom';
 import { createAreaPicker } from './areaPicker';
 import { gridFor } from './geo/projection';
@@ -14,8 +14,8 @@ export interface ProjectsHost {
   open(id: string): void;
 }
 
-async function loadHakoniwa(): Promise<MapDef> {
-  const r = await fetch(assetUrl('maps/hakoniwa.json'));
+async function loadSounan(): Promise<MapDef> {
+  const r = await fetch(assetUrl('maps/sounan.json'));
   return (await r.json()) as MapDef;
 }
 
@@ -55,7 +55,7 @@ function newDialog(host: ProjectsHost): void {
                     const g = gridFor(Math.min(12288, Math.max(2048, Number(size.value))));
                     return createRealProject(name.value, Number(lat.value), Number(lon.value), g.size, g.resolution);
                   })()
-                : createFictionalProject(name.value, await loadHakoniwa());
+                : createFictionalProject(name.value, await loadSounan());
             await putProject(p);
             dlg.close();
             host.open(p.id);
@@ -83,14 +83,14 @@ async function editBuiltin(host: ProjectsHost, e: ScenarioIndexEntry): Promise<v
       const b = await loadBundleFile(e.bundle);
       p = fromBundle(b, `${e.title}（編集）`);
       try {
-        const src = await loadScenarioFile(e.bundle.replace(/\.hakoniwa\.json$/, '.json'));
+        const src = await loadScenarioFile(e.bundle.replace(/\.sounan\.json$/, '.json'));
         p.scenario = { ...src, mapId: b.map.id };
       } catch {
         // 元の JSON がなければバンドルの中のシナリオのまま
       }
     } else {
       const s = await loadScenarioFile(e.file ?? `${e.id}.json`);
-      const map = s.mapId === 'hakoniwa' ? await loadHakoniwa() : null;
+      const map = s.mapId === 'sounan' || s.mapId === 'hakoniwa' ? await loadSounan() : null;
       if (!map) throw new Error(`マップ ${s.mapId} が見つかりません`);
       p = createFictionalProject(`${e.title}（編集）`, map);
       p.scenario = s;
@@ -138,13 +138,13 @@ async function builtinSection(host: ProjectsHost): Promise<HTMLElement> {
 /** バンドル・シナリオ JSON・マップ JSON の読み込み */
 async function importFile(host: ProjectsHost, f: File): Promise<void> {
   try {
-    const j = JSON.parse(await f.text()) as Partial<HakoniwaBundle> & Partial<ScenarioDef> & Partial<MapDef>;
+    const j = JSON.parse(await f.text()) as Partial<SounanBundle> & Partial<ScenarioDef> & Partial<MapDef>;
     let p;
-    if (j.format === 'hakoniwa-bundle') p = fromBundle(j as HakoniwaBundle);
+    if (j.format === 'sounan-bundle' || j.format === 'hakoniwa-bundle') p = fromBundle(j as SounanBundle);
     else if (j.version === 1 && (j as ScenarioDef).party) {
       // 既存マップを参照するシナリオ
       const s = j as ScenarioDef;
-      const map = s.mapId === 'hakoniwa' ? await loadHakoniwa() : null;
+      const map = s.mapId === 'sounan' || s.mapId === 'hakoniwa' ? await loadSounan() : null;
       if (!map) throw new Error(`マップ ${s.mapId} が見つかりません（バンドルで読み込んでください）`);
       p = createFictionalProject(s.title, map);
       p.scenario = s;

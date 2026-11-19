@@ -53,7 +53,7 @@ export async function exportBundle(ed: Ed): Promise<void> {
   if (!(await confirmRights(ed))) return;
   const b = toBundle(ed.p);
   localStorage.setItem(`hks.ed.exported.${ed.p.id}`, '1');
-  download(`${b.scenario.id}.hakoniwa.json`, JSON.stringify(b));
+  download(`${b.scenario.id}.sounan.json`, JSON.stringify(b));
 }
 
 /** 既存マップ（箱庭岳など）を使うシナリオのとき、シナリオ JSON だけを書き出す */

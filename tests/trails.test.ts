@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { posToWorld } from '../src/sim/climber/position';
 import { edgeBetween, legCourseTimeMin, pointOnTrail, resolveRoute, shortestPath } from '../src/sim/terrain/trails';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 describe('登山道グラフ（docs/04 §5）', () => {
   it('全エッジがポリライン化され、実距離 = 水平距離 × sinuosity', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     for (const e of map.def.edges) {
       const t = map.trails[e.id]!;
       expect(t.samples.length).toBeGreaterThan(2);
@@ -22,7 +22,7 @@ describe('登山道グラフ（docs/04 §5）', () => {
   });
 
   it('エッジの端点はノード（スナップ後）の位置にある', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     for (const e of map.def.edges) {
       const t = map.trails[e.id]!;
       const first = t.samples[0]!;
@@ -36,12 +36,12 @@ describe('登山道グラフ（docs/04 §5）', () => {
   });
 
   it('隣接表: SADDLE_N には E5・E6・E8・F1 がつながる', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     expect([...map.adjacency['SADDLE_N']!].sort()).toEqual(['E5', 'E6', 'E8', 'F1']);
   });
 
   it('ルート解決は向きつきで、偽の道は使わない', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     expect(resolveRoute(map, ['TH_SAWA', 'J_FOREST', 'EBOSHI']).map((l) => [l.edgeId, l.dir])).toEqual([
       ['E1', 1],
       ['E2', 1],
@@ -52,14 +52,14 @@ describe('登山道グラフ（docs/04 §5）', () => {
   });
 
   it('3 シナリオの計画ルートがすべて解決できる', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     for (const id of ['s01_cold_front', 's02_fog_descent', 's03_thunder_ridge']) {
       expect(() => resolveRoute(map, loadScenario(id).plan.route), id).not.toThrow();
     }
   });
 
   it('ダイクストラはコースタイム最小の経路を返す', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     // 稜線小屋から北の鞍部: 山頂経由（E4+E5 = 95 分）と、烏帽子・樹林帯・西尾根経由（大回り）
     expect(shortestPath(map, 'HUT_RIDGE', 'SADDLE_N')).toEqual(['HUT_RIDGE', 'SUMMIT', 'SADDLE_N']);
     expect(shortestPath(map, 'TH_SAWA', 'TH_SAWA')).toEqual(['TH_SAWA']);
@@ -72,7 +72,7 @@ describe('登山道グラフ（docs/04 §5）', () => {
   });
 
   it('エッジ上の位置: 端は端点、途中は補間、逆向きでも同じポリライン', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const t = map.trails['E3']!;
     expect(pointOnTrail(t, 0)).toMatchObject({ x: map.nodes['EBOSHI']!.x, z: map.nodes['EBOSHI']!.z });
     const mid = posToWorld(map, { mode: 'edge', edgeId: 'E3', s: t.lengthM / 2, dir: -1 });
@@ -83,7 +83,7 @@ describe('登山道グラフ（docs/04 §5）', () => {
   });
 
   it('危険箇所の区間がエッジの長さに収まる', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     for (const h of map.def.hazards) {
       if (h.type === 'chain' || h.type === 'rockfallZone') {
         expect(h.sRange[1], h.id).toBeLessThanOrEqual(map.trails[h.onEdge]!.lengthM);

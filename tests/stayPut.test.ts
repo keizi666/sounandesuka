@@ -6,11 +6,11 @@ import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { stepRescue } from '../src/sim/rescue/rescue';
 import { evaluateOptions } from '../src/sim/scenario/choices';
 import type { ChoicePointDef, ScenarioDef, World } from '../src/sim/types';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
 function setup(): { s: ScenarioDef; w: World; ctx: ReturnType<typeof createStaticContext> } {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   const s = structuredClone(loadScenario('s01_cold_front'));
   s.choices = [];
   s.events = [];

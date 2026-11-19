@@ -6,12 +6,12 @@ import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { buildHeights } from '../src/sim/terrain/map';
 import { encodeGrid, encodeHeights } from '../src/sim/terrain/codec';
-import type { HakoniwaBundle, MapDef, ScenarioDef } from '../src/sim/types';
+import type { SounanBundle, MapDef, ScenarioDef } from '../src/sim/types';
 import { VegClass } from '../src/sim/types';
 import { loadMapDef, ROOT } from './lib/maps';
 import { loadScenarioById } from './lib/scenarios';
 
-const src = loadMapDef('hakoniwa');
+const src = loadMapDef('sounan');
 const res = 385;
 const procedural: MapDef = { ...src, resolution: res };
 const grid = buildHeights(procedural);
@@ -36,7 +36,7 @@ for (let dz = -r; dz <= r; dz += 1)
 
 const map: MapDef = {
   ...src,
-  id: 'hakoniwa385',
+  id: 'sounan385',
   name: '箱庭岳（385 頂点・高さマップ）',
   resolution: res,
   terrain: {
@@ -56,8 +56,8 @@ const map: MapDef = {
 };
 const s01 = loadScenarioById('s01_cold_front');
 const scenario: ScenarioDef = { ...s01, id: 's01_fixture385', title: `${s01.title}（385 頂点）`, mapId: map.id };
-const bundle: HakoniwaBundle = {
-  format: 'hakoniwa-bundle',
+const bundle: SounanBundle = {
+  format: 'sounan-bundle',
   version: 1,
   createdAt: '2026-11-19T00:00:00+09:00',
   generator: 'tools/make-fixture-bundle.ts',
@@ -65,6 +65,6 @@ const bundle: HakoniwaBundle = {
   scenario,
   attribution: [],
 };
-const out = resolve(ROOT, 'tests', 'fixtures', 'hakoniwa385.hakoniwa.json');
+const out = resolve(ROOT, 'tests', 'fixtures', 'sounan385.sounan.json');
 writeFileSync(out, JSON.stringify(bundle));
 console.log(`${out}  ${(JSON.stringify(bundle).length / 1024).toFixed(0)} KB  hut=${hut.id}`);

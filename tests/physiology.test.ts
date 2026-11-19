@@ -7,7 +7,7 @@ import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { TUNING } from '../src/sim/tuning';
 import type { SimEvent } from '../src/sim/types';
 import { calibClimber } from './helpers/calib';
-import { hakoniwa } from './helpers/map';
+import { sounanMap } from './helpers/map';
 import { loadScenario, testScenario } from './helpers/scenario';
 
 describe('判断力 J・運動能力 M（docs/06 §6）', () => {
@@ -104,7 +104,7 @@ describe('震え・雨具・体表面積', () => {
 });
 
 describe('熱環境（docs/06 §3.1）', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
 
   it('営業小屋は 18℃・無風・食事、避難小屋は気温 +5・無風', () => {
     const sc = testScenario(['HUT_RIDGE', 'SUMMIT']);
@@ -139,7 +139,7 @@ describe('熱環境（docs/06 §3.1）', () => {
 });
 
 describe('意識と生死（docs/06 §7）', () => {
-  const { map } = hakoniwa();
+  const { map } = sounanMap();
   const setup = (): { w: ReturnType<typeof createWorld>; ctx: ReturnType<typeof createStaticContext> } => {
     const sc = testScenario(['SUMMIT', 'HUT_RIDGE']);
     return { w: createWorld(map, sc), ctx: createStaticContext(map, sc) };
@@ -194,7 +194,7 @@ describe('意識と生死（docs/06 §7）', () => {
 
 describe('World に組み込んだ生理', () => {
   it('s01 で何もしない（雨具を着ない・食べない）と、寒冷前線の雨で低体温症が進む', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     // 分岐点なし・雨具なし・食べ物なしで歩き続ける
     const base = loadScenario('s01_cold_front');
     const m = base.party[0]!;
@@ -216,7 +216,7 @@ describe('World に組み込んだ生理', () => {
   });
 
   it('晴れの短い山行では体温・エネルギーが保たれる', () => {
-    const { map } = hakoniwa();
+    const { map } = sounanMap();
     const sc = testScenario(['TH_SAWA', 'J_FOREST', 'EBOSHI']);
     const w = createWorld(map, sc);
     const ctx = createStaticContext(map, sc);

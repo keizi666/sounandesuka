@@ -86,7 +86,7 @@ export function buildAiPrompt(p: EditorProject, i: AiPromptInput): string {
     if (i.real) {
       out.push('- 実在の地形: `public/maps/real/<マップID>.skeleton.json`（地点と道のつながり）と `public/scenarios/real/<シナリオID>.build.json`（範囲・地点の座標・偽の道・速度係数・基地局）を書き、`npm run make:real -- <シナリオID>` で地形（地理院の標高・OSM の登山道・地理院の植生記号）と結合する。地点の座標は Overpass で調べる（User-Agent を付け、混雑していたら少し待ってやり直す）。登山道ではない尾根や沢は、標高の格子を読んで「偽の道」にする。');
     } else {
-      out.push('- 箱庭岳の地図（`public/maps/hakoniwa.json`）の地点と道を使い、`public/scenarios/<シナリオID>.json` を作る。');
+      out.push('- 箱庭岳の地図（`public/maps/sounan.json`）の地点と道を使い、`public/scenarios/<シナリオID>.json` を作る。');
     }
     out.push('- 一覧 `public/scenarios/index.json` に登録する。出典（原案のタイトル・作者・日付・URL、地理院、OSM）を `sources` に書く。');
   } else {

@@ -12,7 +12,7 @@
 | `../../maps/real/sekirou.skeleton.json` | s06 の骨組みマップ |
 | `../../maps/real/shounoiwa.skeleton.json` | 座標を含まない骨組みマップ（地名・道のつながり・概略標高） |
 | `s05_shounoiwa.build.json` | 実地形の作り方（範囲・地点の座標・偽の道・速度係数・基地局） |
-| `s05_shounoiwa.hakoniwa.json` | 実地形のバンドル（`npm run make:s05` で作る。リポジトリには含めない） |
+| `s05_shounoiwa.sounan.json` | 実地形のバンドル（`npm run make:s05` で作る。リポジトリには含めない） |
 
 ## 作り方
 
