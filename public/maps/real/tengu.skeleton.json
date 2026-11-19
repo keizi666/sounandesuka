@@ -1,0 +1,40 @@
+{
+  "id": "tengu",
+  "name": "北八ヶ岳 天狗岳（渋の湯〜黒百合ヒュッテ〜中山峠〜東天狗岳・西天狗岳〜天狗の奥庭）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "渋の湯から黒百合ヒュッテ・中山峠・東天狗岳・西天狗岳と、天狗の奥庭を通って黒百合ヒュッテへ下る道までが入る範囲。一辺 6 km 程度（513 頂点）。天狗の奥庭は稜線の西側の岩と樹林の窪地で、その西には標高差 100〜150 m の谷が渋の湯側へ下っている（登山道ではない）。森林限界は 2,500 m 前後。電波: 稜線と山頂は東（佐久側）から入ることがあるが、西側の谷は圏外が多い。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2500, "forestLineNoise": 50, "broadleafLine": 1600, "krummholzBandM": 120 },
+  "nodes": [
+    { "id": "SHIBUNOYU", "name": "渋の湯", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 1880 },
+    { "id": "KUROYURI", "name": "黒百合ヒュッテ", "type": "hut", "x": 0, "z": 0, "osmName": "黒百合ヒュッテ", "expectedElevM": 2395,
+      "shelter": { "kind": "staffed", "open": true } },
+    { "id": "NAKAYAMA", "name": "中山峠", "type": "saddle", "x": 0, "z": 0, "osmName": "中山峠", "expectedElevM": 2410 },
+    { "id": "J_OKUNIWA", "name": "奥庭への分岐", "type": "junction", "x": 0, "z": 0, "expectedElevM": 2575 },
+    { "id": "HIGASHI", "name": "東天狗岳", "type": "peak", "x": 0, "z": 0, "osmName": "東天狗岳", "expectedElevM": 2640 },
+    { "id": "NISHI", "name": "西天狗岳", "type": "peak", "x": 0, "z": 0, "osmName": "天狗岳", "expectedElevM": 2646 },
+    { "id": "OKUNIWA", "name": "天狗の奥庭", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 2450 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "渋の湯〜黒百合ヒュッテ", "kind": "trail", "from": "SHIBUNOYU", "to": "KUROYURI", "class": "T1", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "黒百合ヒュッテ〜中山峠", "kind": "trail", "from": "KUROYURI", "to": "NAKAYAMA", "class": "T1", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "中山峠〜東天狗岳の肩（稜線）", "kind": "trail", "from": "NAKAYAMA", "to": "J_OKUNIWA", "class": "T2", "markers": 0.7, "drift": 0.015, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "東天狗岳の肩〜東天狗岳", "kind": "trail", "from": "J_OKUNIWA", "to": "HIGASHI", "class": "T2", "markers": 0.6, "drift": 0.015, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "東天狗岳〜西天狗岳", "kind": "trail", "from": "HIGASHI", "to": "NISHI", "class": "T2", "markers": 0.6, "drift": 0.015, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "東天狗岳の肩〜天狗の奥庭（岩の下り）", "kind": "trail", "from": "J_OKUNIWA", "to": "OKUNIWA", "class": "T2", "markers": 0.35, "drift": 0.03, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "天狗の奥庭〜すりばち池〜黒百合ヒュッテ", "kind": "trail", "from": "OKUNIWA", "to": "KUROYURI", "class": "T2", "markers": 0.3, "drift": 0.03, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

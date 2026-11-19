@@ -18,27 +18,42 @@ interface Builtin {
   when: (w: World, ctx: StaticContext, c: ClimberState) => boolean;
 }
 
+/** 同じグループに、急病の発作中・重いけが・動けない仲間がいるか */
+function unwellMate(w: World, c: ClimberState): boolean {
+  return w.climbers.some((o) => o !== c && o.groupId === c.groupId && o.body.alive && (o.body.illness?.active === true || o.body.injury === 'legFracture' || o.body.injury === 'headInjury' || o.body.injury === 'severeTrauma' || o.M <= 0.05));
+}
+/** その日の 0 時からの分 */
+function clockOf(w: World): number {
+  return ((w.tMin % 1440) + 1440) % 1440;
+}
+
 const BUILTIN: Builtin[] = [
   { key: 'fine_start', priority: 1, leaderOnly: true, when: (w, ctx, c) => w.tMin < scenarioStartMin(ctx.scenario) + 60 && c.perception.weatherImpression === 'fine' },
   // 予定の遅れを気にするのは、ふつうに歩いているときだけ（迷った・けが・急病のときは、それどころではない）
-  { key: 'behind', priority: 3, leaderOnly: true, when: (_w, _c, c) => c.perception.timeBehindMin > 45 && c.state === 'WALKING' && c.body.injury === 'none' && !(c.body.illness?.active ?? false) && !c.perception.awareLost },
-  { key: 'phone_low', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 },
-  { key: 'rain_delay', priority: 4, when: (_w, _c, c) => c.local.precipMmH >= 0.5 && !c.body.rainwearOn && c.def.gear.rainwear !== 'none' },
+  // 出発した日のうちだけ。仲間に具合の悪い人がいれば、時間どころではない
+  { key: 'behind', priority: 3, leaderOnly: true, when: (w, ctx, c) => c.perception.timeBehindMin > 45 && c.state === 'WALKING' && c.body.injury === 'none' && !(c.body.illness?.active ?? false) && !c.perception.awareLost && Math.floor(w.tMin / 1440) === Math.floor(scenarioStartMin(ctx.scenario) / 1440) && !unwellMate(w, c) },
+  // 「寒さのせいか」は寒いときだけ（暖かいときは節約の考えだけ）
+  { key: 'phone_low', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 && c.local.tempC < 10 },
+  { key: 'phone_low_warm', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 && c.local.tempC >= 10 },
+  // 雨具を後回しにするのは、歩いているときだけ（小屋の中・ビバーク・動けないときは出さない）
+  { key: 'rain_delay', priority: 4, when: (_w, _c, c) => c.local.precipMmH >= 0.5 && !c.body.rainwearOn && c.def.gear.rainwear !== 'none' && c.state === 'WALKING' },
   { key: 'cold_hands', priority: 5, when: (_w, _c, c) => c.body.coreC < 35.8 },
-  { key: 'sheltered', priority: 5, when: (_w, _c, c) => c.state === 'SHELTERED' },
+  // 「今夜はここで」は夕方から（昼の雨宿り・休憩では出さない）
+  { key: 'sheltered', priority: 5, when: (w, _c, c) => c.state === 'SHELTERED' && (w.sun.isDark || clockOf(w) >= 15 * 60) },
   { key: 'unaware_offroute', priority: 6, when: (_w, _c, c) => c.state === 'OFFROUTE_UNAWARE' },
   // 暗いのに明かりがない: 持っていない人と、持っているのに点けていない人で考えが違う
   // 足元の暗さを気にするのは、歩いているときだけ（休む・待つ・小屋の中では出さない）
   { key: 'dark_no_lamp', priority: 6, when: (w, _c, c) => w.sun.isDark && MOVING.has(c.state) && !c.inv.headlamp.has },
-  { key: 'dark_lamp_off', priority: 6, when: (w, _c, c) => w.sun.isDark && MOVING.has(c.state) && c.inv.headlamp.has && !c.inv.headlamp.on },
-  // 通報がつながったときだけ「つながった」。まだなら、誰かが来るのを待つ
-  { key: 'rescue_wait', priority: 6, when: (w, _c, c) => c.state === 'WAITING_RESCUE' && w.rescue.calledAtMin !== null },
-  { key: 'wait_nocall', priority: 6, when: (w, _c, c) => c.state === 'WAITING_RESCUE' && w.rescue.calledAtMin === null },
+  { key: 'dark_lamp_off', priority: 6, when: (w, _c, c) => w.sun.isDark && MOVING.has(c.state) && c.inv.headlamp.has && !c.inv.headlamp.on && c.inv.headlamp.batteryH > 0 },
+  // 「電話はつながった」は、電話・衛星で自分たちが通報したときだけ（家族の届け出・通りかかった人の通報ではない）
+  { key: 'rescue_wait', priority: 6, when: (w, _c, c) => c.state === 'WAITING_RESCUE' && w.rescue.calledAtMin !== null && (w.rescue.via === 'phone' || w.rescue.via === 'satellite') },
+  { key: 'wait_nocall', priority: 6, when: (w, _c, c) => c.state === 'WAITING_RESCUE' && !(w.rescue.calledAtMin !== null && (w.rescue.via === 'phone' || w.rescue.via === 'satellite')) },
   { key: 'mild_hypo', priority: 7, when: (_w, _c, c) => c.body.coreC < 35.0 },
   { key: 'aware_lost', priority: 8, when: (_w, _c, c) => c.state === 'LOST_AWARE' },
   { key: 'descend_bias', priority: 8, when: (_w, _c, c) => c.state === 'DESCENDING_DRAINAGE' },
-  { key: 'thunder_near', priority: 8, when: (_w, _c, c) => c.local.thunder > 0.6 },
-  { key: 'moderate_hypo', priority: 9, when: (_w, _c, c) => c.body.coreC < 33.0 },
+  { key: 'thunder_near', priority: 8, when: (_w, _c, c) => c.local.thunder > 0.6 && c.state !== 'INCAPACITATED' && c.state !== 'SHELTERED' },
+  // 34℃ を切ると重い（低体温症の段階に合わせる）
+  { key: 'moderate_hypo', priority: 9, when: (_w, _c, c) => c.body.coreC < 34.0 },
 ];
 
 /** 1 ゲーム分ごとに呼ぶ。出す時刻になっていれば 1 つ選んで THOUGHT イベントを出す */

@@ -47,6 +47,7 @@ export const JA = {
       legFracture: '足の骨折',
       headInjury: '頭のけが',
       severeTrauma: '重いけが',
+      death: '即死',
     } as Record<string, string>,
     stage: {
       normal: '正常',
@@ -81,6 +82,7 @@ export const JA = {
     nodeArrive: '{name}に着いた',
     finished: '{who}は{node}に下山した',
     finishedHut: '{who}は{node}に着いた。今日はここに泊まる',
+    finishedHutDay: '{who}は{node}に着いた',
     stateTo: '{who}: {state}',
     rainStart: '雨が降り始めた（{mm} mm/h）',
     rainStop: '雨がやんだ',
@@ -136,6 +138,8 @@ export const JA = {
     bivouac: '{who}はビバークを始めた',
     rescueCalled: '{who}が救助を要請した（{via}）',
     reportedOverdue: '家族が警察に届け出た（予定の時刻になっても帰らない）',
+    reportedOverdueBy: '{by}が警察に届け出た（予定の時刻になっても帰らない）',
+    reportedMissingBy: '{by}が警察に届け出た',
     noLead: '警察は届け出を受けたが、どの山に入ったのか分からず、まだ捜索隊を出せない',
     rescueFailed: '{who}は救助要請を試みたがつながらなかった',
     heliDispatch: '救助の要請を受け、ヘリが出動の準備に入った（飛べるかは明るさと天気しだい）',
@@ -446,6 +450,7 @@ export const JA = {
     rescue_wait: ['電話はつながった。ここを動かずに待つ。動けば見つけてもらえない', '体を冷やさないように。早く来てくれ……'],
     wait_nocall: ['誰か来てくれるだろうか', 'じっとして待とう。今は動かないほうがいい'],
     phone_low: ['電池が減ってる。寒さのせいか', '電池を節約しないと'],
+    phone_low_warm: ['電池が減ってる。節約しないと', '電話のときのために、画面は見ないでおこう'],
   } as Record<string, string[]>,
 
   /** セリフの組み込みテンプレート（docs/07 §7.3） */

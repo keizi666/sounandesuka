@@ -1,0 +1,26 @@
+{
+  "skeleton": "public/maps/real/tengu.skeleton.json",
+  "mapId": "tengu",
+  "center": [36.022, 138.333],
+  "size": 6144,
+  "resolution": 513,
+  "at": { "SHIBUNOYU": [36.03593, 138.32966], "NAKAYAMA": [36.0281789, 138.3597296], "HIGASHI": [36.0198078, 138.3594093], "NISHI": [36.019183, 138.3554526] },
+  "atXZ": { "KUROYURI": [2171, -831], "J_OKUNIWA": [2386, -14], "OKUNIWA": [2152, -290] },
+  "snapM": 80,
+  "paceAdj": { "E1": 0.85, "E3": 0.75, "E4": 0.85, "E5": 0.9 },
+  "falseEdges": [
+    {
+      "id": "F1",
+      "name": "奥庭の西の谷へ下る斜面（踏み跡なし）",
+      "from": "OKUNIWA",
+      "snap": "none",
+      "points": [[2110, -300], [2070, -305], [2030, -312], [1990, -322], [1950, -335], [1910, -350], [1870, -365], [1830, -380], [1790, -395], [1750, -410], [1710, -422], [1670, -432]],
+      "fadeFrac": 0.5,
+      "markers": 0.05,
+      "drift": 0.05,
+      "attractiveness": 0.8,
+      "confuser": { "whenIntending": ["E7"], "ambiguity": 0.8 }
+    }
+  ],
+  "radio": [{ "id": "st_koumi", "x": 8000, "z": 9000, "elevM": 1500, "antennaM": 40, "rangeM": 26000 }, { "id": "st_chino", "x": -12000, "z": 6000, "elevM": 1700, "antennaM": 40, "rangeM": 20000 }]
+}

@@ -1,0 +1,2862 @@
+{
+  "id": "s14_mitake",
+  "version": 1,
+  "title": "初詣のついでの大岳山",
+  "subtitle": "1月・30代の4人・奥多摩 御岳山（実在の地形）",
+  "theme": "mixed",
+  "difficulty": 3,
+  "season": "winter",
+  "estMinutes": 20,
+  "mapId": "mitake",
+  "seed": 103,
+  "startDate": "2027-01-03",
+  "startAt": "D0 12:30",
+  "timeLimit": "D1 14:00",
+  "sun": { "sunrise": "06:51", "sunset": "16:40", "maxElevDeg": 32 },
+  "moon": { "illumination": 0.3 },
+  "region": { "name": "奥多摩・御岳山", "real": true },
+  "briefing": {
+    "text": "1 月 3 日の日曜日、晴れ。大学の同級生 4 人（翔太さん 34 歳、拓也さん 33 歳、大輔さん 35 歳、美咲さん 32 歳）は、奥多摩の武蔵御嶽神社へ初詣に来た。ケーブルカーで御岳山駅へ上がり、お参りのあとはパンフレットの「ロックガーデン散策コース」を歩くつもり。4 人とも登山の経験はなく、自分たちが山に入っているとは思っていない。服はダウンジャケットやコートの街着、靴はスニーカーとショートブーツ。ライトはない。スマホは全員が持っているが、朝から写真を撮っていて電池は減っている。",
+    "forecast": [{ "label": "今日", "text": "晴れ。御岳山（標高 900 m）は日中 4℃ くらい", "icon": "sunny" }, { "label": "夜", "text": "晴れ。山の上は氷点下 5℃ 前後まで下がる。北西の風", "icon": "clear_night" }, { "label": "日の入り", "text": "16:40" }]
+  },
+  "plan": {
+    "route": ["CABLE_TOP", "SHRINE", "NAGAO_J", "NANAYO", "TENGU", "AYAHIRO", "KOSHIKAKE", "NAGAO_J", "SHRINE", "CABLE_TOP"],
+    "goalNodes": ["CABLE_TOP"],
+    "plannedFinish": "D0 15:45",
+    "submittedPlan": false,
+    "reportIfNotBackBy": "D0 23:00",
+    "searchLeads": [
+      {
+        "id": "mother",
+        "at": "D0 23:00",
+        "route": ["CABLE_TOP", "SHRINE", "NAGAO_J", "NANAYO", "TENGU", "AYAHIRO", "KOSHIKAKE"],
+        "maxRadiusM": 300,
+        "findF": 0.6,
+        "text": "届け出をもとに、捜索は御岳山の神社とロックガーデンのまわりから始まることになった。大岳山へ向かったことは、誰も知らない"
+      },
+      {
+        "id": "photo",
+        "at": "D0 23:00",
+        "when": { "flag": "sentPhoto" },
+        "route": ["AYAHIRO", "AKUTABA", "OTAKE_HUT", "OTAKE"],
+        "maxRadiusM": 600,
+        "findF": 0.8,
+        "text": "美咲さんが夕方に SNS に上げた写真が、大岳山の山頂で撮ったものだと分かった。捜索は大岳山に絞られた"
+      },
+      { "id": "wander", "at": "D0 17:00", "when": { "flag": "wanderReported" }, "route": ["OTAKE_HUT", "OTAKE"], "maxRadiusM": 700, "findF": 1, "text": "仲間の話から、いなくなったのは大岳山の山頂の近くだと分かった。捜索はそのまわりの斜面に絞られた" }
+    ]
+  },
+  "passersby": [
+    { "edges": ["E8", "E9", "E10"], "perHour": 2, "from": "13:00", "to": "16:20" },
+    { "edges": ["E8", "E9", "E10"], "perHour": 1.5, "from": "07:40", "to": "14:00", "fromDay": 1 },
+    { "edges": ["E1", "E2", "E3", "E4", "E5", "E6", "E7"], "perHour": 6, "from": "09:00", "to": "16:30" }
+  ],
+  "groups": [{ "id": "party", "members": "all", "leader": "shota", "cohesion": "tight" }],
+  "party": [
+    {
+      "id": "shota",
+      "name": "翔太",
+      "age": 34,
+      "sex": "m",
+      "weightKg": 70,
+      "packKg": 1,
+      "experience": 0.1,
+      "fitness": 1,
+      "navSkill": 0.25,
+      "riskTolerance": 0.7,
+      "color": "#2563eb",
+      "portrait": "young_m:3",
+      "leader": true,
+      "role": "言い出した人",
+      "habits": { "eatEveryMin": null, "drinkEveryMin": null, "delaysRainwear": 0.5, "gpsCheckEveryMin": null },
+      "gear": {
+        "rainwear": "none",
+        "cloPack": 0,
+        "gloves": "none",
+        "hat": false,
+        "bivy": "none",
+        "headlamp": { "has": false, "batteryH": 0, "inPack": false, "spareBatteryH": 0 },
+        "map": false,
+        "compass": false,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "cloWorn": 1.3,
+        "phone": { "has": true, "batteryPct": 45, "gpsApp": true, "trackRecording": false, "satelliteSos": false },
+        "foodKcal": 150,
+        "waterL": 0.3
+      },
+      "notes": "架空の人物。原案の A さん。ダウンジャケットにセーター、ジーンズ、スニーカー。ポケットに飴。"
+    },
+    {
+      "id": "takuya",
+      "name": "拓也",
+      "age": 33,
+      "sex": "m",
+      "weightKg": 66,
+      "packKg": 1,
+      "experience": 0.05,
+      "fitness": 1.05,
+      "navSkill": 0.2,
+      "riskTolerance": 0.7,
+      "color": "#16a34a",
+      "portrait": "young_m:4",
+      "role": "同級生",
+      "habits": { "eatEveryMin": null, "drinkEveryMin": null, "delaysRainwear": 0.5, "gpsCheckEveryMin": null },
+      "gear": {
+        "rainwear": "none",
+        "cloPack": 0,
+        "gloves": "none",
+        "hat": false,
+        "bivy": "none",
+        "headlamp": { "has": false, "batteryH": 0, "inPack": false, "spareBatteryH": 0 },
+        "map": false,
+        "compass": false,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "cloWorn": 1.2,
+        "phone": { "has": true, "batteryPct": 35, "gpsApp": true, "trackRecording": false, "satelliteSos": false },
+        "foodKcal": 0,
+        "waterL": 0.5
+      },
+      "notes": "架空の人物。原案の B さん。ダウンジャケットの下は綿のパーカーと綿の T シャツ。スニーカー。"
+    },
+    {
+      "id": "daisuke",
+      "name": "大輔",
+      "age": 35,
+      "sex": "m",
+      "weightKg": 82,
+      "packKg": 2,
+      "experience": 0.1,
+      "fitness": 0.9,
+      "navSkill": 0.2,
+      "riskTolerance": 0.5,
+      "color": "#ea580c",
+      "portrait": "mid_m:2",
+      "role": "同級生",
+      "habits": { "eatEveryMin": null, "drinkEveryMin": null, "delaysRainwear": 0.5, "gpsCheckEveryMin": null },
+      "gear": {
+        "rainwear": "none",
+        "cloPack": 0,
+        "gloves": "none",
+        "hat": false,
+        "bivy": "none",
+        "headlamp": { "has": false, "batteryH": 0, "inPack": false, "spareBatteryH": 0 },
+        "map": false,
+        "compass": false,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "cloWorn": 1.2,
+        "phone": { "has": true, "batteryPct": 60, "gpsApp": true, "trackRecording": false, "satelliteSos": false },
+        "foodKcal": 200,
+        "waterL": 0.5
+      },
+      "notes": "架空の人物。原案の C さん。ダウンジャケットに綿のシャツ。トートバッグに団子の残りとお茶。"
+    },
+    {
+      "id": "misaki",
+      "name": "美咲",
+      "age": 32,
+      "sex": "f",
+      "weightKg": 50,
+      "packKg": 1,
+      "experience": 0.1,
+      "fitness": 0.85,
+      "navSkill": 0.3,
+      "riskTolerance": 0.3,
+      "color": "#db2777",
+      "portrait": "young_f:2",
+      "role": "同級生",
+      "habits": { "eatEveryMin": null, "drinkEveryMin": null, "delaysRainwear": 0.5, "gpsCheckEveryMin": null },
+      "gear": {
+        "rainwear": "none",
+        "cloPack": 0,
+        "gloves": "thin",
+        "hat": false,
+        "bivy": "none",
+        "headlamp": { "has": false, "batteryH": 0, "inPack": false, "spareBatteryH": 0 },
+        "map": false,
+        "compass": false,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "cloWorn": 1.1,
+        "phone": { "has": true, "batteryPct": 70, "gpsApp": true, "trackRecording": false, "satelliteSos": false },
+        "foodKcal": 100,
+        "waterL": 0.3
+      },
+      "notes": "架空の人物。原案の D さん。ウールのコートにニットとマフラー、手袋、ヒールの低いショートブーツ。"
+    }
+  ],
+  "weather": {
+    "refElevM": 900,
+    "lapseRateCPer100m": 0.6,
+    "cloudThicknessM": 600,
+    "keyframes": [
+      { "at": "D0 12:00", "tempC": 4, "windMs": 3, "windDirDeg": 315, "precipMmH": 0, "cloudCover": 0.1, "cloudBaseM": 3000, "visibilityM": 40000, "pressureHpa": 1022 },
+      { "at": "D0 15:00", "tempC": 2.5, "windMs": 4, "windDirDeg": 315, "precipMmH": 0, "cloudCover": 0.1, "cloudBaseM": 3000, "visibilityM": 40000, "pressureHpa": 1022 },
+      { "at": "D0 17:00", "tempC": -1, "windMs": 5, "windDirDeg": 315, "precipMmH": 0, "cloudCover": 0.05, "cloudBaseM": 3000, "visibilityM": 40000, "pressureHpa": 1023 },
+      { "at": "D0 21:00", "tempC": -4, "windMs": 5, "windDirDeg": 315, "precipMmH": 0, "cloudCover": 0.05, "cloudBaseM": 3000, "visibilityM": 40000, "pressureHpa": 1024 },
+      { "at": "D1 02:00", "tempC": -5.5, "windMs": 4, "windDirDeg": 315, "precipMmH": 0, "cloudCover": 0.05, "cloudBaseM": 3000, "visibilityM": 40000, "pressureHpa": 1024 },
+      { "at": "D1 06:30", "tempC": -6.5, "windMs": 3, "windDirDeg": 300, "precipMmH": 0, "cloudCover": 0.05, "cloudBaseM": 3000, "visibilityM": 40000, "pressureHpa": 1025 },
+      { "at": "D1 10:00", "tempC": -1, "windMs": 3, "windDirDeg": 300, "precipMmH": 0, "cloudCover": 0.1, "cloudBaseM": 3000, "visibilityM": 40000, "pressureHpa": 1024 },
+      { "at": "D1 14:00", "tempC": 3, "windMs": 3, "windDirDeg": 300, "precipMmH": 0, "cloudCover": 0.2, "cloudBaseM": 3000, "visibilityM": 40000, "pressureHpa": 1022 }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_shrine",
+      "trigger": { "all": [{ "atNode": "SHRINE" }, { "not": { "beenAt": "NAGAO_J" } }, { "not": { "flag": "timeRule" } }] },
+      "once": true,
+      "effects": [{ "type": "log", "text": "本殿の前には初詣の行列ができていた。お参りを済ませ、おみくじを引き、参道の茶店で甘酒を飲んで一息ついた" }, { "type": "actions", "actions": [{ "type": "rest", "minutes": 45 }] }]
+    },
+    {
+      "id": "ev_shrine_quick",
+      "trigger": { "all": [{ "atNode": "SHRINE" }, { "not": { "beenAt": "NAGAO_J" } }, { "flag": "timeRule" }] },
+      "once": true,
+      "effects": [{ "type": "log", "text": "本殿の前には初詣の行列ができていた。お参りを済ませると、茶店には寄らずに散策コースへ向かった" }, { "type": "actions", "actions": [{ "type": "rest", "minutes": 25 }] }]
+    },
+    { "id": "ev_rockgarden", "trigger": { "onEdge": "E5" }, "once": true, "effects": [{ "type": "log", "text": "天狗岩から沢へ下りると、苔むした岩の間を水が流れるロックガーデンに入った。日の当たらない谷は、ひんやりしている" }] },
+    {
+      "id": "ev_hiker",
+      "trigger": { "all": [{ "flag": "goOtake" }, { "not": { "flag": "headedDown" } }, { "any": [{ "onEdge": "E8" }, { "onEdge": "E9" }] }, { "after": "D0 15:20" }, { "before": "D0 16:20" }, { "chance": 0.6 }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "hikerWarned" }] }, { "type": "log", "text": "大岳山の方から、年配の登山者の夫婦が下りてきた。ザックの肩ベルトにヘッドランプが下がっている", "important": true }]
+    },
+    {
+      "id": "ev_turn16",
+      "trigger": { "all": [{ "flag": "turn16" }, { "after": "D0 16:00" }, { "not": { "beenAt": "OTAKE" } }, { "not": { "flag": "headedDown" } }] },
+      "once": true,
+      "effects": [
+        { "type": "say", "who": "misaki", "text": "4 時だよ。約束どおり、ここで戻ろう", "to": "shota" },
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }] }
+      ]
+    },
+    {
+      "id": "ev_village_lights",
+      "trigger": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }] },
+          {
+            "all": [
+              { "not": { "var": "leader.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "leader.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "leader.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [{ "type": "log", "text": "宿坊街に入った。宿坊の窓と街灯の明かりで、足元が少し見えるようになった" }, { "type": "actions", "actions": [{ "type": "setPace", "factor": 1.2 }] }]
+    },
+    {
+      "id": "ev_lastcable",
+      "trigger": {
+        "all": [
+          { "after": "D0 18:30" },
+          {
+            "all": [
+              { "not": { "var": "leader.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "leader.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "leader.state", "op": "==", "value": "DEAD" } }
+            ]
+          },
+          { "flag": "goOtake" }
+        ]
+      },
+      "once": true,
+      "effects": [{ "type": "log", "text": "18 時 30 分。御岳山駅から最終のケーブルカーが下りていった" }]
+    },
+    {
+      "id": "ev_sweat_takuya",
+      "trigger": { "all": [{ "var": "c.takuya.wetness", "op": ">", "value": 0.25 }, { "flag": "goOtake" }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "sweatWet" }, { "type": "setFlag", "flag": "sweat_takuya" }] }]
+    },
+    {
+      "id": "ev_sweat_daisuke",
+      "trigger": { "all": [{ "var": "c.daisuke.wetness", "op": ">", "value": 0.25 }, { "flag": "goOtake" }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "sweatWet" }, { "type": "setFlag", "flag": "sweat_daisuke" }] }]
+    },
+    {
+      "id": "ev_sweat_misaki",
+      "trigger": { "all": [{ "var": "c.misaki.wetness", "op": ">", "value": 0.25 }, { "flag": "goOtake" }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "sweatWet" }, { "type": "setFlag", "flag": "sweat_misaki" }] }]
+    },
+    {
+      "id": "ev_sweat_shota",
+      "trigger": { "all": [{ "var": "c.shota.wetness", "op": ">", "value": 0.25 }, { "flag": "goOtake" }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "sweatWet" }, { "type": "setFlag", "flag": "sweat_shota" }] }]
+    },
+    {
+      "id": "ev_leave_shota_cable",
+      "trigger": { "all": [{ "var": "c.shota.state", "op": "==", "value": "FINISHED" }, { "any": [{ "before": "D0 18:30" }, { "after": "D1 07:30" }] }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "leaveMap", "who": "shota", "place": "ケーブルカーで滝本駅" }] }]
+    },
+    {
+      "id": "ev_leave_shota_lodge",
+      "trigger": { "all": [{ "var": "c.shota.state", "op": "==", "value": "FINISHED" }, { "after": "D0 18:30" }, { "before": "D1 07:30" }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "lodge" }, { "type": "leaveMap", "who": "shota", "place": "御岳山の宿坊" }] }]
+    },
+    {
+      "id": "ev_leave_shota_hospital",
+      "trigger": { "var": "c.shota.state", "op": "==", "value": "RESCUED" },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "leaveMap", "who": "shota", "place": "青梅市内の病院" }] }]
+    },
+    {
+      "id": "ev_leave_takuya_cable",
+      "trigger": { "all": [{ "var": "c.takuya.state", "op": "==", "value": "FINISHED" }, { "any": [{ "before": "D0 18:30" }, { "after": "D1 07:30" }] }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "leaveMap", "who": "takuya", "place": "ケーブルカーで滝本駅" }] }]
+    },
+    {
+      "id": "ev_leave_takuya_lodge",
+      "trigger": { "all": [{ "var": "c.takuya.state", "op": "==", "value": "FINISHED" }, { "after": "D0 18:30" }, { "before": "D1 07:30" }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "lodge" }, { "type": "leaveMap", "who": "takuya", "place": "御岳山の宿坊" }] }]
+    },
+    {
+      "id": "ev_leave_takuya_hospital",
+      "trigger": { "var": "c.takuya.state", "op": "==", "value": "RESCUED" },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "leaveMap", "who": "takuya", "place": "青梅市内の病院" }] }]
+    },
+    {
+      "id": "ev_leave_daisuke_cable",
+      "trigger": { "all": [{ "var": "c.daisuke.state", "op": "==", "value": "FINISHED" }, { "any": [{ "before": "D0 18:30" }, { "after": "D1 07:30" }] }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "leaveMap", "who": "daisuke", "place": "ケーブルカーで滝本駅" }] }]
+    },
+    {
+      "id": "ev_leave_daisuke_lodge",
+      "trigger": { "all": [{ "var": "c.daisuke.state", "op": "==", "value": "FINISHED" }, { "after": "D0 18:30" }, { "before": "D1 07:30" }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "lodge" }, { "type": "leaveMap", "who": "daisuke", "place": "御岳山の宿坊" }] }]
+    },
+    {
+      "id": "ev_leave_daisuke_hospital",
+      "trigger": { "var": "c.daisuke.state", "op": "==", "value": "RESCUED" },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "leaveMap", "who": "daisuke", "place": "青梅市内の病院" }] }]
+    },
+    {
+      "id": "ev_leave_misaki_cable",
+      "trigger": { "all": [{ "var": "c.misaki.state", "op": "==", "value": "FINISHED" }, { "any": [{ "before": "D0 18:30" }, { "after": "D1 07:30" }] }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "leaveMap", "who": "misaki", "place": "ケーブルカーで滝本駅" }] }]
+    },
+    {
+      "id": "ev_leave_misaki_lodge",
+      "trigger": { "all": [{ "var": "c.misaki.state", "op": "==", "value": "FINISHED" }, { "after": "D0 18:30" }, { "before": "D1 07:30" }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "lodge" }, { "type": "leaveMap", "who": "misaki", "place": "御岳山の宿坊" }] }]
+    },
+    {
+      "id": "ev_leave_misaki_hospital",
+      "trigger": { "var": "c.misaki.state", "op": "==", "value": "RESCUED" },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "leaveMap", "who": "misaki", "place": "青梅市内の病院" }] }]
+    },
+    { "id": "ev_lodge", "trigger": { "flag": "lodge" }, "once": true, "effects": [{ "type": "log", "text": "ケーブルカーの最終はもう出ていた。宿坊の戸をたたいて事情を話すと、正月で混んでいたが、広間に泊めてもらえることになった", "important": true }] },
+    {
+      "id": "ev_escort_shota",
+      "trigger": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "c.shota.alive", "op": "==", "value": true },
+          { "var": "c.shota.conscious", "op": "==", "value": true },
+          { "any": [{ "var": "c.shota.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.shota.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.shota.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.shota.coreC", "op": "<", "value": 34.4 },
+          { "var": "c.shota.injury", "op": "==", "value": "none" },
+          { "not": { "flag": "wandered" } },
+          { "not": { "flag": "escorted_shota" } },
+          { "flag": "buddyRule" }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "escorted_shota" }] },
+        { "type": "say", "who": "shota", "text": "ちょっと……トイレ", "tone": "whisper" },
+        { "type": "log", "text": "翔太さんがふらりと立ち上がった。決めておいたとおり、仲間の一人が付き添い、声の届く所で用を足させた。暗がりで翔太さんは違う方へ歩き出しかけたが、腕をつかんで連れ戻した", "important": true }
+      ]
+    },
+    {
+      "id": "ev_wander_shota",
+      "trigger": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "c.shota.alive", "op": "==", "value": true },
+          { "var": "c.shota.conscious", "op": "==", "value": true },
+          { "any": [{ "var": "c.shota.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.shota.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.shota.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.shota.coreC", "op": "<", "value": 34.4 },
+          { "var": "c.shota.injury", "op": "==", "value": "none" },
+          { "not": { "flag": "wandered" } },
+          { "not": { "flag": "escorted_shota" } },
+          { "not": { "flag": "buddyRule" } },
+          { "chance": 0.25 }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "wandered" }, { "type": "setFlag", "flag": "wander_shota" }] },
+        { "type": "say", "who": "shota", "text": "ちょっと……トイレ。すぐ戻る", "tone": "whisper" },
+        { "type": "log", "text": "翔太さんが「トイレ」と言って立ち上がり、暗がりの中へ離れていった。ライトは持っていない", "important": true },
+        { "type": "actions", "actions": [{ "type": "detach", "who": "shota", "then": [{ "type": "descendDrainage" }] }] }
+      ]
+    },
+    {
+      "id": "ev_dawn_call_shota",
+      "trigger": {
+        "all": [
+          { "flag": "wander_shota" },
+          { "not": { "flag": "wanderReported" } },
+          { "after": "D1 06:51" },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            { "type": "setFlag", "flag": "wanderReported" },
+            { "type": "say", "text": "もしもし、110 番です。夜中に大岳山の近くで、仲間の翔太がいなくなって……", "tone": "normal" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "waitRescue" }
+          ]
+        },
+        { "type": "log", "text": "電波が入った。翔太さんがいなくなったことを警察に伝え、言われたとおり、その場で救助を待つことにした", "important": true }
+      ]
+    },
+    {
+      "id": "ev_report_shota",
+      "trigger": {
+        "all": [
+          { "flag": "wander_shota" },
+          { "not": { "flag": "wanderReported" } },
+          { "any": [{ "var": "c.takuya.state", "op": "==", "value": "FINISHED" }, { "var": "c.daisuke.state", "op": "==", "value": "FINISHED" }, { "var": "c.misaki.state", "op": "==", "value": "FINISHED" }] },
+          {
+            "all": [
+              { "not": { "var": "c.shota.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.shota.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.shota.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "wanderReported" }, { "type": "reportMissing" }] },
+        { "type": "log", "text": "下りた仲間は、すぐに 110 番した。「夜中に、大岳山の近くで翔太がいなくなった」", "important": true }
+      ]
+    },
+    {
+      "id": "ev_escort_takuya",
+      "trigger": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "c.takuya.alive", "op": "==", "value": true },
+          { "var": "c.takuya.conscious", "op": "==", "value": true },
+          { "any": [{ "var": "c.takuya.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.takuya.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.takuya.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.takuya.coreC", "op": "<", "value": 34.4 },
+          { "var": "c.takuya.injury", "op": "==", "value": "none" },
+          { "not": { "flag": "wandered" } },
+          { "not": { "flag": "escorted_takuya" } },
+          { "flag": "buddyRule" }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "escorted_takuya" }] },
+        { "type": "say", "who": "takuya", "text": "ちょっと……トイレ", "tone": "whisper" },
+        { "type": "log", "text": "拓也さんがふらりと立ち上がった。決めておいたとおり、仲間の一人が付き添い、声の届く所で用を足させた。暗がりで拓也さんは違う方へ歩き出しかけたが、腕をつかんで連れ戻した", "important": true }
+      ]
+    },
+    {
+      "id": "ev_wander_takuya",
+      "trigger": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "c.takuya.alive", "op": "==", "value": true },
+          { "var": "c.takuya.conscious", "op": "==", "value": true },
+          { "any": [{ "var": "c.takuya.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.takuya.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.takuya.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.takuya.coreC", "op": "<", "value": 34.4 },
+          { "var": "c.takuya.injury", "op": "==", "value": "none" },
+          { "not": { "flag": "wandered" } },
+          { "not": { "flag": "escorted_takuya" } },
+          { "not": { "flag": "buddyRule" } },
+          { "chance": 0.25 }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "wandered" }, { "type": "setFlag", "flag": "wander_takuya" }] },
+        { "type": "say", "who": "takuya", "text": "ちょっと……トイレ。すぐ戻る", "tone": "whisper" },
+        { "type": "log", "text": "拓也さんが「トイレ」と言って立ち上がり、暗がりの中へ離れていった。ライトは持っていない", "important": true },
+        { "type": "actions", "actions": [{ "type": "detach", "who": "takuya", "then": [{ "type": "descendDrainage" }] }] }
+      ]
+    },
+    {
+      "id": "ev_dawn_call_takuya",
+      "trigger": {
+        "all": [
+          { "flag": "wander_takuya" },
+          { "not": { "flag": "wanderReported" } },
+          { "after": "D1 06:51" },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            { "type": "setFlag", "flag": "wanderReported" },
+            { "type": "say", "text": "もしもし、110 番です。夜中に大岳山の近くで、仲間の拓也がいなくなって……", "tone": "normal" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "waitRescue" }
+          ]
+        },
+        { "type": "log", "text": "電波が入った。拓也さんがいなくなったことを警察に伝え、言われたとおり、その場で救助を待つことにした", "important": true }
+      ]
+    },
+    {
+      "id": "ev_report_takuya",
+      "trigger": {
+        "all": [
+          { "flag": "wander_takuya" },
+          { "not": { "flag": "wanderReported" } },
+          { "any": [{ "var": "c.shota.state", "op": "==", "value": "FINISHED" }, { "var": "c.daisuke.state", "op": "==", "value": "FINISHED" }, { "var": "c.misaki.state", "op": "==", "value": "FINISHED" }] },
+          {
+            "all": [
+              { "not": { "var": "c.takuya.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.takuya.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.takuya.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "wanderReported" }, { "type": "reportMissing" }] },
+        { "type": "log", "text": "下りた仲間は、すぐに 110 番した。「夜中に、大岳山の近くで拓也がいなくなった」", "important": true }
+      ]
+    },
+    {
+      "id": "ev_escort_daisuke",
+      "trigger": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "c.daisuke.alive", "op": "==", "value": true },
+          { "var": "c.daisuke.conscious", "op": "==", "value": true },
+          { "any": [{ "var": "c.daisuke.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.daisuke.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.daisuke.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.daisuke.coreC", "op": "<", "value": 34.4 },
+          { "var": "c.daisuke.injury", "op": "==", "value": "none" },
+          { "not": { "flag": "wandered" } },
+          { "not": { "flag": "escorted_daisuke" } },
+          { "flag": "buddyRule" }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "escorted_daisuke" }] },
+        { "type": "say", "who": "daisuke", "text": "ちょっと……トイレ", "tone": "whisper" },
+        { "type": "log", "text": "大輔さんがふらりと立ち上がった。決めておいたとおり、仲間の一人が付き添い、声の届く所で用を足させた。暗がりで大輔さんは違う方へ歩き出しかけたが、腕をつかんで連れ戻した", "important": true }
+      ]
+    },
+    {
+      "id": "ev_wander_daisuke",
+      "trigger": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "c.daisuke.alive", "op": "==", "value": true },
+          { "var": "c.daisuke.conscious", "op": "==", "value": true },
+          { "any": [{ "var": "c.daisuke.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.daisuke.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.daisuke.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.daisuke.coreC", "op": "<", "value": 34.4 },
+          { "var": "c.daisuke.injury", "op": "==", "value": "none" },
+          { "not": { "flag": "wandered" } },
+          { "not": { "flag": "escorted_daisuke" } },
+          { "not": { "flag": "buddyRule" } },
+          { "chance": 0.25 }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "wandered" }, { "type": "setFlag", "flag": "wander_daisuke" }] },
+        { "type": "say", "who": "daisuke", "text": "ちょっと……トイレ。すぐ戻る", "tone": "whisper" },
+        { "type": "log", "text": "大輔さんが「トイレ」と言って立ち上がり、暗がりの中へ離れていった。ライトは持っていない", "important": true },
+        { "type": "actions", "actions": [{ "type": "detach", "who": "daisuke", "then": [{ "type": "descendDrainage" }] }] }
+      ]
+    },
+    {
+      "id": "ev_dawn_call_daisuke",
+      "trigger": {
+        "all": [
+          { "flag": "wander_daisuke" },
+          { "not": { "flag": "wanderReported" } },
+          { "after": "D1 06:51" },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            { "type": "setFlag", "flag": "wanderReported" },
+            { "type": "say", "text": "もしもし、110 番です。夜中に大岳山の近くで、仲間の大輔がいなくなって……", "tone": "normal" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "waitRescue" }
+          ]
+        },
+        { "type": "log", "text": "電波が入った。大輔さんがいなくなったことを警察に伝え、言われたとおり、その場で救助を待つことにした", "important": true }
+      ]
+    },
+    {
+      "id": "ev_report_daisuke",
+      "trigger": {
+        "all": [
+          { "flag": "wander_daisuke" },
+          { "not": { "flag": "wanderReported" } },
+          { "any": [{ "var": "c.shota.state", "op": "==", "value": "FINISHED" }, { "var": "c.takuya.state", "op": "==", "value": "FINISHED" }, { "var": "c.misaki.state", "op": "==", "value": "FINISHED" }] },
+          {
+            "all": [
+              { "not": { "var": "c.daisuke.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.daisuke.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.daisuke.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "wanderReported" }, { "type": "reportMissing" }] },
+        { "type": "log", "text": "下りた仲間は、すぐに 110 番した。「夜中に、大岳山の近くで大輔がいなくなった」", "important": true }
+      ]
+    },
+    {
+      "id": "ev_escort_misaki",
+      "trigger": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "c.misaki.alive", "op": "==", "value": true },
+          { "var": "c.misaki.conscious", "op": "==", "value": true },
+          { "any": [{ "var": "c.misaki.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.misaki.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.misaki.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.misaki.coreC", "op": "<", "value": 34.4 },
+          { "var": "c.misaki.injury", "op": "==", "value": "none" },
+          { "not": { "flag": "wandered" } },
+          { "not": { "flag": "escorted_misaki" } },
+          { "flag": "buddyRule" }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "escorted_misaki" }] },
+        { "type": "say", "who": "misaki", "text": "ちょっと……トイレ", "tone": "whisper" },
+        { "type": "log", "text": "美咲さんがふらりと立ち上がった。決めておいたとおり、仲間の一人が付き添い、声の届く所で用を足させた。暗がりで美咲さんは違う方へ歩き出しかけたが、腕をつかんで連れ戻した", "important": true }
+      ]
+    },
+    {
+      "id": "ev_wander_misaki",
+      "trigger": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "c.misaki.alive", "op": "==", "value": true },
+          { "var": "c.misaki.conscious", "op": "==", "value": true },
+          { "any": [{ "var": "c.misaki.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.misaki.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.misaki.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.misaki.coreC", "op": "<", "value": 34.4 },
+          { "var": "c.misaki.injury", "op": "==", "value": "none" },
+          { "not": { "flag": "wandered" } },
+          { "not": { "flag": "escorted_misaki" } },
+          { "not": { "flag": "buddyRule" } },
+          { "chance": 0.25 }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "wandered" }, { "type": "setFlag", "flag": "wander_misaki" }] },
+        { "type": "say", "who": "misaki", "text": "ちょっと……トイレ。すぐ戻る", "tone": "whisper" },
+        { "type": "log", "text": "美咲さんが「トイレ」と言って立ち上がり、暗がりの中へ離れていった。ライトは持っていない", "important": true },
+        { "type": "actions", "actions": [{ "type": "detach", "who": "misaki", "then": [{ "type": "descendDrainage" }] }] }
+      ]
+    },
+    {
+      "id": "ev_dawn_call_misaki",
+      "trigger": {
+        "all": [
+          { "flag": "wander_misaki" },
+          { "not": { "flag": "wanderReported" } },
+          { "after": "D1 06:51" },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            { "type": "setFlag", "flag": "wanderReported" },
+            { "type": "say", "text": "もしもし、110 番です。夜中に大岳山の近くで、仲間の美咲がいなくなって……", "tone": "normal" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "waitRescue" }
+          ]
+        },
+        { "type": "log", "text": "電波が入った。美咲さんがいなくなったことを警察に伝え、言われたとおり、その場で救助を待つことにした", "important": true }
+      ]
+    },
+    {
+      "id": "ev_report_misaki",
+      "trigger": {
+        "all": [
+          { "flag": "wander_misaki" },
+          { "not": { "flag": "wanderReported" } },
+          { "any": [{ "var": "c.shota.state", "op": "==", "value": "FINISHED" }, { "var": "c.takuya.state", "op": "==", "value": "FINISHED" }, { "var": "c.daisuke.state", "op": "==", "value": "FINISHED" }] },
+          {
+            "all": [
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "wanderReported" }, { "type": "reportMissing" }] },
+        { "type": "log", "text": "下りた仲間は、すぐに 110 番した。「夜中に、大岳山の近くで美咲がいなくなった」", "important": true }
+      ]
+    },
+    {
+      "id": "ev_seek_called",
+      "trigger": {
+        "all": [
+          { "event": "RESCUE_CALLED" },
+          { "flag": "seekCall" },
+          { "not": { "flag": "policeTold" } },
+          { "before": "D1 06:00" },
+          {
+            "any": [
+              { "all": [{ "var": "c.shota.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.shota.radio", "op": ">=", "value": 0.3 }] },
+              { "all": [{ "var": "c.takuya.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.takuya.radio", "op": ">=", "value": 0.3 }] },
+              { "all": [{ "var": "c.daisuke.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.daisuke.radio", "op": ">=", "value": 0.3 }] },
+              { "all": [{ "var": "c.misaki.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.misaki.radio", "op": ">=", "value": 0.3 }] }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "policeTold" }] }, { "type": "log", "text": "電話がつながった。警察は「夜は救助隊も山に入れません。明るくなったら向かいます。仲間のところへ戻って、動かずに待ってください」と言った", "important": true }]
+    },
+    {
+      "id": "ev_hut_settle",
+      "trigger": { "all": [{ "flag": "hutCall" }, { "var": "leader.state", "op": "==", "value": "WAITING_RESCUE" }, { "beenAt": "OTAKE_HUT" }] },
+      "once": true,
+      "effects": [
+        { "type": "log", "text": "電話に出た警察官は、落ち着いた声で言った。「夜は救助隊も山に入れません。明るくなったら向かいます。そこを動かないでください。山荘の建物の陰で、4 人でくっついて。スマホは 1 台ずつ使って、電池を残して」", "important": true },
+        { "type": "actions", "actions": [{ "type": "setFlag", "flag": "policeTold" }, { "type": "waitRescue" }] },
+        { "type": "log", "text": "休業中の大岳山荘の裏手、風の当たらない壁ぎわに 4 人で身を寄せた" }
+      ]
+    },
+    {
+      "id": "ev_mother",
+      "trigger": {
+        "all": [
+          { "after": "D0 23:00" },
+          { "not": { "flag": "phoned" } },
+          {
+            "any": [
+              {
+                "all": [
+                  { "not": { "var": "c.shota.state", "op": "==", "value": "FINISHED" } },
+                  { "not": { "var": "c.shota.state", "op": "==", "value": "RESCUED" } },
+                  { "not": { "var": "c.shota.state", "op": "==", "value": "DEAD" } }
+                ]
+              },
+              {
+                "all": [
+                  { "not": { "var": "c.takuya.state", "op": "==", "value": "FINISHED" } },
+                  { "not": { "var": "c.takuya.state", "op": "==", "value": "RESCUED" } },
+                  { "not": { "var": "c.takuya.state", "op": "==", "value": "DEAD" } }
+                ]
+              },
+              {
+                "all": [
+                  { "not": { "var": "c.daisuke.state", "op": "==", "value": "FINISHED" } },
+                  { "not": { "var": "c.daisuke.state", "op": "==", "value": "RESCUED" } },
+                  { "not": { "var": "c.daisuke.state", "op": "==", "value": "DEAD" } }
+                ]
+              },
+              {
+                "all": [
+                  { "not": { "var": "c.misaki.state", "op": "==", "value": "FINISHED" } },
+                  { "not": { "var": "c.misaki.state", "op": "==", "value": "RESCUED" } },
+                  { "not": { "var": "c.misaki.state", "op": "==", "value": "DEAD" } }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [{ "type": "log", "text": "夜 11 時。美咲さんの母親は、夕飯までに帰ると言っていた娘と連絡がつかず、警察に届け出た。知っているのは「友だちと御岳山に初詣」ということだけだった", "important": true }]
+    },
+    {
+      "id": "ev_dawn",
+      "trigger": {
+        "all": [
+          { "after": "D1 06:51" },
+          { "flag": "wandered" },
+          {
+            "all": [
+              { "not": { "var": "leader.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "leader.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "leader.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [{ "type": "log", "text": "夜が明けた。あたりを見回しても、いなくなった仲間の姿はない", "important": true }]
+    },
+    {
+      "id": "ev_dead_fall_shota",
+      "trigger": { "all": [{ "var": "c.shota.alive", "op": "==", "value": false }, { "var": "c.shota.coreC", "op": ">=", "value": 31 }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "deadFall_shota" }] }]
+    },
+    {
+      "id": "ev_dead_cold_shota",
+      "trigger": { "all": [{ "var": "c.shota.alive", "op": "==", "value": false }, { "var": "c.shota.coreC", "op": "<", "value": 31 }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "deadCold_shota" }] }]
+    },
+    {
+      "id": "ev_dead_fall_takuya",
+      "trigger": { "all": [{ "var": "c.takuya.alive", "op": "==", "value": false }, { "var": "c.takuya.coreC", "op": ">=", "value": 31 }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "deadFall_takuya" }] }]
+    },
+    {
+      "id": "ev_dead_cold_takuya",
+      "trigger": { "all": [{ "var": "c.takuya.alive", "op": "==", "value": false }, { "var": "c.takuya.coreC", "op": "<", "value": 31 }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "deadCold_takuya" }] }]
+    },
+    {
+      "id": "ev_dead_fall_daisuke",
+      "trigger": { "all": [{ "var": "c.daisuke.alive", "op": "==", "value": false }, { "var": "c.daisuke.coreC", "op": ">=", "value": 31 }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "deadFall_daisuke" }] }]
+    },
+    {
+      "id": "ev_dead_cold_daisuke",
+      "trigger": { "all": [{ "var": "c.daisuke.alive", "op": "==", "value": false }, { "var": "c.daisuke.coreC", "op": "<", "value": 31 }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "deadCold_daisuke" }] }]
+    },
+    {
+      "id": "ev_dead_fall_misaki",
+      "trigger": { "all": [{ "var": "c.misaki.alive", "op": "==", "value": false }, { "var": "c.misaki.coreC", "op": ">=", "value": 31 }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "deadFall_misaki" }] }]
+    },
+    {
+      "id": "ev_dead_cold_misaki",
+      "trigger": { "all": [{ "var": "c.misaki.alive", "op": "==", "value": false }, { "var": "c.misaki.coreC", "op": "<", "value": 31 }] },
+      "once": true,
+      "effects": [{ "type": "actions", "actions": [{ "type": "setFlag", "flag": "deadCold_misaki" }] }]
+    },
+    {
+      "id": "ev_search_slip",
+      "trigger": { "all": [{ "flag": "searchMate" }, { "chance": 0.3 }] },
+      "once": true,
+      "effects": [{ "type": "injure", "who": "leader", "injury": "sprain" }, { "type": "log", "text": "暗い岩の上で足が滑った。とっさに木の根をつかんで止まったが、足首をひねった。探すのをあきらめ、這うように元の場所へ戻った", "important": true }]
+    },
+    {
+      "id": "ev_search_back",
+      "trigger": { "all": [{ "flag": "searchMate" }, { "elapsedSince": { "flag": "searchMate", "min": 20 } }] },
+      "once": true,
+      "effects": [{ "type": "log", "text": "20 分探したが、返事はなかった。これ以上暗い斜面を下りるのは無理だった" }]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_start",
+      "title": "御岳山駅",
+      "priority": 20,
+      "trigger": { "after": "D0 12:30" },
+      "situation": "正月 3 日。ケーブルカーの行列に 40 分並んで、やっと御岳山駅に着いた。展望台から関東平野が見渡せる。駅でもらったパンフレットには「ロックガーデン散策コース」が載っている。",
+      "knowledge": [
+        "予定: 武蔵御嶽神社に初詣。そのあとパンフレットの散策コース（長尾平・七代の滝・天狗岩・ロックガーデン・綾広の滝・天狗の腰掛け杉）を回って駅に戻る",
+        "日の入りは 16:40。ケーブルカーの最終は 18:30（この日の想定）",
+        "4 人とも街の服と靴。ライトは持っていない。スマホの電池: 翔太 {c.shota.phone.batteryPct:0}%、拓也 {c.takuya.phone.batteryPct:0}%、大輔 {c.daisuke.phone.batteryPct:0}%、美咲 {c.misaki.phone.batteryPct:0}%"
+      ],
+      "options": [
+        {
+          "id": "go",
+          "label": "パンフレットの散策コースを、気の向くままに歩く",
+          "detail": "正月休みの散歩だ。時間は気にしない。",
+          "actions": [{ "type": "say", "text": "まずはお参りだな。そのあとロックガーデン行こうぜ", "to": "takuya" }, { "type": "continueRoute" }],
+          "bias": { "base": 1.3 }
+        },
+        {
+          "id": "rule",
+          "label": "日の入りとケーブルカーの最終を確かめ、「16 時には駅に戻る」と決めてから歩く",
+          "detail": "冬の山は日が短い。戻る時刻を先に決めておく。",
+          "actions": [{ "type": "say", "who": "misaki", "text": "日が暮れるの早いから、4 時には駅に戻ろうね", "to": "shota" }, { "type": "continueRoute" }],
+          "flags": ["timeRule"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.35 }
+        }
+      ]
+    },
+    {
+      "id": "cp_ayahiro",
+      "title": "綾広の滝",
+      "priority": 15,
+      "trigger": { "atNode": "AYAHIRO" },
+      "situation": "綾広の滝に着いた。ロックガーデンはここで終わり、散策コースは天狗の腰掛け杉を通って駅へ戻る。道標には「大岳山」の文字もある。拓也さんが言う。「大岳山って、駅から見えたあのとがった山？ ここまで来たんだから行けるんじゃない？」",
+      "knowledge": [
+        "時刻は 15 時ごろ。日の入りは 16:40",
+        "道標の先は登山道。大岳山まではコースタイムで約 1 時間半、岩場もある。往復すると駅に戻るのは日没後になる",
+        "天狗の腰掛け杉を通って駅まで約 50 分",
+        "ライトはない。スマホの電池: 翔太 {c.shota.phone.batteryPct:0}%、拓也 {c.takuya.phone.batteryPct:0}%、大輔 {c.daisuke.phone.batteryPct:0}%、美咲 {c.misaki.phone.batteryPct:0}%"
+      ],
+      "options": [
+        {
+          "id": "otake",
+          "label": "大岳山まで行ってみる。山頂から富士山が見えるらしい",
+          "detail": "みんな体力はある。山頂で夕日を見て、さっと下りればいい。",
+          "actions": [{ "type": "say", "text": "行こうぜ。山頂で富士山見て、ぱっと戻ってくればいい", "to": "misaki" }, { "type": "setRoute", "route": ["AYAHIRO", "AKUTABA", "OTAKE_HUT", "OTAKE"], "goalNodes": ["CABLE_TOP"] }],
+          "flags": ["goOtake"],
+          "tags": ["risky"],
+          "bias": { "base": 1.3, "mods": [{ "when": { "flag": "timeRule" }, "add": -0.9 }] }
+        },
+        {
+          "id": "turn16",
+          "label": "大岳山に向かうが、16 時になったらどこにいても引き返す",
+          "detail": "行けるところまで行って、時間で区切る。",
+          "actions": [{ "type": "say", "who": "misaki", "text": "じゃあ 4 時になったら、どこにいても戻るからね", "to": "shota" }, { "type": "setRoute", "route": ["AYAHIRO", "AKUTABA", "OTAKE_HUT", "OTAKE"], "goalNodes": ["CABLE_TOP"] }],
+          "flags": ["goOtake", "turn16"],
+          "bias": { "base": 0.35, "mods": [{ "when": { "flag": "timeRule" }, "add": 0.2 }] }
+        },
+        {
+          "id": "back",
+          "label": "散策コースのとおり、天狗の腰掛け杉を通って駅へ戻る",
+          "detail": "ここから先は登山道。今日の装備で行く所ではない。",
+          "actions": [{ "type": "say", "who": "misaki", "text": "もう 3 時だし、戻ろうよ。足も冷えてきた", "to": "takuya" }, { "type": "continueRoute" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.45, "mods": [{ "when": { "flag": "timeRule" }, "add": 1.2 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_warned",
+      "title": "すれ違った登山者",
+      "priority": 14,
+      "trigger": { "flag": "hikerWarned" },
+      "situation": "下りてきた登山者が足を止め、4 人の服と靴を見て声をかけてきた。「これから大岳山？ もう日が暮れますよ。ライトは持ってる？ 上の岩場は、暗くなったら下りられないよ」",
+      "knowledge": ["日の入りは 16:40", "ライトはない", "大岳山の山頂まで、まだ 40 分以上かかりそう"],
+      "options": [
+        {
+          "id": "back",
+          "label": "お礼を言って、ここで引き返す",
+          "actions": [{ "type": "say", "who": "misaki", "text": "ありがとうございます。……戻ろう。やっぱり無理だよ", "to": "shota" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.45, "mods": [{ "when": { "flag": "turn16" }, "add": 0.4 }] }
+        },
+        {
+          "id": "go",
+          "label": "「すぐそこなんで、大丈夫です」と答えて進む",
+          "detail": "スマホのライトもある。",
+          "actions": [{ "type": "say", "who": "takuya", "text": "大丈夫っす！ スマホのライトもあるんで", "tone": "normal" }, { "type": "continueRoute" }],
+          "flags": ["ignoredWarning"],
+          "tags": ["risky"],
+          "bias": { "base": 1 }
+        }
+      ]
+    },
+    {
+      "id": "cp_summit",
+      "title": "大岳山の山頂",
+      "priority": 15,
+      "trigger": { "all": [{ "atNode": "OTAKE" }, { "before": "D0 23:59" }] },
+      "situation": "大岳山の山頂に着いた。西の空が赤く、富士山が影絵のように黒く浮かんでいる。振り返ると、森の中はもう暗い。さっきまで圏外だったスマホに、電波が入っている。",
+      "knowledge": [
+        "来た道を御岳山駅まで、明るければ 1 時間半ほど。山頂の下には岩場と鎖場がある",
+        "ライトはない。スマホの電池: 翔太 {c.shota.phone.batteryPct:0}%、拓也 {c.takuya.phone.batteryPct:0}%、大輔 {c.daisuke.phone.batteryPct:0}%、美咲 {c.misaki.phone.batteryPct:0}%",
+        "ケーブルカーの最終は 18:30。気温は {leader.local.tempC:0}℃、風が冷たい"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "電波があるうちに 110 番し、警察の指示に従う",
+          "detail": "大げさかもしれない。でも、暗い岩場を 4 人で下りられる自信はない。",
+          "actions": [
+            { "type": "say", "who": "misaki", "text": "もしもし、警察ですか。大岳山の山頂にいます。4 人で、ライトがなくて下りられません", "tone": "normal" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "narrate", "text": "電話に出た警察官は、落ち着いた声で言った。「夜は救助隊も山に入れません。明るくなったら向かいます。そこを動かないでください。風の当たらない岩陰で、4 人でくっついて。スマホは 1 台ずつ使って、電池を残して」" },
+            { "type": "waitRescue" }
+          ],
+          "flags": ["called110", "policeTold"],
+          "tags": ["recommended"],
+          "bias": { "base": 0.35, "mods": [{ "when": { "flag": "hikerWarned" }, "add": 0.2 }] }
+        },
+        {
+          "id": "hut",
+          "label": "スマホのライトで大岳山荘まで下り、建物の陰で風をよけながら 110 番する",
+          "detail": "休業中の山荘だが、建物の裏なら風が当たらない。山荘の前でも電波が入っていた。",
+          "actions": [
+            { "type": "say", "text": "山頂は風が強すぎる。山荘の陰まで下りて、そこから電話しよう", "tone": "normal" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "setFlag", "flag": "hutCall" },
+            { "type": "goToNode", "node": "OTAKE_HUT", "then": "call" }
+          ],
+          "bias": { "base": 0.3 }
+        },
+        {
+          "id": "photo",
+          "label": "夕焼けの富士山を撮って SNS に上げてから（15 分）、スマホのライトで来た道を下りる",
+          "detail": "せっかく登ったんだから。",
+          "actions": [
+            { "type": "say", "who": "takuya", "text": "富士山すげー！ みんな並んで、撮るよ！", "tone": "normal" },
+            { "type": "setRoute", "route": ["OTAKE", "OTAKE_HUT", "AKUTABA", "AYAHIRO", "KOSHIKAKE", "NAGAO_J", "SHRINE", "CABLE_TOP"], "goalNodes": ["CABLE_TOP"] },
+            { "type": "rest", "minutes": 15 }
+          ],
+          "flags": ["photo", "sentPhoto", "descendDark", "headedDown"],
+          "tags": ["risky"],
+          "bias": { "base": 1.2 }
+        },
+        {
+          "id": "down",
+          "label": "写真はあきらめ、すぐにスマホのライトで来た道を下りる",
+          "actions": [
+            { "type": "say", "text": "写真はいい。すぐ下りよう", "to": "takuya" },
+            { "type": "setRoute", "route": ["OTAKE", "OTAKE_HUT", "AKUTABA", "AYAHIRO", "KOSHIKAKE", "NAGAO_J", "SHRINE", "CABLE_TOP"], "goalNodes": ["CABLE_TOP"] }
+          ],
+          "flags": ["descendDark", "headedDown"],
+          "bias": { "base": 0.6 }
+        }
+      ]
+    },
+    {
+      "id": "cp_hurt_shota",
+      "title": "翔太さんがけがをした",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              { "var": "c.shota.injury", "op": "==", "value": "sprain" },
+              { "var": "c.shota.injury", "op": "==", "value": "legFracture" },
+              { "var": "c.shota.injury", "op": "==", "value": "headInjury" },
+              { "var": "c.shota.injury", "op": "==", "value": "severeTrauma" }
+            ]
+          },
+          { "var": "c.shota.alive", "op": "==", "value": true },
+          { "var": "c.shota.conscious", "op": "==", "value": true },
+          { "var": "leader.id", "op": "!=", "value": "shota" },
+          { "not": { "flag": "wander_shota" } }
+        ]
+      },
+      "situation": "翔太さんが足を滑らせて転んだ。足首を押さえてうずくまっている。立ち上がっても、痛くて体重をかけられない。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "ライトはない。日の入りは 16:40"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "seek",
+          "label": "美咲さんが電波の入る所まで行って 110 番し、戻ってくる",
+          "available": {
+            "all": [
+              {
+                "not": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+              },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "var": "c.misaki.injury", "op": "==", "value": "none" }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "misaki", "text": "電波のある所まで行ってくる。ここで待ってて", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "misaki", "returnAfter": true },
+            { "type": "bivouac", "until": "rescue", "findLee": false }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.4 }
+        },
+        {
+          "id": "support",
+          "label": "肩を貸して、ゆっくり駅へ下りる",
+          "available": { "any": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "翔太、肩につかまれ。ゆっくりでいいから下りよう", "to": "shota" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
+          "bias": { "base": 1 }
+        },
+        {
+          "id": "stay",
+          "label": "動かずに、みんなで寄り添って助けを待つ",
+          "actions": [{ "type": "say", "text": "無理に動かすのはやめよう。ここで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_hurt_takuya",
+      "title": "拓也さんがけがをした",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              { "var": "c.takuya.injury", "op": "==", "value": "sprain" },
+              { "var": "c.takuya.injury", "op": "==", "value": "legFracture" },
+              { "var": "c.takuya.injury", "op": "==", "value": "headInjury" },
+              { "var": "c.takuya.injury", "op": "==", "value": "severeTrauma" }
+            ]
+          },
+          { "var": "c.takuya.alive", "op": "==", "value": true },
+          { "var": "c.takuya.conscious", "op": "==", "value": true },
+          { "var": "leader.id", "op": "!=", "value": "takuya" },
+          { "not": { "flag": "wander_takuya" } }
+        ]
+      },
+      "situation": "拓也さんが足を滑らせて転んだ。足首を押さえてうずくまっている。立ち上がっても、痛くて体重をかけられない。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "ライトはない。日の入りは 16:40"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "seek",
+          "label": "美咲さんが電波の入る所まで行って 110 番し、戻ってくる",
+          "available": {
+            "all": [
+              {
+                "not": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+              },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "var": "c.misaki.injury", "op": "==", "value": "none" }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "misaki", "text": "電波のある所まで行ってくる。ここで待ってて", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "misaki", "returnAfter": true },
+            { "type": "bivouac", "until": "rescue", "findLee": false }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.4 }
+        },
+        {
+          "id": "support",
+          "label": "肩を貸して、ゆっくり駅へ下りる",
+          "available": { "any": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "拓也、肩につかまれ。ゆっくりでいいから下りよう", "to": "takuya" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
+          "bias": { "base": 1 }
+        },
+        {
+          "id": "stay",
+          "label": "動かずに、みんなで寄り添って助けを待つ",
+          "actions": [{ "type": "say", "text": "無理に動かすのはやめよう。ここで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_hurt_daisuke",
+      "title": "大輔さんがけがをした",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              { "var": "c.daisuke.injury", "op": "==", "value": "sprain" },
+              { "var": "c.daisuke.injury", "op": "==", "value": "legFracture" },
+              { "var": "c.daisuke.injury", "op": "==", "value": "headInjury" },
+              { "var": "c.daisuke.injury", "op": "==", "value": "severeTrauma" }
+            ]
+          },
+          { "var": "c.daisuke.alive", "op": "==", "value": true },
+          { "var": "c.daisuke.conscious", "op": "==", "value": true },
+          { "var": "leader.id", "op": "!=", "value": "daisuke" },
+          { "not": { "flag": "wander_daisuke" } }
+        ]
+      },
+      "situation": "大輔さんが足を滑らせて転んだ。足首を押さえてうずくまっている。立ち上がっても、痛くて体重をかけられない。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "ライトはない。日の入りは 16:40"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "seek",
+          "label": "美咲さんが電波の入る所まで行って 110 番し、戻ってくる",
+          "available": {
+            "all": [
+              {
+                "not": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+              },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "var": "c.misaki.injury", "op": "==", "value": "none" }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "misaki", "text": "電波のある所まで行ってくる。ここで待ってて", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "misaki", "returnAfter": true },
+            { "type": "bivouac", "until": "rescue", "findLee": false }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.4 }
+        },
+        {
+          "id": "support",
+          "label": "肩を貸して、ゆっくり駅へ下りる",
+          "available": { "any": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "大輔、肩につかまれ。ゆっくりでいいから下りよう", "to": "daisuke" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
+          "bias": { "base": 1 }
+        },
+        {
+          "id": "stay",
+          "label": "動かずに、みんなで寄り添って助けを待つ",
+          "actions": [{ "type": "say", "text": "無理に動かすのはやめよう。ここで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_hurt_misaki",
+      "title": "美咲さんがけがをした",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              { "var": "c.misaki.injury", "op": "==", "value": "sprain" },
+              { "var": "c.misaki.injury", "op": "==", "value": "legFracture" },
+              { "var": "c.misaki.injury", "op": "==", "value": "headInjury" },
+              { "var": "c.misaki.injury", "op": "==", "value": "severeTrauma" }
+            ]
+          },
+          { "var": "c.misaki.alive", "op": "==", "value": true },
+          { "var": "c.misaki.conscious", "op": "==", "value": true },
+          { "var": "leader.id", "op": "!=", "value": "misaki" },
+          { "not": { "flag": "wander_misaki" } }
+        ]
+      },
+      "situation": "美咲さんが足を滑らせて転んだ。足首を押さえてうずくまっている。立ち上がっても、痛くて体重をかけられない。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "ライトはない。日の入りは 16:40"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "seek",
+          "label": "大輔さんが電波の入る所まで行って 110 番し、戻ってくる",
+          "available": {
+            "all": [
+              {
+                "not": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+              },
+              { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "var": "c.daisuke.injury", "op": "==", "value": "none" }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "daisuke", "text": "電波のある所まで行ってくる。ここで待ってて", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "daisuke", "returnAfter": true },
+            { "type": "bivouac", "until": "rescue", "findLee": false }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.4 }
+        },
+        {
+          "id": "support",
+          "label": "肩を貸して、ゆっくり駅へ下りる",
+          "available": { "any": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "美咲、肩につかまれ。ゆっくりでいいから下りよう", "to": "misaki" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
+          "bias": { "base": 1 }
+        },
+        {
+          "id": "stay",
+          "label": "動かずに、みんなで寄り添って助けを待つ",
+          "actions": [{ "type": "say", "text": "無理に動かすのはやめよう。ここで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_dawnhurt_shota",
+      "title": "夜が明けた",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          { "after": "D1 07:00" },
+          { "var": "sun.isDark", "op": "==", "value": false },
+          {
+            "any": [
+              { "var": "c.shota.injury", "op": "==", "value": "sprain" },
+              { "var": "c.shota.injury", "op": "==", "value": "legFracture" },
+              { "var": "c.shota.injury", "op": "==", "value": "headInjury" },
+              { "var": "c.shota.injury", "op": "==", "value": "severeTrauma" }
+            ]
+          },
+          { "var": "c.shota.alive", "op": "==", "value": true },
+          { "not": { "flag": "wander_shota" } },
+          { "not": { "flag": "phoned" } },
+          { "any": [{ "var": "leader.state", "op": "==", "value": "BIVOUAC" }, { "var": "leader.state", "op": "==", "value": "STAYING" }] }
+        ]
+      },
+      "situation": "夜が明けた。翔太さんの足は腫れ上がり、一人では歩けない。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "美咲さんのスマホの電池: {c.misaki.phone.batteryPct:0}%"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "seek",
+          "label": "美咲さんが電波の入る所まで行って 110 番し、戻ってくる",
+          "available": {
+            "all": [
+              {
+                "not": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+              },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "var": "c.misaki.injury", "op": "==", "value": "none" }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "misaki", "text": "電波のある所まで行ってくる。ここで待ってて", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "misaki", "returnAfter": true },
+            { "type": "bivouac", "until": "rescue", "findLee": false }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "wait",
+          "label": "翔太さんのそばを離れず、交代で声を上げて助けを待つ",
+          "actions": [{ "type": "say", "text": "おーい！ けが人がいます！ 誰かいませんか！", "tone": "shout" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_dawnhurt_takuya",
+      "title": "夜が明けた",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          { "after": "D1 07:00" },
+          { "var": "sun.isDark", "op": "==", "value": false },
+          {
+            "any": [
+              { "var": "c.takuya.injury", "op": "==", "value": "sprain" },
+              { "var": "c.takuya.injury", "op": "==", "value": "legFracture" },
+              { "var": "c.takuya.injury", "op": "==", "value": "headInjury" },
+              { "var": "c.takuya.injury", "op": "==", "value": "severeTrauma" }
+            ]
+          },
+          { "var": "c.takuya.alive", "op": "==", "value": true },
+          { "not": { "flag": "wander_takuya" } },
+          { "not": { "flag": "phoned" } },
+          { "any": [{ "var": "leader.state", "op": "==", "value": "BIVOUAC" }, { "var": "leader.state", "op": "==", "value": "STAYING" }] }
+        ]
+      },
+      "situation": "夜が明けた。拓也さんの足は腫れ上がり、一人では歩けない。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "美咲さんのスマホの電池: {c.misaki.phone.batteryPct:0}%"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "seek",
+          "label": "美咲さんが電波の入る所まで行って 110 番し、戻ってくる",
+          "available": {
+            "all": [
+              {
+                "not": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+              },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "var": "c.misaki.injury", "op": "==", "value": "none" }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "misaki", "text": "電波のある所まで行ってくる。ここで待ってて", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "misaki", "returnAfter": true },
+            { "type": "bivouac", "until": "rescue", "findLee": false }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "wait",
+          "label": "拓也さんのそばを離れず、交代で声を上げて助けを待つ",
+          "actions": [{ "type": "say", "text": "おーい！ けが人がいます！ 誰かいませんか！", "tone": "shout" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_dawnhurt_daisuke",
+      "title": "夜が明けた",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          { "after": "D1 07:00" },
+          { "var": "sun.isDark", "op": "==", "value": false },
+          {
+            "any": [
+              { "var": "c.daisuke.injury", "op": "==", "value": "sprain" },
+              { "var": "c.daisuke.injury", "op": "==", "value": "legFracture" },
+              { "var": "c.daisuke.injury", "op": "==", "value": "headInjury" },
+              { "var": "c.daisuke.injury", "op": "==", "value": "severeTrauma" }
+            ]
+          },
+          { "var": "c.daisuke.alive", "op": "==", "value": true },
+          { "not": { "flag": "wander_daisuke" } },
+          { "not": { "flag": "phoned" } },
+          { "any": [{ "var": "leader.state", "op": "==", "value": "BIVOUAC" }, { "var": "leader.state", "op": "==", "value": "STAYING" }] }
+        ]
+      },
+      "situation": "夜が明けた。大輔さんの足は腫れ上がり、一人では歩けない。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "美咲さんのスマホの電池: {c.misaki.phone.batteryPct:0}%"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "seek",
+          "label": "美咲さんが電波の入る所まで行って 110 番し、戻ってくる",
+          "available": {
+            "all": [
+              {
+                "not": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+              },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "var": "c.misaki.injury", "op": "==", "value": "none" }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "misaki", "text": "電波のある所まで行ってくる。ここで待ってて", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "misaki", "returnAfter": true },
+            { "type": "bivouac", "until": "rescue", "findLee": false }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "wait",
+          "label": "大輔さんのそばを離れず、交代で声を上げて助けを待つ",
+          "actions": [{ "type": "say", "text": "おーい！ けが人がいます！ 誰かいませんか！", "tone": "shout" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_dawnhurt_misaki",
+      "title": "夜が明けた",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          { "after": "D1 07:00" },
+          { "var": "sun.isDark", "op": "==", "value": false },
+          {
+            "any": [
+              { "var": "c.misaki.injury", "op": "==", "value": "sprain" },
+              { "var": "c.misaki.injury", "op": "==", "value": "legFracture" },
+              { "var": "c.misaki.injury", "op": "==", "value": "headInjury" },
+              { "var": "c.misaki.injury", "op": "==", "value": "severeTrauma" }
+            ]
+          },
+          { "var": "c.misaki.alive", "op": "==", "value": true },
+          { "not": { "flag": "wander_misaki" } },
+          { "not": { "flag": "phoned" } },
+          { "any": [{ "var": "leader.state", "op": "==", "value": "BIVOUAC" }, { "var": "leader.state", "op": "==", "value": "STAYING" }] }
+        ]
+      },
+      "situation": "夜が明けた。美咲さんの足は腫れ上がり、一人では歩けない。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "大輔さんのスマホの電池: {c.daisuke.phone.batteryPct:0}%"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "seek",
+          "label": "大輔さんが電波の入る所まで行って 110 番し、戻ってくる",
+          "available": {
+            "all": [
+              {
+                "not": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+              },
+              { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "var": "c.daisuke.injury", "op": "==", "value": "none" }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "daisuke", "text": "電波のある所まで行ってくる。ここで待ってて", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "daisuke", "returnAfter": true },
+            { "type": "bivouac", "until": "rescue", "findLee": false }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "wait",
+          "label": "美咲さんのそばを離れず、交代で声を上げて助けを待つ",
+          "actions": [{ "type": "say", "text": "おーい！ けが人がいます！ 誰かいませんか！", "tone": "shout" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
+          "bias": { "base": 0.5 }
+        }
+      ]
+    },
+    {
+      "id": "cp_cold",
+      "title": "震えが止まらない",
+      "priority": 9,
+      "group": "party",
+      "trigger": {
+        "all": [
+          { "var": "leader.coreC", "op": "<", "value": 35.3 },
+          {
+            "any": [
+              { "var": "leader.state", "op": "==", "value": "WALKING" },
+              { "var": "leader.state", "op": "==", "value": "RESTING" },
+              { "var": "leader.state", "op": "==", "value": "STAYING" },
+              { "var": "leader.state", "op": "==", "value": "LOST_AWARE" },
+              { "var": "leader.state", "op": "==", "value": "OFFROUTE_UNAWARE" },
+              { "var": "leader.state", "op": "==", "value": "BACKTRACKING" },
+              { "var": "leader.state", "op": "==", "value": "NAVIGATING_TO_TRAIL" },
+              { "var": "leader.state", "op": "==", "value": "DESCENDING_DRAINAGE" }
+            ]
+          }
+        ]
+      },
+      "situation": "{leader.name}さんの震えが止まらない。冷たい風が服の中まで入ってくる。指がかじかんで、スマホの画面もうまく押せない（体温 {leader.coreC:1}℃、推定）。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "気温は {leader.local.tempC:0}℃"],
+      "options": [
+        {
+          "id": "wait",
+          "label": "動かずに体を寄せ合い、救助を待つ",
+          "detail": "通報は済んでいる。動けば見つけてもらえない。",
+          "available": { "all": [{ "flag": "phoned" }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "くっついて。もうすぐ朝だ。動かないで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.8 }
+        },
+        {
+          "id": "bivouac",
+          "label": "風の当たらない所で、みんなで体を寄せ合って朝を待つ",
+          "detail": "明るくなったら駅へ下りる。",
+          "available": { "all": [{ "not": { "flag": "phoned" } }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "止まろう。くっついて、朝を待とう", "tone": "normal" },
+            { "type": "setFlag", "flag": "headedDown" },
+            { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" },
+            { "type": "bivouac", "until": "dawn", "findLee": true }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.4 }
+        },
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": {
+            "all": [
+              { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+              { "not": { "flag": "phoned" } }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山の中で寒くて動けなくなりそうです。4 人です", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.3 }
+        },
+        {
+          "id": "keep_walking",
+          "label": "歩き続けて体を温める",
+          "available": { "all": [{ "var": "mates.unwellCount", "op": "==", "value": 0 }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "setPace", "factor": 1.1 }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.8, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.5 }, "add": 0.6 }, { "when": { "flag": "phoned" }, "add": -0.65 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_cold2",
+      "title": "震えが止まらない",
+      "priority": 9,
+      "group": "party",
+      "trigger": {
+        "all": [
+          { "var": "leader.coreC", "op": "<", "value": 34 },
+          {
+            "any": [
+              { "var": "leader.state", "op": "==", "value": "WALKING" },
+              { "var": "leader.state", "op": "==", "value": "RESTING" },
+              { "var": "leader.state", "op": "==", "value": "STAYING" },
+              { "var": "leader.state", "op": "==", "value": "LOST_AWARE" },
+              { "var": "leader.state", "op": "==", "value": "OFFROUTE_UNAWARE" },
+              { "var": "leader.state", "op": "==", "value": "BACKTRACKING" },
+              { "var": "leader.state", "op": "==", "value": "NAVIGATING_TO_TRAIL" },
+              { "var": "leader.state", "op": "==", "value": "DESCENDING_DRAINAGE" }
+            ]
+          }
+        ]
+      },
+      "situation": "{leader.name}さんの震えが止まらない。冷たい風が服の中まで入ってくる。指がかじかんで、スマホの画面もうまく押せない（体温 {leader.coreC:1}℃、推定）。",
+      "knowledge": ["いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "気温は {leader.local.tempC:0}℃"],
+      "options": [
+        {
+          "id": "wait",
+          "label": "動かずに体を寄せ合い、救助を待つ",
+          "detail": "通報は済んでいる。動けば見つけてもらえない。",
+          "available": { "all": [{ "flag": "phoned" }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "くっついて。もうすぐ朝だ。動かないで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.8 }
+        },
+        {
+          "id": "bivouac",
+          "label": "風の当たらない所で、みんなで体を寄せ合って朝を待つ",
+          "detail": "明るくなったら駅へ下りる。",
+          "available": { "all": [{ "not": { "flag": "phoned" } }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "止まろう。くっついて、朝を待とう", "tone": "normal" },
+            { "type": "setFlag", "flag": "headedDown" },
+            { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" },
+            { "type": "bivouac", "until": "dawn", "findLee": true }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.4 }
+        },
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": {
+            "all": [
+              { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+              { "not": { "flag": "phoned" } }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、山の中で寒くて動けなくなりそうです。4 人です", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.3 }
+        },
+        {
+          "id": "keep_walking",
+          "label": "歩き続けて体を温める",
+          "available": { "all": [{ "var": "mates.unwellCount", "op": "==", "value": 0 }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "setPace", "factor": 1.1 }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.8, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.5 }, "add": 0.6 }, { "when": { "flag": "phoned" }, "add": -0.65 }] }
+        }
+      ]
+    },
+    {
+      "id": "cp_dawn_lost",
+      "title": "夜が明けた",
+      "priority": 11,
+      "trigger": {
+        "all": [
+          { "after": "D1 07:00" },
+          { "var": "sun.isDark", "op": "==", "value": false },
+          { "any": [{ "onEdge": "F_SAWA" }, { "onEdge": "F_ROCK" }] },
+          {
+            "any": [
+              { "var": "leader.state", "op": "==", "value": "WALKING" },
+              { "var": "leader.state", "op": "==", "value": "BIVOUAC" },
+              { "var": "leader.state", "op": "==", "value": "STAYING" },
+              { "var": "leader.state", "op": "==", "value": "LOST_AWARE" }
+            ]
+          }
+        ]
+      },
+      "situation": "夜が明けた。明るくなって見回すと、まわりは急な斜面と岩ばかりで、登山道は見えない。夜のうちに道を外れていたらしい。",
+      "knowledge": [
+        "登山道は斜面の上のどこかにある",
+        "スマホの電池: 翔太 {c.shota.phone.batteryPct:0}%、拓也 {c.takuya.phone.batteryPct:0}%、大輔 {c.daisuke.phone.batteryPct:0}%、美咲 {c.misaki.phone.batteryPct:0}%",
+        "いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、大岳山の近くで道が分からなくなって、ひと晩過ごしました。4 人です", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "gps",
+          "label": "スマホの地図で今いる所を確かめ、登山道まで登り返す",
+          "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "地図だと、道はこの上だ。登り返そう", "tone": "normal" }, { "type": "checkPosition" }, { "type": "navigateToTrail" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.7 }
+        },
+        { "id": "backtrack", "label": "夜に下りてきた方へ、斜面を登り返す", "actions": [{ "type": "say", "text": "来た方へ戻ろう。上に道があるはずだ", "tone": "normal" }, { "type": "backtrack" }], "bias": { "base": 0.6 } },
+        { "id": "wait", "label": "動かずに、通る人に聞こえるよう交代で叫ぶ", "actions": [{ "type": "say", "text": "おーい！ 誰かいませんか！", "tone": "shout" }, { "type": "stayPut" }], "bias": { "base": 0.4 } }
+      ]
+    },
+    {
+      "id": "cp_gone_shota",
+      "title": "翔太さんが戻らない",
+      "priority": 13,
+      "trigger": { "elapsedSince": { "flag": "wander_shota", "min": 12 } },
+      "situation": "翔太さんが戻ってこない。暗がりに向かって名前を呼んでも、返事がない。さっきから、言うことが少しおかしかった。",
+      "knowledge": ["あたりは急な斜面と岩。明かりはスマホのライトだけ", "いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "気温は {leader.local.tempC:0}℃"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、翔太さんがいなくなったことを伝える",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "もしもし、仲間が一人、暗い中でいなくなりました。翔太といいます", "tone": "normal" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "setFlag", "flag": "wanderReported" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "narrate", "text": "警察は「探しに行かないでください。暗い中を動けば、あなたたちも落ちます。明るくなったら救助隊が向かいます」と言った" }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "seek_daisuke",
+          "label": "大輔さんがスマホのライトで電波の入る所まで行き、110 番して戻ってくる",
+          "detail": "電波が入った山頂のあたりまで、斜面を登る。",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "var": "c.daisuke.conscious", "op": "==", "value": true },
+                  { "var": "c.daisuke.injury", "op": "==", "value": "none" }
+                ]
+              },
+              { "not": { "var": "leader.radio", "op": ">=", "value": 0.3 } },
+              { "not": { "flag": "phoned" } }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "daisuke", "text": "電波のある所まで行ってくる。ここを動かないで", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "daisuke", "returnAfter": true }
+          ],
+          "bias": { "base": 0.5 }
+        },
+        { "id": "shout", "label": "ここを動かず、交代で名前を呼び続ける", "actions": [{ "type": "say", "text": "翔太！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
+        {
+          "id": "search",
+          "label": "スマホのライトで照らしながら、近くの斜面を探しに下りる",
+          "available": {
+            "any": [
+              { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.takuya.phone.has", "op": "==", "value": true }, { "var": "c.takuya.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "detail": "放っておけない。すぐ近くにいるはずだ。",
+          "actions": [
+            { "type": "say", "text": "翔太！ どこだ！", "tone": "shout" },
+            { "type": "setFlag", "flag": "searchMate" },
+            { "type": "narrate", "text": "スマホのライトで斜面を照らし、名前を呼びながら岩の間を下りかけた。ライトの輪の外は闇で、すぐ先で地面が切れ落ちているのかどうかも分からない" }
+          ],
+          "tags": ["risky"],
+          "bias": { "base": 1 }
+        }
+      ]
+    },
+    {
+      "id": "cp_gone_takuya",
+      "title": "拓也さんが戻らない",
+      "priority": 13,
+      "trigger": { "elapsedSince": { "flag": "wander_takuya", "min": 12 } },
+      "situation": "拓也さんが戻ってこない。暗がりに向かって名前を呼んでも、返事がない。さっきから、言うことが少しおかしかった。",
+      "knowledge": ["あたりは急な斜面と岩。明かりはスマホのライトだけ", "いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "気温は {leader.local.tempC:0}℃"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、拓也さんがいなくなったことを伝える",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "もしもし、仲間が一人、暗い中でいなくなりました。拓也といいます", "tone": "normal" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "setFlag", "flag": "wanderReported" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "narrate", "text": "警察は「探しに行かないでください。暗い中を動けば、あなたたちも落ちます。明るくなったら救助隊が向かいます」と言った" }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "seek_daisuke",
+          "label": "大輔さんがスマホのライトで電波の入る所まで行き、110 番して戻ってくる",
+          "detail": "電波が入った山頂のあたりまで、斜面を登る。",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "var": "c.daisuke.conscious", "op": "==", "value": true },
+                  { "var": "c.daisuke.injury", "op": "==", "value": "none" }
+                ]
+              },
+              { "not": { "var": "leader.radio", "op": ">=", "value": 0.3 } },
+              { "not": { "flag": "phoned" } }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "daisuke", "text": "電波のある所まで行ってくる。ここを動かないで", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "daisuke", "returnAfter": true }
+          ],
+          "bias": { "base": 0.5 }
+        },
+        { "id": "shout", "label": "ここを動かず、交代で名前を呼び続ける", "actions": [{ "type": "say", "text": "拓也！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
+        {
+          "id": "search",
+          "label": "スマホのライトで照らしながら、近くの斜面を探しに下りる",
+          "available": {
+            "any": [
+              { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.takuya.phone.has", "op": "==", "value": true }, { "var": "c.takuya.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "detail": "放っておけない。すぐ近くにいるはずだ。",
+          "actions": [
+            { "type": "say", "text": "拓也！ どこだ！", "tone": "shout" },
+            { "type": "setFlag", "flag": "searchMate" },
+            { "type": "narrate", "text": "スマホのライトで斜面を照らし、名前を呼びながら岩の間を下りかけた。ライトの輪の外は闇で、すぐ先で地面が切れ落ちているのかどうかも分からない" }
+          ],
+          "tags": ["risky"],
+          "bias": { "base": 1 }
+        }
+      ]
+    },
+    {
+      "id": "cp_gone_daisuke",
+      "title": "大輔さんが戻らない",
+      "priority": 13,
+      "trigger": { "elapsedSince": { "flag": "wander_daisuke", "min": 12 } },
+      "situation": "大輔さんが戻ってこない。暗がりに向かって名前を呼んでも、返事がない。さっきから、言うことが少しおかしかった。",
+      "knowledge": ["あたりは急な斜面と岩。明かりはスマホのライトだけ", "いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "気温は {leader.local.tempC:0}℃"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、大輔さんがいなくなったことを伝える",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "もしもし、仲間が一人、暗い中でいなくなりました。大輔といいます", "tone": "normal" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "setFlag", "flag": "wanderReported" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "narrate", "text": "警察は「探しに行かないでください。暗い中を動けば、あなたたちも落ちます。明るくなったら救助隊が向かいます」と言った" }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "seek_misaki",
+          "label": "美咲さんがスマホのライトで電波の入る所まで行き、110 番して戻ってくる",
+          "detail": "電波が入った山頂のあたりまで、斜面を登る。",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "var": "c.misaki.conscious", "op": "==", "value": true },
+                  { "var": "c.misaki.injury", "op": "==", "value": "none" }
+                ]
+              },
+              { "not": { "var": "leader.radio", "op": ">=", "value": 0.3 } },
+              { "not": { "flag": "phoned" } }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "misaki", "text": "電波のある所まで行ってくる。ここを動かないで", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "misaki", "returnAfter": true }
+          ],
+          "bias": { "base": 0.5 }
+        },
+        { "id": "shout", "label": "ここを動かず、交代で名前を呼び続ける", "actions": [{ "type": "say", "text": "大輔！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
+        {
+          "id": "search",
+          "label": "スマホのライトで照らしながら、近くの斜面を探しに下りる",
+          "available": {
+            "any": [
+              { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.takuya.phone.has", "op": "==", "value": true }, { "var": "c.takuya.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "detail": "放っておけない。すぐ近くにいるはずだ。",
+          "actions": [
+            { "type": "say", "text": "大輔！ どこだ！", "tone": "shout" },
+            { "type": "setFlag", "flag": "searchMate" },
+            { "type": "narrate", "text": "スマホのライトで斜面を照らし、名前を呼びながら岩の間を下りかけた。ライトの輪の外は闇で、すぐ先で地面が切れ落ちているのかどうかも分からない" }
+          ],
+          "tags": ["risky"],
+          "bias": { "base": 1 }
+        }
+      ]
+    },
+    {
+      "id": "cp_gone_misaki",
+      "title": "美咲さんが戻らない",
+      "priority": 13,
+      "trigger": { "elapsedSince": { "flag": "wander_misaki", "min": 12 } },
+      "situation": "美咲さんが戻ってこない。暗がりに向かって名前を呼んでも、返事がない。さっきから、言うことが少しおかしかった。",
+      "knowledge": ["あたりは急な斜面と岩。明かりはスマホのライトだけ", "いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）", "気温は {leader.local.tempC:0}℃"],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、美咲さんがいなくなったことを伝える",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "もしもし、仲間が一人、暗い中でいなくなりました。美咲といいます", "tone": "normal" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "setFlag", "flag": "wanderReported" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "narrate", "text": "警察は「探しに行かないでください。暗い中を動けば、あなたたちも落ちます。明るくなったら救助隊が向かいます」と言った" }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "seek_daisuke",
+          "label": "大輔さんがスマホのライトで電波の入る所まで行き、110 番して戻ってくる",
+          "detail": "電波が入った山頂のあたりまで、斜面を登る。",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "var": "c.daisuke.conscious", "op": "==", "value": true },
+                  { "var": "c.daisuke.injury", "op": "==", "value": "none" }
+                ]
+              },
+              { "not": { "var": "leader.radio", "op": ">=", "value": 0.3 } },
+              { "not": { "flag": "phoned" } }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "who": "daisuke", "text": "電波のある所まで行ってくる。ここを動かないで", "tone": "normal" },
+            { "type": "setFlag", "flag": "seekCall" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "seekSignal", "who": "daisuke", "returnAfter": true }
+          ],
+          "bias": { "base": 0.5 }
+        },
+        { "id": "shout", "label": "ここを動かず、交代で名前を呼び続ける", "actions": [{ "type": "say", "text": "美咲！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
+        {
+          "id": "search",
+          "label": "スマホのライトで照らしながら、近くの斜面を探しに下りる",
+          "available": {
+            "any": [
+              { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.takuya.phone.has", "op": "==", "value": true }, { "var": "c.takuya.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "detail": "放っておけない。すぐ近くにいるはずだ。",
+          "actions": [
+            { "type": "say", "text": "美咲！ どこだ！", "tone": "shout" },
+            { "type": "setFlag", "flag": "searchMate" },
+            { "type": "narrate", "text": "スマホのライトで斜面を照らし、名前を呼びながら岩の間を下りかけた。ライトの輪の外は闇で、すぐ先で地面が切れ落ちているのかどうかも分からない" }
+          ],
+          "tags": ["risky"],
+          "bias": { "base": 1 }
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "darkness": {
+      "situation": "森の中が真っ暗になった。ライトはない。スマホのライトをつけると、照らせるのは足元の石と木の根だけで、その外は何も見えない。",
+      "knowledge": [
+        "スマホの電池: 翔太 {c.shota.phone.batteryPct:0}%、拓也 {c.takuya.phone.batteryPct:0}%、大輔 {c.daisuke.phone.batteryPct:0}%、美咲 {c.misaki.phone.batteryPct:0}%",
+        "いまいる所の電波: {leader.radio:1}（0.3 以上で電話がかかる）",
+        "気温は {leader.local.tempC:0}℃"
+      ],
+      "options": [
+        {
+          "id": "village",
+          "label": "宿坊街はすぐそこだ。スマホのライトで照らして、そのまま駅へ向かう",
+          "detail": "長尾平分岐から先は、宿坊や店の明かりがある。",
+          "available": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "setPace", "factor": 1.2 }, { "type": "continueRoute" }],
+          "tags": ["recommended"],
+          "bias": { "base": 3 }
+        },
+        {
+          "id": "call",
+          "label": "電波があるうちに 110 番し、その場で待つ",
+          "available": {
+            "all": [
+              { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+              { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "もしもし、大岳山の近くで、暗くなって動けなくなりました。4 人です", "tone": "normal" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "setFlag", "flag": "policeTold" },
+            { "type": "callRescue", "via": "auto" },
+            { "type": "narrate", "text": "電話に出た警察官は、落ち着いた声で言った。「夜は救助隊も山に入れません。明るくなったら向かいます。そこを動かないでください。風の当たらない岩陰で、4 人でくっついて。スマホは 1 台ずつ使って、電池を残して」" },
+            { "type": "waitRescue" }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "bivouac",
+          "label": "動かずに朝を待つ。4 人で身を寄せ合い、風の当たらない所でうずくまる",
+          "detail": "明るくなったら駅へ下りる。",
+          "available": { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "動くのはやめよう。朝まで、ここでくっついて待とう", "tone": "normal" },
+            { "type": "setFlag", "flag": "headedDown" },
+            { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" },
+            { "type": "bivouac", "until": "dawn", "findLee": true }
+          ],
+          "tags": ["recommended"],
+          "bias": { "base": 0.4 }
+        },
+        {
+          "id": "phone_back",
+          "label": "スマホのライトで照らしながら、来た道を駅へ引き返す",
+          "detail": "ライトは 1 台ずつつけて、電池を交代で使う。",
+          "available": {
+            "all": [
+              {
+                "any": [
+                  { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "all": [{ "var": "c.takuya.phone.has", "op": "==", "value": true }, { "var": "c.takuya.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
+                ]
+              },
+              { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } },
+              { "not": { "flag": "headedDown" } },
+              { "flag": "goOtake" },
+              { "not": { "beenAt": "OTAKE" } }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "もう無理だ。ライトつけて、戻ろう", "tone": "normal" },
+            { "type": "setFlag", "flag": "phoneLight" },
+            { "type": "setFlag", "flag": "descendDark" },
+            { "type": "setFlag", "flag": "headedDown" },
+            { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }
+          ],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "phone_up",
+          "label": "山頂はもうすぐだ。スマホのライトで照らして、山頂まで行く",
+          "available": {
+            "all": [
+              {
+                "any": [
+                  { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "all": [{ "var": "c.takuya.phone.has", "op": "==", "value": true }, { "var": "c.takuya.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
+                ]
+              },
+              { "not": { "flag": "headedDown" } },
+              { "flag": "goOtake" },
+              { "not": { "beenAt": "OTAKE" } },
+              { "any": [{ "onEdge": "E9" }, { "onEdge": "E10" }] }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "who": "takuya", "text": "ここまで来たんだし、山頂すぐそこだって。ライトつけて行こう", "tone": "normal" }, { "type": "setFlag", "flag": "phoneLight" }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 1, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.5 }, "add": 0.3 }] }
+        },
+        {
+          "id": "phone",
+          "label": "スマホのライトで照らし合いながら、ゆっくり下り続ける",
+          "detail": "ライトは 1 台ずつつけて、電池を交代で使う。",
+          "available": {
+            "all": [
+              {
+                "any": [
+                  { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "all": [{ "var": "c.takuya.phone.has", "op": "==", "value": true }, { "var": "c.takuya.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+                  { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
+                ]
+              },
+              { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } },
+              { "any": [{ "flag": "headedDown" }, { "not": { "flag": "goOtake" } }] }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "一台ずつライトつけよう。足元、照らして", "tone": "normal" }, { "type": "setFlag", "flag": "phoneLight" }, { "type": "setFlag", "flag": "descendDark" }, { "type": "continueRoute" }],
+          "tags": ["risky"],
+          "bias": { "base": 1, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.5 }, "add": 0.3 }] }
+        },
+        {
+          "id": "climb_call",
+          "label": "電波が入った大岳山荘の前まで登り返して、110 番する",
+          "available": {
+            "all": [
+              { "beenAt": "OTAKE_HUT" },
+              {
+                "not": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] }
+              },
+              { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
+              { "any": [{ "onEdge": "E9" }, { "onEdge": "E8" }] }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            { "type": "say", "text": "さっきの山荘の所まで戻れば電話がかかる", "tone": "normal" },
+            { "type": "setFlag", "flag": "phoned" },
+            { "type": "setFlag", "flag": "climbCall" },
+            { "type": "goToNode", "node": "OTAKE_HUT", "then": "call" }
+          ],
+          "bias": { "base": 0.3 }
+        }
+      ]
+    },
+    "lostAware": {
+      "situation": "足元の踏み跡が消えた。スマホのライトで照らしても、岩と木の根と、急な斜面しか見えない。どこで道を外れたのか分からない。",
+      "options": [
+        {
+          "id": "call",
+          "label": "電波があるうちに 110 番し、その場で待つ",
+          "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "もしもし、大岳山の近くで道が分からなくなりました。4 人です", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.5 }
+        },
+        {
+          "id": "stay",
+          "label": "動かない。4 人で身を寄せ合って朝を待つ",
+          "available": { "var": "sun.isDark", "op": "==", "value": true },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "say", "text": "これ以上動いたら落ちる。朝まで待とう", "tone": "normal" }, { "type": "bivouac", "until": "dawn", "findLee": true }],
+          "tags": ["recommended"],
+          "bias": { "base": 0.6 }
+        },
+        {
+          "id": "gps",
+          "label": "スマホの地図で今いる所を確かめて、道に戻る",
+          "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
+          "hideIfUnavailable": true,
+          "actions": [{ "type": "checkPosition" }, { "type": "navigateToTrail" }],
+          "bias": { "base": 0.6 }
+        },
+        { "id": "backtrack", "label": "来た方へ戻る", "available": { "var": "sun.isDark", "op": "==", "value": false }, "hideIfUnavailable": true, "actions": [{ "type": "backtrack" }], "bias": { "base": 0.6 } },
+        {
+          "id": "descend",
+          "label": "下へ下りれば、いつか道に出るはずだ",
+          "actions": [{ "type": "descendDrainage" }],
+          "tags": ["risky"],
+          "bias": { "base": 0.5, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.5 }, "add": 0.6 }] }
+        }
+      ]
+    },
+    "hypothermia": { "enabled": false },
+    "injured": { "situation": "足を滑らせて転んだ。{leader.name}さんは足が痛くて、体重をかけられない。" }
+  },
+  "thoughts": [
+    {
+      "key": "s14_sweat_t",
+      "who": "takuya",
+      "when": { "all": [{ "flag": "sweat_takuya" }, { "var": "c.takuya.wetness", "op": ">", "value": 0.15 }, { "not": { "beenAt": "OTAKE" } }] },
+      "lines": ["汗びっしょりだ。パーカーの中まで濡れてる", "ダウン着たまま登るんじゃなかった"],
+      "priority": 7
+    },
+    {
+      "key": "s14_sweat_d",
+      "who": "daisuke",
+      "when": { "all": [{ "flag": "sweat_daisuke" }, { "var": "c.daisuke.wetness", "op": ">", "value": 0.12 }, { "var": "c.daisuke.local.tempC", "op": "<", "value": 2 }] },
+      "lines": ["汗が冷えてきた。シャツが背中に張りつく", "登ってるときは暑かったのに"],
+      "priority": 7
+    },
+    {
+      "key": "s14_cold_m",
+      "who": "misaki",
+      "when": {
+        "all": [
+          { "var": "c.misaki.coreC", "op": "<", "value": 36.3 },
+          {
+            "all": [
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "lines": ["寒い……コートの中まで冷えてくる", "ブーツのつま先の感覚がない"],
+      "priority": 7
+    },
+    {
+      "key": "s14_light",
+      "who": "leader",
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
+          { "flag": "descendDark" }
+        ]
+      },
+      "lines": ["スマホのライトじゃ、足元しか見えない", "電池、もつかな"],
+      "priority": 7
+    },
+    {
+      "key": "s14_nolight",
+      "who": "leader",
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          {
+            "not": {
+              "any": [
+                { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
+                { "all": [{ "var": "c.takuya.phone.has", "op": "==", "value": true }, { "var": "c.takuya.phone.batteryPct", "op": ">", "value": 0 }] },
+                { "all": [{ "var": "c.daisuke.phone.has", "op": "==", "value": true }, { "var": "c.daisuke.phone.batteryPct", "op": ">", "value": 0 }] },
+                { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
+              ]
+            }
+          }
+        ]
+      },
+      "lines": ["スマホの電池が全部切れた。もう何も見えない", "手探りで、一歩ずつ"],
+      "priority": 8
+    },
+    {
+      "key": "s14_wait",
+      "who": "daisuke",
+      "when": { "all": [{ "var": "sun.isDark", "op": "==", "value": true }, { "var": "c.daisuke.state", "op": "==", "value": "WAITING_RESCUE" }] },
+      "lines": ["朝まで、あと何時間だ", "じっとしていると、足から冷えてくる"],
+      "priority": 6
+    },
+    {
+      "key": "s14_blame",
+      "who": "shota",
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "any": [{ "var": "c.shota.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.shota.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.shota.state", "op": "==", "value": "STAYING" }] },
+          { "flag": "goOtake" }
+        ]
+      },
+      "lines": ["俺が「行こう」なんて言ったから……", "綾広の滝で戻ってればよかった"],
+      "priority": 6
+    }
+  ],
+  "speech": [
+    {
+      "key": "s14_cable",
+      "who": "misaki",
+      "to": "shota",
+      "when": { "all": [{ "after": "D0 12:31" }, { "before": "D0 13:00" }] },
+      "lines": ["ケーブルカー、すごい行列だったね"],
+      "replies": { "who": "shota", "lines": ["正月だからな。でも景色いいじゃん"] },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s14_omikuji",
+      "who": "takuya",
+      "to": "daisuke",
+      "when": { "all": [{ "beenAt": "SHRINE" }, { "not": { "beenAt": "NAGAO_J" } }] },
+      "lines": ["大吉！ 「旅行: 行く先に幸あり」だって"],
+      "replies": { "who": "daisuke", "lines": ["俺、末吉……"] },
+      "priority": 12,
+      "once": true
+    },
+    { "key": "s14_rock", "who": "misaki", "to": "daisuke", "when": { "onEdge": "E5" }, "lines": ["空気が冷たくて気持ちいいね。苔がきれい"], "replies": { "who": "daisuke", "lines": ["マイナスイオンってやつだな"] }, "priority": 11, "once": true },
+    {
+      "key": "s14_race",
+      "who": "takuya",
+      "to": "daisuke",
+      "when": { "all": [{ "flag": "goOtake" }, { "onEdge": "E8" }] },
+      "lines": ["どっちが先に着くか競争な！"],
+      "replies": { "who": "daisuke", "lines": ["待てって、息が……"] },
+      "priority": 11,
+      "once": true
+    },
+    {
+      "key": "s14_hot",
+      "who": "daisuke",
+      "to": "takuya",
+      "when": { "all": [{ "flag": "sweat_daisuke" }, { "not": { "beenAt": "OTAKE" } }, { "var": "leader.state", "op": "==", "value": "WALKING" }] },
+      "lines": ["あっちい。汗だくだ"],
+      "replies": { "who": "takuya", "lines": ["俺も。シャツがびしょびしょ"] },
+      "priority": 11,
+      "once": true
+    },
+    {
+      "key": "s14_summit",
+      "who": "misaki",
+      "to": "shota",
+      "when": { "beenAt": "OTAKE" },
+      "lines": ["わあ、富士山！ ……でも、もう暗くなるね"],
+      "replies": { "who": "shota", "lines": ["来てよかっただろ。……でも、もう真っ暗になるな"] },
+      "priority": 13,
+      "once": true
+    },
+    {
+      "key": "s14_dark_down",
+      "who": "misaki",
+      "to": "shota",
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "flag": "descendDark" },
+          { "var": "leader.state", "op": "==", "value": "WALKING" },
+          { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 },
+          { "var": "c.misaki.phone.has", "op": "==", "value": true },
+          { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } }
+        ]
+      },
+      "lines": ["待って、足元見えない。ライト、こっちも照らして", "私のスマホ、ライト代わろうか？"],
+      "replies": { "who": "shota", "lines": ["ゆっくりでいい。岩、気をつけて", "頼む。こっちは消して電池を残しとく"] },
+      "priority": 11,
+      "cooldownMin": 50
+    },
+    {
+      "key": "s14_huddle",
+      "who": "misaki",
+      "to": "daisuke",
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "any": [{ "var": "c.misaki.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.misaki.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.misaki.state", "op": "==", "value": "STAYING" }] },
+          { "any": [{ "var": "c.daisuke.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.daisuke.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.daisuke.state", "op": "==", "value": "STAYING" }] },
+          { "flag": "phoned" }
+        ]
+      },
+      "lines": ["くっついてれば、少しはあったかいね", "寒い……寒い"],
+      "replies": { "who": "daisuke", "lines": ["もっと寄って。背中、風よけになるから", "朝になれば来てくれるって"] },
+      "priority": 9,
+      "cooldownMin": 90
+    },
+    {
+      "key": "s14_huddle2",
+      "who": "misaki",
+      "to": "daisuke",
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "any": [{ "var": "c.misaki.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.misaki.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.misaki.state", "op": "==", "value": "STAYING" }] },
+          { "any": [{ "var": "c.daisuke.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.daisuke.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.daisuke.state", "op": "==", "value": "STAYING" }] },
+          { "not": { "flag": "phoned" } }
+        ]
+      },
+      "lines": ["くっついてれば、少しはあったかいね", "寒い……寒い"],
+      "replies": { "who": "daisuke", "lines": ["もっと寄って。背中、風よけになるから", "明るくなったら、すぐ下りよう"] },
+      "priority": 9,
+      "cooldownMin": 90
+    },
+    {
+      "key": "s14_callname_shota",
+      "who": "takuya",
+      "when": {
+        "all": [
+          { "flag": "wander_shota" },
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "any": [{ "var": "c.takuya.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.takuya.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.takuya.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.takuya.coreC", "op": ">", "value": 34 },
+          {
+            "all": [
+              { "not": { "var": "c.shota.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.shota.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.shota.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "lines": ["翔太！ 返事して！", "翔太ー！ どこにいるの！"],
+      "tone": "shout",
+      "priority": 14,
+      "cooldownMin": 60
+    },
+    {
+      "key": "s14_callname_takuya",
+      "who": "daisuke",
+      "when": {
+        "all": [
+          { "flag": "wander_takuya" },
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "any": [{ "var": "c.daisuke.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.daisuke.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.daisuke.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.daisuke.coreC", "op": ">", "value": 34 },
+          {
+            "all": [
+              { "not": { "var": "c.takuya.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.takuya.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.takuya.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "lines": ["拓也！ 返事して！", "拓也ー！ どこにいるの！"],
+      "tone": "shout",
+      "priority": 14,
+      "cooldownMin": 60
+    },
+    {
+      "key": "s14_callname_daisuke",
+      "who": "takuya",
+      "when": {
+        "all": [
+          { "flag": "wander_daisuke" },
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "any": [{ "var": "c.takuya.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.takuya.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.takuya.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.takuya.coreC", "op": ">", "value": 34 },
+          {
+            "all": [
+              { "not": { "var": "c.daisuke.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.daisuke.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.daisuke.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "lines": ["大輔！ 返事して！", "大輔ー！ どこにいるの！"],
+      "tone": "shout",
+      "priority": 14,
+      "cooldownMin": 60
+    },
+    {
+      "key": "s14_callname_misaki",
+      "who": "takuya",
+      "when": {
+        "all": [
+          { "flag": "wander_misaki" },
+          { "var": "sun.isDark", "op": "==", "value": true },
+          { "any": [{ "var": "c.takuya.state", "op": "==", "value": "BIVOUAC" }, { "var": "c.takuya.state", "op": "==", "value": "WAITING_RESCUE" }, { "var": "c.takuya.state", "op": "==", "value": "STAYING" }] },
+          { "var": "c.takuya.coreC", "op": ">", "value": 34 },
+          {
+            "all": [
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "lines": ["美咲！ 返事して！", "美咲ー！ どこにいるの！"],
+      "tone": "shout",
+      "priority": 14,
+      "cooldownMin": 60
+    },
+    {
+      "key": "s14_dawn_wait",
+      "who": "misaki",
+      "to": "daisuke",
+      "when": {
+        "all": [
+          { "var": "sun.isDark", "op": "==", "value": false },
+          { "after": "D1 06:55" },
+          {
+            "any": [
+              { "var": "c.shota.state", "op": "==", "value": "WAITING_RESCUE" },
+              { "var": "c.takuya.state", "op": "==", "value": "WAITING_RESCUE" },
+              { "var": "c.daisuke.state", "op": "==", "value": "WAITING_RESCUE" },
+              { "var": "c.misaki.state", "op": "==", "value": "WAITING_RESCUE" }
+            ]
+          },
+          { "var": "c.misaki.conscious", "op": "==", "value": true },
+          { "var": "c.misaki.state", "op": "==", "value": "WAITING_RESCUE" }
+        ]
+      },
+      "lines": ["明るくなってきた……。もうすぐ来てくれるよね"],
+      "replies": { "who": "daisuke", "lines": ["ああ。ここを動かないで待とう"] },
+      "priority": 12,
+      "once": true
+    }
+  ],
+  "endings": [
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "all": [{ "not": { "flag": "goOtake" } }, { "flag": "timeRule" }, { "before": "D0 16:50" }] },
+      "title": "約束の時刻どおりに",
+      "text": "4 人は散策コースを回り、決めていた時刻に御岳山駅へ戻った。ケーブルカーの窓から見た大岳山は、夕日を受けて赤く染まっていた。「今度、ちゃんと準備して登ろう」と誰かが言った。"
+    },
+    { "kind": "SAFE_RETURN", "when": { "all": [{ "not": { "flag": "goOtake" } }, { "before": "D0 16:50" }] }, "title": "散策コースを回って", "text": "4 人は綾広の滝から天狗の腰掛け杉を通って御岳山駅へ戻り、ケーブルカーで下りた。綾広の滝の先が登山道だったことに、4 人は気づいていたのだろうか。" },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "all": [{ "not": { "beenAt": "OTAKE" } }, { "after": "D0 18:30" }] },
+      "title": "宿坊に泊めてもらう",
+      "text": "暗くなった山道を、スマホのライトで照らしながら御岳山駅まで戻った。最終のケーブルカーはもう出ていて、宿坊の戸をたたいて泊めてもらった。日が沈んでからの山道は、思っていたよりずっと時間がかかった。"
+    },
+    { "kind": "SAFE_RETURN", "when": { "all": [{ "not": { "flag": "goOtake" } }] }, "title": "日暮れの散策コース", "text": "散策コースの帰り道で日が暮れた。宿坊街の明かりが見えたときは、4 人ともほっとした。観光のつもりの散歩道も、暗くなれば山道になる。" },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "all": [{ "flag": "hikerWarned" }, { "chose": { "cp": "cp_warned", "option": "back" } }] },
+      "title": "すれ違った人の一言",
+      "text": "下りてきた登山者に声をかけられて、4 人は引き返した。御岳山駅に着いたとき、森の中はもう暗かった。あのまま登っていたら、日が沈んでから山頂に着いていた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "all": [{ "flag": "turn16" }, { "not": { "beenAt": "OTAKE" } }] },
+      "title": "16 時に引き返して",
+      "text": "決めていたとおり 16 時に引き返し、最終のケーブルカーに間に合った。帰り道の終わりは、もう足元が見えにくかった。時刻で区切っていなければ、山頂で日没を迎えていた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": { "all": [{ "beenAt": "OTAKE" }, { "after": "D0 18:30" }] },
+      "title": "真っ暗な岩場を下りきって",
+      "text": "スマホのライトだけで、山頂の下の岩場と山腹の道を下りきった。最終のケーブルカーはもう出ていて、宿坊に泊めてもらった。転んでいても、道を一本間違えていても、おかしくなかった。"
+    },
+    { "kind": "SAFE_RETURN", "when": { "beenAt": "OTAKE" }, "title": "真っ暗な岩場を下りきって", "text": "スマホのライトだけで、山頂の下の岩場と山腹の道を下りきり、最終のケーブルカーに間に合った。転んでいても、道を一本間違えていても、おかしくなかった。" },
+    { "kind": "SAFE_RETURN", "title": "暗い道を引き返して", "text": "大岳山には着かずに引き返し、暗くなった山道をスマホのライトで下りて、最終のケーブルカーに間に合った。" },
+    { "kind": "SELF_RESCUE", "title": "一晩を越えて", "text": "4 人は山の中で身を寄せ合って夜を越え、明るくなってから道を見つけて御岳山駅まで下りた。正月の山で、一晩じゅう冷え続けた。" },
+    {
+      "kind": "RESCUED",
+      "when": { "all": [{ "flag": "called110" }, { "not": { "flag": "wandered" } }] },
+      "title": "山頂で 110 番",
+      "text": "日が暮れた山頂で 110 番し、警察の指示どおり岩陰で 4 人固まって朝を待った。夜明けに救助隊が来た。夜は救助隊も山に入れない。それでも、場所が分かっていたから、朝いちばんに来てもらえた。"
+    },
+    { "kind": "RESCUED", "when": { "flag": "wandered" }, "title": "救助", "text": "救助隊は、残った仲間の居場所と話を手がかりに、夜中にいなくなった仲間も斜面の下で見つけた。冷え切っていたが、命は助かった。" },
+    {
+      "kind": "RESCUED",
+      "when": { "all": [{ "not": { "flag": "phoned" } }, { "flag": "sentPhoto" }] },
+      "title": "山頂の写真が手がかりに",
+      "text": "家族の届け出を受けた警察は、美咲さんが夕方に SNS に上げた写真から、4 人が大岳山に登ったことを知った。朝、大岳山に向かった救助隊が、一晩を山で越えた 4 人を見つけた。"
+    },
+    { "kind": "RESCUED", "when": { "not": { "flag": "phoned" } }, "title": "救助隊と出会う", "text": "家族の届け出で、朝から救助隊が山に入っていた。一晩を山で越えた 4 人は、救助隊に見つけられて収容された。誰にも行き先を伝えていなかったので、捜索は手探りで始まっていた。" },
+    { "kind": "RESCUED", "title": "救助", "text": "4 人は救助隊に収容された。夜は救助隊も山に入れない。冷え切った体で、明るくなるのを待つしかなかった。" },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": {
+        "all": [
+          { "flag": "wander_shota" },
+          { "var": "c.shota.alive", "op": "==", "value": true },
+          { "any": [{ "var": "c.shota.coreC", "op": "<", "value": 33.5 }, { "var": "c.shota.injury", "op": "==", "value": "severeTrauma" }] }
+        ]
+      },
+      "title": "重い状態で救助",
+      "text": "夜中に離れた翔太さんは、斜面の下で冷え切った状態で見つかり、病院に運ばれた。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": {
+        "all": [
+          { "flag": "wander_takuya" },
+          { "var": "c.takuya.alive", "op": "==", "value": true },
+          { "any": [{ "var": "c.takuya.coreC", "op": "<", "value": 33.5 }, { "var": "c.takuya.injury", "op": "==", "value": "severeTrauma" }] }
+        ]
+      },
+      "title": "重い状態で救助",
+      "text": "夜中に離れた拓也さんは、斜面の下で冷え切った状態で見つかり、病院に運ばれた。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": {
+        "all": [
+          { "flag": "wander_daisuke" },
+          { "var": "c.daisuke.alive", "op": "==", "value": true },
+          { "any": [{ "var": "c.daisuke.coreC", "op": "<", "value": 33.5 }, { "var": "c.daisuke.injury", "op": "==", "value": "severeTrauma" }] }
+        ]
+      },
+      "title": "重い状態で救助",
+      "text": "夜中に離れた大輔さんは、斜面の下で冷え切った状態で見つかり、病院に運ばれた。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": {
+        "all": [
+          { "flag": "wander_misaki" },
+          { "var": "c.misaki.alive", "op": "==", "value": true },
+          { "any": [{ "var": "c.misaki.coreC", "op": "<", "value": 33.5 }, { "var": "c.misaki.injury", "op": "==", "value": "severeTrauma" }] }
+        ]
+      },
+      "title": "重い状態で救助",
+      "text": "夜中に離れた美咲さんは、斜面の下で冷え切った状態で見つかり、病院に運ばれた。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": { "all": [{ "var": "c.shota.alive", "op": "==", "value": true }, { "var": "c.shota.coreC", "op": "<", "value": 33.5 }] },
+      "title": "重い状態で救助",
+      "text": "救助隊が着いたとき、翔太さんは呼びかけにほとんど答えられなかった。重い低体温症で病院に運ばれた。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": { "all": [{ "var": "c.takuya.alive", "op": "==", "value": true }, { "var": "c.takuya.coreC", "op": "<", "value": 33.5 }] },
+      "title": "重い状態で救助",
+      "text": "救助隊が着いたとき、拓也さんは呼びかけにほとんど答えられなかった。重い低体温症で病院に運ばれた。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": { "all": [{ "var": "c.daisuke.alive", "op": "==", "value": true }, { "var": "c.daisuke.coreC", "op": "<", "value": 33.5 }] },
+      "title": "重い状態で救助",
+      "text": "救助隊が着いたとき、大輔さんは呼びかけにほとんど答えられなかった。重い低体温症で病院に運ばれた。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": { "all": [{ "var": "c.misaki.alive", "op": "==", "value": true }, { "var": "c.misaki.coreC", "op": "<", "value": 33.5 }] },
+      "title": "重い状態で救助",
+      "text": "救助隊が着いたとき、美咲さんは呼びかけにほとんど答えられなかった。重い低体温症で病院に運ばれた。"
+    },
+    { "kind": "RESCUED_CRITICAL", "title": "重い状態で救助", "text": "大きなけがをした仲間が、病院に運ばれた。" },
+    {
+      "kind": "MISSING",
+      "when": {
+        "all": [
+          { "flag": "wander_shota" },
+          {
+            "all": [
+              { "not": { "var": "c.shota.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.shota.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.shota.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "title": "翔太さんが見つからない",
+      "text": "夜中に「トイレ」と言って離れた翔太さんは、翌日の昼になっても見つかっていない。大岳山の山頂のまわりは急な岩の斜面と深い沢で、どこへ下りたのか分からない。"
+    },
+    {
+      "kind": "MISSING",
+      "when": {
+        "all": [
+          { "flag": "wander_takuya" },
+          {
+            "all": [
+              { "not": { "var": "c.takuya.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.takuya.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.takuya.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "title": "拓也さんが見つからない",
+      "text": "夜中に「トイレ」と言って離れた拓也さんは、翌日の昼になっても見つかっていない。大岳山の山頂のまわりは急な岩の斜面と深い沢で、どこへ下りたのか分からない。"
+    },
+    {
+      "kind": "MISSING",
+      "when": {
+        "all": [
+          { "flag": "wander_daisuke" },
+          {
+            "all": [
+              { "not": { "var": "c.daisuke.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.daisuke.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.daisuke.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "title": "大輔さんが見つからない",
+      "text": "夜中に「トイレ」と言って離れた大輔さんは、翌日の昼になっても見つかっていない。大岳山の山頂のまわりは急な岩の斜面と深い沢で、どこへ下りたのか分からない。"
+    },
+    {
+      "kind": "MISSING",
+      "when": {
+        "all": [
+          { "flag": "wander_misaki" },
+          {
+            "all": [
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "FINISHED" } },
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "RESCUED" } },
+              { "not": { "var": "c.misaki.state", "op": "==", "value": "DEAD" } }
+            ]
+          }
+        ]
+      },
+      "title": "美咲さんが見つからない",
+      "text": "夜中に「トイレ」と言って離れた美咲さんは、翌日の昼になっても見つかっていない。大岳山の山頂のまわりは急な岩の斜面と深い沢で、どこへ下りたのか分からない。"
+    },
+    { "kind": "MISSING", "when": { "flag": "descendedDrainage" }, "title": "沢へ下りたまま", "text": "「下りればどこかに出る」と斜面を下りた先は、深い沢だった。翌日の昼になっても、救助隊はまだ見つけられていない。" },
+    { "kind": "MISSING", "title": "まだ見つからない", "text": "翌日の昼になっても、山の中から下りてこない仲間がいる。" },
+    { "kind": "FATAL", "when": { "var": "rec.deathCount", "op": ">=", "value": 2 }, "title": "帰らなかった仲間たち", "text": "4 人のうち {rec.deathCount:0} 人が、山から帰らなかった。明かりも冬山の服もないまま夜の山に残り、冷えと、暗い斜面での転落が重なった。初詣に来ただけのつもりだった。" },
+    { "kind": "FATAL", "when": { "all": [{ "flag": "wander_shota" }, { "flag": "deadFall_shota" }] }, "title": "戻らなかった翔太さん", "text": "夜中、翔太さんは「トイレ」と言って暗がりへ離れ、そのまま戻らなかった。冷え切って判断が鈍り、明かりのないまま斜面を下りて、岩場から落ちたとみられる。" },
+    {
+      "kind": "FATAL",
+      "when": { "all": [{ "flag": "wander_shota" }, { "flag": "deadCold_shota" }] },
+      "title": "戻らなかった翔太さん",
+      "text": "夜中、翔太さんは「トイレ」と言って暗がりへ離れ、そのまま戻らなかった。冷え切って判断が鈍り、明かりのない斜面で仲間の場所が分からなくなったとみられる。一人で、朝を迎えられなかった。"
+    },
+    { "kind": "FATAL", "when": { "all": [{ "flag": "wander_takuya" }, { "flag": "deadFall_takuya" }] }, "title": "戻らなかった拓也さん", "text": "夜中、拓也さんは「トイレ」と言って暗がりへ離れ、そのまま戻らなかった。冷え切って判断が鈍り、明かりのないまま斜面を下りて、岩場から落ちたとみられる。" },
+    {
+      "kind": "FATAL",
+      "when": { "all": [{ "flag": "wander_takuya" }, { "flag": "deadCold_takuya" }] },
+      "title": "戻らなかった拓也さん",
+      "text": "夜中、拓也さんは「トイレ」と言って暗がりへ離れ、そのまま戻らなかった。冷え切って判断が鈍り、明かりのない斜面で仲間の場所が分からなくなったとみられる。一人で、朝を迎えられなかった。"
+    },
+    { "kind": "FATAL", "when": { "all": [{ "flag": "wander_daisuke" }, { "flag": "deadFall_daisuke" }] }, "title": "戻らなかった大輔さん", "text": "夜中、大輔さんは「トイレ」と言って暗がりへ離れ、そのまま戻らなかった。冷え切って判断が鈍り、明かりのないまま斜面を下りて、岩場から落ちたとみられる。" },
+    {
+      "kind": "FATAL",
+      "when": { "all": [{ "flag": "wander_daisuke" }, { "flag": "deadCold_daisuke" }] },
+      "title": "戻らなかった大輔さん",
+      "text": "夜中、大輔さんは「トイレ」と言って暗がりへ離れ、そのまま戻らなかった。冷え切って判断が鈍り、明かりのない斜面で仲間の場所が分からなくなったとみられる。一人で、朝を迎えられなかった。"
+    },
+    { "kind": "FATAL", "when": { "all": [{ "flag": "wander_misaki" }, { "flag": "deadFall_misaki" }] }, "title": "戻らなかった美咲さん", "text": "夜中、美咲さんは「トイレ」と言って暗がりへ離れ、そのまま戻らなかった。冷え切って判断が鈍り、明かりのないまま斜面を下りて、岩場から落ちたとみられる。" },
+    {
+      "kind": "FATAL",
+      "when": { "all": [{ "flag": "wander_misaki" }, { "flag": "deadCold_misaki" }] },
+      "title": "戻らなかった美咲さん",
+      "text": "夜中、美咲さんは「トイレ」と言って暗がりへ離れ、そのまま戻らなかった。冷え切って判断が鈍り、明かりのない斜面で仲間の場所が分からなくなったとみられる。一人で、朝を迎えられなかった。"
+    },
+    { "kind": "FATAL", "when": { "flag": "deadFall_shota" }, "title": "暗い斜面で", "text": "翔太さんは、明かりの乏しい岩の斜面で足を滑らせて落ち、亡くなった。初詣に来ただけのつもりだった。" },
+    { "kind": "FATAL", "when": { "flag": "deadCold_shota" }, "title": "朝を待てなかった", "text": "翔太さんは、夜明けを待たずに低体温症で亡くなった。街の服のまま、氷点下の山で一晩を過ごした。初詣に来ただけのつもりだった。" },
+    { "kind": "FATAL", "when": { "flag": "deadFall_takuya" }, "title": "暗い斜面で", "text": "拓也さんは、明かりの乏しい岩の斜面で足を滑らせて落ち、亡くなった。初詣に来ただけのつもりだった。" },
+    { "kind": "FATAL", "when": { "flag": "deadCold_takuya" }, "title": "朝を待てなかった", "text": "拓也さんは、夜明けを待たずに低体温症で亡くなった。街の服のまま、氷点下の山で一晩を過ごした。初詣に来ただけのつもりだった。" },
+    { "kind": "FATAL", "when": { "flag": "deadFall_daisuke" }, "title": "暗い斜面で", "text": "大輔さんは、明かりの乏しい岩の斜面で足を滑らせて落ち、亡くなった。初詣に来ただけのつもりだった。" },
+    { "kind": "FATAL", "when": { "flag": "deadCold_daisuke" }, "title": "朝を待てなかった", "text": "大輔さんは、夜明けを待たずに低体温症で亡くなった。街の服のまま、氷点下の山で一晩を過ごした。初詣に来ただけのつもりだった。" },
+    { "kind": "FATAL", "when": { "flag": "deadFall_misaki" }, "title": "暗い斜面で", "text": "美咲さんは、明かりの乏しい岩の斜面で足を滑らせて落ち、亡くなった。初詣に来ただけのつもりだった。" },
+    { "kind": "FATAL", "when": { "flag": "deadCold_misaki" }, "title": "朝を待てなかった", "text": "美咲さんは、夜明けを待たずに低体温症で亡くなった。街の服のまま、氷点下の山で一晩を過ごした。初詣に来ただけのつもりだった。" },
+    { "kind": "FATAL", "title": "帰らぬ人に", "text": "仲間の一人が、山から帰らなかった。初詣に来ただけのつもりだった。" }
+  ],
+  "lessons": [
+    { "id": "l_tourist", "title": "観光地のすぐ隣は登山道", "text": "御岳山はケーブルカーで行ける観光地だが、ロックガーデンの終わりや綾広の滝の先からは登山道になる。「ケーブルカーやロープウェイで行ける所」でも、少し歩けば登山の装備が要る場所に入る。道標や注意の看板の意味を、知らなければ読み取れない。" },
+    { "id": "l_time", "when": { "flag": "goOtake" }, "title": "登山は朝に始め、15 時には終える", "text": "冬の日は短く、16 時半には暗くなる。15 時に「行ってみよう」と登り始めるのは、日没に向かって歩くことになる。登山は早朝から計画し、15 時には行動を終える前提で組む。" },
+    { "id": "l_turn", "when": { "flag": "turn16" }, "title": "引き返す時刻を先に決める", "text": "「何時になったら、どこにいても引き返す」と決めておくと、その場の勢いに流されにくい。時刻は日の入りから逆算して、明るいうちに安全な所まで戻れるように決める。" },
+    { "id": "l_light", "when": { "any": [{ "flag": "descendDark" }, { "flag": "phoneLight" }] }, "title": "スマホのライトはヘッドランプの代わりにならない", "text": "スマホのライトは照らせる範囲が狭く、片手がふさがり、電池も減る。電池が切れれば明かりも電話も地図も失う。日帰りでもヘッドランプを持つ。" },
+    { "id": "l_call", "when": { "flag": "called110" }, "title": "経験がなければ、電波のある所で早めに 110 番", "text": "暗い岩場を経験のない 4 人で下りるより、電波の入る山頂で通報し、警察の指示に従う方が安全なことが多い。夜は救助隊も動けないことがある。それでも、場所と人数と装備を伝えておけば、朝いちばんに来てもらえる。" },
+    { "id": "l_warned", "when": { "chose": { "cp": "cp_warned", "option": "go" } }, "title": "声をかけてくれた人の言葉", "text": "下りてくる登山者は、この先の道と、日没までの時間を知っている。「大丈夫です」と答える前に、その一言の意味を考える。登山者の側も、登山の自覚のない観光客を見かけたら声をかけてほしい。" },
+    { "id": "l_cotton", "when": { "flag": "sweatWet" }, "title": "汗で濡れた綿の服は冷える", "text": "ダウンを着たまま急な登りを歩くと大汗をかく。綿の下着やシャツは汗を吸ったまま乾かず、止まった途端に体を冷やす。登りでは脱いで、汗をかかないペースで歩く。" },
+    { "id": "l_apart", "when": { "flag": "wandered" }, "title": "夜、一人で離れない", "text": "低体温症になると、判断がおかしくなる。暗い中で数メートル離れただけで、仲間の場所が分からなくなることがある。夜はトイレも一人で行かせず、声の届く所で済ませる。" },
+    { "id": "l_buddy", "when": { "flag": "buddyRule" }, "title": "付き添いが命を守った", "text": "冷え切った仲間は、自分がおかしいことに気づけない。トイレにも付き添うと決めていたので、暗がりで迷いかけた仲間を連れ戻せた。" },
+    { "id": "l_search", "when": { "flag": "searchMate" }, "title": "暗い斜面を探しに行かない", "text": "仲間がいなくなると、すぐに探しに行きたくなる。しかし明かりの乏しい夜の岩場では、探しに行った人も落ちる。動かずに名前を呼び、電波があれば通報する。" }
+  ],
+  "balanceTargets": { "recommended": { "goodMin": 0.95, "fatalMax": 0.01 }, "bias": { "fatalMin": 0.01, "fatalMax": 0.12, "badMin": 0.05, "goodMax": 0.85 }, "risky": { "fatalMin": 0.08, "badMin": 0.2 } },
+  "sources": ["原案: 松本圭司「架空遭難　30代4人組、初詣で登山をするつもりなく山頂で日没」note（2024年2月16日） https://note.com/keizi666/n/n03652ea8297d", "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工", "登山道・地点: © OpenStreetMap contributors"]
+}

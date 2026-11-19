@@ -178,8 +178,12 @@ export function resolveChoice(world: World, ctx: StaticContext, optionId: string
   world.decisions.push({ cpId: pending.cpId, optionId, tMin: world.tMin, by });
   const leader = groupLeader(world, gid);
   for (const f of opt.flags ?? []) if (world.flags[f] === undefined) world.flags[f] = world.tMin;
+  const start = ctx.events.length;
   ctx.events.push({ tMin: world.tMin, type: 'CHOICE_RESOLVED', important: true, data: { cp: pending.cpId, option: optionId, by } });
   applyActions(world, ctx, opt.actions, groupMembers(world, gid), leader);
+  // 選んだ中で起きた出来事（通報の失敗など）を、次のティックの条件（event・atNode・汎用の分岐）にも見せる。
+  // 画面で選んだときはティックの外なので、ここで足さないと届かない（ヘッドレスではティックの終わりに同じものが入る）
+  for (const e of ctx.events.slice(start)) world.recentEvents.push({ type: e.type, climberId: e.climberId ?? null, node: typeof e.data?.['node'] === 'string' ? (e.data['node'] as string) : null });
 }
 
 /** 自動で選ぶ（headless は ctx.policy、観察のみ・時間切れは bias） */

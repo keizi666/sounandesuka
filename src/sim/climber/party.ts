@@ -95,7 +95,6 @@ function follow(world: World, ctx: StaticContext, leader: ClimberState, m: Climb
   if (leader.body.shelterNodeId && !m.body.shelterNodeId) {
     m.body.shelterNodeId = leader.body.shelterNodeId;
     m.plan.bivouacUntil = leader.plan.bivouacUntil;
-    m.memo.sheltered = true;
   }
   if (after === 'RESTING' || after === 'BIVOUAC' || after === 'WAITING_RESCUE') {
     m.plan.restUntilMin = leader.plan.restUntilMin;

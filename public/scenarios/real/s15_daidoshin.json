@@ -1,0 +1,5598 @@
+{
+  "id": "s15_daidoshin",
+  "version": 1,
+  "title": "大同心の 3 ピッチ目",
+  "subtitle": "9月・4人パーティー・八ヶ岳 大同心（実在の地形）",
+  "theme": "fall",
+  "difficulty": 3,
+  "season": "autumn",
+  "estMinutes": 20,
+  "mapId": "daidoshin",
+  "seed": 1512,
+  "startDate": "2026-09-12",
+  "startAt": "D0 05:30",
+  "timeLimit": "D1 16:00",
+  "sun": {
+    "sunrise": "05:24",
+    "sunset": "17:58",
+    "maxElevDeg": 58
+  },
+  "moon": {
+    "illumination": 0.02
+  },
+  "region": {
+    "name": "八ヶ岳・赤岳鉱泉と大同心",
+    "real": true
+  },
+  "briefing": {
+    "text": "9 月中旬の土曜日。山岳会の仲間 4 人（リーダーの安藤さん 72 歳、坂本さん 44 歳、千葉さん 41 歳、土屋さん 56 歳）は、前の日に美濃戸から北沢を登り、赤岳鉱泉のテント場に泊まった。今日は大同心（横岳の西に立つ岩峰）の雲稜ルートを登る。5 ピッチほどの岩登りで、坂本さんが前半をリードする。坂本さん・千葉さん組と、安藤さん・土屋さん組の 2 組に分かれ、50 m のダブルロープを 2 組使う。登り終えたら昼過ぎに鉱泉へ戻ってテントを撤収し、美濃戸へ下る計画。登山届は長野県にオンラインで出してある。登攀具・ヘルメット・救急セット・行動食・水・雨具・防寒着・ヘッドランプ・スマホを持ち、ツエルトは 2 張り（2 人に 1 張り）。寝袋とコンロはテントに置いてきた。",
+    "forecast": [
+      {
+        "label": "今日",
+        "text": "晴れ。昼過ぎから山にガスがかかりやすい。稜線は日中 8℃ 前後",
+        "icon": "sunny_cloudy"
+      },
+      {
+        "label": "夜",
+        "text": "晴れ。標高 2,600 m は 3℃ くらいまで下がる。風がやや強い",
+        "icon": "clear_night"
+      },
+      {
+        "label": "明日",
+        "text": "晴れ",
+        "icon": "sunny"
+      },
+      {
+        "label": "日の入り",
+        "text": "17:58"
+      }
+    ]
+  },
+  "plan": {
+    "route": [
+      "KOSEN",
+      "DAIDO_JCT",
+      "DAIDO_BASE",
+      "DAIDO_JCT",
+      "KOSEN",
+      "MINOTO"
+    ],
+    "goalNodes": [
+      "MINOTO"
+    ],
+    "plannedFinish": "D0 16:00",
+    "submittedPlan": true,
+    "reportIfNotBackBy": "D1 12:00"
+  },
+  "groups": [
+    {
+      "id": "party",
+      "members": "all",
+      "leader": "ando",
+      "cohesion": "tight"
+    }
+  ],
+  "passersby": [
+    {
+      "edges": [
+        "E3"
+      ],
+      "perHour": 0.3,
+      "from": "07:00",
+      "to": "13:00"
+    },
+    {
+      "edges": [
+        "E1",
+        "E2"
+      ],
+      "perHour": 1,
+      "from": "07:00",
+      "to": "16:30"
+    }
+  ],
+  "party": [
+    {
+      "id": "ando",
+      "name": "安藤",
+      "age": 72,
+      "sex": "m",
+      "weightKg": 61,
+      "packKg": 8,
+      "experience": 0.95,
+      "fitness": 0.8,
+      "navSkill": 0.85,
+      "riskTolerance": 0.35,
+      "color": "#0e7490",
+      "portrait": "senior_m:2",
+      "leader": true,
+      "role": "リーダー",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.1,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.8,
+        "cloPack": 0.9,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "tarp",
+        "headlamp": {
+          "has": true,
+          "batteryH": 10,
+          "inPack": true,
+          "spareBatteryH": 6
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 75,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false,
+          "strap": true
+        },
+        "map": true,
+        "compass": true,
+        "foodKcal": 900,
+        "waterL": 1,
+        "stove": false,
+        "crampons": false,
+        "helmet": true,
+        "trekkingPoles": true,
+        "whistle": true,
+        "rescueSheet": true
+      },
+      "notes": "架空の人物。原案の「リーダー A（70 代）」をもとにした。昔ロープレスキューを習ったが、細かいところは忘れかけている。"
+    },
+    {
+      "id": "sakamoto",
+      "name": "坂本",
+      "age": 44,
+      "sex": "m",
+      "weightKg": 68,
+      "packKg": 6,
+      "experience": 0.75,
+      "fitness": 1.1,
+      "navSkill": 0.7,
+      "riskTolerance": 0.6,
+      "color": "#dc2626",
+      "portrait": "mid_m:2",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.8,
+        "cloPack": 0.9,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "tarp",
+        "headlamp": {
+          "has": true,
+          "batteryH": 10,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 85,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false,
+          "strap": false
+        },
+        "map": true,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1,
+        "stove": false,
+        "crampons": false,
+        "helmet": true,
+        "trekkingPoles": false,
+        "whistle": true
+      },
+      "notes": "架空の人物。原案の「トップを登っていた B（40 代）」。"
+    },
+    {
+      "id": "chiba",
+      "name": "千葉",
+      "age": 41,
+      "sex": "f",
+      "weightKg": 52,
+      "packKg": 6,
+      "experience": 0.6,
+      "fitness": 1.05,
+      "navSkill": 0.6,
+      "riskTolerance": 0.45,
+      "color": "#7c3aed",
+      "portrait": "mid_f:3",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.2,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.8,
+        "cloPack": 0.9,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "tarp",
+        "headlamp": {
+          "has": true,
+          "batteryH": 10,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false,
+          "strap": true
+        },
+        "map": true,
+        "compass": true,
+        "foodKcal": 800,
+        "waterL": 1,
+        "stove": false,
+        "crampons": false,
+        "helmet": true,
+        "trekkingPoles": true,
+        "whistle": true,
+        "rescueSheet": true
+      },
+      "notes": "架空の人物。原案の「C（40 代）」。坂本さんの確保をしていた。"
+    },
+    {
+      "id": "tsuchiya",
+      "name": "土屋",
+      "age": 56,
+      "sex": "m",
+      "weightKg": 72,
+      "packKg": 7,
+      "experience": 0.7,
+      "fitness": 0.9,
+      "navSkill": 0.65,
+      "riskTolerance": 0.45,
+      "color": "#ca8a04",
+      "portrait": "mid_m:4",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.2,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.8,
+        "cloPack": 0.9,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "tarp",
+        "headlamp": {
+          "has": true,
+          "batteryH": 10,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 60,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false,
+          "strap": true
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 900,
+        "waterL": 1,
+        "stove": false,
+        "crampons": false,
+        "helmet": true,
+        "trekkingPoles": false,
+        "whistle": true
+      },
+      "notes": "架空の人物。原案の「D（50 代）」。"
+    }
+  ],
+  "weather": {
+    "refElevM": 2200,
+    "lapseRateCPer100m": 0.6,
+    "cloudThicknessM": 900,
+    "keyframes": [
+      {
+        "at": "D0 05:00",
+        "tempC": 6,
+        "windMs": 3,
+        "windDirDeg": 290,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3900,
+        "visibilityM": 40000,
+        "pressureHpa": 1019
+      },
+      {
+        "at": "D0 08:00",
+        "tempC": 8.5,
+        "windMs": 4,
+        "windDirDeg": 280,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3700,
+        "visibilityM": 40000,
+        "pressureHpa": 1019
+      },
+      {
+        "at": "D0 10:30",
+        "tempC": 11.5,
+        "windMs": 5,
+        "windDirDeg": 260,
+        "precipMmH": 0,
+        "cloudCover": 0.3,
+        "cloudBaseM": 3400,
+        "visibilityM": 35000,
+        "pressureHpa": 1017
+      },
+      {
+        "at": "D0 12:30",
+        "tempC": 12.5,
+        "windMs": 5,
+        "windDirDeg": 250,
+        "precipMmH": 0,
+        "cloudCover": 0.5,
+        "cloudBaseM": 3100,
+        "visibilityM": 30000,
+        "pressureHpa": 1016
+      },
+      {
+        "at": "D0 13:30",
+        "tempC": 11.5,
+        "windMs": 5,
+        "windDirDeg": 250,
+        "precipMmH": 0,
+        "cloudCover": 0.8,
+        "cloudBaseM": 2750,
+        "visibilityM": 15000,
+        "inCloudVisibilityM": 80,
+        "pressureHpa": 1015
+      },
+      {
+        "at": "D0 15:30",
+        "tempC": 10,
+        "windMs": 5.5,
+        "windDirDeg": 240,
+        "precipMmH": 0.8,
+        "cloudCover": 0.95,
+        "cloudBaseM": 2500,
+        "visibilityM": 8000,
+        "inCloudVisibilityM": 50,
+        "pressureHpa": 1014
+      },
+      {
+        "at": "D0 18:00",
+        "tempC": 8,
+        "windMs": 5,
+        "windDirDeg": 260,
+        "precipMmH": 0.3,
+        "cloudCover": 0.85,
+        "cloudBaseM": 2650,
+        "visibilityM": 10000,
+        "inCloudVisibilityM": 60,
+        "pressureHpa": 1015
+      },
+      {
+        "at": "D0 21:00",
+        "tempC": 6.5,
+        "windMs": 5,
+        "windDirDeg": 290,
+        "precipMmH": 0,
+        "cloudCover": 0.4,
+        "cloudBaseM": 3300,
+        "visibilityM": 30000,
+        "pressureHpa": 1017
+      },
+      {
+        "at": "D1 02:00",
+        "tempC": 5.5,
+        "windMs": 5,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3900,
+        "visibilityM": 40000,
+        "pressureHpa": 1019
+      },
+      {
+        "at": "D1 05:30",
+        "tempC": 5,
+        "windMs": 4,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3900,
+        "visibilityM": 40000,
+        "pressureHpa": 1020
+      },
+      {
+        "at": "D1 09:00",
+        "tempC": 9,
+        "windMs": 4,
+        "windDirDeg": 280,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3700,
+        "visibilityM": 40000,
+        "pressureHpa": 1020
+      },
+      {
+        "at": "D1 16:00",
+        "tempC": 11,
+        "windMs": 5,
+        "windDirDeg": 250,
+        "precipMmH": 0,
+        "cloudCover": 0.5,
+        "cloudBaseM": 3100,
+        "visibilityM": 30000,
+        "pressureHpa": 1017
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_wx_early",
+      "trigger": {
+        "all": [
+          {
+            "after": "D0 09:30"
+          },
+          {
+            "chance": 0.3
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "wxEarly"
+        },
+        {
+          "type": "weatherOverride",
+          "keyframe": {
+            "at": "D0 11:15",
+            "tempC": 11.5,
+            "windMs": 5,
+            "windDirDeg": 250,
+            "precipMmH": 0,
+            "cloudCover": 0.6,
+            "cloudBaseM": 3000,
+            "visibilityM": 30000,
+            "pressureHpa": 1016
+          }
+        },
+        {
+          "type": "weatherOverride",
+          "keyframe": {
+            "at": "D0 12:00",
+            "tempC": 11.5,
+            "windMs": 5.5,
+            "windDirDeg": 250,
+            "precipMmH": 0,
+            "cloudCover": 0.85,
+            "cloudBaseM": 2700,
+            "visibilityM": 15000,
+            "inCloudVisibilityM": 80,
+            "pressureHpa": 1015
+          }
+        },
+        {
+          "type": "weatherOverride",
+          "keyframe": {
+            "at": "D0 12:30",
+            "tempC": 11.5,
+            "windMs": 5.5,
+            "windDirDeg": 250,
+            "precipMmH": 0,
+            "cloudCover": 0.85,
+            "cloudBaseM": 2700,
+            "visibilityM": 15000,
+            "inCloudVisibilityM": 80,
+            "pressureHpa": 1015
+          }
+        }
+      ]
+    },
+    {
+      "id": "ev_wx_late",
+      "trigger": {
+        "all": [
+          {
+            "after": "D0 09:30"
+          },
+          {
+            "not": {
+              "flag": "wxEarly"
+            }
+          },
+          {
+            "chance": 0.45
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "wxLate"
+        },
+        {
+          "type": "weatherOverride",
+          "keyframe": {
+            "at": "D0 12:30",
+            "tempC": 12.5,
+            "windMs": 5,
+            "windDirDeg": 250,
+            "precipMmH": 0,
+            "cloudCover": 0.4,
+            "cloudBaseM": 3300,
+            "visibilityM": 30000,
+            "pressureHpa": 1016
+          }
+        },
+        {
+          "type": "weatherOverride",
+          "keyframe": {
+            "at": "D0 13:30",
+            "tempC": 12.5,
+            "windMs": 5,
+            "windDirDeg": 250,
+            "precipMmH": 0,
+            "cloudCover": 0.5,
+            "cloudBaseM": 3200,
+            "visibilityM": 30000,
+            "pressureHpa": 1016
+          }
+        },
+        {
+          "type": "weatherOverride",
+          "keyframe": {
+            "at": "D0 14:30",
+            "tempC": 12,
+            "windMs": 5.5,
+            "windDirDeg": 250,
+            "precipMmH": 0,
+            "cloudCover": 0.6,
+            "cloudBaseM": 3000,
+            "visibilityM": 25000,
+            "pressureHpa": 1015
+          }
+        },
+        {
+          "type": "weatherOverride",
+          "keyframe": {
+            "at": "D0 15:30",
+            "tempC": 10.5,
+            "windMs": 5.5,
+            "windDirDeg": 240,
+            "precipMmH": 0.3,
+            "cloudCover": 0.85,
+            "cloudBaseM": 2700,
+            "visibilityM": 12000,
+            "inCloudVisibilityM": 60,
+            "pressureHpa": 1014
+          }
+        }
+      ]
+    },
+    {
+      "id": "ev_gas",
+      "trigger": {
+        "all": [
+          {
+            "var": "g.cloudBaseM",
+            "op": "<",
+            "value": 2930
+          },
+          {
+            "before": "D0 20:00"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "谷から湧いたガスが上がってきて、横岳の稜線と大同心の頭が雲に隠れた",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_called",
+      "trigger": {
+        "event": "RESCUE_CALLED"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "called"
+        }
+      ]
+    },
+    {
+      "id": "ev_called_other",
+      "trigger": {
+        "all": [
+          {
+            "event": "RESCUE_CALLED"
+          },
+          {
+            "not": {
+              "flag": "selfCalled"
+            }
+          },
+          {
+            "not": {
+              "flag": "hutCalled"
+            }
+          },
+          {
+            "before": "D1 11:59"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "passerbyCalled"
+        }
+      ]
+    },
+    {
+      "id": "ev_p1",
+      "trigger": {
+        "elapsedSince": {
+          "flag": "climbStart",
+          "min": 15
+        }
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "ロープを結び、坂本さんがリードで 1 ピッチ目を登り始めた。千葉さんが下で確保する"
+        }
+      ]
+    },
+    {
+      "id": "ev_p2",
+      "trigger": {
+        "elapsedSince": {
+          "flag": "climbStart",
+          "min": 60
+        }
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "1 ピッチ目を終えて 2 ピッチ目へ。後ろの安藤さん・土屋さん組も取り付いた"
+        }
+      ]
+    },
+    {
+      "id": "ev_p3",
+      "trigger": {
+        "elapsedSince": {
+          "flag": "climbStart",
+          "min": 100
+        }
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "2 ピッチ目の終了点に 4 人がそろった。坂本さんが 3 ピッチ目に出る。ルートはここから斜め上へ向かう"
+        }
+      ]
+    },
+    {
+      "id": "ev_fall",
+      "trigger": {
+        "any": [
+          {
+            "all": [
+              {
+                "elapsedSince": {
+                  "flag": "climbStart",
+                  "min": 125
+                }
+              },
+              {
+                "not": {
+                  "flag": "briefed"
+                }
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "elapsedSince": {
+                  "flag": "climbStart",
+                  "min": 135
+                }
+              },
+              {
+                "flag": "briefed"
+              }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "say",
+          "who": "sakamoto",
+          "text": "うわっ！",
+          "tone": "shout"
+        },
+        {
+          "type": "injure",
+          "who": "sakamoto",
+          "injury": "legFracture"
+        },
+        {
+          "type": "log",
+          "text": "3 ピッチ目の中ほどで、坂本さんがつかんだホールド（岩の出っ張り）が剥がれた。坂本さんは 8 m ほど落ち、最後に取った支点と千葉さんの確保で止まった。ロープにぶら下がったまま、右の足首を押さえている",
+          "important": true
+        },
+        {
+          "type": "say",
+          "who": "chiba",
+          "to": "sakamoto",
+          "text": "止めた！ 坂本さん、大丈夫!?",
+          "tone": "shout"
+        },
+        {
+          "type": "setFlag",
+          "flag": "fell"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "addAnxiety",
+              "who": "ando",
+              "amount": 25
+            },
+            {
+              "type": "addAnxiety",
+              "who": "chiba",
+              "amount": 30
+            },
+            {
+              "type": "addAnxiety",
+              "who": "tsuchiya",
+              "amount": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_lower_sys",
+      "trigger": {
+        "flag": "lowerSys"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "安藤さんが終了点に支点を作り直し、坂本さんを少しずつ下ろし始めた。土屋さんがロープを送り、千葉さんは先に懸垂下降で下りて、下で坂本さんを迎える"
+        }
+      ]
+    },
+    {
+      "id": "ev_lower_counter",
+      "trigger": {
+        "flag": "lowerCounter"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "千葉さんが坂本さんを自分のハーネスにつなぎ、2 人で 1 本のロープを懸垂下降し始めた。安藤さんと土屋さんは上で支点を見守る"
+        }
+      ]
+    },
+    {
+      "id": "ev_snag_a",
+      "trigger": {
+        "all": [
+          {
+            "flag": "lowerSys"
+          },
+          {
+            "flag": "briefed"
+          },
+          {
+            "elapsedSince": {
+              "flag": "lowering",
+              "min": 45
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "chance": 0.2
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "lowerSnag"
+        },
+        {
+          "type": "log",
+          "text": "斜めに登ってきたルートなので、真下に下ろすとロープが届かない。途中の小さなテラスで坂本さんを止め、支点を作り直す。そのあいだ坂本さんはロープにぶら下がって待つ",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_snag_b",
+      "trigger": {
+        "all": [
+          {
+            "flag": "lowerSys"
+          },
+          {
+            "not": {
+              "flag": "briefed"
+            }
+          },
+          {
+            "elapsedSince": {
+              "flag": "lowering",
+              "min": 45
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "chance": 0.4
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "lowerSnag"
+        },
+        {
+          "type": "log",
+          "text": "斜めに登ってきたルートなので、真下に下ろすとロープが届かない。途中の小さなテラスで坂本さんを止め、支点を作り直す。そのあいだ坂本さんはロープにぶら下がって待つ",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_counter_slip",
+      "trigger": {
+        "all": [
+          {
+            "flag": "lowerCounter"
+          },
+          {
+            "elapsedSince": {
+              "flag": "lowering",
+              "min": 30
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "any": [
+              {
+                "all": [
+                  {
+                    "flag": "briefed"
+                  },
+                  {
+                    "chance": 0.08
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "briefed"
+                    }
+                  },
+                  {
+                    "chance": 0.2
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "counterSlip"
+        },
+        {
+          "type": "log",
+          "text": "下降の途中で千葉さんの足が滑り、2 人は横に振られて岩に当たった。坂本さんの折れた足が岩にぶつかり、千葉さんは左の足首をひねった。ロープと支点は持ちこたえた",
+          "important": true
+        },
+        {
+          "type": "say",
+          "who": "sakamoto",
+          "text": "ぐっ……",
+          "tone": "whisper"
+        },
+        {
+          "type": "injure",
+          "who": "chiba",
+          "injury": "sprain"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "addAnxiety",
+              "who": "chiba",
+              "amount": -20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_lowered_sys",
+      "trigger": {
+        "all": [
+          {
+            "flag": "lowerSys"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "any": [
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "lowerSnag"
+                    }
+                  },
+                  {
+                    "flag": "briefed"
+                  },
+                  {
+                    "elapsedSince": {
+                      "flag": "lowering",
+                      "min": 95
+                    }
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "lowerSnag"
+                    }
+                  },
+                  {
+                    "not": {
+                      "flag": "briefed"
+                    }
+                  },
+                  {
+                    "elapsedSince": {
+                      "flag": "lowering",
+                      "min": 115
+                    }
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "flag": "lowerSnag"
+                  },
+                  {
+                    "elapsedSince": {
+                      "flag": "lowering",
+                      "min": 160
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "lowered"
+        },
+        {
+          "type": "log",
+          "text": "坂本さんが取付の岩棚に下りた。続いて安藤さんと土屋さんが懸垂下降で下りてきて、ロープを回収した。4 人が大同心の基部にそろった",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "stayPut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_lowered_counter",
+      "trigger": {
+        "all": [
+          {
+            "flag": "lowerCounter"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "any": [
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "counterSlip"
+                    }
+                  },
+                  {
+                    "flag": "briefed"
+                  },
+                  {
+                    "elapsedSince": {
+                      "flag": "lowering",
+                      "min": 65
+                    }
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "counterSlip"
+                    }
+                  },
+                  {
+                    "not": {
+                      "flag": "briefed"
+                    }
+                  },
+                  {
+                    "elapsedSince": {
+                      "flag": "lowering",
+                      "min": 80
+                    }
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "flag": "counterSlip"
+                  },
+                  {
+                    "elapsedSince": {
+                      "flag": "lowering",
+                      "min": 105
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "lowered"
+        },
+        {
+          "type": "log",
+          "text": "千葉さんと坂本さんが取付の岩棚に下り着いた。続いて安藤さんと土屋さんが懸垂下降で下りてきて、ロープを回収した。4 人が大同心の基部にそろった",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "stayPut"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_evac_start",
+      "trigger": {
+        "flag": "selfEvac"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "安藤さんと土屋さんが両側から肩を貸し、千葉さんが後ろから支える。坂本さんは右足を浮かせ、左足と両手で、ほとんど這うようにして大同心稜を下り始めた",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_evac_slip1",
+      "trigger": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "elapsedSince": {
+              "flag": "selfEvac",
+              "min": 30
+            }
+          },
+          {
+            "chance": 0.5
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "岩の段差で、支えていた土屋さんが足を滑らせ、坂本さんと一緒に倒れた。坂本さんの折れた足首がねじれ、土屋さんは足首をひねった",
+          "important": true
+        },
+        {
+          "type": "say",
+          "who": "sakamoto",
+          "text": "うっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "injure",
+          "who": "tsuchiya",
+          "injury": "sprain"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "addAnxiety",
+              "who": "tsuchiya",
+              "amount": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_evac_slip2",
+      "trigger": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "elapsedSince": {
+              "flag": "selfEvac",
+              "min": 100
+            }
+          },
+          {
+            "chance": 0.3
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "急な斜面で坂本さんの体が支えの手から外れ、5 m ほど滑り落ちた。岩に頭を打ち、ヘルメットにひびが入った。坂本さんは少しのあいだ、呼びかけに答えなかった",
+          "important": true
+        },
+        {
+          "type": "injure",
+          "who": "sakamoto",
+          "injury": "headInjury"
+        },
+        {
+          "type": "setFlag",
+          "flag": "evacHurt"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "addAnxiety",
+              "who": "sakamoto",
+              "amount": -35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_evac_slip3",
+      "trigger": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "elapsedSince": {
+              "flag": "selfEvac",
+              "min": 200
+            }
+          },
+          {
+            "chance": 0.2
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "疲れた 3 人の手から坂本さんの体が離れ、急な斜面を 10 m ほど滑り落ちた。仲間がたどり着くと、坂本さんは胸と腰を強く打ち、浅い息をしている",
+          "important": true
+        },
+        {
+          "type": "injure",
+          "who": "sakamoto",
+          "injury": "severeTrauma"
+        },
+        {
+          "type": "setFlag",
+          "flag": "evacHurt"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "addAnxiety",
+              "who": "sakamoto",
+              "amount": -35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_evac_slip_dark",
+      "trigger": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "chance": 0.25
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "ヘッドランプの明かりだけの急な斜面で、坂本さんの体が支えの手から離れ、10 m ほど滑り落ちた。仲間がたどり着くと、坂本さんは胸と腰を強く打ち、浅い息をしている",
+          "important": true
+        },
+        {
+          "type": "injure",
+          "who": "sakamoto",
+          "injury": "severeTrauma"
+        },
+        {
+          "type": "setFlag",
+          "flag": "evacHurt"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "addAnxiety",
+              "who": "sakamoto",
+              "amount": -35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_c_hut_call",
+      "trigger": {
+        "all": [
+          {
+            "flag": "cToHut"
+          },
+          {
+            "any": [
+              {
+                "var": "c.chiba.state",
+                "op": "==",
+                "value": "STAYING"
+              },
+              {
+                "var": "c.chiba.state",
+                "op": "==",
+                "value": "SHELTERED"
+              }
+            ]
+          },
+          {
+            "var": "c.chiba.elevM",
+            "op": "<",
+            "value": 2235
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "var": "c.ando.radio",
+            "op": ">=",
+            "value": 0.3
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "cAtHut"
+        },
+        {
+          "type": "setFlag",
+          "flag": "hutCalled"
+        },
+        {
+          "type": "log",
+          "text": "千葉さんが赤岳鉱泉に着き、小屋の人に事情を話した。小屋から警察に連絡が入り、安藤さんの携帯にも、電話をかけるよう知らせが届いた。安藤さんは警察に電話をかけ、坂本さんの様子と、大同心の基部にいることを伝えた",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_c_hut_info",
+      "trigger": {
+        "all": [
+          {
+            "flag": "cToHut"
+          },
+          {
+            "any": [
+              {
+                "var": "c.chiba.state",
+                "op": "==",
+                "value": "STAYING"
+              },
+              {
+                "var": "c.chiba.state",
+                "op": "==",
+                "value": "SHELTERED"
+              }
+            ]
+          },
+          {
+            "var": "c.chiba.elevM",
+            "op": "<",
+            "value": 2235
+          },
+          {
+            "flag": "called"
+          },
+          {
+            "not": {
+              "flag": "cAtHut"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "cAtHut"
+        },
+        {
+          "type": "log",
+          "text": "千葉さんが赤岳鉱泉に着き、小屋の人に事情を話した。救助の要請はもう警察に届いていた。小屋の人は警察と連絡を取り、大同心の基部のようすを伝えてくれた",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_c_morning",
+      "trigger": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "after": "D1 05:00"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "rest",
+              "who": "chiba",
+              "minutes": 900
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_c_down",
+      "trigger": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "RESCUED"
+          },
+          {
+            "any": [
+              {
+                "before": "D0 15:00"
+              },
+              {
+                "after": "D1 05:45"
+              }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "坂本さんが収容されたと連絡を受け、千葉さんはテントを片付けて、美濃戸へ下り始めた"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setRoute",
+              "who": "chiba",
+              "route": [
+                "KOSEN",
+                "MINOTO"
+              ],
+              "goalNodes": [
+                "MINOTO"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_c_down_dead",
+      "trigger": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "RESCUED"
+          },
+          {
+            "any": [
+              {
+                "before": "D0 15:00"
+              },
+              {
+                "after": "D1 05:45"
+              }
+            ]
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "仲間が救助隊に収容されたと連絡を受け、千葉さんは小屋の人に付き添われて美濃戸へ下りた"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setRoute",
+              "who": "chiba",
+              "route": [
+                "KOSEN",
+                "MINOTO"
+              ],
+              "goalNodes": [
+                "MINOTO"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_c_away",
+      "trigger": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.chiba.state",
+            "op": "==",
+            "value": "FINISHED"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "leaveMap",
+              "who": "chiba",
+              "place": "美濃戸から車で茅野の病院へ"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_hut_wonder",
+      "trigger": {
+        "all": [
+          {
+            "flag": "hutKnows"
+          },
+          {
+            "after": "D0 14:30"
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "not": {
+              "flag": "cAtHut"
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "赤岳鉱泉では、13 時に戻ると言っていた 4 人がまだ戻らないことに、小屋の人が気づいた"
+        }
+      ]
+    },
+    {
+      "id": "ev_hut_calls",
+      "trigger": {
+        "all": [
+          {
+            "flag": "hutKnows"
+          },
+          {
+            "after": "D0 16:30"
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "not": {
+              "flag": "cAtHut"
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.ando.radio",
+            "op": ">=",
+            "value": 0.3
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "hutCalled"
+        },
+        {
+          "type": "log",
+          "text": "小屋の人が警察に連絡し、小屋からの電話が安藤さんの携帯に入った。事情を聞いた安藤さんは、すぐに警察に電話をかけ、坂本さんのけがと今いる場所を伝えた",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_dusk_all",
+      "trigger": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "lowered"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "STAYING"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "not": {
+              "flag": "cToHut"
+            }
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "日が暮れた。救助は明日の朝になる。3 人は坂本さんを囲むようにツエルトに入り、体を寄せ合った",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "bivouac",
+              "who": "ando",
+              "until": "rescue",
+              "findLee": false
+            },
+            {
+              "type": "bivouac",
+              "who": "tsuchiya",
+              "until": "rescue",
+              "findLee": false
+            },
+            {
+              "type": "bivouac",
+              "who": "chiba",
+              "until": "rescue",
+              "findLee": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_dusk_two",
+      "trigger": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "lowered"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "STAYING"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "flag": "cToHut"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "日が暮れた。救助は明日の朝になる。安藤さんと土屋さんは坂本さんをはさむようにツエルトに入り、体を寄せ合った",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "bivouac",
+              "who": "ando",
+              "until": "rescue",
+              "findLee": false
+            },
+            {
+              "type": "bivouac",
+              "who": "tsuchiya",
+              "until": "rescue",
+              "findLee": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_dusk_dead",
+      "trigger": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "fell"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "STAYING"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "日が暮れた。残った人たちはツエルトに入り、救助隊が来る朝を待った",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "bivouac",
+              "who": "ando",
+              "until": "rescue",
+              "findLee": false
+            },
+            {
+              "type": "bivouac",
+              "who": "tsuchiya",
+              "until": "rescue",
+              "findLee": false
+            },
+            {
+              "type": "bivouac",
+              "who": "chiba",
+              "until": "rescue",
+              "findLee": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_night",
+      "trigger": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "fell"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "night"
+        }
+      ]
+    },
+    {
+      "id": "ev_rescued_wall",
+      "trigger": {
+        "all": [
+          {
+            "event": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "RESCUED"
+          },
+          {
+            "not": {
+              "flag": "lowered"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "wallPickup"
+        },
+        {
+          "type": "setFlag",
+          "flag": "byHeli"
+        },
+        {
+          "type": "log",
+          "text": "ヘリが大同心の上に来た。隊員がワイヤーで壁に降り、ロープにつながった坂本さんを収容して吊り上げた。残った 3 人は懸垂下降で基部に下りた",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_rescued_heli",
+      "trigger": {
+        "all": [
+          {
+            "event": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "RESCUED"
+          },
+          {
+            "flag": "lowered"
+          },
+          {
+            "var": "g.cloudBaseM",
+            "op": ">=",
+            "value": 2930
+          },
+          {
+            "var": "clockMin",
+            "op": ">=",
+            "value": 354
+          },
+          {
+            "var": "clockMin",
+            "op": "<=",
+            "value": 1018
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "byHeli"
+        },
+        {
+          "type": "log",
+          "text": "ヘリが来た。隊員がワイヤーで基部に降り、坂本さんの足を固定し直して、担架ごと吊り上げた。ヘリは病院へ向かった",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_rescued_ground",
+      "trigger": {
+        "all": [
+          {
+            "event": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "RESCUED"
+          },
+          {
+            "flag": "lowered"
+          },
+          {
+            "not": {
+              "flag": "byHeli"
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "byGround"
+        },
+        {
+          "type": "log",
+          "text": "地上の救助隊（警察と遭難対策協議会の隊員）が基部に着いた。坂本さんの足を固定し直して担架に乗せ、ロープで確保しながら大同心稜を赤岳鉱泉へ下ろし始めた",
+          "important": true
+        }
+      ]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_start",
+      "title": "赤岳鉱泉の朝",
+      "priority": 20,
+      "trigger": {
+        "after": "D0 05:30"
+      },
+      "situation": "朝 5 時半、赤岳鉱泉のテント場。空は晴れて、横岳の西の岩壁が明るくなってきた。見上げると、大同心の岩峰が鉱泉の真上に立っている。",
+      "knowledge": [
+        "大同心の基部まで約 1 時間半。雲稜ルートは 5 ピッチほど。登り終えて鉱泉に戻るのは 13 時ごろの予定",
+        "予報: 晴れ。昼過ぎから山にガスがかかりやすい",
+        "ロープは 2 組（50 m のダブル）。坂本さん・千葉さん組と、安藤さん・土屋さん組",
+        "日の入りは 17:58"
+      ],
+      "options": [
+        {
+          "id": "tell",
+          "label": "テント場の受付で、行き先（大同心の雲稜ルート）と戻りの予定（13 時）を小屋の人に伝えてから出る",
+          "detail": "1〜2 分のことだ。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "大同心の雲稜ルートに行ってきます。13 時ごろ戻ります",
+              "tone": "normal"
+            },
+            {
+              "type": "rest",
+              "minutes": 5
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "hutKnows"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "go",
+          "label": "すぐに出発する",
+          "detail": "登山届は県に出してある。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "よし、行こう",
+              "to": "sakamoto"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "late",
+          "label": "朝食をゆっくり取り、6 時半に出る",
+          "detail": "鉱泉からは近い。慌てることはない。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "コーヒーをもう一杯飲んでから出よう",
+              "to": "tsuchiya"
+            },
+            {
+              "type": "rest",
+              "minutes": 60
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "lateStart"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_climb",
+      "title": "大同心の基部",
+      "priority": 18,
+      "trigger": {
+        "atNode": "DAIDO_BASE"
+      },
+      "situation": "大同心の基部に着いた。見上げると、高さ 100 m ほどの岩の壁がそそり立っている。雲稜ルートの取付に、ほかのパーティの姿はない。",
+      "knowledge": [
+        "1〜3 ピッチ目は坂本さんがリードする。坂本さん・千葉さん組が先に登り、安藤さん・土屋さん組が続く",
+        "このあたりの岩は、ところどころもろい",
+        "電話: 基部と壁では電波が入る（{leader.radio:2}）。赤岳鉱泉の谷底は入りにくい",
+        "午後は山にガスがかかりやすい"
+      ],
+      "options": [
+        {
+          "id": "go",
+          "label": "予定どおり取り付く",
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "text": "じゃあ、行ってきます",
+              "to": "chiba"
+            },
+            {
+              "type": "setFlag",
+              "flag": "climbStart"
+            },
+            {
+              "type": "rest",
+              "minutes": 600
+            }
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "plan",
+          "label": "取り付く前に、だれかがけがをしたときの段取り（下ろし方・合図・連絡の分担）を 4 人で 10 分だけ確かめる",
+          "detail": "ふだんは省いてしまうことだ。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "落ちたときの段取りを確かめておこう。下ろすのは終了点の支点から。合図は大きな声で、電話はわしがかける",
+              "to": "sakamoto"
+            },
+            {
+              "type": "setFlag",
+              "flag": "climbStart"
+            },
+            {
+              "type": "rest",
+              "minutes": 600
+            }
+          ],
+          "flags": [
+            "briefed"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.35
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_fall",
+      "title": "3 ピッチ目で墜落",
+      "priority": 22,
+      "trigger": {
+        "flag": "fell"
+      },
+      "situation": "坂本さんの声がする。「右の足首をやった。たぶん折れてる。ほかは大丈夫」。意識ははっきりしていて、出血はない。右足を浮かせたまま、左足と手で岩に体を預けている。登攀はここで終わりだ。",
+      "knowledge": [
+        "ここは取付から 70〜80 m 上。ルートは斜めに登っていて、真下に下ろすと取付から外れる",
+        "下ろすには、支点を作り直しながら何回かに分けることになる。2 時間ほどかかりそうだ",
+        "上に引き上げるのは、3 人では下ろすよりずっと難しい",
+        "電話: 電波は入る（{leader.radio:2}）。安藤さんのスマホは地図アプリで現在地が出る",
+        "空は晴れている。午後は山にガスがかかりやすい"
+      ],
+      "options": [
+        {
+          "id": "call_now",
+          "label": "安藤さんがすぐ 110 番して状況を伝える。そのあいだに千葉さんと土屋さんが、坂本さんを下ろす準備を始める",
+          "detail": "下ろしている間にも、ヘリの準備は進む。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "大同心の雲稜ルートの 3 ピッチ目で、仲間が落ちて右の足首を骨折しました。4 人パーティーです",
+              "tone": "normal"
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "setFlag",
+              "flag": "decided"
+            }
+          ],
+          "flags": [
+            "callNow",
+            "selfCalled",
+            "called"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "flag": "briefed"
+                },
+                "add": 0.5
+              }
+            ]
+          }
+        },
+        {
+          "id": "lower_first",
+          "label": "まず全員で坂本さんを取付まで下ろす。電話は、下に着いて落ち着いてから",
+          "detail": "宙づりのままにはしておけない。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "まず下ろそう。電話は下に着いてからだ",
+              "to": "chiba"
+            },
+            {
+              "type": "setFlag",
+              "flag": "decided"
+            }
+          ],
+          "flags": [
+            "lowerFirst"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "no_call",
+          "label": "救助は呼ばない。取付まで下ろしたら、肩を貸して自分たちで赤岳鉱泉まで下ろす",
+          "detail": "鉱泉はすぐ下だ。ヘリを呼ぶほどではないかもしれない。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "text": "ヘリなんて大げさですよ。鉱泉まで下りれば何とかなります",
+              "to": "ando"
+            },
+            {
+              "type": "setFlag",
+              "flag": "decided"
+            }
+          ],
+          "flags": [
+            "noCall"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.35
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_lower",
+      "title": "どうやって下ろすか",
+      "priority": 21,
+      "trigger": {
+        "all": [
+          {
+            "flag": "decided"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          }
+        ]
+      },
+      "situation": "坂本さんを取付まで下ろす。やり方を決めなければならない。坂本さんはロープにぶら下がったまま、痛みをこらえている。",
+      "knowledge": [
+        "ロワーダウン: 上の支点から、坂本さんをロープで少しずつ下ろす。確実だが、斜めのルートではロープが届かず、途中で支点を作り直すことがある",
+        "カウンターラッペル: 千葉さんが坂本さんとつながって、1 本のロープで一緒に懸垂下降する。早いが、操作を一つ間違えると 2 人とも落ちる",
+        "安藤さんは昔ロープレスキューを習ったが、細かいところは忘れかけている"
+      ],
+      "options": [
+        {
+          "id": "lower",
+          "label": "安藤さんの指示で、ロワーダウンで下ろす。支点は 2 か所で取り、声をかけ合ってゆっくり",
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "支点は 2 か所で取る。合図は大きな声で。ゆっくりだ",
+              "to": "tsuchiya"
+            },
+            {
+              "type": "setFlag",
+              "flag": "lowering"
+            }
+          ],
+          "flags": [
+            "lowerSys"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8,
+            "mods": [
+              {
+                "when": {
+                  "flag": "briefed"
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "counter",
+          "label": "千葉さんが坂本さんと一緒に懸垂下降する（カウンターラッペル）",
+          "detail": "早く下ろせる。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "chiba",
+              "text": "私が一緒に下ります。坂本さん、私につかまって",
+              "to": "sakamoto"
+            },
+            {
+              "type": "setFlag",
+              "flag": "lowering"
+            }
+          ],
+          "flags": [
+            "lowerCounter"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_base_called",
+      "title": "基部で救助を待つ",
+      "priority": 17,
+      "trigger": {
+        "all": [
+          {
+            "flag": "lowered"
+          },
+          {
+            "flag": "called"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "not": {
+              "flag": "splinted"
+            }
+          },
+          {
+            "not": {
+              "flag": "selfEvac"
+            }
+          }
+        ]
+      },
+      "situation": "坂本さんを取付まで下ろした。右の足首は腫れて、少し向きがおかしい。ここは標高 2,600 m あまりの岩場で、風が当たる。救助はもう頼んである。",
+      "knowledge": [
+        "警察からは「その場を動かず、電話がつながるようにしておいて」と言われた",
+        "ヘリは明るいうちだけ、雲が山にかかっていないときだけ飛ぶ",
+        "地上の救助隊は美濃戸から登ってくる。着くまで 4〜5 時間かかる",
+        "気温 {leader.local.tempC:0}℃、風 {leader.local.windMs:0} m/s。日の入りは 17:58"
+      ],
+      "options": [
+        {
+          "id": "wait",
+          "label": "坂本さんの足首をストックとテーピングで固定し、ツエルトをかぶせて着込ませる。3 人が付き添い、動かずに救助を待つ",
+          "actions": [
+            {
+              "type": "narrate",
+              "text": "安藤さんが折りたたみのストックを添え木にして、テーピングで坂本さんの足首を固定した。ダウンと雨具を着せ、平らな岩の上にザックとロープを敷いて寝かせ、ツエルトをかぶせる"
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "chiba"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "chiba"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "ando"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "splinted"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.2
+          }
+        },
+        {
+          "id": "carry",
+          "label": "救助を待たず、肩を貸して赤岳鉱泉まで下ろし始める",
+          "detail": "鉱泉まで下りれば、小屋の中で待てる。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "text": "肩を貸してください。這ってでも下ります",
+              "to": "ando"
+            },
+            {
+              "type": "setFlag",
+              "flag": "selfEvac"
+            },
+            {
+              "type": "goToNode",
+              "node": "KOSEN",
+              "then": "stay"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.25,
+            "mods": [
+              {
+                "when": {
+                  "flag": "noCall"
+                },
+                "add": 0.6
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_base_nocall",
+      "title": "基部に下ろした",
+      "priority": 17,
+      "trigger": {
+        "all": [
+          {
+            "flag": "lowered"
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          }
+        ]
+      },
+      "situation": "坂本さんを取付まで下ろした。右の足首は腫れて、少し向きがおかしい。坂本さんは「肩を貸してもらえば下りられるかも」と言うが、右足は地面につけられない。",
+      "knowledge": [
+        "電話: ここは電波が入る（{leader.radio:2}）",
+        "赤岳鉱泉までは、大同心稜の急な踏み跡を元気な人の足で 1 時間ほど。鉱泉の谷底は電波が入りにくい",
+        "ヘリは明るいうちだけ、雲が山にかかっていないときだけ飛ぶ。午後は山にガスがかかりやすい",
+        "日の入りは 17:58"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "すぐ 110 番する。足首を固定し、ツエルトをかぶせて救助を待つ",
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "大同心の基部にいます。仲間が右の足首を骨折して、歩けません",
+              "tone": "normal"
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "narrate",
+              "text": "安藤さんが折りたたみのストックを添え木にして、テーピングで坂本さんの足首を固定した。ダウンと雨具を着せ、平らな岩の上にザックとロープを敷いて寝かせ、ツエルトをかぶせる"
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "chiba"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "chiba"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "ando"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "selfCalled",
+            "splinted",
+            "called"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9,
+            "mods": [
+              {
+                "when": {
+                  "flag": "lowerFirst"
+                },
+                "add": 0.4
+              },
+              {
+                "when": {
+                  "flag": "noCall"
+                },
+                "add": -0.6
+              }
+            ]
+          }
+        },
+        {
+          "id": "hut",
+          "label": "千葉さんが赤岳鉱泉まで下りて小屋の人に知らせ、小屋から通報してもらう。安藤さんと土屋さんが坂本さんに付き添う",
+          "detail": "小屋の人は、このあたりの事故に慣れている。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "chiba",
+              "text": "鉱泉まで行って、小屋の人に知らせてきます",
+              "to": "ando"
+            },
+            {
+              "type": "detach",
+              "who": "chiba",
+              "then": [
+                {
+                  "type": "goToNode",
+                  "node": "KOSEN",
+                  "then": "stay"
+                }
+              ]
+            },
+            {
+              "type": "narrate",
+              "text": "安藤さんが折りたたみのストックを添え木にして、テーピングで坂本さんの足首を固定した。ダウンと雨具を着せ、平らな岩の上にザックとロープを敷いて寝かせ、ツエルトをかぶせる"
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "ando"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "cToHut",
+            "splinted"
+          ],
+          "bias": {
+            "base": 0.45
+          },
+          "available": {
+            "var": "c.chiba.injury",
+            "op": "==",
+            "value": "none"
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "carry",
+          "label": "救助は呼ばず、肩を貸して赤岳鉱泉まで下ろす",
+          "detail": "鉱泉まで下りれば、小屋の中で休める。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "text": "肩を貸してください。這ってでも下ります",
+              "to": "ando"
+            },
+            {
+              "type": "setFlag",
+              "flag": "selfEvac"
+            },
+            {
+              "type": "goToNode",
+              "node": "KOSEN",
+              "then": "stay"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.35,
+            "mods": [
+              {
+                "when": {
+                  "flag": "noCall"
+                },
+                "add": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_evac_hurt",
+      "title": "滑り落ちた",
+      "priority": 19,
+      "trigger": {
+        "all": [
+          {
+            "flag": "evacHurt"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "situation": "坂本さんが支えの手から外れて滑り落ちた。いまは仲間のところまで引き戻したが、ぐったりしている。",
+      "knowledge": [
+        "電話: 電波 {leader.radio:2}（0.3 以上で通話できる）",
+        "これ以上動かせば、命に関わるかもしれない"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "動かすのをやめ、すぐ 110 番する。ツエルトをかぶせて温める",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.15
+              },
+              {
+                "not": {
+                  "flag": "called"
+                }
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "大同心稜で、けが人が滑落しました。足の骨折と、頭と胸を打っています",
+              "tone": "normal"
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "chiba"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "selfCalled",
+            "called",
+            "evacStopped"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.5
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "stop",
+          "label": "動かすのをやめ、その場で救助隊を待つ。ツエルトをかぶせて温める",
+          "detail": "救助はもう頼んである。",
+          "available": {
+            "flag": "called"
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "もうやめよう。ここで救助を待つ",
+              "to": "sakamoto"
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "chiba"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "evacStopped"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.5
+          }
+        },
+        {
+          "id": "push",
+          "label": "それでも鉱泉まで下ろす",
+          "actions": [
+            {
+              "type": "say",
+              "who": "tsuchiya",
+              "text": "もう少しだ。下ろそう",
+              "to": "ando"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_evac_check",
+      "title": "ほとんど進まない",
+      "priority": 16,
+      "trigger": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "elapsedSince": {
+              "flag": "selfEvac",
+              "min": 50
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "situation": "下り始めて 50 分。坂本さんは痛みで何度も止まり、基部からまだいくらも下りていない（高度計 {leader.elevM:0} m）。顔は青白く、冷たい汗をかいている。急な所では、両側から支えていても体が滑る。",
+      "knowledge": [
+        "このままでは、鉱泉まで日が暮れても着かない",
+        "動かすたびに折れた所が動き、痛みも、骨や血管を傷める心配も増える",
+        "電話: 電波 {leader.radio:2}（0.3 以上で通話できる）",
+        "日の入りは 17:58"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "ここで止まって 110 番する。坂本さんを平らな所に寝かせ、ツエルトをかぶせて待つ",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.3
+              },
+              {
+                "not": {
+                  "flag": "called"
+                }
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "だめだ、無理はやめよう。ここで救助を呼ぶ",
+              "to": "sakamoto"
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "chiba"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "selfCalled",
+            "evacStopped",
+            "called"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "stop",
+          "label": "動かすのをやめ、その場で救助隊を待つ。ツエルトをかぶせて温める",
+          "detail": "救助はもう頼んである。",
+          "available": {
+            "flag": "called"
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "もうやめよう。ここで救助を待つ",
+              "to": "sakamoto"
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "chiba"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "evacStopped"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9
+          }
+        },
+        {
+          "id": "hut",
+          "label": "坂本さんをここで休ませ、千葉さんが鉱泉まで下りて小屋の人に知らせる",
+          "actions": [
+            {
+              "type": "say",
+              "who": "chiba",
+              "text": "鉱泉まで行って、小屋の人に知らせてきます",
+              "to": "ando"
+            },
+            {
+              "type": "detach",
+              "who": "chiba",
+              "then": [
+                {
+                  "type": "goToNode",
+                  "node": "KOSEN",
+                  "then": "stay"
+                }
+              ]
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "cToHut",
+            "evacStopped"
+          ],
+          "bias": {
+            "base": 0.5
+          },
+          "available": {
+            "var": "c.chiba.injury",
+            "op": "==",
+            "value": "none"
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "push",
+          "label": "もう少しがんばって下りる",
+          "detail": "下に行くほど、道は歩きやすくなるはずだ。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "sakamoto",
+              "text": "大丈夫です……行けます",
+              "to": "ando"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_evac_check2",
+      "title": "日が傾いてきた",
+      "priority": 16,
+      "trigger": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "elapsedSince": {
+              "flag": "selfEvac",
+              "min": 180
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "situation": "下り始めて 3 時間。坂本さんはぐったりして、もう自分では体を支えられない。高度計は {leader.elevM:0} m。支える 3 人の足もふらついてきた。",
+      "knowledge": [
+        "電話: 電波 {leader.radio:2}",
+        "日の入りは 17:58。夜は 3℃ くらいまで下がる"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "ここで止まって 110 番する。ツエルトをかぶって待つ",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.15
+              },
+              {
+                "not": {
+                  "flag": "called"
+                }
+              }
+            ]
+          },
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "ここまでだ。救助を呼ぼう",
+              "to": "tsuchiya"
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "chiba"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "selfCalled",
+            "evacStopped",
+            "called"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          },
+          "hideIfUnavailable": true
+        },
+        {
+          "id": "stop",
+          "label": "動かすのをやめ、その場で救助隊を待つ。ツエルトをかぶせて温める",
+          "detail": "救助はもう頼んである。",
+          "available": {
+            "flag": "called"
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "もうやめよう。ここで救助を待つ",
+              "to": "sakamoto"
+            },
+            {
+              "type": "stayPut",
+              "who": "ando"
+            },
+            {
+              "type": "stayPut",
+              "who": "chiba"
+            },
+            {
+              "type": "stayPut",
+              "who": "tsuchiya"
+            },
+            {
+              "type": "wearRainwear",
+              "who": "sakamoto"
+            },
+            {
+              "type": "addLayer",
+              "who": "sakamoto"
+            },
+            {
+              "type": "bivouac",
+              "who": "sakamoto",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "evacStopped"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "push",
+          "label": "鉱泉まで、このまま下り続ける",
+          "actions": [
+            {
+              "type": "say",
+              "who": "tsuchiya",
+              "text": "あと少しのはずだ。がんばろう",
+              "to": "sakamoto"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_morning",
+      "title": "夜が明けた",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          {
+            "after": "D1 05:30"
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "situation": "冷え込んだ夜が明けた。坂本さんは震えながら、ツエルトの中で体を丸めている。救助はまだ頼んでいない。",
+      "knowledge": [
+        "電話: 電波 {leader.radio:2}（0.3 以上で通話できる）",
+        "朝は晴れている"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して救助を頼む",
+          "available": {
+            "var": "leader.radio",
+            "op": ">=",
+            "value": 0.15
+          },
+          "unavailableText": "圏外",
+          "actions": [
+            {
+              "type": "say",
+              "who": "ando",
+              "text": "大同心稜で、骨折した仲間と一晩過ごしました。救助をお願いします",
+              "tone": "normal"
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            }
+          ],
+          "flags": [
+            "selfCalled",
+            "called"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.2
+          }
+        },
+        {
+          "id": "push",
+          "label": "明るくなった。また肩を貸して鉱泉へ下りる",
+          "actions": [
+            {
+              "type": "setFlag",
+              "flag": "selfEvac"
+            },
+            {
+              "type": "goToNode",
+              "node": "KOSEN",
+              "then": "stay"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "darkness": {
+      "situation": "日が暮れて、あたりが暗くなってきた。急な踏み跡は、もう足元が見えにくい。",
+      "options": [
+        {
+          "id": "stop",
+          "label": "ここで止まり、ツエルトをかぶって夜を越す",
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "call",
+          "label": "ここで止まり、110 番して救助を頼む",
+          "available": {
+            "all": [
+              {
+                "not": {
+                  "flag": "called"
+                }
+              },
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.15
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "selfCalled",
+            "called"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "go",
+          "label": "ヘッドランプをつけて、このまま鉱泉へ下る",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        }
+      ]
+    },
+    "hypothermia": {
+      "situation": "{leader.name}さんは震えが止まらない（体温 {leader.coreC:1}℃、推定）。指がうまく動かない。",
+      "options": [
+        {
+          "id": "warm",
+          "label": "ありったけ着込んで食べ、ツエルトに入って体を寄せ合う",
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 300
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "call",
+          "label": "110 番して救助を頼む",
+          "available": {
+            "all": [
+              {
+                "not": {
+                  "flag": "called"
+                }
+              },
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.15
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "selfCalled",
+            "called"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        }
+      ]
+    },
+    "injured": {
+      "situation": "{leader.name}さんは{leader.injury}で、思うように動けない。",
+      "knowledge": [
+        "電話: 電波 {leader.radio:2}（0.3 以上で通話できる）"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して救助を頼み、その場で待つ",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.15
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          "unavailableText": "電波が弱い",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "selfCalled",
+            "called"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "wait",
+          "label": "その場でツエルトをかぶり、着込んで待つ",
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "slow",
+          "label": "痛みをこらえて、ゆっくり下る",
+          "available": {
+            "var": "leader.injury",
+            "op": "!=",
+            "value": "legFracture"
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        }
+      ]
+    },
+    "rescueFailed": {
+      "situation": "電話がつながらない。ここは電波が弱い。",
+      "options": [
+        {
+          "id": "wait",
+          "label": "その場で待ち、少したってからかけ直す",
+          "actions": [
+            {
+              "type": "stayPut"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        }
+      ]
+    },
+    "lostAware": {
+      "situation": "踏み跡を外れたらしい。ハイマツと岩の斜面で、どこが大同心稜の筋か分からなくなった。",
+      "options": [
+        {
+          "id": "back",
+          "label": "来た所を戻って、踏み跡を探す",
+          "actions": [
+            {
+              "type": "backtrack"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "stay",
+          "label": "動かずに、ツエルトをかぶって待つ",
+          "actions": [
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    }
+  },
+  "thoughts": [
+    {
+      "key": "s15_approach",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E3"
+          },
+          {
+            "not": {
+              "flag": "fell"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "大同心が朝日で赤い。何度見てもいい岩だ",
+        "この稜を登るのも、もう何度目か"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s15_lead",
+      "who": "sakamoto",
+      "when": {
+        "all": [
+          {
+            "flag": "climbStart"
+          },
+          {
+            "not": {
+              "flag": "fell"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "岩は乾いている。いい日だ",
+        "3 ピッチ目までは任せてもらった。落ち着いていこう"
+      ],
+      "priority": 6
+    },
+    {
+      "key": "s15_belay",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "climbStart"
+          },
+          {
+            "not": {
+              "flag": "fell"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "ロープの流れはいい。坂本さん、順調だ",
+        "下から見ると、この壁は本当に高い"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s15_pain",
+      "who": "sakamoto",
+      "when": {
+        "all": [
+          {
+            "flag": "fell"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.coreC",
+            "op": ">=",
+            "value": 35
+          }
+        ]
+      },
+      "lines": [
+        "足首がずきずきする。少しでも動くと響く",
+        "あのホールド、しっかりして見えたのに",
+        "みんなに迷惑をかけてしまった"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_lowering_a",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "lowering"
+          },
+          {
+            "not": {
+              "flag": "lowered"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "支点は 2 か所。焦るな、ゆっくりだ",
+        "昔習ったことを、一つずつ思い出せ"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_lowering_c",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "lowering"
+          },
+          {
+            "not": {
+              "flag": "lowered"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "私が確保していたのに",
+        "手が震える。でも今は下ろすことだけ考えよう"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_gas",
+      "who": "tsuchiya",
+      "when": {
+        "all": [
+          {
+            "flag": "called"
+          },
+          {
+            "var": "g.cloudBaseM",
+            "op": "<",
+            "value": 2930
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "ガスで横岳が見えない。ヘリは来られるだろうか",
+        "雲さえ上がってくれれば"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_wait_a",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "lowered"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "STAYING"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "坂本の顔色を見ておこう。冷やさないことだ",
+        "風が当たらないように、わしらが風上に座ろう"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s15_wait_late",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "lowered"
+          },
+          {
+            "flag": "called"
+          },
+          {
+            "not": {
+              "flag": "callNow"
+            }
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "STAYING"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "g.cloudBaseM",
+            "op": "<",
+            "value": 2930
+          }
+        ]
+      },
+      "lines": [
+        "あのとき、すぐに電話していれば",
+        "ガスが上がる前に頼めていれば"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s15_evac",
+      "who": "tsuchiya",
+      "when": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.tsuchiya.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "このペースじゃ、鉱泉まで何時間かかるんだ",
+        "支えていても、坂本さんの体が滑る"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_evac_b",
+      "who": "sakamoto",
+      "when": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "一歩ごとに足首に響く……",
+        "下りるって言ったのは自分だ"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_hut_c",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "みんな、寒くないだろうか"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_hut_c2",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "小屋の人が、警察と連絡を取ってくれている"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_hut_c3",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "大同心の方を見ても、ガスで何も見えない"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_hut_c4",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "私だけ屋根の下にいる。落ち着かない"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_hut_c5",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "坂本さんの足、ちゃんと固定できていただろうか"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_hut_c8",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "小屋の人が温かいお茶を出してくれた。上のみんなにも飲ませたい"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_hut_c9",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "私が確保していた。もっと早く止められなかったか"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_hut_c10",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "無線の声が聞こえるたびに、顔を上げてしまう"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_hut_c6",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "眠れない。上はどれくらい冷えているだろう"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_hut_c7",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "RESCUED"
+          }
+        ]
+      },
+      "lines": [
+        "収容されたと聞いて、やっと息ができた"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_to_hut",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cToHut"
+          },
+          {
+            "not": {
+              "flag": "cAtHut"
+            }
+          },
+          {
+            "var": "c.chiba.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "急いで、でも転ばないように"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_to_hut2",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cToHut"
+          },
+          {
+            "not": {
+              "flag": "cAtHut"
+            }
+          },
+          {
+            "var": "c.chiba.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "ここで私まで転んだら、誰も知らせに行けない"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_to_hut3",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cToHut"
+          },
+          {
+            "not": {
+              "flag": "cAtHut"
+            }
+          },
+          {
+            "var": "c.chiba.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "鉱泉の屋根が木の間に見えてきた。もう少し"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_to_hut4",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "cToHut"
+          },
+          {
+            "not": {
+              "flag": "cAtHut"
+            }
+          },
+          {
+            "var": "c.chiba.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "小屋の人に何て言うか。場所、人数、けが……"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_night_a",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "fell"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "BIVOUAC"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "夜が長い。坂本の体が冷えていないか",
+        "明るくなれば、ヘリが来る"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_night_b",
+      "who": "sakamoto",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "fell"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "BIVOUAC"
+          }
+        ]
+      },
+      "lines": [
+        "寒い……右足の感覚がない",
+        "朝まで、あと何時間だ"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s15_evac_a1",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "一歩ずつだ。足を置く場所を確かめろ"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_evac_a2",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "これで本当に鉱泉まで下ろせるのか"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_evac_a3",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "坂本の顔が真っ青だ"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_evac_c1",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.chiba.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "後ろから支えるだけで、腕が震える"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_evac_c2",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.chiba.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "このままで、本当にいいんだろうか"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_evac_a4",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "肩に坂本の重さが食い込む"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_evac_a5",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "selfEvac"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "==",
+            "value": "WALKING"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "基部がまだすぐ上に見える"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s15_dead_a",
+      "who": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "fell"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "坂本……",
+        "わしがもっと早く、止めていれば"
+      ],
+      "priority": 12
+    },
+    {
+      "key": "s15_dead_c",
+      "who": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "fell"
+          },
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "どうして、こんなことに"
+      ],
+      "priority": 12
+    }
+  ],
+  "speech": [
+    {
+      "key": "s15_fall_reply",
+      "who": "sakamoto",
+      "to": "chiba",
+      "when": {
+        "all": [
+          {
+            "flag": "fell"
+          },
+          {
+            "not": {
+              "flag": "decided"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "足首をやった……たぶん折れてる"
+      ],
+      "tone": "shout",
+      "priority": 30,
+      "once": true
+    },
+    {
+      "key": "s15_lower_talk",
+      "who": "ando",
+      "to": "tsuchiya",
+      "when": {
+        "all": [
+          {
+            "flag": "lowerSys"
+          },
+          {
+            "elapsedSince": {
+              "flag": "lowering",
+              "min": 10
+            }
+          },
+          {
+            "not": {
+              "flag": "lowered"
+            }
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          }
+        ]
+      },
+      "lines": [
+        "ロープ、ゆっくり出して。合図を待って"
+      ],
+      "replies": {
+        "who": "tsuchiya",
+        "lines": [
+          "了解。ゆっくり出す"
+        ]
+      },
+      "priority": 14,
+      "once": true
+    },
+    {
+      "key": "s15_sorry",
+      "who": "sakamoto",
+      "to": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "lowered"
+          },
+          {
+            "flag": "splinted"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "BIVOUAC"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "すみません、こんなことになって"
+      ],
+      "replies": {
+        "who": "ando",
+        "lines": [
+          "気にするな。いまは温かくしていろ"
+        ]
+      },
+      "priority": 14,
+      "once": true
+    },
+    {
+      "key": "s15_gas_talk",
+      "who": "tsuchiya",
+      "to": "ando",
+      "when": {
+        "all": [
+          {
+            "flag": "called"
+          },
+          {
+            "var": "g.cloudBaseM",
+            "op": "<",
+            "value": 2930
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "!=",
+            "value": "RESCUED"
+          },
+          {
+            "var": "c.ando.state",
+            "op": "!=",
+            "value": "WALKING"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "ガスが上がってきましたね"
+      ],
+      "replies": {
+        "who": "ando",
+        "lines": [
+          "ヘリは厳しいかもしれん。地上の隊を待とう"
+        ]
+      },
+      "priority": 14,
+      "once": true
+    },
+    {
+      "key": "s15_morning_talk",
+      "who": "ando",
+      "to": "sakamoto",
+      "when": {
+        "all": [
+          {
+            "after": "D1 05:10"
+          },
+          {
+            "flag": "called"
+          },
+          {
+            "var": "c.sakamoto.state",
+            "op": "==",
+            "value": "BIVOUAC"
+          },
+          {
+            "var": "c.sakamoto.conscious",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "夜が明けたぞ。晴れている。もうすぐだ"
+      ],
+      "replies": {
+        "who": "sakamoto",
+        "lines": [
+          "はい……"
+        ]
+      },
+      "priority": 14,
+      "once": true
+    },
+    {
+      "key": "s15_whistle",
+      "who": "tsuchiya",
+      "when": {
+        "all": [
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "flag": "lowered"
+          },
+          {
+            "var": "c.tsuchiya.state",
+            "op": "==",
+            "value": "STAYING"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "（笛）ピーッ、ピーッ、ピーッ"
+      ],
+      "tone": "sound",
+      "priority": 10,
+      "cooldownMin": 60
+    }
+  ],
+  "endings": [
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": {
+        "var": "c.sakamoto.injury",
+        "op": "==",
+        "value": "severeTrauma"
+      },
+      "title": "滑り落ちて、重い状態で",
+      "text": "自分たちで下ろそうとした途中で、坂本さんは急な斜面を滑り落ち、胸と腰を強く打った。収容されたとき、坂本さんは重い状態で、体温は {c.sakamoto.coreC:1}℃ だった。動かさずに救助を待っていれば、けがは右足首の骨折だけで済んでいた。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "when": {
+        "var": "c.sakamoto.coreC",
+        "op": "<",
+        "value": 33.5
+      },
+      "title": "冷え切った状態で収容",
+      "text": "坂本さんが収容されたとき、体温は {c.sakamoto.coreC:1}℃ まで下がり、重い低体温症の状態だった。けがをして動けない人は体で熱を作れず、岩の上の夜は思った以上に冷える。足首の骨折に加えて、低体温症の治療が必要になった。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重い状態で収容",
+      "text": "収容されたとき、仲間の一人は重い状態だった。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "all": [
+          {
+            "var": "c.sakamoto.alive",
+            "op": "==",
+            "value": false
+          },
+          {
+            "flag": "selfEvac"
+          }
+        ]
+      },
+      "title": "下ろす途中で",
+      "text": "3 人は、骨折した坂本さんを自分たちで赤岳鉱泉へ下ろそうとした。大同心稜の急な斜面で、支えていた坂本さんの体が滑り落ちた。坂本さんは帰らなかった。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "var": "c.sakamoto.alive",
+        "op": "==",
+        "value": false
+      },
+      "title": "帰らぬ人に",
+      "text": "坂本さんは、救助を待つ間に山で亡くなった。動けないまま夜を越すことの厳しさが、そのまま表れた。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "var": "c.chiba.alive",
+        "op": "==",
+        "value": false
+      },
+      "title": "知らせに走った人が",
+      "text": "赤岳鉱泉へ知らせに一人で下りた千葉さんが、大同心稜の途中で滑落して亡くなった。急いで一人で動くことにも、危険がある。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "帰らぬ人に",
+      "text": "仲間の一人が、山から帰らなかった。"
+    },
+    {
+      "kind": "MISSING",
+      "title": "まだ山の中に",
+      "text": "2 日目の午後になっても、坂本さんたちは山の中にいる。救助の要請がないまま時間が過ぎた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "not": {
+              "flag": "lowered"
+            }
+          },
+          {
+            "flag": "callNow"
+          }
+        ]
+      },
+      "title": "壁の途中でヘリに収容",
+      "text": "安藤さんが落ちてすぐに 110 番したので、ヘリは午前中のうちに飛べた。ヘリが着いたのは、坂本さんを下ろしている最中だった。隊員がワイヤーで降り、ロープにつながった坂本さんを壁の途中で収容した。坂本さんは右足首の骨折で、病院に運ばれた。残った 3 人は懸垂下降で基部に下り、残した支点と装備を回収して、慎重に赤岳鉱泉へ下りた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "byHeli"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "byGround"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "g.cloudBaseM",
+                        "op": ">=",
+                        "value": 2930
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": ">=",
+                        "value": 354
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": "<=",
+                        "value": 1018
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "night"
+            }
+          },
+          {
+            "flag": "callNow"
+          }
+        ]
+      },
+      "title": "早い通報で、ヘリに間に合った",
+      "text": "墜落してすぐに 110 番し、そのあいだに坂本さんを基部まで下ろした。ガスが山にかかる前にヘリが飛び、坂本さんは病院に運ばれた。右足首の骨折だった。残った 3 人は装備をまとめ、慎重に赤岳鉱泉へ下りた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "byHeli"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "byGround"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "g.cloudBaseM",
+                        "op": ">=",
+                        "value": 2930
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": ">=",
+                        "value": 354
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": "<=",
+                        "value": 1018
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "night"
+            }
+          },
+          {
+            "flag": "cAtHut"
+          },
+          {
+            "flag": "hutCalled"
+          }
+        ]
+      },
+      "title": "小屋からの連絡で",
+      "text": "千葉さんが赤岳鉱泉に知らせに下り、小屋からの連絡で救助が動いた。ガスの切れ間にヘリが飛び、坂本さんは病院に運ばれた。基部でも電話は通じていた。その場でかけていれば、1 時間ほど早く頼めていた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "byHeli"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "byGround"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "g.cloudBaseM",
+                        "op": ">=",
+                        "value": 2930
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": ">=",
+                        "value": 354
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": "<=",
+                        "value": 1018
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "night"
+            }
+          },
+          {
+            "flag": "passerbyCalled"
+          }
+        ]
+      },
+      "title": "ほかのパーティーの通報で",
+      "text": "近くを登っていた別のパーティーが 4 人に気づき、下りて通報してくれた。ヘリが飛び、坂本さんは病院に運ばれた。右足首の骨折だった。電波は入っていた。自分たちでかけていれば、もっと早かった。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "byHeli"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "byGround"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "g.cloudBaseM",
+                        "op": ">=",
+                        "value": 2930
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": ">=",
+                        "value": 354
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": "<=",
+                        "value": 1018
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "night"
+            }
+          },
+          {
+            "flag": "selfEvac"
+          }
+        ]
+      },
+      "title": "下ろしかけて、引き返して",
+      "text": "3 人は坂本さんを自分たちで赤岳鉱泉へ下ろそうとしたが、急な大同心稜ではほとんど進めなかった。ガスの切れ間にヘリが飛び、坂本さんは病院に運ばれた。右足首の骨折だった。動かしていた時間の分だけ、救助は遅れ、坂本さんの痛みも増した。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "byHeli"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "byGround"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "g.cloudBaseM",
+                        "op": ">=",
+                        "value": 2930
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": ">=",
+                        "value": 354
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": "<=",
+                        "value": 1018
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "night"
+            }
+          }
+        ]
+      },
+      "title": "ヘリが間に合った",
+      "text": "坂本さんを基部まで下ろしてから 110 番した。ガスが山にかかる前にヘリが飛び、坂本さんは病院に運ばれた。右足首の骨折だった。残った 3 人は装備をまとめ、慎重に赤岳鉱泉へ下りた。下ろすのにもう少し時間がかかっていたら、ヘリは飛べなかったかもしれない。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "flag": "night"
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "flag": "selfCalled"
+                },
+                {
+                  "flag": "hutCalled"
+                }
+              ]
+            }
+          },
+          {
+            "not": {
+              "flag": "passerbyCalled"
+            }
+          }
+        ]
+      },
+      "title": "頼まないまま一晩",
+      "text": "4 人は救助を頼まないまま、大同心稜の上で一晩を越した。翌日の昼、予定を過ぎても帰らないことから家族が届け出て、登山届のルートをもとに救助隊が見つけた。電波は入っていた。すぐに通報していれば、その日のうちに病院に着けていた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "flag": "night"
+          },
+          {
+            "flag": "selfEvac"
+          }
+        ]
+      },
+      "title": "下ろせないまま一晩",
+      "text": "3 人は坂本さんを自分たちで赤岳鉱泉へ下ろそうとしたが、急な大同心稜ではほとんど進めなかった。救助を頼むのが遅れ、ガスと夜でヘリは飛べず、4 人は稜の上で一晩を越した。翌日、坂本さんは救助隊に収容され、病院に運ばれた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "byHeli"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "byGround"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "g.cloudBaseM",
+                        "op": ">=",
+                        "value": 2930
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": ">=",
+                        "value": 354
+                      },
+                      {
+                        "var": "clockMin",
+                        "op": "<=",
+                        "value": 1018
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "flag": "night"
+          }
+        ]
+      },
+      "title": "一晩を越えて、翌日のヘリで",
+      "text": "午後はガスで、夜はヘリが飛べない。坂本さんたちは大同心の基部で一晩を越した。夜が明けてからヘリが飛び、坂本さんは病院に運ばれた。収容されたときの体温は {c.sakamoto.coreC:1}℃。動けない人を、仲間がツエルトと体で温め続けた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "byGround"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "byHeli"
+                    }
+                  },
+                  {
+                    "not": {
+                      "all": [
+                        {
+                          "var": "g.cloudBaseM",
+                          "op": ">=",
+                          "value": 2930
+                        },
+                        {
+                          "var": "clockMin",
+                          "op": ">=",
+                          "value": 354
+                        },
+                        {
+                          "var": "clockMin",
+                          "op": "<=",
+                          "value": 1018
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "night"
+            }
+          },
+          {
+            "flag": "selfEvac"
+          }
+        ]
+      },
+      "title": "下ろしかけたところへ救助隊",
+      "text": "3 人は坂本さんを自分たちで赤岳鉱泉へ下ろそうとしたが、急な大同心稜ではほとんど進めなかった。ガスでヘリは飛べず、美濃戸から登ってきた地上の救助隊が、日が暮れる前に 4 人のところへ着いた。坂本さんは担架で下ろされ、病院に運ばれた。右足首の骨折だった。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "byGround"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "byHeli"
+                    }
+                  },
+                  {
+                    "not": {
+                      "all": [
+                        {
+                          "var": "g.cloudBaseM",
+                          "op": ">=",
+                          "value": 2930
+                        },
+                        {
+                          "var": "clockMin",
+                          "op": ">=",
+                          "value": 354
+                        },
+                        {
+                          "var": "clockMin",
+                          "op": "<=",
+                          "value": 1018
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "night"
+            }
+          }
+        ]
+      },
+      "title": "地上の救助隊が担架で",
+      "text": "ガスでヘリは飛べなかったが、美濃戸から登ってきた地上の救助隊が、日が暮れる前に基部に着いた。坂本さんは担架で大同心稜を下ろされ、病院へ運ばれた。右足首の骨折だった。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "byGround"
+              },
+              {
+                "all": [
+                  {
+                    "not": {
+                      "flag": "byHeli"
+                    }
+                  },
+                  {
+                    "not": {
+                      "all": [
+                        {
+                          "var": "g.cloudBaseM",
+                          "op": ">=",
+                          "value": 2930
+                        },
+                        {
+                          "var": "clockMin",
+                          "op": ">=",
+                          "value": 354
+                        },
+                        {
+                          "var": "clockMin",
+                          "op": "<=",
+                          "value": 1018
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "flag": "night"
+          }
+        ]
+      },
+      "title": "一晩を越えて、地上の救助隊が",
+      "text": "坂本さんたちは大同心の基部で一晩を越した。翌日、地上の救助隊が着き、坂本さんは担架で下ろされて病院に運ばれた。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助",
+      "text": "坂本さんは救助隊に収容され、病院に運ばれた。右足首の骨折だった。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "title": "赤岳鉱泉にたどり着いた",
+      "text": "3 人は、骨折した坂本さんを支えて赤岳鉱泉までたどり着いた。長い時間がかかり、坂本さんの足首は腫れ上がっていた。翌日、小屋から救助を頼み、坂本さんは病院に運ばれた。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "title": "自分たちで下りた",
+      "text": "4 人は長い時間をかけて、自分たちで下りた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "下山",
+      "text": "4 人は下山した。"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_nofall",
+      "title": "アルパインクライミングでは、落ちてはいけない",
+      "text": "落ちることを前提にしたフリークライミングと違い、アルパインクライミングでは支点の間隔が広く、落ちればけがをする。岩も支点も崩れることがある。登りながら岩の割れや浮きを確かめ、少しでも怪しいホールドには体重をかけない。"
+    },
+    {
+      "id": "l_rope",
+      "title": "ロープレスキューは、習って練習しておく",
+      "text": "けがをした仲間を下ろすには、支点の作り直し・ロワーダウン・登り返し・カウンターラッペルなどの技術が要る。斜めのルートではロープが届かず、宙づりになることもある。動画だけでは身につかない。講習で習い、仲間と練習しておく。"
+    },
+    {
+      "id": "l_call_now",
+      "when": {
+        "any": [
+          {
+            "flag": "lowerFirst"
+          },
+          {
+            "flag": "noCall"
+          },
+          {
+            "flag": "cToHut"
+          }
+        ]
+      },
+      "title": "電波があれば、その場ですぐ通報する",
+      "text": "ヘリは明るいうちだけ、雲が山にかかっていないときだけ飛ぶ。八ヶ岳の夏から秋は、昼過ぎに稜線がガスに包まれることが多い。通報が 1〜2 時間遅れると、その日のうちに飛べなくなることがある。下ろす作業と並行して電話をかけ、人を走らせるのは電波がないときにする。"
+    },
+    {
+      "id": "l_called_early",
+      "when": {
+        "flag": "callNow"
+      },
+      "title": "早い通報が、ヘリの時間をつくった",
+      "text": "落ちてすぐに通報したことで、ヘリの準備は下ろしている間に進んだ。通報したら、場所と人数、けがの様子、天気を伝え、電話がつながるようにしておく。"
+    },
+    {
+      "id": "l_selfevac",
+      "when": {
+        "flag": "selfEvac"
+      },
+      "title": "骨折した人を、自分たちで運ぼうとしない",
+      "text": "足を骨折した人は歩けない。急な岩場や踏み跡を 3 人で支えて下ろすのは、ほとんど進まないうえに、折れた所が動いて痛みや傷が悪化し、支える人も滑る。骨折は早く病院で治療することが大切で、救助を呼ぶことは恥ではない。"
+    },
+    {
+      "id": "l_warm",
+      "when": {
+        "any": [
+          {
+            "flag": "night"
+          },
+          {
+            "flag": "splinted"
+          }
+        ]
+      },
+      "title": "待つ間は、動けない人を冷やさない",
+      "text": "けがをして動けない人は、体で熱を作れない。岩の上に直接寝かせず、ザックやロープを敷き、ありったけの服を着せてツエルトをかぶせる。仲間が寄り添って風をさえぎる。足首はストックやサムスプリントで固定する。"
+    },
+    {
+      "id": "l_hut",
+      "when": {
+        "not": {
+          "flag": "hutKnows"
+        }
+      },
+      "title": "行き先と戻りの時間を、小屋にも伝えておく",
+      "text": "小屋をベースにして登るなら、どのルートに行き、何時に戻るかを小屋の人に伝えておく。戻らなければ気づいてもらえ、どこを探せばよいかも分かる。"
+    },
+    {
+      "id": "l_brief",
+      "when": {
+        "not": {
+          "flag": "briefed"
+        }
+      },
+      "title": "取付で、事故のときの段取りを決めておく",
+      "text": "だれが通報し、だれがどの支点から下ろすか、合図はどうするか。取付で数分話しておくだけで、事故のときに迷う時間が減る。トランシーバーは、ふだんから使い慣れておく。"
+    },
+    {
+      "id": "l_after",
+      "when": {
+        "var": "c.sakamoto.state",
+        "op": "==",
+        "value": "RESCUED"
+      },
+      "title": "救助の後も、まだ山の中",
+      "text": "けが人を救助隊に託しても、残った仲間はまだ山の中にいる。残した支点や装備を回収し、慎重に下りる。事故の直後は動揺していて、自分たちも事故を起こしやすい。"
+    }
+  ],
+  "balanceTargets": {
+    "recommended": {
+      "rescuedMin": 0.95,
+      "badMax": 0.01,
+      "fatalMax": 0.01
+    },
+    "bias": {
+      "rescuedMin": 0.9,
+      "badMax": 0.08,
+      "fatalMax": 0.03
+    },
+    "risky": {
+      "badMin": 0.2,
+      "fatalMin": 0.08
+    }
+  },
+  "sources": [
+    "原案: 松本圭司「架空遭難　八ヶ岳で4人パーティー、クライミング中に落ちて1名骨折」note（2024年2月17日） https://note.com/keizi666/n/nde179063bb64",
+    "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+    "登山道・地点: © OpenStreetMap contributors（大同心稜の踏み跡と大同心の基部の位置は、作者が標高から読み取った概略）"
+  ]
+}

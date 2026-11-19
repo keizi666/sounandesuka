@@ -204,6 +204,8 @@ export const rescue = {
   groundMaxWindMs: 15,
   groundMaxThunder: 0.3,
   groundMinVisM: 30,
+  /** 地上隊がいったん見合わせたら、少なくともこの分は様子を見る */
+  groundHoldMinMin: 30,
   heliHoistMin: 15,
   heliFindPerH: 0.6,
   heliFindForestPerH: 0.25,

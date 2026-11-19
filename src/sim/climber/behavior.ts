@@ -35,7 +35,8 @@ function hutAhead(ctx: StaticContext, c: ClimberState, distM: number): boolean {
 }
 import { transition } from './state';
 
-const ACTIVE = new Set(['WALKING', 'RESTING', 'SHELTERED', 'BIVOUAC', 'STAYING', 'WAITING_RESCUE', 'LOST_AWARE']);
+// 道を外れて動いている間（沢を下る・来た跡を戻る・道へ向かう・電波を探す）も、明かり・雨具・防寒・飲食は自分でする
+const ACTIVE = new Set(['WALKING', 'RESTING', 'SHELTERED', 'BIVOUAC', 'STAYING', 'WAITING_RESCUE', 'LOST_AWARE', 'OFFROUTE_UNAWARE', 'DESCENDING_DRAINAGE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL', 'SEEKING_SIGNAL']);
 
 /** 作業が終わったら効果を適用する */
 export function finishTask(world: World, ctx: StaticContext, c: ClimberState): void {

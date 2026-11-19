@@ -34,9 +34,12 @@ export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options:
         available: { all: [{ var: 'leader.phone.gpsApp', op: '==', value: true }, { var: 'leader.phone.batteryPct', op: '>', value: 0 }] },
         hideIfUnavailable: true,
       }),
+      // 具合の悪い仲間（急病・重いけが・動けない）を連れて沢を下ろうとは考えない
       opt('descend', [{ type: 'descendDrainage' }], 0.5, {
         tags: ['risky'],
         bias: { base: 0.5, mods: [{ when: { var: 'leader.J', op: '<', value: 0.5 }, add: 0.6 }] },
+        available: { all: [{ var: 'mates.unwellCount', op: '==', value: 0 }, { var: 'leader.injury', op: '!=', value: 'legFracture' }] },
+        hideIfUnavailable: true,
       }),
       opt('call', [{ type: 'callRescue', via: 'auto' }, { type: 'waitRescue' }], 0.3, { available: CALL_OK, hideIfUnavailable: true }),
       opt('stay', [{ type: 'stayPut' }], 0.2),
@@ -154,6 +157,9 @@ export function genericChoicePoints(ctx: StaticContext): { cp: ChoicePointDef; k
   return out;
 }
 
+/** 「暗くなった」の分岐を出す、動いている状態（道を外れて動いているときも） */
+const DARK_MOVING = new Set(['WALKING', 'OFFROUTE_UNAWARE', 'DESCENDING_DRAINAGE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL']);
+
 const OUTDOOR_EXCLUDE = new Set(['SHELTERED', 'BIVOUAC', 'WAITING_RESCUE', 'FINISHED', 'RESCUED', 'DEAD', 'UNCONSCIOUS', 'INCAPACITATED']);
 
 /** 立ち上がり（偽→真）を検出する */
@@ -179,7 +185,7 @@ export function genericTrigger(world: World, ctx: StaticContext, key: GenericCho
       const P = `${L}:pending`;
       if (world.recentEvents.some((e) => e.type === 'DARK')) world.latches[P] = true;
       if (world.recentEvents.some((e) => e.type === 'SUNRISE')) world.latches[P] = false;
-      if (world.latches[P] !== true || leader.state !== 'WALKING') return false;
+      if (world.latches[P] !== true || !DARK_MOVING.has(leader.state)) return false;
       world.latches[P] = false;
       return true;
     }

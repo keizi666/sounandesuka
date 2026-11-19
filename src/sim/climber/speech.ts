@@ -57,12 +57,14 @@ const BUILTIN: Builtin[] = [
     key: 'ask_ok',
     priority: 10,
     speaker: (w, _x, c) => (c.J > 0.7 ? (mates(w, c).find((m) => m.body.conscious && (m.body.coreC < 35.5 || m.body.anxiety > 60)) ?? false) : false),
-    reply: (to) => (to.body.coreC >= 35 ? 'reply_ok' : 'reply_bad'),
+    // 体温だけでなく、急病の発作・重いけが・動けないときも「平気」とは言わない
+    reply: (to) => (to.body.coreC >= 35 && !(to.body.illness?.active ?? false) && !['legFracture', 'headInjury', 'severeTrauma'].includes(to.body.injury) && to.M > 0.3 ? 'reply_ok' : 'reply_bad'),
   },
   { key: 'headcount', priority: 10, tone: 'shout', speaker: (w, _x, c) => ev(w, 'STRAGGLER') && isLeader(w, c) },
   // 仲間が倒れたら、いちばん近くにいる人とリーダーが声を上げる（全員が同じことを叫ばない）
   { key: 'call_help', priority: 10, tone: 'shout', speaker: (w, _x, c) => mates(w, c).some((m) => m.state === 'INCAPACITATED' && w.tMin - m.stateSinceMin < 30 && (isLeader(w, c) || nearestMate(w, m) === c)) },
-  { key: 'phone_call', priority: 10, speaker: (w, _x, c) => w.recentEvents.some((e) => e.type === 'RESCUE_CALLED' && e.climberId === c.id) },
+  // 自分で電話をかけたときだけ（通りかかった人が下りてから通報したときは言わない）
+  { key: 'phone_call', priority: 10, speaker: (w, _x, c) => w.rescue.via !== 'passerby' && w.recentEvents.some((e) => e.type === 'RESCUE_CALLED' && e.climberId === c.id) },
   { key: 'whistle', priority: 10, tone: 'sound', speaker: (w, _x, c) => c.def.gear.whistle && w.sun.isDark && c.state === 'WAITING_RESCUE' },
   {
     key: 'lost_doubt',

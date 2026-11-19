@@ -31,8 +31,10 @@ export function expandText(template: string, resolve: (path: string) => VarValue
     const v = resolve(path);
     if (v === undefined) return whole;
     if (typeof v === 'number') {
-      if (digits !== undefined) return v.toFixed(Number(digits));
-      return Number.isInteger(v) ? String(v) : v.toFixed(1);
+      // -0 を 0 と出す（-0.04 を小数 1 桁にすると「-0.0」になるため）
+      const fix = (t: string): string => (/^-0(\.0+)?$/.test(t) ? t.slice(1) : t);
+      if (digits !== undefined) return fix(v.toFixed(Number(digits)));
+      return Number.isInteger(v) ? String(v === 0 ? 0 : v) : fix(v.toFixed(1));
     }
     return labelFor(path, v, labels) ?? String(v);
   });

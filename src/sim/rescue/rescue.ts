@@ -286,8 +286,9 @@ function search(world: World, ctx: StaticContext, perH: number, by: 'heli' | 'gr
 }
 
 /** 家族・仲間が届け出る（reportMissing のアクション）。次のティックで未帰還の通報として扱う */
-export function reportMissing(world: World): void {
+export function reportMissing(world: World, by?: string): void {
   if (world.flags['reportedMissing'] === undefined) world.flags['reportedMissing'] = world.tMin;
+  if (by && world.rescue.reportedBy === undefined) world.rescue.reportedBy = by;
 }
 
 /** 困っていて、通りかかった人に助けを頼む状態 */
@@ -338,7 +339,9 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
     r.via = 'overdue';
     r.calledAtMin = world.tMin;
     r.locationEstimate = null;
-    ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALLED', important: true, data: { via: 'overdue' } });
+    // 届け出た人と、予定の時刻を過ぎたからか（それより前の相談か）
+    const scheduled = due !== null && world.tMin >= parseTimeRef(due) && world.flags['reportedMissing'] === undefined;
+    ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALLED', important: true, data: { via: 'overdue', by: r.reportedBy ?? '', scheduled } });
     // 行き先の手がかりが何もなければ、届け出は受けても捜索隊は出せない（手がかりが分かった時点で出る）
     if (activeLead(world, ctx) === null) {
       ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', important: true, data: { noLead: true } });
@@ -404,9 +407,11 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
     if (ng) {
       if (g.state === 'moving' || g.state === 'searching' || (g.state === 'mobilizing' && world.tMin >= (g.readyAtMin ?? Infinity))) {
         g.state = 'standby';
+        // いったん見合わせたら、しばらくは様子を見る（天気がしきい値の近くで揺れても出入りを繰り返さない）
+        g.readyAtMin = world.tMin + rt.groundHoldMinMin;
         holdLog(world, ctx, 'ground', ng);
       }
-    } else if (g.state === 'standby') {
+    } else if (g.state === 'standby' && world.tMin >= (g.readyAtMin ?? 0)) {
       // 隊はもう集まっている。登山口から入り直す
       g.state = 'mobilizing';
       g.readyAtMin = world.tMin;

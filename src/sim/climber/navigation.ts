@@ -10,7 +10,7 @@ import { isInside, nearestIndex, sampleElev, vertexX, vertexZ } from '../terrain
 import { pointOnTrail, shortestPath, type RouteLeg } from '../terrain/trails';
 import { VegClass, type ClimberState, type EdgeId, type NodeId, type StaticContext, type World } from '../types';
 import { groundAt } from '../weather/ground';
-import { setRoute } from './route';
+import { goToNode, setRoute } from './route';
 import { transition } from './state';
 
 function dist(ax: number, az: number, bx: number, bz: number): number {
@@ -340,6 +340,12 @@ export function rejoinTrail(world: World, ctx: StaticContext, c: ClimberState, e
   c.memo.atWaterfall = false;
   transition(world, ctx, c, 'WALKING', 'backOnRoute');
   ctx.events.push({ tMin: world.tMin, type: 'BACK_ON_ROUTE', climberId: c.id, important: true });
+  // 道の外で「地点へ向かう」を選んでいたら、道に戻ったところでそこへ向かう
+  const pg = c.plan.pendingGoTo;
+  if (pg) {
+    c.plan.pendingGoTo = null;
+    goToNode(ctx, c, pg.node, pg.then);
+  }
 }
 
 // ---------- 探索 ----------

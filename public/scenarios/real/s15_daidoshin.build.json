@@ -1,0 +1,30 @@
+{
+  "skeleton": "public/maps/real/daidoshin.skeleton.json",
+  "mapId": "daidoshin",
+  "center": [35.985, 138.349],
+  "size": 6144,
+  "resolution": 513,
+  "at": {
+    "MINOTO": [35.98232, 138.32516],
+    "KOSEN": [35.98652, 138.36021]
+  },
+  "atXZ": {
+    "DAIDO_JCT": [1150, -330],
+    "DAIDO_BASE": [1940, -284]
+  },
+  "snapM": 120,
+  "trailEdges": [
+    {
+      "id": "E3",
+      "name": "大同心稜（クライマーの踏み跡。筋は概略）",
+      "from": "DAIDO_JCT",
+      "to": "DAIDO_BASE",
+      "snap": "ridge",
+      "points": [[1200, -318], [1250, -308], [1300, -300], [1350, -296], [1400, -292], [1450, -290], [1500, -286], [1550, -280], [1600, -272], [1650, -266], [1700, -264], [1750, -262], [1800, -258], [1850, -256], [1890, -262], [1920, -272]]
+    }
+  ],
+  "radio": [
+    { "id": "st_chino", "x": -17000, "z": -1000, "elevM": 1700, "antennaM": 40, "rangeM": 30000 },
+    { "id": "st_minotoguchi", "x": -3600, "z": 1500, "elevM": 1500, "antennaM": 50, "rangeM": 12000 }
+  ]
+}

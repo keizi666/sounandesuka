@@ -9,7 +9,7 @@ import { chance } from '../core/rng';
 import { nearestIndex } from '../terrain/sample';
 import type { Action, ClimberState, StaticContext, UntilRef, World } from '../types';
 import { shelterFromWind } from '../weather/local';
-import { checkPosition as navCheck, findLeeSpot, pathOffRidge } from './navigation';
+import { checkPosition as navCheck, findLeeSpot, pathOffRidge, rejoinTrail, trailAt } from './navigation';
 import { dawnRef, ensureRouteAhead, enterShelter, goToNode, leaveShelter, setRoute, turnBack } from './route';
 import { transition } from './state';
 import { detach, goToMember, setCohesion, soloErrand, splitParty } from './groups';
@@ -41,6 +41,24 @@ function targetsOf(world: World, who: Action['who'], group: readonly ClimberStat
   if (who === undefined || who === 'all') return group.filter((c) => c.body.alive && c.groupId === leader.groupId);
   const c = world.climbers.find((x) => x.id === who);
   return c && c.body.alive ? [c] : [];
+}
+
+/**
+ * 道の外（pos が free）にいる人を、まず道へ戻す。いるセルが道なら、その場で道に乗る（false を返して続ける）。
+ * そうでなければ、現在地が分かっていれば近い道へ、分からなければ来た跡を戻る状態にして true を返す
+ * （道に戻ったら rejoinTrail が計画のルートを続け、pendingGoTo があればそこへ向かう）。
+ */
+function toTrailFirst(world: World, ctx: StaticContext, c: ClimberState): boolean {
+  if (c.pos.mode !== 'free') return false;
+  const t = trailAt(ctx, c.x, c.z);
+  if (t) {
+    rejoinTrail(world, ctx, c, t.edgeId, t.s);
+    return false;
+  }
+  c.nav = { ...c.nav, path: [] };
+  const known = c.perception.knowsPosition || c.nav.track.length === 0;
+  transition(world, ctx, c, known ? 'NAVIGATING_TO_TRAIL' : 'BACKTRACKING', 'action');
+  return true;
 }
 
 /** 救助要請（通報の成否。出動と収容は rescue.ts） */
@@ -78,6 +96,8 @@ export function callRescue(world: World, ctx: StaticContext, c: ClimberState, vi
 
 function startBivouac(world: World, ctx: StaticContext, c: ClimberState, until: UntilRef, findLee: boolean, state: 'BIVOUAC' | 'WAITING_RESCUE'): void {
   leaveShelter(world, ctx, c);
+  // 歩いていた道順は捨てる（風下を探すときは、下で新しく引く）
+  c.nav = { ...c.nav, path: [] };
   c.body.inBivy = c.def.gear.bivy !== 'none';
   c.body.groundInsulation = true;
   c.body.leeShelter = findLee ? shelterFromWind(ctx.map, c.x, c.z, c.local.windDirDeg, ctx.tuning) : 0;
@@ -106,12 +126,20 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
         return;
       }
       leaveShelter(world, ctx, c);
-      ensureRouteAhead(ctx, c);
       c.plan.restUntilMin = null;
+      // 道の外にいるなら、まず道へ戻る（戻ったら計画のルートを続ける）
+      if (toTrailFirst(world, ctx, c)) return;
+      ensureRouteAhead(ctx, c);
       transition(world, ctx, c, 'WALKING', 'action');
       return;
     case 'setRoute':
       leaveShelter(world, ctx, c);
+      if (c.pos.mode === 'free') {
+        c.plan.route = [...a.route];
+        c.plan.routeIndex = 0;
+        if (a.goalNodes) c.plan.goalNodes = [...a.goalNodes];
+        if (toTrailFirst(world, ctx, c)) return;
+      }
       setRoute(ctx, c, a.route, a.goalNodes);
       transition(world, ctx, c, 'WALKING', 'action');
       return;
@@ -122,13 +150,21 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       const goingHome = home !== undefined && c.plan.goalNodes.includes(home) && c.plan.route[c.plan.route.length - 1] === home;
       if (!goingHome) turnBack(ctx, c);
       else ensureRouteAhead(ctx, c);
+      if (toTrailFirst(world, ctx, c)) return;
       transition(world, ctx, c, 'WALKING', 'action');
       return;
     }
     case 'goToNode': {
       leaveShelter(world, ctx, c);
       const node = a.node === '$nearestShelter' ? nearestShelterNode(ctx, c) : a.node;
-      if (node && goToNode(ctx, c, node, a.then)) transition(world, ctx, c, 'WALKING', 'action');
+      if (!node) return;
+      // 道の外にいるなら、道に戻ってから向かう
+      if (c.pos.mode === 'free') {
+        c.plan.pendingGoTo = { node, then: a.then };
+        if (toTrailFirst(world, ctx, c)) return;
+        c.plan.pendingGoTo = null;
+      }
+      if (goToNode(ctx, c, node, a.then)) transition(world, ctx, c, 'WALKING', 'action');
       return;
     }
     case 'checkPosition': {
@@ -180,6 +216,11 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
     }
     case 'stayInShelter': {
       const node = c.pos.mode === 'node' ? c.pos.nodeId : null;
+      // もうその小屋の中にいるなら、いつまでいるかだけ変える（「入った」を二度出さない）
+      if (node && c.body.shelterNodeId === node && c.state === 'SHELTERED') {
+        c.plan.bivouacUntil = resolveUntil(world, ctx, a.until);
+        return;
+      }
       if (!node || !enterShelter(world, ctx, c, node, resolveUntil(world, ctx, a.until))) {
         ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, data: { noShelter: node } });
       }
@@ -206,7 +247,7 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       return;
     }
     case 'reportMissing':
-      reportMissing(world);
+      reportMissing(world, a.by);
       return;
     case 'sound':
       ctx.events.push({ tMin: world.tMin, type: 'SOUND', data: { id: a.id, volume: a.volume ?? 1 } });
@@ -270,6 +311,8 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       startBivouac(world, ctx, c, 'rescue', true, 'WAITING_RESCUE');
       return;
     case 'stayPut':
+      // 歩いていた道順は捨てる（止まったのに残りの道順を歩き続けない）
+      c.nav = { ...c.nav, path: [] };
       transition(world, ctx, c, 'STAYING', 'action');
       return;
     case 'callRescue':
@@ -365,7 +408,9 @@ export function applyActions(
     }
     // say は既定でリーダーが言う
     const who = a.who ?? (a.type === 'say' ? 'leader' : undefined);
-    const targets = ONCE_PER_LIST.has(a.type) ? [leader] : targetsOf(world, who, group, leader);
+    // 1 回だけのアクションはリーダーが行う。ただし登山者を名指ししていれば、その人（通報する人など）
+    const named = who !== undefined && who !== 'all' && who !== 'leader' ? world.climbers.find((x) => x.id === who && x.body.alive) : undefined;
+    const targets = ONCE_PER_LIST.has(a.type) ? [named ?? leader] : targetsOf(world, who, group, leader);
     for (const c of targets) applyOne(world, ctx, a, c);
   }
 }

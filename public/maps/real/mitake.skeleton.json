@@ -1,0 +1,45 @@
+{
+  "id": "mitake",
+  "name": "奥多摩 御岳山・大岳山（御岳山駅〜武蔵御嶽神社〜ロックガーデン〜綾広の滝〜芥場峠〜大岳山）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "御岳山駅（ケーブルカーの山上駅）から宿坊街・武蔵御嶽神社・長尾平分岐・七代の滝・天狗岩・ロックガーデン・綾広の滝・天狗の腰掛け杉、綾広の滝から芥場峠・大岳山荘（休業中）・大岳山までが入る範囲。一辺 6 km 程度（513 頂点）。電波: 御岳山の宿坊街と大岳山の山頂付近は入るが、沢沿いのロックガーデンや山腹の道は入りにくい（作者の想定）。山頂の東側と北側は急な岩の斜面。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2600, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 100 },
+  "nodes": [
+    { "id": "CABLE_TOP", "name": "御岳山駅（ケーブルカー）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 831 },
+    { "id": "SHRINE", "name": "武蔵御嶽神社", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 925 },
+    { "id": "NAGAO_J", "name": "長尾平分岐", "type": "junction", "x": 0, "z": 0, "osmName": "長尾平分岐", "expectedElevM": 870 },
+    { "id": "NANAYO", "name": "七代の滝", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 700 },
+    { "id": "TENGU", "name": "天狗岩", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 785 },
+    { "id": "AYAHIRO", "name": "綾広の滝", "type": "junction", "x": 0, "z": 0, "expectedElevM": 875 },
+    { "id": "KOSHIKAKE", "name": "天狗の腰掛け杉", "type": "junction", "x": 0, "z": 0, "expectedElevM": 855 },
+    { "id": "AKUTABA", "name": "芥場峠", "type": "saddle", "x": 0, "z": 0, "expectedElevM": 1050 },
+    { "id": "OTAKE_HUT", "name": "大岳山荘（休業中）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 1175 },
+    { "id": "OTAKE", "name": "大岳山", "type": "peak", "x": 0, "z": 0, "osmName": "大岳山", "expectedElevM": 1266 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "御岳山駅〜武蔵御嶽神社（参道・宿坊街）", "kind": "trail", "from": "CABLE_TOP", "to": "SHRINE", "class": "T1", "markers": 1.0, "drift": 0.002, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "武蔵御嶽神社〜長尾平分岐", "kind": "trail", "from": "SHRINE", "to": "NAGAO_J", "class": "T1", "markers": 1.0, "drift": 0.002, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "長尾平分岐〜七代の滝（急な下り）", "kind": "trail", "from": "NAGAO_J", "to": "NANAYO", "class": "T2", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "七代の滝〜天狗岩（鉄の階段）", "kind": "trail", "from": "NANAYO", "to": "TENGU", "class": "T2", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "ロックガーデン（沢沿いの道）", "kind": "trail", "from": "TENGU", "to": "AYAHIRO", "class": "T1", "markers": 0.9, "drift": 0.008, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "綾広の滝〜天狗の腰掛け杉", "kind": "trail", "from": "AYAHIRO", "to": "KOSHIKAKE", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "天狗の腰掛け杉〜長尾平分岐", "kind": "trail", "from": "KOSHIKAKE", "to": "NAGAO_J", "class": "T1", "markers": 1.0, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "綾広の滝〜芥場峠（登山道）", "kind": "trail", "from": "AYAHIRO", "to": "AKUTABA", "class": "T2", "markers": 0.8, "drift": 0.012, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E9", "name": "芥場峠〜大岳山荘（岩の多い山腹の道）", "kind": "trail", "from": "AKUTABA", "to": "OTAKE_HUT", "class": "T2", "markers": 0.7, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E10", "name": "大岳山荘〜大岳山（岩場・鎖）", "kind": "trail", "from": "OTAKE_HUT", "to": "OTAKE", "class": "T3", "markers": 0.6, "drift": 0.025, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

@@ -114,7 +114,7 @@ export function enterShelter(world: World, ctx: StaticContext, c: ClimberState, 
   c.body.inBivy = false;
   c.plan.bivouacUntil = until;
   c.plan.restUntilMin = null;
-  c.memo.sheltered = true;
+  // 「小屋で過ごした」は、暗くなってから小屋にいたときに立てる（step）。昼の休憩・昼食だけでは立てない
   transition(world, ctx, c, 'SHELTERED', 'shelter');
   ctx.events.push({ tMin: world.tMin, type: 'SHELTER_ENTER', climberId: c.id, important: true, data: { node: nodeId, kind: nd.shelter.kind } });
   return true;
@@ -141,7 +141,9 @@ export function arriveAt(world: World, ctx: StaticContext, c: ClimberState, node
     transition(world, ctx, c, 'FINISHED', 'goal');
     // 小屋が目的地なら「着いた」（下山ではない）
     const hut = ctx.map.nodes[nodeId]?.shelter !== undefined;
-    ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: c.id, important: true, data: hut ? { node: nodeId, hut: true } : { node: nodeId } });
+    // 小屋に着いたのが昼過ぎなら「今日はここに泊まる」。朝・昼前なら着いただけ
+    const clock = ((world.tMin % 1440) + 1440) % 1440;
+    ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: c.id, important: true, data: hut ? { node: nodeId, hut: true, stay: clock >= 13 * 60 } : { node: nodeId } });
     return true;
   }
   const g = c.plan.goTo;

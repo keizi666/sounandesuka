@@ -1,0 +1,35 @@
+{
+  "id": "daidoshin",
+  "name": "八ヶ岳 赤岳鉱泉と大同心（美濃戸〜北沢〜赤岳鉱泉〜大同心稜〜大同心の基部）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "美濃戸（赤岳山荘の駐車場）から北沢沿いに赤岳鉱泉へ登り、硫黄岳への道から分かれて大同心稜を大同心の基部（雲稜ルートの取付）まで上がる範囲。横岳・硫黄岳・赤岳・阿弥陀岳が入る。一辺 6 km 程度（513 頂点）。大同心稜の踏み跡は OpenStreetMap にないため、作者が標高から読んだ尾根の筋で描く（概略）。大同心は横岳の西に立つ高さ 100 m ほどの岩峰で、基部は標高 2,600 m あまり。森林限界より上で、ハイマツと岩。赤岳鉱泉は北沢の谷底の針葉樹林の中にある営業小屋。電波: 大同心の基部と壁は西（茅野・諏訪方面）が開けていて入る。赤岳鉱泉の谷底は弱い。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap",
+    "encoding": "u16-base64",
+    "minElevM": 0,
+    "maxElevM": 0,
+    "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2480, "forestLineNoise": 60, "broadleafLine": 1800, "krummholzBandM": 180 },
+  "nodes": [
+    { "id": "MINOTO", "name": "美濃戸（赤岳山荘の駐車場）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 1700 },
+    { "id": "KOSEN", "name": "赤岳鉱泉", "type": "hut", "x": 0, "z": 0, "expectedElevM": 2215, "shelter": { "kind": "staffed", "open": true } },
+    { "id": "DAIDO_JCT", "name": "大同心稜の取付（硫黄岳への道から分かれる）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 2250 },
+    { "id": "DAIDO_BASE", "name": "大同心の基部（雲稜ルートの取付）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 2630 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "北沢（美濃戸〜赤岳鉱泉）", "kind": "trail", "from": "MINOTO", "to": "KOSEN", "class": "T1", "markers": 0.95, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "赤岳鉱泉〜大同心稜の取付（硫黄岳への道）", "kind": "trail", "from": "KOSEN", "to": "DAIDO_JCT", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "大同心稜（クライマーの踏み跡。筋は概略）", "kind": "trail", "from": "DAIDO_JCT", "to": "DAIDO_BASE", "class": "T2", "markers": 0.3, "drift": 0.02, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

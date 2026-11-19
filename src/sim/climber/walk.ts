@@ -100,7 +100,8 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
       const m = members[k]!;
       const env = envs[k]!;
       const cand = trailSpeedMs(m, trail.def, chain, grade, env, ctx.tuning);
-      vMs = Math.min(vMs, capSpeedByMet(cand, grade, m, env.windMs, ctx.tuning).vMs);
+      // 足を骨折して這う人は、這う速さの上限だけで決める（運動能力が低く MET の上限で 0 にならないように）
+      vMs = Math.min(vMs, m.body.injury === 'legFracture' && m.body.conscious ? cand : capSpeedByMet(cand, grade, m, env.windMs, ctx.tuning).vMs);
     }
     if (!(vMs > EPS)) break;
     const dt = Math.min(t, dist / vMs);

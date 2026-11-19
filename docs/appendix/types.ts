@@ -384,7 +384,7 @@ export type Action = { who?: Who } & (
   | { type: 'rest'; minutes: number }
   | { type: 'eat'; kcal: number }
   | { type: 'drink'; liters: number }
-  | { type: 'reportMissing' }                     // 家族・仲間が「帰らない」と警察に届け出る（未帰還の通報を今する）
+  | { type: 'reportMissing'; by?: string }        // 家族・仲間が「帰らない」と警察に届け出る（未帰還の通報を今する）。by は届け出た人（「小屋番さん」など。省くと家族）
   | { type: 'sound'; id: string; volume?: number } // 効果音を鳴らす（src/sim/scenario/soundCatalog.ts の ID）。記録には残らない
   | { type: 'music'; id: string | null; volume?: number } // 音楽を切り替える（null で自動の曲に戻す）
   | { type: 'leaveMap'; place: string }            // 下山した人が地図の外（バス停・駅・交番など）へ移る。3D から消え、居場所の名前を出す（下山・救助の後だけ）
@@ -592,6 +592,8 @@ export interface ClimberPlanState {
   busyWith: string | null;
   /** goToNode の行き先と到着後の行動 */
   goTo: { node: NodeId; then: 'stay' | 'continue' | 'call' } | null;
+  /** 道の外で goToNode したとき、道に戻ってから向かう行き先 */
+  pendingGoTo?: { node: NodeId; then: 'stay' | 'continue' | 'call' } | null;
 }
 
 export interface ClimberPerception {
@@ -687,6 +689,8 @@ export interface RescueState {
   heli: { readyAtMin: number | null; nextCheckMin: number | null; state: 'idle' | 'preparing' | 'waiting' | 'flying' | 'searching' | 'done' };
   ground: { readyAtMin: number | null; x: number; z: number; state: 'idle' | 'mobilizing' | 'moving' | 'searching' | 'standby' | 'done' };   // standby: 夜・悪天候で山に入らずに待つ
   searchRadiusM: number;
+  /** 届け出た人（reportMissing の by） */
+  reportedBy?: string;
 }
 
 export interface PendingChoice {

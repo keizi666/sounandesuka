@@ -84,7 +84,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'NODE_ARRIVE':
       return fill(L.nodeArrive, { name: f.nodeName(s('node')) });
     case 'FINISHED':
-      return fill(d['hut'] ? L.finishedHut : L.finished, { who, node: d['node'] ? f.nodeName(s('node')) : '' });
+      return fill(d['hut'] ? (d['stay'] === false ? L.finishedHutDay : L.finishedHut) : L.finished, { who, node: d['node'] ? f.nodeName(s('node')) : '' });
     case 'STATE': {
       const to = s('to');
       if (['WALKING', 'RESTING', 'FINISHED', 'DEAD', 'SHELTERED'].includes(to)) return null;
@@ -145,7 +145,10 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'BIVOUAC_START':
       return fill(L.bivouac, { who });
     case 'RESCUE_CALLED':
-      if (s('via') === 'overdue' && !e.climberId) return L.reportedOverdue;
+      if (s('via') === 'overdue' && !e.climberId) {
+        const by = s('by') || '家族';
+        return fill(d['scheduled'] === false ? L.reportedMissingBy : L.reportedOverdueBy, { by });
+      }
       if (s('via') === 'passerby') return null;
       return fill(L.rescueCalled, { who, via: JA.labels.via[s('via')] ?? s('via') });
     case 'RESCUE_CALL_FAILED':
