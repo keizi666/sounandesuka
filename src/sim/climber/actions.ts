@@ -115,11 +115,16 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       setRoute(ctx, c, a.route, a.goalNodes);
       transition(world, ctx, c, 'WALKING', 'action');
       return;
-    case 'turnBack':
+    case 'turnBack': {
       leaveShelter(world, ctx, c);
-      turnBack(ctx, c);
+      // もう出発点（登山口）へ下っている人は、引き返す＝また登ることにはしない（そのまま下る）
+      const home = ctx.scenario.plan.route[0];
+      const goingHome = home !== undefined && c.plan.goalNodes.includes(home) && c.plan.route[c.plan.route.length - 1] === home;
+      if (!goingHome) turnBack(ctx, c);
+      else ensureRouteAhead(ctx, c);
       transition(world, ctx, c, 'WALKING', 'action');
       return;
+    }
     case 'goToNode': {
       leaveShelter(world, ctx, c);
       const node = a.node === '$nearestShelter' ? nearestShelterNode(ctx, c) : a.node;
