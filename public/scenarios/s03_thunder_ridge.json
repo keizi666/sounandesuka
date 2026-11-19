@@ -695,7 +695,7 @@
       "fatalMax": 0.25
     },
     "risky": {
-      "fatalMin": 0.08
+      "fatalMin": 0.05
     }
   },
   "speech": [

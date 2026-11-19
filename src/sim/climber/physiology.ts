@@ -149,10 +149,14 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   let sweatW = 0;
   if (b.coreC > p.sweatStartC && net > 0) sweatW = Math.min(net, sweatCap);
   sweatW = Math.min(p.sweatMaxW, sweatW + p.sweatExertWPerMet * Math.max(0, act.metAct - p.sweatExertFromMet));
+  // 汗の多くは服を通して蒸発する。蒸発しきれない分だけ服が濡れ、汗だけでは sweatWetMax までしか濡れない
+  const coldEvapF = Math.min(1, Math.max(p.sweatEvapColdMinF, (env.tairC + p.sweatEvapColdOffC) / p.sweatEvapColdSpanC));
+  const evapThroughW = p.sweatEvapW * (1 + p.sweatEvapWindK * vEff) * coldEvapF * (b.rainwearOn ? p.evapUnderRainwearF : 1) * Math.min(1, env.dryF ?? 1) * (env.precipMmH > 0 ? 0.5 : 1);
   if (sweatW > 0) {
     net -= sweatW;
     const trap = b.rainwearOn ? (p.trapF[d.gear.rainwear] ?? p.trapF['none']!) : p.trapF['none']!;
-    b.wetness += sweatW * p.sweatWetPerW * trap * dtMin;
+    const soakW = Math.max(0, sweatW - evapThroughW);
+    if (b.wetness < p.sweatWetMax) b.wetness = Math.min(p.sweatWetMax, b.wetness + soakW * p.sweatWetPerW * trap * dtMin);
   }
 
   // ---- 深部体温 ----
@@ -169,9 +173,11 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   const input = env.precipMmH * (1 - protect) * p.kRainPerMm * typeF * env.wetInputF; // /h
   b.wetness += (input / 60) * dtMin + (env.condensePerH / 60) * dtMin;
   if (env.forcedDryPerH > 0) b.wetness -= (env.forcedDryPerH / 60) * dtMin;
-  else if (input <= 0 && sweatW <= 0) {
+  else if (input <= 0) {
+    // 汗が蒸発の余力より少なければ、その余りで乾く（汗をかいていても少しずつ乾く）
+    const spare = sweatW <= 0 ? 1 : Math.max(0, 1 - sweatW / Math.max(1, evapThroughW));
     const warm = env.tairC > p.dryWarmAboveC ? 1 : p.dryColdF;
-    b.wetness -= ((p.dryPerH * (1 + p.dryWindK * env.windMs) * warm * (env.dryF ?? 1)) / 60) * dtMin;
+    b.wetness -= ((p.dryPerH * (1 + p.dryWindK * env.windMs) * warm * (env.dryF ?? 1) * spare) / 60) * dtMin;
   }
   b.wetness = Math.min(1, Math.max(0, b.wetness));
   if (env.precipMmH > 0 && env.wetInputF > 0) b.rainExposureMin += dtMin;

@@ -163,6 +163,15 @@ export const physiology = {
   sweatStartC: 37.1,
   sweatMaxW: 450,
   sweatWetPerW: 1 / 1800,
+  /** 服を通して汗が蒸発する量（W）。歩く・風で増え、雨具の下・雲や雨の中では減る。これを超えた分だけ服が濡れる */
+  sweatEvapW: 150,
+  sweatEvapWindK: 0.05,
+  /** 寒いと汗の湿気は服の中で結露して外へ抜けない: clamp((気温 + off) / span, min, 1)。5℃ 以下で 0、20℃ で 1 */
+  sweatEvapColdOffC: -5,
+  sweatEvapColdSpanC: 15,
+  sweatEvapColdMinF: 0,
+  /** 汗だけで濡れるのはここまで（肌着が汗で湿る程度。それ以上は垂れて落ちる。雨に打たれたのとは違う） */
+  sweatWetMax: 0.5,
   /** 運動そのものによる発汗（W / MET）。MET がこれを超えた分 */
   sweatExertFromMet: 5,
   sweatExertWPerMet: 6,

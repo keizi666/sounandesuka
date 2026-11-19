@@ -1576,7 +1576,7 @@
     },
     "risky": {
       "lostMin": 0.5,
-      "badMin": 0.25
+      "badMin": 0.22
     }
   },
   "speech": [
