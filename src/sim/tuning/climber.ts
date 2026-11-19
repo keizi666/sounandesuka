@@ -251,6 +251,11 @@ export const physiology = {
   /** 利尿: 分解したアルコール 1 g あたりの余分な尿（L） */
   alcoholDiuresisLPerG: 0.01,
   /** ツエルト・タープで止まっているときに雨水をためる量（L/時、雨 1 mm/h あたり）と上限 */
+  /** 沢の水: のどの渇き（水分不足）がこれを超えていれば飲む。飲む速さと水筒を満たす速さ（L/h）。これより寒いと凍っていて飲めない（℃） */
+  streamDrinkFromL: 0.2,
+  streamDrinkLPerH: 1.5,
+  streamFillLPerH: 3,
+  streamFrozenBelowC: -3,
   rainCollectLPerHPerMm: 0.08,
   rainCollectMaxLPerH: 0.4,
   /** 濡れ docs/06 §4 */

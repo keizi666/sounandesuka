@@ -197,6 +197,9 @@ export function showScenarioSelect(app: AppContext): () => void {
         mine,
         drop,
         el('footer', { class: 'sel-foot' }, [
+          el('span', {}, JA.ui.copyright),
+          el('a', { href: `${import.meta.env.BASE_URL}legal/terms.html` }, JA.ui.terms),
+          el('a', { href: `${import.meta.env.BASE_URL}legal/privacy.html` }, JA.ui.privacy),
           el('span', {}, versionLabel()),
           el('span', {}, [JA.ui.audioCredit, ' ', el('a', { href: `${import.meta.env.BASE_URL}audio/CREDITS.md`, target: '_blank', rel: 'noopener' }, JA.ui.audioCreditLink)]),
         ]),

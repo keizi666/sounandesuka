@@ -30,6 +30,8 @@ export interface ThermalEnv {
   groundTempC: number;
   /** 乾きやすさ（既定 1）。雲・霧の中は湿度が高く、ほとんど乾かない */
   dryF?: number;
+  /** 沢の水が手の届く所にある（沢床か、その隣。凍っていない）。飲めて、水筒も満たせる */
+  streamWater?: boolean;
   /** 営業小屋（食事と体温回復の上限） */
   staffed: boolean;
 }
@@ -202,6 +204,11 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   b.waterDeficitL = Math.min(p.waterDeficitMax, b.waterDeficitL + (lossLPerH / 60) * dtMin);
   // 営業小屋では水や温かい飲み物を買える（避難小屋には水がないことが多いので、飲まない）
   if (env.staffed) b.waterDeficitL = Math.max(0, b.waterDeficitL - (p.staffedDrinkLPerH / 60) * dtMin);
+  // 沢の水が手の届く所にあれば、のどが渇いていれば飲み、水筒も満たす（持ってきた入れ物の量まで）
+  if (env.streamWater && b.conscious) {
+    if (b.waterDeficitL > p.streamDrinkFromL) b.waterDeficitL = Math.max(0, b.waterDeficitL - (p.streamDrinkLPerH / 60) * dtMin);
+    if (c.inv.waterL < d.gear.waterL) c.inv.waterL = Math.min(d.gear.waterL, c.inv.waterL + (p.streamFillLPerH / 60) * dtMin);
+  }
   // ツエルト・タープで止まっていて雨が降っていれば、雨水をためて水筒に足す（持ってきた量まで）
   if (STILL.has(c.state) && d.gear.bivy !== 'none' && env.precipMmH > 0.5 && c.inv.waterL < d.gear.waterL) {
     const l = (Math.min(p.rainCollectMaxLPerH, p.rainCollectLPerHPerMm * env.precipMmH) / 60) * dtMin;
@@ -253,6 +260,21 @@ export function soakWaterTempC(c: ClimberState, snowmelt: boolean, tuning: Tunin
 }
 
 /** World の状態から熱環境を作る（docs/06 §3.1） */
+/** 沢の水に手が届くか（いるセルかその隣が沢） */
+export function streamWithinReach(ctx: StaticContext, c: ClimberState): boolean {
+  const map = ctx.map;
+  const cx = Math.round((c.x + map.half) / map.cell);
+  const cz = Math.round((c.z + map.half) / map.cell);
+  for (let dz = -1; dz <= 1; dz += 1)
+    for (let dx = -1; dx <= 1; dx += 1) {
+      const x = cx + dx;
+      const z = cz + dz;
+      if (x < 0 || z < 0 || x >= map.n || z >= map.n) continue;
+      if (map.stream[z * map.n + x]) return true;
+    }
+  return false;
+}
+
 export function thermalEnvFor(world: World, ctx: StaticContext, c: ClimberState): ThermalEnv {
   const p = ctx.tuning.physiology;
   const l = c.local;
@@ -273,6 +295,8 @@ export function thermalEnvFor(world: World, ctx: StaticContext, c: ClimberState)
     groundContact: false,
     groundTempC,
     staffed: false,
+    // 登山道を歩きながら沢を渡るたびに汲むことはしない。道を外れて沢にいるときか、沢のそばで止まっているときだけ
+    streamWater: (c.pos.mode !== 'edge' || STILL.has(c.state) || c.state === 'RESTING') && streamWithinReach(ctx, c) && l.tempC > p.streamFrozenBelowC,
   };
   const shelterNode = b.shelterNodeId ? ctx.map.nodes[b.shelterNodeId] : undefined;
   if (shelterNode?.shelter) {

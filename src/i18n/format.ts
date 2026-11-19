@@ -197,6 +197,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (d['medicated']) return fill(L.medicated, { who });
       if (typeof d['leftMap'] === 'string') return fill(L.leftMap, { who, place: d['leftMap'] });
       if (d['stung']) return fill(L.stung, { who });
+      if (d['streamDrink']) return fill(L.streamDrink, { who });
       if (d['rescueNotThere']) return L.rescueNotThere;
       if (typeof d['rescueHold'] === 'string') {
         const t = L.rescueHold[d['by'] === 'heli' ? 'heli' : 'ground'] as Record<string, string>;

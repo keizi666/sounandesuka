@@ -23,7 +23,8 @@ export interface LoopHooks {
 }
 
 export class Loop {
-  speed: Speed = 1;
+  /** 既定の速さは ×4（ユーザーの指定） */
+  speed: Speed = 4;
   paused = false;
   private acc = 0;
   private last = 0;

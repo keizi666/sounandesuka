@@ -29,7 +29,7 @@ const STREAM_MAX_W_M = 7;
 const STREAM_W_K = 2.0;
 
 /** 各セルの流れ下る先（いちばん低い隣。なければ -1）と、そこへ集まるセルの数（自分を含む） */
-function flowAccumulation(map: MapRuntime): { down: Int32Array; acc: Float32Array } {
+export function flowAccumulation(map: MapRuntime): { down: Int32Array; acc: Float32Array } {
   const n = map.n;
   const h = map.heights;
   const down = new Int32Array(n * n).fill(-1);

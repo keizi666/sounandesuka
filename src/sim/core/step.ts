@@ -147,7 +147,13 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
   injuryTimers(world, ctx, c);
   if (!c.body.alive) return;
   // 8f. 生理
-  integrateBody(c, thermalEnvFor(world, ctx, c), { metAct: c.metAct, grade: move?.grade ?? 0, walking }, dtMin, t);
+  const env = thermalEnvFor(world, ctx, c);
+  integrateBody(c, env, { metAct: c.metAct, grade: move?.grade ?? 0, walking }, dtMin, t);
+  // 初めて沢の水を飲んだ（のどが渇いていて、沢に手が届く）ときに、ログに 1 行
+  if (env.streamWater && c.body.conscious && c.body.waterDeficitL > t.physiology.streamDrinkFromL && world.latches[`streamDrink:${c.id}`] !== true) {
+    world.latches[`streamDrink:${c.id}`] = true;
+    ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, data: { streamDrink: true } });
+  }
   // 急病の経過（症状の治まり・ぶり返し、心停止）
   if (c.body.illness) {
     stepIllness(world, ctx, c, dtMin, walking, move?.grade ?? 0);

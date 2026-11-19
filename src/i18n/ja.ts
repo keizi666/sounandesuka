@@ -108,6 +108,7 @@ export const JA = {
     illnessRelapse: '{who}の胸の痛みが、またぶり返した',
     medicated: '{who}は持っていた薬を飲んだ',
     stung: '{who}がハチに刺された',
+    streamDrink: '{who}は沢の水を飲み、水筒にも汲んだ',
     rescueHold: {
       heli: {
         night: '暗くなる時間で、ヘリは飛べない。明日の朝、明るくなってから飛ぶ',
@@ -190,6 +191,9 @@ export const JA = {
     iconTitle: '{name} の状態を見る',
   },
   ui: {
+    copyright: '(c)2026 keiziweb',
+    terms: '利用規約',
+    privacy: 'プライバシーポリシー',
     audioCredit: '効果音・音楽: シネマトグラフィカ（作者のオリジナル。音色 MuseScore_General.sf2, MIT）',
     audioCreditLink: '出典',
     loading: '読み込み中…',

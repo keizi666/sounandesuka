@@ -10,13 +10,14 @@ import { createStaticContext, createWorld } from '../sim/core/world';
 import { VegClass } from '../sim/types';
 import { UNIT } from '../view/scale';
 import { SceneView, type Quality } from '../view/sceneView';
+import { findWaterfalls } from '../view/waterfalls';
 
 const params = new URLSearchParams(location.search);
 const quality = (params.get('quality') ?? 'high') as Quality;
 const scenarioId = params.get('scenario') ?? 's01_cold_front';
 const untilMin = Number(params.get('t') ?? 450);
 
-export type Preset = 'overview' | 'forest' | 'ridge' | 'stream';
+export type Preset = 'overview' | 'forest' | 'ridge' | 'stream' | 'waterfall';
 
 interface ShotsApi {
   ready: boolean;
@@ -32,7 +33,7 @@ interface ShotsApi {
 const api: ShotsApi = {
   ready: false,
   error: null,
-  presets: ['overview', 'forest', 'ridge', 'stream'],
+  presets: ['overview', 'forest', 'ridge', 'stream', 'waterfall'],
   setPreset: () => undefined,
   measure: () => ({ msPerFrame: 0, fps: 0, calls: 0, triangles: 0 }),
   info: () => ({}),
@@ -89,6 +90,19 @@ async function main(): Promise<void> {
       view.controls.target.set(cx, cy + h * 0.9, cz);
       const d = h * 6;
       view.camera.position.set(cx + Math.sin(back) * d, cy + h * 2.6, cz + Math.cos(back) * d);
+    } else if (p === 'waterfall') {
+      // いちばん急な滝を、下流の斜め上から見る
+      const f = findWaterfalls(map)[0];
+      if (f) {
+        const tx = ((f.x0 + f.x1) / 2) * UNIT;
+        const tz = ((f.z0 + f.z1) / 2) * UNIT;
+        const ty = view.groundY(tx, tz);
+        const dx = f.x1 - f.x0;
+        const dz = f.z1 - f.z0;
+        const len = Math.hypot(dx, dz) || 1;
+        view.controls.target.set(tx, ty, tz);
+        view.camera.position.set(tx + (dx / len) * size * 0.012, ty + size * 0.008, tz + (dz / len) * size * 0.012);
+      }
     } else if (p === 'stream') {
       // 登山者にいちばん近い沢を、低い位置から見る（水面と岸の確認用）
       let best = { d: Infinity, x: 0, z: 0 };

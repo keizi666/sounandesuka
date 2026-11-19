@@ -187,7 +187,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   async function save(): Promise<void> {
     if (world.ended) return;
     lastSave = performance.now();
-    const ok = await saveResume({ scenarioId: scenario.id, world: structuredClone(world), recorder: structuredClone(recorder), choiceSnapshots: snapshots, log: hud.allLines(), savedAt: new Date().toISOString(), runId, parentRunId, conditions: loaded.conditions });
+    const ok = await saveResume({ scenarioId: scenario.id, world: structuredClone(world), recorder: structuredClone(recorder), choiceSnapshots: snapshots, log: hud.allLines(), savedAt: new Date().toISOString(), runId, parentRunId, conditions: loaded.conditions, speed: loop.speed });
     if (!ok) toast(JA.ui.saveFailed);
   }
 
@@ -347,6 +347,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     },
   });
   if (observe) loop.speed = 15;
+  // 途中から再開したら、そのときの再生の速さに戻す（ユーザーの指定）
+  else if (resume?.speed !== undefined && resume.speed !== 0) loop.speed = resume.speed;
   timeline.capture(world, recorder, true);
   if (st.sound) sound.setOn(true);
   hud.setSound(anySoundOn(st, true));

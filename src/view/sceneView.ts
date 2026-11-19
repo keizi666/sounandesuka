@@ -24,6 +24,8 @@ import { dlog } from '../app/version';
 import { createPost, type Post } from './post';
 import { createKishouClouds, type KishouClouds } from './kishouClouds';
 import { createSky, skyColors, type Sky } from './sky';
+import { buildWaterfalls } from './waterfalls';
+import { Ghosts } from './ghosts';
 
 /** この環境で使えなかった描画機能の覚え書き（localStorage）。設定の「初期化」とは別に、キーを消せば戻る */
 const GFX_KEY = 'hks.v1.gfx';
@@ -87,6 +89,9 @@ export class SceneView {
   private sun = new THREE.DirectionalLight(0xffffff, 2.2);
   private hemi = new THREE.HemisphereLight(0xc9dcf0, 0x5a4a3a, 0.8);
   private figures = new Map<string, Figure>();
+  /** 亡くなった人の半透明の姿が昇る演出。前のフレームで生きていたか */
+  private ghosts!: Ghosts;
+  private wasAlive = new Map<string, boolean>();
   /** 俯瞰で登山者の位置を示す赤い円（画面上の大きさが一定） */
   private locators = new Map<string, THREE.Sprite>();
   private locatorTex: THREE.Texture | null = null;
@@ -220,6 +225,9 @@ export class SceneView {
     const st = buildStructures(map, this.s, this.heightAt, this.env);
     this.windows = st.windows;
     this.scene.add(st.group);
+    this.ghosts = new Ghosts(this.scene);
+    // 沢の急な所の滝（見た目だけ）
+    this.scene.add(buildWaterfalls(map, this.s, this.heightAt, this.env));
 
     this.sun.castShadow = q.shadow > 0;
     this.sun.shadow.mapSize.set((q.shadow || 256) * 2, (q.shadow || 256) * 2);
@@ -438,7 +446,11 @@ export class SceneView {
       fig.root.visible = !c.offMap && (this.godView || !c.perception.awareLost);
       fig.update(c, timeSec, this.selected === c.id);
       this.updateLocator(c.id, fig, timeSec, c.body.alive, k === 0);
+      // 亡くなった瞬間（前のフレームでは生きていた）に、半透明の姿が昇っていく。読み込み・巻き戻しで最初から亡くなっていれば出さない
+      if (this.wasAlive.get(c.id) === true && !c.body.alive && fig.root.visible) this.ghosts.spawn(c.def, fig.root.position, c.headingRad, this.figureHeight(), timeSec);
+      this.wasAlive.set(c.id, c.body.alive);
     }
+    this.ghosts.update(timeSec);
     this.updateCamera(world);
     this.veg.update(this.camera);
     // カメラと注目している登山者の間にある木・建物を透かす
@@ -840,6 +852,7 @@ export class SceneView {
   }
 
   dispose(): void {
+    this.ghosts.dispose();
     this.kishou?.dispose();
     for (const f of this.figures.values()) f.dispose();
     for (const sp of this.locators.values()) sp.material.dispose();

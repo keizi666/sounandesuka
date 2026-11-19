@@ -4,6 +4,7 @@
  */
 import type { LogLine } from '../ui/simHud';
 import type { StartConditions } from '../sim/scenario/startConditions';
+import type { Speed } from './loop';
 import type { RecorderState } from '../sim/record/recorder';
 import type { EndingKind, World } from '../sim/types';
 
@@ -20,6 +21,8 @@ export interface ResumeData {
   parentRunId: string | null;
   /** 始まりの条件を変えて試していたとき（再開のときに同じように当てる） */
   conditions?: StartConditions;
+  /** 再生の速さ（再開のときに戻す） */
+  speed?: Speed;
 }
 
 export interface HistoryEntry {
