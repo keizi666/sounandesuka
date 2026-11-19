@@ -56,7 +56,7 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
     e.stopPropagation();
     onToggle?.();
   });
-  const head = el('header', { class: 'who' }, [avatar(c.def, 34), el('h3', {}, [`${c.def.name} ${c.def.age}`, el('small', {}, ` ${st}`)]), toggle]);
+  const head = el('header', { class: 'who' }, [avatar(c.def, 51), el('h3', {}, [`${c.def.name} ${c.def.age}`, el('small', {}, ` ${st}`)]), toggle]);
   if (collapsed) return el('section', { class: `climber mini${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [head, summary]);
   return el('section', { class: `climber${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [
     head,

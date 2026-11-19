@@ -1,6 +1,7 @@
 /**
  * タブ 6 人と計画（docs/18 §1〜2）: シナリオ情報（日の出入りの自動計算）、登山者カードと装備プリセット、計画ルートと予定時刻表。
  */
+import { avatar, PORTRAIT_GROUPS, portraitCounts, portraitGroup, type PortraitGroup } from '../../ui/avatar';
 import { formatTimeRef, parseTimeRef, scenarioStartMin } from '../../sim/core/clock';
 import { legCourseTimeMin, resolveRoute } from '../../sim/terrain/trails';
 import type { ClimberDef, GearDef, ScenarioDef, Theme } from '../../sim/types';
@@ -35,13 +36,43 @@ const words = {
   delays: (v: number): string => (v < 0.2 ? 'すぐ着る' : v < 0.5 ? '少し迷う' : '着るのを先延ばし'),
 };
 
+const GROUP_LABEL: Record<PortraitGroup, string> = { child_m: '子供・男', child_f: '子供・女', young_m: '若者・男', young_f: '若者・女', mid_m: '中年・男', mid_f: '中年・女', senior_m: '高齢・男', senior_f: '高齢・女' };
+
+/** 顔アイコンを選ぶ欄。「自動」は年齢・性別と ID から選ぶ。年齢・性別に合う区分を先に出す */
+function portraitPicker(c: ClimberDef, set: (v: string | undefined) => void): HTMLElement {
+  const grid = el('div', { class: 'portrait-grid' });
+  const auto = el('button', { type: 'button', class: `portrait-opt auto${c.portrait ? '' : ' on'}`, title: '年齢・性別から自動で選ぶ' }, [avatar({ ...c, portrait: undefined }, 60), el('small', {}, '自動')]);
+  auto.addEventListener('click', () => set(undefined));
+  void portraitCounts().then((counts) => {
+    if (!counts) {
+      grid.append(el('p', { class: 'hint' }, '顔アイコンの画像がありません（tools/make-portraits.py で作れます）'));
+      return;
+    }
+    const mine = portraitGroup(c);
+    const order = [mine, ...PORTRAIT_GROUPS.filter((g) => g !== mine)];
+    for (const g of order) {
+      const n = counts[g] ?? 0;
+      if (n === 0) continue;
+      const items = Array.from({ length: n }, (_, k) => {
+        const v = `${g}:${k + 1}`;
+        const b = el('button', { type: 'button', class: `portrait-opt${c.portrait === v ? ' on' : ''}`, title: `${GROUP_LABEL[g]} ${k + 1}` }, avatar({ ...c, portrait: v }, 60));
+        b.addEventListener('click', () => set(v));
+        return b;
+      });
+      grid.append(el('details', { class: 'portrait-group', open: g === mine || c.portrait?.startsWith(`${g}:`) }, [el('summary', {}, GROUP_LABEL[g] + (g === mine ? '（年齢・性別に合う）' : '')), el('div', { class: 'portrait-row' }, items)]));
+    }
+  });
+  return el('div', { class: 'f-row portrait-pick' }, [el('span', { class: 'f-label' }, '顔アイコン'), el('div', {}, [auto, grid])]);
+}
+
 function climberCard(ed: Ed, c: ClimberDef, i: number): HTMLElement {
   const set = (label: string, f: () => void): void => ed.change(label, f);
   const g = c.gear;
   const presetSel = el('select', {}, [el('option', { value: '' }, '装備プリセット…'), ...Object.keys(PRESETS).map((k) => el('option', { value: k }, k))]);
   presetSel.addEventListener('change', () => presetSel.value && set('装備プリセット', () => (c.gear = PRESETS[presetSel.value]!(c.gear))));
   return el('details', { class: 'f-section', open: openCard === i, ontoggle: (e: Event) => (e.target as HTMLDetailsElement).open && (openCard = i) }, [
-    el('summary', {}, [el('span', { style: `color:${c.color}` }, '● '), `${c.name}（${c.age}歳）${c.leader ? ' リーダー' : ''}`]),
+    el('summary', { class: 'climber-sum' }, [avatar(c, 39), `${c.name}（${c.age}歳）${c.leader ? ' リーダー' : ''}`]),
+    portraitPicker(c, (v) => set('顔アイコン', () => (c.portrait = v))),
     text('名前', c.name, (v) => set('名前', () => (c.name = v))),
     text('ID', c.id, (v) => /^[a-z][a-z0-9_]*$/i.test(v) && set('ID', () => {
       const old = c.id;

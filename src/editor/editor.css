@@ -66,3 +66,15 @@
 textarea.mono { width: 100%; min-height: 60vh; }
 .bar-h { display: flex; height: 16px; border-radius: 3px; overflow: hidden; background: #333; }
 .bar-h span { display: block; height: 100%; }
+
+/* ---- 顔アイコンの選択（登山者の設定） ---- */
+.climber-sum { display: flex; align-items: center; gap: 8px; }
+.portrait-pick > div { display: flex; flex-direction: column; gap: 6px; }
+.portrait-opt { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 3px; min-height: 0; background: transparent; border: 2px solid transparent; border-radius: 50%; }
+.portrait-opt.auto { flex-direction: row; gap: 6px; border-radius: 999px; padding: 3px 10px 3px 3px; align-self: flex-start; }
+.portrait-opt.on { border-color: var(--accent); background: rgba(200, 160, 80, 0.15); }
+.portrait-opt:hover:not(.on) { border-color: var(--line); }
+.portrait-group summary { cursor: pointer; color: var(--muted); font-size: 0.9em; padding: 2px 0; }
+.portrait-row { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px 0; }
+.f-row.portrait-pick { display: block; }
+.f-row.portrait-pick > .f-label { display: block; margin-bottom: 4px; }

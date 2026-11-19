@@ -85,6 +85,7 @@
    "navSkill": 0.6,
    "riskTolerance": 0.6,
    "color": "#b03a2e",
+   "portrait": "mid_m:5",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 90,
@@ -156,6 +157,7 @@
    "navSkill": 0.7,
    "riskTolerance": 0.6,
    "color": "#1f5fa8",
+   "portrait": "young_m:3",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 90,
@@ -227,6 +229,7 @@
    "navSkill": 0.6,
    "riskTolerance": 0.6,
    "color": "#2e86c1",
+   "portrait": "young_m:6",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 90,
@@ -298,6 +301,7 @@
    "navSkill": 0.7,
    "riskTolerance": 0.5,
    "color": "#7d6608",
+   "portrait": "mid_m:7",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 90,
@@ -369,6 +373,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.4,
    "color": "#c0392b",
+   "portrait": "senior_f:7",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -440,6 +445,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#d35400",
+   "portrait": "mid_f:1",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -510,6 +516,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#af601a",
+   "portrait": "senior_m:6",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -580,6 +587,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#9a7d0a",
+   "portrait": "senior_m:7",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -650,6 +658,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#7d3c98",
+   "portrait": "mid_m:6",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -720,6 +729,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#6c3483",
+   "portrait": "mid_m:3",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -790,6 +800,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#1e8449",
+   "portrait": "mid_f:5",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -861,6 +872,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.4,
    "color": "#117a65",
+   "portrait": "mid_f:6",
    "habits": {
     "eatEveryMin": null,
     "drinkEveryMin": 90,
@@ -932,6 +944,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#148f77",
+   "portrait": "mid_f:2",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -1002,6 +1015,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#a04000",
+   "portrait": "senior_f:1",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -1072,6 +1086,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#b9770e",
+   "portrait": "mid_f:4",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -1142,6 +1157,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#ca6f1e",
+   "portrait": "senior_f:2",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -1212,6 +1228,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#5b2c6f",
+   "portrait": "senior_m:2",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -1282,6 +1299,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#0e6655",
+   "portrait": "mid_f:8",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,
@@ -1352,6 +1370,7 @@
    "navSkill": 0.2,
    "riskTolerance": 0.5,
    "color": "#1a5276",
+   "portrait": "mid_f:3",
    "habits": {
     "eatEveryMin": 180,
     "drinkEveryMin": 90,

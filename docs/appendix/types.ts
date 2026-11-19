@@ -212,6 +212,8 @@ export interface ClimberDef {
   navSkill: number;       // 0..1
   riskTolerance: number;  // 0..1
   color: string;
+  /** 顔アイコン。"区分:番号"（区分は child_m / child_f / young_m / young_f / mid_m / mid_f / senior_m / senior_f、番号は 1 から）。省略時は年齢・性別と ID から自動で選ぶ */
+  portrait?: string;
   leader?: boolean;
   habits: { eatEveryMin: number | null; drinkEveryMin: number | null; delaysRainwear: number; gpsCheckEveryMin: number | null };
   gear: GearDef;

@@ -76,6 +76,7 @@
       "navSkill": 0.5,
       "riskTolerance": 0.6,
       "color": "#d9452b",
+      "portrait": "mid_m:7",
       "leader": true,
       "habits": {
         "eatEveryMin": 120,

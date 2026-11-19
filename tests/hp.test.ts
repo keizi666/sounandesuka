@@ -35,3 +35,19 @@ describe('総合の体力（HP）', () => {
     expect([100, 60, 30, 10].map(hpLevel)).toEqual(['ok', 'warn', 'danger', 'critical']);
   });
 });
+
+import { portraitGroup, portraitIndex } from '../src/ui/avatar';
+
+describe('顔アイコンの割り当て', () => {
+  it('年齢と性別で区分が決まる', () => {
+    expect(portraitGroup({ age: 10, sex: 'm' })).toBe('child_m');
+    expect(portraitGroup({ age: 16, sex: 'f' })).toBe('young_f');
+    expect(portraitGroup({ age: 52, sex: 'm' })).toBe('mid_m');
+    expect(portraitGroup({ age: 70, sex: 'f' })).toBe('senior_f');
+  });
+  it('同じ ID はいつも同じ絵で、範囲内に収まる', () => {
+    expect(portraitIndex('kinoshita', 8)).toBe(portraitIndex('kinoshita', 8));
+    for (const id of ['a', 'b', 'murai', 'aoyama', 'mori']) expect(portraitIndex(id, 8)).toBeLessThan(8);
+    expect(portraitIndex('x', 0)).toBe(0);
+  });
+});

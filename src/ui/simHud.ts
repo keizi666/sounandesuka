@@ -192,7 +192,7 @@ export class Hud {
     this.lines.push(line);
     const time = formatDateTime(this.scenario, line.tMin).split(' ')[1] ?? '';
     const who = line.climberId ? this.party.get(line.climberId) : undefined;
-    const li = el('li', { class: line.important ? 'imp' : '', 'data-t': line.tMin }, [el('time', {}, time), who ? avatar(who, 18) : null, ' ', line.text]);
+    const li = el('li', { class: line.important ? 'imp' : '', 'data-t': line.tMin }, [el('time', {}, time), who ? avatar(who, 27) : null, ' ', line.text]);
     if (this.cutoff !== null && line.tMin > this.cutoff + 1e-6) li.hidden = true;
     if (line.climberId) li.addEventListener('click', () => this.h.select(line.climberId!));
     this.logEl.append(li);
