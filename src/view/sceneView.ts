@@ -53,9 +53,9 @@ export interface ViewOptions {
 }
 
 const QUALITY = {
-  low: { step: 2, shadow: 0, trees: 4000, pixelRatio: 1 },
-  mid: { step: 1, shadow: 1024, trees: 12000, pixelRatio: 1.5 },
-  high: { step: 1, shadow: 2048, trees: 25000, pixelRatio: 2 },
+  low: { step: 2, shadow: 0, trees: 2500, pixelRatio: 1 },
+  mid: { step: 1, shadow: 1024, trees: 6000, pixelRatio: 1.5 },
+  high: { step: 1, shadow: 2048, trees: 11000, pixelRatio: 2 },
 } as const;
 
 /** 補間に使う姿勢（前のティックの値） */

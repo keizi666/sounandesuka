@@ -82,6 +82,11 @@ uniform float uAirStart;
 varying float vElev;
 varying vec3 vWorldPos;
 varying float vSlopeUp;
+varying vec2 vHkVar;
+/** 陰影の段（日なた・半影・影の 3 段。境界は柔らかくつなぐ。docs/19 §4） */
+float hkRamp(float d) {
+  return smoothstep(0.03, 0.24, d) * 0.6 + smoothstep(0.5, 0.74, d) * 0.4;
+}
 float hk_hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float hk_noise(vec2 p) {
   vec2 i = floor(p); vec2 f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
@@ -117,8 +122,51 @@ function patchVertex(shader: { vertexShader: string }, sway: boolean): void {
       vec4 hkWorld = modelMatrix * hkLocal;
       vWorldPos = hkWorld.xyz;
       vElev = hkWorld.y / uScaleY - uPlinth + uBaseElev;
-      vSlopeUp = normalize(mat3(modelMatrix) * objectNormal).y;`,
+      vSlopeUp = normalize(mat3(modelMatrix) * objectNormal).y;
+      vHkVar = vec2(0.5);
+      #ifdef USE_INSTANCING
+        vec2 hkIp = (modelMatrix * vec4(instanceMatrix[3].xyz, 1.0)).xz;
+        vHkVar = vec2(hk_noise(hkIp * 2.3) * 0.6 + hk_noise(hkIp * 9.0) * 0.4, hk_noise(hkIp * 1.4 + 17.0) * 0.65 + hk_noise(hkIp * 6.0 + 5.0) * 0.35);
+      #endif`,
     );
+}
+
+export interface ToonStyle {
+  /** 逆光側の縁の光の強さ（0 = なし） */
+  rim?: number;
+  /** 木ごとの色のゆらぎ（インスタンスの位置から決める） */
+  vary?: boolean;
+  /** 葉の板: 裏面でも法線を反転しない（樹冠の中心から外向きの法線をそのまま使う） */
+  leaf?: boolean;
+}
+
+/** 共通のトゥーン調: 段のある陰影、影側を青紫へ、縁の光、色のゆらぎ（docs/19 §4） */
+function patchToon(shader: { fragmentShader: string }, style: ToonStyle): void {
+  let f = shader.fragmentShader;
+  f = f.replace('#include <lights_physical_pars_fragment>', THREE.ShaderChunk.lights_physical_pars_fragment.replace('vec3 irradiance = dotNL * directLight.color;', 'vec3 irradiance = hkRamp(dotNL) * directLight.color;'));
+  if (style.leaf) f = f.replace('#include <normal_fragment_begin>', THREE.ShaderChunk.normal_fragment_begin.replace('float faceDirection = gl_FrontFacing ? 1.0 : - 1.0;', 'float faceDirection = 1.0;'));
+  if (style.vary) {
+    f = f.replace(
+      '#include <color_fragment>',
+      `#include <color_fragment>
+      diffuseColor.rgb *= 0.84 + 0.32 * vHkVar.x;
+      diffuseColor.rgb *= mix(vec3(0.92, 1.03, 1.1), vec3(1.1, 0.98, 0.84), vHkVar.y);`,
+    );
+  }
+  f = f.replace(
+    '#include <opaque_fragment>',
+    `{
+      // 影側は黒くせず、青紫へ寄せる。明るさは「表面の色に対してどれだけ光が当たっているか」で見る
+      float hkLum = dot(outgoingLight, vec3(0.2126, 0.7152, 0.0722));
+      float hkAlb = max(dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722)), 0.02);
+      float hkLit = smoothstep(0.3, 0.85, hkLum / hkAlb);
+      outgoingLight = mix(outgoingLight * vec3(0.84, 0.88, 1.32) + diffuseColor.rgb * vec3(0.018, 0.02, 0.05), outgoingLight, hkLit);
+      ${style.rim ? `float hkRim = pow(1.0 - clamp(dot(normal, normalize(vViewPosition)), 0.0, 1.0), 2.6);
+      outgoingLight += uAirColor * diffuseColor.rgb * hkRim * ${style.rim.toFixed(2)} * (0.4 + 0.6 * hkLit);` : ''}
+    }
+    #include <opaque_fragment>`,
+  );
+  shader.fragmentShader = f;
 }
 
 /** フラグメントの最後に雪・濡れ・霧・夜を足す */
@@ -193,13 +241,14 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean): vo
     );
 }
 
-export function injectEnv(material: THREE.Material, env: EnvUniforms, terrain = false, sway = false): void {
+export function injectEnv(material: THREE.Material, env: EnvUniforms, terrain = false, sway = false, style: ToonStyle = {}): void {
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, env);
     patchVertex(shader, sway);
     patchFragment(shader, terrain);
+    patchToon(shader, style);
   };
-  material.customProgramCacheKey = () => (terrain ? 'hk-terrain' : sway ? 'hk-sway' : 'hk-env');
+  material.customProgramCacheKey = () => `hk-${terrain ? 't' : 'e'}${sway ? 's' : ''}-r${style.rim ?? 0}${style.vary ? 'v' : ''}${style.leaf ? 'l' : ''}`;
 }
 
 export function createTerrainMaterial(env: EnvUniforms): THREE.MeshStandardMaterial {
