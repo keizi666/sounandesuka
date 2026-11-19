@@ -2,6 +2,7 @@
  * 保存（docs/03 §9、FR-40/41）。World と記録を gzip（CompressionStream）+ base64 にして localStorage へ。
  * 容量を超えたら古い履歴から消し、それでも失敗したらあきらめる（呼び出し側がトースト表示）。
  */
+import type { LogLine } from '../ui/simHud';
 import type { RecorderState } from '../sim/record/recorder';
 import type { EndingKind, World } from '../sim/types';
 
@@ -11,6 +12,8 @@ export interface ResumeData {
   recorder: RecorderState;
   /** 分岐点が発火したときのスナップショット（What-if・やり直し） */
   choiceSnapshots: Record<string, { world: World; recorder: RecorderState }>;
+  /** 画面のログ（再開したときに、それまでのログを出し直す）。古い保存にはない */
+  log?: LogLine[];
   savedAt: string;
   runId: string;
   parentRunId: string | null;

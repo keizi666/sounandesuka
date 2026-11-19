@@ -58,7 +58,7 @@ main.title .menu { display: flex; flex-direction: column; gap: 10px; min-width: 
   background: rgba(14, 17, 23, 0.5); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
 main.title .menu button:not(.primary) { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.18); }
 main.title .menu a { color: #e6e9ee; }
-main.select, main.briefing, main.history, main.debrief, main.ending { max-width: 1100px; margin: 0 auto; padding: 16px; }
+main.select, main.history, main.debrief, main.ending { max-width: 1100px; margin: 0 auto; padding: 16px; }
 main > header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 main > header h1 { font-size: 1.3rem; margin: 8px 0; }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin: 12px 0; }
@@ -343,3 +343,88 @@ main.title .menu a { padding: 6px 12px; text-decoration: none; }
   .bar { grid-template-columns: 4em 1fr 6.5em; }
 }
 .tl-latest[hidden] { display: none; }
+
+/* ---- ブリーフィング（写真つきの見出し → 地図と行程 / 物語・パーティ・予報 → 下に固定した出発） ---- */
+main.briefing { min-height: 100dvh; padding-bottom: 92px; background: var(--bg); }
+.bf-hero { display: block; background: linear-gradient(180deg, rgba(12, 16, 22, 0.5) 0%, rgba(12, 16, 22, 0.55) 55%, var(--bg) 100%), url('/photos/title-bg.jpg') center 35% / cover no-repeat; }
+.bf-hero-in, .bf-body, .bf-bar-in { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+.bf-hero-in { padding-top: 14px; padding-bottom: 26px; }
+.bf-back { display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px 4px 8px; border-radius: 999px; background: rgba(14, 17, 23, 0.55); border-color: rgba(255, 255, 255, 0.2); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.bf-kicker { display: flex; align-items: center; gap: 8px; margin: 34px 0 4px; font-size: 0.9rem; letter-spacing: 0.14em; color: #dfe3e8; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8); }
+.bf-kicker .tag { letter-spacing: 0; padding: 2px 10px; border-radius: 999px; background: var(--accent); color: #1d1a12; font-weight: 700; text-shadow: none; }
+.bf-kicker .tag.plain { background: rgba(255, 255, 255, 0.16); color: #fff; font-weight: 500; }
+.bf-hero h1 { margin: 0; font-size: clamp(2rem, 5.2vw, 3.2rem); letter-spacing: 0.06em; line-height: 1.2; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.75); }
+.bf-sub { margin: 6px 0 0; font-size: 1.05rem; color: #e6e9ee; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8); }
+.bf-facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.bf-fact { display: flex; align-items: center; gap: 10px; padding: 9px 16px 9px 12px; border-radius: 12px; background: rgba(14, 17, 23, 0.6); border: 1px solid rgba(255, 255, 255, 0.14); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.bf-fact .ic { width: 1.7em; height: 1.7em; color: var(--accent); }
+.bf-fact span { display: flex; flex-direction: column; line-height: 1.25; }
+.bf-fact small { color: #a9b0bb; font-size: 0.75rem; }
+.bf-fact strong { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.bf-body { padding-top: 4px; }
+.bf-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 18px; align-items: start; }
+.bf-col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.bf-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; }
+.bf-card h2 { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 1.05rem; letter-spacing: 0.04em; }
+.bf-card h2 .ic { color: var(--accent); width: 1.4em; height: 1.4em; }
+.bf-map { padding: 14px; }
+.bf-map canvas.map2d { display: block; width: 100%; height: auto; border-radius: 12px; }
+.bf-story { border-left: 4px solid var(--accent); }
+.bf-story p { margin: 0; font-size: 1.05rem; line-height: 1.9; }
+.bf-historical { margin-bottom: 18px; border-color: var(--accent); }
+.bf-historical p { margin: 4px 0; font-size: 0.9rem; color: #cfd4da; line-height: 1.7; }
+.bf-historical p.strong { display: flex; gap: 8px; align-items: flex-start; font-weight: 700; color: #ffe1a6; font-size: 0.98rem; }
+/* 行程表: 時刻 ｜ 点と線 ｜ 地点 */
+.bf-route { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 4.2em 28px minmax(0, 1fr); align-items: center; }
+.bf-route li { display: contents; }
+.bf-stop time { text-align: right; padding-right: 10px; font-variant-numeric: tabular-nums; font-weight: 600; }
+.bf-stop .dot { justify-self: center; width: 14px; height: 14px; border-radius: 50%; background: var(--panel); border: 3px solid var(--accent); display: inline-flex; align-items: center; justify-content: center; }
+.bf-stop.first .dot, .bf-stop.last .dot, .bf-stop.hut .dot { width: 26px; height: 26px; background: var(--accent); color: #1d1a12; border: 0; }
+.bf-stop .dot .ic { width: 17px; height: 17px; }
+.bf-stop .place { display: flex; align-items: baseline; gap: 8px; padding: 2px 0 2px 8px; min-width: 0; }
+.bf-stop .place small { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bf-leg .line { justify-self: center; width: 3px; height: 30px; background: linear-gradient(var(--accent), var(--accent)) center / 3px 100% no-repeat; opacity: 0.55; border-radius: 2px; }
+.bf-leg .dur { padding-left: 8px; color: var(--muted); font-size: 0.86rem; }
+.bf-card .hint { margin: 12px 0 0; color: var(--muted); font-size: 0.8rem; }
+/* パーティ */
+.bf-party { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.bf-climber { display: flex; gap: 14px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--panel2); border-left: 4px solid var(--c, #888); }
+.bf-who { min-width: 0; flex: 1; }
+.bf-name { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.bf-name strong { font-size: 1.15rem; }
+.bf-name span { color: var(--muted); }
+.bf-name .badge { padding: 1px 9px; border-radius: 999px; background: var(--c, #888); color: #fff; font-size: 0.75rem; font-weight: 700; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4); }
+.bf-gear { display: flex; flex-wrap: wrap; gap: 6px; }
+.bf-gear .gear { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px 3px 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); font-size: 0.86rem; white-space: nowrap; }
+.bf-gear .gear .ic { width: 1.2em; height: 1.2em; color: #c9ced6; }
+.bf-gear .gear.none { background: transparent; border: 1px dashed rgba(255, 255, 255, 0.22); color: var(--muted); }
+.bf-gear .gear.none .ic { color: var(--muted); }
+.bf-climber .estimated { display: block; margin-top: 6px; color: var(--muted); }
+/* 予報 */
+.bf-forecast { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.bf-forecast li { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--panel2); }
+.bf-forecast .ic { grid-row: 1 / 3; width: 2.1em; height: 2.1em; color: #ffd27a; }
+.bf-forecast .when { color: var(--muted); font-size: 0.8rem; }
+.bf-forecast .what { font-weight: 600; }
+.bf-forecast li.warn { grid-column: 1 / -1; background: rgba(250, 204, 21, 0.12); border: 1px solid rgba(250, 204, 21, 0.45); }
+.bf-forecast li.warn .ic { color: var(--warn); }
+.bf-notes .note { margin: 2px 0; font-size: 0.8rem; color: var(--muted); }
+/* 下に固定した出発の帯 */
+.bf-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: rgba(18, 21, 27, 0.82); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid rgba(255, 255, 255, 0.12); }
+.bf-bar-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 12px; padding-bottom: 12px; }
+.bf-bar-info { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+.bf-bar-info strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bf-bar-info small { color: var(--muted); }
+.bf-bar button.big { display: inline-flex; align-items: center; gap: 8px; padding: 12px 34px; font-size: 1.2rem; border-radius: 999px; box-shadow: 0 6px 20px rgba(200, 160, 80, 0.35); white-space: nowrap; }
+@media (max-width: 899px) {
+  /* スマホ: 1 列にし、物語を先頭に出す */
+  .bf-grid { display: flex; flex-direction: column; }
+  .bf-col { display: contents; }
+  .bf-story { order: -1; }
+  .bf-hero-in, .bf-body, .bf-bar-in { padding-left: 14px; padding-right: 14px; }
+  .bf-kicker { margin-top: 20px; }
+  .bf-fact { padding: 7px 12px 7px 9px; }
+  .bf-climber .avatar { width: 52px !important; height: 52px !important; }
+  .bf-bar-info small { display: none; }
+  .bf-bar button.big { padding: 10px 22px; font-size: 1.05rem; }
+}

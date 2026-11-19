@@ -178,6 +178,11 @@ export class Hud {
     }
   }
 
+  /** 保存用: いまのログ（新しいほうから最大 400 行） */
+  allLines(): LogLine[] {
+    return this.lines.slice(-400);
+  }
+
   /** タイムライン用: 重要な出来事の一覧 */
   importantLines(): readonly LogLine[] {
     return this.lines.filter((l) => l.important);

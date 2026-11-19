@@ -2,6 +2,16 @@
  * アイコン（Google の Material Symbols・Rounded。Apache-2.0）。
  * 使うものだけを SVG の文字列としてアプリに同梱する（外部から読み込まない。NFR-09）。色は文字色に従う。
  */
+import arrowBack from '@material-symbols/svg-400/rounded/arrow_back.svg?raw';
+import calendarToday from '@material-symbols/svg-400/rounded/calendar_today.svg?raw';
+import camping from '@material-symbols/svg-400/rounded/camping.svg?raw';
+import flag from '@material-symbols/svg-400/rounded/flag.svg?raw';
+import restaurant from '@material-symbols/svg-400/rounded/restaurant.svg?raw';
+import route from '@material-symbols/svg-400/rounded/route.svg?raw';
+import timer from '@material-symbols/svg-400/rounded/timer.svg?raw';
+import trendingUp from '@material-symbols/svg-400/rounded/trending_up.svg?raw';
+import warning from '@material-symbols/svg-400/rounded/warning.svg?raw';
+import wbSunny from '@material-symbols/svg-400/rounded/wb_sunny.svg?raw';
 import acUnit from '@material-symbols/svg-400/rounded/ac_unit.svg?raw';
 import air from '@material-symbols/svg-400/rounded/air.svg?raw';
 import batteryAlert from '@material-symbols/svg-400/rounded/battery_alert.svg?raw';
@@ -46,6 +56,7 @@ import visibility from '@material-symbols/svg-400/rounded/visibility.svg?raw';
 import waterDrop from '@material-symbols/svg-400/rounded/water_drop.svg?raw';
 
 const ICONS = {
+  arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, warning, wbSunny,
   acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, favorite, flashlightOn, keyboardArrowDown, keyboardArrowUp, foggy, groups, healing, hiking, history, home,
   landscape, layers, listAlt, map, minimize, mobile, monitorHeart, myLocation, openInFull, partlyCloudyDay, pause, playArrow, playCircle, psychology,
   rainy, schedule, sentimentWorried, settings, speed, thermostat, thunderstorm, visibility, waterDrop,

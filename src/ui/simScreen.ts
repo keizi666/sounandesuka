@@ -160,7 +160,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   async function save(): Promise<void> {
     if (world.ended) return;
     lastSave = performance.now();
-    const ok = await saveResume({ scenarioId: scenario.id, world: structuredClone(world), recorder: structuredClone(recorder), choiceSnapshots: snapshots, savedAt: new Date().toISOString(), runId, parentRunId });
+    const ok = await saveResume({ scenarioId: scenario.id, world: structuredClone(world), recorder: structuredClone(recorder), choiceSnapshots: snapshots, log: hud.allLines(), savedAt: new Date().toISOString(), runId, parentRunId });
     if (!ok) toast(JA.ui.saveFailed);
   }
 
@@ -374,7 +374,10 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   document.addEventListener('visibilitychange', onHide);
 
   // 開始時の重要な状態をログに
-  hud.log({ tMin: world.tMin, text: `${scenario.title}（${nodeName(scenario.plan.route[0]!)} を出発）`, important: true });
+  // 再開したときは、保存してあったログを出し直す（保存にログがない古いデータでは、再開したことだけを出す）
+  if (resume?.log && resume.log.length > 0) for (const line of resume.log) hud.log(line);
+  else if (resume) hud.log({ tMin: world.tMin, text: JA.ui.resumedNoLog, important: true });
+  else hud.log({ tMin: world.tMin, text: `${scenario.title}（${nodeName(scenario.plan.route[0]!)} を出発）`, important: true });
   refresh(true);
   loop.start();
   // 開発時のデバッグ用（ブラウザのコンソールから参照）
