@@ -1,13 +1,13 @@
 /** 画面に出す日本語文字列（CLAUDE.md 鉄則 5）。シナリオ JSON 内の文章は除く。 */
 export const JA = {
   app: {
-    title: '遭難ですか？',
+    title: '遭難ですよ',
     preparing: '準備中です。シミュレーションは描画なしで先に作っています。',
   },
   editor: {
     localOnly: 'シナリオの作成と編集は、手元の環境（localhost）でだけ使えます。公開しているサイトでは使えません。',
     backToPlayer: 'シミュレーターに戻る',
-    title: '遭難ですか？ シナリオエディター',
+    title: '遭難ですよ シナリオエディター',
     preparing: 'シナリオエディターは準備中です。',
   },
   disclaimer: {
@@ -107,6 +107,8 @@ export const JA = {
     gearChangeDry: '{who}は乾いた服に着替えた',
     eat: '{who}は行動食を食べた（{kcal} kcal）',
     drink: '{who}は水を飲んだ（{ml} mL）',
+    walkOut: '{who}は仲間のところへ戻った。みんな歩けるので、確かめた道へそろって下りる',
+    errandHutSeen: '{who}の前に{node}が見えた。居場所が分かったので、一人では入らず、仲間を迎えに戻る',
     lampOn: '{who}はヘッドランプをつけた',
     lampDead: '{who}のヘッドランプの電池が切れた',
     phoneDead: '{who}のスマートフォンの電池が切れた',
@@ -284,6 +286,7 @@ export const JA = {
     duration: '行動時間',
     distance: '移動距離',
     tripElev: '累計標高',
+    returningToMates: '仲間のところへ戻っている',
     minCore: '最低体温',
     decisions: '主な分岐での選択',
     rescueAt: '救助要請',

@@ -140,7 +140,8 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
   }
   // 歩いた記録（行動時間・距離・累計標高）
   const trip = (c.trip ??= { activeMin: 0, distM: 0, upM: 0, downM: 0 });
-  if (walking || c.state === 'RESTING') trip.activeMin += dtMinOf();
+  // 行動時間は出発からの経過（歩いている間だけでなく、休む・待つ・ビバークの間も進む。ユーザーの指定）
+  trip.activeMin += dtMinOf();
   if (move && move.movedM > 0) {
     trip.distM += move.movedM;
     const dh = move.grade * move.movedM;

@@ -1,5 +1,5 @@
 // =============================================================
-// 遭難ですか？ — 型定義（仕様の正）
+// 遭難ですよ — 型定義（仕様の正）
 // P0 で src/sim/types.ts にコピーして使う。変更したら docs も直す。
 // =============================================================
 
@@ -635,7 +635,7 @@ export interface ClimberState {
   stateSinceMin: number;
   pos: ClimberPos;
   x: number; z: number; elevM: number; headingRad: number; speedMs: number;
-  /** 歩いた記録: 行動時間（歩いた・小休止の分）、歩いた距離、累計の登り・下り（m）。ログの下の帯に出す */
+  /** 歩いた記録: 行動時間（出発からの経過。待つ・ビバークの間も進む）、歩いた距離、累計の登り・下り（m）。ログの下の帯に出す */
   trip?: { activeMin: number; distM: number; upM: number; downM: number };
   metAct: number;
   body: ClimberBody;

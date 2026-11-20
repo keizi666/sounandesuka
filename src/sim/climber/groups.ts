@@ -133,11 +133,14 @@ function handleReturns(world: World, ctx: StaticContext): void {
     const near = ctx.tuning.behavior.regroupDistM;
     if (world.latches[`returning:${cid}`]) {
       if (d2 > near * near && c.nav.path.length > 0) continue;
-      // 合流: 元のグループに戻り、仲間と同じように救助を待つ
+      // 合流: 元のグループに戻る
       world.latches[key] = false;
       world.latches[`returning:${cid}`] = false;
       c.groupId = gid ?? null;
       c.nav.path = [];
+      // みんな歩けて、居場所が分かる（地図アプリで確かめられる）なら、救助を待たずに二人で道へ下りる（ユーザーの指定:
+      // けががないのに、道まで行った人が戻ってきて一緒に座って待つのはおかしい）
+      if (walkOutTogether(world, ctx, c, gid ?? null)) continue;
       c.body.leeShelter = mate.body.leeShelter;
       c.body.groundInsulation = true;
       c.plan.bivouacUntil = mate.plan.bivouacUntil ?? 'rescue';
@@ -154,6 +157,31 @@ function handleReturns(world: World, ctx: StaticContext): void {
   }
 }
 
+const CANT_WALK = new Set(['legFracture', 'severeTrauma', 'headInjury']);
+
+/**
+ * 合流したグループが、みんな歩けるなら、そろって近い登山道へ向かう（そのあとは計画のルートで下る）。
+ * 居場所が分からなければ、地図アプリで確かめる。確かめられなければ、待つ（false）
+ */
+function walkOutTogether(world: World, ctx: StaticContext, c: ClimberState, gid: string | null): boolean {
+  const members = world.climbers.filter((x) => x.groupId === gid && x.body.alive);
+  if (members.some((x) => isIncapacitated(x) || isWeak(x, ctx) || CANT_WALK.has(x.body.injury) || x.body.illness?.active === true)) return false;
+  if (!c.perception.knowsPosition) {
+    const ph = c.inv.phone;
+    if (!(ph.has && !ph.dead && ph.gpsApp && ph.batteryPct > 0)) return false;
+    c.perception.knowsPosition = true;
+  }
+  for (const m of members) {
+    m.perception.knowsPosition = true;
+    m.plan.bivouacUntil = null;
+    if (m.pos.mode !== 'free') m.pos = { mode: 'free', x: m.x, z: m.z };
+    m.nav.path = [];
+    transition(world, ctx, m, 'NAVIGATING_TO_TRAIL', 'walkOut');
+  }
+  ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, data: { walkOut: true } });
+  return true;
+}
+
 /** 仲間のところへ歩いて戻り始める（地形に沿った道筋。戻る間の見た目は歩く姿勢） */
 function beginReturn(world: World, ctx: StaticContext, c: ClimberState, mate: ClimberState): void {
   world.latches[`returning:${c.id}`] = true;
@@ -163,6 +191,14 @@ function beginReturn(world: World, ctx: StaticContext, c: ClimberState, mate: Cl
   const path = findPath(ctx.map, c.x, c.z, (i) => i === goal, { tuning: ctx.tuning, heuristicTo: [vertexX(ctx.map, goal % n), vertexZ(ctx.map, Math.floor(goal / n))] });
   c.nav.path = path && path.length > 0 ? [...path, [mate.x, mate.z]] : [[mate.x, mate.z]];
   if (c.state !== 'WAITING_RESCUE') transition(world, ctx, c, 'WAITING_RESCUE', 'returning');
+}
+
+/** 用事（電波を探して通報し、戻る）で仲間から離れていて、まだ戻り始めていない人か */
+export function onErrand(world: World, c: ClimberState): boolean {
+  if (world.latches[`returning:${c.id}`]) return false;
+  const pre = `return:${c.id}:`;
+  for (const k of Object.keys(world.latches)) if (world.latches[k] && k.startsWith(pre)) return true;
+  return false;
 }
 
 /** 用事（電波を探して通報）を終えた人が、すぐ戻り始める（電話したら、座らずに歩いて戻る） */

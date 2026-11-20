@@ -12,7 +12,7 @@ import { callRescue } from './actions';
 import { walkMet } from './movement';
 import { checkPosition as navCheck, pathToSignal, pathToTrail, rejoinTrail, trailAt, utilityStep } from './navigation';
 import { transition } from './state';
-import { returnAfterErrand } from './groups';
+import { onErrand, returnAfterErrand } from './groups';
 import { footSnowCm } from '../weather/ground';
 import { dawnRef, enterShelter } from './route';
 import type { WalkResult } from './walk';
@@ -208,6 +208,15 @@ export function stepFree(world: World, ctx: StaticContext, c: ClimberState, dtSe
     t -= dt;
     if (LOST_MOVING.has(c.state)) {
       const hut = hutInSight(ctx, c);
+      // 用事（電波を探す）で仲間から離れている人は、小屋を見つけても一人で入らない。小屋で居場所が分かったので、
+      // 仲間を迎えに戻る（そろって道へ下りる。groups.handleReturns）
+      if (hut && onErrand(world, c)) {
+        c.perception.knowsPosition = true;
+        c.nav.path = [];
+        ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, data: { errandHutSeen: hut } });
+        returnAfterErrand(world, ctx, c);
+        break;
+      }
       if (hut && goIntoHut(world, ctx, c, hut)) break;
     }
     if (c.state === 'SEEKING_SIGNAL' && (ctx.map.radio[nearestIndex(ctx.map, c.x, c.z)] ?? 0) >= ctx.tuning.radio.callableMin) {

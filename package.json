@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "license": "SEE LICENSE IN LICENSE",
-  "description": "遭難ですか？ — 山岳遭難の推移を 3D のジオラマで観察する Web アプリとシナリオエディター",
+  "description": "遭難ですよ — 山岳遭難の推移を 3D のジオラマで観察する Web アプリとシナリオエディター",
   "engines": {
     "node": ">=22"
   },

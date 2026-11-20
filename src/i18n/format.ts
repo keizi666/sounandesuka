@@ -88,6 +88,8 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'STATE': {
       const to = s('to');
       if (['WALKING', 'RESTING', 'FINISHED', 'DEAD', 'SHELTERED'].includes(to)) return null;
+      // 用事を終えて仲間のところへ歩いて戻る間は、状態は「救助を待つ」だが、「戻っている」と出す
+      if (to === 'WAITING_RESCUE' && d['reason'] === 'returning') return fill(L.stateTo, { who, state: JA.ui.returningToMates });
       return fill(L.stateTo, { who, state: JA.labels.state[to] ?? to });
     }
     case 'RAIN_START': {
@@ -212,6 +214,8 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (typeof d['leftMap'] === 'string') return fill(L.leftMap, { who, place: d['leftMap'] });
       if (d['stung']) return fill(L.stung, { who });
       if (d['streamDrink']) return fill(L.streamDrink, { who });
+      if (d['walkOut']) return fill(L.walkOut, { who });
+      if (typeof d['errandHutSeen'] === 'string') return fill(L.errandHutSeen, { who, node: f.nodeName(String(d['errandHutSeen'])) });
       if (d['rescueNotThere']) return L.rescueNotThere;
       if (typeof d['rescueHold'] === 'string') {
         const t = L.rescueHold[d['by'] === 'heli' ? 'heli' : 'ground'] as Record<string, string>;
