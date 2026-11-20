@@ -30,6 +30,10 @@ export interface Settings {
   seVolume: number;
   music: boolean;
   musicVolume: number;
+  /** シナリオ中の曲: auto（場面に合わせてランダム）か、曲の ID（その曲を繰り返す） */
+  musicTrack: string;
+  /** 録画の品質（low 720p・mid 1080p・high 画面のまま 60fps） */
+  recordQuality: 'low' | 'mid' | 'high';
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -54,6 +58,8 @@ export const DEFAULT_SETTINGS: Settings = {
   seVolume: 0.7,
   music: true,
   musicVolume: 0.3,
+  musicTrack: 'auto',
+  recordQuality: 'mid',
 };
 
 const KEY = 'hks.v1.settings';

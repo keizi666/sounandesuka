@@ -13,3 +13,5 @@
   - 入手先: https://ftp.osuosl.org/pub/musescore/soundfont/MuseScore_General/
 
 一覧と ID は `src/sim/scenario/soundCatalog.ts`。素材を足すときは同じ形式（.m4a）で置き、一覧に書き足す。
+
+（2026-11-20 追加）シナリオ中の曲を場面ごとにランダムで選ぶため、同じシネマトグラフィカのオリジナル曲を足した: 荒野をゆく B・深い森（A〜C）・水の記憶・雲の上・雪の森・星降る丘・静かな夜（A・B）・静かな部屋・星をあつめる人・聖堂の対位法・雨の都市・氷の宮殿・遠い灯台。

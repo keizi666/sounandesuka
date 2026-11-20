@@ -216,6 +216,11 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   b.waterDeficitL = Math.min(p.waterDeficitMax, b.waterDeficitL + (lossLPerH / 60) * dtMin);
   // 営業小屋では水や温かい飲み物を買える（避難小屋には水がないことが多いので、飲まない）
   if (env.staffed) b.waterDeficitL = Math.max(0, b.waterDeficitL - (p.staffedDrinkLPerH / 60) * dtMin);
+  // 営業小屋では水筒も満たし、行動食（弁当など）も買い足せる（持ってきた量まで。ユーザーの指摘）
+  if (env.staffed) {
+    if (c.inv.waterL < d.gear.waterL) c.inv.waterL = Math.min(d.gear.waterL, c.inv.waterL + (p.staffedFillLPerH / 60) * dtMin);
+    if (c.inv.foodKcal < d.gear.foodKcal) c.inv.foodKcal = Math.min(d.gear.foodKcal, c.inv.foodKcal + (p.staffedFoodKcalPerH / 60) * dtMin);
+  }
   // 沢の水が手の届く所にあれば、のどが渇いていれば飲み、水筒も満たす（持ってきた入れ物の量まで）
   if (env.streamWater && b.conscious) {
     if (b.waterDeficitL > p.streamDrinkFromL) b.waterDeficitL = Math.max(0, b.waterDeficitL - (p.streamDrinkLPerH / 60) * dtMin);

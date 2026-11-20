@@ -6,7 +6,10 @@ import { historicalSources } from './historicalLinks';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { JA } from '../i18n/ja';
-import { formatClock, formatDateTime } from '../i18n/format';
+import { fill, formatClock, formatDateTime } from '../i18n/format';
+import { powerBankPctOf } from '../sim/core/world';
+import { eraGear, powerBankAvailable, scenarioYear } from '../sim/scenario/era';
+import { TUNING } from '../sim/tuning';
 import { parseTimeRef } from '../sim/core/clock';
 import { scenarioStartMin } from '../sim/core/clock';
 import { legCourseTimeMin, resolveRoute } from '../sim/terrain/trails';
@@ -16,7 +19,7 @@ import { el } from './dom';
 import { icon, type IconName } from './icons';
 import { drawMap2d } from './map2d';
 import { audio } from './audio';
-import { applyConditions, DEFAULT_CONDITIONS, isDefaultConditions, type Health, type SeasonOverride, type StartConditions, type WeatherOverride } from '../sim/scenario/startConditions';
+import { applyConditions, DEFAULT_CONDITIONS, DEFAULT_POWER_BANK_MAH, isDefaultConditions, POWER_BANK_CHOICES, WATER_DELTA_CHOICES, type Health, type SeasonOverride, type StartConditions, type WeatherOverride } from '../sim/scenario/startConditions';
 
 /** 予報の文から、天気のアイコンを選ぶ */
 function forecastIcon(label: string, text: string): IconName {
@@ -89,12 +92,24 @@ function conditionsCard(s: LoadedScenario['scenario'], cond: StartConditions): H
   });
   showTemp();
   const row = (label: string, ctrl: HTMLElement | HTMLElement[]): HTMLElement => el('label', { class: 'bf-cond-row' }, [el('span', {}, label), ...(Array.isArray(ctrl) ? ctrl : [ctrl])]);
+  // 水: 増減したあとの量（人によって違えば幅で）
+  const waterText = (d: number): string => {
+    const ls = s.party.map((p) => Math.max(0.2, Math.round((p.gear.waterL + d) * 10) / 10));
+    const lo = Math.min(...ls);
+    const hi = Math.max(...ls);
+    return lo === hi ? `${lo} L` : `${lo}〜${hi} L`;
+  };
   const healthOpts: [Health, string][] = [['good', C.health.good], ['sleepy', C.health.sleepy], ['tired', C.health.tired], ['cold', C.health.cold]];
   const card = el('section', { class: 'bf-card bf-cond' }, [
     el('h2', {}, [icon('thermostat'), C.title]),
     row(C.weather, select<WeatherOverride>(cond.weather, [['asIs', C.asIs], ['clear', C.w.clear], ['rain', C.w.rain], ['fog', C.w.fog], ['snow', C.w.snow], ['storm', C.w.storm]], (v) => (cond.weather = v))),
     row(C.temp, [temp, tempLabel]),
     row(C.season, select<SeasonOverride>(cond.season, [['asIs', C.asIs], ['spring', JA.labels.season['spring'] ?? '春'], ['summer', JA.labels.season['summer'] ?? '夏'], ['autumn', JA.labels.season['autumn'] ?? '秋'], ['winter', JA.labels.season['winter'] ?? '冬']], (v) => (cond.season = v))),
+    // モバイルバッテリーは、その年代にあり、スマホを持つ人がいるときだけ
+    powerBankAvailable(s, TUNING) && s.party.some((p) => eraGear(p.gear, scenarioYear(s), TUNING).phone.has)
+      ? row(C.powerBank, select<string>(String(cond.powerBankMah ?? DEFAULT_POWER_BANK_MAH), POWER_BANK_CHOICES.map((m) => [String(m), m === 0 ? C.powerBankNone : fill(C.powerBankMah, { mah: m.toLocaleString(), n: (powerBankPctOf(m) / 100).toFixed(1) })]), (v) => (cond.powerBankMah = Number(v))))
+      : null,
+    row(C.water, select<string>(String(cond.waterDeltaL ?? 0), WATER_DELTA_CHOICES.map((d) => [String(d), d === 0 ? fill(C.waterAsIs, { l: waterText(0) }) : fill(C.waterDelta, { d: `${d > 0 ? '+' : ''}${d}`, l: waterText(d) })]), (v) => (cond.waterDeltaL = Number(v)))),
     ...s.party.map((p) => row(`${p.name}${C.healthOf}`, select<Health>(cond.health[p.id] ?? 'good', healthOpts, (v) => (cond.health[p.id] = v)))),
     summary,
   ]);

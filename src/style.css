@@ -690,6 +690,11 @@ main.select2 { min-height: 100dvh; background: radial-gradient(1200px 600px at 2
 .snd-row { display: flex; flex-direction: column; gap: 2px; }
 .snd-on { display: flex; align-items: center; gap: 6px; font-size: 0.92em; cursor: pointer; }
 .snd-row input[type='range'] { width: 100%; }
+.snd-track { display: grid; grid-template-columns: 1fr auto; gap: 4px 6px; align-items: center; font-size: 0.88em; }
+.snd-track > span { grid-column: 1 / -1; opacity: 0.8; }
+.snd-track select { min-width: 0; width: 100%; font-size: 0.92em; }
+.snd-track button { display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
+.snd-track button svg { width: 16px; height: 16px; fill: currentColor; }
 /* ブリーフィング: 始まりの条件 */
 .bf-cond .bf-cond-row { display: grid; grid-template-columns: 9em 1fr auto; align-items: center; gap: 8px; margin: 6px 0; }
 .bf-cond .bf-cond-row select { grid-column: 2 / 4; }
@@ -904,3 +909,22 @@ div.choice .rec-badge svg { width: 1em; height: 1em; fill: currentColor; }
 @media (max-width: 520px) {
   .sh-btn { padding-right: 10px; font-size: 0.82rem; }
 }
+
+/* ---- スクリーンショット・録画（上のバーのボタン・確認の画面） ---- */
+.rec-btn.on { color: #fff; background: #c0392b; border-color: #e74c3c; animation: rec-pulse 1.6s ease-in-out infinite; width: auto; padding: 0 8px; gap: 4px; display: inline-flex; align-items: center; }
+.rec-btn .rec-time { font-variant-numeric: tabular-nums; font-size: 0.82rem; font-weight: 700; }
+@keyframes rec-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.6); } 50% { box-shadow: 0 0 0 5px rgba(231, 76, 60, 0); } }
+@media (prefers-reduced-motion: reduce) { .rec-btn.on { animation: none; } }
+.cap-dlg { width: min(860px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: 0; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 14px; background: #1b1e24; color: #e9ecf1; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55); overflow: auto; }
+.cap-dlg::backdrop { background: rgba(6, 8, 12, 0.6); }
+.cap-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 14px; background: #1b1e24; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.cap-head h2 { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 1.05rem; }
+.cap-head h2 svg { width: 20px; height: 20px; fill: var(--accent, #d4a64a); }
+.cap-preview { display: block; width: calc(100% - 28px); max-height: 56dvh; margin: 12px 14px 4px; border-radius: 8px; object-fit: contain; background: #0b0d10; }
+.cap-meta { margin: 0 14px; font-size: 0.8rem; opacity: 0.7; }
+.cap-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 14px 4px; }
+.cap-actions button { display: inline-flex; align-items: center; gap: 6px; }
+.cap-actions button svg { width: 18px; height: 18px; fill: currentColor; }
+.cap-sub { margin: 12px 14px 6px; font-size: 0.9rem; opacity: 0.85; }
+.cap-dlg .share { padding: 0 14px 14px; }
+.cap-warn { margin: 0 14px 14px; padding: 8px 10px; border-radius: 8px; background: rgba(234, 179, 8, 0.12); color: #fde68a; font-size: 0.82rem; }

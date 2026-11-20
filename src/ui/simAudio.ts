@@ -3,6 +3,7 @@
  * 煽らないよう、音は控えめに、ここぞというときだけ（docs/02 の表現の方針）。
  */
 import type { ScenarioDef, SimEvent, World } from '../sim/types';
+import { SCENE_PREFIX } from './audio';
 
 const DISTRESS = new Set(['LOST_AWARE', 'INCAPACITATED', 'WAITING_RESCUE', 'BIVOUAC', 'UNCONSCIOUS', 'SEEKING_SIGNAL', 'DESCENDING_DRAINAGE', 'NAVIGATING_TO_TRAIL', 'BACKTRACKING']);
 
@@ -35,14 +36,15 @@ export function eventSound(e: SimEvent): { id: string; volume: number } | null {
   }
 }
 
-/** 場面の曲。シナリオの music で上書きできる（null は無音） */
+/** 場面の曲（scene:play などの場面の指定か、曲の ID）。シナリオの music で上書きできる（null は無音） */
 export function autoMusic(w: World, s: ScenarioDef): string | null {
   const m = s.music ?? {};
   const active = w.climbers.filter((c) => c.body.alive && c.state !== 'FINISHED' && c.state !== 'RESCUED' && !c.offMap);
   const distress = active.some((c) => DISTRESS.has(c.state) || c.body.illness?.active === true || (c.body.injury !== 'none' && c.body.injury !== 'bruise'));
-  if (distress) return m.distress === undefined ? 'drama-dive' : m.distress;
-  if (w.sun.isDark) return m.night === undefined ? 'ambient-deep-breath' : m.night;
-  return m.play === undefined ? 'wilderness-c' : m.play;
+  // シナリオが曲を決めていなければ、場面（昼・夜・遭難のさなか）に合う曲からランダムに選ぶ（audio の scene: の指定。ユーザーの指定）
+  if (distress) return m.distress === undefined ? `${SCENE_PREFIX}distress` : m.distress;
+  if (w.sun.isDark) return m.night === undefined ? `${SCENE_PREFIX}night` : m.night;
+  return m.play === undefined ? `${SCENE_PREFIX}play` : m.play;
 }
 
 /** 結末の曲 */

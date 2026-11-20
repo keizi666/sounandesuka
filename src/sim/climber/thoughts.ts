@@ -8,6 +8,7 @@ import { nextFloat, randRange } from '../core/rng';
 import { evalCondition } from '../scenario/conditions';
 import type { ClimberState, StaticContext, World } from '../types';
 import { isIndoors } from './situation';
+import { chargeDecision } from './devices';
 
 /** これより強い雨は「小降り」と考えない（mm/h） */
 const RAIN_HEAVY_MMH = 2;
@@ -36,8 +37,11 @@ const BUILTIN: Builtin[] = [
   // 出発した日のうちだけ。仲間に具合の悪い人がいれば、時間どころではない
   { key: 'behind', priority: 3, leaderOnly: true, when: (w, ctx, c) => c.perception.timeBehindMin > 45 && c.state === 'WALKING' && c.body.injury === 'none' && !(c.body.illness?.active ?? false) && !c.perception.awareLost && Math.floor(w.tMin / 1440) === Math.floor(scenarioStartMin(ctx.scenario) / 1440) && !unwellMate(w, c) },
   // 「寒さのせいか」は寒いときだけ（暖かいときは節約の考えだけ）
-  { key: 'phone_low', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 && c.local.tempC < 10 },
-  { key: 'phone_low_warm', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 && c.local.tempC >= 10 },
+  // モバイルバッテリー（ユーザーの指定）: 充電している・雨で充電できない
+  { key: 'charge_now', priority: 4, when: (_w, _c, c) => c.inv.charging === true },
+  { key: 'charge_rain', priority: 5, when: (_w, ctx, c) => chargeDecision(ctx, c) === 'rain' },
+  { key: 'phone_low', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 && c.local.tempC < 10 && (c.inv.powerBankPct ?? 0) <= 0 },
+  { key: 'phone_low_warm', priority: 4, when: (_w, _c, c) => c.inv.phone.has && !c.inv.phone.dead && c.inv.phone.batteryPct < 20 && c.local.tempC >= 10 && (c.inv.powerBankPct ?? 0) <= 0 },
   // 雨具を後回しにするのは、歩いているときだけ（小屋の中・ビバーク・動けないときは出さない）
   { key: 'rain_delay', priority: 4, when: (_w, _c, c) => c.local.precipMmH >= 0.5 && c.local.precipMmH < RAIN_HEAVY_MMH && !c.body.rainwearOn && c.def.gear.rainwear !== 'none' && c.state === 'WALKING' },
   // 本降りでも着ないでいる（止まって着るのが面倒・どうせ濡れる、という先延ばし）

@@ -15,7 +15,7 @@ import { groupsMinute } from '../climber/groups';
 import { maybeSpeak } from '../climber/speech';
 import { maybeThink } from '../climber/thoughts';
 import { lightningCheck } from '../hazards/lightning';
-import { injuryTimers, slipCheck } from '../hazards/slip';
+import { injuryTimers, slipCheck, stepDebility } from '../hazards/slip';
 import { stepRescue } from '../rescue/rescue';
 import { chance } from './rng';
 import { updateTimeBehind, updateWeatherImpression } from '../climber/perception';
@@ -159,6 +159,7 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
   }
   lightningCheck(world, ctx, c, dtMin);
   injuryTimers(world, ctx, c);
+  stepDebility(world, ctx, c, DT_SEC / 60, walking);
   if (!c.body.alive) return;
   // 8f. 生理
   const env = thermalEnvFor(world, ctx, c);

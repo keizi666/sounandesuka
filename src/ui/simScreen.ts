@@ -41,6 +41,7 @@ import { createUrlSync } from './simUrl';
 import { createTimeTravel } from './simTimeTravel';
 import { createKeyHandler } from './simKeys';
 import { createFrameExtras } from './simFrame';
+import { createSimCapture } from './simCapture';
 
 export { attributionLine, optionLabel, type SimResult } from './simCommon';
 
@@ -70,6 +71,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
 
   // ---- 画面 ----
   const canvas = el('canvas', { class: 'scene', 'aria-label': scenario.title });
+  // スクリーンショット・録画（描いた直後に afterRender で合成する）
+  const simCap = createSimCapture({ canvas, loaded, world: () => world, settings: app.settings, onChange: () => hud.setRecording(simCap.elapsed()) });
   const figIcons = createFigureIcons(world.climbers);
   // 一時停止中は、画面の中央に角丸のパネルで ▶ を出し、押すと再開する（ユーザーの指定）
   const pauseOverlay = el('button', { class: 'pause-overlay', type: 'button', title: `${JA.ui.resumeShort} (Space)`, 'aria-label': JA.ui.resumeShort, hidden: true }, [icon('playArrow'), el('span', {}, JA.ui.resumeShort)]);
@@ -160,6 +163,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
           },
         }),
       share: () => void url.share(),
+      snap: () => simCap.snap(),
+      record: () => simCap.toggleRecord(),
       quit: () => {
         if (!confirm(JA.ui.quitConfirm)) return;
         void save().then(() => app.go({ name: 'title' }));
@@ -352,6 +357,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       tt.applySeek();
       view.gameSpeed = loop.paused || w.pendingChoice || w.ended ? 0 : SPEEDS[loop.speed] * DT_SEC;
       view.render(w, prev, alpha, t);
+      simCap.afterRender();
       // タイムラインも 3D と同じく、前の刻みからの補間した時刻で滑らかに流す
       tlBar.setNow(prev ? w.tMin - (1 - alpha) * (DT_SEC / 60) : w.tMin);
       const now = performance.now();
@@ -413,6 +419,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   let uiTick = 0;
   function refresh(force = false): void {
     hud.setState(world, loop.paused, loop.speed, cam);
+    hud.setRecording(simCap.elapsed());
     pauseOverlay.hidden = !(loop.paused && !world.pendingChoice && !world.ended && !titleShowing && !choiceUi);
     tlBar.update(timeline.startMin, Math.max(timeline.endMin, world.tMin), world.tMin, hud.importantLines().map((l) => ({ tMin: l.tMin, text: l.text, choice: l.text.startsWith('◆') })));
     uiTick += 1;
@@ -511,6 +518,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     bubbles.dispose();
     sound.dispose();
     figIcons.dispose();
+    simCap.dispose();
     closeLogDetail();
     tlBar.dispose();
     dock.dispose();

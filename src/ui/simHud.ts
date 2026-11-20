@@ -27,6 +27,9 @@ export interface HudHandlers {
   settings(): void;
   /** いまの場面の URL をコピーする（共有） */
   share?(): void;
+  /** スクリーンショット・録画（ユーザーの指定） */
+  snap?(): void;
+  record?(): void;
   quit(): void;
   /** 分岐点の場面へ戻る（ログの「この場面へ」） */
   jumpToChoice?(tMin: number): void;
@@ -91,6 +94,7 @@ export class Hud {
   private lines: LogLine[] = [];
   private sortByCore = false;
   readonly soundBtn: HTMLButtonElement;
+  readonly recBtn: HTMLButtonElement;
   /** 小さくしているカード（登山者の ID） */
   private collapsed = new Set<string>();
   private party = new Map<string, ScenarioDef['party'][number]>();
@@ -103,6 +107,7 @@ export class Hud {
   ) {
     this.god = opts.god;
     this.soundBtn = el('button', { class: 'icon', title: JA.ui.soundOn, 'aria-label': JA.ui.soundOn, onclick: () => h.sound() }, icon('volumeOff'));
+    this.recBtn = el('button', { class: 'icon rec-btn', title: JA.capture.record, 'aria-label': JA.capture.record, onclick: () => h.record?.() }, icon('videocam'));
     this.party = new Map(scenario.party.map((p) => [p.id, p]));
     this.clock = el('span', { class: 'clock', 'aria-live': 'off' });
     this.pauseBtn = el('button', { class: 'icon', title: `${JA.ui.pause} (Space)`, onclick: () => h.togglePause() }, icon('pause'));
@@ -160,6 +165,8 @@ export class Hud {
       el('div', { class: 'group cams', role: 'group', 'aria-label': JA.ui.camera }, [this.povBtn, ...this.camBtns.values()]),
       layers,
       this.soundBtn,
+      h.snap ? el('button', { class: 'icon', title: JA.capture.snap, 'aria-label': JA.capture.snap, onclick: () => h.snap?.() }, icon('photoCamera')) : null,
+      h.record ? this.recBtn : null,
       h.share ? el('button', { class: 'icon', title: JA.ui.share, 'aria-label': JA.ui.share, onclick: () => h.share?.() }, icon('link')) : null,
       el('button', { class: 'icon', title: JA.ui.settings, 'aria-label': JA.ui.settings, onclick: () => h.settings() }, icon('settings')),
       foldBtn,
@@ -273,6 +280,25 @@ export class Hud {
   }
 
   /** 音のボタンの表示 */
+  /** 録画の表示（録画中なら経過秒、していなければ null） */
+  setRecording(sec: number | null): void {
+    const on = sec !== null;
+    this.recBtn.classList.toggle('on', on);
+    if (on) {
+      const t = `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, '0')}`;
+      const label = `${JA.capture.stop}（${t}）`;
+      if (this.recBtn.title !== label) {
+        this.recBtn.title = label;
+        this.recBtn.setAttribute('aria-label', label);
+        this.recBtn.replaceChildren(icon('stopCircle'), el('span', { class: 'rec-time' }, t));
+      }
+    } else if (this.recBtn.classList.contains('was-on') || this.recBtn.title !== JA.capture.record) {
+      this.recBtn.title = JA.capture.record;
+      this.recBtn.setAttribute('aria-label', JA.capture.record);
+      this.recBtn.replaceChildren(icon('videocam'));
+    }
+  }
+
   setSound(on: boolean): void {
     this.soundBtn.replaceChildren(icon(on ? 'volumeUp' : 'volumeOff'));
     const label = JA.soundPanel.title;

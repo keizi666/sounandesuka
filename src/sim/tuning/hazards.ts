@@ -96,6 +96,8 @@ export const nav = {
 
 /** docs/08 §1 転倒・滑落 */
 export const slip = {
+  /** けがで動けないまま、体力 100 が 0 になるまでの時間（時間。ユーザーの指定） */
+  debilityFullH: 96,
   /** 這って動いているとき（足の骨折）の 10 m あたりの滑落の確率。その場の斜面の傾斜（度）で決める [傾斜, 確率]。急なほど、止まれずに滑り落ちる */
   crawlP10: [[10, 0.0005], [20, 0.004], [30, 0.03], [40, 0.1], [50, 0.25], [60, 0.45]] as [number, number][],
   /** 這っていて滑ったとき、この傾斜より急なら斜面を滑り落ちる（道の外へ） */
@@ -193,6 +195,33 @@ export const devices = {
   phonePocketWarmC: 15,
   phoneColdCliffPct: 20,
   satelliteSendPct: 5,
+  /** モバイルバッテリー（ユーザーの指定）: 容量を「スマホの何 % 分」に直す。スマホの電池 4000 mAh・充電の効率 65% */
+  powerBankDefaultMah: 5000,
+  phoneBatteryMah: 4000,
+  powerBankEff: 0.65,
+  /** 充電の速さ（% / 分） */
+  chargePctPerMin: 1,
+  /** 充電を始める残り（%）。ふだんは少なくなってから、遭難のさなか（スマホが頼り）は早めに */
+  chargeBelowPct: 25,
+  chargeBelowDistressPct: 50,
+  /** ここまで充電したらやめる（%） */
+  chargeUntilPct: 90,
+  /** この雨（mm/h）より強いと、外では濡れるので充電できない（小屋・テント・ツェルトの中ならできる） */
+  chargeMaxRainMmH: 0.3,
+};
+
+/** 電子機器が登場した年（シナリオの年代に合わせて、まだない機器は持たない。ユーザーの指定） */
+export const era = {
+  /** 携帯電話が登山者に広まった年 */
+  mobilePhoneFrom: 1995,
+  /** スマホ（地図アプリ・軌跡の記録） */
+  smartphoneFrom: 2009,
+  /** モバイルバッテリー */
+  powerBankFrom: 2013,
+  /** ココヘリ（会員制の捜索サービス） */
+  cocoheliFrom: 2016,
+  /** スマホの衛星 SOS */
+  satelliteSosFrom: 2022,
 };
 
 /** docs/08 §5 救助 */

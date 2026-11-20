@@ -319,6 +319,7 @@ export interface GearDef {
   epipen?: boolean;            // アドレナリン自己注射薬（エピペン。処方された人だけ）
   rescueSheet?: boolean;       // エマージェンシーシート
   cocoheli?: boolean;          // ココヘリ（会員制の捜索用の発信機）。ヘリの受信機が電波をとらえ、短い時間で見つかる
+  powerBankMah?: number;       // モバイルバッテリーの容量（mAh。0 は持たない。省略はスマホを持つ人なら tuning の既定 5000）
 }
 
 export interface WeatherKeyframe {
@@ -581,6 +582,8 @@ export interface ClimberBody {
   shelterNodeId: NodeId | null;
   leeShelter: number;        // 0..1 現在地の風下効果
   stage: 'normal' | 'cold' | 'mild' | 'moderate' | 'severe' | 'heatExhaustion' | 'heatStroke';
+  /** けがで動けないあいだの衰弱（0〜1。1 で亡くなる）。体力（HP）を (1 - 衰弱) 倍にする。古い保存にはない */
+  debility?: number;
 }
 
 export interface ClimberInventory {
@@ -588,6 +591,10 @@ export interface ClimberInventory {
   waterL: number;
   phone: { has: boolean; batteryPct: number; gpsApp: boolean; trackRecording: boolean; satelliteSos: boolean; dead: boolean; lastCheckMin: number | null };
   headlamp: { has: boolean; batteryH: number; inPack: boolean; spareBatteryH: number; on: boolean };
+  /** モバイルバッテリーの残り（スマホの何 % 分を充電できるか）。古い保存にはない */
+  powerBankPct?: number;
+  /** いまモバイルバッテリーで充電しているか */
+  charging?: boolean;
 }
 
 export interface ClimberPlanState {

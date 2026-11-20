@@ -7,6 +7,8 @@ import { saveSettings, type Settings } from '../app/settings';
 import { JA } from '../i18n/ja';
 import { el } from './dom';
 import { icon } from './icons';
+import { musicSelect } from './musicSelect';
+import { audio } from './audio';
 
 type Key = 'music' | 'se' | 'sound';
 const VOL: Record<Key, 'musicVolume' | 'seVolume' | 'soundVolume'> = { music: 'musicVolume', se: 'seVolume', sound: 'soundVolume' };
@@ -48,6 +50,11 @@ export function toggleSoundPanel(app: AppContext, anchor: HTMLElement, opts: { a
   const panel = el('div', { class: 'snd-panel', role: 'dialog', 'aria-label': L.title }, [
     el('div', { class: 'snd-head' }, [icon('volumeUp'), L.title]),
     row('music', L.music),
+    el('div', { class: 'snd-row snd-track' }, [
+      el('span', {}, L.track),
+      musicSelect(s, () => opts.onChange?.()),
+      el('button', { class: 'small', type: 'button', title: L.next, onclick: () => audio().nextTrack() }, [icon('skipNext'), L.next]),
+    ]),
     row('se', L.se),
     opts.ambient ? row('sound', L.ambient) : null,
   ]);

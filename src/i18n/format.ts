@@ -227,6 +227,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (d['rescueRelocated']) return fill(L.rescueRelocated, { who });
       if (d['anaphylaxisOnset']) return fill(L.anaphylaxisOnset, { who });
       if (d['epipen']) return fill(L.epipen, { who });
+      if (d['chargeStart']) return fill(L.chargeStart, { who });
       if (d['passerby']) return fill(L.passerby, { who });
       if (d['unimplementedAction'] || d['unimplementedEffect']) return fill(L.unimplemented, { what: s('unimplementedAction') || s('unimplementedEffect') });
       return null;

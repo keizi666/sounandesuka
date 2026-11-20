@@ -267,6 +267,10 @@ export const physiology = {
   staffedMealKcalPerMin: 6,
   /** 営業小屋で飲む量（L/時） */
   staffedDrinkLPerH: 0.6,
+  /** 営業小屋で水筒を満たす速さ（L/時。持ってきた量まで） */
+  staffedFillLPerH: 2,
+  /** 営業小屋で行動食を買い足す速さ（kcal/時。持ってきた量まで） */
+  staffedFoodKcalPerH: 1200,
   /** アルコールが抜ける速さ（g/時。体重 60〜70 kg の目安） */
   alcoholElimGPerH: 7,
   /** 体内のアルコールが体に行き渡る割合（Widmark の r） */

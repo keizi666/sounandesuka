@@ -157,6 +157,25 @@ export function slipCheck(world: World, ctx: StaticContext, c: ClimberState, mov
   injure(world, ctx, c, injury, 'fall');
 }
 
+/** 動けない・重いけが（足の骨折・頭部外傷・重度外傷）のまま、その場にいる */
+const SERIOUS: ReadonlySet<InjuryKind> = new Set(['legFracture', 'headInjury', 'severeTrauma']);
+const IMMOBILE = new Set(['INCAPACITATED', 'UNCONSCIOUS']);
+
+/**
+ * けがで動けないあいだの衰弱（ユーザーの指定: 体力 100 でも 96 時間で 0 になる程度に減る）。
+ * 重いけがで動いていない、または動けない・意識がないあいだ、debilityFullH 時間で 1 になる速さで増え、1 で亡くなる。
+ * 営業小屋の中（手当てを受けられる）では増えない
+ */
+export function stepDebility(world: World, ctx: StaticContext, c: ClimberState, dtMin: number, walking: boolean): void {
+  if (!c.body.alive) return;
+  const b = c.body;
+  const staffed = b.shelterNodeId !== null && ctx.map.nodes[b.shelterNodeId]?.shelter?.kind === 'staffed';
+  const stuck = IMMOBILE.has(c.state) || !b.conscious || (SERIOUS.has(b.injury) && !walking);
+  if (!stuck || staffed) return;
+  b.debility = Math.min(1, (b.debility ?? 0) + dtMin / (ctx.tuning.slip.debilityFullH * 60));
+  if (b.debility >= 1) injure(world, ctx, c, 'death', 'trauma');
+}
+
 /** 重度外傷の死亡と、頭部外傷の意識の戻り（毎ティック） */
 export function injuryTimers(world: World, ctx: StaticContext, c: ClimberState): void {
   if (!c.body.alive) return;

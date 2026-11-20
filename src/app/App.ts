@@ -55,7 +55,7 @@ export function startApp(root: HTMLElement): void {
     saveSettings(settings);
   }
   document.documentElement.dataset['textSize'] = settings.textSize;
-  const prefs = (s: Settings): void => audio().setPrefs({ se: s.se, seVolume: s.seVolume, music: s.music, musicVolume: s.musicVolume });
+  const prefs = (s: Settings): void => audio().setPrefs({ se: s.se, seVolume: s.seVolume, music: s.music, musicVolume: s.musicVolume, track: s.musicTrack });
   prefs(settings);
   onSettingsSaved(prefs);
   const app: AppContext = {

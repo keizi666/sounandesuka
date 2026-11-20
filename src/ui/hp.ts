@@ -5,6 +5,7 @@
  *   - 高体温: 38.5℃ から下がり、42℃（熱中症による死亡の境目）で 0
  *   - けが: 上限を決める（重いほど低い）。意識がなければ上限 15
  *   - 消耗（エネルギー切れ・脱水・疲労）: 最大で 4 割ほど割り引く
+ *   - けがで動けないあいだの衰弱（sim の debility）: (1 - 衰弱) 倍。96 時間で 0（ユーザーの指定）
  */
 import type { ClimberBody, InjuryKind } from '../sim/types';
 
@@ -21,7 +22,7 @@ function ramp(x: number, pts: readonly (readonly [number, number])[]): number {
   return pts[pts.length - 1]![1];
 }
 
-export type HpInput = Pick<ClimberBody, 'coreC' | 'glycogenKcal' | 'waterDeficitL' | 'fatigue' | 'injury' | 'conscious' | 'alive'>;
+export type HpInput = Pick<ClimberBody, 'coreC' | 'glycogenKcal' | 'waterDeficitL' | 'fatigue' | 'injury' | 'conscious' | 'alive' | 'debility'>;
 
 export function hpOf(b: HpInput): number {
   if (!b.alive) return 0;
@@ -31,7 +32,8 @@ export function hpOf(b: HpInput): number {
   const energy = ramp(b.glycogenKcal, [[0, 0.8], [300, 0.92], [600, 1]]);
   const water = ramp(b.waterDeficitL, [[1, 1], [3, 0.92], [5, 0.8]]);
   const tired = ramp(b.fatigue, [[70, 1], [100, 0.88]]);
-  return Math.max(1, Math.round(100 * Math.min(cold, heat, cap) * energy * water * tired));
+  const weak = 1 - Math.min(1, Math.max(0, b.debility ?? 0));
+  return Math.max(1, Math.round(100 * Math.min(cold, heat, cap) * energy * water * tired * weak));
 }
 
 /** HP の段階（色と記号の区別に使う） */

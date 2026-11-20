@@ -1,5 +1,5 @@
 /**
- * 始まりの条件を変えて試す（ユーザーの指定）: 天気・気温・季節・登場人物の体調。
+ * 始まりの条件を変えて試す（ユーザーの指定）: 天気・気温・季節・登場人物の体調・モバイルバッテリー・水の量。
  * シナリオの写しを書き換える純粋な関数（元のシナリオは変えない）。変えた条件は保存して、再開のときにも同じように当てる。
  * 文章（ブリーフィング・分岐点・結末）はシナリオのままなので、天気や季節を変えると文と合わない所が出ることがある（画面に注記を出す）。
  */
@@ -16,13 +16,25 @@ export interface StartConditions {
   season: SeasonOverride;
   /** 登場人物ごとの体調（書いていない人は万全） */
   health: Record<string, Health>;
+  /** スマホを持つ人のモバイルバッテリーの容量（mAh。0 は持たない）。省略は既定（5000） */
+  powerBankMah?: number;
+  /** 1 人あたりの水の増減（L）。省略は 0（シナリオのまま） */
+  waterDeltaL?: number;
 }
+
+/** 選べるモバイルバッテリーの容量（mAh。0 は持たない）と、既定 */
+export const POWER_BANK_CHOICES = [0, 5000, 10000, 20000] as const;
+export const DEFAULT_POWER_BANK_MAH = 5000;
+/** 選べる水の増減（L / 人） */
+export const WATER_DELTA_CHOICES = [-1, -0.5, 0, 0.5, 1, 1.5] as const;
+/** 水を減らしても残す最小（L） */
+const WATER_MIN_L = 0.2;
 
 export const DEFAULT_CONDITIONS: StartConditions = { weather: 'asIs', tempOffsetC: 0, season: 'asIs', health: {} };
 
 /** 何も変えていないか */
 export function isDefaultConditions(c: StartConditions | undefined): boolean {
-  return !c || (c.weather === 'asIs' && c.tempOffsetC === 0 && c.season === 'asIs' && Object.values(c.health).every((h) => h === 'good'));
+  return !c || (c.weather === 'asIs' && c.tempOffsetC === 0 && c.season === 'asIs' && Object.values(c.health).every((h) => h === 'good') && (c.powerBankMah ?? DEFAULT_POWER_BANK_MAH) === DEFAULT_POWER_BANK_MAH && (c.waterDeltaL ?? 0) === 0);
 }
 
 /** 月ごとの平年の気温（東京の平年値を山の季節感の目安に使う。差だけを使う）と、北緯 36 度付近の日の出・日の入り（15 日ごろ） */
@@ -98,5 +110,18 @@ export function applyConditions(s0: ScenarioDef, c: StartConditions | undefined)
     if (h === 'good') return p;
     return { ...p, health: h, initial: { ...(p.initial ?? {}), ...HEALTH_INITIAL[h] } };
   });
+  // モバイルバッテリー（スマホを持つ人）と水の量
+  const bank = c.powerBankMah ?? DEFAULT_POWER_BANK_MAH;
+  const dW = c.waterDeltaL ?? 0;
+  if (bank !== DEFAULT_POWER_BANK_MAH || dW !== 0) {
+    s.party = s.party.map((p) => ({
+      ...p,
+      gear: {
+        ...p.gear,
+        ...(bank !== DEFAULT_POWER_BANK_MAH && p.gear.phone.has ? { powerBankMah: bank } : {}),
+        ...(dW !== 0 ? { waterL: Math.max(WATER_MIN_L, Math.round((p.gear.waterL + dW) * 10) / 10) } : {}),
+      },
+    }));
+  }
   return s;
 }

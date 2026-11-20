@@ -4,6 +4,7 @@
  */
 import { initialGroups } from '../climber/groups';
 import { TUNING, type Tuning } from '../tuning';
+import { eraGear, scenarioYear } from '../scenario/era';
 import type {
   ClimberDef,
   ClimberState,
@@ -63,7 +64,7 @@ export function initialGlobalWeather(): GlobalWeather {
 
 /** 登山者の初期状態。startNode は計画ルートの最初のノード */
 export function createClimberState(
-  def: ClimberDef,
+  def0: ClimberDef,
   scenario: ScenarioDef,
   map: MapRuntime,
   tMin: number,
@@ -74,6 +75,9 @@ export function createClimberState(
   if (startNode === undefined) throw new Error('plan.route が空です');
   const nd = map.nodes[startNode];
   if (!nd) throw new Error(`plan.route[0] のノード "${startNode}" がマップにありません`);
+  // シナリオの年代にまだない電子機器は持たない（ユーザーの指定: 1970 年に携帯電話はない）
+  const eg = eraGear(def0.gear, scenarioYear(scenario), TUNING);
+  const def: ClimberDef = eg === def0.gear ? def0 : { ...def0, gear: eg };
   const ini = def.initial ?? {};
   const g = def.gear;
   return {
@@ -122,6 +126,9 @@ export function createClimberState(
       waterL: g.waterL,
       phone: { ...g.phone, dead: false, lastCheckMin: null },
       headlamp: { ...g.headlamp, on: false },
+      // モバイルバッテリー: 省略はスマホを持つ人なら既定の容量（ユーザーの指定: 既定は 5000 mAh を持つ）
+      powerBankPct: powerBankPctOf(g.powerBankMah ?? (g.phone.has ? TUNING.devices.powerBankDefaultMah : 0)),
+      charging: false,
     },
     plan: {
       route,
@@ -162,6 +169,12 @@ export function createClimberState(
     thoughtHistory: {},
     memo: { lastEatMin: tMin, lastDrinkMin: tMin, lastPrecipMin: null, clearSinceMin: null, bivouacked: false, sheltered: false, traumaDeathAtMin: null, unconsciousUntilMin: null, atWaterfall: false, trailVanishedAtMin: null, nextThoughtMin: null, walkSinceRestMin: 0 },
   };
+}
+
+/** モバイルバッテリーの容量（mAh）を、スマホの何 % 分を充電できるかに直す */
+export function powerBankPctOf(mAh: number, t: Tuning = TUNING): number {
+  if (!(mAh > 0)) return 0;
+  return Math.round(((mAh * t.devices.powerBankEff) / t.devices.phoneBatteryMah) * 100);
 }
 
 export function createWorld(map: MapRuntime, scenario: ScenarioDef, seed: number = scenario.seed): World {
