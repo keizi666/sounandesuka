@@ -25,6 +25,8 @@ export interface HudHandlers {
   setOverlay(k: OverlayKind): void;
   select(id: string): void;
   settings(): void;
+  /** いまの場面の URL をコピーする（共有） */
+  share?(): void;
   quit(): void;
   /** 分岐点の場面へ戻る（ログの「この場面へ」） */
   jumpToChoice?(tMin: number): void;
@@ -125,6 +127,7 @@ export class Hud {
       el('div', { class: 'group cams', role: 'group', 'aria-label': JA.ui.camera }, [...this.camBtns.values()]),
       layers,
       this.soundBtn,
+      h.share ? el('button', { class: 'icon', title: JA.ui.share, 'aria-label': JA.ui.share, onclick: () => h.share?.() }, icon('link')) : null,
       el('button', { class: 'icon', title: JA.ui.settings, 'aria-label': JA.ui.settings, onclick: () => h.settings() }, icon('settings')),
     ]);
     this.climbersEl = el('div', { class: 'climbers' });
@@ -145,13 +148,16 @@ export class Hud {
     const t = c.trip ?? { activeMin: 0, distM: 0, upM: 0, downM: 0 };
     const h = Math.floor(t.activeMin / 60);
     const m = Math.floor(t.activeMin - h * 60);
-    const key = `${c.id}|${h}:${m}|${Math.round(t.distM / 100)}|${Math.round(t.upM)}|${Math.round(t.downM)}`;
+    const elevM = Math.round(c.elevM);
+    const key = `${c.id}|${h}:${m}|${Math.round(t.distM / 100)}|${Math.round(t.upM)}|${Math.round(t.downM)}|${elevM}`;
     if (this.tripEl.dataset['k'] === key) return;
     this.tripEl.dataset['k'] = key;
     const item = (ic: Parameters<typeof icon>[0], label: string, value: string, cls = ''): HTMLElement =>
       el('div', { class: `tb-item ${cls}`, title: label }, [icon(ic), el('small', {}, label), el('strong', {}, value)]);
     this.tripEl.replaceChildren(
       el('div', { class: 'tb-who', style: `--c:${c.def.color}` }, [avatar(c.def, 26), el('span', {}, c.def.name)]),
+      // 現在地の標高（ユーザーの指定）
+      item('landscape', JA.ui.elevNow, `${elevM.toLocaleString('ja-JP')} m`, 'tb-elevnow'),
       item('timer', JA.ui.duration, `${h}:${String(m).padStart(2, '0')}`),
       item('route', JA.ui.distance, `${(t.distM / 1000).toFixed(1)} km`),
       el('div', { class: 'tb-item tb-elev', title: JA.ui.tripElev }, [

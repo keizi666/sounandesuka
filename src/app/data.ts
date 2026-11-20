@@ -89,6 +89,8 @@ export interface LoadedScenario {
   attribution: SounanBundle['attribution'];
   /** 始まりの条件を変えて試しているとき（scenario はもう当てたあと） */
   conditions?: StartConditions;
+  /** 公開の一覧（index.json）から読んだシナリオ。URL で場面を共有できるのはこれだけ（エディター・ファイルのシナリオは開けないため） */
+  listed?: boolean;
 }
 
 /** エディターのプロジェクト（同一オリジンの IndexedDB）をバンドルにして読む（docs/18 §6.3） */
@@ -143,12 +145,12 @@ export async function loadEntry(e: ScenarioIndexEntry, onProgress?: LoadProgress
   if (e.bundle) {
     const b = await getJsonWithProgress<SounanBundle>(`scenarios/${e.bundle}`, onProgress && ((f) => onProgress('data', f)));
     onProgress?.('terrain', null);
-    return { scenario: await freshScenario(e.bundle, b), map: await buildRuntime(b.map), attribution: b.attribution };
+    return { scenario: await freshScenario(e.bundle, b), map: await buildRuntime(b.map), attribution: b.attribution, listed: true };
   }
   onProgress?.('data', null);
   const scenario = await loadScenarioFile(e.file ?? `${e.id}.json`);
   const def = await loadMapDef(scenario.mapId);
   onProgress?.('terrain', null);
   const map = await buildRuntime(def);
-  return { scenario, map, attribution: [] };
+  return { scenario, map, attribution: [], listed: true };
 }

@@ -3895,7 +3895,7 @@
     },
     "bias": {
       "lostMin": 0.4,
-      "badMin": 0.12,
+      "badMin": 0.1,
       "fatalMax": 0.3
     },
     "risky": {

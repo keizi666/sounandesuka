@@ -48,19 +48,21 @@ export const movement = {
     [6, 0.6],
     [8, 0.45],
   ],
+  // 冷え: 35℃（軽い低体温症の入り口）まではほぼふつうに歩ける。34℃ を切ると足がもつれて大きく遅れる（M の表と重ねて効く）
   exhaustCoreF: [
     [33, 0.6],
-    [34, 0.75],
-    [35, 0.85],
-    [35.5, 0.92],
+    [34, 0.8],
+    [35, 0.9],
     [36, 1],
   ],
   sprainDownF: 0.8,
   hurryF: 1.1,
   hurryAnxiety: 60,
+  // 風で遅くなる: 8 m/s から落ち、15 m/s で約 0.61、20 m/s で約 0.33、21 m/s 前後から 0.3 で下げ止まる
+  // （0.25 で下げ止まる・14 m/s 幅だったときは、18.5 m/s 以上でほぼ進めず、史実の吹雪の行程が大きく遅れた）
   windSlowStartMs: 8,
-  windSlowSpanMs: 14,
-  windMinF: 0.25,
+  windSlowSpanMs: 18,
+  windMinF: 0.3,
   /** 風による運動負荷: 1 + k × max(0, wind − start) */
   windMetStartMs: 5,
   windMetK: 0.03,
@@ -112,7 +114,7 @@ export const capacity = {
     [32, 0.15],
     [33, 0.3],
     [34, 0.6],
-    [35, 0.95],
+    [35, 0.9],
     [36, 1.0],
   ],
   lowGlycogenJ: 0.8,

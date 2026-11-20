@@ -1,0 +1,12 @@
+{
+  "skeleton": "public/maps/real/nishiho.skeleton.json",
+  "mapId": "nishiho",
+  "center": [36.262, 137.622],
+  "size": 6144,
+  "resolution": 513,
+  "at": { "HUT": [36.26542, 137.61765], "DOKUHYO": [36.27254, 137.62639], "NISHIHO": [36.27902, 137.62905] },
+  "atXZ": { "TH": [174, 1939], "MARUYAMA": [-98, -642], "PYRAMID": [471, -1592] },
+  "snapM": 80,
+  "paceAdj": { "E1": 1.15, "E2": 1.4, "E3": 1.4, "E4": 1.4, "E5": 1.4 },
+  "radio": []
+}

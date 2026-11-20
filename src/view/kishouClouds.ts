@@ -305,7 +305,8 @@ export function createKishouClouds(map: MapRuntime, scenario: ScenarioDef, s: Vi
     const tsfc = g.tempC + (lapse * sw.refElevM) / 1000;
     // 湿り: 雲底より上は飽和に近く、下は乾いている。雲量が多いほど厚く湿らせる
     const baseKm = Math.max(0.2, g.cloudBaseM / 1000);
-    const thick = 0.6 + 2.2 * g.cloudCover + (g.precipMmH > 0.5 ? 1.5 : 0) + 4 * g.thunder;
+    const thunder1 = Math.min(1, g.thunder); // 見た目では 1 で頭打ち
+    const thick = 0.6 + 2.2 * g.cloudCover + (g.precipMmH > 0.5 ? 1.5 : 0) + 4 * thunder1;
     const rhProf: number[] = [];
     for (let k = 0; k <= 12; k += 1) {
       const z = k + 0.5;
@@ -324,7 +325,7 @@ export function createKishouClouds(map: MapRuntime, scenario: ScenarioDef, s: Vi
       rh: 75,
       rhProf,
       lapse,
-      coldAloft: -6 * g.thunder,
+      coldAloft: -6 * thunder1,
       tropopause: 11,
       windDir: g.windDirDeg,
       windSpeed: Math.max(1, g.windMs * 0.75),
@@ -334,7 +335,7 @@ export function createKishouClouds(map: MapRuntime, scenario: ScenarioDef, s: Vi
       snowInit: 0,
       invH: 0,
       invT: 0,
-      wls: Math.min(8, (g.precipMmH > 0.3 ? 0.8 + Math.sqrt(g.precipMmH) * 1.2 : 0) + g.thunder * 3),
+      wls: Math.min(8, (g.precipMmH > 0.3 ? 0.8 + Math.sqrt(g.precipMmH) * 1.2 : 0) + thunder1 * 3),
     };
   };
 

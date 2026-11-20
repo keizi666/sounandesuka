@@ -1,0 +1,47 @@
+{
+  "id": "shirouma2006",
+  "name": "北アルプス 白馬岳 清水尾根（祖母谷温泉〜不帰岳避難小屋〜清水岳〜旭岳の巻き道〜白馬山荘）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "富山県側の祖母谷温泉（約 790 m）から清水尾根を登り、百貫山の肩・不帰岳避難小屋（約 1950 m）・清水岳（2603 m）を経て、旭岳の南面を巻き、主稜線の白馬岳頂上宿舎・白馬山荘（約 2830 m）・白馬岳（2932 m）へ至る範囲。一辺 12 km 程度（513 頂点）。清水尾根は 2000 m を越えたあたりから樹林が切れ、清水岳から先は風を遮るもののない稜線と巻き道になる。避難小屋は不帰岳避難小屋だけ。電波は白馬村（東）に面した主稜線では入り、清水尾根・祖母谷では入らない（作者の想定）。",
+    "sizeM": 12288
+  },
+  "size": 12288,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2250, "forestLineNoise": 80, "broadleafLine": 1600, "krummholzBandM": 250 },
+  "nodes": [
+    { "id": "BABA", "name": "祖母谷温泉", "type": "hut", "x": 0, "z": 0, "expectedElevM": 790, "shelter": { "kind": "staffed", "open": true } },
+    { "id": "HYAKKAN", "name": "百貫山の東の肩", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 1680 },
+    { "id": "HINAN", "name": "不帰岳避難小屋", "type": "shelter", "x": 0, "z": 0, "expectedElevM": 1950, "shelter": { "kind": "emergency", "open": true } },
+    { "id": "KIRE", "name": "清水尾根 2200 m 付近（樹林が切れる）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 2230 },
+    { "id": "SHOZU", "name": "清水岳（山頂直下）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 2590 },
+    { "id": "URA", "name": "旭岳の巻き道（裏旭岳の南）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 2720 },
+    { "id": "BUNKI", "name": "頂上宿舎への分岐（旭岳の巻き道の東端）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 2705 },
+    { "id": "GORYU", "name": "主稜線の合流点（白馬山荘の下）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 2770 },
+    { "id": "CHOJO", "name": "白馬岳頂上宿舎", "type": "hut", "x": 0, "z": 0, "expectedElevM": 2720, "shelter": { "kind": "staffed", "open": true } },
+    { "id": "SANSO", "name": "白馬山荘", "type": "hut", "x": 0, "z": 0, "expectedElevM": 2835, "shelter": { "kind": "staffed", "open": true } },
+    { "id": "PEAK", "name": "白馬岳", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2924, "snap": false }
+  ],
+  "edges": [
+    { "id": "E1", "name": "清水尾根の登り（祖母谷温泉〜百貫山の肩）", "kind": "trail", "from": "BABA", "to": "HYAKKAN", "class": "T2", "markers": 0.8, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "清水尾根（百貫山の肩〜不帰岳避難小屋）", "kind": "trail", "from": "HYAKKAN", "to": "HINAN", "class": "T2", "markers": 0.8, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "清水尾根（不帰岳避難小屋〜樹林の切れ目）", "kind": "trail", "from": "HINAN", "to": "KIRE", "class": "T2", "markers": 0.8, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "清水尾根（樹林の切れ目〜清水岳）", "kind": "trail", "from": "KIRE", "to": "SHOZU", "class": "T2", "markers": 0.8, "drift": 0.008, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "清水岳〜旭岳の巻き道", "kind": "trail", "from": "SHOZU", "to": "URA", "class": "T2", "markers": 0.85, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "旭岳の巻き道（裏旭岳〜頂上宿舎への分岐）", "kind": "trail", "from": "URA", "to": "BUNKI", "class": "T2", "markers": 0.85, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "分岐〜主稜線の合流点（白馬山荘への近道）", "kind": "trail", "from": "BUNKI", "to": "GORYU", "class": "T2", "markers": 0.7, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "主稜線の合流点〜白馬山荘", "kind": "trail", "from": "GORYU", "to": "SANSO", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E9", "name": "分岐〜白馬岳頂上宿舎", "kind": "trail", "from": "BUNKI", "to": "CHOJO", "class": "T1", "markers": 0.8, "drift": 0.008, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E10", "name": "白馬岳頂上宿舎〜主稜線の合流点", "kind": "trail", "from": "CHOJO", "to": "GORYU", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E11", "name": "白馬山荘〜白馬岳", "kind": "trail", "from": "SANSO", "to": "PEAK", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

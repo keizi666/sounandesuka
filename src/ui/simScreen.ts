@@ -19,6 +19,9 @@ import { JA } from '../i18n/ja';
 import { fill, formatEvent, speechView, formatDateTime } from '../i18n/format';
 import { DT_SEC } from '../sim/core/step';
 import { createStaticContext, createWorld } from '../sim/core/world';
+import { encodeState, setAddress, stateOf, stateUrl, type PlayMode, type SharedState } from '../app/shareState';
+import { replayTo } from './simReplay';
+import { icon } from './icons';
 import { createRecorder, recordTick, type RecorderState } from '../sim/record/recorder';
 import { autoResolve, choiceLeader, findChoicePoint, resolveChoice } from '../sim/scenario/choices';
 import type { SimEvent, World } from '../sim/types';
@@ -62,10 +65,13 @@ export function optionLabel(loaded: LoadedScenario, cpId: string, optionId: stri
   return JA.generic[cpId.slice(8)]?.options[optionId] ?? optionId;
 }
 
-export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: ResumeData, observe = false): () => void {
+export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: ResumeData, observe = false, replay?: SharedState): () => void {
   const { scenario, map } = loaded;
   const st = app.settings;
-  const timed = !observe && st.timed;
+  // URL の場面から作り直すときは、その URL の遊び方で進める（同じ場面にするため）
+  if (replay) observe = replay.mode === 'o';
+  const timed = replay ? replay.mode === 't' : !observe && st.timed;
+  const playMode: PlayMode = observe ? 'o' : timed ? 't' : 'i';
   const world = resume ? resume.world : createWorld(map, scenario);
   const ctx = createStaticContext(map, scenario, { mode: timed ? 'timed' : 'interactive' });
   const recorder = resume?.recorder ?? createRecorder(world);
@@ -76,7 +82,16 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // ---- 画面 ----
   const canvas = el('canvas', { class: 'scene', 'aria-label': scenario.title });
   const figIcons = createFigureIcons(world.climbers);
-  const stage = el('div', { class: 'stage' }, [canvas, figIcons.el, attributionLine(loaded)]);
+  // 一時停止中は、画面の中央に角丸のパネルで ▶ を出し、押すと再開する（ユーザーの指定）
+  const pauseOverlay = el('button', { class: 'pause-overlay', type: 'button', title: `${JA.ui.resumeShort} (Space)`, 'aria-label': JA.ui.resumeShort, hidden: true }, [icon('playArrow'), el('span', {}, JA.ui.resumeShort)]);
+  pauseOverlay.addEventListener('click', () => {
+    beforePlay();
+    loop.paused = false;
+    refresh();
+  });
+  /** 題の札を出している間（▶ のパネルを出さない） */
+  let titleShowing = false;
+  const stage = el('div', { class: 'stage' }, [canvas, figIcons.el, attributionLine(loaded), pauseOverlay]);
   const modalHost = el('div', { class: 'modal-host' });
   // 始まりは追従（登山者の周りが見える近さ）
   let cam: CameraMode = 'follow';
@@ -151,6 +166,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
             hud.setSound(anySoundOn(app.settings, true));
           },
         }),
+      share: () => void shareUrl(),
       quit: () => {
         if (!confirm(JA.ui.quitConfirm)) return;
         void save().then(() => app.go({ name: 'title' }));
@@ -158,6 +174,14 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     },
     { god: view.godView, observe, timed },
   );
+  // ---- タイムライン（時間を戻す） ----
+  const timeline = new Timeline(scenario.party.length > 6 ? 5 : 2);
+  const tlBar = createTimelineBar({
+    seek: (t) => seekTo(t),
+    latest: () => seekTo(Infinity),
+    seekChoice: (t) => jumpToChoice(t),
+    formatTime: (t) => formatDateTime(scenario, t).split(' ')[1] ?? '',
+  });
   // 3D 画面を全面に敷き、ログ・登山者・気象は「合体できるタブ式のウィンドウ」として重ねる（狭い画面では最小化して始める）
   const narrow = window.innerWidth < 900;
   const sideW = Math.min(330, window.innerWidth - 16);
@@ -172,16 +196,12 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       { x: 12, y: Math.max(60, window.innerHeight - 460 - 96), w: Math.min(540, Math.round(window.innerWidth * 0.46)), h: Math.min(460, window.innerHeight - 160), min: narrow, tabs: ['log'], active: 'log' },
     ],
     // 上のバーの下からを置ける範囲にする（バーが 2 段に折り返しても隠れない）
-    { topInset: () => (hud.top.isConnected ? hud.top.getBoundingClientRect().bottom : 0) },
+    {
+      topInset: () => (hud.top.isConnected ? hud.top.getBoundingClientRect().bottom : 0),
+      // 狭い画面では、下のウィンドウをタイムラインのバーの上に置く
+      bottomInset: () => (tlBar.el.isConnected ? window.innerHeight - tlBar.el.getBoundingClientRect().top + 6 : 96),
+    },
   );
-  // ---- タイムライン（時間を戻す） ----
-  const timeline = new Timeline(scenario.party.length > 6 ? 5 : 2);
-  const tlBar = createTimelineBar({
-    seek: (t) => seekTo(t),
-    latest: () => seekTo(Infinity),
-    seekChoice: (t) => jumpToChoice(t),
-    formatTime: (t) => formatDateTime(scenario, t).split(' ')[1] ?? '',
-  });
   const simMain = el('main', { class: 'sim' }, [stage, hud.top, dock.el, tlBar.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]);
   // シミュレーション画面では、ブラウザの右クリックメニューを出さない（右ドラッグで視点を回すため。ユーザーの指定）
   simMain.addEventListener('contextmenu', (e) => {
@@ -199,6 +219,41 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     if (!ok) toast(JA.ui.saveFailed);
   }
 
+  // ---- URL の状況（リロード・共有で同じ場面から始められる。ユーザーの指定） ----
+  /** URL の場面から進め直している間（音・吹き出しを出さない） */
+  let replaying = false;
+  let urlSeq = 0;
+  let urlAt = 0;
+  let urlKey = '';
+  /** いまの場面を URL に入れる（一覧のシナリオだけ。force でなければ 2 秒に 1 回まで、時刻か選択が変わったときだけ） */
+  function writeUrl(force = false): void {
+    if (!loaded.listed || replaying) return;
+    const now = performance.now();
+    const key = `${world.decisions.length}|${Math.round(world.tMin)}`;
+    if (!force && (key === urlKey || now - urlAt < 2000)) return;
+    urlKey = key;
+    urlAt = now;
+    const seq = (urlSeq += 1);
+    void encodeState(stateOf(world, playMode, loaded.conditions)).then((enc) => {
+      if (seq === urlSeq && simMain.isConnected) setAddress(stateUrl(scenario.id, enc));
+    });
+  }
+  /** いまの場面の URL をコピーする（共有） */
+  async function shareUrl(): Promise<void> {
+    if (!loaded.listed) {
+      toast(JA.ui.shareUnavailable, 4000);
+      return;
+    }
+    const url = stateUrl(scenario.id, await encodeState(stateOf(world, playMode, loaded.conditions)));
+    setAddress(url);
+    try {
+      await navigator.clipboard.writeText(url);
+      toast(JA.ui.shareCopied, 3500);
+    } catch {
+      window.prompt(JA.ui.shareCopyManual, url);
+    }
+  }
+
   // ---- 分岐点 ----
   let choiceUi: ChoiceUi | null = null;
   let shownCp: string | null = null;
@@ -209,7 +264,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     for (const e of evs) {
       // 効果音・音楽（シナリオの指定と、出来事に合わせた組み込みの音）
       if (e.type === 'MUSIC') scriptMusic = typeof e.data?.['id'] === 'string' ? (e.data['id'] as string) : undefined;
-      const se = eventSound(e);
+      const se = replaying ? null : eventSound(e);
       if (se) audio().play(se.id, se.volume);
       // 見守るパーティが変わったら、そのリーダーを選んで追う
       if (e.type === 'FOCUS') focusGroup(String(e.data?.['group'] ?? ''));
@@ -226,7 +281,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         continue;
       }
       const v = (e.type === 'SPEECH' || e.type === 'THOUGHT') && e.climberId ? speechView(e, scenario) : null;
-      if (v && e.climberId) bubbles.add(e.climberId, v, fast);
+      if (v && e.climberId && !replaying) bubbles.add(e.climberId, v, fast);
       const text = formatEvent(e, { scenario, nodeName });
       if (!text || (e.type === 'THOUGHT' && !hud.god)) continue;
       // そのときの状態（顔の下のメーターと詳細に使う）
@@ -458,6 +513,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   let uiTick = 0;
   function refresh(force = false): void {
     hud.setState(world, loop.paused, loop.speed, cam);
+    pauseOverlay.hidden = !(loop.paused && !world.pendingChoice && !world.ended && !titleShowing && !choiceUi);
     tlBar.update(timeline.startMin, Math.max(timeline.endMin, world.tMin), world.tMin, hud.importantLines().map((l) => ({ tMin: l.tMin, text: l.text, choice: l.text.startsWith('◆') })));
     uiTick += 1;
     if (force || uiTick % 2 === 0) {
@@ -466,6 +522,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       view.overlay.update(world, ctx);
     }
     if (!world.ended && performance.now() - lastSave > AUTOSAVE_MS) void save();
+    writeUrl();
   }
 
   // ---- 入力 ----
@@ -507,15 +564,31 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (resume?.log && resume.log.length > 0) for (const line of resume.log) hud.log(line);
   else if (resume) hud.log({ tMin: world.tMin, text: JA.ui.resumedNoLog, important: true });
   else hud.log({ tMin: world.tMin, text: `${scenario.title}（${nodeName(scenario.plan.route[0]!)} を出発）`, important: true });
+  if (replay) {
+    replaying = true;
+    const r = replayTo(world, ctx, replay, (evs, tick) => {
+      recordTick(recorder, world, ctx, evs, tick ? DT_SEC / 60 : 0);
+      handleEvents(evs);
+      if (tick) timeline.capture(world, recorder);
+    });
+    replaying = false;
+    timeline.capture(world, recorder, true);
+    loop.reset(world);
+    hud.log({ tMin: world.tMin, text: r.complete ? JA.ui.sharedOpened : JA.ui.sharedPartial, important: true });
+    toast(r.complete ? JA.ui.sharedOpenedToast : JA.ui.sharedPartial, 5000);
+  }
   // 途中から再開したとき、見守るパーティが変わっていれば、そのリーダーを選ぶ
   if (world.focusGroup) focusGroup(world.focusGroup);
   refresh(true);
   // 新しく始めたときは、題の札を出し、消えてから時間を進める（途中からの再開では出さない）
   let closeTitle: (() => void) | null = null;
-  if (!resume) {
+  if (replay) loop.paused = true;
+  else if (!resume) {
     loop.paused = true;
+    titleShowing = true;
     closeTitle = showTitleCard(stage, scenario, world, ctx, () => {
       closeTitle = null;
+      titleShowing = false;
       loop.paused = false;
       refresh(true);
     });
@@ -525,6 +598,9 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (import.meta.env.DEV) (window as unknown as Record<string, unknown>)['__hk'] = { view, world, ctx, loop, recorder };
   // 再開時、回答待ちの分岐点があればすぐ出す
   if (world.pendingChoice) onChoice();
+  // URL の場面が結末のあとなら、結末の画面へ
+  if (replay && world.ended) onEnded();
+  writeUrl(true);
 
   return () => {
     // 画面を離れるとき（ブラウザの戻るなど）も続きを保存する（結末に着いていれば何もしない）

@@ -310,13 +310,15 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
         const base = toSceneY(s, w.cloudBaseM);
         (u.uCenter!.value as THREE.Vector3).set(c.x * UNIT, base - 150 * UNIT * s.vExag, c.z * UNIT);
         u.uR!.value = c.radiusM * UNIT * 0.9;
-        // 雲頂は 10 km 前後まで（箱庭ではそのまま描くと高すぎるので圧縮する）
-        u.uH!.value = (2500 + 4500 * c.strength) * UNIT * s.vExag;
-        u.uAlpha!.value = Math.min(0.6, c.strength * 0.7);
+        // 雲頂は 10 km 前後まで（箱庭ではそのまま描くと高すぎるので圧縮する）。
+        // 強さは見た目では 1 で頭打ち（史実のシナリオで、落雷の多さを出すために 1 を超える芯を置くことがある）
+        const k = Math.min(1, c.strength);
+        u.uH!.value = (2500 + 4500 * k) * UNIT * s.vExag;
+        u.uAlpha!.value = Math.min(0.6, k * 0.7);
         u.uNight!.value = world.sun.isDark ? 1 : 0;
         u.uScaleH!.value = window.innerHeight / 2;
       });
-      const maxStrength = w.cells.reduce((a, c) => Math.max(a, c.strength), w.thunder);
+      const maxStrength = Math.min(1, w.cells.reduce((a, c) => Math.max(a, c.strength), w.thunder));
       // 稲妻: 強さに比例した頻度で 0.15 秒
       if (t > boltUntil && maxStrength > 0.2 && Math.random() < maxStrength * 0.02) {
         const c = w.cells[0] ?? { x: 0, z: 0, radiusM: 1000 };

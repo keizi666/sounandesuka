@@ -4,6 +4,8 @@
  * 開発用: ?scenario=<id> で直接シミュレーション画面を開く（&observe=1 で観察のみ、&debug=1 でデバッグパネル）。
  */
 import { scrollMemory } from './scrollMemory';
+import { decodeState, setAddress, STATE_PARAM, type SharedState } from './shareState';
+import { applyConditions } from '../sim/scenario/startConditions';
 import { JA } from '../i18n/ja';
 import { loadEditorProject, loadEntry, loadIndex } from './data';
 import { loadSettings, onSettingsSaved, saveSettings, type Settings } from './settings';
@@ -17,7 +19,7 @@ import { showCommunity } from '../ui/community/communityScreen';
 import { showCommunityRun } from '../ui/community/communityDetail';
 import { showScenarioSelect } from '../ui/scenarioSelect';
 import { showSimScreen, type SimResult } from '../ui/simScreen';
-import { checkWebGL2, el } from '../ui/dom';
+import { checkWebGL2, el, toast } from '../ui/dom';
 import { nextPaint, progressTo, showLoading } from '../ui/loading';
 import type { LoadedScenario } from './data';
 import type { ResumeData } from './storage';
@@ -35,7 +37,7 @@ export type Screen =
   | { name: 'community' }
   | { name: 'communityRun'; id: number }
   | { name: 'briefing'; loaded: LoadedScenario }
-  | { name: 'sim'; loaded: LoadedScenario; resume?: ResumeData; observe?: boolean }
+  | { name: 'sim'; loaded: LoadedScenario; resume?: ResumeData; observe?: boolean; replay?: SharedState }
   | { name: 'ending'; loaded: LoadedScenario; result: SimResult }
   | { name: 'debrief'; loaded: LoadedScenario; result: SimResult };
 
@@ -78,6 +80,8 @@ export function startApp(root: HTMLElement): void {
       else if (onTop) history.pushState({ hk: screen.name }, '');
       else history.replaceState({ hk: screen.name }, '');
     }
+    // 場面の URL（?scenario=…&st=…）は、シミュレーションと結末・振り返りの間だけ残す。一覧や説明の画面に移ったら消す
+    if (screen.name !== 'sim' && screen.name !== 'ending' && screen.name !== 'debrief' && location.search !== '') setAddress(null);
     onTop = top;
     {
       cleanup?.();
@@ -113,7 +117,7 @@ export function startApp(root: HTMLElement): void {
           void nextPaint().then(() => {
             if (gone) return;
             try {
-              const c = showSimScreen(app, screen.loaded, screen.resume, screen.observe);
+              const c = showSimScreen(app, screen.loaded, screen.resume, screen.observe, screen.replay);
               cleanup = c;
             } finally {
               void nextPaint().then(() => ld.done());
@@ -159,7 +163,18 @@ export function startApp(root: HTMLElement): void {
         const e = idx.find((x) => x.id === direct) ?? { id: direct, file: `${direct}.json`, title: direct, theme: 'mixed' as const, difficulty: 1 as const, season: 'autumn' as const, estMinutes: 0 };
         return loadEntry(e, progressTo(showLoading(JA.ui.loadingTitle), { data: JA.ui.loadingData, terrain: JA.ui.loadingTerrain }));
       })
-      .then((loaded) => app.go({ name: 'sim', loaded, observe: params.get('observe') === '1' }))
+      .then(async (loaded0) => {
+        const listed = (await loadIndex()).some((x) => x.id === direct);
+        const loaded: LoadedScenario = { ...loaded0, listed };
+        // 場面の URL（リロード・共有）: 同じ条件・同じ選択で進め直して、その場面から始める
+        const stText = params.get(STATE_PARAM);
+        const shared = stText ? await decodeState(stText) : null;
+        if (stText && !shared) toast(JA.ui.sharedBroken, 5000);
+        if (shared) {
+          const l = shared.cond ? { ...loaded, scenario: applyConditions(loaded.scenario, shared.cond), conditions: shared.cond } : loaded;
+          app.go({ name: 'sim', loaded: l, replay: shared });
+        } else app.go({ name: 'sim', loaded, observe: params.get('observe') === '1' });
+      })
       .catch((e: unknown) => root.replaceChildren(el('div', { class: 'fatal' }, [el('h1', {}, JA.app.title), el('p', { class: 'error' }, String(e)), el('a', { href: location.pathname }, JA.ui.toTitle)])));
     return;
   }

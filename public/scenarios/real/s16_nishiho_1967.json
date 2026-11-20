@@ -1,0 +1,4501 @@
+{
+ "id": "s16_nishiho_1967",
+ "version": 1,
+ "title": "西穂高 1967年8月1日",
+ "subtitle": "夏・高校の集団登山・55人・落雷（史実にもとづく再構成）",
+ "theme": "lightning",
+ "difficulty": 4,
+ "season": "summer",
+ "estMinutes": 20,
+ "mapId": "nishiho",
+ "seed": 19670801,
+ "startDate": "1967-08-01",
+ "startAt": "D0 06:55",
+ "timeLimit": "D1 06:30",
+ "sun": {
+  "sunrise": "04:58",
+  "sunset": "18:52",
+  "maxElevDeg": 72
+ },
+ "region": {
+  "name": "北アルプス・西穂高岳",
+  "real": true
+ },
+ "briefing": {
+  "text": "1967年8月1日。松本の高校の2年生50人と引率の教員5人が、学校の恒例行事で西穂高岳を目指す。\n上高地から西穂山荘・独標を経て山頂を往復する。ロープウェイはまだない。\n朝は快晴。だが上空に冷たい空気が入り、午後は雷になりやすい。\n画面の20人は55人の代わり。教員 T1 が先頭で列を率いる。",
+  "forecast": [
+   {
+    "label": "今日",
+    "text": "晴れ。午後は大気が不安定で、山沿いは雷雨のおそれ",
+    "icon": "sunny_cloudy"
+   },
+   {
+    "label": "山の上",
+    "text": "風は弱い。昼すぎから積雲が発達する"
+   },
+   {
+    "label": "日の入り",
+    "text": "18:52"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "TH",
+   "HUT",
+   "MARUYAMA",
+   "DOKUHYO",
+   "PYRAMID",
+   "NISHIHO",
+   "PYRAMID",
+   "DOKUHYO",
+   "MARUYAMA",
+   "HUT",
+   "TH"
+  ],
+  "goalNodes": [
+   "TH"
+  ],
+  "plannedFinish": "D0 17:30",
+  "submittedPlan": true,
+  "reportIfNotBackBy": null
+ },
+ "party": [
+  {
+   "id": "T1",
+   "name": "教員 T1",
+   "role": "引率の教員（リーダー・先頭）",
+   "age": 38,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 7,
+   "experience": 0.55,
+   "fitness": 1.1,
+   "navSkill": 0.55,
+   "riskTolerance": 0.6,
+   "color": "#b03a2e",
+   "leader": true,
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ],
+   "notes": "引率の教員。記号は井村（1967）の T1・T2 に合わせたが、同じ人物に当たるとは限らない"
+  },
+  {
+   "id": "T2",
+   "name": "教員 T2",
+   "role": "引率の教員（しんがり）",
+   "age": 31,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 7,
+   "experience": 0.55,
+   "fitness": 1.1,
+   "navSkill": 0.55,
+   "riskTolerance": 0.5,
+   "color": "#1f618d",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ],
+   "notes": "引率の教員。記号は井村（1967）の T1・T2 に合わせたが、同じ人物に当たるとは限らない"
+  },
+  {
+   "id": "SA",
+   "name": "生徒 A",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#117a65",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SB",
+   "name": "生徒 B",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#b9770e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SC",
+   "name": "生徒 C",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#6c3483",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SD",
+   "name": "生徒 D",
+   "role": "2年生",
+   "age": 16,
+   "sex": "f",
+   "weightKg": 50,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#2e4053",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SE",
+   "name": "生徒 E",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#a04000",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SF",
+   "name": "生徒 F",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#196f3d",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SG",
+   "name": "生徒 G",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#7b241c",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SH",
+   "name": "生徒 H",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#1a5276",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SI",
+   "name": "生徒 I",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#0e6655",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SJ",
+   "name": "生徒 J",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#9a7d0a",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SK",
+   "name": "生徒 K",
+   "role": "2年生",
+   "age": 17,
+   "sex": "f",
+   "weightKg": 50,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#5b2c6f",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SL",
+   "name": "生徒 L",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#424949",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SM",
+   "name": "生徒 M",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#873600",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SN",
+   "name": "生徒 N",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#145a32",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SO",
+   "name": "生徒 O",
+   "role": "2年生",
+   "age": 17,
+   "sex": "f",
+   "weightKg": 50,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#922b21",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SP",
+   "name": "生徒 P",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#21618c",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SQ",
+   "name": "生徒 Q",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#148f77",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "SR",
+   "name": "生徒 R",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#7d6608",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  }
+ ],
+ "groups": [
+  {
+   "id": "main",
+   "members": "all",
+   "leader": "T1",
+   "cohesion": "tight"
+  }
+ ],
+ "nodeOverrides": {
+  "HUT": {
+   "open": true
+  }
+ },
+ "genericOverrides": {
+  "lightning": {
+   "enabled": false
+  },
+  "hypothermia": {
+   "enabled": false
+  },
+  "lostAware": {
+   "situation": "踏み跡が消えた。岩の斜面で、道を外れたらしい。どうする？",
+   "knowledge": [
+    "ガスで先が見えない",
+    "下の沢は急で、滝や岩場が多い"
+   ],
+   "options": [
+    {
+     "id": "backtrack",
+     "label": "来た所まで戻る",
+     "detail": "踏み跡のあった所まで戻る。",
+     "actions": [
+      {
+       "type": "backtrack"
+      }
+     ],
+     "bias": {
+      "base": 1
+     },
+     "tags": [
+      "recommended"
+     ]
+    },
+    {
+     "id": "stay",
+     "label": "その場で待つ",
+     "detail": "動かずに、ガスが晴れるのを待つ。",
+     "actions": [
+      {
+       "type": "stayPut"
+      }
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "descend",
+     "label": "このまま斜面を下る",
+     "detail": "下れば山荘の方へ出られるかもしれない。",
+     "actions": [
+      {
+       "type": "descendDrainage"
+      }
+     ],
+     "bias": {
+      "base": 0.15
+     },
+     "tags": [
+      "risky"
+     ]
+    }
+   ]
+  },
+  "injured": {
+   "enabled": false
+  },
+  "straggler": {
+   "enabled": false
+  }
+ },
+ "weather": {
+  "refElevM": 2370,
+  "lapseRateCPer100m": 0.6,
+  "keyframes": [
+   {
+    "at": "D0 05:00",
+    "tempC": 12.5,
+    "windMs": 1.5,
+    "windDirDeg": 300,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 3600,
+    "visibilityM": 40000,
+    "pressureHpa": 1011
+   },
+   {
+    "at": "D0 08:00",
+    "tempC": 15,
+    "windMs": 2,
+    "windDirDeg": 290,
+    "precipMmH": 0,
+    "cloudCover": 0.15,
+    "cloudBaseM": 3400,
+    "visibilityM": 40000,
+    "pressureHpa": 1010
+   },
+   {
+    "at": "D0 09:30",
+    "tempC": 17,
+    "windMs": 2.5,
+    "windDirDeg": 270,
+    "precipMmH": 0,
+    "cloudCover": 0.3,
+    "cloudBaseM": 3150,
+    "visibilityM": 35000,
+    "pressureHpa": 1010
+   },
+   {
+    "at": "D0 10:45",
+    "tempC": 18,
+    "windMs": 2.5,
+    "windDirDeg": 270,
+    "precipMmH": 0,
+    "cloudCover": 0.45,
+    "cloudBaseM": 3000,
+    "visibilityM": 30000,
+    "pressureHpa": 1010
+   },
+   {
+    "at": "D0 11:30",
+    "tempC": 18.5,
+    "windMs": 3,
+    "windDirDeg": 270,
+    "precipMmH": 0,
+    "cloudCover": 0.6,
+    "cloudBaseM": 2850,
+    "visibilityM": 20000,
+    "pressureHpa": 1009,
+    "thunder": 0.02
+   },
+   {
+    "at": "D0 12:00",
+    "tempC": 18,
+    "windMs": 3,
+    "windDirDeg": 260,
+    "precipMmH": 0,
+    "cloudCover": 0.8,
+    "cloudBaseM": 2700,
+    "visibilityM": 10000,
+    "inCloudVisibilityM": 150,
+    "pressureHpa": 1009,
+    "thunder": 0.04
+   },
+   {
+    "at": "D0 12:30",
+    "tempC": 17.5,
+    "windMs": 3,
+    "windDirDeg": 260,
+    "precipMmH": 0.3,
+    "cloudCover": 0.9,
+    "cloudBaseM": 2650,
+    "visibilityM": 8000,
+    "inCloudVisibilityM": 100,
+    "pressureHpa": 1008,
+    "thunder": 0.06
+   },
+   {
+    "at": "D0 13:05",
+    "tempC": 17,
+    "windMs": 3,
+    "windDirDeg": 260,
+    "precipMmH": 0,
+    "cloudCover": 0.7,
+    "cloudBaseM": 2950,
+    "visibilityM": 20000,
+    "inCloudVisibilityM": 150,
+    "pressureHpa": 1008,
+    "thunder": 0.05
+   },
+   {
+    "at": "D0 13:15",
+    "tempC": 15.5,
+    "windMs": 5,
+    "windDirDeg": 90,
+    "precipMmH": 2,
+    "cloudCover": 1,
+    "cloudBaseM": 2550,
+    "visibilityM": 6000,
+    "inCloudVisibilityM": 60,
+    "pressureHpa": 1008,
+    "thunder": 0.08,
+    "gustiness": 0.8
+   },
+   {
+    "at": "D0 13:45",
+    "tempC": 12.5,
+    "windMs": 6,
+    "windDirDeg": 90,
+    "precipMmH": 6,
+    "cloudCover": 1,
+    "cloudBaseM": 2350,
+    "visibilityM": 3000,
+    "inCloudVisibilityM": 40,
+    "pressureHpa": 1009,
+    "thunder": 0.1,
+    "gustiness": 0.8
+   },
+   {
+    "at": "D0 14:30",
+    "tempC": 14,
+    "windMs": 3,
+    "windDirDeg": 270,
+    "precipMmH": 2,
+    "cloudCover": 0.95,
+    "cloudBaseM": 2450,
+    "visibilityM": 5000,
+    "inCloudVisibilityM": 80,
+    "pressureHpa": 1009,
+    "thunder": 0.06,
+    "gustiness": 0.5
+   },
+   {
+    "at": "D0 15:30",
+    "tempC": 15,
+    "windMs": 2,
+    "windDirDeg": 270,
+    "precipMmH": 0.3,
+    "cloudCover": 0.8,
+    "cloudBaseM": 2700,
+    "visibilityM": 15000,
+    "inCloudVisibilityM": 120,
+    "pressureHpa": 1009,
+    "thunder": 0.01
+   },
+   {
+    "at": "D0 17:00",
+    "tempC": 13.5,
+    "windMs": 1.5,
+    "windDirDeg": 300,
+    "precipMmH": 0,
+    "cloudCover": 0.6,
+    "cloudBaseM": 2900,
+    "visibilityM": 25000,
+    "pressureHpa": 1009,
+    "thunder": 0
+   },
+   {
+    "at": "D0 20:00",
+    "tempC": 12,
+    "windMs": 1,
+    "windDirDeg": 330,
+    "precipMmH": 0,
+    "cloudCover": 0.6,
+    "cloudBaseM": 3000,
+    "visibilityM": 25000,
+    "pressureHpa": 1009
+   },
+   {
+    "at": "D1 05:00",
+    "tempC": 10.5,
+    "windMs": 1.5,
+    "windDirDeg": 270,
+    "precipMmH": 0,
+    "cloudCover": 0.5,
+    "cloudBaseM": 3000,
+    "visibilityM": 30000,
+    "pressureHpa": 1008
+   },
+   {
+    "at": "D1 10:00",
+    "tempC": 16,
+    "windMs": 1.5,
+    "windDirDeg": 330,
+    "precipMmH": 0,
+    "cloudCover": 0.3,
+    "cloudBaseM": 3200,
+    "visibilityM": 35000,
+    "pressureHpa": 1008
+   }
+  ],
+  "thunderCells": [
+   {
+    "id": "cb1_summit",
+    "from": "D0 12:30",
+    "peakAt": "D0 12:50",
+    "to": "D0 13:08",
+    "path": [
+     [
+      1500,
+      -1250
+     ],
+     [
+      250,
+      -2450
+     ]
+    ],
+    "radiusM": 1100,
+    "peak": 0.2,
+    "heavyRainMmH": 16,
+    "hail": true
+   },
+   {
+    "id": "cb2_storm",
+    "from": "D0 13:10",
+    "peakAt": "D0 13:40",
+    "to": "D0 14:15",
+    "path": [
+     [
+      1669,
+      -378
+     ],
+     [
+      -1093,
+      -2100
+     ]
+    ],
+    "radiusM": 2200,
+    "peak": 0.2,
+    "heavyRainMmH": 18,
+    "hail": true
+   },
+   {
+    "id": "cb2_core",
+    "from": "D0 13:22",
+    "peakAt": "D0 13:42",
+    "to": "D0 14:02",
+    "path": [
+     [
+      734,
+      -961
+     ],
+     [
+      54,
+      -1385
+     ]
+    ],
+    "radiusM": 180,
+    "peak": 15,
+    "heavyRainMmH": 0,
+    "hail": false
+   }
+  ]
+ },
+ "events": [
+  {
+   "id": "ev_start",
+   "trigger": {
+    "after": "D0 06:59"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "7時、上高地を出発。快晴。明神・横尾の谷には層雲がかかっている",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_hut",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "HUT"
+     },
+     {
+      "before": "D0 10:30"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "atHut"
+    },
+    {
+     "type": "log",
+     "text": "西穂山荘に着いた。快晴で、焼岳の方に雲が浮き始めた。生徒4人がここに残る（画面では生徒 P）",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "rest",
+       "minutes": 45
+      },
+      {
+       "type": "detach",
+       "who": "SP",
+       "then": [
+        {
+         "type": "stayInShelter",
+         "until": "D1 09:00"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_hut_go",
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "HUT"
+     },
+     {
+      "any": [
+       {
+        "all": [
+         {
+          "after": "D0 09:50"
+         },
+         {
+          "elapsedSince": {
+           "flag": "atHut",
+           "min": 10
+          }
+         }
+        ]
+       },
+       {
+        "elapsedSince": {
+         "flag": "atHut",
+         "min": 25
+        }
+       }
+      ]
+     },
+     {
+      "not": {
+       "beenAt": "MARUYAMA"
+      }
+     },
+     {
+      "var": "leader.state",
+      "op": "==",
+      "value": "RESTING"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_doku_go",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_dokuhyo",
+       "option": "go"
+      }
+     },
+     {
+      "any": [
+       {
+        "all": [
+         {
+          "after": "D0 11:25"
+         },
+         {
+          "elapsedSince": {
+           "flag": "atDoku",
+           "min": 15
+          }
+         }
+        ]
+       },
+       {
+        "elapsedSince": {
+         "flag": "atDoku",
+         "min": 48
+        }
+       }
+      ]
+     },
+     {
+      "not": {
+       "beenAt": "PYRAMID"
+      }
+     },
+     {
+      "var": "leader.state",
+      "op": "==",
+      "value": "RESTING"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_cumulus",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 10:05"
+     },
+     {
+      "beenAt": "HUT"
+     },
+     {
+      "not": {
+       "beenAt": "DOKUHYO"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "笠ヶ岳など、まわりの山の頂に積雲が湧き始めた"
+    }
+   ]
+  },
+  {
+   "id": "ev_doku_stay",
+   "trigger": {
+    "chose": {
+     "cp": "cp_dokuhyo",
+     "option": "go"
+    }
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "生徒5人が独標に残り、41人と教員5人の46人が西穂高岳へ向かった（画面では生徒 Q・R が残る）",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_rain_far",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 11:30"
+     },
+     {
+      "chose": {
+       "cp": "cp_dokuhyo",
+       "option": "go"
+      }
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "このころ、徳沢・明神の方ではもう雨が降っていた。一行は気づいていない"
+    }
+   ]
+  },
+  {
+   "id": "ev_gas",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 12:08"
+     },
+     {
+      "chose": {
+       "cp": "cp_gas",
+       "option": "go"
+      }
+     },
+     {
+      "not": {
+       "beenAt": "NISHIHO"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "山頂手前の急坂で、すっかりガスに包まれた"
+    }
+   ]
+  },
+  {
+   "id": "ev_summit",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "NISHIHO"
+     },
+     {
+      "before": "D0 12:40"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "西穂高岳の山頂。ガスで展望はないが、まだ明るく、写真が撮れた",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "rest",
+       "minutes": 40
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_wait_top",
+   "trigger": {
+    "all": [
+     {
+      "elapsedSince": {
+       "flag": "waitTop",
+       "min": 12
+      }
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "山頂から少し下りた岩の間で止まり、間をあけてしゃがんだ",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "waited"
+      },
+      {
+       "type": "rest",
+       "minutes": 75
+      },
+      {
+       "type": "lightningPosture",
+       "minutes": 75
+      },
+      {
+       "type": "continueRoute"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_clear",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_summit_rain",
+       "option": "down"
+      }
+     },
+     {
+      "after": "D0 13:08"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "13時10分ごろ、雨がやみ、雲が切れて上高地が見えた。一行は独標へ急いだ",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_pyr_wait",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_summit_rain",
+       "option": "down"
+      }
+     },
+     {
+      "atNode": "PYRAMID"
+     },
+     {
+      "after": "D0 12:50"
+     },
+     {
+      "before": "D0 13:17"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "ピラミッドピークで、遅れた人を待って列を整えた"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "rest",
+       "minutes": 15
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_stop_go",
+   "trigger": {
+    "all": [
+     {
+      "elapsedSince": {
+       "flag": "stopped",
+       "min": 45
+      }
+     },
+     {
+      "not": {
+       "flag": "split"
+      }
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.state",
+      "op": "==",
+      "value": "RESTING"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "雷鳴が遠のいた。間をあけたまま、独標へ向かった",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_in_SQ",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_dokuhyo",
+       "option": "go"
+      }
+     },
+     {
+      "var": "c.SQ.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "SQ",
+       "until": "D1 09:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_in_SR",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_dokuhyo",
+       "option": "go"
+      }
+     },
+     {
+      "var": "c.SR.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "SR",
+       "until": "D1 09:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_rain1",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_summit_rain",
+       "option": "down"
+      }
+     },
+     {
+      "after": "D0 12:50"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "雨が強くなり、風も出てきた。雨具を着ていても、下半身が濡れていく"
+    }
+   ]
+  },
+  {
+   "id": "ev_kamikochi_thunder",
+   "trigger": {
+    "after": "D0 13:20"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "13時20分、上高地の派出所が雷鳴を記録した"
+    }
+   ]
+  },
+  {
+   "id": "ev_strike_record",
+   "trigger": {
+    "all": [
+     {
+      "event": "LIGHTNING_STRIKE"
+     },
+     {
+      "chose": {
+       "cp": "cp_thunder",
+       "option": "go"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "独標の近くで落雷。濡れた列の何人かが倒れた。記録では13時40分ごろ、先頭が頂上を越えて鎖場に着いたとき、北斜面に並んでいた列に落ちた",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "struck"
+    }
+   ]
+  },
+  {
+   "id": "ev_strike",
+   "trigger": {
+    "all": [
+     {
+      "event": "LIGHTNING_STRIKE"
+     },
+     {
+      "not": {
+       "flag": "struck"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "すぐそばで落雷があった",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "struck"
+    }
+   ]
+  },
+  {
+   "id": "ev_runner",
+   "trigger": {
+    "all": [
+     {
+      "flag": "struck"
+     },
+     {
+      "after": "D0 13:25"
+     },
+     {
+      "all": [
+       {
+        "var": "c.T1.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.T1.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "var": "c.T2.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.T2.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.T2.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "any": [
+       {
+        "not": {
+         "flag": "waited"
+        }
+       },
+       {
+        "after": "D0 14:05"
+       }
+      ]
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "T1",
+     "to": "T2",
+     "text": "山荘へ知らせてくれ！",
+     "tone": "shout"
+    },
+    {
+     "type": "log",
+     "text": "教員 T2 が、山荘へ知らせに走った",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "runner"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "T2",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 1.2
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_split",
+   "trigger": {
+    "all": [
+     {
+      "flag": "struck"
+     },
+     {
+      "after": "D0 13:25"
+     },
+     {
+      "elapsedSince": {
+       "flag": "struck",
+       "min": 4
+      }
+     },
+     {
+      "any": [
+       {
+        "not": {
+         "flag": "waited"
+        }
+       },
+       {
+        "after": "D0 14:05"
+       }
+      ]
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "split"
+    },
+    {
+     "type": "log",
+     "text": "動ける人から、山荘へ下りはじめた",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SA",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SA.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SA.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SA.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SA",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SB",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SB.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SB.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SB.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SB",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SC",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SC.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SC.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SC.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SC",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SD",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SD.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SD.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SD.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SD",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SE",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SE.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SE.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SE.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SE",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SF",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SF.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SF.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SF.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SF",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SG",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SG.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SG.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SG.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SG",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SH",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SH.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SH.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SH.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SH",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SI",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SI.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SI.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SI.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SI",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SJ",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SJ.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SJ.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SJ.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SJ",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SK",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SK.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SK.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SK.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SK",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SL",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SL.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SL.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SL.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SL",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SM",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SM.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SM.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SM.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SM",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SN",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SN.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SN.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SN.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SN",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_SO",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.SO.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SO.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.SO.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "SO",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_t2_down",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "not": {
+       "flag": "runner"
+      }
+     },
+     {
+      "all": [
+       {
+        "var": "c.T2.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.T2.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.T2.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "T2",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_t1_down",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.T1.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.T1.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.T1.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "any": [
+       {
+        "var": "party.incapacitatedCount",
+        "op": "==",
+        "value": 0
+       },
+       {
+        "elapsedSince": {
+         "flag": "split",
+         "min": 60
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "T1",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_runner_hut",
+   "trigger": {
+    "all": [
+     {
+      "flag": "runner"
+     },
+     {
+      "var": "c.T2.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "not": {
+       "flag": "reported"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "reported"
+    },
+    {
+     "type": "log",
+     "text": "教員 T2 が西穂山荘に着き、落雷を知らせた。山荘の人と居合わせた登山者が独標へ向かい、警察にも連絡が行った",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "reportMissing",
+       "by": "西穂山荘"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_report_noRunner",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "not": {
+       "flag": "reported"
+      }
+     },
+     {
+      "any": [
+       {
+        "var": "c.SA.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SB.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SC.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SD.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SE.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SF.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SG.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SH.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SI.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SJ.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SK.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SL.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SM.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SN.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.SO.indoors",
+        "op": "==",
+        "value": true
+       }
+      ]
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "reported"
+    },
+    {
+     "type": "log",
+     "text": "山荘に着いた生徒が落雷を知らせた。山荘の人が独標へ向かい、警察にも連絡が行った",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "reportMissing",
+       "by": "西穂山荘"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_night",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_thunder",
+       "option": "go"
+      }
+     },
+     {
+      "flag": "struck"
+     },
+     {
+      "after": "D0 19:00"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "この夜、記録では8人の死亡が確かめられ、3人の行方が分からなかった。3人は翌朝、稜線から300 mほど下の斜面で見つかった"
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_dokuhyo",
+   "title": "独標で昼食",
+   "group": "main",
+   "priority": 20,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "DOKUHYO"
+     },
+     {
+      "not": {
+       "beenAt": "NISHIHO"
+      }
+     }
+    ]
+   },
+   "situation": "独標で昼食。快晴だが、まわりの山の頂に積雲が育ってきた。西穂高岳へ進むか？",
+   "knowledge": [
+    "西穂高岳まで約1時間。この先は岩の小ピークが続く",
+    "午後は雷になりやすい日だった（平地の予報）",
+    "生徒5人はここで待つと言っている"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "予定どおり西穂高岳へ",
+     "detail": "昼食のあと、46人で山頂へ向かう。",
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "atDoku"
+      },
+      {
+       "type": "rest",
+       "minutes": 70
+      },
+      {
+       "type": "detach",
+       "who": "SQ",
+       "then": [
+        {
+         "type": "rest",
+         "minutes": 30
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      },
+      {
+       "type": "detach",
+       "who": "SR",
+       "then": [
+        {
+         "type": "rest",
+         "minutes": 30
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 1.2
+     },
+     "tags": [
+      "risky"
+     ]
+    },
+    {
+     "id": "back",
+     "label": "ここで引き返す",
+     "detail": "雲が育つ前に、みんなで山荘へ戻る。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "T1",
+       "text": "今日はここまで。山荘へ戻ろう"
+      },
+      {
+       "type": "rest",
+       "minutes": 30
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "DOKUHYO",
+        "MARUYAMA",
+        "HUT"
+       ],
+       "goalNodes": [
+        "HUT"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "HUT",
+       "then": "stay"
+      }
+     ],
+     "bias": {
+      "base": 0.35
+     },
+     "tags": [
+      "recommended"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cp_gas",
+   "title": "ピラミッドピークのガス",
+   "group": "main",
+   "priority": 20,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "PYRAMID"
+     },
+     {
+      "not": {
+       "beenAt": "NISHIHO"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_dokuhyo",
+       "option": "go"
+      }
+     }
+    ]
+   },
+   "situation": "ピラミッドピーク。飛騨側からガスが上がってきた。山頂へ進むか？",
+   "knowledge": [
+    "山頂まで約25分。往復でもう1時間かかる",
+    "徳沢・明神の方の雨は、ここからは見えない"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "このまま山頂へ",
+     "detail": "もう少しで山頂。",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 1.3
+     },
+     "tags": [
+      "risky"
+     ]
+    },
+    {
+     "id": "back",
+     "label": "ここで引き返す",
+     "detail": "ガスの中の岩稜は避けて、山荘へ戻る。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "T1",
+       "text": "ここで引き返す。山荘へ戻ろう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "PYRAMID",
+        "DOKUHYO",
+        "MARUYAMA",
+        "HUT"
+       ],
+       "goalNodes": [
+        "HUT"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "HUT",
+       "then": "stay"
+      }
+     ],
+     "bias": {
+      "base": 0.3
+     },
+     "tags": [
+      "recommended"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cp_summit_rain",
+   "title": "山頂の大粒の雨",
+   "group": "main",
+   "priority": 20,
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_gas",
+       "option": "go"
+      }
+     },
+     {
+      "after": "D0 12:44"
+     },
+     {
+      "before": "D0 13:30"
+     }
+    ]
+   },
+   "situation": "12時45分、大粒の雨が落ちてきた。どうする？",
+   "knowledge": [
+    "大粒の雨は、雷雲の下にいるしるしのことがある",
+    "独標まで約1時間、岩の稜線を戻る",
+    "雷雲は独標の方へ動いているかもしれない"
+   ],
+   "options": [
+    {
+     "id": "down",
+     "label": "雨具をつけて急いで下る",
+     "detail": "列をつめて、独標を越えて山荘へ。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "T1",
+       "text": "雨具をつけろ。下りるぞ",
+       "tone": "shout"
+      },
+      {
+       "type": "wearRainwear"
+      },
+      {
+       "type": "setPace",
+       "factor": 0.68
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "PYRAMID",
+        "DOKUHYO",
+        "MARUYAMA",
+        "HUT",
+        "TH"
+       ],
+       "goalNodes": [
+        "TH"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 1.3
+     },
+     "tags": [
+      "risky"
+     ]
+    },
+    {
+     "id": "wait_top",
+     "label": "山頂の下で間をあけて待つ",
+     "detail": "少し下りて止まり、雷雲が過ぎるのを待つ。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "T1",
+       "text": "少し下りたら、間をあけてしゃがむぞ",
+       "tone": "shout"
+      },
+      {
+       "type": "wearRainwear"
+      },
+      {
+       "type": "setFlag",
+       "flag": "waitTop"
+      },
+      {
+       "type": "setPace",
+       "factor": 0.75
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "PYRAMID",
+        "DOKUHYO",
+        "MARUYAMA",
+        "HUT",
+        "TH"
+       ],
+       "goalNodes": [
+        "TH"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.2
+     },
+     "tags": [
+      "recommended"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cp_thunder",
+   "title": "雹と雷鳴",
+   "group": "main",
+   "priority": 21,
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_summit_rain",
+       "option": "down"
+      }
+     },
+     {
+      "after": "D0 13:19"
+     },
+     {
+      "not": {
+       "flag": "thunderNear"
+      }
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "situation": "急に暗くなり、雹まじりの強い雨。光と音の間は5〜6秒。どうする？",
+   "knowledge": [
+    "光から音まで10秒以内なら、雷はすぐ近く",
+    "独標は鞍部から30 mほど盛り上がった岩峰",
+    "列は間をつめて歩いている",
+    "稜線の両側は40度ほどの岩の斜面"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "列のまま急いで独標を越える",
+     "detail": "早く稜線を抜けて山荘へ。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "T1",
+       "text": "離れるな。急いで独標を越えるぞ",
+       "tone": "shout"
+      },
+      {
+       "type": "setCohesion",
+       "cohesion": "tight"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 1.3
+     },
+     "tags": [
+      "risky"
+     ],
+     "flags": [
+      "thunderNear"
+     ]
+    },
+    {
+     "id": "stop",
+     "label": "止まって間をあけ、しゃがむ",
+     "detail": "独標に近づかず、雷雲が過ぎるのを待つ。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "T1",
+       "text": "止まれ！ 間をあけてしゃがめ",
+       "tone": "shout"
+      },
+      {
+       "type": "setFlag",
+       "flag": "waited"
+      },
+      {
+       "type": "setFlag",
+       "flag": "stopped"
+      },
+      {
+       "type": "rest",
+       "minutes": 60
+      },
+      {
+       "type": "lightningPosture",
+       "minutes": 45
+      }
+     ],
+     "bias": {
+      "base": 0.4
+     },
+     "tags": [
+      "recommended"
+     ],
+     "flags": [
+      "thunderNear"
+     ]
+    },
+    {
+     "id": "off_ridge",
+     "label": "稜線を外れて斜面を下る",
+     "detail": "岩の斜面を下り、低い所に逃げる。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "T1",
+       "text": "稜線から下りろ！",
+       "tone": "shout"
+      },
+      {
+       "type": "setFlag",
+       "flag": "waited"
+      },
+      {
+       "type": "moveOffRidge",
+       "minDropM": 40
+      },
+      {
+       "type": "lightningPosture",
+       "minutes": 40
+      }
+     ],
+     "bias": {
+      "base": 0.3
+     },
+     "flags": [
+      "thunderNear"
+     ]
+    }
+   ]
+  }
+ ],
+ "thoughts": [
+  {
+   "key": "s16_hot",
+   "when": {
+    "all": [
+     {
+      "before": "D0 09:20"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "樹林の登りは汗が出る",
+    "上の方は真っ青な空だ"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s16_view",
+   "when": {
+    "all": [
+     {
+      "after": "D0 09:50"
+     },
+     {
+      "before": "D0 11:30"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 2400
+     }
+    ]
+   },
+   "lines": [
+    "笠ヶ岳がよく見える",
+    "焼岳の向こうに雲がわいてきた"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s16_gas",
+   "when": {
+    "all": [
+     {
+      "after": "D0 12:00"
+     },
+     {
+      "before": "D0 12:45"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.local.inCloud",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "真っ白で、前の人の背中しか見えない",
+    "岩が湿ってきた"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s16_wet",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.wetness",
+      "op": ">",
+      "value": 0.4
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 1
+     }
+    ]
+   },
+   "lines": [
+    "ズボンがびしょ濡れだ",
+    "雨具の下まで水がしみてくる"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s16_hail",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.local.precipType",
+      "op": "==",
+      "value": "hail"
+     }
+    ]
+   },
+   "lines": [
+    "雹が顔に当たって痛い",
+    "急に寒くなってきた"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s16_thunder",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.local.thunder",
+      "op": ">",
+      "value": 0.3
+     }
+    ]
+   },
+   "lines": [
+    "光ってから音までが短い",
+    "雷が近い。怖い"
+   ],
+   "priority": 8
+  },
+  {
+   "key": "s16_hutwait",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "after": "D0 13:15"
+     },
+     {
+      "before": "D0 16:00"
+     }
+    ]
+   },
+   "lines": [
+    "外はひどい雨だ",
+    "みんなは大丈夫だろうか"
+   ],
+   "priority": 6
+  }
+ ],
+ "speech": [
+  {
+   "key": "s16_rain_talk",
+   "who": "SC",
+   "to": "T1",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 3
+     },
+     {
+      "beenAt": "NISHIHO"
+     },
+     {
+      "not": {
+       "flag": "struck"
+      }
+     },
+     {
+      "before": "D0 13:45"
+     }
+    ]
+   },
+   "lines": [
+    "先生、雨がすごいです",
+    "足がびしょびしょです"
+   ],
+   "replies": {
+    "who": "T1",
+    "lines": [
+     "足元に気をつけて、離れずに来い",
+     "もうすぐ独標だ。がんばれ"
+    ]
+   },
+   "priority": 9,
+   "cooldownMin": 40
+  },
+  {
+   "key": "s16_crouch_talk",
+   "who": "SF",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "not": {
+       "var": "leader.moving",
+       "op": "==",
+       "value": true
+      }
+     },
+     {
+      "flag": "waited"
+     },
+     {
+      "var": "leader.local.thunder",
+      "op": ">",
+      "value": 0.2
+     }
+    ]
+   },
+   "lines": [
+    "頭を低くして、じっとしてよう",
+    "近いね……"
+   ],
+   "priority": 9,
+   "cooldownMin": 30
+  },
+  {
+   "key": "s16_hut_talk",
+   "who": "T1",
+   "when": {
+    "all": [
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "flag": "turnedBack"
+     },
+     {
+      "after": "D0 13:15"
+     },
+     {
+      "before": "D0 15:30"
+     }
+    ]
+   },
+   "lines": [
+    "ここで雷雲が過ぎるのを待とう",
+    "外はひどい。戻ってよかった"
+   ],
+   "priority": 8,
+   "once": true
+  }
+ ],
+ "endings": [
+  {
+   "kind": "FATAL",
+   "when": {
+    "chose": {
+     "cp": "cp_thunder",
+     "option": "go"
+    }
+   },
+   "title": "独標の落雷",
+   "text": "独標を越えようとした列に雷が落ちた。このシミュレーションでは、画面の20人のうち {rec.deathCount:0} 人が亡くなった。記録では、山頂へ向かった46人のうち生徒11人が亡くなり（9人は電撃、2人は転落）、一般登山者1人を含む12人が重軽傷を負った。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "稜線の落雷",
+   "text": "稜線で雷に打たれた人がいた。このシミュレーションでは {rec.deathCount:0} 人が亡くなった。記録では、山頂へ向かった46人のうち生徒11人が亡くなり（9人は電撃、2人は転落）、一般登山者1人を含む12人が重軽傷を負った。"
+  },
+  {
+   "kind": "RESCUED_CRITICAL",
+   "title": "重いけがでの収容",
+   "text": "雷に打たれて意識を失った人が、重い状態で運ばれた。亡くなった人はいない。"
+  },
+  {
+   "kind": "RESCUED",
+   "title": "救助",
+   "text": "雷に打たれてけがをした人が、山荘の人や救助隊に運ばれた。亡くなった人はいない。"
+  },
+  {
+   "kind": "MISSING",
+   "title": "稜線に残された人",
+   "text": "日没までに、稜線から戻れなかった人がいる。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "flag": "turnedBack"
+   },
+   "title": "山荘で待った一日",
+   "text": "一行は早めに引き返し、西穂山荘で雷雨をやり過ごした。山頂には立てなかったが、全員が無事だった。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "flag": "waited"
+   },
+   "title": "止まって待った",
+   "text": "一行は独標の手前で止まり、間をあけてしゃがんで雷雲をやり過ごした。全員が山荘にたどり着いた。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "title": "山荘で一夜",
+   "text": "一行は西穂山荘で夜を明かした。全員が無事だった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "title": "全員が上高地へ",
+   "text": "一行は雷雨をやり過ごし、全員で上高地へ下りた。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_cumulus",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_dokuhyo",
+       "option": "go"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_gas",
+       "option": "go"
+      }
+     }
+    ]
+   },
+   "title": "積雲が育つ日は早く下りる",
+   "text": "朝から晴れて上空が冷たい日は、昼すぎに雷雲が育ちやすい。まわりの山に積雲が湧いたら、稜線を早めに下りる。"
+  },
+  {
+   "id": "l_rain",
+   "when": {
+    "chose": {
+     "cp": "cp_summit_rain",
+     "option": "down"
+    }
+   },
+   "title": "大粒の雨は雷雲のしるし",
+   "text": "大粒の雨や雹が来たら、雷雲の下にいると考える。気象の論文は、その時点で落雷への備えに移るべきだったとしている。"
+  },
+  {
+   "id": "l_count",
+   "when": {
+    "chose": {
+     "cp": "cp_thunder",
+     "option": "go"
+    }
+   },
+   "title": "光と音の間が10秒以内なら逃げる",
+   "text": "雷鳴が聞こえたら、岩峰や稜線を進むのをやめる。光から音まで10秒以内なら、すぐ低い所へ移る。"
+  },
+  {
+   "id": "l_spread",
+   "when": {
+    "chose": {
+     "cp": "cp_thunder",
+     "option": "go"
+    }
+   },
+   "title": "間をあける",
+   "text": "濡れた体で間をつめて並ぶと、地面を流れる電流で多くの人が倒れる。論文は、転落を恐れて間をつめたことが被害を大きくしたと見ている。集団なら分かれ、離れて伏せる。"
+  },
+  {
+   "id": "l_low",
+   "title": "低い所に身を伏せる",
+   "text": "尾根の上に逃げ場がなくても、とがった岩峰を避け、少しでも低い岩陰で足をそろえてしゃがむ。急な斜面を無理に下りると、転落の危険が増える。金属を外しても、落雷の確率はほとんど変わらないとされる。"
+  },
+  {
+   "id": "l_note",
+   "title": "この事故のあと",
+   "text": "多くの学校が集団登山を見直した。落雷の研究が進み、雷の兆しがあれば行動を止めるという考えが広まった。"
+  }
+ ],
+ "balanceTargets": {
+  "historical": {
+   "fatalMin": 0.8,
+   "deathCountMedian": [
+    3,
+    5
+   ]
+  },
+  "recommended": {
+   "fatalMax": 0.03
+  },
+  "bias": {
+   "fatalMin": 0.2,
+   "fatalMax": 0.55
+  },
+  "risky": {
+   "fatalMin": 0.7
+  }
+ },
+ "historical": {
+  "event": "1967年8月1日 西穂高岳・独標付近の落雷事故",
+  "sources": [
+   {
+    "title": "1967年8月1日西穂高落雷遭難",
+    "publisher": "日本気象学会「天気」14巻12号（井村宇一郎、松本測候所）",
+    "year": 1967
+   },
+   {
+    "title": "校長通信 No.120「西穂遭難追悼式」",
+    "publisher": "長野県松本深志高等学校",
+    "year": 2020
+   },
+   {
+    "title": "西穂高岳落雷遭難事故（Wikipedia 日本語版の項目。死因の内訳・その夜と翌朝の経過・救助の要約。補助的に使用）"
+   }
+  ],
+  "labelsNote": "人物は記号で表す。教員の T1・T2 は井村（1967）の記号に合わせたが、同じ人物とは限らない。生徒 A〜R は架空の記号。画面の20人は、教員5人・生徒50人の計55人の代わり（エンジンの上限が20人のため）。年齢・性別の内訳・体重・体力・装備・服装は推定。",
+  "disclaimer": "このシナリオは、気象学会誌の調査報告と学校の記録をもとに当日の経過を再構成したものです。画面の20人は実際の55人の代わりで、人数の割合だけを記録に合わせています。体重・体力・装備・体温などは推定値です。シミュレーションの結果は実際の出来事を説明するものではありません。亡くなられた方々に哀悼の意を表します。",
+  "recordedChoices": {
+   "generic:lostAware": "backtrack",
+   "cp_dokuhyo": "go",
+   "cp_gas": "go",
+   "cp_summit_rain": "down",
+   "cp_thunder": "go"
+  },
+  "reference": [
+   {
+    "at": "D0 07:00",
+    "label": "上高地を出発。快晴（明神・横尾には層雲）",
+    "node": "TH"
+   },
+   {
+    "at": "D0 09:25",
+    "label": "西穂山荘着。焼岳の方に雲。4人が残る",
+    "node": "HUT"
+   },
+   {
+    "at": "D0 09:50",
+    "label": "山荘を出発",
+    "node": "HUT"
+   },
+   {
+    "at": "D0 10:45",
+    "label": "独標着。昼食。周りの山に積雲が発達。5人が残る",
+    "node": "DOKUHYO"
+   },
+   {
+    "at": "D0 11:25",
+    "label": "独標を出発（徳沢・明神では雨が降り出していた）",
+    "node": "DOKUHYO"
+   },
+   {
+    "at": "D0 12:00",
+    "label": "ピラミッドピーク通過。飛騨側からガス",
+    "node": "PYRAMID"
+   },
+   {
+    "at": "D0 12:25",
+    "label": "西穂高岳山頂着。ガスで展望なし",
+    "node": "NISHIHO"
+   },
+   {
+    "at": "D0 12:45",
+    "label": "大粒の雨。雨具をつけて下山開始（第1の雷雲）",
+    "node": "NISHIHO"
+   },
+   {
+    "at": "D0 13:10",
+    "label": "雨がやみ、雲が切れて上高地が見える"
+   },
+   {
+    "at": "D0 13:20",
+    "label": "ピラミッドピーク付近で暗くなり、雹まじりの強い雨。雷鳴（上高地派出所の発雷記録 13:20）",
+    "node": "PYRAMID"
+   },
+   {
+    "at": "D0 13:40",
+    "label": "先頭が独標の頂上を越え鎖場に着いたとき、北斜面の列に落雷（パーティの記録は13:30）",
+    "node": "DOKUHYO"
+   },
+   {
+    "at": "D0 13:50",
+    "label": "先頭の教員が、もう一人の教員を山荘へ知らせに走らせた（時刻は推定）",
+    "node": "DOKUHYO"
+   },
+   {
+    "at": "D0 19:00",
+    "label": "この夜までに8人の死亡を確認、3人が行方不明"
+   },
+   {
+    "at": "D1 06:00",
+    "label": "翌朝、行方不明の3人が稜線から約300 m下の斜面で見つかる（時刻は推定）"
+   }
+  ]
+ },
+ "sources": [
+  "経過・時刻・人数・死傷者: 井村宇一郎「1967年8月1日西穂高落雷遭難」天気 14(12)（1967）、松本深志高校 校長通信 No.120（2020）",
+  "気象の下書き: Open-Meteo ERA5 1967-08-01 36.27,137.62（格子の標高 2370 m）。再解析は雲を一日中 100% とし、雷雨を表さないため、論文の観測（朝は快晴・12:45 と 13:20 の雷雲・雹・急な冷え込み）に合わせて直した",
+  "雷雲の動き: 同論文 第3図（南東から西北西へ）。落雷の多い芯の強さは、記録の人数の割合に合うよう決めた",
+  "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+  "登山道・地点: © OpenStreetMap contributors。ピラミッドピーク・丸山の位置は標高から読んだ概略"
+ ]
+}

@@ -1473,7 +1473,7 @@
     "bias": {
       "fatalMin": 0.08,
       "fatalMax": 0.35,
-      "goodMax": 0.8
+      "goodMax": 0.85
     },
     "risky": {
       "fatalMin": 0.25

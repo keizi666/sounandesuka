@@ -66,7 +66,9 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
     e.stopPropagation();
     onToggle?.();
   });
-  const head = el('header', { class: 'who' }, [avatar(c.def, 51), el('h3', {}, [`${c.def.name} ${c.def.age}`, el('small', {}, ` ${st}`)]), toggle]);
+  // 状態の横に、いまいる所の標高（ユーザーの指定）
+  const elev = c.offMap ? '' : `・${Math.round(c.elevM).toLocaleString('ja-JP')} m`;
+  const head = el('header', { class: 'who' }, [avatar(c.def, 51), el('h3', {}, [`${c.def.name} ${c.def.age}`, el('small', {}, ` ${st}${elev}`)]), toggle]);
   if (collapsed) return el('section', { class: `climber mini${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [head, summary]);
   return el('section', { class: `climber${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [
     head,
@@ -114,7 +116,7 @@ export function weatherPanel(world: World, c: ClimberState | undefined, god: boo
     row('rainy', JA.ui.precip, l.precipMmH > 0.05 ? `${pt} ${l.precipMmH.toFixed(1)}mm/h` : JA.ui.none),
     row('foggy', JA.ui.visibility, `${l.visibilityM >= 10000 ? '10km以上' : Math.round(l.visibilityM) + ' m'}`),
     row('cloud', JA.ui.cloudBase, `${Math.round(world.weather.cloudBaseM).toLocaleString()} m`),
-    row('thunderstorm', JA.ui.thunder, l.thunder > 0.05 ? `${Math.round(l.thunder * 100)}%` : JA.ui.none),
+    row('thunderstorm', JA.ui.thunder, l.thunder > 0.05 ? `${Math.round(Math.min(1, l.thunder) * 100)}%` : JA.ui.none),
   ]);
 }
 

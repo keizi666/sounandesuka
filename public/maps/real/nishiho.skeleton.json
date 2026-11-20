@@ -1,0 +1,37 @@
+{
+  "id": "nishiho",
+  "name": "北アルプス 西穂高岳（上高地〜西穂山荘〜丸山〜独標〜ピラミッドピーク〜西穂高岳）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "上高地（梓川の田代橋付近の登山口）から樹林の急な尾根を西穂山荘へ登り、丸山・独標・ピラミッドピークを越えて西穂高岳まで。一辺 6 km 程度（513 頂点）。森林限界は 2,450 m 前後で、丸山から上はハイマツと岩の痩せた稜線。独標は鞍部から 30 m ほど盛り上がった岩峰で、両側は 40 度ほどの斜面、南側に鎖場がある。新穂高ロープウェイ（西穂高口）は 1970 年の開業で、1967 年にはなかった。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2450, "forestLineNoise": 40, "broadleafLine": 1700, "krummholzBandM": 150 },
+  "nodes": [
+    { "id": "TH", "name": "上高地（西穂高岳登山口）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 1505 },
+    { "id": "HUT", "name": "西穂山荘", "type": "hut", "x": 0, "z": 0, "osmName": "西穂山荘", "expectedElevM": 2367,
+      "shelter": { "kind": "staffed", "open": true } },
+    { "id": "MARUYAMA", "name": "丸山", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 2452 },
+    { "id": "DOKUHYO", "name": "独標", "type": "peak", "x": 0, "z": 0, "osmName": "西穂独標", "expectedElevM": 2701 },
+    { "id": "PYRAMID", "name": "ピラミッドピーク", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2740 },
+    { "id": "NISHIHO", "name": "西穂高岳", "type": "peak", "x": 0, "z": 0, "osmName": "西穂高岳", "expectedElevM": 2909 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "上高地〜西穂山荘（樹林の急登）", "kind": "trail", "from": "TH", "to": "HUT", "class": "T1", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "西穂山荘〜丸山", "kind": "trail", "from": "HUT", "to": "MARUYAMA", "class": "T1", "markers": 0.85, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "丸山〜独標（岩の稜線・南側に鎖場）", "kind": "trail", "from": "MARUYAMA", "to": "DOKUHYO", "class": "T2", "markers": 0.85, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "独標〜ピラミッドピーク（岩の小ピークの連続）", "kind": "trail", "from": "DOKUHYO", "to": "PYRAMID", "class": "T2", "markers": 0.85, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "ピラミッドピーク〜西穂高岳（岩の急登）", "kind": "trail", "from": "PYRAMID", "to": "NISHIHO", "class": "T2", "markers": 0.85, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

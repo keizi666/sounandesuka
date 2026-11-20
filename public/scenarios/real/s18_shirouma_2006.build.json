@@ -1,0 +1,25 @@
+{
+  "skeleton": "public/maps/real/shirouma2006.skeleton.json",
+  "mapId": "shirouma2006",
+  "center": [36.742, 137.705],
+  "size": 12288,
+  "resolution": 513,
+  "atXZ": {
+    "BABA": [-2241, 4787],
+    "HYAKKAN": [-1584, 1635],
+    "HINAN": [-921, -536],
+    "KIRE": [167, -1530],
+    "SHOZU": [1179, -2466],
+    "URA": [3185, -1451],
+    "BUNKI": [4028, -1490],
+    "GORYU": [4405, -1397],
+    "CHOJO": [4358, -1229],
+    "SANSO": [4615, -1540],
+    "PEAK": [4776, -1836]
+  },
+  "snapM": 80,
+  "paceAdj": { "E1": 1.4, "E2": 1.4, "E3": 0.8, "E4": 0.8, "E5": 1.4, "E6": 1.4, "E7": 1.4, "E8": 1.3 },
+  "radio": [
+    { "id": "st_hakuba", "x": 12500, "z": 1500, "elevM": 800, "antennaM": 40, "rangeM": 16000 }
+  ]
+}
