@@ -3,7 +3,7 @@
  * 通信先は同じオリジンの api/index.php だけ（CLAUDE.md 鉄則 8 の例外。DECISIONS.md）。src/sim からは使わない。
  */
 import type { ListResponse, ProfileInput, PublicUser, RunDetail, RunSummaryInput } from './communityTypes';
-import { loadProfile } from './profile';
+import { loadProfile, saveProfile } from './profile';
 
 const API = `${import.meta.env.BASE_URL}api/index.php`;
 
@@ -63,3 +63,24 @@ export const communityApi = {
   forget: (): Promise<{ ok: true }> => call('forget', { body: {} }),
   report: (id: number): Promise<{ ok: true }> => call('report', { body: { id } }),
 };
+
+let refreshed = false;
+/**
+ * 端末に覚えたプロフィールを、サーバーの今の内容で上書きする（1 回の読み込みで 1 度だけ。変わったら true）。
+ * 登録の API が違う ID を返していた不具合のころに登録した端末を、ここで直す（アイコンの画像の URL に ID を使う）
+ */
+export async function refreshProfile(): Promise<boolean> {
+  if (refreshed) return false;
+  refreshed = true;
+  const p = loadProfile();
+  if (!p) return false;
+  try {
+    const { user } = await communityApi.me(p.token);
+    if (JSON.stringify(user) === JSON.stringify(p.user)) return false;
+    saveProfile({ ...p, user });
+    return true;
+  } catch {
+    // つながらない・コードが無効: 端末の内容はそのまま
+    return false;
+  }
+}

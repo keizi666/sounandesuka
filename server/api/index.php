@@ -168,8 +168,9 @@ try {
     $t = now_iso();
     $pdo->prepare('INSERT INTO users (token_hash, nickname, sex, age, portrait, color, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
       ->execute([token_hash($token), $p['nickname'], $p['sex'], $p['age'], $p['portrait'], $p['color'], $t, $t]);
-    hit('reg');
+    // ID は INSERT の直後に取る（hit() も hits に INSERT するので、あとで取るとそちらの番号になる）
     $p['id'] = (int) $pdo->lastInsertId();
+    hit('reg');
     respond(200, ['user' => $p, 'token' => $token]);
   }
 
@@ -212,9 +213,11 @@ try {
     rate_limit('postday', 30, 86400);
     $pdo->prepare('INSERT INTO runs (user_id, scenario_id, ending, summary, comment, record, created_at, ip_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
       ->execute([$u['id'], $summary['scenarioId'], $summary['ending'], json_encode($summary, JSON_UNESCAPED_UNICODE), $comment, $record, now_iso(), ip_hash()]);
+    // ID は INSERT の直後に取る（hit() も hits に INSERT するので、あとで取るとそちらの番号になり、投稿直後の「載せた記録を見る」が見つからなかった）
+    $id = (int) $pdo->lastInsertId();
     hit('post');
     hit('postday');
-    respond(200, ['id' => (int) $pdo->lastInsertId()]);
+    respond(200, ['id' => $id]);
   }
 
   if ($method === 'POST' && $a === 'delete') {

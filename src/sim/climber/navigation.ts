@@ -73,9 +73,15 @@ export function chooseLegAtNode(world: World, ctx: StaticContext, c: ClimberStat
   if (confs.length === 0) return { leg };
   const { ps, pErr } = confuserErrorP(ctx, c, node, leg, cueOf(world, ctx, c));
   if (c.plan.stopCheckedNode === node) c.plan.stopCheckedNode = null;
-  if (!chance(world.rng.nav, pErr)) return { leg };
-  // 誤り: p_k に比例して選ぶ
-  const total = ps.reduce((a, b) => a + b, 0);
+  // 選択肢で「そのまま進む」と決めた分岐では、紛らわしい道へ必ず入る（どれに入るかは紛らわしさに比例）
+  const forced = c.plan.missJunctionNode === node;
+  if (forced) c.plan.missJunctionNode = null;
+  // 乱数の使い方は変えない（ほかの経過が変わらないように、必ず 1 回引く）
+  const roll = chance(world.rng.nav, pErr);
+  if (!forced && !roll) return { leg };
+  // 誤り: p_k に比例して選ぶ（すべて 0 なら最初の道）
+  const total = ps.reduce((a, b) => a + b, 0) || 1;
+  if (ps.every((p) => p <= 0)) ps[0] = 1;
   let r = nextFloat(world.rng.nav) * total;
   let k = 0;
   while (k < ps.length - 1 && r >= ps[k]!) r -= ps[k++]!;

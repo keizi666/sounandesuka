@@ -309,7 +309,7 @@
           "id": "follow",
           "label": "正面の尾根をそのまま進む",
           "detail": "踏み跡は続いている。尾根をたどれば大丈夫だ。",
-          "actions": [{ "type": "continueRoute" }],
+          "actions": [{ "type": "missJunction" }, { "type": "continueRoute" }],
           "tags": ["risky"],
           "bias": { "base": 0.9, "mods": [{ "when": { "var": "leader.timeBehindMin", "op": ">", "value": 30 }, "add": 0.3 }] }
         }
@@ -863,7 +863,7 @@
     },
     { "id": "l_solo", "when": { "var": "leader.injury", "op": "!=", "value": "none" }, "title": "単独では、小さなけがやミスが重くなる", "text": "単独で動けなくなると、知らせる人も助けを呼びに行く人もいない。分かれ目では必ず止まり、少しでもおかしいと思ったら戻る。" }
   ],
-  "balanceTargets": { "recommended": { "goodMin": 0.97, "fatalMax": 0.01 }, "bias": { "goodMin": 0.9, "goodMax": 0.99, "fatalMax": 0.04, "lostMin": 0.15, "lostMax": 0.4 }, "risky": { "fatalMin": 0.04, "badMin": 0.06 } },
+  "balanceTargets": { "recommended": { "goodMin": 0.97, "fatalMax": 0.01 }, "bias": { "goodMin": 0.9, "goodMax": 0.99, "fatalMax": 0.04, "lostMin": 0.15, "lostMax": 0.6 }, "risky": { "fatalMin": 0.04, "badMin": 0.06 } },
   "sources": [
     "原案: 松本圭司「架空遭難　60代単独男性、川苔山からの下山で道迷い後滑落」note（2024年3月28日） https://note.com/keizi666/n/nb9b7b6317e46",
     "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",

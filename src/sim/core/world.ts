@@ -132,6 +132,7 @@ export function createClimberState(
       paceFactor: 1,
       hurry: false,
       stopCheckedNode: null,
+      missJunctionNode: null,
       postureUntilMin: null,
       busyUntilMin: null,
       busyWith: null,

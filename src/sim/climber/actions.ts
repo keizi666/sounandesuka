@@ -316,6 +316,11 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       transition(world, ctx, c, 'RESTING', 'stopAndCheck');
       return;
     }
+    case 'missJunction': {
+      // 確かめずに、目の前の紛らわしい道へそのまま入る（入ったあとに気づくかどうかは、これまでどおりモデルが決める）
+      c.plan.missJunctionNode = c.pos.mode === 'node' ? c.pos.nodeId : (c.plan.route[c.plan.routeIndex] ?? null);
+      return;
+    }
     case 'bivouac':
       startBivouac(world, ctx, c, a.until, a.findLee, 'BIVOUAC');
       return;

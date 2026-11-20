@@ -26,6 +26,7 @@ import { communityBanner } from './community/banner';
 import { cIcon, userAvatar } from './community/common';
 import { openProfileDialog } from './community/profileDialog';
 import { loadProfile } from '../net/profile';
+import { refreshProfile } from '../net/communityApi';
 
 /** バンドル（*.sounan.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
 async function openBundle(app: AppContext, file: File): Promise<void> {
@@ -200,6 +201,7 @@ export function showScenarioSelect(app: AppContext): () => void {
   };
   profCap.addEventListener('click', () => openProfileDialog(() => paintProf()));
   paintProf();
+  void refreshProfile().then((changed) => changed && paintProf());
   const editorCap = isLocalHost() ? el('a', { class: 'cap', href: `${import.meta.env.BASE_URL}editor.html` }, [icon('edit'), JA.ui.editorShort]) : null;
   document.addEventListener('dragover', onOver);
   document.addEventListener('drop', onDrop);

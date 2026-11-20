@@ -5,7 +5,7 @@
 import type { AppContext } from '../../app/App';
 import { JA } from '../../i18n/ja';
 import { fill } from '../../i18n/format';
-import { communityApi } from '../../net/communityApi';
+import { communityApi, refreshProfile } from '../../net/communityApi';
 import type { ListResponse, RunSummary } from '../../net/communityTypes';
 import { loadProfile } from '../../net/profile';
 import { ENDING_SEVERITY } from '../../sim/scenario/endings';
@@ -83,6 +83,7 @@ export function showCommunity(app: AppContext): () => void {
     reload();
   }));
   paintProf();
+  void refreshProfile().then((changed) => changed && !gone && paintProf());
 
   const select = el('select', { class: 'cm-select', 'aria-label': C.scenarioLabel }) as HTMLSelectElement;
   select.addEventListener('change', () => {

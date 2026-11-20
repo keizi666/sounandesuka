@@ -409,6 +409,7 @@ export type Action = { who?: Who } & (
   | { type: 'addLayer'; clo?: number }
   | { type: 'changeDry' }
   | { type: 'stopAndCheck' }
+  | { type: 'missJunction' }                      // いまの（次の）分岐で、紛らわしい道（偽の道など）へそのまま入る
   | { type: 'checkPosition' }
   | { type: 'bivouac'; until: UntilRef; findLee: boolean }
   | { type: 'stayPut' }
@@ -597,6 +598,8 @@ export interface ClimberPlanState {
   paceFactor: number;
   hurry: boolean;
   stopCheckedNode: NodeId | null;
+  /** この分岐では紛らわしい道へ入る（選択肢「そのまま進む」など。missJunction）。古い保存にはない */
+  missJunctionNode?: NodeId | null;
   postureUntilMin: number | null;
   busyUntilMin: number | null; // 雨具着用など所要時間中
   busyWith: string | null;

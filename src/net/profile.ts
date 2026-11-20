@@ -5,8 +5,16 @@
 import type { PublicUser } from './communityTypes';
 
 const KEY = 'hks.v1.community.profile';
-/** 自分が載せた記録（runId → 投稿の ID）。同じ記録を二度載せないため */
-const POSTED_KEY = 'hks.v1.community.posted';
+/**
+ * 自分が載せた記録（runId → 投稿の ID）。同じ記録を二度載せないため。
+ * 旧の鍵（hks.v1.community.posted）は、投稿の API が違う番号を返していた不具合のころの値なので使わない（DECISIONS.md）
+ */
+const POSTED_KEY = 'hks.v2.community.posted';
+try {
+  localStorage.removeItem('hks.v1.community.posted');
+} catch {
+  // 消せなくても使わないだけ
+}
 
 export interface LocalProfile {
   token: string;

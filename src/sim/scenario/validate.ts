@@ -23,7 +23,7 @@ export const STATES = [
 ];
 export const ACTION_TYPES = [
   'continueRoute', 'setRoute', 'turnBack', 'goToNode', 'stayInShelter', 'rest', 'eat', 'drink', 'drinkAlcohol', 'reportMissing', 'focus', 'leaveMap', 'sound', 'music', 'setPhone', 'addAnxiety', 'illness', 'medicate', 'sting', 'epipen', 'wearRainwear', 'addLayer', 'changeDry',
-  'stopAndCheck', 'checkPosition', 'bivouac', 'stayPut', 'backtrack', 'navigateToTrail', 'descendDrainage', 'seekSignal', 'callRescue',
+  'stopAndCheck', 'missJunction', 'checkPosition', 'bivouac', 'stayPut', 'backtrack', 'navigateToTrail', 'descendDrainage', 'seekSignal', 'callRescue',
   'waitRescue', 'setPace', 'lightningPosture', 'moveOffRidge', 'removeMetal', 'setFlag', 'clearFlag', 'narrate', 'abortTrip', 'splitParty',
   'setCohesion', 'soak', 'detach', 'goToMember', 'say',
 ];

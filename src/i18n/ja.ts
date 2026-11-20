@@ -206,6 +206,7 @@ export const JA = {
     note: 'ログが出た時点の値です。',
     nowNote: 'いまの値です（開いた時点）。',
     iconTitle: '{name} の状態を見る',
+    clusterTitle: '{n} 人',
   },
   ui: {
     copyright: '(c)2026 keiziweb',
