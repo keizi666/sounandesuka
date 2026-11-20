@@ -13,13 +13,14 @@
 4. `docs/03_architecture.md` — 技術構成・ディレクトリ・ループ・決定論
 5. 実装中のフェーズに対応する詳細設計（`docs/13_phases.md` に対応表あり）
    - エディター（P13 以降）: `docs/15_editor_overview.md` → `16`（地理データ）→ `17`（天候）→ `18`（シナリオ編集）
+   - みんなの遭難記録（公開の記録・感想・サーバー）: `docs/20_community.md`
 6. 型定義の正: `docs/appendix/types.ts`（`src/sim/types.ts` にコピーして開始する）
 
 ## 技術スタック
 
 - 言語: TypeScript（`strict: true`, `noUncheckedIndexedAccess: true`）
 - 基本の依存: ランタイム `three`（`three/examples/jsm` の OrbitControls・GLTFLoader 等を含む）。開発 `vite`, `typescript`, `vitest`, `tsx`, `@types/three`
-- バックエンドなし。静的ファイルとしてさくらのレンタルサーバー等に置けること
+- 静的ファイルとしてさくらのレンタルサーバー等に置けること。バックエンドは「みんなの遭難記録」の小さな API（PHP 8 + SQLite、`server/api/`、`docs/20_community.md`）だけ。ほかの機能はサーバーなしで動くこと
 - 保存は `localStorage`（容量対策に `CompressionStream('gzip')`）。エディターのプロジェクトは IndexedDB
 
 ### 依存の追加
@@ -49,7 +50,7 @@
 5. 画面に出す日本語文字列は `src/i18n/ja.ts` に集約する（シナリオ JSON 内の文章は除く）。
 6. シミュレーションの固定刻みは **ゲーム内 10 秒**。描画は前後 2 状態を補間する。
 7. マップの大きさ・解像度は可変（一辺 2〜12.3 km、頂点 257/385/513）。`16 m` や `4096` をコードに直書きせず、必ず `map.cell` / `map.def.size` を使う。
-8. 外部への通信は `src/editor/geo/**` と、プレイヤーの任意機能「背景に地理院地図」だけ。通信先は `docs/15_editor_overview.md` §4 の表にあるものに限る。新しい外部サービスを足さない。
+8. 外部への通信は `src/editor/geo/**` と、プレイヤーの任意機能「背景に地理院地図」だけ。通信先は `docs/15_editor_overview.md` §4 の表にあるものに限る。新しい外部サービスを足さない。例外として、同じオリジンの自前の API（`<base>/api/index.php`、「みんなの遭難記録」）にだけ `src/net/**` から通信してよい（`src/sim/**` からは不可。記録を送るのはユーザーが「記録を載せる」を押したときだけ）。
 9. 外部データ由来の内容を表示する画面には必ず出典を出す（地理院タイル、© OpenStreetMap contributors、Open-Meteo）。
 
 ## 作業の進め方
@@ -71,7 +72,7 @@
 | `npm run dev` | 開発サーバー（http://localhost:5281 。`/` プレイヤー、`/editor.html` エディター） |
 | `npm run build` | `dist/` に静的ビルド（`VITE_BASE` でベースパス指定可） |
 | `npm run build:sounan` | `/sounandesuka/` に置く用の静的ビルド |
-| `npm run deploy [-- --with-real-data] [--dry-run]` | 公開用にビルドしてサーバーへ scp で上げる（設定は git に入れない `deploy.config.json`、見本は `deploy.config.example.json`。実在の山の地形データは権利の確認まで既定で上げない） |
+| `npm run deploy [-- --with-real-data] [--dry-run]` | 公開用にビルドしてサーバーへ scp で上げる。「みんなの遭難記録」の API（`server/api`）と、その設定 `api/config.local.php` も一緒に作って上げる（設定は git に入れない `deploy.config.json`、見本は `deploy.config.example.json`。実在の山の地形データは権利の確認まで既定で上げない） |
 | `npm run typecheck` | `tsc --noEmit`（全体と、DOM・Node の型なしで `src/sim` だけを見る `tsconfig.sim.json` の 2 回） |
 | `npm run test` | vitest（ユニット・較正・決定論テスト） |
 | `npm run sim -- <scenarioId> [--policy recommended\|bias\|random\|risky] [--seed N] [--log]` | ヘッドレス1回実行 |

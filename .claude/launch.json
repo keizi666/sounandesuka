@@ -12,6 +12,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["vite", "preview", "--base", "/sounan/", "--port", "4281", "--strictPort"],
       "port": 4281
+    },
+    {
+      "name": "dev-alt",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "--port", "5291", "--strictPort"],
+      "port": 5291
     }
   ]
 }

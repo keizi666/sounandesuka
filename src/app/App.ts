@@ -13,6 +13,8 @@ import { showBriefing } from '../ui/briefing';
 import { showDebrief } from '../ui/debrief';
 import { showEnding } from '../ui/ending';
 import { showHistory } from '../ui/history';
+import { showCommunity } from '../ui/community/communityScreen';
+import { showCommunityRun } from '../ui/community/communityDetail';
 import { showScenarioSelect } from '../ui/scenarioSelect';
 import { showSimScreen, type SimResult } from '../ui/simScreen';
 import { checkWebGL2, el } from '../ui/dom';
@@ -30,6 +32,8 @@ export type Screen =
   | { name: 'title' }
   | { name: 'select' }
   | { name: 'history' }
+  | { name: 'community' }
+  | { name: 'communityRun'; id: number }
   | { name: 'briefing'; loaded: LoadedScenario }
   | { name: 'sim'; loaded: LoadedScenario; resume?: ResumeData; observe?: boolean }
   | { name: 'ending'; loaded: LoadedScenario; result: SimResult }
@@ -87,6 +91,12 @@ export function startApp(root: HTMLElement): void {
           break;
         case 'history':
           cleanup = showHistory(app);
+          break;
+        case 'community':
+          cleanup = showCommunity(app);
+          break;
+        case 'communityRun':
+          cleanup = showCommunityRun(app, screen.id);
           break;
         case 'briefing':
           cleanup = showBriefing(app, screen.loaded);

@@ -22,6 +22,7 @@ import { icon, type IconName } from './icons';
 import { progressTo, showLoading } from './loading';
 import { openSettings } from './settingsDialog';
 import { anySoundOn, toggleSoundPanel } from './soundPanel';
+import { communityBanner } from './community/banner';
 
 /** バンドル（*.sounan.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
 async function openBundle(app: AppContext, file: File): Promise<void> {
@@ -202,6 +203,8 @@ export function showScenarioSelect(app: AppContext): () => void {
       ]),
       el('div', { class: 'sel-wrap' }, [
         el('p', { class: 'sel-lead' }, JA.disclaimer.fictional),
+        // みんなの遭難記録（docs/20_community.md）
+        communityBanner(app),
         el('section', { class: 'sel-section' }, [el('h2', { class: 'sel-h' }, [icon('landscape'), JA.ui.selectTitle]), list]),
         mine,
         drop,

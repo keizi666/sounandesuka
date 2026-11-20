@@ -1,0 +1,9 @@
+# 「みんなの遭難記録」API。外から開けるのは index.php と admin.php だけ
+Options -Indexes
+<FilesMatch "^(?!(index|admin)\.php$).+">
+  Require all denied
+</FilesMatch>
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^data(/|$) - [F,L]
+</IfModule>

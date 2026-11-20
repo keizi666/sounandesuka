@@ -2,6 +2,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vitest/config';
+import { devCommunityApi } from './tools/devApi.ts';
 
 const root = import.meta.dirname;
 
@@ -22,6 +23,8 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(appVersion()),
     __APP_BUILT__: JSON.stringify(new Date().toISOString()),
   },
+  // 開発サーバーだけ: 「みんなの遭難記録」の API の模擬（本番は server/api の PHP）
+  plugins: [devCommunityApi(root)],
   // サブディレクトリに置く場合は VITE_BASE=/sounan/ のように指定する（docs/03 §10）
   base: process.env['VITE_BASE'] ?? '/',
   // 開発サーバーの番号。よく使われる 5173 / 4173 は他のサービスと重なるので避ける（使用中なら起動を止める）

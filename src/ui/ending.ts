@@ -18,6 +18,7 @@ import { optionLabel, type SimResult } from './simScreen';
 import { audio } from './audio';
 import { endingMusic } from './simAudio';
 import { openDebriefPanel } from './debrief';
+import { communityPostCard } from './community/postCard';
 
 export function endingTone(kind: string): 'good' | 'mid' | 'bad' {
   const s = ENDING_SEVERITY[kind as keyof typeof ENDING_SEVERITY] ?? 0;
@@ -97,6 +98,8 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
               el('ol', { class: 'en-decisions' }, decisions.map((d) => el('li', {}, [el('time', {}, formatClock(d.tMin)), el('span', { class: 'dia' }, '◆'), el('span', {}, optionLabel(loaded, d.cpId, d.optionId)), d.by !== 'user' ? el('small', {}, '（自動）') : null]))),
             ])
           : null,
+        // みんなの遭難記録に載せる（docs/20_community.md）
+        communityPostCard(app, loaded, result, { kind: e.kind, title: e.title ?? def?.title ?? e.kind }),
         el('div', { class: 'bf-notes' }, [
           el('p', { class: 'note' }, JA.disclaimer.endingNote),
           s.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,
