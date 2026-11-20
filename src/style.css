@@ -306,6 +306,17 @@ section.climber.mini { padding: 5px 8px; }
 .tl-span { min-height: 22px; padding: 0 7px; font-size: 0.8em; background: rgba(255, 255, 255, 0.06); border-color: transparent; }
 .tl-span.on { background: var(--accent); color: #1d1a12; }
 .timeline .tl-track { overflow: visible; }
+/* 狭い画面: ウィンドウのタブの中のタイムライン（下に浮かぶバーではなく、ウィンドウの中に置く。ユーザーの指定） */
+.fwin-body > .timeline { position: static; transform: none; left: auto; bottom: auto; width: auto; margin: 0; padding: 10px 12px 12px; background: none; border: 0; border-radius: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.fwin-body > .timeline .tl-tip { bottom: auto; top: -2px; transform: translate(-50%, -100%); }
+@media (max-width: 760px) {
+  .fwin-bar[role='tablist'] { overflow-x: auto; scrollbar-width: none; }
+  .fwin-bar[role='tablist']::-webkit-scrollbar { display: none; }
+  .fwin-tab { padding: 2px 8px; flex: 0 0 auto; }
+  /* タブが多くて横にスクロールしても、最小化のボタンは右端に見せておく */
+  .fwin-bar[role='tablist'] .fwin-btn { position: sticky; right: 0; flex: 0 0 auto; background: rgba(28, 31, 38, 0.95); }
+  .fwin-bar[role='tablist'] .fwin-grip { min-width: 4px; }
+}
 .timeline .tl-tip { z-index: 2; }
 .keyhelp { bottom: 2px !important; }
 

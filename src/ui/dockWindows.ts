@@ -4,9 +4,9 @@
  * - ウィンドウはタブの並びの空いたところ（またはタブが 1 枚ならそのタブ）をドラッグして動かす。最小化。外枠のどこをつまんでも大きさを変えられる。
  * - ウィンドウは画面の外にはみ出さない（上端は上のバーの下）。画面の縁に近づけると縁にぴったり付き、付いた縁は画面の大きさが変わっても保つ。
  * - 配置は localStorage（hks.v1.dock.2）に覚える。
- * - 狭い画面（スマホ・縦長のタブレット）では、覚えた配置を使わず、上下に自動で並べる（ユーザーの指定）:
- *   1 つ目のウィンドウは上のバーの下、ほかは下（タイムラインの上）に、画面の幅いっぱい・高さは画面の約 3 割。
- *   真ん中の 3D の画面が見えるようにする。画面の向きや大きさが変わったら並べ直す。最小化だけは別に覚える（hks.v1.dock.2.c）。
+ * - 狭い画面（スマホ・縦長のタブレット）では、覚えた配置を使わず、すべてのパネルを 1 つのウィンドウのタブにまとめ、
+ *   画面の下に、幅いっぱい・高さは画面の 35% で置く（ユーザーの指定。タイムラインも狭い画面だけタブになる: compactOnly）。
+ *   上の 3D の画面が見えるようにする。画面の向きや大きさが変わったら並べ直す。開いているタブと最小化だけは別に覚える（hks.v1.dock.2.c）。
  */
 import { JA } from '../i18n/ja';
 import { el } from './dom';
@@ -17,6 +17,8 @@ export interface DockPanel {
   title: string;
   icon: IconName;
   content: HTMLElement;
+  /** 狭い画面のときだけタブにする（広い画面では呼び出し側が別に置く。タイムライン） */
+  compactOnly?: boolean;
 }
 
 /** 画面のどの縁に付いているか */
@@ -43,6 +45,8 @@ export interface DockOptions {
   topInset?: () => number;
   /** 狭い画面で、下に空けておく高さ（タイムラインのバー）。px */
   bottomInset?: () => number;
+  /** 狭い画面と広い画面が切り替わったとき（並べ直すたびに呼ぶ）。compactOnly のパネルを広い画面で元の場所へ戻すのに使う */
+  onCompactChange?: (compact: boolean) => void;
 }
 
 export interface Dock {
@@ -65,7 +69,7 @@ const MIN_BAR_H = 36;
 const EDGES = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw'] as const;
 type Edge = (typeof EDGES)[number];
 
-function loadLayout(ids: string[]): DockWindowState[] | null {
+function loadLayout(ids: string[], compactOnly: ReadonlySet<string>): DockWindowState[] | null {
   try {
     const v = JSON.parse(localStorage.getItem(KEY) ?? 'null') as DockWindowState[] | null;
     if (!Array.isArray(v)) return null;
@@ -78,10 +82,12 @@ function loadLayout(ids: string[]): DockWindowState[] | null {
       const snap = w.snap && typeof w.snap === 'object' ? { l: !!w.snap.l, r: !!w.snap.r, t: !!w.snap.t, b: !!w.snap.b } : {};
       if (tabs.length > 0) out.push({ ...w, snap, tabs, active: tabs.includes(w.active) ? w.active : tabs[0]! });
     }
+    for (const w of out) w.tabs = w.tabs.filter((t) => !compactOnly.has(t));
+    const live = out.filter((w) => w.tabs.length > 0).map((w) => ({ ...w, active: w.tabs.includes(w.active) ? w.active : w.tabs[0]! }));
     // 保存にないパネル（あとから増えたもの）は、最初のウィンドウに足す
-    const missing = ids.filter((id) => !seen.has(id));
-    if (missing.length > 0 && out[0]) out[0].tabs.push(...missing);
-    return out.length > 0 ? out : null;
+    const missing = ids.filter((id) => !seen.has(id) && !compactOnly.has(id));
+    if (missing.length > 0 && live[0]) live[0].tabs.push(...missing);
+    return live.length > 0 ? live : null;
   } catch {
     return null;
   }
@@ -95,43 +101,45 @@ export function isCompactScreen(): boolean {
   const H = window.innerHeight;
   return W < 760 || (W < 1000 && H > W);
 }
-const KEY_COMPACT = `${KEY}.c`;
-/** 狭い画面のウィンドウの高さ（置ける高さに対する割合と、上限・下限 px） */
-const COMPACT_TOP_F = 0.28;
-const COMPACT_BOTTOM_F = 0.3;
-/** 上のウィンドウが最小化されているときの、下のウィンドウの高さの割合（空いた分をログに回す） */
-const COMPACT_BOTTOM_ALONE_F = 0.5;
-/** 狭い画面の下のウィンドウの高さの下限（ログの本文が数行は見えるように） */
-const COMPACT_BOTTOM_MIN_H = 180;
-const COMPACT_MIN_H = 120;
-const COMPACT_MAX_H = 340;
+const KEY_COMPACT = `${KEY}.c2`; // 1 つのウィンドウにまとめたときに変えた（前の最小化・開いていたタブを持ち越さない）
+/** 狭い画面の 1 つにまとめたウィンドウの高さ（画面の高さに対する割合。ユーザーの指定） */
+const COMPACT_H_F = 0.35;
+/** 狭い画面で、まとめたウィンドウのタブの並び（ログを先に） */
+const COMPACT_ORDER = ['log', 'timeline', 'climbers', 'weather'];
 
 export function createDock(panels: DockPanel[], defaults: DockWindowState[], opts: DockOptions = {}): Dock {
   const host = el('div', { class: 'dock' });
   const byId = new Map(panels.map((p) => [p.id, p]));
   const ids = panels.map((p) => p.id);
+  const compactOnly = new Set(panels.filter((p) => p.compactOnly).map((p) => p.id));
   let compact = isCompactScreen();
   /** 広い画面の配置（覚えたもの） */
-  let wideStates: DockWindowState[] = loadLayout(ids) ?? defaults.map((d) => ({ ...d, tabs: [...d.tabs] }));
-  /** 狭い画面の配置（タブのまとまりと最小化だけ覚え、位置と大きさは毎回決める） */
-  let compactStates: DockWindowState[] = loadCompact() ?? defaults.map((d) => ({ ...d, tabs: [...d.tabs], min: false }));
+  let wideStates: DockWindowState[] = loadLayout(ids, compactOnly) ?? defaults.map((d) => ({ ...d, tabs: d.tabs.filter((t) => !compactOnly.has(t)) }));
+  /** 狭い画面の配置: すべてのタブを 1 つのウィンドウに（開いているタブと最小化だけ覚え、位置と大きさは毎回決める） */
+  let compactStates: DockWindowState[] = [loadCompact()];
   let states: DockWindowState[] = compact ? compactStates : wideStates;
 
-  function loadCompact(): DockWindowState[] | null {
+  function compactTabs(): string[] {
+    const rank = (id: string): number => {
+      const i = COMPACT_ORDER.indexOf(id);
+      return i < 0 ? COMPACT_ORDER.length + ids.indexOf(id) : i;
+    };
+    return [...ids].sort((a, b) => rank(a) - rank(b));
+  }
+
+  function loadCompact(): DockWindowState {
+    const tabs = compactTabs();
+    let active = tabs.includes('log') ? 'log' : tabs[0]!;
+    let min = false;
     try {
-      const v = JSON.parse(localStorage.getItem(KEY_COMPACT) ?? 'null') as { tabs: string[]; active: string; min: boolean }[] | null;
-      if (!Array.isArray(v)) return null;
-      const seen = new Set<string>();
-      const out = v
-        .map((w) => ({ x: 0, y: 0, w: 300, h: 200, min: !!w.min, tabs: (w.tabs ?? []).filter((t) => ids.includes(t) && !seen.has(t) && (seen.add(t), true)), active: w.active, snap: {} }))
-        .filter((w) => w.tabs.length > 0)
-        .map((w) => ({ ...w, active: w.tabs.includes(w.active) ? w.active : w.tabs[0]! }));
-      const missing = ids.filter((id) => !seen.has(id));
-      if (missing.length > 0 && out[0]) out[0].tabs.push(...missing);
-      return out.length > 0 ? out : null;
+      const v = JSON.parse(localStorage.getItem(KEY_COMPACT) ?? 'null') as { tabs?: string[]; active?: string; min?: boolean }[] | null;
+      const w = Array.isArray(v) ? v[0] : undefined;
+      if (w && typeof w.active === 'string' && tabs.includes(w.active)) active = w.active;
+      if (w) min = !!w.min;
     } catch {
-      return null;
+      // 読めなければ既定
     }
+    return { x: 0, y: 0, w: 300, h: 200, min, tabs, active, snap: {} };
   }
 
   const save = (): void => {
@@ -144,29 +152,23 @@ export function createDock(panels: DockPanel[], defaults: DockWindowState[], opt
     }
   };
 
-  /** 狭い画面: 1 つ目のウィンドウを上、ほかを下に、幅いっぱいで並べる（高さは画面に合わせる） */
+  /** 狭い画面: すべてのタブを 1 つのウィンドウにまとめ、画面の下に幅いっぱい・高さは画面の 35% で置く */
   const layoutCompact = (): void => {
     const B = bounds();
-    const bottom = B.b - Math.max(0, Math.round(opts.bottomInset?.() ?? 0));
-    const bh = Math.max(MIN_H * 2, bottom - B.t);
-    const hTop = clampN(Math.round(bh * COMPACT_TOP_F), COMPACT_MIN_H, COMPACT_MAX_H);
-    const topMin = states[0]?.min ?? false;
-    const hBottom = clampN(Math.round(bh * (topMin ? COMPACT_BOTTOM_ALONE_F : COMPACT_BOTTOM_F)), Math.min(COMPACT_BOTTOM_MIN_H, Math.round(bh * 0.6)), topMin ? Math.round(bh * 0.6) : COMPACT_MAX_H);
-    states.forEach((st, i) => {
-      st.x = B.l;
-      st.w = B.r - B.l;
-      if (i === 0) {
-        st.y = B.t;
-        st.h = hTop;
-        st.snap = { l: true, r: true, t: true };
-      } else {
-        st.h = hBottom;
-        // 下のウィンドウが複数あれば、下から積む
-        const below = states.slice(i + 1).reduce((a, x) => a + (x.min ? MIN_BAR_H : hBottom), 0);
-        st.y = bottom - below - (st.min ? MIN_BAR_H : hBottom);
-        st.snap = { l: true, r: true };
-      }
-    });
+    // タブを切り離しても、狭い画面では 1 つに戻す
+    const first = states[0] ?? loadCompact();
+    const all = compactTabs();
+    const active = states.find((st) => !st.min && st.tabs.includes(st.active))?.active ?? first.active;
+    first.tabs = all;
+    first.active = all.includes(active) ? active : all[0]!;
+    states.length = 0;
+    states.push(first);
+    compactStates = states;
+    first.x = B.l;
+    first.w = B.r - B.l;
+    first.h = clampN(Math.round(window.innerHeight * COMPACT_H_F), Math.min(MIN_H, B.b - B.t), B.b - B.t);
+    first.y = B.b - (first.min ? MIN_BAR_H : first.h);
+    first.snap = { l: true, r: true, b: true };
   };
 
   /** ウィンドウを置ける範囲 */
@@ -235,7 +237,18 @@ export function createDock(panels: DockPanel[], defaults: DockWindowState[], opt
     if (compact) {
       compactStates = states;
       layoutCompact();
-    } else wideStates = states;
+    } else {
+      // 広い画面では、狭い画面だけのタブ（タイムライン）を外す（呼び出し側が元の場所へ戻す）
+      for (const st of states) {
+        st.tabs = st.tabs.filter((t) => !compactOnly.has(t));
+        if (!st.tabs.includes(st.active) && st.tabs[0]) st.active = st.tabs[0];
+      }
+      states = states.filter((st) => st.tabs.length > 0);
+      wideStates = states;
+    }
+    // 狭い画面で、開いていない狭い画面だけのタブの中身は、画面から外す（広い画面では呼び出し側が置き直す）
+    if (compact) for (const id of compactOnly) if (!states.some((st) => st.active === id)) byId.get(id)?.content.remove();
+    opts.onCompactChange?.(compact);
     states.forEach((st, wi) => {
       if (!st.tabs.includes(st.active)) st.active = st.tabs[0]!;
       const body = el('div', { class: 'fwin-body' }, [byId.get(st.active)!.content]);

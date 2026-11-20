@@ -8,7 +8,7 @@ import { closeLogDetail, snapOf } from './logDetail';
 import { Timeline } from '../app/timeline';
 import { createTimelineBar } from './timelineBar';
 import { showTitleCard } from './titleCard';
-import { createDock } from './dockWindows';
+import { createDock, isCompactScreen } from './dockWindows';
 import { dlog, versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
@@ -198,11 +198,15 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // 3D 画面を全面に敷き、ログ・登山者・気象は「合体できるタブ式のウィンドウ」として重ねる（狭い画面では最小化して始める）
   const narrow = window.innerWidth < 900;
   const sideW = Math.min(330, window.innerWidth - 16);
+  /** ウィンドウの入れ物の場所（広い画面でタイムラインをこの後ろに戻す） */
+  const dockHost = el('div', { class: 'dock-anchor', hidden: true });
   const dock = createDock(
     [
       { id: 'climbers', title: JA.ui.climbers, icon: 'groups', content: hud.climbersPane },
       { id: 'weather', title: JA.ui.weatherTab, icon: 'partlyCloudyDay', content: hud.weatherPane },
       { id: 'log', title: JA.ui.log, icon: 'listAlt', content: hud.logPane },
+      // 狭い画面（スマホ）では、タイムラインもタブにして 1 つのウィンドウにまとめる（ユーザーの指定）
+      { id: 'timeline', title: JA.ui.timeline, icon: 'history', content: tlBar.el, compactOnly: true },
     ],
     [
       { x: window.innerWidth - sideW - 12, y: 60, w: sideW, h: Math.round(window.innerHeight * 0.6), min: narrow, tabs: ['climbers', 'weather'], active: 'climbers' },
@@ -213,9 +217,13 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       topInset: () => (hud.top.isConnected ? hud.top.getBoundingClientRect().bottom : 0),
       // 狭い画面では、下のウィンドウをタイムラインのバーの上に置く
       bottomInset: () => (tlBar.el.isConnected ? window.innerHeight - tlBar.el.getBoundingClientRect().top + 6 : 96),
+      // 広い画面では、タイムラインを画面の下のバーに戻す
+      onCompactChange: (c) => {
+        if (!c && tlBar.el.previousElementSibling !== dockHost) dockHost.after(tlBar.el);
+      },
     },
   );
-  const simMain = el('main', { class: 'sim' }, [stage, hud.top, dock.el, tlBar.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]);
+  const simMain = el('main', { class: 'sim' }, [stage, hud.top, dock.el, dockHost, ...(isCompactScreen() ? [] : [tlBar.el]), modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]);
   // シミュレーション画面では、ブラウザの右クリックメニューを出さない（右ドラッグで視点を回すため。ユーザーの指定）
   simMain.addEventListener('contextmenu', (e) => {
     if (!(e.target as HTMLElement).closest('input, textarea, [contenteditable="true"]')) e.preventDefault();
