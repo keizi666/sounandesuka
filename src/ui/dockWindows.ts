@@ -99,6 +99,10 @@ const KEY_COMPACT = `${KEY}.c`;
 /** 狭い画面のウィンドウの高さ（置ける高さに対する割合と、上限・下限 px） */
 const COMPACT_TOP_F = 0.28;
 const COMPACT_BOTTOM_F = 0.3;
+/** 上のウィンドウが最小化されているときの、下のウィンドウの高さの割合（空いた分をログに回す） */
+const COMPACT_BOTTOM_ALONE_F = 0.5;
+/** 狭い画面の下のウィンドウの高さの下限（ログの本文が数行は見えるように） */
+const COMPACT_BOTTOM_MIN_H = 180;
 const COMPACT_MIN_H = 120;
 const COMPACT_MAX_H = 340;
 
@@ -146,7 +150,8 @@ export function createDock(panels: DockPanel[], defaults: DockWindowState[], opt
     const bottom = B.b - Math.max(0, Math.round(opts.bottomInset?.() ?? 0));
     const bh = Math.max(MIN_H * 2, bottom - B.t);
     const hTop = clampN(Math.round(bh * COMPACT_TOP_F), COMPACT_MIN_H, COMPACT_MAX_H);
-    const hBottom = clampN(Math.round(bh * COMPACT_BOTTOM_F), COMPACT_MIN_H, COMPACT_MAX_H);
+    const topMin = states[0]?.min ?? false;
+    const hBottom = clampN(Math.round(bh * (topMin ? COMPACT_BOTTOM_ALONE_F : COMPACT_BOTTOM_F)), Math.min(COMPACT_BOTTOM_MIN_H, Math.round(bh * 0.6)), topMin ? Math.round(bh * 0.6) : COMPACT_MAX_H);
     states.forEach((st, i) => {
       st.x = B.l;
       st.w = B.r - B.l;

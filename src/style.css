@@ -804,6 +804,18 @@ ol.log .face.tappable:hover { filter: brightness(1.12); }
 .trip-banner .tb-item strong { font-variant-numeric: tabular-nums; font-size: 1rem; display: inline-flex; align-items: center; gap: 2px; }
 .trip-banner .tb-elev strong.up { color: #fca5a5; }
 .trip-banner .tb-elev strong.down { color: #93c5fd; }
+/* 狭い画面: 帯を 1 行に（見出しの文字を隠してアイコンと数だけ。はみ出す分は横にスクロール）。ログの本文の場所を空ける（ユーザーの指摘: スマホで帯しか見えない） */
+@media (max-width: 760px) {
+  .trip-banner { flex-wrap: nowrap; gap: 10px; padding: 4px 10px; font-size: 0.82rem; overflow-x: auto; scrollbar-width: none; }
+  .trip-banner::-webkit-scrollbar { display: none; }
+  .trip-banner .tb-who { flex: 0 0 auto; gap: 4px; }
+  .trip-banner .tb-who .avatar { width: 20px !important; height: 20px !important; }
+  .trip-banner .tb-item { flex: 0 0 auto; gap: 3px; }
+  .trip-banner .tb-item small { display: none; }
+  .trip-banner .tb-item svg { width: 14px; height: 14px; }
+  .trip-banner .tb-item strong { font-size: 0.88rem; }
+  .log-latest { bottom: 36px; }
+}
 
 /* ---- 振り返り: 結果画面の上に重ねるパネル（ユーザーの指定） ---- */
 .db-overlay { position: fixed; inset: 0; z-index: 60; display: flex; align-items: flex-start; justify-content: center; padding: 28px 16px; background: rgba(8, 10, 14, 0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); overflow-y: auto; animation: db-in 0.18s ease-out; }
