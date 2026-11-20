@@ -55,7 +55,7 @@ function noise(x: number, z: number, scaleM: number, seed = 0): number {
   return a + (b - a) * ux + (c - a) * uz + (a - b - c + d) * ux * uz;
 }
 
-interface Instance {
+export interface Instance {
   kind: Kind;
   variant: number;
   x: number;

@@ -28,6 +28,7 @@ import { createSky, type Sky } from './sky';
 import { scenarioDateMs, skyState, type SkyState } from './astro';
 import { buildWaterfalls } from './waterfalls';
 import { Ghosts } from './ghosts';
+import type { ViewPre } from './viewCache';
 
 /** この環境で使えなかった描画機能の覚え書き（localStorage）。設定の「初期化」とは別に、キーを消せば戻る */
 // v2: 描き始めの一瞬（シェーダーを組み立てている間）を真っ黒と取り違えて記録した「にじみなし」を、一度やり直す
@@ -62,6 +63,8 @@ export interface ViewOptions {
   vExag: number;
   /** 立体の雲（気象の計算） */
   clouds3d?: boolean;
+  /** 前に作った 3D のデータ（キャッシュ。viewCache.ts） */
+  pre?: ViewPre;
 }
 
 const QUALITY = {
@@ -90,6 +93,8 @@ export class SceneView {
   readonly camera: THREE.PerspectiveCamera;
   readonly controls: OrbitControls;
   readonly env: EnvUniforms = createEnvUniforms();
+  /** この表示で新しく作った 3D のデータ（キャッシュに入れる） */
+  readonly made: ViewPre = {};
   readonly s: ViewScale;
   private sun = new THREE.DirectionalLight(0xffffff, 2.2);
   private hemi = new THREE.HemisphereLight(0xc9dcf0, 0x5a4a3a, 0.8);
@@ -188,7 +193,9 @@ export class SceneView {
     this.controls.maxPolarAngle = 80 * DEG;
 
     // 登山道と沢の地図（地面の塗り分けと掘り下げに使う）と、写真から作ったテクスチャ
-    const masks = buildGroundMasks(map);
+    const pre = opts.pre ?? {};
+    const masks = buildGroundMasks(map, pre.masks);
+    if (!pre.masks) this.made.masks = masks.pixels;
     this.env.uMask.value = masks.texture;
     this.env.uMaskOn.value = 1;
     this.env.uMapHalf.value = map.half * UNIT;
@@ -212,12 +219,15 @@ export class SceneView {
         })
         .catch(() => undefined); // 読めなければ、テクスチャなしの塗り分けのまま続ける
     }
-    const terrain = buildTerrain(map, this.s, this.env, scenario.season, q.step, masks, opts.quality === 'high' ? 2 : 1);
+    const terrain = buildTerrain(map, this.s, this.env, scenario.season, q.step, masks, opts.quality === 'high' ? 2 : 1, pre.terrain);
+    if (!pre.terrain) this.made.terrain = terrain.arrays;
     this.heightAt = terrain.heightAt;
     this.scene.add(terrain.mesh, buildDiorama(map, this.s, this.env));
     // 雪山: 始まりの積雪の線（シナリオの snowpack か、月と緯度の目安）。草・ハイマツは埋もれる
     this.baseSnowLine = baseSnowLineM(scenario, map.def.geo?.centerLat ?? 36);
-    this.veg = buildVegetation(buryUnderSnow(placeTrees(map, this.s, this.heightAt, q.trees), this.s, this.baseSnowLine), scenario.season, this.env, q.shadow > 0);
+    const trees = pre.trees ?? placeTrees(map, this.s, this.heightAt, q.trees);
+    if (!pre.trees) this.made.trees = trees;
+    this.veg = buildVegetation(buryUnderSnow(trees, this.s, this.baseSnowLine), scenario.season, this.env, q.shadow > 0);
     this.scene.add(this.veg.group);
     const tr = buildTrails(map, this.s, this.heightAt);
     this.falseTrails = tr.falseTrails;

@@ -2,6 +2,7 @@
  * データの読み込み（public/ の JSON、バンドル）。fetch は BASE_URL を前置する（docs/03 §10）。
  * マップの派生レイヤーは本体で作り、重い電波圏だけ Worker で計算して待つ（sim の結果を Node と一致させるため）。
  */
+import { cacheGet, cacheKey, cachePut, hashText } from './cacheStore';
 import type { StartConditions } from '../sim/scenario/startConditions';
 import { validateScenario } from '../sim/scenario/validate';
 import { buildMapRuntime } from '../sim/terrain/map';
@@ -59,6 +60,17 @@ async function getJsonWithProgress<T>(path: string, onProgress?: (frac: number |
   return JSON.parse(new TextDecoder().decode(buf)) as T;
 }
 
+const mapHashes = new WeakMap<MapDef, string>();
+/** 地図の定義の中身のハッシュ（エディターで地図を直したら別のキャッシュになる） */
+export function mapHash(def: MapDef): string {
+  let h = mapHashes.get(def);
+  if (!h) {
+    h = `${def.id}-${def.resolution}-${hashText(JSON.stringify(def))}`;
+    mapHashes.set(def, h);
+  }
+  return h;
+}
+
 const runtimeCache = new Map<string, Promise<MapRuntime>>();
 
 /** MapRuntime を作る（電波圏は Worker）。同じ定義はキャッシュする */
@@ -67,6 +79,10 @@ export function buildRuntime(def: MapDef): Promise<MapRuntime> {
   let p = runtimeCache.get(key);
   if (!p) {
     p = (async () => {
+      // 前に作った同じ地図の結果があれば使う（IndexedDB。ユーザーの指定: 開始時のデータを毎回作らない）
+      const ck = cacheKey('runtime', mapHash(def));
+      const hit = await cacheGet<Omit<MapRuntime, 'def'>>(ck);
+      if (hit && hit.n === def.resolution) return { ...hit, def } as MapRuntime;
       const worker = new Worker(new URL('../workers/coverage.worker.ts', import.meta.url), { type: 'module' });
       const radio = new Promise<Float32Array>((resolve, reject) => {
         worker.onmessage = (ev: MessageEvent<{ radio: Float32Array }>) => resolve(ev.data.radio);
@@ -76,6 +92,10 @@ export function buildRuntime(def: MapDef): Promise<MapRuntime> {
       const { map } = buildMapRuntime(def, { radio: false });
       map.radio = await radio;
       worker.terminate();
+      // 地図の定義（大きい）はキャッシュに入れず、読み直したものを付ける
+      const { def: _def, ...rest } = map;
+      void _def;
+      void cachePut(ck, rest);
       return map;
     })();
     runtimeCache.set(key, p);

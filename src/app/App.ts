@@ -18,7 +18,7 @@ import { showHistory } from '../ui/history';
 import { showCommunity } from '../ui/community/communityScreen';
 import { showCommunityRun } from '../ui/community/communityDetail';
 import { showScenarioSelect } from '../ui/scenarioSelect';
-import { showSimScreen, type SimResult } from '../ui/simScreen';
+import { preloadView, showSimScreen, type SimResult } from '../ui/simScreen';
 import { checkWebGL2, el, toast } from '../ui/dom';
 import { nextPaint, progressTo, showLoading } from '../ui/loading';
 import type { LoadedScenario } from './data';
@@ -114,10 +114,13 @@ export function startApp(root: HTMLElement): void {
             gone = true;
             ld.done();
           };
-          void nextPaint().then(() => {
+          void nextPaint().then(async () => {
+            if (gone) return;
+            // 前に作った 3D のデータ（キャッシュ）を読んでから作る
+            const pre = await preloadView(app, screen.loaded).catch(() => undefined);
             if (gone) return;
             try {
-              const c = showSimScreen(app, screen.loaded, screen.resume, screen.observe, screen.replay);
+              const c = showSimScreen(app, screen.loaded, screen.resume, screen.observe, screen.replay, pre);
               cleanup = c;
             } finally {
               void nextPaint().then(() => ld.done());

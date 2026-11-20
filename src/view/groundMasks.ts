@@ -63,7 +63,8 @@ export function flowAccumulation(map: MapRuntime): { down: Int32Array; acc: Floa
   return { down, acc };
 }
 
-export function buildGroundMasks(map: MapRuntime): GroundMasks {
+/** pre: 前に作った画素（キャッシュ）。あれば描かずにそれを使う。返り値の pixels はキャッシュに入れる */
+export function buildGroundMasks(map: MapRuntime, pre?: Uint8ClampedArray): GroundMasks & { pixels: Uint8ClampedArray } {
   const size = map.def.size;
   const S = size > 8000 ? 2048 : 1024;
   const pxPerM = S / size;
@@ -71,12 +72,15 @@ export function buildGroundMasks(map: MapRuntime): GroundMasks {
   c.width = S;
   c.height = S;
   const g = c.getContext('2d', { willReadFrequently: true })!;
+  const px = (m: number): number => (m + map.half) * pxPerM;
+  const data = pre && pre.length === S * S * 4 ? pre : drawMasks();
+  if (data === pre) g.putImageData(new ImageData(new Uint8ClampedArray(pre), S, S), 0, 0);
+  function drawMasks(): Uint8ClampedArray {
   g.fillStyle = '#000';
   g.fillRect(0, 0, S, S);
   g.globalCompositeOperation = 'lighter';
   g.lineCap = 'round';
   g.lineJoin = 'round';
-  const px = (m: number): number => (m + map.half) * pxPerM;
 
   // 沢: 植生クラス STREAM のセルを、流れ下る隣のセルへ線でつなぐ。幅は集水面積で決め、源流（山頂に近い所）ほど細く、下流ほど太くする
   const cellPx = map.cell * pxPerM;
@@ -128,7 +132,8 @@ export function buildGroundMasks(map: MapRuntime): GroundMasks {
     }
   }
   g.globalCompositeOperation = 'source-over';
-  const data = g.getImageData(0, 0, S, S).data;
+  return g.getImageData(0, 0, S, S).data;
+  }
   const texture = new THREE.CanvasTexture(c);
   texture.colorSpace = THREE.NoColorSpace;
   texture.flipY = false; // 画像の y をそのまま z（南）に対応させる
@@ -149,6 +154,7 @@ export function buildGroundMasks(map: MapRuntime): GroundMasks {
   };
   return {
     texture,
+    pixels: data,
     trail: (x, z) => sample(x, z, 0),
     stream: (x, z) => sample(x, z, 1),
   };

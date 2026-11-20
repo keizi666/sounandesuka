@@ -25,8 +25,19 @@ export function vegColors(season: string): Record<number, THREE.Color> {
   };
 }
 
+/** 地形のメッシュの頂点（キャッシュに入れる）。m は一辺の頂点数 */
+export interface TerrainArrays {
+  m: number;
+  pos: Float32Array;
+  col: Float32Array;
+  cover: Float32Array;
+  normal: Float32Array;
+}
+
 export interface TerrainBuild {
   mesh: THREE.Mesh;
+  /** 頂点（キャッシュに入れる） */
+  arrays: TerrainArrays;
   /** 高さの読み出し（シーン座標 x・z → シーンの y） */
   heightAt: (x: number, z: number) => number;
 }
@@ -58,7 +69,7 @@ function vnoise(x: number, z: number, scaleM: number): number {
  * 地表には細かな起伏を足し、登山道は少し、沢は V 字に掘り下げる（masks。docs/19 フェーズ 4）。
  * heightAt も同じ形を返すので、人形・樹木・建物は掘り下げた地面に乗る（シミュレーションの標高は変えない）。
  */
-export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, season: string, step = 1, masks: GroundMasks | null = null, sub = 1): TerrainBuild {
+export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, season: string, step = 1, masks: GroundMasks | null = null, sub = 1, pre?: TerrainArrays): TerrainBuild {
   const n = map.n;
   const colors = vegColors(season);
   const tmp = new THREE.Color();
@@ -113,10 +124,12 @@ export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, se
   };
   const cells = Math.floor((n - 1) / step) * sub;
   const m = cells + 1;
-  const pos = new Float32Array(m * m * 3);
-  const col = new Float32Array(m * m * 3);
-  const cover = new Float32Array(m * m * 3);
-  for (let j = 0; j < m; j += 1) {
+  // 前に作った頂点（キャッシュ）があれば、それを使う（ユーザーの指定: 開始時のデータを毎回作らない）
+  const hit = pre && pre.m === m && pre.pos.length === m * m * 3 ? pre : null;
+  const pos = hit?.pos ?? new Float32Array(m * m * 3);
+  const col = hit?.col ?? new Float32Array(m * m * 3);
+  const cover = hit?.cover ?? new Float32Array(m * m * 3);
+  for (let j = 0; j < (hit ? 0 : m); j += 1) {
     for (let i = 0; i < m; i += 1) {
       const fx = Math.min(n - 1, (i * step) / sub);
       const fz = Math.min(n - 1, (j * step) / sub);
@@ -132,24 +145,33 @@ export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, se
       }
     }
   }
-  const idx: number[] = [];
+  // 三角形の番号（型付き配列で作る。普通の配列に 600 万個積むより速い）
+  const idx = m * m > 65535 ? new Uint32Array((m - 1) * (m - 1) * 6) : new Uint16Array((m - 1) * (m - 1) * 6);
+  let q = 0;
   for (let j = 0; j < m - 1; j += 1) {
     for (let i = 0; i < m - 1; i += 1) {
       const a = j * m + i;
-      idx.push(a, a + m, a + 1, a + 1, a + m, a + m + 1);
+      idx[q++] = a;
+      idx[q++] = a + m;
+      idx[q++] = a + 1;
+      idx[q++] = a + 1;
+      idx[q++] = a + m;
+      idx[q++] = a + m + 1;
     }
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   g.setAttribute('color', new THREE.BufferAttribute(col, 3));
   g.setAttribute('aCover', new THREE.BufferAttribute(cover, 3));
-  g.setIndex(idx);
-  g.computeVertexNormals();
+  g.setIndex(new THREE.BufferAttribute(idx, 1));
+  if (hit) g.setAttribute('normal', new THREE.BufferAttribute(hit.normal, 3));
+  else g.computeVertexNormals();
+  const normal = (g.getAttribute('normal') as THREE.BufferAttribute).array as Float32Array;
   const mesh = new THREE.Mesh(g, createTerrainMaterial(env));
   mesh.receiveShadow = true;
   mesh.castShadow = true;
   const heightAt = (x: number, z: number): number => toSceneY(s, elevAt(x / UNIT, z / UNIT));
-  return { mesh, heightAt };
+  return { mesh, heightAt, arrays: { m, pos, col, cover, normal } };
 }
 
 /** 側面の断面（表土・礫層・岩盤の縞を y から生成）と台座・机 */

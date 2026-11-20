@@ -21,6 +21,7 @@ import { DT_SEC } from '../sim/core/step';
 import { createStaticContext, createWorld } from '../sim/core/world';
 import { encodeState, setAddress, stateOf, stateUrl, type PlayMode, type SharedState } from '../app/shareState';
 import { replayTo } from './simReplay';
+import { loadViewPre, saveViewPre, viewKeys, type ViewPre } from '../view/viewCache';
 import { icon } from './icons';
 import { createRecorder, recordTick, type RecorderState } from '../sim/record/recorder';
 import { autoResolve, choiceLeader, findChoicePoint, resolveChoice } from '../sim/scenario/choices';
@@ -66,7 +67,13 @@ export function optionLabel(loaded: LoadedScenario, cpId: string, optionId: stri
   return JA.generic[cpId.slice(8)]?.options[optionId] ?? optionId;
 }
 
-export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: ResumeData, observe = false, replay?: SharedState): () => void {
+/** 画面を開く前に、前に作った 3D のデータ（キャッシュ）を読む（ユーザーの指定: 同じ条件なら作り直さない） */
+export async function preloadView(app: AppContext, loaded: LoadedScenario): Promise<ViewPre> {
+  const st = app.settings;
+  return loadViewPre(viewKeys(loaded.map, loaded.scenario.season, effectiveQuality(st), st.vExag));
+}
+
+export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: ResumeData, observe = false, replay?: SharedState, pre?: ViewPre): () => void {
   const { scenario, map } = loaded;
   const st = app.settings;
   // URL の場面から作り直すときは、その URL の遊び方で進める（同じ場面にするため）
@@ -97,7 +104,11 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // 始まりは追従（登山者の周りが見える近さ）
   let cam: CameraMode = 'follow';
   dlog('シナリオ開始', { scenario: scenario.id, map: map.def.id, size: map.def.size, resolution: map.n, party: scenario.party.length, resume: !!resume, observe, timed, tMin: world.tMin, quality: effectiveQuality(st), settings: st });
-  const view = new SceneView(canvas, map, scenario, { quality: effectiveQuality(st), figureScale: st.figureScale, vExag: st.vExag, clouds3d: st.clouds3d });
+  const tView = performance.now();
+  const view = new SceneView(canvas, map, scenario, { quality: effectiveQuality(st), figureScale: st.figureScale, vExag: st.vExag, clouds3d: st.clouds3d, pre });
+  dlog('3D の準備', { ms: Math.round(performance.now() - tView), cache: { masks: !!pre?.masks, terrain: !!pre?.terrain, trees: !!pre?.trees } });
+  // 新しく作ったものは、次のためにキャッシュに入れる（画面が出てから、裏で）
+  window.setTimeout(() => saveViewPre(viewKeys(map, scenario.season, effectiveQuality(st), st.vExag), view.made), 1500);
   // 環境音（雨・風・雷）。最初は止めておき、上のバーのボタンで出す（ブラウザの決まりで、操作のあとでないと鳴らせない）
   const sound = createAmbientSound();
   sound.setVolume(st.soundVolume);
