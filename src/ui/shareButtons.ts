@@ -39,7 +39,7 @@ export function siteUrl(): string {
 }
 
 /** 共有のボタンの並び。target が Promise なら、できるまで押せない */
-export function shareButtons(target: ShareTarget | Promise<ShareTarget>, opts: { note?: string } = {}): HTMLElement {
+export function shareButtons(target: ShareTarget | Promise<ShareTarget>, opts: { note?: string; onOpen?: (serviceId: string) => void } = {}): HTMLElement {
   const C = JA.share;
   const links = SERVICES.map((s) =>
     el('a', { class: `sh-btn sh-${s.id}`, target: '_blank', rel: 'noopener noreferrer', 'aria-disabled': 'true', title: fill(C.on, { name: s.label }) }, [
@@ -48,6 +48,8 @@ export function shareButtons(target: ShareTarget | Promise<ShareTarget>, opts: {
     ]) as HTMLAnchorElement,
   );
   let ready: ShareTarget | null = null;
+  // 投稿の画面を開くとき（押した瞬間。画像をクリップボードへ入れるなど）
+  links.forEach((a, i) => a.addEventListener('click', () => opts.onOpen?.(SERVICES[i]!.id)));
   const copy = el('button', { class: 'sh-btn sh-copy', type: 'button', disabled: true, title: C.copy }, [el('span', { class: 'sh-mark', 'aria-hidden': 'true' }, icon('link')), el('span', { class: 'sh-lbl' }, C.copy)]);
   copy.addEventListener('click', async () => {
     if (!ready) return;

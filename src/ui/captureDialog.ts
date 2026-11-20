@@ -69,7 +69,18 @@ export function openCaptureDialog(item: CaptureItem, onClose?: () => void): void
     el('p', { class: 'cap-meta' }, item.kind === 'video' ? fill(C.videoMeta, { sec: Math.round(item.sec ?? 0), mb: sizeMb, ext: item.fileName.split('.').pop()?.toUpperCase() ?? '' }) : fill(C.imageMeta, { mb: sizeMb })),
     el('div', { class: 'cap-actions' }, [save, copy, device]),
     el('h3', { class: 'cap-sub' }, C.toSns),
-    shareButtons(item.share, { note: canShareFile ? C.snsNoteDevice : C.snsNote }),
+    shareButtons(item.share, {
+      note: item.kind === 'image' && canCopy ? C.snsNoteImage : canShareFile ? C.snsNoteDevice : C.snsNote,
+      // 画像は、SNS のボタンを押した瞬間にクリップボードへ入れる（投稿の欄に貼り付ければ添付される。ユーザーの指定）。ブラウザから SNS に画像を直接渡す方法はない
+      onOpen: item.kind === 'image' && canCopy
+        ? () => {
+            navigator.clipboard
+              .write([new ClipboardItem({ [item.blob.type]: item.blob })])
+              .then(() => toast(C.pasteHint, 6000))
+              .catch(() => toast(C.copyFailed, 4000));
+          }
+        : undefined,
+    }),
     item.kind === 'video' && item.fileName.endsWith('.webm') ? el('p', { class: 'cap-warn' }, C.webmNote) : null,
   ]);
   dlg.addEventListener('close', () => {
