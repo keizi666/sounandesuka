@@ -37,6 +37,31 @@ export function cIcon(name: CIconName): SVGElement {
   return svg;
 }
 
+const EMOJI_FONT = "'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif";
+
+/**
+ * 絵文字を丸の真ん中に描く（ユーザーの指定）。文字として置くと、フォントによって字形が枠の中で左下に寄るので、
+ * キャンバスに描き、実際に描かれる部分（インク）の大きさを測って、その中心を真ん中に合わせる
+ */
+function emojiCanvas(emoji: string, size: number): HTMLCanvasElement {
+  const dpr = Math.min(3, window.devicePixelRatio || 1);
+  const c = document.createElement('canvas');
+  c.width = Math.round(size * dpr);
+  c.height = Math.round(size * dpr);
+  c.className = 'cm-av-emoji-c';
+  const g = c.getContext('2d');
+  if (!g) return c;
+  g.scale(dpr, dpr);
+  g.font = `${Math.round(size * 0.58)}px ${EMOJI_FONT}`;
+  g.textAlign = 'left';
+  g.textBaseline = 'alphabetic';
+  const m = g.measureText(emoji);
+  const w = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+  const h = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+  g.fillText(emoji, size / 2 - w / 2 + m.actualBoundingBoxLeft, size / 2 - h / 2 + m.actualBoundingBoxAscent);
+  return c;
+}
+
 /**
  * 利用者の顔。登山者のイラスト・絵文字（OS の絵文字をそのまま）・アップロードした画像のどれか。
  * localImage は、まだ送っていない画像（プロフィールの画面の見本。data: か blob: の URL）
@@ -48,7 +73,7 @@ export function userAvatar(u: Pick<PublicUser, 'id' | 'nickname' | 'portrait' | 
     const url = localImage ?? avatarImageUrl(u.id, ic?.kind === 'img' ? ic.version : '');
     return el('span', { class: 'avatar img cm-av-img', 'aria-hidden': 'true', style: `${base};background-image:url("${url}")` });
   }
-  if (ic?.kind === 'emoji') return el('span', { class: 'avatar cm-av-emoji', 'aria-hidden': 'true', style: `${base};font-size:${Math.round(size * 0.58)}px` }, ic.emoji);
+  if (ic?.kind === 'emoji') return el('span', { class: 'avatar cm-av-emoji', 'aria-hidden': 'true', style: base }, emojiCanvas(ic.emoji, size));
   return avatar({ id: `user-${u.id}`, name: u.nickname, color: u.color, portrait: ic?.kind === 'portrait' ? ic.value : 'mid_m:1', age: 40, sex: 'm' }, size);
 }
 

@@ -801,3 +801,11 @@ dialog.settings .settings-foot button { min-width: 140px; padding: 8px 24px; }
 .stage .pause-overlay:hover { background: rgba(40, 44, 52, 0.7); transform: translate(-50%, -50%) scale(1.04); }
 .stage .pause-overlay:active { transform: translate(-50%, -50%) scale(0.97); }
 @media (max-width: 760px) { .stage .pause-overlay { width: 104px; height: 104px; border-radius: 22px; } .stage .pause-overlay svg { width: 56px; height: 56px; } }
+
+/* ---- トップの右上のプロフィール（ユーザーの指定） ---- */
+.sel-bar .sel-prof { margin-left: auto; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; min-height: 0; padding: 4px 14px 4px 5px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.06); color: #e9ecf1; font-size: 0.92em; cursor: pointer; max-width: 220px; }
+.sel-bar .sel-prof:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.3); }
+.sel-bar .sel-prof .avatar { border-width: 2px; }
+.sel-bar .sel-prof > svg { width: 1.15em; height: 1.15em; margin-left: 6px; fill: var(--accent, #d4a64a); }
+.sel-bar .sel-prof-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 640px) { .sel-bar .sel-prof-t { display: none; } .sel-bar .sel-prof { padding: 4px; } }

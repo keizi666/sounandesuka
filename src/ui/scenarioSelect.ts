@@ -23,6 +23,9 @@ import { progressTo, showLoading } from './loading';
 import { openSettings } from './settingsDialog';
 import { anySoundOn, toggleSoundPanel } from './soundPanel';
 import { communityBanner } from './community/banner';
+import { cIcon, userAvatar } from './community/common';
+import { openProfileDialog } from './community/profileDialog';
+import { loadProfile } from '../net/profile';
 
 /** バンドル（*.sounan.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
 async function openBundle(app: AppContext, file: File): Promise<void> {
@@ -189,6 +192,14 @@ export function showScenarioSelect(app: AppContext): () => void {
   );
   const historyCap = el('button', { class: 'cap', onclick: () => app.go({ name: 'history' }) }, [icon('history'), JA.ui.history]);
   const settingsCap = el('button', { class: 'cap', onclick: () => openSettings(app) }, [icon('settings'), JA.ui.settings]);
+  // 右上のプロフィール（作ってあれば顔とニックネーム、なければ「プロフィールを作る」。ユーザーの指定）
+  const profCap = el('button', { class: 'cap sel-prof', type: 'button', title: JA.community.profileTitle });
+  const paintProf = (): void => {
+    const p = loadProfile();
+    profCap.replaceChildren(...(p ? [userAvatar(p.user, 24), el('span', { class: 'sel-prof-t' }, p.user.nickname)] : [cIcon('personEdit'), el('span', { class: 'sel-prof-t' }, JA.community.makeProfile)]));
+  };
+  profCap.addEventListener('click', () => openProfileDialog(() => paintProf()));
+  paintProf();
   const editorCap = isLocalHost() ? el('a', { class: 'cap', href: `${import.meta.env.BASE_URL}editor.html` }, [icon('edit'), JA.ui.editorShort]) : null;
   document.addEventListener('dragover', onOver);
   document.addEventListener('drop', onDrop);
@@ -199,6 +210,7 @@ export function showScenarioSelect(app: AppContext): () => void {
           el('h1', {}, [el('img', { class: 'sel-logo', src: assetUrl('icon-128.webp'), srcset: `${assetUrl('icon-128.webp')} 1x, ${assetUrl('icon-256.webp')} 2x`, alt: '', width: 64, height: 64 }), JA.app.title]),
           count,
           el('nav', { class: 'sel-caps' }, [soundCap, historyCap, settingsCap, editorCap]),
+          profCap,
         ]),
       ]),
       el('div', { class: 'sel-wrap' }, [

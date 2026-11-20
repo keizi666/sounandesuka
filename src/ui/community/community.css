@@ -185,6 +185,7 @@ dialog.cm-dialog.busy { pointer-events: none; opacity: 0.75; }
 
 /* ---- アイコン: 絵文字・画像（docs/20_community.md §2.1） ---- */
 .avatar.cm-av-emoji { background-color: #f6f2ea; line-height: 1; text-shadow: none; font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
+.avatar.cm-av-emoji .cm-av-emoji-c { display: block; width: 100%; height: 100%; }
 .avatar.cm-av-img { background-color: #f6f2ea; background-size: cover; background-position: center; }
 .cm-icon-picker { display: flex; flex-direction: column; gap: 10px; }
 .cm-tabs { display: flex; gap: 4px; padding: 3px; border-radius: 12px; background: rgba(0, 0, 0, 0.25); align-self: flex-start; }
