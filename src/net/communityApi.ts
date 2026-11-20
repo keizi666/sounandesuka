@@ -7,6 +7,11 @@ import { loadProfile } from './profile';
 
 const API = `${import.meta.env.BASE_URL}api/index.php`;
 
+/** アップロードしたアイコンの画像の URL（version が変わると URL も変わる） */
+export function avatarImageUrl(userId: number, version: string): string {
+  return `${API}?a=avatar&u=${userId}&v=${version}`;
+}
+
 /** API の誤り。code は src/i18n/ja.ts の community.errors の鍵 */
 export class ApiError extends Error {
   constructor(readonly code: string) {
@@ -51,6 +56,8 @@ export const communityApi = {
   me: (token: string): Promise<{ user: PublicUser }> => call('me', { token }),
   register: (p: ProfileInput): Promise<{ user: PublicUser; token: string }> => call('register', { body: p, token: null }),
   updateProfile: (p: ProfileInput): Promise<{ user: PublicUser }> => call('profile', { body: p }),
+  /** アイコンの画像を置く（端末で正方形に縮めた画像の base64）。返るプロフィールのアイコンは画像になる */
+  uploadAvatar: (image: string): Promise<{ user: PublicUser }> => call('avatar', { body: { image } }),
   post: (summary: RunSummaryInput, record: string, comment: string): Promise<{ id: number }> => call('post', { body: { summary, record, comment } }),
   remove: (id: number): Promise<{ ok: true }> => call('delete', { body: { id } }),
   forget: (): Promise<{ ok: true }> => call('forget', { body: {} }),

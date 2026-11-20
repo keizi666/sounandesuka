@@ -1,28 +1,18 @@
 /**
  * 「みんなの遭難記録」のプロフィール（作る・直す・引き継ぐ・消す）。docs/20_community.md §2。
- * アイコンは登山者の顔のイラスト（public/portraits）から選ぶ。
+ * アイコンは、登山者の顔のイラスト・絵文字・アップロードした画像から選ぶ（iconPicker）。
  */
 import { JA } from '../../i18n/ja';
 import { fill } from '../../i18n/format';
 import { communityApi } from '../../net/communityApi';
 import type { ProfileInput } from '../../net/communityTypes';
 import { formatCode, loadProfile, parseCode, saveProfile, type LocalProfile } from '../../net/profile';
-import { AGE_BANDS, checkNickname, NICK_MAX, PROFILE_COLORS, SEXES, type AgeBand, type Sex } from '../../net/rules';
-import { parsePortrait, portraitCounts, PORTRAIT_GROUPS, type PortraitGroup } from '../avatar';
+import { AGE_BANDS, checkNickname, NICK_MAX, PROFILE_COLORS, SEXES } from '../../net/rules';
 import { el, toast } from '../dom';
 import { icon } from '../icons';
+import type { CroppedImage } from './avatarCrop';
 import { cIcon, counted, errorText, userAvatar } from './common';
-
-const GROUP_LABEL: Record<PortraitGroup, string> = {
-  child_m: '子ども・男', child_f: '子ども・女', young_m: '若者・男', young_f: '若者・女',
-  mid_m: '中年・男', mid_f: '中年・女', senior_m: '高齢・男', senior_f: '高齢・女',
-};
-
-/** 年代と性別から、最初に見せる顔の区分 */
-function groupFor(sex: Sex, age: AgeBand): PortraitGroup {
-  const a = age === '10' ? 'child' : age === '20' || age === '30' ? 'young' : age === '60' || age === '70' ? 'senior' : 'mid';
-  return `${a}_${sex === 'f' ? 'f' : 'm'}` as PortraitGroup;
-}
+import { iconPicker } from './iconPicker';
 
 /** 選択肢のボタンの列（ラジオの代わり） */
 function segmented<T extends string>(values: readonly T[], label: (v: T) => string, value: T, onPick: (v: T) => void): HTMLElement {
@@ -51,56 +41,34 @@ export function openProfileDialog(done?: (p: LocalProfile | null) => void): void
     portrait: u?.portrait ?? 'mid_m:1',
     color: u?.color ?? PROFILE_COLORS[0],
   };
-  let group: PortraitGroup = parsePortrait(form.portrait)?.group ?? 'mid_m';
-  let pickedFace = !!u;
+  /** 選んだが、まだ送っていない画像 */
+  let pendingImage: CroppedImage | null = null;
 
   const preview = el('div', { class: 'cm-preview' });
-  const paintPreview = (): void => preview.replaceChildren(userAvatar({ id: u?.id ?? 0, nickname: form.nickname || '?', portrait: form.portrait, color: form.color }, 84));
+  const paintPreview = (): void =>
+    preview.replaceChildren(userAvatar({ id: u?.id ?? 0, nickname: form.nickname || '?', portrait: form.portrait === 'img:new' ? 'mid_m:1' : form.portrait, color: form.color }, 84, form.portrait === 'img:new' ? pendingImage?.url : undefined));
   const nick = el('input', { type: 'text', maxlength: NICK_MAX * 2, value: form.nickname, placeholder: fill(C.nickPh, { n: NICK_MAX }), autocomplete: 'nickname', oninput: () => {
     form.nickname = nick.value;
     paintPreview();
   } }) as HTMLInputElement;
 
-  // 顔の一覧
-  const groups = el('div', { class: 'cm-groups' });
-  const faces = el('div', { class: 'cm-faces' });
-  const paintFaces = (counts: Partial<Record<PortraitGroup, number>> | null): void => {
-    groups.replaceChildren(...PORTRAIT_GROUPS.map((g) => el('button', { type: 'button', class: g === group ? 'on' : '', onclick: () => {
-      group = g;
-      paintFaces(counts);
-    } }, GROUP_LABEL[g])));
-    const n = counts?.[group] ?? 8;
-    faces.replaceChildren(...Array.from({ length: n }, (_, i) => {
-      const v = `${group}:${i + 1}`;
-      return el('button', { type: 'button', class: `cm-face${v === form.portrait ? ' on' : ''}`, 'aria-label': `${GROUP_LABEL[group]} ${i + 1}`, onclick: () => {
-        form.portrait = v;
-        pickedFace = true;
-        paintFaces(counts);
-        paintPreview();
-      } }, userAvatar({ id: 0, nickname: '', portrait: v, color: form.color }, 48));
-    }));
-  };
-  let counts: Partial<Record<PortraitGroup, number>> | null = null;
-  void portraitCounts().then((c) => {
-    counts = c;
-    paintFaces(c);
+  const picker = iconPicker({
+    initial: form.portrait,
+    userId: u?.id ?? 0,
+    color: () => form.color,
+    onChange: (v, img) => {
+      form.portrait = v;
+      pendingImage = img;
+      paintPreview();
+    },
   });
-  paintFaces(null);
-  /** 年代・性別を選んだら、まだ顔を選んでいなければ、それに合う区分を見せる */
-  const followGroup = (): void => {
-    if (pickedFace) return;
-    group = groupFor(form.sex, form.age);
-    form.portrait = `${group}:1`;
-    paintFaces(counts);
-    paintPreview();
-  };
   const colors = el('div', { class: 'cm-colors' });
   const paintColors = (): void =>
     colors.replaceChildren(...PROFILE_COLORS.map((c) => el('button', { type: 'button', class: `cm-color${c === form.color ? ' on' : ''}`, style: `--sw:${c}`, 'aria-label': c, onclick: () => {
       form.color = c;
       paintColors();
       paintPreview();
-      paintFaces(counts);
+      picker.repaint();
     } })));
   paintColors();
   paintPreview();
@@ -108,6 +76,9 @@ export function openProfileDialog(done?: (p: LocalProfile | null) => void): void
   const err = el('p', { class: 'cm-err', role: 'alert' });
   const busy = (b: boolean): void => {
     dlg.classList.toggle('busy', b);
+  };
+  const busyText = (t: string): void => {
+    err.textContent = t;
   };
   const close = (): void => dlg.close();
 
@@ -121,7 +92,10 @@ export function openProfileDialog(done?: (p: LocalProfile | null) => void): void
     err.textContent = '';
     busy(true);
     try {
-      const p: ProfileInput = { ...form, nickname: form.nickname.trim() };
+      // 新しい画像は、プロフィールを保存してから送る（それまでは今のアイコンのまま）
+      const img = form.portrait === 'img:new' ? pendingImage : null;
+      const portrait = form.portrait === 'img:new' ? (current?.user.portrait ?? 'mid_m:1') : form.portrait;
+      const p: ProfileInput = { ...form, portrait, nickname: form.nickname.trim() };
       if (current) {
         const r = await communityApi.updateProfile(p);
         current = { token: current.token, user: r.user };
@@ -130,6 +104,12 @@ export function openProfileDialog(done?: (p: LocalProfile | null) => void): void
         current = { token: r.token, user: r.user };
       }
       saveProfile(current);
+      if (img) {
+        busyText(C.uploading);
+        const r = await communityApi.uploadAvatar(img.b64);
+        current = { token: current.token, user: r.user };
+        saveProfile(current);
+      }
       toast(C.saved);
       close();
     } catch (x) {
@@ -218,13 +198,13 @@ export function openProfileDialog(done?: (p: LocalProfile | null) => void): void
       el('div', { class: 'cm-top' }, [preview, el('div', { class: 'cm-top-fields' }, [field(C.nickname, [nick, counted(nick, NICK_MAX)])])]),
       field(C.sex, segmented(SEXES, (v) => C.sexes[v] ?? v, form.sex, (v) => {
         form.sex = v;
-        followGroup();
+        picker.follow(form.sex, form.age);
       })),
       field(C.age, segmented(AGE_BANDS, (v) => C.ages[v] ?? v, form.age, (v) => {
         form.age = v;
-        followGroup();
+        picker.follow(form.sex, form.age);
       })),
-      field(C.icon, [groups, faces]),
+      field(C.icon, picker.el),
       field(C.color, colors),
       el('p', { class: 'cm-note' }, C.publicNote),
       err,

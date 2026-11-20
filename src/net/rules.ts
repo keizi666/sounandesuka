@@ -24,6 +24,32 @@ export type AgeBand = (typeof AGE_BANDS)[number];
 /** アイコンの枠の色 */
 export const PROFILE_COLORS = ['#38bdf8', '#f97316', '#22c55e', '#e11d48', '#a855f7', '#eab308', '#14b8a6', '#64748b'] as const;
 
+/** アイコンにできる絵文字（OS の絵文字をそのまま出す。server/api/lib.php の EMOJIS と同じ並び） */
+export const EMOJIS: readonly string[] = [
+  '🏔️', '⛰️', '🗻', '🌋', '🏕️', '⛺', '🌲', '🌳', '🍁', '🍂', '🌸', '🌼', '🍄', '🌿', '🌾', '☀️', '⛅', '🌧️', '⛈️', '🌨️', '❄️', '⛄', '🌈', '🌙', '⭐', '⚡', '🌊', '💧', '🔥', '🐻', '🦊', '🐗', '🦌', '🐿️', '🐇', '🦅', '🦉', '🐦', '🐸', '🐟', '🦋', '🐱', '🐶', '🐧', '🐢', '🎒', '🥾', '🧭', '🗺️', '🔦', '⛑️', '🧗', '🚶', '📷', '🍙', '🍵', '☕', '🍫', '🙂', '😊', '😎', '🤔', '😴', '🥶', '💪', '👍', '❤️',
+];
+
+/** アップロードしたアイコンの一辺（px）と、送る画像の最大バイト数 */
+export const AVATAR_PX = 256;
+export const AVATAR_MAX_BYTES = 200_000;
+/** アップロードで選べる元の画像の最大バイト数（端末で縮めてから送る） */
+export const AVATAR_SOURCE_MAX_BYTES = 20 * 1024 * 1024;
+
+/**
+ * アイコンの値（プロフィールの portrait）。
+ * - 似顔絵 "mid_m:3"（src/ui/avatar.ts の parsePortrait）
+ * - 絵文字 "emoji:🏔️"（EMOJIS のどれか）
+ * - 画像 "img:<10 桁の 16 進>"（サーバーに置いた画像。値は版の印）
+ */
+export type IconValue = { kind: 'portrait'; value: string } | { kind: 'emoji'; emoji: string } | { kind: 'img'; version: string };
+
+export function parseIcon(v: string): IconValue | null {
+  if (/^(child|young|mid|senior)_[mf]:[1-9][0-9]{0,2}$/.test(v)) return { kind: 'portrait', value: v };
+  if (v.startsWith('emoji:') && EMOJIS.includes(v.slice(6))) return { kind: 'emoji', emoji: v.slice(6) };
+  const m = /^img:([0-9a-f]{10})$/.exec(v);
+  return m ? { kind: 'img', version: m[1]! } : null;
+}
+
 /** 既定の NG ワード（サーバーではこれに data/ngwords.txt を足す）。比べる前に正規化（normalizeText）する */
 export const NG_WORDS: readonly string[] = [
   // 「少しねむい」のように普通の文に出る並び（しね・がいじ など）は入れない

@@ -144,8 +144,25 @@ try {
     respond(200, ['user' => public_user(require_user())]);
   }
 
+  if ($method === 'GET' && $a === 'avatar') {
+    // アップロードしたアイコンの画像。URL の v（版）が変わるので長く覚えさせてよい
+    $q = $pdo->prepare('SELECT portrait FROM users WHERE id = ?');
+    $q->execute([(int) ($_GET['u'] ?? 0)]);
+    $portrait = $q->fetchColumn();
+    $f = is_string($portrait) && str_starts_with($portrait, 'img:') ? avatar_file((int) ($_GET['u'] ?? 0)) : null;
+    if ($f === null) fail(404, 'notFound');
+    http_response_code(200);
+    header('Content-Type: ' . (str_ends_with($f, '.webp') ? 'image/webp' : 'image/png'));
+    header('Cache-Control: public, max-age=604800');
+    header('X-Content-Type-Options: nosniff');
+    header("Content-Security-Policy: default-src 'none'");
+    header('Content-Length: ' . filesize($f));
+    readfile($f);
+    exit;
+  }
+
   if ($method === 'POST' && $a === 'register') {
-    $p = profile_input(body());
+    $p = profile_input(body(), null);
     rate_limit('reg', 5, 3600);
     $token = new_token();
     $t = now_iso();
@@ -158,13 +175,27 @@ try {
 
   if ($method === 'POST' && $a === 'profile') {
     $u = require_user();
-    $p = profile_input(body());
+    $p = profile_input(body(), $u);
     rate_limit('prof', 20, 3600);
+    // 画像のアイコンをやめたら、画像を消す
+    if (str_starts_with((string) $u['portrait'], 'img:') && !str_starts_with($p['portrait'], 'img:')) delete_avatar((int) $u['id']);
     $pdo->prepare('UPDATE users SET nickname = ?, sex = ?, age = ?, portrait = ?, color = ?, updated_at = ? WHERE id = ?')
       ->execute([$p['nickname'], $p['sex'], $p['age'], $p['portrait'], $p['color'], now_iso(), $u['id']]);
     hit('prof');
     $p['id'] = (int) $u['id'];
     respond(200, ['user' => $p]);
+  }
+
+  if ($method === 'POST' && $a === 'avatar') {
+    // アイコンの画像を置く（端末で正方形に縮めたもの）。置いたらアイコンは画像になる
+    $u = require_user();
+    $b = body();
+    rate_limit('avatar', 10, 3600);
+    $v = store_avatar((int) $u['id'], (string) ($b['image'] ?? ''));
+    hit('avatar');
+    $pdo->prepare('UPDATE users SET portrait = ?, updated_at = ? WHERE id = ?')->execute(['img:' . $v, now_iso(), $u['id']]);
+    $u['portrait'] = 'img:' . $v;
+    respond(200, ['user' => public_user($u)]);
   }
 
   if ($method === 'POST' && $a === 'post') {
@@ -201,6 +232,7 @@ try {
     body();
     $pdo->prepare('DELETE FROM runs WHERE user_id = ?')->execute([$u['id']]);
     $pdo->prepare('DELETE FROM users WHERE id = ?')->execute([$u['id']]);
+    delete_avatar((int) $u['id']);
     respond(200, ['ok' => true]);
   }
 

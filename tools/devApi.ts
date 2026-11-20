@@ -4,11 +4,11 @@
  * データは .scratch/dev-community.json（git に入れない）。回数の制限は本番より緩い。
  */
 import { createHash, randomBytes } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { dirname, resolve } from 'node:path';
 import type { Plugin } from 'vite';
-import { AGE_BANDS, checkComment, checkNickname, RECORD_MAX_BYTES, REPORT_HIDE, SEXES } from '../src/net/rules.ts';
+import { AGE_BANDS, AVATAR_MAX_BYTES, checkComment, checkNickname, parseIcon, RECORD_MAX_BYTES, REPORT_HIDE, SEXES } from '../src/net/rules.ts';
 
 interface DevUser { id: number; tokenHash: string; nickname: string; sex: string; age: string; portrait: string; color: string }
 interface DevRun { id: number; userId: number; summary: Record<string, unknown> & { scenarioId: string; ending: string; scenarioTitle: string }; comment: string; record: string; createdAt: string; reports: string[]; hidden: boolean }
@@ -24,6 +24,8 @@ class Fail extends Error {
 
 export function devCommunityApi(root: string): Plugin {
   const file = resolve(root, '.scratch', 'dev-community.json');
+  /** アイコンの画像（本番はサーバーで描き直すが、模擬は届いたものをそのまま置く） */
+  const avatarFile = (id: number): string => resolve(root, '.scratch', 'dev-avatars', String(id) + '.img');
   const load = (): DevDb => (existsSync(file) ? (JSON.parse(readFileSync(file, 'utf8')) as DevDb) : { users: [], runs: [], nextUser: 1, nextRun: 1 });
   const save = (db: DevDb): void => {
     mkdirSync(dirname(file), { recursive: true });
@@ -48,7 +50,7 @@ export function devCommunityApi(root: string): Plugin {
       });
     });
 
-  const profileInput = (b: Record<string, unknown>): Omit<DevUser, 'id' | 'tokenHash'> => {
+  const profileInput = (b: Record<string, unknown>, current: DevUser | null): Omit<DevUser, 'id' | 'tokenHash'> => {
     const nickname = String(b['nickname'] ?? '').trim();
     const e = checkNickname(nickname);
     if (e) throw new Fail(400, e);
@@ -57,7 +59,8 @@ export function devCommunityApi(root: string): Plugin {
     const portrait = String(b['portrait'] ?? '');
     const color = String(b['color'] ?? '');
     if (!(SEXES as readonly string[]).includes(sex) || !(AGE_BANDS as readonly string[]).includes(age)) throw new Fail(400, 'invalid');
-    if (!/^(child|young|mid|senior)_[mf]:[1-9][0-9]{0,2}$/.test(portrait) || !/^#[0-9a-fA-F]{6}$/.test(color)) throw new Fail(400, 'invalid');
+    const icon = parseIcon(portrait);
+    if (!icon || (icon.kind === 'img' && current?.portrait !== portrait) || !/^#[0-9a-fA-F]{6}$/.test(color)) throw new Fail(400, 'invalid');
     return { nickname, sex, age, portrait, color: color.toLowerCase() };
   };
 
@@ -104,7 +107,7 @@ export function devCommunityApi(root: string): Plugin {
     if (req.method !== 'POST') throw new Fail(404, 'notFound');
     const b = await readBody(req);
     if (a === 'register') {
-      const p = profileInput(b);
+      const p = profileInput(b, null);
       const abc = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
       const tk = [...randomBytes(24)].map((x) => abc[x & 31]).join('');
       const u: DevUser = { id: db.nextUser++, tokenHash: hashOf(tk), ...p };
@@ -114,7 +117,9 @@ export function devCommunityApi(root: string): Plugin {
     }
     if (a === 'profile') {
       const u = needMe();
-      Object.assign(u, profileInput(b));
+      const p = profileInput(b, u);
+      if (u.portrait.startsWith('img:') && !p.portrait.startsWith('img:')) rmSync(avatarFile(u.id), { force: true });
+      Object.assign(u, p);
       save(db);
       return [200, { user: pub(u) }];
     }
@@ -144,7 +149,23 @@ export function devCommunityApi(root: string): Plugin {
       save(db);
       return [200, { ok: true }];
     }
+    if (a === 'avatar') {
+      const u = needMe();
+      const bin = Buffer.from(String(b['image'] ?? ''), 'base64');
+      if (bin.length > AVATAR_MAX_BYTES) throw new Fail(413, 'tooLarge');
+      const head = bin.subarray(0, 12).toString('latin1');
+      const isWebp = head.startsWith('RIFF') && head.slice(8) === 'WEBP';
+      const isPng = bin[0] === 0x89 && head.slice(1, 4) === 'PNG';
+      const isJpeg = bin[0] === 0xff && bin[1] === 0xd8;
+      if (!isWebp && !isPng && !isJpeg) throw new Fail(400, 'badImage');
+      mkdirSync(dirname(avatarFile(u.id)), { recursive: true });
+      writeFileSync(avatarFile(u.id), bin);
+      u.portrait = 'img:' + createHash('sha1').update(bin).digest('hex').slice(0, 10);
+      save(db);
+      return [200, { user: pub(u) }];
+    }
     if (a === 'forget') {
+      rmSync(avatarFile(needMe().id), { force: true });
       const u = needMe();
       db.runs = db.runs.filter((r) => r.userId !== u.id);
       db.users = db.users.filter((x) => x.id !== u.id);
@@ -171,6 +192,20 @@ export function devCommunityApi(root: string): Plugin {
       server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: () => void) => {
         const url = new URL(req.url ?? '/', 'http://localhost');
         if (!url.pathname.endsWith('/api/index.php')) return next();
+        if (req.method === 'GET' && url.searchParams.get('a') === 'avatar') {
+          const f = avatarFile(Number(url.searchParams.get('u')));
+          const u = load().users.find((x) => x.id === Number(url.searchParams.get('u')));
+          if (!u?.portrait.startsWith('img:') || !existsSync(f)) {
+            res.statusCode = 404;
+            res.end();
+            return;
+          }
+          const bin = readFileSync(f);
+          res.setHeader('Content-Type', bin.subarray(0, 4).toString('latin1') === 'RIFF' ? 'image/webp' : bin[0] === 0x89 ? 'image/png' : 'image/jpeg');
+          res.setHeader('Cache-Control', 'public, max-age=604800');
+          res.end(bin);
+          return;
+        }
         void handle(req, url)
           .then(([status, body]) => [status, body] as const)
           .catch((e: unknown) => (e instanceof Fail ? ([e.status, { error: e.code }] as const) : ([500, { error: 'server' }] as const)))

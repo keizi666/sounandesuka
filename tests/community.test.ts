@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { packRecord, slimRecord, unpackRecord } from '../src/net/recordPack';
 import { formatCode, parseCode } from '../src/net/profile';
-import { checkComment, checkNickname, COMMENT_MAX, NICK_MAX } from '../src/net/rules';
+import { checkComment, checkNickname, COMMENT_MAX, EMOJIS, NICK_MAX, parseIcon } from '../src/net/rules';
 import type { RunRecord } from '../src/sim/types';
 
 describe('投稿の決まり', () => {
@@ -22,6 +22,20 @@ describe('投稿の決まり', () => {
     expect(checkComment('see example.com')).toBe('url');
     expect(checkComment('ＦＵＣＫ')).toBe('ngWord');
     expect(checkComment('a‮b')).toBe('badChar');
+  });
+  it('アイコンの値', () => {
+    expect(parseIcon('mid_m:3')).toEqual({ kind: 'portrait', value: 'mid_m:3' });
+    expect(parseIcon('emoji:' + EMOJIS[0])).toEqual({ kind: 'emoji', emoji: EMOJIS[0] });
+    expect(parseIcon('emoji:💩')).toBeNull();
+    expect(parseIcon('img:0123456789')).toEqual({ kind: 'img', version: '0123456789' });
+    expect(parseIcon('img:../../x')).toBeNull();
+    expect(new Set(EMOJIS).size).toBe(EMOJIS.length);
+  });
+  it('絵文字の一覧はサーバーと同じ', async () => {
+    const { readFileSync } = await import('node:fs');
+    const php = readFileSync(new URL('../server/api/lib.php', import.meta.url), 'utf8');
+    const m = /const EMOJIS = \[(.*?)\];/.exec(php);
+    expect(m?.[1]?.split(', ').map((x) => x.slice(1, -1))).toEqual([...EMOJIS]);
   });
   it('引き継ぎコード', () => {
     const t = 'ABCDEF0123456789GHJKMNPQ';

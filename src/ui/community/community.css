@@ -182,3 +182,25 @@ dialog.cm-dialog.busy { pointer-events: none; opacity: 0.75; }
 .cm-code-row input { flex: 1; min-width: 200px; font-family: ui-monospace, monospace; letter-spacing: 0.06em; }
 .cm-code-text { flex: 1; min-width: 200px; padding: 8px 12px; border-radius: 8px; background: rgba(0, 0, 0, 0.3); font-size: 0.95em; letter-spacing: 0.08em; -webkit-user-select: all; user-select: all; }
 .cm-danger { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+
+/* ---- アイコン: 絵文字・画像（docs/20_community.md §2.1） ---- */
+.avatar.cm-av-emoji { background-color: #f6f2ea; line-height: 1; text-shadow: none; font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
+.avatar.cm-av-img { background-color: #f6f2ea; background-size: cover; background-position: center; }
+.cm-icon-picker { display: flex; flex-direction: column; gap: 10px; }
+.cm-tabs { display: flex; gap: 4px; padding: 3px; border-radius: 12px; background: rgba(0, 0, 0, 0.25); align-self: flex-start; }
+.cm-tabs button { min-height: 0; padding: 5px 16px; border: 0; border-radius: 9px; background: transparent; color: #cfd5de; }
+.cm-tabs button[aria-selected='true'] { background: #2f9fe4; color: #fff; font-weight: 700; }
+.cm-tab-body { display: flex; flex-direction: column; gap: 10px; }
+.cm-emojis { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 4px; max-height: 236px; overflow-y: auto; padding: 2px; }
+.cm-emoji { min-height: 0; aspect-ratio: 1; padding: 0; border-radius: 10px; border: 2px solid transparent; background: rgba(255, 255, 255, 0.04); font-size: 26px; line-height: 1; font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; }
+.cm-emoji.on { border-color: #5ec4f0; background: rgba(58, 169, 234, 0.18); }
+.cm-pick-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.cm-pick { padding: 8px 18px; border-radius: 999px; border-color: #5ec4f0; color: #9fdcf8; }
+.cm-crop-box { display: flex; justify-content: center; }
+.cm-crop-box:empty { display: none; }
+.cm-crop { display: flex; flex-direction: column; align-items: center; gap: 8px; width: min(100%, 260px); }
+.cm-crop-canvas { width: 100%; aspect-ratio: 1; border-radius: 12px; background: #111; touch-action: none; cursor: grab; }
+.cm-crop-canvas:active { cursor: grabbing; }
+.cm-crop-zoom { display: flex; align-items: center; gap: 10px; width: 100%; font-size: 0.85em; color: var(--muted); }
+.cm-crop-zoom input { flex: 1; }
+.cm-note.warn { color: #fcd34d; }

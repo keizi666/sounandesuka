@@ -31,7 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($op === 'show') $pdo->prepare('UPDATE runs SET hidden = 0, reports = 0 WHERE id = ?')->execute([$id]);
     if ($op === 'show') $pdo->prepare('DELETE FROM reports WHERE run_id = ?')->execute([$id]);
     if ($op === 'delete') $pdo->prepare('DELETE FROM runs WHERE id = ?')->execute([$id]);
+    if ($op === 'noicon') {
+      // アイコンの画像だけを消し、似顔絵に戻す
+      $pdo->prepare("UPDATE users SET portrait = 'mid_m:1' WHERE id = ?")->execute([$id]);
+      delete_avatar($id);
+    }
     if ($op === 'deluser') {
+      delete_avatar($id);
       $pdo->prepare('DELETE FROM runs WHERE user_id = ?')->execute([$id]);
       $pdo->prepare('DELETE FROM users WHERE id = ?')->execute([$id]);
     }
@@ -39,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 send_headers('text/html; charset=utf-8');
-header("Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; form-action 'self'");
+header("Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; form-action 'self'");
 $only = (string) ($_POST['only'] ?? '');
 ?>
 <!doctype html>
@@ -62,7 +68,7 @@ form.inline { display: inline; }
 <form method="post"><input type="password" name="token" placeholder="管理トークン" autocomplete="off" required> <input type="hidden" name="op" value="list"><button>開く</button></form>
 <?php else:
   $where = $only === 'reported' ? 'WHERE runs.reports > 0 OR runs.hidden = 1' : '';
-  $rows = db()->query("SELECT runs.id, runs.user_id, runs.scenario_id, runs.ending, runs.comment, runs.created_at, runs.reports, runs.hidden, users.nickname FROM runs JOIN users ON users.id = runs.user_id $where ORDER BY runs.id DESC LIMIT 200")->fetchAll();
+  $rows = db()->query("SELECT runs.id, runs.user_id, runs.scenario_id, runs.ending, runs.comment, runs.created_at, runs.reports, runs.hidden, users.nickname, users.portrait FROM runs JOIN users ON users.id = runs.user_id $where ORDER BY runs.id DESC LIMIT 200")->fetchAll();
   $act = function (string $op, int $id, string $label) use ($token, $only): string {
     return '<form class="inline" method="post"><input type="hidden" name="token" value="' . h($token) . '"><input type="hidden" name="only" value="' . h($only) . '"><input type="hidden" name="op" value="' . h($op) . '"><input type="hidden" name="id" value="' . $id . '"><button>' . h($label) . '</button></form>';
   };
@@ -74,11 +80,11 @@ form.inline { display: inline; }
 <?php foreach ($rows as $r): ?>
 <tr class="<?= (int) $r['hidden'] === 1 ? 'hidden' : '' ?>">
 <td><?= (int) $r['id'] ?></td><td><?= h((string) $r['created_at']) ?></td>
-<td><?= h((string) $r['nickname']) ?> (#<?= (int) $r['user_id'] ?>)</td>
+<td><?php if (str_starts_with((string) $r['portrait'], 'img:')): ?><img src="index.php?a=avatar&amp;u=<?= (int) $r['user_id'] ?>&amp;v=<?= h(substr((string) $r['portrait'], 4)) ?>" width="48" height="48" alt="" style="border-radius:50%;vertical-align:middle"> <?php elseif (str_starts_with((string) $r['portrait'], 'emoji:')): ?><span style="font-size:28px"><?= h(substr((string) $r['portrait'], 6)) ?></span> <?php endif; ?><?= h((string) $r['nickname']) ?> (#<?= (int) $r['user_id'] ?>)</td>
 <td><?= h((string) $r['scenario_id']) ?><br><?= h((string) $r['ending']) ?></td>
 <td><?= nl2br(h((string) $r['comment'])) ?></td>
 <td><?= (int) $r['reports'] ?><?= (int) $r['hidden'] === 1 ? '（隠している）' : '' ?></td>
-<td><?= (int) $r['hidden'] === 1 ? $act('show', (int) $r['id'], '戻す') : $act('hide', (int) $r['id'], '隠す') ?> <?= $act('delete', (int) $r['id'], '消す') ?> <?= $act('deluser', (int) $r['user_id'], '利用者ごと消す') ?></td>
+<td><?= (int) $r['hidden'] === 1 ? $act('show', (int) $r['id'], '戻す') : $act('hide', (int) $r['id'], '隠す') ?> <?= $act('delete', (int) $r['id'], '消す') ?> <?= str_starts_with((string) $r['portrait'], 'img:') ? $act('noicon', (int) $r['user_id'], 'アイコン画像を消す') : '' ?> <?= $act('deluser', (int) $r['user_id'], '利用者ごと消す') ?></td>
 </tr>
 <?php endforeach; ?>
 </table>

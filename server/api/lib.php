@@ -11,6 +11,11 @@ const COMMENT_MAX = 200;
 const COMMENT_MAX_LINES = 6;
 const RECORD_MAX_BYTES = 600000;
 const REPORT_HIDE = 3;
+/** アップロードしたアイコン: 一辺（px）と、送られる画像の最大バイト数（src/net/rules.ts と同じ） */
+const AVATAR_PX = 256;
+const AVATAR_MAX_BYTES = 200000;
+// アイコンにできる絵文字（src/net/rules.ts の EMOJIS と同じ並び）
+const EMOJIS = ['🏔️', '⛰️', '🗻', '🌋', '🏕️', '⛺', '🌲', '🌳', '🍁', '🍂', '🌸', '🌼', '🍄', '🌿', '🌾', '☀️', '⛅', '🌧️', '⛈️', '🌨️', '❄️', '⛄', '🌈', '🌙', '⭐', '⚡', '🌊', '💧', '🔥', '🐻', '🦊', '🐗', '🦌', '🐿️', '🐇', '🦅', '🦉', '🐦', '🐸', '🐟', '🦋', '🐱', '🐶', '🐧', '🐢', '🎒', '🥾', '🧭', '🗺️', '🔦', '⛑️', '🧗', '🚶', '📷', '🍙', '🍵', '☕', '🍫', '🙂', '😊', '😎', '🤔', '😴', '🥶', '💪', '👍', '❤️'];
 const BODY_MAX_BYTES = 800000;
 const SEXES = ['m', 'f', 'x'];
 const AGE_BANDS = ['10', '20', '30', '40', '50', '60', '70', 'x'];
@@ -242,8 +247,11 @@ function public_user(array $u): array
   ];
 }
 
-/** プロフィールの入力を確かめる */
-function profile_input(array $b): array
+/**
+ * プロフィールの入力を確かめる。$current は今のプロフィール（作るときは null）。
+ * アイコンの画像（img:<版>）は、別の操作（avatar）で置いたものをそのまま使うときだけ受け付ける。
+ */
+function profile_input(array $b, ?array $current): array
 {
   $nick = check_text((string) ($b['nickname'] ?? ''), NICK_MAX, 1, false);
   $sex = (string) ($b['sex'] ?? 'x');
@@ -251,7 +259,72 @@ function profile_input(array $b): array
   $portrait = (string) ($b['portrait'] ?? '');
   $color = (string) ($b['color'] ?? '');
   if (!in_array($sex, SEXES, true) || !in_array($age, AGE_BANDS, true)) fail(400, 'invalid');
-  if (!preg_match('/^(child|young|mid|senior)_[mf]:[1-9][0-9]{0,2}$/', $portrait)) fail(400, 'invalid');
+  $okPortrait = preg_match('/^(child|young|mid|senior)_[mf]:[1-9][0-9]{0,2}$/', $portrait) === 1
+    || (str_starts_with($portrait, 'emoji:') && in_array(substr($portrait, 6), EMOJIS, true))
+    || ($current !== null && preg_match('/^img:[0-9a-f]{10}$/', $portrait) === 1 && $portrait === $current['portrait']);
+  if (!$okPortrait) fail(400, 'invalid');
   if (!preg_match('/^#[0-9a-fA-F]{6}$/', $color)) fail(400, 'invalid');
   return ['nickname' => $nick, 'sex' => $sex, 'age' => $age, 'portrait' => $portrait, 'color' => strtolower($color)];
+}
+
+/** アップロードしたアイコンの置き場所（dataDir/avatars） */
+function avatar_dir(): string
+{
+  $d = rtrim((string) config()['dataDir'], '/') . '/avatars';
+  if (!is_dir($d)) @mkdir($d, 0700, true);
+  return $d;
+}
+
+/** 利用者のアイコンの画像ファイル（なければ null） */
+function avatar_file(int $userId): ?string
+{
+  foreach (['webp', 'png'] as $ext) {
+    $f = avatar_dir() . '/' . $userId . '.' . $ext;
+    if (is_file($f)) return $f;
+  }
+  return null;
+}
+
+function delete_avatar(int $userId): void
+{
+  foreach (['webp', 'png'] as $ext) @unlink(avatar_dir() . '/' . $userId . '.' . $ext);
+}
+
+/**
+ * 送られた画像を確かめ、正方形 AVATAR_PX に描き直して保存する（EXIF などの付帯情報はここで落ちる）。
+ * 返り値は版の印（10 桁の 16 進）。画像を扱えないサーバーなら 503。
+ */
+function store_avatar(int $userId, string $b64): string
+{
+  if (strlen($b64) > AVATAR_MAX_BYTES * 2) fail(413, 'tooLarge');
+  $bin = base64_decode($b64, true);
+  if ($bin === false || strlen($bin) < 16) fail(400, 'invalid');
+  if (strlen($bin) > AVATAR_MAX_BYTES) fail(413, 'tooLarge');
+  if (!function_exists('imagecreatefromstring') || !function_exists('imagecopyresampled')) fail(503, 'noImage');
+  $info = @getimagesizefromstring($bin);
+  $types = [IMAGETYPE_PNG, IMAGETYPE_JPEG];
+  if (defined('IMAGETYPE_WEBP')) $types[] = IMAGETYPE_WEBP;
+  if ($info === false || !in_array($info[2], $types, true)) fail(400, 'badImage');
+  [$w, $h] = [(int) $info[0], (int) $info[1]];
+  if ($w < 32 || $h < 32 || $w > 1024 || $h > 1024) fail(400, 'badImage');
+  $src = @imagecreatefromstring($bin);
+  if ($src === false) fail(400, 'badImage');
+  $dst = imagecreatetruecolor(AVATAR_PX, AVATAR_PX);
+  imagealphablending($dst, false);
+  imagesavealpha($dst, true);
+  imagefill($dst, 0, 0, imagecolorallocatealpha($dst, 0, 0, 0, 127));
+  // 正方形でなければ真ん中を切り抜く（端末で切り抜いてあるので、ふつうは正方形）
+  $side = min($w, $h);
+  imagecopyresampled($dst, $src, 0, 0, intdiv($w - $side, 2), intdiv($h - $side, 2), AVATAR_PX, AVATAR_PX, $side, $side);
+  imagedestroy($src);
+  ob_start();
+  $ext = function_exists('imagewebp') ? 'webp' : 'png';
+  $ok = $ext === 'webp' ? imagewebp($dst, null, 84) : imagepng($dst, null, 9);
+  $out = (string) ob_get_clean();
+  imagedestroy($dst);
+  if (!$ok || $out === '') fail(500, 'server');
+  delete_avatar($userId);
+  $f = avatar_dir() . '/' . $userId . '.' . $ext;
+  if (file_put_contents($f . '.tmp', $out) === false || !rename($f . '.tmp', $f)) fail(500, 'server');
+  return substr(sha1($out), 0, 10);
 }

@@ -14,7 +14,8 @@ import chevronRight from '@material-symbols/svg-400/rounded/chevron_right.svg?ra
 import arrowBack from '@material-symbols/svg-400/rounded/arrow_back.svg?raw';
 import { JA } from '../../i18n/ja';
 import { fill } from '../../i18n/format';
-import { ApiError } from '../../net/communityApi';
+import { ApiError, avatarImageUrl } from '../../net/communityApi';
+import { parseIcon } from '../../net/rules';
 import type { PublicUser } from '../../net/communityTypes';
 import { avatar } from '../avatar';
 import { el } from '../dom';
@@ -36,9 +37,19 @@ export function cIcon(name: CIconName): SVGElement {
   return svg;
 }
 
-/** 利用者の顔（登山者のイラストから選んだもの） */
-export function userAvatar(u: Pick<PublicUser, 'id' | 'nickname' | 'portrait' | 'color'>, size: number): HTMLElement {
-  return avatar({ id: `user-${u.id}`, name: u.nickname, color: u.color, portrait: u.portrait, age: 40, sex: 'm' }, size);
+/**
+ * 利用者の顔。登山者のイラスト・絵文字（OS の絵文字をそのまま）・アップロードした画像のどれか。
+ * localImage は、まだ送っていない画像（プロフィールの画面の見本。data: か blob: の URL）
+ */
+export function userAvatar(u: Pick<PublicUser, 'id' | 'nickname' | 'portrait' | 'color'>, size: number, localImage?: string): HTMLElement {
+  const ic = parseIcon(u.portrait);
+  const base = `width:${size}px;height:${size}px;border-color:${u.color}`;
+  if (localImage || ic?.kind === 'img') {
+    const url = localImage ?? avatarImageUrl(u.id, ic?.kind === 'img' ? ic.version : '');
+    return el('span', { class: 'avatar img cm-av-img', 'aria-hidden': 'true', style: `${base};background-image:url("${url}")` });
+  }
+  if (ic?.kind === 'emoji') return el('span', { class: 'avatar cm-av-emoji', 'aria-hidden': 'true', style: `${base};font-size:${Math.round(size * 0.58)}px` }, ic.emoji);
+  return avatar({ id: `user-${u.id}`, name: u.nickname, color: u.color, portrait: ic?.kind === 'portrait' ? ic.value : 'mid_m:1', age: 40, sex: 'm' }, size);
 }
 
 /** 「40代・男性」（答えないものは出さない） */
