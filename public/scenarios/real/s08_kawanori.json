@@ -133,8 +133,7 @@
           { "any": [{ "state": "OFFROUTE_UNAWARE" }, { "state": "DESCENDING_DRAINAGE" }] },
           { "any": [{ "near": { "x": 340, "z": -1700, "r": 150 } }, { "near": { "x": 380, "z": -1870, "r": 150 } }] },
           { "var": "leader.elevM", "op": ">", "value": 700 },
-          { "var": "leader.elevM", "op": "<", "value": 800 },
-          { "chance": 0.55 }
+          { "var": "leader.elevM", "op": "<", "value": 800 }
         ]
       },
       "once": true,

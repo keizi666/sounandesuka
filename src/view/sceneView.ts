@@ -4,6 +4,7 @@
  */
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { installPivotOrbit } from './pivotOrbit';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { DEG } from '../sim/core/dmath';
 import { hutHere } from '../sim/climber/situation';
@@ -190,6 +191,8 @@ export class SceneView {
     // 視点の回転は控えめに（既定の 1.0 では過敏で操作しづらい。ユーザーの指定）
     this.controls.rotateSpeed = 0.3;
     this.installEyeLook(canvas);
+    // 俯瞰（追従なし）の右ドラッグは、押した所の地面を中心にまわり込む（ユーザーの指定）
+    installPivotOrbit(canvas, { camera: this.camera, controls: this.controls, heightAt: (x, z) => this.heightAt(x, z), active: () => this.mode === 'overview' });
     this.controls.minDistance = size * 0.01;
     this.controls.maxDistance = size * 3;
     this.controls.minPolarAngle = 15 * DEG;
@@ -794,6 +797,7 @@ export class SceneView {
       this.controls.target.copy(this.followTarget);
       this.camera.position.sub(d);
       this.controls.enablePan = false;
+      this.controls.mouseButtons.RIGHT = THREE.MOUSE.ROTATE;
     } else if (this.mode === 'eye') {
       if (this.lastMode !== 'eye') {
         this.eyeYaw = 0;
@@ -824,6 +828,8 @@ export class SceneView {
       if (this.lastMode === 'eye') this.leaveEye(target);
       this.followTarget.copy(this.controls.target);
       this.controls.enablePan = true;
+      // 右ドラッグは自前（pivotOrbit.ts）。OrbitControls の回転は止める
+      this.controls.mouseButtons.RIGHT = null;
     }
     if (this.mode !== 'eye' && this.scene.fog) this.scene.fog = null;
     this.lastMode = this.mode;
