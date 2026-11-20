@@ -446,7 +446,8 @@ main.briefing { min-height: 100dvh; padding-bottom: 92px; background: var(--bg);
 .bf-bar button.big { display: inline-flex; align-items: center; gap: 8px; padding: 12px 34px; font-size: 1.2rem; border-radius: 999px; box-shadow: 0 6px 20px rgba(200, 160, 80, 0.35); white-space: nowrap; }
 @media (max-width: 899px) {
   /* スマホ: 1 列にし、物語を先頭に出す */
-  .bf-grid { display: flex; flex-direction: column; }
+  /* 1 列のときは、どのパネルも横幅いっぱいにそろえる（2 列のときの align-items: start を打ち消す） */
+  .bf-grid { display: flex; flex-direction: column; align-items: stretch; }
   .bf-col { display: contents; }
   .bf-story { order: -1; }
   .bf-hero-in, .bf-body, .bf-bar-in { padding-left: 14px; padding-right: 14px; }
