@@ -30,8 +30,9 @@ export function attributionLine(loaded: LoadedScenario): HTMLElement | null {
 
 export function optionLabel(loaded: LoadedScenario, cpId: string, optionId: string): string {
   const s = loaded.scenario;
-  const cp = cpId.startsWith('generic:') ? null : s.choices.find((c) => c.id === cpId);
-  const o = cp?.options.find((x) => x.id === optionId);
+  // 汎用の分岐点は、シナリオの上書き（genericOverrides）の選択肢を先に見る（ないと ID のまま出ていた）
+  const opts = cpId.startsWith('generic:') ? s.genericOverrides?.[cpId.slice(8) as keyof NonNullable<typeof s.genericOverrides>]?.options : s.choices.find((c) => c.id === cpId)?.options;
+  const o = opts?.find((x) => x.id === optionId);
   if (o?.label) return o.label;
   return JA.generic[cpId.slice(8)]?.options[optionId] ?? optionId;
 }

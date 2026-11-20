@@ -123,7 +123,7 @@
     },
     {
       "id": "ev_phone_drop",
-      "trigger": { "all": [{ "elapsedSince": { "flag": "split", "min": 12 } }, { "not": { "elapsedSince": { "flag": "split", "min": 20 } } }, { "any": [{ "var": "c.kenichi.state", "op": "==", "value": "WALKING" }, { "var": "c.kenichi.state", "op": "==", "value": "OFFROUTE_UNAWARE" }] }, { "chance": 0.45 }] },
+      "trigger": { "all": [{ "elapsedSince": { "flag": "split", "min": 12 } }, { "not": { "elapsedSince": { "flag": "split", "min": 20 } } }, { "any": [{ "var": "c.kenichi.state", "op": "==", "value": "WALKING" }, { "var": "c.kenichi.state", "op": "==", "value": "OFFROUTE_UNAWARE" }] }] },
       "once": true,
       "effects": [
         { "type": "actions", "actions": [{ "type": "setPhone", "who": "kenichi", "has": false }, { "type": "setFlag", "flag": "phoneDropped" }] },
