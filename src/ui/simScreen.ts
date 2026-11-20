@@ -338,6 +338,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   function onEnded(): void {
     if (ended) return;
     ended = true;
+    // 録画中なら止めて、動画を自動で保存する（ユーザーの指定）
+    simCap.finishOnEnd();
     clearResume(scenario.id);
     const r = recorder.record;
     addHistory({

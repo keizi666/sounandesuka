@@ -8,7 +8,7 @@ import { fill, formatDateTime } from '../i18n/format';
 import { JA } from '../i18n/ja';
 import type { World } from '../sim/types';
 import { createCapture, type RecordResult } from './capture';
-import { openCaptureDialog } from './captureDialog';
+import { download, openCaptureDialog } from './captureDialog';
 import { toast } from './dom';
 import { siteUrl } from './shareButtons';
 
@@ -16,6 +16,8 @@ export interface SimCapture {
   afterRender(): void;
   snap(): void;
   toggleRecord(): void;
+  /** シナリオが終わった: 録画中なら止めて、動画を自動で保存する（ユーザーの指定） */
+  finishOnEnd(): void;
   /** 録画中なら経過秒 */
   elapsed(): number | null;
   dispose(): void;
@@ -66,6 +68,15 @@ export function createSimCapture(o: { canvas: HTMLCanvasElement; loaded: LoadedS
           else toast(JA.capture.started, 3000);
           o.onChange();
         });
+    },
+    finishOnEnd() {
+      if (cap.elapsed() === null) return;
+      void cap.stop().then((r) => {
+        o.onChange();
+        if (!r) return;
+        download(r.blob, `sounandesuyo_${s.id}_${stamp()}.${r.ext}`);
+        toast(JA.capture.savedOnEnd, 5000);
+      });
     },
     elapsed: () => cap.elapsed(),
     dispose: () => cap.dispose(),

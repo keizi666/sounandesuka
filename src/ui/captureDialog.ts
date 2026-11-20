@@ -20,7 +20,7 @@ export interface CaptureItem {
   sec?: number;
 }
 
-function download(blob: Blob, name: string): void {
+export function download(blob: Blob, name: string): void {
   const url = URL.createObjectURL(blob);
   const a = el('a', { href: url, download: name });
   document.body.append(a);
