@@ -809,3 +809,7 @@ dialog.settings .settings-foot button { min-width: 140px; padding: 8px 24px; }
 .sel-bar .sel-prof > svg { width: 1.15em; height: 1.15em; margin-left: 6px; fill: var(--accent, #d4a64a); }
 .sel-bar .sel-prof-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 640px) { .sel-bar .sel-prof-t { display: none; } .sel-bar .sel-prof { padding: 4px; } }
+/* 上のバー: 中身を横幅いっぱい（最大 1240 px）にし、題名〜エディターは左寄せ、プロフィールだけ右寄せ（ユーザーの指定） */
+.sel-bar .sel-bar-in { width: 100%; box-sizing: border-box; justify-content: flex-start; }
+.sel-bar .sel-bar-in h1 { flex: 0 1 auto; }
+.sel-bar .sel-bar-in .sel-count { margin-left: 0; }
