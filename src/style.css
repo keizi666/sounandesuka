@@ -747,3 +747,10 @@ main.ending .band h1 { font-size: 2.4rem; }
 .title-card { background: rgba(8, 10, 14, 0.25); }
 .tc-in { padding: 28px 40px 30px; border-radius: 24px; background: rgba(48, 52, 60, 0.55); border: 1px solid rgba(255, 255, 255, 0.14); -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
 @media (max-width: 600px) { .tc-in { padding: 20px 18px 22px; border-radius: 18px; } }
+
+/* ---- ログ: 分岐点の行の「この場面へ」、顔・名前・メーターのタップ ---- */
+ol.log li.sys .jump { margin-left: 8px; display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; background: rgba(200, 160, 80, 0.18); border: 1px solid rgba(200, 160, 80, 0.5); color: #f1d9a4; cursor: pointer; }
+ol.log li.sys .jump svg { width: 14px; height: 14px; fill: currentColor; }
+ol.log li.sys .jump:hover { background: rgba(200, 160, 80, 0.32); }
+ol.log .tappable { cursor: pointer; }
+ol.log .face.tappable:hover { filter: brightness(1.12); }

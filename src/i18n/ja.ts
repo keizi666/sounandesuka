@@ -332,6 +332,8 @@ export const JA = {
     sortByCore: '体温順',
     wholeParty: 'パーティ',
     autoChose: '◆ 観察: 「{label}」になった',
+    jumpToChoice: 'この場面へ',
+    jumpedToChoice: '選択の場面に戻りました。選び直すと、ここから先をやり直します',
     otherChose: '◆ {who}さんたちは「{label}」にした',
     timeUp: '◆ 時間切れ: 「{label}」になった',
     keyHelp: '左ドラッグ パン / 右ドラッグ 視点を回す / ホイール 拡大 / Space 一時停止 / 1〜4 速度 / G 情報モード / C カメラ / 視点: ドラッグで見回す・ダブルクリックで正面',

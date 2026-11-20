@@ -26,6 +26,8 @@ export interface HudHandlers {
   select(id: string): void;
   settings(): void;
   quit(): void;
+  /** 分岐点の場面へ戻る（ログの「この場面へ」） */
+  jumpToChoice?(tMin: number): void;
 }
 
 export interface LogLine {
@@ -46,6 +48,8 @@ export interface LogLine {
   shout?: boolean;
   /** そのときの登山者の状態（顔の下のメーターと、詳細のポップアップに使う） */
   snap?: LogSnap;
+  /** 分岐点の行: この時刻の場面へ戻れる */
+  jumpTo?: number;
 }
 
 const SPEED_LIST: Speed[] = [1, 4, 15, 60];
@@ -235,7 +239,13 @@ export class Hud {
     if (kind === 'system' || !who) {
       // 全体の出来事: 中央の帯
       this.lastSpeaker = null;
-      li = el('li', { class: `sys${line.important ? ' imp' : ''}`, 'data-t': line.tMin }, el('span', { class: 'pill' }, [el('time', {}, time), line.text]));
+      const jump = line.jumpTo !== undefined && this.h.jumpToChoice
+        ? el('button', { class: 'jump', type: 'button', title: JA.ui.jumpToChoice, onclick: (e: Event) => {
+            e.stopPropagation();
+            this.h.jumpToChoice?.(line.jumpTo!);
+          } }, [icon('replay'), JA.ui.jumpToChoice])
+        : null;
+      li = el('li', { class: `sys${line.important ? ' imp' : ''}`, 'data-t': line.tMin }, [el('span', { class: 'pill' }, [el('time', {}, time), line.text]), jump]);
     } else {
       const cont = this.lastSpeaker === who.id;
       this.lastSpeaker = who.id;
@@ -263,6 +273,19 @@ export class Hud {
       }
       li = el('li', { class: `who ${kind}${cont ? ' cont' : ''}`, 'data-t': line.tMin }, [face, el('div', { class: 'col' }, [name, body])]);
       li.addEventListener('click', () => this.h.select(who.id));
+      // 顔・名前・メーターをタップしたときも、「＞」と同じく、その人のそのときの状態を出す
+      if (snap) {
+        const openInfo = (e: Event): void => {
+          e.stopPropagation();
+          this.h.select(who.id);
+          openLogDetail({ who, time, text: line.bubble ?? line.text, snap, god: this.god, anchor: more ?? (e.currentTarget as HTMLElement) });
+        };
+        for (const t of [face, name]) {
+          if (!t || t.classList.contains('face-gap')) continue;
+          t.classList.add('tappable');
+          t.addEventListener('click', openInfo);
+        }
+      }
     }
     if (this.cutoff !== null && line.tMin > this.cutoff + 1e-6) li.hidden = true;
     this.logEl.append(li);

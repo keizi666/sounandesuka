@@ -128,6 +128,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       },
       setLayer: (n, on) => view.setLayer(n, on),
       setOverlay: (k) => view.overlay.set(k),
+      jumpToChoice: (t) => jumpToChoice(t),
       select: (id) => {
         view.selected = id;
         view.lookAt(id);
@@ -178,6 +179,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   const tlBar = createTimelineBar({
     seek: (t) => seekTo(t),
     latest: () => seekTo(Infinity),
+    seekChoice: (t) => jumpToChoice(t),
     formatTime: (t) => formatDateTime(scenario, t).split(' ')[1] ?? '',
   });
   const simMain = el('main', { class: 'sim' }, [stage, hud.top, dock.el, tlBar.el, modalHost, el('p', { class: 'keyhelp' }, `${JA.ui.keyHelp} ・ ${versionLabel()}`)]);
@@ -234,7 +236,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         // 吹き出しの中は文だけ。注記（記録・架空・ろれつ）は下に小さく
         const tag = v.log.replace(/^.*[」）]/, '');
         hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: v.thought ? 'thought' : 'speech', bubble: v.thought ? v.display : v.display, tag, to: v.to ? (party.get(v.to)?.name ?? v.to) : undefined, shout: v.tone === 'shout', snap });
-      } else hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: e.climberId ? 'action' : 'system', snap });
+      } else hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: e.climberId ? 'action' : 'system', snap, jumpTo: e.type === 'CHOICE_FIRED' ? e.tMin : undefined });
     }
   }
 
@@ -275,6 +277,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       onPick: (id) => {
         choiceUi = null;
         if (!world.pendingChoice) return;
+        truncateIfPast();
         if (id) resolveChoice(world, ctx, id, 'user');
         else autoResolve(world, ctx, 'bias');
         shownCp = null;
@@ -411,14 +414,43 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     hud.setCutoff(world.tMin < timeline.endMin - 1e-6 ? world.tMin : null);
     refresh(true);
   }
-  /** 再生に入る直前: 過去を表示していたなら、そこからやり直す（それより先の写し・ログ・分岐点の記録を捨てる） */
-  function beforePlay(): void {
+  /** 過去を表示していたなら、そこからやり直す（それより先の写し・ログ・分岐点の記録を捨てる） */
+  function truncateIfPast(): void {
     if (world.tMin < timeline.endMin - 1e-6) {
       timeline.truncateAfter(world.tMin);
       for (const [id, sn] of Object.entries(snapshots)) if (sn.world.tMin > world.tMin + 1e-6) delete snapshots[id];
       hud.truncate(world.tMin);
       toast(JA.ui.timelineRewound, 3500);
     }
+  }
+  /**
+   * 分岐点の場面へ戻る（ログの「この場面へ」・タイムラインの分岐点の印）。選択肢が出た瞬間の写しに戻し、選択肢の窓を出す。
+   * 選び直すと、そこから先をやり直す（それまでは「最新へ」で戻れる）。写しがなければ、その時刻へ移る
+   */
+  function jumpToChoice(tMin: number): void {
+    if (world.ended) return;
+    const found = Object.values(snapshots).find((sn) => Math.abs(sn.world.tMin - tMin) < 0.05);
+    if (!found || !found.world.pendingChoice) {
+      seekTo(tMin);
+      return;
+    }
+    if (world.tMin >= timeline.endMin - 1e-6) timeline.capture(world, recorder, true);
+    choiceUi?.close();
+    choiceUi = null;
+    shownCp = null;
+    replaceInPlace(world, structuredClone(found.world));
+    replaceInPlace(recorder, structuredClone(found.recorder));
+    ctx.events.length = 0;
+    loop.reset(world);
+    loop.paused = true;
+    hud.setCutoff(world.tMin < timeline.endMin - 1e-6 ? world.tMin : null);
+    refresh(true);
+    toast(JA.ui.jumpedToChoice, 3500);
+    onChoice();
+  }
+  /** 再生に入る直前: 過去を表示していたなら、そこからやり直す */
+  function beforePlay(): void {
+    truncateIfPast();
     // 分岐点の回答待ちで止まっている時刻へ戻った場合は、選択肢を出し直す
     if (world.pendingChoice) window.setTimeout(() => onChoice(), 0);
   }

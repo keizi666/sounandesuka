@@ -20,6 +20,8 @@ export interface TimelineBarHandlers {
   seek(tMin: number): void;
   /** いちばん新しい時刻へ戻る */
   latest(): void;
+  /** 分岐点の印: その場面（選択肢が出た瞬間）へ戻る */
+  seekChoice?(tMin: number): void;
   formatTime(tMin: number): string;
 }
 
@@ -144,7 +146,11 @@ export function createTimelineBar(h: TimelineBarHandlers): TimelineBar {
   });
   const up = (e: PointerEvent): void => {
     if (!drag || e.pointerId !== drag.id) return;
-    if (!drag.moved) h.seek(clampT(timeAtX(e.clientX)));
+    if (!drag.moved) {
+      const pt = (e.target as HTMLElement).closest<HTMLElement>('.tl-point.choice');
+      if (pt && h.seekChoice) h.seekChoice(Number(pt.dataset['t']));
+      else h.seek(clampT(timeAtX(e.clientX)));
+    }
     track.releasePointerCapture(e.pointerId);
     drag = null;
   };
