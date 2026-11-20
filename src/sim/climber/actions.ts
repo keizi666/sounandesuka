@@ -7,7 +7,7 @@ import { reportMissing } from '../rescue/rescue';
 import { parseTimeRef } from '../core/clock';
 import { chance } from '../core/rng';
 import { nearestIndex } from '../terrain/sample';
-import type { Action, ClimberState, StaticContext, UntilRef, World } from '../types';
+import type { Action, ClimberState, RescueReport, StaticContext, UntilRef, World } from '../types';
 import { shelterFromWind } from '../weather/local';
 import { checkPosition as navCheck, findLeeSpot, pathOffRidge, rejoinTrail, trailAt } from './navigation';
 import { dawnRef, ensureRouteAhead, enterShelter, goToNode, leaveShelter, setRoute, turnBack } from './route';
@@ -61,8 +61,11 @@ function toTrailFirst(world: World, ctx: StaticContext, c: ClimberState): boolea
   return true;
 }
 
-/** 救助要請（通報の成否。出動と収容は rescue.ts） */
-export function callRescue(world: World, ctx: StaticContext, c: ClimberState, via: 'auto' | 'phone' | 'satellite'): void {
+/**
+ * 救助要請（通報の成否。出動と収容は rescue.ts）。つながったら、救助隊が覚える通報の場所（を書き換えられる参照）を返す。
+ * 救助隊がもう別の場所へ向かっていれば、この通報は覚えておき、そちらが済んだら向かう（ユーザーの指定: 通報ごとの位置を覚える）
+ */
+export function callRescue(world: World, ctx: StaticContext, c: ClimberState, via: 'auto' | 'phone' | 'satellite'): RescueReport | null {
   const rt = ctx.tuning.radio;
   const ph = c.inv.phone;
   const radio = ctx.map.radio[nearestIndex(ctx.map, c.x, c.z)] ?? 0;
@@ -82,16 +85,42 @@ export function callRescue(world: World, ctx: StaticContext, c: ClimberState, vi
     }
   }
   if (ok && usedVia) {
-    if (world.rescue.status === 'none' || world.rescue.status === 'searching') {
-      world.rescue.status = 'dispatched';
-      world.rescue.calledAtMin = world.tMin;
-      world.rescue.via = usedVia;
-      world.rescue.locationEstimate = { x: c.x, z: c.z, radiusM: usedVia === 'satellite' || ph.gpsApp ? 50 : 500 };
+    const r = world.rescue;
+    const report: RescueReport = { x: c.x, z: c.z, radiusM: usedVia === 'satellite' || ph.gpsApp ? 50 : 500, by: c.id };
+    let stored: RescueReport | null = null;
+    if (r.status === 'none' || r.status === 'searching' || r.status === 'contacted') {
+      // まだ向かっていない（または、前の通報の人をみな収容し終えた）: この通報の場所へ出る
+      if (r.status === 'contacted') {
+        r.heli = { readyAtMin: null, nextCheckMin: null, state: 'idle' };
+        r.ground = { readyAtMin: null, x: 0, z: 0, state: 'idle' };
+      }
+      r.status = 'dispatched';
+      r.calledAtMin = world.tMin;
+      r.via = usedVia;
+      const est = { x: report.x, z: report.z, radiusM: report.radiusM };
+      r.locationEstimate = est;
+      stored = est as RescueReport;
+    } else {
+      // もう別の場所へ向かっている: 同じ場所（収容の範囲の中）でなければ覚えておく
+      const rr = ctx.tuning.rescue.contactRadiusM;
+      const near = (a: { x: number; z: number }): boolean => (a.x - c.x) * (a.x - c.x) + (a.z - c.z) * (a.z - c.z) <= rr * rr;
+      if (!r.reports) r.reports = [];
+      const list = r.reports;
+      const same = list.find((x) => x.by === c.id || near(x));
+      if (r.locationEstimate && near(r.locationEstimate)) stored = r.locationEstimate as RescueReport;
+      else if (same) {
+        Object.assign(same, report);
+        stored = same;
+      } else {
+        list.push(report);
+        stored = report;
+      }
     }
     ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALLED', climberId: c.id, important: true, data: { via: usedVia } });
-  } else {
-    ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALL_FAILED', climberId: c.id, important: true, data: { radio } });
+    return stored;
   }
+  ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALL_FAILED', climberId: c.id, important: true, data: { radio } });
+  return null;
 }
 
 function startBivouac(world: World, ctx: StaticContext, c: ClimberState, until: UntilRef, findLee: boolean, state: 'BIVOUAC' | 'WAITING_RESCUE'): void {

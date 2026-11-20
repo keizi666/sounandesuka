@@ -186,25 +186,41 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
     if (!c.offMap) c.offMap = by === 'heli' ? 'ヘリで病院' : '救助隊と下山';
   }
   if (safeInHut(found)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, data: { foundSafe: true } });
-  // 別の場所にまだ人が残っていれば（パーティが分かれた場合）、収容した人から場所を聞いて、近い順に向かう。
-  // 地上隊は今の場所から登山道の速さで歩き、ヘリは吊り上げの後に次の場所が飛べるかを見る
+  // 別の場所からも通報があれば（要救助者が複数いて、それぞれ通報した）、覚えていた通報の場所へ近い順に向かう（ユーザーの指定）。
+  // 地上隊は今の場所から登山道の速さで歩き、ヘリは吊り上げの後に次の場所が飛べるかを見る（飛べるか・入れるかは天気と時刻しだい）
   const r = world.rescue;
-  let next: ClimberState | undefined;
+  const byId = new Map(world.climbers.map((c) => [c.id, c]));
+  // 通報した人がもう収容された・下山した通報は消す
+  const reports = (r.reports ?? []).filter((x) => {
+    const c = byId.get(x.by);
+    return c !== undefined && !TERMINAL.has(c.state) && c.offMap === undefined;
+  });
+  r.reports = reports;
+  let pick = -1;
   let bd = Infinity;
-  for (const c of world.climbers) {
-    if (TERMINAL.has(c.state) || safeInHut(c)) continue;
-    const d = (c.x - found.x) * (c.x - found.x) + (c.z - found.z) * (c.z - found.z);
+  reports.forEach((x, i) => {
+    const d = (x.x - found.x) * (x.x - found.x) + (x.z - found.z) * (x.z - found.z);
     if (d < bd) {
       bd = d;
-      next = c;
+      pick = i;
     }
-  }
-  if (next) {
+  });
+  if (pick >= 0) {
+    const next = reports.splice(pick, 1)[0]!;
     r.status = 'dispatched';
-    r.locationEstimate = { x: next.x, z: next.z, radiusM: rt.preciseM };
+    r.locationEstimate = { x: next.x, z: next.z, radiusM: next.radiusM };
     const travelMin = ((Math.sqrt(bd) * rt.groundPathF) / 1000 / rt.groundTrailKmh) * 60;
     r.ground = { readyAtMin: world.tMin + travelMin, x: next.x, z: next.z, state: 'moving' };
     r.heli = { readyAtMin: null, nextCheckMin: world.tMin + rt.heliHoistMin, state: 'waiting' };
+    return;
+  }
+  // 通報のない人がまだ山に残っていれば、居場所は分からないので探す（収容した人の話から、本当の位置へまっすぐ向かうことはしない）
+  if (missing(world, ctx).some((c) => !safeInHut(c))) {
+    r.status = 'searching';
+    r.locationEstimate = null;
+    r.searchRadiusM = rt.searchStartM;
+    r.heli = { readyAtMin: null, nextCheckMin: world.tMin + rt.heliHoistMin, state: 'waiting' };
+    r.ground = { readyAtMin: world.tMin, x: found.x, z: found.z, state: 'searching' };
     return;
   }
   r.status = 'contacted';

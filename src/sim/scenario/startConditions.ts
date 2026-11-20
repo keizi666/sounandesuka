@@ -7,7 +7,7 @@ import type { ClimberDef, ForecastEntry, ScenarioDef, WeatherKeyframe } from '..
 
 export type WeatherOverride = 'asIs' | 'clear' | 'rain' | 'fog' | 'snow' | 'storm';
 export type SeasonOverride = 'asIs' | 'spring' | 'summer' | 'autumn' | 'winter';
-export type Health = 'good' | 'sleepy' | 'tired' | 'cold';
+export type Health = 'good' | 'sleepy' | 'tired' | 'cold' | 'hangover';
 
 export interface StartConditions {
   weather: WeatherOverride;
@@ -51,6 +51,8 @@ const HEALTH_INITIAL: Record<Health, NonNullable<ClimberDef['initial']>> = {
   sleepy: { fatigue: 12 },
   tired: { fatigue: 30, glycogenKcal: 1150 },
   cold: { fatigue: 15, waterDeficitL: 0.4, coreC: 37.6 },
+  // 二日酔い（ユーザーの指定）: 疲れが残り、体の水分が最初から少なく、食べられていないのでエネルギーも少ない。吐き気は behavior（食べる量）
+  hangover: { fatigue: 25, waterDeficitL: 1.0, glycogenKcal: 1200 },
 };
 
 const FORECAST_TEXT: Record<Exclude<WeatherOverride, 'asIs'>, ForecastEntry> = {

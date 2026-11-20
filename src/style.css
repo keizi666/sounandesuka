@@ -928,3 +928,40 @@ div.choice .rec-badge svg { width: 1em; height: 1em; fill: currentColor; }
 .cap-sub { margin: 12px 14px 6px; font-size: 0.9rem; opacity: 0.85; }
 .cap-dlg .share { padding: 0 14px 14px; }
 .cap-warn { margin: 0 14px 14px; padding: 8px 10px; border-radius: 8px; background: rgba(234, 179, 8, 0.12); color: #fde68a; font-size: 0.82rem; }
+
+/* ---- 自分のプレイ記録（履歴）と、シナリオのカードの印・お気に入り ---- */
+.hs-wrap { max-width: 980px; margin: 0 auto; padding: 16px 16px 48px; }
+.hs-lead { margin: 4px 0 12px; font-size: 0.85rem; opacity: 0.7; }
+.hs-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 14px; }
+.hs-field { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+.hs-field svg { width: 18px; height: 18px; fill: currentColor; opacity: 0.75; }
+.hs-field select { border: 0; background: transparent; color: inherit; font: inherit; max-width: 62vw; }
+.hs-field select option { color: #111; }
+.hs-count { margin-left: auto; font-size: 0.85rem; opacity: 0.7; }
+.hs-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.hs-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px 12px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.045); border: 1px solid rgba(255, 255, 255, 0.08); border-left: 4px solid var(--end); }
+.hs-main { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.hs-top { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 0.78rem; opacity: 0.75; }
+.hs-title { font-size: 1rem; }
+.hs-end { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.hs-kind { font-weight: 700; color: var(--end); }
+.hs-etitle { font-size: 0.88rem; opacity: 0.85; }
+.hs-facts { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 0.8rem; opacity: 0.85; }
+.hs-dead { color: #fca5a5; font-weight: 600; }
+.hs-alive { color: #86efac; }
+.hs-choices { margin: 2px 0 0; font-size: 0.8rem; opacity: 0.75; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.hs-play { flex: none; display: inline-flex; align-items: center; gap: 4px; }
+.hs-play svg { width: 16px; height: 16px; fill: currentColor; }
+.hs-empty { padding: 24px; text-align: center; opacity: 0.7; }
+@media (max-width: 560px) { .hs-item { flex-direction: column; align-items: stretch; } .hs-play { align-self: flex-end; } }
+.sel-fav { display: inline-grid; place-items: center; width: 34px; height: 34px; min-height: 0; padding: 0; margin-left: 6px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(10, 12, 16, 0.45); color: #fff; cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.sel-fav svg { width: 20px; height: 20px; fill: currentColor; }
+.sel-fav.on { color: #fb7185; border-color: rgba(251, 113, 133, 0.7); }
+.sel-fav:hover { background: rgba(10, 12, 16, 0.7); }
+.sel-badge.played { display: inline-flex; align-items: center; gap: 4px; background: rgba(22, 163, 74, 0.85); }
+.sel-badge.played svg { width: 15px; height: 15px; fill: currentColor; }
+.sel-chip.played { color: #4ade80; }
+.sel-h-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.sel-favonly { display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 3px 12px; border-radius: 999px; font-size: 0.85rem; }
+.sel-favonly svg { width: 18px; height: 18px; fill: currentColor; }
+.sel-favonly.on { color: #fb7185; border-color: rgba(251, 113, 133, 0.7); background: rgba(251, 113, 133, 0.12); }

@@ -153,12 +153,11 @@ export function arriveAt(world: World, ctx: StaticContext, c: ClimberState, node
     ensureRouteAhead(ctx, c);
     if (g.then === 'call') {
       // 電波の入る地点まで来たので通報する。つながれば、その場で救助を待つ（救助隊を案内する）
-      callRescue(world, ctx, c, 'auto');
+      const rep = callRescue(world, ctx, c, 'auto');
       // 仲間の急病やけがを知らせに来たのなら、伝える場所はその仲間のいる所（スマホの地図で分かる）
-      const r = world.rescue;
-      if (r.status === 'dispatched' && r.calledAtMin === world.tMin) {
+      if (rep) {
         const patient = world.climbers.find((o) => o !== c && o.body.alive && (o.body.illness?.active === true || o.body.injury !== 'none'));
-        if (patient) r.locationEstimate = { x: patient.x, z: patient.z, radiusM: c.inv.phone.gpsApp ? 100 : 500 };
+        if (patient) Object.assign(rep, { x: patient.x, z: patient.z, radiusM: c.inv.phone.gpsApp ? 100 : 500 });
       }
       transition(world, ctx, c, world.rescue.status === 'dispatched' ? 'WAITING_RESCUE' : 'STAYING', 'signalSought');
       return true;

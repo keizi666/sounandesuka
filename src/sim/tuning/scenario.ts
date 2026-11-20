@@ -84,6 +84,9 @@ export const behavior = {
     [0.6, 1],
   ],
   rationUnsureF: 0.75,
+  /** 二日酔いの吐き気が残る時間（出発から。時間）と、そのあいだに食べられる量の倍率 */
+  hangoverNauseaH: 6,
+  hangoverEatF: 0.4,
   /** 決まった間隔で休む習慣（50 分歩いて 10 分。P2 のコースタイム検証と同じ前提） */
   habitRestEveryMin: 50,
   habitRestMin: 10,

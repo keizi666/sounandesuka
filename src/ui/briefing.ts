@@ -99,7 +99,7 @@ function conditionsCard(s: LoadedScenario['scenario'], cond: StartConditions): H
     const hi = Math.max(...ls);
     return lo === hi ? `${lo} L` : `${lo}〜${hi} L`;
   };
-  const healthOpts: [Health, string][] = [['good', C.health.good], ['sleepy', C.health.sleepy], ['tired', C.health.tired], ['cold', C.health.cold]];
+  const healthOpts: [Health, string][] = [['good', C.health.good], ['sleepy', C.health.sleepy], ['tired', C.health.tired], ['cold', C.health.cold], ['hangover', C.health.hangover]];
   const card = el('section', { class: 'bf-card bf-cond' }, [
     el('h2', {}, [icon('thermostat'), C.title]),
     row(C.weather, select<WeatherOverride>(cond.weather, [['asIs', C.asIs], ['clear', C.w.clear], ['rain', C.w.rain], ['fog', C.w.fog], ['snow', C.w.snow], ['storm', C.w.storm]], (v) => (cond.weather = v))),

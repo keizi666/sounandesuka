@@ -33,6 +33,12 @@ export interface HistoryEntry {
   at: string;
   ending: EndingKind;
   choices: string[];
+  /** 結末の見出し・亡くなった人数・人数・行動時間（分）・条件を変えたか。古い履歴にはない */
+  endingTitle?: string;
+  deaths?: number;
+  partySize?: number;
+  durationMin?: number;
+  conditions?: boolean;
 }
 
 const SAVE_PREFIX = 'hks.v1.save.';
@@ -42,7 +48,7 @@ const SAVE_PREFIX = 'hks.v1.save.';
  */
 const SAVE_FORMAT = 2;
 const HISTORY_KEY = 'hks.v1.history';
-const HISTORY_MAX = 50;
+const HISTORY_MAX = 500;
 /** 保存時刻（解凍せずに新しい順に並べるため） */
 const SAVED_AT_PREFIX = 'hks.v1.savedAt.';
 

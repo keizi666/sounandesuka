@@ -265,7 +265,7 @@ export interface ClimberDef {
   role?: string;                 // 例: "ツアー客", "メインガイド"
   initial?: ClimberInitialDef;   // 前日までの影響
   /** 体調（始まりの条件を変えて試すとき。省くと万全）: sleepy 寝不足・tired 疲れが残る・cold 風邪ぎみ */
-  health?: 'good' | 'sleepy' | 'tired' | 'cold';
+  health?: 'good' | 'sleepy' | 'tired' | 'cold' | 'hangover';
   estimated?: string[];          // 推定値のフィールド名
   beeSensitized?: boolean;       // 以前ハチに刺されたことがある（アナフィラキシーを起こしやすい）
   notes?: string;
@@ -716,6 +716,16 @@ export interface RescueState {
   reportedBy?: string;
   /** 居場所の分からない人を、ヘリが実際に探した時間（分）。見つかる率はこれで決まる（古い保存にはない） */
   heliBlindMin?: number;
+  /** まだ向かっていない通報（別々の場所から通報があったとき。向かう先は locationEstimate）。古い保存にはない */
+  reports?: RescueReport[];
+}
+
+/** 救助隊が覚えている通報（どこから・誰が・どのくらい正確に） */
+export interface RescueReport {
+  x: number;
+  z: number;
+  radiusM: number;
+  by: ClimberId;
 }
 
 export interface PendingChoice {

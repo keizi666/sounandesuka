@@ -13,6 +13,8 @@ import { loadResume, resumableScenarios } from '../app/storage';
 import { versionLabel } from '../app/version';
 import { applyConditions } from '../sim/scenario/startConditions';
 import { JA } from '../i18n/ja';
+import { fill } from '../i18n/format';
+import { favorites, isFavorite, playCounts, toggleFavorite } from '../app/playStats';
 import { validateScenario } from '../sim/scenario/validate';
 import type { SounanBundle, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
 import { audio } from './audio';
@@ -54,6 +56,8 @@ async function openBundle(app: AppContext, file: File): Promise<void> {
 const THEME_ICON: Record<string, IconName> = { hypothermia: 'acUnit', lost: 'explore', lightning: 'thunderstorm', fall: 'trendingUp', heat: 'emergencyHeat', mixed: 'warning' };
 const THEME_HUE: Record<string, number> = { hypothermia: 205, lost: 140, lightning: 265, fall: 25, heat: 10, mixed: 45 };
 
+const FAV_ONLY_KEY = 'hks.v1.favOnly';
+
 const thumbBase = (e: ScenarioIndexEntry): string => assetUrl(`scenarios/${e.region?.real ? 'real/thumbs' : 'thumbs'}/${e.id}`);
 
 /** 一覧の項目のシナリオ本体（登場人物などを出すため。実在の山はバンドルではなく元の JSON を読む） */
@@ -74,8 +78,27 @@ function stars(n: number): HTMLElement {
   return el('span', { class: 'sel-stars', 'aria-label': `${JA.ui.difficulty} ${n}` }, Array.from({ length: 5 }, (_, i) => icon(i < n ? 'starFill' : 'star')));
 }
 
-function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumable: boolean): HTMLElement {
+function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumable: boolean, plays: number, onFav: () => void): HTMLElement {
   const hue = THEME_HUE[e.theme] ?? 200;
+  const M = JA.myPlays;
+  // お気に入り（ユーザーの指定）。カードを開く操作とは別に押せる
+  const fav = el('button', { class: 'sel-fav', type: 'button' });
+  const paintFav = (): void => {
+    const on = isFavorite(e.id);
+    fav.classList.toggle('on', on);
+    fav.setAttribute('aria-pressed', String(on));
+    fav.title = on ? M.unfav : M.fav;
+    fav.setAttribute('aria-label', fav.title);
+    fav.replaceChildren(icon(on ? 'favoriteFill' : 'favorite'));
+  };
+  fav.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    toggleFavorite(e.id);
+    paintFav();
+    onFav();
+  });
+  fav.addEventListener('keydown', (ev) => ev.stopPropagation());
+  paintFav();
   // 実地形のシナリオは、バンドルがあると分かってから絵を読む（公開版では地形データと絵を配っていないので、読みに行かない）
   const img = el('img', { class: 'sel-shot', alt: '', loading: 'lazy' }) as HTMLImageElement;
   img.addEventListener('error', () => img.remove());
@@ -87,7 +110,7 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
   };
   if (!e.bundle) showThumbs();
   const people = el('div', { class: 'sel-people' });
-  const facts = el('div', { class: 'sel-facts' }, [chip('timer', `${e.estMinutes} 分`)]);
+  const facts = el('div', { class: 'sel-facts' }, [chip('timer', `${e.estMinutes} 分`), plays > 0 ? chip('checkCircle', fill(M.played, { n: plays }), 'played') : null]);
   const note = e.region?.real ? el('p', { class: 'sel-note' }, [icon('warning'), JA.disclaimer.realMountainShort.replace(/^※/, '')]) : null;
   let busy = false;
   let disabled = false;
@@ -129,12 +152,12 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
   }, [
     img,
     el('div', { class: 'sel-shade' }),
-    el('div', { class: 'sel-top' }, [chip(THEME_ICON[e.theme] ?? 'warning', JA.labels.theme[e.theme] ?? e.theme, 'theme'), e.region?.real ? chip('landscape', e.region.name, 'real') : chip('landscape', '箱庭岳'), el('span', { class: 'sel-grow' }), stars(e.difficulty)]),
+    el('div', { class: 'sel-top' }, [chip(THEME_ICON[e.theme] ?? 'warning', JA.labels.theme[e.theme] ?? e.theme, 'theme'), e.region?.real ? chip('landscape', e.region.name, 'real') : chip('landscape', '箱庭岳'), el('span', { class: 'sel-grow' }), stars(e.difficulty), fav]),
     el('div', { class: 'sel-titles' }, [el('h2', {}, e.title), e.subtitle ? el('p', {}, e.subtitle) : null]),
     mapImg,
-    resumable ? el('span', { class: 'sel-badge' }, JA.ui.inProgress) : null,
+    resumable ? el('span', { class: 'sel-badge' }, JA.ui.inProgress) : plays > 0 ? el('span', { class: 'sel-badge played' }, [icon('checkCircle'), M.playedBadge]) : null,
   ]);
-  const btn = el('article', { class: `sel-card${resumable ? ' resumable' : ''}`, style: `--h:${hue}` }, [
+  const btn = el('article', { class: `sel-card${resumable ? ' resumable' : ''}${plays > 0 ? ' played' : ''}`, style: `--h:${hue}`, 'data-id': e.id }, [
     hero,
     el('div', { class: 'sel-body' }, [people, facts, note, el('div', { class: 'sel-actions' }, [primary, restart])]),
   ]);
@@ -176,6 +199,15 @@ export function showScenarioSelect(app: AppContext): () => void {
   const mine = el('section', { class: 'sel-section', hidden: true });
   const drop = el('label', { class: 'sel-drop' }, [icon('folderOpen'), el('span', {}, [el('strong', {}, JA.ui.loadFile), el('small', {}, JA.ui.dropHint)]), input]);
   const count = el('span', { class: 'sel-count' });
+  // お気に入りだけに絞る（ユーザーの指定。端末に覚える）
+  let favOnly = false;
+  try {
+    favOnly = localStorage.getItem(FAV_ONLY_KEY) === '1';
+  } catch {
+    // 読めなければすべて
+  }
+  const favBtn = el('button', { class: 'sel-favonly', type: 'button', 'aria-pressed': 'false' }, [icon('favorite'), JA.myPlays.favOnly]);
+  const noFav = el('p', { class: 'note', hidden: true }, JA.myPlays.noFav);
   // 画面のどこに落としても読み込む
   const onOver = (e: DragEvent): void => {
     e.preventDefault();
@@ -220,7 +252,7 @@ export function showScenarioSelect(app: AppContext): () => void {
         el('p', { class: 'sel-lead' }, JA.disclaimer.fictional),
         // みんなの遭難記録（docs/20_community.md）
         communityBanner(app),
-        el('section', { class: 'sel-section' }, [el('h2', { class: 'sel-h' }, [icon('landscape'), JA.ui.selectTitle]), list]),
+        el('section', { class: 'sel-section' }, [el('div', { class: 'sel-h-row' }, [el('h2', { class: 'sel-h' }, [icon('landscape'), JA.ui.selectTitle]), favBtn]), noFav, list]),
         mine,
         drop,
         el('section', { class: 'sel-section sel-share' }, [el('h2', { class: 'sel-h' }, [icon('share'), JA.share.siteTitle]), shareButtons({ text: JA.share.siteText, url: siteUrl() })]),
@@ -256,7 +288,32 @@ export function showScenarioSelect(app: AppContext): () => void {
     const saved = new Set(resumableScenarios());
     // 途中のシナリオを先に
     const sorted = [...idx.filter((e) => saved.has(e.id)), ...idx.filter((e) => !saved.has(e.id))];
-    list.replaceChildren(...sorted.map((e) => card(app, e, list, saved.has(e.id))));
+    const counts = playCounts();
+    const applyFilter = (): void => {
+      const favs = favorites();
+      let shown = 0;
+      for (const c of Array.from(list.children) as HTMLElement[]) {
+        const hide = favOnly && !favs.has(c.dataset['id'] ?? '');
+        c.hidden = hide;
+        if (!hide) shown += 1;
+      }
+      noFav.hidden = !(favOnly && shown === 0);
+    };
+    list.replaceChildren(...sorted.map((e) => card(app, e, list, saved.has(e.id), counts[e.id] ?? 0, applyFilter)));
+    favBtn.onclick = () => {
+      favOnly = !favOnly;
+      favBtn.classList.toggle('on', favOnly);
+      favBtn.setAttribute('aria-pressed', String(favOnly));
+      try {
+        localStorage.setItem(FAV_ONLY_KEY, favOnly ? '1' : '0');
+      } catch {
+        // 覚えられなくても絞り込める
+      }
+      applyFilter();
+    };
+    favBtn.classList.toggle('on', favOnly);
+    favBtn.setAttribute('aria-pressed', String(favOnly));
+    applyFilter();
     // 詳細から戻ったら、離れたときの位置へ
     if (scrollMemory.listY > 0) window.scrollTo(0, scrollMemory.listY);
   });

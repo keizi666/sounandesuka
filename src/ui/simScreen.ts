@@ -42,6 +42,9 @@ import { createTimeTravel } from './simTimeTravel';
 import { createKeyHandler } from './simKeys';
 import { createFrameExtras } from './simFrame';
 import { createSimCapture } from './simCapture';
+import { countPlay } from '../app/playStats';
+import { resolveEnding } from '../sim/scenario/endings';
+import { recVars } from '../sim/record/recorder';
 
 export { attributionLine, optionLabel, type SimResult } from './simCommon';
 
@@ -345,7 +348,13 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       at: new Date().toISOString(),
       ending: world.ended!.kind,
       choices: r.decisions.filter((d) => d.by === 'user').map((d) => optionLabel(loaded, d.cpId, d.optionId)),
+      endingTitle: resolveEnding(world, ctx, recVars(recorder, world))?.title ?? undefined,
+      deaths: world.climbers.filter((c) => !c.body.alive).length,
+      partySize: world.climbers.length,
+      durationMin: Math.round(world.tMin - (r.samples[0]?.t ?? world.tMin)),
+      conditions: !!loaded.conditions,
     });
+    countPlay(scenario.id);
     window.setTimeout(() => app.go({ name: 'ending', loaded, result: { world, recorder, choiceSnapshots: snapshots, runId, parentRunId } }), 1500);
   }
 

@@ -9,6 +9,7 @@ import { evalCondition } from '../scenario/conditions';
 import type { ClimberState, StaticContext, World } from '../types';
 import { isIndoors } from './situation';
 import { chargeDecision } from './devices';
+import { nauseous } from './behavior';
 
 /** これより強い雨は「小降り」と考えない（mm/h） */
 const RAIN_HEAVY_MMH = 2;
@@ -37,6 +38,8 @@ const BUILTIN: Builtin[] = [
   // 出発した日のうちだけ。仲間に具合の悪い人がいれば、時間どころではない
   { key: 'behind', priority: 3, leaderOnly: true, when: (w, ctx, c) => c.perception.timeBehindMin > 45 && c.state === 'WALKING' && c.body.injury === 'none' && !(c.body.illness?.active ?? false) && !c.perception.awareLost && Math.floor(w.tMin / 1440) === Math.floor(scenarioStartMin(ctx.scenario) / 1440) && !unwellMate(w, c) },
   // 「寒さのせいか」は寒いときだけ（暖かいときは節約の考えだけ）
+  // 二日酔い（ユーザーの指定）: 吐き気が残っている
+  { key: 'hangover', priority: 5, when: (w, ctx, c) => nauseous(w, ctx, c) && c.body.conscious },
   // モバイルバッテリー（ユーザーの指定）: 充電している・雨で充電できない
   { key: 'charge_now', priority: 4, when: (_w, _c, c) => c.inv.charging === true },
   { key: 'charge_rain', priority: 5, when: (_w, ctx, c) => chargeDecision(ctx, c) === 'rain' },

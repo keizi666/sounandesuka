@@ -4,6 +4,7 @@
  * 作業中（plan.busyUntilMin）は歩かず、終わったら効果を適用する。
  */
 import { chance } from '../core/rng';
+import { scenarioStartMin } from '../core/clock';
 import type { ClimberState, StaticContext, World } from '../types';
 import type { Tuning } from '../tuning';
 import { piecewise } from './capacity';
@@ -18,6 +19,11 @@ const UNSURE = new Set(['LOST_AWARE', 'OFFROUTE_UNAWARE', 'BACKTRACKING', 'NAVIG
 /**
  * 残りを気にして控える倍率（0〜1）。持ってきた量に対する残りの割合で決める。道に迷った・救助を待つ・ビバークのときは、さらに控える
  */
+/** 二日酔いの吐き気が残っているか（出発から hangoverNauseaH 時間） */
+export function nauseous(world: World, ctx: StaticContext, c: ClimberState): boolean {
+  return c.def.health === 'hangover' && world.tMin - scenarioStartMin(ctx.scenario) < ctx.tuning.behavior.hangoverNauseaH * 60;
+}
+
 export function rationF(c: ClimberState, tuning: Tuning, what: 'water' | 'food'): number {
   const bt = tuning.behavior;
   const cap = what === 'water' ? c.def.gear.waterL : c.def.gear.foodKcal;
@@ -145,7 +151,8 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
       if (chance(rng, p)) {
         c.memo.lastEatMin = world.tMin;
         // 残りが少なければ、1 回に食べる量を控える（ユーザーの指定）
-        const kcal = Math.round(bt.eatKcal * rationF(c, ctx.tuning, 'food'));
+        // 二日酔いの吐き気が残っているあいだは、少ししか食べられない
+        const kcal = Math.round(bt.eatKcal * rationF(c, ctx.tuning, 'food') * (nauseous(world, ctx, c) ? bt.hangoverEatF : 1));
         return startTask(world, c, `eat:${Math.min(kcal, c.inv.foodKcal)}`, taskMinutes(c, bt.eatMin, ctx));
       }
     }
