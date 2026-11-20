@@ -352,6 +352,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       tt.applySeek();
       view.gameSpeed = loop.paused || w.pendingChoice || w.ended ? 0 : SPEEDS[loop.speed] * DT_SEC;
       view.render(w, prev, alpha, t);
+      // タイムラインも 3D と同じく、前の刻みからの補間した時刻で滑らかに流す
+      tlBar.setNow(prev ? w.tMin - (1 - alpha) * (DT_SEC / 60) : w.tMin);
       const now = performance.now();
       frame.update(w, now, now - lastFrame);
       const dt = loop.paused || w.pendingChoice ? 0 : (now - lastFrame) / 1000;

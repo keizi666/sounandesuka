@@ -4,7 +4,7 @@
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { JA } from '../i18n/ja';
-import { formatClock, formatDateTime } from '../i18n/format';
+import { fill, formatClock, formatDateTime } from '../i18n/format';
 import { createStaticContext } from '../sim/core/world';
 import { ENDING_SEVERITY, resolveEnding } from '../sim/scenario/endings';
 import { recVars } from '../sim/record/recorder';
@@ -20,6 +20,8 @@ import { endingMusic } from './simAudio';
 import { openDebriefPanel } from './debrief';
 import { historicalSources } from './historicalLinks';
 import { communityPostCard } from './community/postCard';
+import { shareButtons, siteUrl } from './shareButtons';
+import { STATE_PARAM } from '../app/shareState';
 
 export function endingTone(kind: string): 'good' | 'mid' | 'bad' {
   const s = ENDING_SEVERITY[kind as keyof typeof ENDING_SEVERITY] ?? 0;
@@ -72,6 +74,16 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
   const fact = (ic: IconName, label: string, value: string): HTMLElement => el('div', { class: 'bf-fact' }, [icon(ic), el('span', {}, [el('small', {}, label), el('strong', {}, value)])]);
 
   let closeDebrief: (() => void) | null = null;
+  // 共有: 一覧のシナリオなら、この経過を再現する URL（アドレス欄に入っている場面の URL）。それ以外はサービスの URL
+  const endTitle = e.title ?? def?.title ?? e.kind;
+  const resultUrl = loaded.listed && new URL(location.href).searchParams.has(STATE_PARAM) ? location.href : siteUrl();
+  const shareCard = el('section', { class: 'bf-card sh-card' }, [
+    el('h2', {}, [icon('share'), JA.share.resultTitle]),
+    shareButtons(
+      { text: fill(JA.share.resultText, { scenario: s.title, ending: endTitle, time: hm(endMin - start), core: r.stats.minCoreC.toFixed(1) }), url: resultUrl },
+      { note: resultUrl === siteUrl() ? JA.share.note : JA.share.resultNote },
+    ),
+  ]);
   const main = el('main', { class: `ending2 tone-${tone}` }, [
       el('header', { class: 'en-hero' }, [
         el('div', { class: 'en-in' }, [
@@ -100,7 +112,8 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
             ])
           : null,
         // みんなの遭難記録に載せる（docs/20_community.md）
-        communityPostCard(app, loaded, result, { kind: e.kind, title: e.title ?? def?.title ?? e.kind }),
+        communityPostCard(app, loaded, result, { kind: e.kind, title: endTitle }),
+        shareCard,
         el('div', { class: 'bf-notes' }, [
           el('p', { class: 'note' }, JA.disclaimer.endingNote),
           s.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,

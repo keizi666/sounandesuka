@@ -9,9 +9,9 @@ import { transition } from '../climber/state';
 import { evalCondition } from '../scenario/conditions';
 import { isForest } from '../terrain/derive';
 import { nearestIndex } from '../terrain/sample';
-import { resolveRoute } from '../terrain/trails';
 import type { ClimberState, NodeId, SearchLeadDef, StaticContext, World } from '../types';
 import { sampleLocal } from '../weather/local';
+import { blindHeliFind, cocoheliFind, distToPlannedRoute, whereaboutsUnknown } from './heliSearch';
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
 
@@ -101,27 +101,6 @@ function holdLog(world: World, ctx: StaticContext, by: 'heli' | 'ground', reason
   // 動きはじめは、それまで見合わせていたときだけ知らせる
   if (!now && !prev) return;
   ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', important: true, data: { rescueHold: reason ?? 'go', by } });
-}
-
-const routePtsCache = new WeakMap<readonly NodeId[], Float64Array>();
-
-/** ルート（の登山道の点）までの最短距離。既定は計画ルート */
-function distToPlannedRoute(ctx: StaticContext, x: number, z: number, route: readonly NodeId[] = ctx.scenario.plan.route): number {
-  let pts = routePtsCache.get(route);
-  if (!pts) {
-    const arr: number[] = [];
-    for (const leg of resolveRoute(ctx.map, [...route])) for (const s of ctx.map.trails[leg.edgeId]!.samples) arr.push(s.x, s.z);
-    pts = Float64Array.from(arr);
-    routePtsCache.set(route, pts);
-  }
-  let best = Infinity;
-  for (let i = 0; i < pts.length; i += 2) {
-    const dx = pts[i]! - x;
-    const dz = pts[i + 1]! - z;
-    const d = dx * dx + dz * dz;
-    if (d < best) best = d;
-  }
-  return Math.sqrt(best);
 }
 
 function target(world: World): { x: number; z: number } {
@@ -270,7 +249,16 @@ function search(world: World, ctx: StaticContext, perH: number, by: 'heli' | 'gr
   const est = r.locationEstimate;
   const lead = est ? undefined : activeLead(world, ctx);
   if (lead === null) return null;
-  for (const c of missing(world, ctx)) {
+  const people = missing(world, ctx);
+  // ヘリ: ココヘリの電波は居場所が分からなくてもとらえる。持たずに居場所の分からない人は、探した時間で決まる低い率でしか見つからない
+  const blind: ClimberState[] = [];
+  if (by === 'heli') {
+    const beacon = cocoheliFind(world, ctx, people, dtMin);
+    if (beacon) return beacon;
+    for (const c of people) if (c.def.gear.cocoheli !== true && whereaboutsUnknown(ctx, c, est, lead?.route)) blind.push(c);
+  }
+  for (const c of people) {
+    if (blind.includes(c)) continue;
     // 捜索範囲の中にいるか
     if (est) {
       const dx = c.x - est.x;
@@ -284,7 +272,7 @@ function search(world: World, ctx: StaticContext, perH: number, by: 'heli' | 'gr
     const pTick = (perH * findFactor(ctx, c, by, est) * (lead?.findF ?? 1) * dtMin) / 60;
     if (chance(world.rng.rescue, Math.min(1, pTick))) return c;
   }
-  return null;
+  return blindHeliFind(world, ctx, blind, dtMin);
 }
 
 /** 家族・仲間が届け出る（reportMissing のアクション）。次のティックで未帰還の通報として扱う */

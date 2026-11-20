@@ -111,6 +111,7 @@ function climberCard(ed: Ed, c: ClimberDef, i: number): HTMLElement {
       num('食料', g.foodKcal, (v) => set('食料', () => (g.foodKcal = v)), { min: 0, step: 100, unit: 'kcal' }),
       num('水', g.waterL, (v) => set('水', () => (g.waterL = v)), { min: 0, step: 0.1, unit: 'L' }),
       check('笛', g.whistle, (v) => set('笛', () => (g.whistle = v))),
+      check('ココヘリ', g.cocoheli === true, (v) => set('ココヘリ', () => (g.cocoheli = v))),
       check('アイゼン', g.crampons, (v) => set('アイゼン', () => (g.crampons = v))),
       check('ヘルメット', g.helmet, (v) => set('ヘルメット', () => (g.helmet = v))),
     ], false),

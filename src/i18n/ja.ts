@@ -198,6 +198,21 @@ export const JA = {
     noBivy: 'ツェルトなし',
     poles: 'ストック',
   },
+  share: {
+    resultTitle: '結果を共有',
+    siteTitle: '「遭難ですよ」を共有',
+    /** 結果の本文。{scenario} シナリオ名、{ending} 結末、{time} 行動時間、{core} 最低体温 */
+    resultText: '「{scenario}」の結末は「{ending}」でした（行動 {time}・最低体温 {core}℃）。',
+    siteText: '箱庭の山で、山岳遭難の推移を 3D で見守るシミュレーター「遭難ですよ」',
+    hashtag: '遭難ですよ',
+    on: '{name} で共有',
+    device: 'その他',
+    copy: 'リンクをコピー',
+    copied: 'リンクをコピーしました',
+    copyManual: 'このリンクをコピーしてください',
+    note: '押すと、各サービスの投稿の画面が新しいタブで開きます（このアプリからは何も送りません）。',
+    resultNote: 'リンクを開くと、同じ選択でこの経過を見られます。押すと各サービスの投稿の画面が新しいタブで開きます。',
+  },
   logDetail: {
     title: 'そのときの状態',
     open: '詳しく見る',

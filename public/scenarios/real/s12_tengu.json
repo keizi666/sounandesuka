@@ -80,7 +80,7 @@
         "crampons": true,
         "helmet": false,
         "trekkingPoles": false,
-        "whistle": true,
+        "whistle": true, "cocoheli": true,
         "rescueSheet": false
       },
       "notes": "架空の人物。原案の「50代男性」をもとにした。ツエルトは三浦さんが持つ。"
@@ -116,7 +116,7 @@
         "crampons": true,
         "helmet": false,
         "trekkingPoles": false,
-        "whistle": true,
+        "whistle": true, "cocoheli": true,
         "rescueSheet": true
       },
       "notes": "架空の人物。原案の「60代女性」をもとにした（原案の手記の書き手）。ツエルトは二人で一つ（三浦さんのものに一緒に入る）。"

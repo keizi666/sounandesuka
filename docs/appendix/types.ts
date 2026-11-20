@@ -318,6 +318,7 @@ export interface GearDef {
   meds?: boolean;              // 持病の薬（ニトログリセリンなど）
   epipen?: boolean;            // アドレナリン自己注射薬（エピペン。処方された人だけ）
   rescueSheet?: boolean;       // エマージェンシーシート
+  cocoheli?: boolean;          // ココヘリ（会員制の捜索用の発信機）。ヘリの受信機が電波をとらえ、短い時間で見つかる
 }
 
 export interface WeatherKeyframe {
@@ -706,6 +707,8 @@ export interface RescueState {
   searchRadiusM: number;
   /** 届け出た人（reportMissing の by） */
   reportedBy?: string;
+  /** 居場所の分からない人を、ヘリが実際に探した時間（分）。見つかる率はこれで決まる（古い保存にはない） */
+  heliBlindMin?: number;
 }
 
 export interface PendingChoice {

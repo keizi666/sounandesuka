@@ -225,6 +225,17 @@ export const rescue = {
   groundHoldMinMin: 30,
   heliHoistMin: 15,
   heliFindPerH: 0.6,
+  /**
+   * 居場所の分からない人（通報した場所・計画の道から離れた人）をヘリが見つける率（ユーザーの指定）。
+   * [探した日数, それまでに見つかる率]。1 日 = ヘリが実際に飛んで探した heliBlindDayMin 分（夜・悪天候では進まない）。最後の点より先は同じ傾きで伸ばし、heliBlindMaxP まで
+   */
+  heliBlindFindP: [[0, 0], [1, 0.1], [2, 0.2], [3, 0.3]] as [number, number][],
+  heliBlindDayMin: 600,
+  heliBlindMaxP: 0.6,
+  /** 計画の道からこれより離れた人は「居場所が分からない」（通報した場所があるときは、その範囲 + movedAwayM の外） */
+  heliBlindFromRouteM: 300,
+  /** ココヘリを持つ人をヘリが見つける率（1 時間あたり。受信機で電波をとらえる。居場所が分からなくても同じ） */
+  cocoheliFindPerH: 3,
   heliFindForestPerH: 0.25,
   signalF: 1.5,
   preciseM: 50,

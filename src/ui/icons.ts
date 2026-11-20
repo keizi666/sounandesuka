@@ -86,6 +86,7 @@ import openWith from '@material-symbols/svg-400/rounded/open_with.svg?raw';
 import waves from '@material-symbols/svg-400/rounded/waves.svg?raw';
 import shield from '@material-symbols/svg-400/rounded/shield.svg?raw';
 import link from '@material-symbols/svg-400/rounded/link.svg?raw';
+import share from '@material-symbols/svg-400/rounded/share.svg?raw';
 import landslide from '@material-symbols/svg-400/rounded/landslide.svg?raw';
 import forest from '@material-symbols/svg-400/rounded/forest.svg?raw';
 import cellTower from '@material-symbols/svg-400/rounded/cell_tower.svg?raw';
@@ -94,7 +95,7 @@ import settingsInputAntenna from '@material-symbols/svg-400/rounded/settings_inp
 const ICONS = {
   star, starFill, explore, cardiology, emergencyHeat, pestControl, smartToy, contentCopy, download, folderOpen, person,
   volumeOff, volumeUp, edit, replay, add, remove, fitScreen,
-  arrowSelectorTool, panTool, selectBox, draw, callSplit, addLocationAlt, openWith, waves, shield, link, landslide, forest, cellTower, settingsInputAntenna,
+  arrowSelectorTool, panTool, selectBox, draw, callSplit, addLocationAlt, openWith, waves, shield, link, share, landslide, forest, cellTower, settingsInputAntenna,
   chevronRight, close,
   arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, trendingDown, waterBottle, warning, wbSunny,
   acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, favorite, flashlightOn, keyboardArrowDown, keyboardArrowUp, foggy, groups, healing, hiking, history, home,

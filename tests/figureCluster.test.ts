@@ -40,3 +40,11 @@ describe('グループのない人', () => {
     expect(clusterHeads(ps, new Map(ps.map((p) => [p.id, { x: p.x, y: p.y }])), 5, 64)).toEqual([]);
   });
 });
+
+describe('縦に長い列', () => {
+  it('隣どうしが近ければ、最初の人から遠くても 5 人ずつつなぐ', () => {
+    const ps = col(10, 40);
+    const out = clusterHeads(ps, posOf(ps), 5, 64);
+    expect(out).toEqual([['p0', 'p1', 'p2', 'p3', 'p4'], ['p5', 'p6', 'p7', 'p8', 'p9']]);
+  });
+});

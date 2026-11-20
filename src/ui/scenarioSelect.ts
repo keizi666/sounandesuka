@@ -27,6 +27,7 @@ import { cIcon, userAvatar } from './community/common';
 import { openProfileDialog } from './community/profileDialog';
 import { loadProfile } from '../net/profile';
 import { refreshProfile } from '../net/communityApi';
+import { shareButtons, siteUrl } from './shareButtons';
 
 /** バンドル（*.sounan.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
 async function openBundle(app: AppContext, file: File): Promise<void> {
@@ -222,6 +223,7 @@ export function showScenarioSelect(app: AppContext): () => void {
         el('section', { class: 'sel-section' }, [el('h2', { class: 'sel-h' }, [icon('landscape'), JA.ui.selectTitle]), list]),
         mine,
         drop,
+        el('section', { class: 'sel-section sel-share' }, [el('h2', { class: 'sel-h' }, [icon('share'), JA.share.siteTitle]), shareButtons({ text: JA.share.siteText, url: siteUrl() })]),
         el('footer', { class: 'sel-foot' }, [
           el('span', {}, JA.ui.copyright),
           el('a', { href: `${import.meta.env.BASE_URL}legal/terms.html` }, JA.ui.terms),

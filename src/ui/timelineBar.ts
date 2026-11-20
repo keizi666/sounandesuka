@@ -3,6 +3,8 @@
  * - 線の上を押すとその時刻へ、左右にドラッグすると目盛りをつかんで動かす（右へドラッグで過去、左へで先。つまみは中央のまま、目盛りと点が流れる）
  * - 出来事の点（分岐点はひし形）を押すとその時刻へ。まだ来ていない未来（記録の先）は斜線で、そこへは進めない
  * - 窓の幅は 1・2・4・8 時間から選べる
+ * - 目盛りと点は 1 本の帯（strip）に載せ、帯だけを transform で動かす。時刻は描画のたびに補間した値（setNow）で、
+ *   シミュレーションの刻み（10 秒）ごとに跳ねずに滑らかに流れる（ユーザーの指摘: ◆がピコピコ動く）
  */
 import { JA } from '../i18n/ja';
 import { el } from './dom';
@@ -29,6 +31,8 @@ export interface TimelineBar {
   el: HTMLElement;
   /** startMin: 記録の最初、endMin: 記録の最新（それより先へは進めない）、nowMin: 表示中の時刻 */
   update(startMin: number, endMin: number, nowMin: number, points: readonly TimelinePoint[]): void;
+  /** 描画のたびに呼ぶ。補間した表示中の時刻（呼ばれている間は update の nowMin より優先する） */
+  setNow(nowMin: number): void;
   dispose(): void;
 }
 
@@ -39,9 +43,11 @@ export function createTimelineBar(h: TimelineBarHandlers): TimelineBar {
   const future = el('div', { class: 'tl-future' });
   const ticks = el('div', { class: 'tl-ticks' });
   const pointsEl = el('div', { class: 'tl-points' });
+  // 目盛りと点を載せる帯。中身の位置は作り直したときの基準時刻（anchor）で決め、毎フレームは帯の transform だけを変える
+  const strip = el('div', { class: 'tl-strip' }, [ticks, pointsEl]);
   const thumb = el('div', { class: 'tl-thumb' });
   const tip = el('div', { class: 'tl-tip', hidden: true });
-  const track = el('div', { class: 'tl-track', role: 'slider', tabindex: 0, 'aria-label': JA.ui.timeline }, [past, future, ticks, pointsEl, thumb, tip]);
+  const track = el('div', { class: 'tl-track', role: 'slider', tabindex: 0, 'aria-label': JA.ui.timeline }, [past, future, strip, thumb, tip]);
   const leftLbl = el('span', { class: 'tl-lbl' });
   const rightLbl = el('span', { class: 'tl-lbl' });
   const nowLbl = el('span', { class: 'tl-now' });
@@ -65,6 +71,10 @@ export function createTimelineBar(h: TimelineBarHandlers): TimelineBar {
   let now = 0;
   let points: readonly TimelinePoint[] = [];
   let pointsKey = '';
+  let anchor = 0;
+  /** setNow を最後に受けた時刻（performance.now）。描画が止まっているあいだは update の時刻を使う */
+  let liveAtMs = -Infinity;
+  const shown = { left: '', right: '', now: '', past: false };
 
   const span = (): number => SPANS[spanIdx]!;
   const winStart = (): number => now - span() / 2;
@@ -83,30 +93,42 @@ export function createTimelineBar(h: TimelineBarHandlers): TimelineBar {
     past.style.width = `${Math.max(0, pb - pa) * 100}%`;
     future.style.left = `${pb * 100}%`;
     future.style.width = `${Math.max(0, 1 - pb) * 100}%`;
-    leftLbl.textContent = h.formatTime(ws);
-    rightLbl.textContent = h.formatTime(we);
+    // 文字は変わったときだけ書き換える（毎フレーム呼ばれる）
     const isPast = now < end - 0.5;
-    nowLbl.textContent = isPast ? `${h.formatTime(now)}（${JA.ui.timelinePast}）` : h.formatTime(now);
-    root.classList.toggle('past', isPast);
-    latestBtn.hidden = !isPast;
-    spanBtns.forEach((b, i) => b.classList.toggle('on', i === spanIdx));
-    track.setAttribute('aria-valuetext', h.formatTime(now));
-    // 目盛り: 窓の幅に合わせて 15 分・30 分・1 時間ごと
+    const l = h.formatTime(ws);
+    const r = h.formatTime(we);
+    const n = isPast ? `${h.formatTime(now)}（${JA.ui.timelinePast}）` : h.formatTime(now);
+    if (l !== shown.left) leftLbl.textContent = shown.left = l;
+    if (r !== shown.right) rightLbl.textContent = shown.right = r;
+    if (n !== shown.now) {
+      nowLbl.textContent = shown.now = n;
+      track.setAttribute('aria-valuetext', h.formatTime(now));
+    }
+    if (isPast !== shown.past || force) {
+      shown.past = isPast;
+      root.classList.toggle('past', isPast);
+      latestBtn.hidden = !isPast;
+    }
+    // 目盛り: 窓の幅に合わせて 15 分・30 分・1 時間ごと。作り直すのは窓が目盛り 1 つ分動いたときと、点が増えたとき
     const step = span() <= 60 ? 15 : span() <= 120 ? 30 : 60;
-    const key = `${Math.floor(ws / step)}|${span()}|${points.length}|${Math.round(end)}`;
+    const key = `${Math.floor(ws / step)}|${span()}|${points.length}`;
     if (key !== pointsKey || force) {
       pointsKey = key;
+      anchor = ws;
+      spanBtns.forEach((b, i) => b.classList.toggle('on', i === spanIdx));
+      const at = (t: number): string => `${((t - anchor) / span()) * 100}%`;
       const tk: HTMLElement[] = [];
-      for (let t = Math.ceil(ws / step) * step; t <= we; t += step) {
+      // 次に作り直すまでに窓が動く分（目盛り 1 つ分）も、両側に余分に作っておく
+      for (let t = Math.ceil((ws - step) / step) * step; t <= we + step; t += step) {
         const major = t % 60 === 0;
-        tk.push(el('span', { class: `tl-tick${major ? ' major' : ''}`, 'data-t': t }, major ? h.formatTime(t) : ''));
+        tk.push(el('span', { class: `tl-tick${major ? ' major' : ''}`, 'data-t': t, style: `left:${at(t)}` }, major ? h.formatTime(t) : ''));
       }
       ticks.replaceChildren(...tk);
       pointsEl.replaceChildren(
         ...points
           .filter((p) => p.tMin >= ws - span() && p.tMin <= we + span())
           .map((p) => {
-            const b = el('button', { class: `tl-point${p.choice ? ' choice' : ''}`, type: 'button', 'data-t': p.tMin, 'data-text': p.text, 'aria-label': `${h.formatTime(p.tMin)} ${p.text}` });
+            const b = el('button', { class: `tl-point${p.choice ? ' choice' : ''}`, type: 'button', 'data-t': p.tMin, 'data-text': p.text, 'aria-label': `${h.formatTime(p.tMin)} ${p.text}`, style: `left:${at(p.tMin)}` });
             b.addEventListener('pointerdown', (ev) => {
               ev.stopPropagation();
               h.seek(p.tMin);
@@ -115,13 +137,8 @@ export function createTimelineBar(h: TimelineBarHandlers): TimelineBar {
           }),
       );
     }
-    for (const t of ticks.children) (t as HTMLElement).style.left = `${frac(Number((t as HTMLElement).dataset['t'])) * 100}%`;
-    for (const b of pointsEl.children) {
-      const e = b as HTMLElement;
-      const f = frac(Number(e.dataset['t']));
-      e.style.left = `${f * 100}%`;
-      e.hidden = f < -0.02 || f > 1.02;
-    }
+    // 帯を動かす（帯の幅 = 線の幅なので、% で書ける）
+    strip.style.transform = `translate3d(${((anchor - ws) / span()) * 100}%, 0, 0)`;
   }
 
   // ドラッグ: 目盛りをつかんで動かす（右へ動かすと過去へ、左へ動かすと先へ。ユーザーの指定）。動かさずに離したら、押した所の時刻へ
@@ -175,8 +192,15 @@ export function createTimelineBar(h: TimelineBarHandlers): TimelineBar {
     update(s, e, n, pts) {
       start = s;
       end = Math.max(e, s);
-      now = n;
+      // 描画が動いているあいだは、補間した時刻（setNow）を使う。刻みの時刻で上書きすると、また跳ねて見える
+      if (performance.now() - liveAtMs > 500) now = n;
       points = pts;
+      redraw();
+    },
+    setNow(n) {
+      liveAtMs = performance.now();
+      if (Math.abs(n - now) < 1e-6) return;
+      now = n;
       redraw();
     },
     dispose() {
