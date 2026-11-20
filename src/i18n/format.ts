@@ -6,6 +6,8 @@ import type { TextLabels } from '../sim/scenario/text';
 import { classify, distort, type SpeechClass } from '../sim/climber/speech';
 import type { ScenarioDef, SimEvent } from '../sim/types';
 import { JA } from './ja';
+import { scenarioYear } from '../sim/scenario/era';
+import { TUNING } from '../sim/tuning';
 
 export const TEXT_LABELS: TextLabels = {
   precipType: JA.labels.precipType,
@@ -75,6 +77,11 @@ export interface FormatCtx {
 }
 
 /** イベントのログ文。出さないもの（STATE の一部など）は null */
+/** スマホがまだない年代のシナリオでは、文の中の「スマートフォン」を「携帯電話」に（ユーザーの指定） */
+function phoneEra(f: FormatCtx, text: string): string {
+  return scenarioYear(f.scenario) < TUNING.era.smartphoneFrom ? text.replace(/スマートフォン|スマホ/g, JA.ui.featurePhone) : text;
+}
+
 export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
   const L = JA.log;
   const who = e.climberId ? (f.scenario.party.find((p) => p.id === e.climberId)?.name ?? e.climberId) : '';
@@ -148,7 +155,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'LAMP_DEAD':
       return fill(L.lampDead, { who });
     case 'PHONE_DEAD':
-      return fill(L.phoneDead, { who });
+      return phoneEra(f, fill(L.phoneDead, { who }));
     case 'SHELTER_ENTER':
       return fill(L.shelterEnter, { who, node: f.nodeName(s('node')) });
     case 'SHELTER_LEAVE':
@@ -171,7 +178,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'RESCUED':
       return fill(L.rescued, { who });
     case 'FORECAST_UPDATE':
-      return L.forecast;
+      return phoneEra(f, L.forecast);
     case 'OFFROUTE':
       return fill(L.offroute, { who });
     case 'LOST_AWARE':
@@ -203,7 +210,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     }
     case 'SCRIPT_LOG':
       if (e.text) return e.text;
-      if (d['phoneLost']) return fill(L.phoneLost, { who });
+      if (d['phoneLost']) return phoneEra(f, fill(L.phoneLost, { who }));
       if (d['rainAgain'] !== undefined) return fill(L.rainAgain, { what: L.precipName[String(d['rainAgain'])] ?? '雨' });
       if (d['hutFound']) return fill(d['solo'] ? L.hutFoundSolo : L.hutFound, { who, node: f.nodeName(String(d['hutFound'])) });
       if (d['noLead']) return L.noLead;

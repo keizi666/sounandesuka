@@ -7,6 +7,7 @@
 import { JA } from '../i18n/ja';
 import type { ClimberDef, ClimberState } from '../sim/types';
 import { avatar } from './avatar';
+import { phoneLabel } from './phoneWord';
 import { el, LEVEL_ICON, levelOf, type Level } from './dom';
 import { hpLevel, hpOf } from './hp';
 import { icon, type IconName } from './icons';
@@ -88,7 +89,7 @@ export function ringGauge(ic: IconName, frac: number, level: Level, label: strin
 export function snapGauges(s: LogSnap): HTMLElement {
   return el('span', { class: 'gauges' }, [
     ringGauge('favorite', s.hp / 100, hpLevel(s.hp), `${JA.ui.hp} ${s.hp}`),
-    s.phone !== null ? ringGauge('mobile', s.phone / 100, levelOf(s.phone, 30, 15, 5), `${JA.ui.phoneBattery} ${s.phone}%`) : null,
+    s.phone !== null ? ringGauge('mobile', s.phone / 100, levelOf(s.phone, 30, 15, 5), `${phoneLabel()} ${s.phone}%`) : null,
   ]);
 }
 
@@ -135,7 +136,7 @@ export function openLogDetail(d: LogDetailInput): void {
     d.text ? el('p', { class: 'pop-text' }, d.text) : null,
     el('h4', {}, D.body),
     row('favorite', JA.ui.hp, s.hp / 100, hpLevel(s.hp), `${s.hp}`),
-    s.phone !== null ? row('mobile', JA.ui.phoneBattery, s.phone / 100, levelOf(s.phone, 30, 15, 5), s.phone === 0 ? '×' : `${s.phone}%`) : null,
+    s.phone !== null ? row('mobile', phoneLabel(), s.phone / 100, levelOf(s.phone, 30, 15, 5), s.phone === 0 ? '×' : `${s.phone}%`) : null,
     row('thermostat', JA.ui.core, (s.coreC - 30) / 8, levelOf(s.coreC, 36, 35, 32), `${s.coreC.toFixed(1)}℃`),
     row('bolt', JA.ui.energy, s.gly / 2000, levelOf(s.gly, 600, 300, 100), `${s.gly}`),
     row('waterDrop', JA.ui.water, 1 - s.waterL / 6, levelOf(s.waterL, 1, 2, 4, true), `-${s.waterL.toFixed(1)}L`),

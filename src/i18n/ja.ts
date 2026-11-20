@@ -331,6 +331,8 @@ export const JA = {
     hp: '体力',
     phoneBattery: 'スマホ',
     phoneCharging: 'スマホ（充電中）',
+    featurePhone: '携帯電話',
+    featurePhoneCharging: '携帯電話（充電中）',
     powerBank: 'バッテリー',
     powerBankLeft: '{n} 回分',
     cardCollapse: '小さくする',

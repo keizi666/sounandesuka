@@ -7,6 +7,7 @@ import { hpLevel, hpOf } from './hp';
 import { icon, type IconName } from './icons';
 import { JA } from '../i18n/ja';
 import { fill } from '../i18n/format';
+import { phoneLabel } from './phoneWord';
 import type { ClimberState, ScenarioDef, World } from '../sim/types';
 import { el, LEVEL_ICON, levelOf, type Level } from './dom';
 import { activeCells } from '../sim/weather/global';
@@ -58,7 +59,7 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
   const phonePct = c.inv.phone.has && !c.inv.phone.dead ? Math.round(c.inv.phone.batteryPct) : 0;
   const summary = el('div', { class: 'summary' }, [
     bar('favorite', JA.ui.hp, hp / 100, hpLevel(hp), god ? `${hp}` : ''),
-    c.inv.phone.has ? bar('mobile', c.inv.charging ? JA.ui.phoneCharging : JA.ui.phoneBattery, phonePct / 100, levelOf(phonePct, 30, 15, 5), c.inv.phone.dead ? '×' : `${phonePct}%`) : null,
+    c.inv.phone.has ? bar('mobile', phoneLabel(c.inv.charging === true), phonePct / 100, levelOf(phonePct, 30, 15, 5), c.inv.phone.dead ? '×' : `${phonePct}%`) : null,
     // モバイルバッテリー（残りはスマホの何回分か）
     c.inv.phone.has && (c.inv.powerBankPct ?? 0) > 0 ? bar('batteryAlert', JA.ui.powerBank, Math.min(1, (c.inv.powerBankPct ?? 0) / 100), 'ok', fill(JA.ui.powerBankLeft, { n: ((c.inv.powerBankPct ?? 0) / 100).toFixed(1) })) : null,
     // 水筒の残り（持ってきた入れ物の量に対して）。本人にも分かるので、神の視点でなくても出す

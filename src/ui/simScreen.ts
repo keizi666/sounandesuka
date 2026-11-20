@@ -43,6 +43,7 @@ import { createKeyHandler } from './simKeys';
 import { createFrameExtras } from './simFrame';
 import { createSimCapture } from './simCapture';
 import { openEndConfirm } from './endConfirm';
+import { setPhoneEra } from './phoneWord';
 
 /** 遊ぶたびの乱数の種（UI 層なので Math.random を使ってよい。sim の中では使わない） */
 function freshSeed(): number {
@@ -74,6 +75,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // 乱数の種: 遊ぶたびに違う種（ユーザーの指定: 確率の絡むことは毎回違う結果に）。場面の URL・記録から始めるときはその回の種、
   // 途中からの再開は保存した世界の種のまま。史実のシナリオだけは、記録どおりに選べば記録どおりになるよう、シナリオの種（DECISIONS.md）
   // 種のない場面の URL（この変更の前に作ったもの）は、シナリオの種で作り直す
+  setPhoneEra(scenario);
   const seed = replay ? (replay.seed ?? scenario.seed) : scenario.historical ? scenario.seed : freshSeed();
   const world = resume ? resume.world : createWorld(map, scenario, seed);
   const ctx = createStaticContext(map, scenario, { mode: timed ? 'timed' : 'interactive' });
