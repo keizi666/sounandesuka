@@ -88,6 +88,7 @@ export function createClimberState(
     elevM: nd.elevM,
     headingRad: 0,
     speedMs: 0,
+    trip: { activeMin: 0, distM: 0, upM: 0, downM: 0 },
     metAct: 0,
     body: {
       coreC: ini.coreC ?? 37.0,

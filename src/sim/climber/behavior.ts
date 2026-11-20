@@ -5,11 +5,25 @@
  */
 import { chance } from '../core/rng';
 import type { ClimberState, StaticContext, World } from '../types';
+import type { Tuning } from '../tuning';
+import { piecewise } from './capacity';
 import { startTask, taskMinutes, untilReached } from './actions';
 import { ensureRouteAhead, leaveShelter } from './route';
 import { hutHere as hutHereAt, restSpot } from './situation';
 
 const hutHere = (ctx: StaticContext, c: ClimberState): boolean => hutHereAt(ctx.map, c);
+
+/**
+ * 喉の渇きの強さ（0〜1）。渇きを感じていなければ null。
+ * 感じる不足 = 体の水分不足 × 寒さ（寒いと感じにくい）× 暑さ（汗で口が渇く）× 年齢（高齢では感じにくい）
+ */
+export function thirstOf(c: ClimberState, tuning: Tuning): number | null {
+  const bt = tuning.behavior;
+  const t = c.local.tempC;
+  const felt = c.body.waterDeficitL * piecewise(bt.thirstColdF, t) * piecewise(bt.thirstHeatF, t) * (c.def.age >= bt.thirstOlderAge ? bt.thirstOlderF : 1);
+  if (felt < bt.thirstStartL) return null;
+  return Math.min(1, (felt - bt.thirstStartL) / bt.thirstSpanL);
+}
 
 /** これから向かうルートの先、distM の中に小屋があるか（次の 2 地点まで、直線距離で見る） */
 function hutAhead(ctx: StaticContext, c: ClimberState, distM: number): boolean {
@@ -120,11 +134,16 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
       }
     }
   }
-  // 飲む
-  const drinkGapOk = c.memo.lastDrinkMin === null || world.tMin - c.memo.lastDrinkMin >= bt.drinkGapMin;
-  if (!waitForRest && drinkGapOk && c.inv.waterL >= Math.min(bt.drinkMinL, b.waterDeficitL) && c.inv.waterL > 0 && b.waterDeficitL > bt.drinkDeficitL && chance(rng, bt.drinkP * J)) {
-    c.memo.lastDrinkMin = world.tMin;
-    return startTask(world, c, `drink:${Math.min(bt.drinkL, c.inv.waterL, b.waterDeficitL)}`, bt.drinkMin);
+  // 飲む（喉の渇きに応じて、ひと口〜数口。ふだん 100 mL ほど、多くても 300 mL）
+  const thirst = thirstOf(c, ctx.tuning);
+  if (!waitForRest && thirst !== null && c.inv.waterL > 0) {
+    const gap = (bt.drinkGapMaxMin + (bt.drinkGapMinMin - bt.drinkGapMaxMin) * thirst) * (resting ? bt.drinkRestGapF : 1);
+    const gapOk = c.memo.lastDrinkMin === null || world.tMin - c.memo.lastDrinkMin >= gap;
+    if (gapOk && chance(rng, bt.drinkP * J)) {
+      c.memo.lastDrinkMin = world.tMin;
+      const want = Math.round((bt.drinkSipL + (bt.drinkMaxL - bt.drinkSipL) * thirst) * 100) / 100;
+      return startTask(world, c, `drink:${Math.min(want, c.inv.waterL, b.waterDeficitL)}`, bt.drinkMin);
+    }
   }
   // 決まった間隔で休む（グループはリーダーの習慣に合わせる）。小屋の近くなら小屋で休む（ユーザーの指定）:
   // 小屋に着いたとき休む時間が近ければ小屋で休み、休む時間でも行く先のすぐそこに小屋があれば、小屋まで歩く

@@ -140,7 +140,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'EAT':
       return fill(L.eat, { who, kcal: s('kcal') });
     case 'DRINK':
-      return fill(L.drink, { who });
+      return fill(L.drink, { who, ml: String(Math.round(Number(d['liters'] ?? 0) * 1000)) });
     case 'LAMP':
       return fill(L.lampOn, { who });
     case 'LAMP_DEAD':

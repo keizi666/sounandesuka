@@ -19,6 +19,7 @@ import type { EndingKind } from '../sim/types';
 import type { WhatIfIn, WhatIfJob, WhatIfOut } from '../workers/whatif.worker';
 import { drawTimeline, timeAtX, type ChartMarks } from './charts';
 import { el } from './dom';
+import { icon } from './icons';
 import { drawMap2d } from './map2d';
 import { zoomableMap } from './mapZoom';
 import { attributionLine, optionLabel, type SimResult } from './simScreen';
@@ -44,7 +45,42 @@ function whatIfBar(r: WhatIfResult): HTMLElement {
   ]);
 }
 
+/** 振り返りの画面（単独のページ）。結果画面からは openDebriefPanel でパネルとして重ねる */
 export function showDebrief(app: AppContext, loaded: LoadedScenario, result: SimResult): () => void {
+  const d = buildDebrief(app, loaded, result, null);
+  app.root.append(d.el);
+  return d.dispose;
+}
+
+/**
+ * 結果画面の上に、振り返りをパネルとして重ねる（ユーザーの指定）。閉じると結果画面に戻る。
+ * 返り値はパネルを閉じる関数
+ */
+export function openDebriefPanel(app: AppContext, loaded: LoadedScenario, result: SimResult, host: HTMLElement): () => void {
+  let closed = false;
+  const close = (): void => {
+    if (closed) return;
+    closed = true;
+    d.dispose();
+    ov.remove();
+    window.removeEventListener('keydown', onKey);
+    host.classList.remove('has-db-panel');
+  };
+  const d = buildDebrief(app, loaded, result, close);
+  const ov = el('div', { class: 'db-overlay', role: 'dialog', 'aria-modal': 'true', 'aria-label': JA.ui.debrief }, el('div', { class: 'db-panel' }, d.el));
+  ov.addEventListener('click', (e) => {
+    if (e.target === ov) close();
+  });
+  const onKey = (e: KeyboardEvent): void => {
+    if (e.key === 'Escape') close();
+  };
+  window.addEventListener('keydown', onKey);
+  host.classList.add('has-db-panel');
+  host.append(ov);
+  return close;
+}
+
+function buildDebrief(app: AppContext, loaded: LoadedScenario, result: SimResult, onClose: (() => void) | null): { el: HTMLElement; dispose: () => void } {
   const { scenario: s, map } = loaded;
   const w = result.world;
   const rec = result.recorder.record;
@@ -170,10 +206,11 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
 
-  app.root.append(
-    el('main', { class: 'debrief' }, [
-      el('header', {}, [
-        el('button', { onclick: () => app.go({ name: 'ending', loaded, result }) }, JA.ui.back),
+  const root = el(onClose ? 'div' : 'main', { class: `debrief${onClose ? ' in-panel' : ''}` }, [
+      el('header', { class: 'db-head' }, [
+        onClose
+          ? el('button', { class: 'icon db-close', title: `${JA.ui.close} (Esc)`, 'aria-label': JA.ui.close, onclick: () => onClose() }, icon('close'))
+          : el('button', { onclick: () => app.go({ name: 'ending', loaded, result }) }, JA.ui.back),
         el('h1', {}, `${JA.ui.debrief}: ${s.title} ─ ${JA.endings[w.ended?.kind ?? 'MISSING']?.title ?? ''}`),
       ]),
       // 地図を上、気象と体温の変化をその下に、どちらも大きく（ユーザーの指定）
@@ -195,7 +232,6 @@ export function showDebrief(app: AppContext, loaded: LoadedScenario, result: Sim
         el('button', { onclick: () => app.go({ name: 'select' }) }, JA.ui.toSelect),
       ]),
       el('p', { class: 'note' }, fill('{n} 回の試算は傾向どおりに進めた場合の結果です。', { n: WHATIF_N })),
-    ]),
-  );
-  return () => worker?.terminate();
+    ]);
+  return { el: root, dispose: () => worker?.terminate() };
 }

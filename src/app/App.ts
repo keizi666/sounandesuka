@@ -3,6 +3,7 @@
  * タイトル → シナリオ選択 → ブリーフィング → シミュレーション ⇄ 分岐点 → 結末 → 振り返り。
  * 開発用: ?scenario=<id> で直接シミュレーション画面を開く（&observe=1 で観察のみ、&debug=1 でデバッグパネル）。
  */
+import { scrollMemory } from './scrollMemory';
 import { JA } from '../i18n/ja';
 import { loadEditorProject, loadEntry, loadIndex } from './data';
 import { loadSettings, onSettingsSaved, saveSettings, type Settings } from './settings';
@@ -63,8 +64,11 @@ export function startApp(root: HTMLElement): void {
    * fromPop: ブラウザの戻る・進むから来たとき（履歴は動かさない）
    */
   let onTop = false;
+  // スクロールの位置は自前で扱う（画面を切り替えたら上から。一覧に戻ったら、離れたときの位置へ）
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   const navigate = (screen: Screen, fromPop: boolean): void => {
     const top = screen.name === 'title' || screen.name === 'select';
+    if (onTop) scrollMemory.listY = window.scrollY;
     if (!fromPop) {
       if (top) history.replaceState({ hk: 'top' }, '');
       else if (onTop) history.pushState({ hk: screen.name }, '');
@@ -115,6 +119,9 @@ export function startApp(root: HTMLElement): void {
           break;
       }
     }
+    // シナリオの詳細などを開いたら、いちばん上から見せる（一覧で下へスクロールした位置を引き継がない。ユーザーの指定）。
+    // 一覧は、カードを並べ終えてから覚えた位置へ戻す（scenarioSelect）
+    window.scrollTo(0, 0);
   };
   // ブラウザの戻る（・進む）: どの画面からでもトップへ
   window.addEventListener('popstate', () => {

@@ -31,6 +31,30 @@ export const movement = {
   wetGround: 0.5,
   wetF: 0.9,
   fatigueSpeedK: 0.4,
+  /**
+   * 消耗による歩く速さの係数（[値, 係数] の昇順の表）。M とは別に速さにだけ掛ける。
+   * エネルギー切れ（シャリバテ）・脱水・冷えが重なると、足取りが目に見えて重くなる
+   */
+  // シャリバテ（300 kcal を切る）から遅くなる。ふつうに食べながら歩く長い一日では効かない
+  exhaustGlycogenF: [
+    [0, 0.75],
+    [150, 0.85],
+    [300, 1],
+  ],
+  exhaustDehydF: [
+    [1.5, 1],
+    [3, 0.9],
+    [4.5, 0.75],
+    [6, 0.6],
+    [8, 0.45],
+  ],
+  exhaustCoreF: [
+    [33, 0.6],
+    [34, 0.75],
+    [35, 0.85],
+    [35.5, 0.92],
+    [36, 1],
+  ],
   sprainDownF: 0.8,
   hurryF: 1.1,
   hurryAnxiety: 60,
@@ -290,12 +314,27 @@ export const physiology = {
   absorbEff: 0.9,
   glycogenMax: 2000,
   /** 水分 docs/06 §5.2 */
-  waterBaseLPerH: 0.15,
-  waterPerMetLPerH: 0.07,
-  waterHotAboveC: 20,
-  waterHotF: 1.6,
-  waterWarmAboveC: 10,
-  waterWarmF: 1.2,
+  // 山本正嘉の式「脱水量(mL) ≒ 5 × 体重(kg) × 行動時間(h)」（ふつうの気象条件での登山）に合わせる。
+  // 安静時の損失（不感蒸泄＋最低限の尿）から、運動の強さに比例して増え、登山のふつうの強さ（waterRefMet）で 5 mL/kg/h になる。
+  // 運動で増える分は気温で増減する（暑いと汗が増え、寒いと減る）。寒いと尿が増える（寒冷利尿）
+  /** 安静時の損失（mL/kg/h）。不感蒸泄 約 0.55 と、最低限の尿 約 0.35（1 日に 65 kg で約 1.4 L） */
+  waterRestMlPerKgH: 0.9,
+  /** 寒冷利尿: 気温がこれより低いと、安静時の損失にこれを足す（mL/kg/h） */
+  waterColdBelowC: 5,
+  waterColdDiuresisMlPerKgH: 0.4,
+  /** 登山のふつうの強さでの損失（mL/kg/h。山本式の 5） */
+  waterHikeMlPerKgH: 5,
+  /** 山本式の「ふつうの登山」に当たる運動の強さ（MET。登りと下りをならした値） */
+  waterRefMet: 5,
+  /** 運動で増える分の、気温による係数（[気温 ℃, 係数] の昇順。山本式は春秋のふつうの気象 = 15℃ 前後で 1） */
+  waterTempF: [
+    [0, 0.75],
+    [10, 0.9],
+    [15, 1],
+    [22, 1.25],
+    [28, 1.55],
+    [33, 1.8],
+  ],
   waterDeficitMax: 6,
   /** 疲労 docs/06 §5.3 */
   fatigueMetFree: 3.5,

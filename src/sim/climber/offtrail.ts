@@ -16,7 +16,7 @@ import { returnAfterErrand } from './groups';
 import { footSnowCm } from '../weather/ground';
 import { dawnRef, enterShelter } from './route';
 import type { WalkResult } from './walk';
-import { crawlCapMs } from './movement';
+import { crawlCapMs, exhaustionSpeedF } from './movement';
 
 const EPS = 1e-9;
 
@@ -30,7 +30,7 @@ export function offTrailSpeedMs(world: World, ctx: StaticContext, c: ClimberStat
   // 道の外の雪: 深いとラッセル（膝・腰まで沈む）で大きく遅れる
   const snow = footSnowCm(world, ctx, c);
   const snowF = snow > m.offTrailDeepSnowCm ? m.offTrailDeepSnowF : snow > m.snowCm ? m.offTrailSnowF : 1;
-  const v = ((m.offTrailKmh / 3.6) * offTrailFactor(ctx.map, i, ctx.tuning) * darkF * snowF * c.M * (1 - m.fatigueSpeedK * f * f)) * c.plan.paceFactor;
+  const v = ((m.offTrailKmh / 3.6) * offTrailFactor(ctx.map, i, ctx.tuning) * darkF * snowF * c.M * exhaustionSpeedF(c.body, ctx.tuning) * (1 - m.fatigueSpeedK * f * f)) * c.plan.paceFactor;
   // 足を骨折したら這う（その場の斜面の傾斜で遅くなる）
   return Math.min(v, crawlCapMs(c, ctx.map.slopeDeg[i] ?? 0, ctx.tuning));
 }

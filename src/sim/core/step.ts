@@ -138,6 +138,15 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
     c.metAct = move!.met;
     if (c.state === 'WALKING') c.memo.walkSinceRestMin += dtMinOf();
   }
+  // 歩いた記録（行動時間・距離・累計標高）
+  const trip = (c.trip ??= { activeMin: 0, distM: 0, upM: 0, downM: 0 });
+  if (walking || c.state === 'RESTING') trip.activeMin += dtMinOf();
+  if (move && move.movedM > 0) {
+    trip.distM += move.movedM;
+    const dh = move.grade * move.movedM;
+    if (dh > 0) trip.upM += dh;
+    else trip.downM -= dh;
+  }
   // 暗くなってから小屋にいた（小屋で夜を過ごした）
   if (c.body.shelterNodeId && world.sun.isDark) c.memo.sheltered = true;
   const dtMin = DT_SEC / 60;

@@ -21,6 +21,8 @@ import restaurant from '@material-symbols/svg-400/rounded/restaurant.svg?raw';
 import route from '@material-symbols/svg-400/rounded/route.svg?raw';
 import timer from '@material-symbols/svg-400/rounded/timer.svg?raw';
 import trendingUp from '@material-symbols/svg-400/rounded/trending_up.svg?raw';
+import waterBottle from '@material-symbols/svg-400/rounded/water_bottle.svg?raw';
+import trendingDown from '@material-symbols/svg-400/rounded/trending_down.svg?raw';
 import warning from '@material-symbols/svg-400/rounded/warning.svg?raw';
 import wbSunny from '@material-symbols/svg-400/rounded/wb_sunny.svg?raw';
 import chevronRight from '@material-symbols/svg-400/rounded/chevron_right.svg?raw';
@@ -94,7 +96,7 @@ const ICONS = {
   volumeOff, volumeUp, edit, replay, add, remove, fitScreen,
   arrowSelectorTool, panTool, selectBox, draw, callSplit, addLocationAlt, openWith, waves, shield, link, landslide, forest, cellTower, settingsInputAntenna,
   chevronRight, close,
-  arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, warning, wbSunny,
+  arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, trendingDown, waterBottle, warning, wbSunny,
   acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, favorite, flashlightOn, keyboardArrowDown, keyboardArrowUp, foggy, groups, healing, hiking, history, home,
   landscape, layers, listAlt, map, minimize, mobile, monitorHeart, myLocation, openInFull, partlyCloudyDay, pause, playArrow, playCircle, psychology,
   rainy, schedule, sentimentWorried, settings, speed, thermostat, thunderstorm, visibility, waterDrop,

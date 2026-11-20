@@ -3,7 +3,7 @@
  * 速度は実距離（s）あたり。勾配も実距離に対する値（シヌオシティ考慮後）。
  */
 import { datan, DEG, dexp } from '../core/dmath';
-import { dehydrationF } from './capacity';
+import { dehydrationF, piecewise } from './capacity';
 import { TUNING, type Tuning } from '../tuning';
 import type { ClimberDef, ClimberState, EdgeDef, MapRuntime } from '../types';
 
@@ -56,6 +56,15 @@ export function crawlCapMs(c: ClimberState, slopeDeg: number, tuning: Tuning = T
   return (m.crawlKmh / 3.6) * f * c.plan.paceFactor;
 }
 
+/**
+ * 消耗による歩く速さの係数（0〜1）。エネルギー切れ・脱水・冷えで、足取りが重くなる。
+ * 運動能力 M とは別に、速さにだけ掛ける（道の上と外の両方）
+ */
+export function exhaustionSpeedF(b: ClimberState['body'], tuning: Tuning = TUNING): number {
+  const m = tuning.movement;
+  return piecewise(m.exhaustGlycogenF, b.glycogenKcal) * piecewise(m.exhaustDehydF, b.waterDeficitL) * piecewise(m.exhaustCoreF, b.coreC);
+}
+
 /** 登山道上の候補速度（m/s、MET 上限の前） */
 export function trailSpeedMs(
   c: ClimberState,
@@ -91,6 +100,7 @@ export function trailSpeedMs(
     wetF *
     fatigueF *
     c.M *
+    exhaustionSpeedF(b, tuning) *
     injuryDownF *
     hurryF *
     c.plan.paceFactor *

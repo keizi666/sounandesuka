@@ -61,6 +61,10 @@ export class Hud {
   /** 気象のパネル（気象と予報） */
   readonly weatherPane: HTMLElement;
   readonly logEl: HTMLElement;
+  /** ログのパネルの中身（流れるログと、下の帯） */
+  readonly logPane: HTMLElement;
+  /** ログの下の帯: 行動時間・移動距離・累計標高 */
+  private tripEl: HTMLElement;
   private clock: HTMLElement;
   private speedBtns = new Map<Speed, HTMLButtonElement>();
   private pauseBtn: HTMLButtonElement;
@@ -132,6 +136,30 @@ export class Hud {
     // 人数が多いときは、小さいカード（名前・体力・スマホ）で始める
     if (scenario.party.length > 3) for (const p of scenario.party) this.collapsed.add(p.id);
     this.logEl = el('ol', { class: 'log', 'aria-label': JA.ui.log });
+    this.tripEl = el('div', { class: 'trip-banner', 'aria-live': 'off' });
+    this.logPane = el('div', { class: 'logpane' }, [el('div', { class: 'logscroll' }, this.logEl), this.tripEl]);
+  }
+
+  /** ログの下の帯（行動時間・移動距離・累計標高）。選んでいる人の分 */
+  private updateTrip(c: ClimberState): void {
+    const t = c.trip ?? { activeMin: 0, distM: 0, upM: 0, downM: 0 };
+    const h = Math.floor(t.activeMin / 60);
+    const m = Math.floor(t.activeMin - h * 60);
+    const key = `${c.id}|${h}:${m}|${Math.round(t.distM / 100)}|${Math.round(t.upM)}|${Math.round(t.downM)}`;
+    if (this.tripEl.dataset['k'] === key) return;
+    this.tripEl.dataset['k'] = key;
+    const item = (ic: Parameters<typeof icon>[0], label: string, value: string, cls = ''): HTMLElement =>
+      el('div', { class: `tb-item ${cls}`, title: label }, [icon(ic), el('small', {}, label), el('strong', {}, value)]);
+    this.tripEl.replaceChildren(
+      el('div', { class: 'tb-who', style: `--c:${c.def.color}` }, [avatar(c.def, 26), el('span', {}, c.def.name)]),
+      item('timer', JA.ui.duration, `${h}:${String(m).padStart(2, '0')}`),
+      item('route', JA.ui.distance, `${(t.distM / 1000).toFixed(1)} km`),
+      el('div', { class: 'tb-item tb-elev', title: JA.ui.tripElev }, [
+        el('small', {}, JA.ui.tripElev),
+        el('strong', { class: 'up' }, [icon('trendingUp'), `+${Math.round(t.upM)} m`]),
+        el('strong', { class: 'down' }, [icon('trendingDown'), `−${Math.round(t.downM)} m`]),
+      ]),
+    );
   }
 
   setState(world: World, paused: boolean, speed: Speed, cam: CameraMode): void {
@@ -181,6 +209,7 @@ export class Hud {
     } else {
       this.climbersEl.replaceChildren(...cards(list));
     }
+    if (sel) this.updateTrip(sel);
     this.weatherEl.replaceChildren(weatherPanel(world, sel, this.god));
     // 予報のスパークラインは重いので 10 ゲーム分ごと
     if (!this.forecastEl.dataset['t'] || Math.abs(Number(this.forecastEl.dataset['t']) - world.tMin) >= 10 || this.forecastEl.dataset['g'] !== String(this.god)) {

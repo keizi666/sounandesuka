@@ -27,6 +27,12 @@ function coreWords(c: number): string {
   return '反応がない';
 }
 
+/** 水筒の残りの段階（入れ物の量に対する割合と、残りの量） */
+function bottleLevel(leftL: number, capL: number): 'ok' | 'warn' | 'danger' | 'critical' {
+  const f = leftL / capL;
+  return leftL < 0.05 ? 'critical' : f < 0.2 || leftL < 0.2 ? 'danger' : f < 0.45 ? 'warn' : 'ok';
+}
+
 export function climberCard(c: ClimberState, god: boolean, selected: boolean, onSelect: () => void, collapsed = false, onToggle?: () => void): HTMLElement {
   const b = c.body;
   const core = levelOf(b.coreC, 36, 35, 32);
@@ -50,6 +56,8 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
   const summary = el('div', { class: 'summary' }, [
     bar('favorite', JA.ui.hp, hp / 100, hpLevel(hp), god ? `${hp}` : ''),
     c.inv.phone.has ? bar('mobile', JA.ui.phoneBattery, phonePct / 100, levelOf(phonePct, 30, 15, 5), c.inv.phone.dead ? '×' : `${phonePct}%`) : null,
+    // 水筒の残り（持ってきた入れ物の量に対して）。本人にも分かるので、神の視点でなくても出す
+    c.def.gear.waterL > 0 ? bar('waterBottle', JA.ui.bottle, c.inv.waterL / c.def.gear.waterL, bottleLevel(c.inv.waterL, c.def.gear.waterL), `${c.inv.waterL.toFixed(1)} / ${c.def.gear.waterL.toFixed(1)}L`) : null,
   ]);
   const toggle = el('button', { class: 'fold', type: 'button', title: collapsed ? JA.ui.cardExpand : JA.ui.cardCollapse, 'aria-label': collapsed ? JA.ui.cardExpand : JA.ui.cardCollapse, 'aria-expanded': !collapsed }, icon(collapsed ? 'keyboardArrowDown' : 'keyboardArrowUp'));
   toggle.addEventListener('click', (e) => {

@@ -5,6 +5,7 @@
  * エディターで作ったシナリオ、バンドルのファイル読み込み（ドラッグ＆ドロップ可）。
  * 絵は npm run thumbs で作る（public/scenarios/thumbs/、実在の山は public/scenarios/real/thumbs/）。なければ色の帯だけ。
  */
+import { scrollMemory } from '../app/scrollMemory';
 import type { AppContext } from '../app/App';
 import { assetUrl, buildRuntime, bundleExists, listEditorProjects, loadEditorProject, loadEntry, loadIndex, loadScenarioFile } from '../app/data';
 import { isLocalHost } from '../app/local';
@@ -237,6 +238,8 @@ export function showScenarioSelect(app: AppContext): () => void {
     // 途中のシナリオを先に
     const sorted = [...idx.filter((e) => saved.has(e.id)), ...idx.filter((e) => !saved.has(e.id))];
     list.replaceChildren(...sorted.map((e) => card(app, e, list, saved.has(e.id))));
+    // 詳細から戻ったら、離れたときの位置へ
+    if (scrollMemory.listY > 0) window.scrollTo(0, scrollMemory.listY);
   });
   return () => {
     document.removeEventListener('dragover', onOver);

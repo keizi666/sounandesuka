@@ -165,7 +165,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     [
       { id: 'climbers', title: JA.ui.climbers, icon: 'groups', content: hud.climbersPane },
       { id: 'weather', title: JA.ui.weatherTab, icon: 'partlyCloudyDay', content: hud.weatherPane },
-      { id: 'log', title: JA.ui.log, icon: 'listAlt', content: hud.logEl },
+      { id: 'log', title: JA.ui.log, icon: 'listAlt', content: hud.logPane },
     ],
     [
       { x: window.innerWidth - sideW - 12, y: 60, w: sideW, h: Math.round(window.innerHeight * 0.6), min: narrow, tabs: ['climbers', 'weather'], active: 'climbers' },

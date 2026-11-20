@@ -635,6 +635,8 @@ export interface ClimberState {
   stateSinceMin: number;
   pos: ClimberPos;
   x: number; z: number; elevM: number; headingRad: number; speedMs: number;
+  /** 歩いた記録: 行動時間（歩いた・小休止の分）、歩いた距離、累計の登り・下り（m）。ログの下の帯に出す */
+  trip?: { activeMin: number; distM: number; upM: number; downM: number };
   metAct: number;
   body: ClimberBody;
   J: number;

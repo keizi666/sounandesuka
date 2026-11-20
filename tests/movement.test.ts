@@ -6,8 +6,9 @@ import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { TUNING } from '../src/sim/tuning';
 import type { MapRuntime, ScenarioDef, World } from '../src/sim/types';
 
-// コースタイムは休憩を含まない歩行時間なので、決まった間隔で休む習慣を切って測る
-const NO_HABIT = { ...TUNING, behavior: { ...TUNING.behavior, habitRestEveryMin: Infinity } };
+// コースタイムは休憩を含まない歩行時間なので、決まった間隔で休む習慣を切って測る。
+// 分岐の迷い（confusers）も切る: 1 つのシードで回すので、乱数の並びが変わる（水を飲むなど）だけで分岐を誤り、所要が大きく揺れる
+const NO_HABIT = { ...TUNING, behavior: { ...TUNING.behavior, habitRestEveryMin: Infinity }, nav: { ...TUNING.nav, errMax: 0 } };
 import { sounanMap } from './helpers/map';
 import { loadScenario, standardClimber, testScenario } from './helpers/scenario';
 

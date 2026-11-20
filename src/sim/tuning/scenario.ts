@@ -39,14 +39,32 @@ export const behavior = {
   eatForgetP: 0.05,
   eatMin: 3,
   eatKcal: 300,
-  /** 飲む */
-  drinkDeficitL: 0.5,
+  /**
+   * 飲む: 喉の渇き（ユーザーの指定）。感じる不足 = 体の水分不足 × 寒さ（寒いと渇きを感じにくい）× 暑さ（汗で口が渇く）× 年齢。
+   * 感じる不足が thirstStartL を超えると渇きを感じ、渇きの強さ t（0〜1）= (感じる不足 − start) / span。
+   * 1 回に飲む量 = drinkSipL + (drinkMaxL − drinkSipL) × t（ふだん 100 mL ほど、喉がからからでも 300 mL まで）。
+   * 次に飲むまでの間隔は、渇きが強いほど短い（drinkGapMaxMin → drinkGapMinMin）。休憩中は短め
+   */
+  thirstStartL: 0.2,
+  thirstSpanL: 1.0,
+  thirstColdF: [
+    [-5, 0.6],
+    [5, 0.75],
+    [15, 1],
+  ],
+  thirstHeatF: [
+    [20, 1],
+    [30, 1.3],
+  ],
+  thirstOlderAge: 60,
+  thirstOlderF: 0.85,
   drinkP: 0.3,
   drinkMin: 1,
-  drinkL: 0.5,
-  /** 続けて飲まない間隔（分）と、ひと口に満たない量では飲まない（少しずつ何度も飲む記録を避ける） */
-  drinkGapMin: 15,
-  drinkMinL: 0.1,
+  drinkSipL: 0.1,
+  drinkMaxL: 0.3,
+  drinkGapMaxMin: 25,
+  drinkGapMinMin: 8,
+  drinkRestGapF: 0.6,
   /** 決まった間隔で休む習慣（50 分歩いて 10 分。P2 のコースタイム検証と同じ前提） */
   habitRestEveryMin: 50,
   habitRestMin: 10,

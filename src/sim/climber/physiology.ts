@@ -6,6 +6,19 @@ import { dexp, dpow } from '../core/dmath';
 import { TUNING, type Tuning } from '../tuning';
 import type { ClimberState, PrecipType, StaticContext, World, SoakLevel } from '../types';
 import { groundAt } from '../weather/ground';
+import { piecewise } from './capacity';
+
+/**
+ * 体から抜ける水（L/h）。山本式「5 mL × 体重 kg × 行動時間 h」（ふつうの気象の登山）に合わせる（docs/06 §5.2）。
+ * 安静時は不感蒸泄と最低限の尿（寒いと尿が増える）。運動の強さに比例して増え、waterRefMet で 5 mL/kg/h、気温で増減する
+ */
+export function waterLossLPerH(metAct: number, tairC: number, weightKg: number, tuning: Tuning = TUNING): number {
+  const p = tuning.physiology;
+  const rest = p.waterRestMlPerKgH + (tairC < p.waterColdBelowC ? p.waterColdDiuresisMlPerKgH : 0);
+  const restMet = tuning.movement.restMet;
+  const work = (Math.max(0, metAct - restMet) / (p.waterRefMet - restMet)) * (p.waterHikeMlPerKgH - p.waterRestMlPerKgH) * piecewise(p.waterTempF, tairC);
+  return ((rest + work) * weightKg) / 1000;
+}
 
 /** 体が置かれた熱環境（docs/06 §3.1 の表を適用した後の値） */
 export interface ThermalEnv {
@@ -199,8 +212,7 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   b.glycogenKcal = Math.min(p.glycogenMax, Math.max(0, b.glycogenKcal));
 
   // ---- 水分 ----
-  const heatF = env.tairC > p.waterHotAboveC ? p.waterHotF : env.tairC > p.waterWarmAboveC ? p.waterWarmF : 1;
-  const lossLPerH = p.waterBaseLPerH + p.waterPerMetLPerH * act.metAct * heatF;
+  const lossLPerH = waterLossLPerH(act.metAct, env.tairC, d.weightKg, tuning);
   b.waterDeficitL = Math.min(p.waterDeficitMax, b.waterDeficitL + (lossLPerH / 60) * dtMin);
   // 営業小屋では水や温かい飲み物を買える（避難小屋には水がないことが多いので、飲まない）
   if (env.staffed) b.waterDeficitL = Math.max(0, b.waterDeficitL - (p.staffedDrinkLPerH / 60) * dtMin);

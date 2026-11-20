@@ -17,6 +17,7 @@ import { ringGauge } from './logDetail';
 import { optionLabel, type SimResult } from './simScreen';
 import { audio } from './audio';
 import { endingMusic } from './simAudio';
+import { openDebriefPanel } from './debrief';
 
 export function endingTone(kind: string): 'good' | 'mid' | 'bad' {
   const s = ENDING_SEVERITY[kind as keyof typeof ENDING_SEVERITY] ?? 0;
@@ -68,8 +69,8 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
   const minCore = (id: string): number => Math.min(37, ...r.samples.map((sm) => sm.climbers.find((q) => q.id === id)?.coreC ?? 37));
   const fact = (ic: IconName, label: string, value: string): HTMLElement => el('div', { class: 'bf-fact' }, [icon(ic), el('span', {}, [el('small', {}, label), el('strong', {}, value)])]);
 
-  app.root.append(
-    el('main', { class: `ending2 tone-${tone}` }, [
+  let closeDebrief: (() => void) | null = null;
+  const main = el('main', { class: `ending2 tone-${tone}` }, [
       el('header', { class: 'en-hero' }, [
         el('div', { class: 'en-in' }, [
           el('p', { class: 'en-kicker' }, [JA.ui.endingTitle, el('span', {}, s.title), loaded.conditions ? el('span', { class: 'tag' }, JA.conditions.tried) : null]),
@@ -108,10 +109,17 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
             el('button', { onclick: () => app.go({ name: 'briefing', loaded }) }, JA.ui.again),
             el('button', { onclick: () => app.go({ name: 'select' }) }, JA.ui.toSelect),
           ]),
-          el('button', { class: 'primary big', onclick: () => app.go({ name: 'debrief', loaded, result }) }, [icon('history'), JA.ui.debrief]),
+          // 振り返りは、結果画面の上にパネルとして重ねる（ユーザーの指定）
+          el('button', {
+            class: 'primary big',
+            onclick: () => {
+              closeDebrief?.();
+              closeDebrief = openDebriefPanel(app, loaded, result, main);
+            },
+          }, [icon('history'), JA.ui.debrief]),
         ]),
       ]),
-    ]),
-  );
-  return () => {};
+    ]);
+  app.root.append(main);
+  return () => closeDebrief?.();
 }

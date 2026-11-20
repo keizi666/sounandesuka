@@ -14,11 +14,12 @@
   --bubble-bg: #ffffff;
   --bubble-fg: #222;
   font-family: system-ui, -apple-system, 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo', sans-serif;
-  font-size: 14px;
+  /* 文字の大きさ: 既定（中）を 20% 大きく（ユーザーの指定。小・大も同じ割合で） */
+  font-size: 16.8px;
   color-scheme: dark;
 }
-:root[data-text-size='small'] { font-size: 12px; }
-:root[data-text-size='large'] { font-size: 16.5px; }
+:root[data-text-size='small'] { font-size: 14.4px; }
+:root[data-text-size='large'] { font-size: 19.8px; }
 @media (prefers-color-scheme: dark) {
   :root { --bubble-bg: #1e1e1e; --bubble-fg: #eee; }
 }
@@ -754,3 +755,38 @@ ol.log li.sys .jump svg { width: 14px; height: 14px; fill: currentColor; }
 ol.log li.sys .jump:hover { background: rgba(200, 160, 80, 0.32); }
 ol.log .tappable { cursor: pointer; }
 ol.log .face.tappable:hover { filter: brightness(1.12); }
+
+/* ---- ログの下の帯: 行動時間・移動距離・累計標高（ユーザーの指定） ---- */
+.fwin-body:has(> .logpane) { overflow: hidden; display: flex; flex-direction: column; }
+.logpane { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.logscroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.25) transparent; }
+.trip-banner { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 8px 12px; border-top: 1px solid rgba(255, 255, 255, 0.12); background: linear-gradient(180deg, rgba(30, 34, 40, 0.92), rgba(20, 23, 28, 0.96)); font-size: 0.9rem; }
+.trip-banner:empty { display: none; }
+.trip-banner .tb-who { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+.trip-banner .tb-who .avatar, .trip-banner .tb-who > :first-child { box-shadow: 0 0 0 2px var(--c); border-radius: 50%; }
+.trip-banner .tb-item { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.trip-banner .tb-item svg { width: 17px; height: 17px; fill: currentColor; opacity: 0.8; }
+.trip-banner .tb-item small { opacity: 0.7; font-size: 0.78rem; }
+.trip-banner .tb-item strong { font-variant-numeric: tabular-nums; font-size: 1rem; display: inline-flex; align-items: center; gap: 2px; }
+.trip-banner .tb-elev strong.up { color: #fca5a5; }
+.trip-banner .tb-elev strong.down { color: #93c5fd; }
+
+/* ---- 振り返り: 結果画面の上に重ねるパネル（ユーザーの指定） ---- */
+.db-overlay { position: fixed; inset: 0; z-index: 60; display: flex; align-items: flex-start; justify-content: center; padding: 28px 16px; background: rgba(8, 10, 14, 0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); overflow-y: auto; animation: db-in 0.18s ease-out; }
+.db-panel { width: min(1280px, 100%); background: var(--bg); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 18px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55); }
+.debrief.in-panel { padding: 0 22px 22px; }
+.debrief.in-panel .db-head { position: sticky; top: -28px; z-index: 2; display: flex; align-items: center; gap: 12px; margin: 0 -22px 12px; padding: 14px 22px; background: var(--bg); border-bottom: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px 18px 0 0; }
+.debrief.in-panel .db-head h1 { margin: 0; font-size: 1.3rem; }
+.debrief.in-panel .db-close { flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; }
+.debrief.in-panel .db-close svg { width: 24px; height: 24px; fill: currentColor; }
+main.ending2.has-db-panel { overflow: hidden; }
+@keyframes db-in { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 640px) { .db-overlay { padding: 0; } .db-panel { border-radius: 0; min-height: 100%; } .debrief.in-panel { padding: 0 12px 16px; } .debrief.in-panel .db-head { top: 0; margin: 0 -12px 10px; padding: 10px 12px; border-radius: 0; } }
+
+/* ---- 設定: 右上の ✕ と、下の中央の「閉じる」（ユーザーの指定） ---- */
+dialog.settings .settings-head { position: sticky; top: -16px; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: -16px -20px 4px; padding: 12px 12px 8px 20px; background: var(--panel); border-bottom: 1px solid var(--line); }
+dialog.settings .settings-head h2 { margin: 0; }
+dialog.settings .settings-x { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+dialog.settings .settings-x svg { width: 24px; height: 24px; fill: currentColor; }
+dialog.settings .settings-foot { display: flex; justify-content: center; margin-top: 22px; padding-bottom: 6px; }
+dialog.settings .settings-foot button { min-width: 140px; padding: 8px 24px; }

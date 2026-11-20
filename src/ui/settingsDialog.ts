@@ -3,6 +3,7 @@ import type { AppContext } from '../app/App';
 import { saveSettings, type Settings } from '../app/settings';
 import { JA } from '../i18n/ja';
 import { el } from './dom';
+import { icon } from './icons';
 
 export function openSettings(app: AppContext, onChange?: (s: Settings) => void): void {
   const S = JA.settingsUi;
@@ -27,7 +28,11 @@ export function openSettings(app: AppContext, onChange?: (s: Settings) => void):
   };
   const row = (label: string, ctrl: HTMLElement): HTMLElement => el('label', { class: 'row' }, [el('span', {}, label), ctrl]);
   const dlg = el('dialog', { class: 'settings' }, [
-    el('h2', {}, S.title),
+    // 見出しの行は、下へスクロールしても上に残る。右上に ✕（ユーザーの指定）
+    el('header', { class: 'settings-head' }, [
+      el('h2', {}, S.title),
+      el('button', { class: 'icon settings-x', type: 'button', title: `${JA.ui.close} (Esc)`, 'aria-label': JA.ui.close, onclick: () => dlg.close() }, icon('close')),
+    ]),
     row(S.quality, select('quality', [['auto', S.qualityAuto], ['low', S.qualityLow], ['mid', S.qualityMid], ['high', S.qualityHigh]])),
     row(S.figureScale, range('figureScale', 10, 50, 1)),
     row(S.vExag, range('vExag', 0.8, 1.5, 0.05)),
@@ -47,7 +52,7 @@ export function openSettings(app: AppContext, onChange?: (s: Settings) => void):
     row(S.thoughtBubbles, toggle('thoughtBubbles')),
     row(S.fictionalSpeech, toggle('fictionalSpeech')),
     row(S.textSize, select('textSize', [['small', S.small], ['medium', S.medium], ['large', S.large]])),
-    el('button', { onclick: () => dlg.close() }, JA.ui.close),
+    el('div', { class: 'settings-foot' }, el('button', { type: 'button', onclick: () => dlg.close() }, JA.ui.close)),
   ]);
   dlg.addEventListener('close', () => dlg.remove());
   document.body.append(dlg);
