@@ -46,7 +46,8 @@ function observerNote(world: World, ctx: StaticContext): string {
 }
 
 /** 判断する人: リーダーがけが（頭・骨折・重いけが）・急病の発作・意識なしなら、同じグループで元気な人（判断力のいちばん高い人） */
-function deciderOf(world: World, leader: ClimberState): ClimberState {
+/** 分岐点で決める人（リーダー。判断できない状態なら、判断力のいちばん高い仲間） */
+export function deciderOf(world: World, leader: ClimberState): ClimberState {
   const unable = (c: ClimberState): boolean =>
     !c.body.alive || !c.body.conscious || c.body.illness?.active === true || ['headInjury', 'legFracture', 'severeTrauma'].includes(c.body.injury) || c.state === 'INCAPACITATED' || c.state === 'UNCONSCIOUS';
   if (!unable(leader)) return leader;
@@ -97,7 +98,8 @@ export function showChoice(
   void unavailable;
   const timer = el('div', { class: 'timer' });
   const modal = el('div', { class: 'choice', role: 'dialog', 'aria-modal': 'true', 'aria-label': t.title }, [
-    el('header', {}, [el('h2', {}, `◆ ${t.title}`), el('span', {}, formatDateTime(ctx.scenario, world.tMin))]),
+    // 誰の判断かを見出しに出す（ユーザーの指定）
+    el('header', {}, [el('h2', {}, [`◆ `, el('span', { class: 'decider' }, `${deciderOf(world, leader).def.name}: `), t.title]), el('span', {}, formatDateTime(ctx.scenario, world.tMin))]),
     el('p', { class: 'situation' }, expand(t.situation)),
     found.cp.knowledge?.length
       ? el('div', { class: 'knowledge' }, [el('h3', {}, fill(JA.ui.knowledge, { name: deciderOf(world, leader).def.name })), el('ul', {}, found.cp.knowledge.map((k) => el('li', {}, expand(k))))])

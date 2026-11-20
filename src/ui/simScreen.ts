@@ -24,6 +24,7 @@ import { replayTo } from './simReplay';
 import { icon } from './icons';
 import { createRecorder, recordTick, type RecorderState } from '../sim/record/recorder';
 import { autoResolve, choiceLeader, findChoicePoint, resolveChoice } from '../sim/scenario/choices';
+import { deciderOf } from './choiceModal';
 import type { SimEvent, World } from '../sim/types';
 import { SceneView, type CameraMode } from '../view/sceneView';
 import { BubbleLayer } from './bubbles';
@@ -271,18 +272,25 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       if (e.type === 'CHOICE_FIRED') {
         const id = String(e.data?.['cp'] ?? '');
         snapshots[id] = { world: structuredClone(world), recorder: structuredClone(recorder) };
+        // 誰の判断か（ログの行に名前を出す。ユーザーの指定）
+        if (world.pendingChoice) deciderByCp.set(id, deciderOf(world, choiceLeader(world, ctx)).def.name);
       }
       if (e.type === 'CHOICE_RESOLVED') {
         const cpId = String(e.data?.['cp'] ?? '');
         const label = optionLabel(loaded, cpId, String(e.data?.['option'] ?? ''));
         const by = e.data?.['by'];
-        hud.log({ tMin: e.tMin, important: true, text: by === 'user' ? fill(JA.ui.chose, { label }) : otherChoiceBy ? fill(JA.ui.otherChose, { who: otherChoiceBy, label }) : fill(observe ? JA.ui.autoChose : JA.ui.timeUp, { label }) });
+        const who = deciderByCp.get(cpId) ?? choiceLeader(world, ctx).def.name;
+        hud.log({ tMin: e.tMin, important: true, text: by === 'user' ? fill(JA.ui.chose, { who, label }) : otherChoiceBy ? fill(JA.ui.otherChose, { who, label }) : fill(observe ? JA.ui.autoChose : JA.ui.timeUp, { who, label }) });
         otherChoiceBy = null;
         continue;
       }
       const v = (e.type === 'SPEECH' || e.type === 'THOUGHT') && e.climberId ? speechView(e, scenario) : null;
       if (v && e.climberId && !replaying) bubbles.add(e.climberId, v, fast);
-      const text = formatEvent(e, { scenario, nodeName });
+      let text = formatEvent(e, { scenario, nodeName });
+      if (text && e.type === 'CHOICE_FIRED') {
+        const who = deciderByCp.get(String(e.data?.['cp'] ?? ''));
+        if (who) text = text.replace(/^◆\s*/, `◆ ${who}: `);
+      }
       if (!text || (e.type === 'THOUGHT' && !hud.god)) continue;
       // そのときの状態（顔の下のメーターと詳細に使う）
       const cs = e.climberId ? world.climbers.find((x) => x.id === e.climberId) : undefined;
@@ -303,6 +311,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     if (view.mode === 'eye') bubbles.eyeOf = leader;
   }
 
+  /** 分岐点ごとの、決める人の名前（出たときに覚え、選んだ行にも使う） */
+  const deciderByCp = new Map<string, string>();
   /** 見守っていないパーティの分岐点を自動で決めたとき、そのリーダーの名前（ログの文に使う） */
   let otherChoiceBy: string | null = null;
   function onChoice(): void {
