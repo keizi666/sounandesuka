@@ -135,7 +135,7 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
     t -= dt;
     moved += d;
     for (let k = 0; k < members.length; k += 1) {
-      metTime[k] = metTime[k]! + walkMet(vMs, grade, members[k]!.def, envs[k]!.windMs, ctx.tuning) * dt;
+      metTime[k] = metTime[k]! + walkMet(vMs, grade, members[k]!.def, envs[k]!.windMs, ctx.tuning, members[k]!.plan.carryKg ?? 0) * dt;
     }
     gradeTime += grade * dt;
     headX += (b.x - a.x) * pos.dir;

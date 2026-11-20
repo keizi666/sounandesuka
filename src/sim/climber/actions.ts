@@ -4,6 +4,8 @@
  */
 import { epipen, medicate, onsetIllness, sting } from './illness';
 import { reportMissing } from '../rescue/rescue';
+import { dispatchReport } from '../rescue/dispatch';
+import { sendForHelp, startCarry } from './carry';
 import { parseTimeRef } from '../core/clock';
 import { chance } from '../core/rng';
 import { nearestIndex } from '../terrain/sample';
@@ -85,42 +87,8 @@ export function callRescue(world: World, ctx: StaticContext, c: ClimberState, vi
     }
   }
   if (ok && usedVia) {
-    const r = world.rescue;
     const report: RescueReport = { x: c.x, z: c.z, radiusM: usedVia === 'satellite' || ph.gpsApp ? 50 : 500, by: c.id };
-    let stored: RescueReport | null = null;
-    if (r.status === 'none' || r.status === 'searching' || r.status === 'contacted') {
-      // まだ向かっていない（または、前の通報の人をみな収容し終えた）: この通報の場所へ出る
-      if (r.status === 'contacted') {
-        r.heli = { readyAtMin: null, nextCheckMin: null, state: 'idle' };
-        r.ground = { readyAtMin: null, x: 0, z: 0, state: 'idle' };
-      }
-      r.status = 'dispatched';
-      r.calledAtMin = world.tMin;
-      r.via = usedVia;
-      const est = { x: report.x, z: report.z, radiusM: report.radiusM };
-      r.locationEstimate = est;
-      stored = est as RescueReport;
-    } else {
-      // もう別の場所へ向かっている: 同じ場所（収容の範囲の中）でなければ覚えておく
-      const rr = ctx.tuning.rescue.contactRadiusM;
-      const near = (a: { x: number; z: number }): boolean => (a.x - c.x) * (a.x - c.x) + (a.z - c.z) * (a.z - c.z) <= rr * rr;
-      if (!r.reports) r.reports = [];
-      const list = r.reports;
-      const same = list.find((x) => x.by === c.id || near(x));
-      if (r.locationEstimate && near(r.locationEstimate)) stored = r.locationEstimate as RescueReport;
-      else if (same) {
-        Object.assign(same, report);
-        stored = same;
-      } else {
-        list.push(report);
-        stored = report;
-      }
-    }
-    ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALLED', climberId: c.id, important: true, data: { via: usedVia } });
-    // 救助隊が位置を知れたか（ユーザーの指定: ログに書く）。queued: もう別の場所へ向かっているので、覚えておいて後で向かう
-    const queued = stored !== null && stored !== (r.locationEstimate as RescueReport | null);
-    ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { rescueLoc: queued ? 'queued' : 'known', radiusM: stored?.radiusM ?? 0 } });
-    return stored;
+    return dispatchReport(world, ctx, c, report, usedVia);
   }
   ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALL_FAILED', climberId: c.id, important: true, data: { radio } });
   return null;
@@ -464,6 +432,15 @@ export function applyActions(
     const apply = (acts: readonly Action[], g: readonly ClimberState[], l: ClimberState): void => applyActions(world, ctx, acts, g, l);
     if (a.type === 'splitParty') {
       splitParty(world, ctx, a.groups, group, apply);
+      continue;
+    }
+    // 歩けない仲間を運ぶ・救助を呼びに行く（グループ全体で 1 回。climber/carry.ts）
+    if (a.type === 'carryInjured') {
+      startCarry(world, ctx, leader, apply);
+      continue;
+    }
+    if (a.type === 'sendForHelp') {
+      sendForHelp(world, ctx, leader, apply);
       continue;
     }
     if (a.type === 'detach') {

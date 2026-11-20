@@ -112,7 +112,7 @@ export function trailSpeedMs(
 }
 
 /** 歩行の MET（ACSM の歩行式を簡略化。docs/06 §2.1） */
-export function walkMet(vMs: number, grade: number, def: ClimberDef, windMs: number, tuning: Tuning = TUNING): number {
+export function walkMet(vMs: number, grade: number, def: ClimberDef, windMs: number, tuning: Tuning = TUNING, extraKg = 0): number {
   const m = tuning.movement;
   const v = vMs * 60; // m/min
   const g = Math.abs(grade);
@@ -120,7 +120,8 @@ export function walkMet(vMs: number, grade: number, def: ClimberDef, windMs: num
   if (grade > 0) climb = m.vo2PerClimb * v * grade;
   else if (grade < 0) climb = m.vo2PerClimb * v * (g * m.descentGradeF + (g > m.steepDescentGrade ? g * m.steepDescentAddF : 0));
   const vo2 = m.vo2Rest + m.vo2PerSpeed * v + climb;
-  const load = 1 + (def.packKg / def.weightKg) * m.loadK;
+  // 運ぶために増えた荷物（けが人を背負う・荷物を分けて持つ）も足す
+  const load = 1 + (Math.max(0, def.packKg + extraKg) / def.weightKg) * m.loadK;
   const wind = 1 + m.windMetK * Math.max(0, windMs - m.windMetStartMs);
   return (vo2 / m.vo2Rest) * load * wind;
 }
@@ -143,14 +144,15 @@ export function capSpeedByMet(
   tuning: Tuning = TUNING,
 ): { vMs: number; met: number } {
   const limit = tuning.movement.sustainableMetRatio * usableMet(c, tuning);
-  const met = walkMet(vMs, grade, c.def, windMs, tuning);
+  const extra = c.plan.carryKg ?? 0;
+  const met = walkMet(vMs, grade, c.def, windMs, tuning, extra);
   if (met <= limit) return { vMs, met };
   let lo = 0;
   let hi = vMs;
   for (let i = 0; i < tuning.movement.metSearchIterations; i += 1) {
     const mid = (lo + hi) / 2;
-    if (walkMet(mid, grade, c.def, windMs, tuning) > limit) hi = mid;
+    if (walkMet(mid, grade, c.def, windMs, tuning, extra) > limit) hi = mid;
     else lo = mid;
   }
-  return { vMs: lo, met: walkMet(lo, grade, c.def, windMs, tuning) };
+  return { vMs: lo, met: walkMet(lo, grade, c.def, windMs, tuning, extra) };
 }

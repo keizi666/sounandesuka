@@ -434,6 +434,8 @@ export type Action = { who?: Who } & (
   | { type: 'soak'; level: SoakLevel; snowmelt?: boolean }
   | { type: 'detach'; then: Action[]; returnAfter?: boolean }   // returnAfter: 用事（then）が済んで止まったら元のグループへ戻る
   | { type: 'goToMember'; member: ClimberId }
+  | { type: 'carryInjured' }   // 歩けない仲間を、介助の 2 人が支えて（背負って）運ぶ。荷物はほかの人が分けて持つ
+  | { type: 'sendForHelp' }    // けが人に 1 人が付き添って残り、ほかの人は救助を呼びに行く（2 人以下のパーティは付き添いなし）
   | { type: 'say'; text: string; to?: SpeakerRef; tone?: SpeechTone; documented?: boolean; source?: string }
 );
 
@@ -604,6 +606,8 @@ export interface ClimberPlanState {
   restUntilMin: number | null;
   bivouacUntil: UntilRef | null;
   paceFactor: number;
+  /** 運ぶために増えた（減った）荷物（kg）。けが人を背負う・荷物を分けて持つ（climber/carry.ts）。古い保存にはない */
+  carryKg?: number;
   hurry: boolean;
   stopCheckedNode: NodeId | null;
   /** この分岐では紛らわしい道へ入る（選択肢「そのまま進む」など。missJunction）。古い保存にはない */
@@ -707,7 +711,7 @@ export interface SunState { elevDeg: number; isDark: boolean; twilight: boolean;
 export interface RescueState {
   status: 'none' | 'dispatched' | 'searching' | 'contacted';
   calledAtMin: number | null;
-  via: 'phone' | 'satellite' | 'overdue' | 'script' | 'passerby' | null;
+  via: 'phone' | 'satellite' | 'overdue' | 'script' | 'passerby' | 'relay' | null;   // relay: 仲間が呼びに行って知らせた
   locationEstimate: { x: number; z: number; radiusM: number } | null;
   heli: { readyAtMin: number | null; nextCheckMin: number | null; state: 'idle' | 'preparing' | 'waiting' | 'flying' | 'searching' | 'done' };
   ground: { readyAtMin: number | null; x: number; z: number; state: 'idle' | 'mobilizing' | 'moving' | 'searching' | 'standby' | 'done' };   // standby: 夜・悪天候で山に入らずに待つ

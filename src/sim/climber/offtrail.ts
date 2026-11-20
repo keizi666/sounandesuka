@@ -204,7 +204,7 @@ export function stepFree(world: World, ctx: StaticContext, c: ClimberState, dtSe
     c.pos = { mode: 'free', x: c.x, z: c.z };
     c.headingRad = datan2(dx, -dz);
     const grade = d > 0 ? (c.elevM - h0) / d : 0;
-    for (let k = 0; k < members.length; k += 1) metTime[k] = metTime[k]! + walkMet(v, grade, members[k]!.def, members[k]!.local.windMs, ctx.tuning) * metF * dt;
+    for (let k = 0; k < members.length; k += 1) metTime[k] = metTime[k]! + walkMet(v, grade, members[k]!.def, members[k]!.local.windMs, ctx.tuning, members[k]!.plan.carryKg ?? 0) * metF * dt;
     gradeTime += grade * dt;
     moved += d;
     t -= dt;

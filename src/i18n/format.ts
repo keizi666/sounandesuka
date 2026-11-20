@@ -224,6 +224,10 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (d['walkOut']) return fill(L.walkOut, { who });
       if (d['leftBehind']) return fill(L.leftBehind, { who, companion: String(d['companion'] ?? '') });
       if (d['reportedLeftBehind']) return fill(L.reportedLeftBehind, { who });
+      if (d['carryStart']) return fill(Number(d['others'] ?? 0) > 0 ? L.carryStart : L.carryStartNoOthers, { who, carriers: String(d['carriers'] ?? '') });
+      if (d['carryFail']) return L.carryFail;
+      if (d['sentForHelp']) return d['alone'] ? fill(L.sentForHelpAlone, { who, goers: String(d['goers'] ?? '') }) : fill(L.sentForHelp, { who, companion: String(d['companion'] ?? ''), goers: String(d['goers'] ?? '') });
+      if (d['helpReported']) return fill(d['helpReported'] === 'phone' ? L.helpReportedPhone : L.helpReportedRelay, { who });
       if (typeof d['groundCurrent'] === 'number') return fill(L.groundCurrent, { who, n: String(d['groundCurrent']) });
       if (typeof d['errandHutSeen'] === 'string') return fill(L.errandHutSeen, { who, node: f.nodeName(String(d['errandHutSeen'])) });
       if (d['rescueNotThere']) return L.rescueNotThere;

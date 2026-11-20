@@ -63,7 +63,7 @@ export const JA = {
     season: { spring: '春', summer: '夏', autumn: '秋', winter: '冬' } as Record<string, string>,
     bool: { true: 'はい', false: 'いいえ' },
     by: { user: 'あなたの選択', bias: 'その人らしい選択', policy: '自動' } as Record<string, string>,
-    via: { phone: '電話', satellite: '衛星 SOS', overdue: '未帰還の通報', script: '他の登山者', passerby: '通りかかった登山者' } as Record<string, string>,
+    via: { phone: '電話', satellite: '衛星 SOS', overdue: '未帰還の通報', script: '他の登山者', passerby: '通りかかった登山者', relay: '呼びに行った仲間' } as Record<string, string>,
   },
 
   /** 結末の既定の題と文（シナリオに endings がないとき） */
@@ -110,6 +110,13 @@ export const JA = {
     groundCurrent: '{who}のそばにいた {n} 人も、地面を伝わった電流で倒れた',
     leftBehind: '{who}はもう歩けない。{companion}が付き添ってその場に残り、ほかの人は先へ進んで助けを呼ぶ',
     reportedLeftBehind: '{who}が着いて、途中に残った仲間のことを知らせた。救助が動き出す',
+    carryStart: '{carriers}が両側から{who}を支え、交代で背負って運ぶ。3 人の荷物は、ほかの人が分けて持つ',
+    carryStartNoOthers: '{carriers}が両側から{who}を支え、交代で背負って運ぶ',
+    carryFail: '運べる人が足りない。このままでは動けない',
+    sentForHelp: '{companion}が{who}に付き添って残り、{goers}が救助を呼びに行く',
+    sentForHelpAlone: '{goers}が救助を呼びに行く。{who}はひとりで残って待つ',
+    helpReportedPhone: '{who}は電話がつながる所まで来て、仲間を残した場所を知らせた。救助が動き出す',
+    helpReportedRelay: '{who}が着いて、仲間を残した場所を知らせた。救助が動き出す',
     walkOut: '{who}は仲間のところへ戻った。みんな歩けるので、確かめた道へそろって下りる',
     errandHutSeen: '{who}の前に{node}が見えた。居場所が分かったので、一人では入らず、仲間を迎えに戻る',
     lampOn: '{who}はヘッドランプをつけた',

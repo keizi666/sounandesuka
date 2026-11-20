@@ -12,6 +12,7 @@ import { walkStep, type WalkResult } from './walk';
 import { splitParty } from './groups';
 import { applyActions } from './actions';
 import { reportMissing } from '../rescue/rescue';
+import { carriedIn, isCarrying } from './carry';
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
 /** 歩いて移動する状態 */
@@ -110,6 +111,27 @@ function follow(world: World, ctx: StaticContext, leader: ClimberState, m: Climb
   }
 }
 
+/**
+ * 運ばれる人を列の位置にそろえる。意識のある人はふつうについていく（follow）。動けない・意識のない人は位置だけそろえ、
+ * 列が登山口に着いたら一緒に着き、小屋に入ったら一緒に入る（状態を「歩く」にはしない）
+ */
+function carryAlong(world: World, ctx: StaticContext, leader: ClimberState, m: ClimberState): void {
+  if (m.state !== 'INCAPACITATED' && m.state !== 'UNCONSCIOUS') {
+    follow(world, ctx, leader, m);
+    return;
+  }
+  m.pos = { ...leader.pos };
+  m.x = leader.x;
+  m.z = leader.z;
+  m.elevM = leader.elevM;
+  m.headingRad = leader.headingRad;
+  if (leader.body.shelterNodeId && !m.body.shelterNodeId) m.body.shelterNodeId = leader.body.shelterNodeId;
+  if (leader.state === 'FINISHED' && !TERMINAL.has(m.state)) {
+    transition(world, ctx, m, 'FINISHED', 'carried');
+    ctx.events.push({ tMin: world.tMin, type: 'FINISHED', climberId: m.id, important: true, data: leader.pos.mode === 'node' ? { node: leader.pos.nodeId } : {} });
+  }
+}
+
 /** 列について歩けない人（足の骨折・力尽きかけ）。気を失った・動けない人は、全員で止まる（下の処理） */
 function cannotKeepUp(m: ClimberState): boolean {
   return m.body.alive && m.body.conscious && m.state !== 'INCAPACITATED' && (m.body.injury === 'legFracture' || m.M < 0.1);
@@ -174,17 +196,21 @@ export function moveParty(world: World, ctx: StaticContext, dtSec: number, hold:
     for (const m of groupMembers(world, g.id)) done.add(m.id);
     if (members.length === 0) continue;
     const leader = groupLeader(world, g.id);
+    // 運んでいる列（carryInjured）: 歩けない人は列について動く（速さの計算に入れず、置いていかず、止まらない）
+    const carried = new Set(carriedIn(world, g.id, members));
+    // 運んでいない列に移った人の荷物は元に戻す
+    if (!isCarrying(world, g.id)) for (const m of members) if (m.plan.carryKg) m.plan.carryKg = 0;
     if (!canMove(leader)) continue;
     // 大人数の列で、リーダー以外の人が歩けなくなった（足の骨折・力尽きかけ）ら、その人と付き添いを残して先へ進む
     // （列は一番遅い人に合わせて歩くので、そのままでは全員がほとんど進まずに止まってしまう。ユーザーの指摘）
-    if (MOVING.has(leader.state) && members.length >= ctx.tuning.behavior.leaveBehindMinSize && leaveBehind(world, ctx, leader, members)) continue;
+    if (!isCarrying(world, g.id) && MOVING.has(leader.state) && members.length >= ctx.tuning.behavior.leaveBehindMinSize && leaveBehind(world, ctx, leader, members)) continue;
     // 動けない人がいれば全員止まる
-    if (members.some((m) => m.state === 'INCAPACITATED' || m.state === 'UNCONSCIOUS')) {
+    if (members.some((m) => !carried.has(m) && (m.state === 'INCAPACITATED' || m.state === 'UNCONSCIOUS'))) {
       for (const m of members) if (MOVING.has(m.state)) transition(world, ctx, m, 'STAYING', 'groupStopped');
       continue;
     }
     // 作業中・休憩中の人がいれば待つ
-    if (members.some((m) => m !== leader && (m.plan.busyUntilMin !== null || (m.state === 'RESTING' && leader.state !== 'RESTING')))) continue;
+    if (members.some((m) => m !== leader && !carried.has(m) && (m.plan.busyUntilMin !== null || (m.state === 'RESTING' && leader.state !== 'RESTING')))) continue;
     // 離れている仲間（loose から tight に戻した直後など）は自分で歩いて合流し、その間リーダーは待つ
     // （一度も loose になっていないグループは、転倒で少し離れてもこれまでどおりリーダーにそろえる）
     const far2 = ctx.tuning.behavior.regroupDistM * ctx.tuning.behavior.regroupDistM;
@@ -202,9 +228,16 @@ export function moveParty(world: World, ctx: StaticContext, dtSec: number, hold:
     }
     if (waiting) continue;
     const wasFree = leader.pos.mode === 'free';
-    const r = moveOne(world, ctx, leader, dtSec, together);
+    // 運ばれる人は速さの計算に入れない（運ぶ速さは carryPaceF と、荷物の増えた人の MET の上限で決まる）
+    const walkers = carried.size > 0 ? together.filter((m) => !carried.has(m)) : together;
+    const r = moveOne(world, ctx, leader, dtSec, walkers);
     navChecks(world, ctx, leader, r.movedM);
     for (const m of together) {
+      if (carried.has(m)) {
+        // 運ばれる人: 自分では歩かない（体は動かさないので、歩く熱は出ない）。位置は列といっしょ
+        if (m !== leader) carryAlong(world, ctx, leader, m);
+        continue;
+      }
       if (r.movedM > 0) out[m.id] = { walking: true, grade: r.grade, met: r.metById[m.id] ?? 0, movedM: r.movedM, offTrail: wasFree };
       if (m !== leader) follow(world, ctx, leader, m);
     }

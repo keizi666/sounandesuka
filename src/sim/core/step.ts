@@ -9,6 +9,7 @@ import { finishTask, autonomous, stepState } from '../climber/behavior';
 import { updateCapacity } from '../climber/capacity';
 import { drainDevices } from '../climber/devices';
 import { stepHutNearby } from '../climber/hutNearby';
+import { stepHelpRunners } from '../climber/carry';
 import { awarenessCheck } from '../climber/navigation';
 import { groupLeader, moveParty, type MoveOutcome } from '../climber/party';
 import { applyActions } from '../climber/actions';
@@ -95,6 +96,7 @@ export function stepWorld(world: World, ctx: StaticContext): void {
   if (minuteTick) maybeSpeak(world, ctx);
   // すぐそこに小屋があれば、歩ける人は小屋へ。小屋に仲間がいれば、小屋の人が動けない人を運び込む
   stepHutNearby(world, ctx);
+  stepHelpRunners(world, ctx);
   // 8d・9. 移動（tight のグループは一緒に）
   const moves = moveParty(world, ctx, DT_SEC, hold);
   // 8e〜h. 危険・生理・機器・判断力
