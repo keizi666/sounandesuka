@@ -456,7 +456,10 @@ export class SceneView {
         if (tr.length > maxPts) tr.length = maxPts;
       }
     }
-    /** 跡に沿って、先頭から distM 後ろの点（跡が短ければ null） */
+    /**
+     * 跡に沿って、先頭から distM 後ろの点。跡がまだ短ければ跡のいちばん古い点（出発した所）で待つ
+     * （ユーザーの指定: 出発のときは全員同じ場所から、先頭から順に歩き出す。道の外に一直線に並ばない）。跡がなければ null
+     */
     const alongCrumbs = (headId: string, hx: number, hz: number, distM: number): [number, number] | null => {
       const tr = this.crumbs.get(headId);
       if (!tr || tr.length === 0) return null;
@@ -470,7 +473,7 @@ export class SceneView {
         ax = bx;
         az = bz;
       }
-      return null;
+      return [ax, az];
     };
     for (const c of world.climbers) {
       let fig = this.figures.get(c.id);
@@ -482,7 +485,7 @@ export class SceneView {
       const p = prev?.[c.id];
       const x = p ? p.x + (c.x - p.x) * alpha : c.x;
       const z = p ? p.z + (c.z - p.z) * alpha : c.z;
-      // 並びのずれ: 先頭から k 人目は、先頭が歩いた跡に沿って k 人分うしろへ（道の曲がりに沿う）。跡がまだ短ければ進行方向の後ろへ。
+      // 並びのずれ: 先頭から k 人目は、先頭が歩いた跡に沿って k 人分うしろへ（道の曲がりに沿う）。跡がまだ短ければ出発した所で待つ。
       // 少し左右に振って一直線にしない。急に飛ばないよう、なめらかに追従させる
       const k = rank.get(c.id) ?? 0;
       const gap = this.figureHeight() * 0.62;
