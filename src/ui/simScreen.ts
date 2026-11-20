@@ -61,7 +61,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (replay) observe = replay.mode === 'o';
   const timed = replay ? replay.mode === 't' : !observe && st.timed;
   const playMode: PlayMode = observe ? 'o' : timed ? 't' : 'i';
-  const world = resume ? resume.world : createWorld(map, scenario);
+  const world = resume ? resume.world : createWorld(map, scenario, replay?.seed ?? scenario.seed);
   const ctx = createStaticContext(map, scenario, { mode: timed ? 'timed' : 'interactive' });
   const recorder = resume?.recorder ?? createRecorder(world);
   const snapshots: SimResult['choiceSnapshots'] = resume?.choiceSnapshots ?? {};
@@ -468,8 +468,11 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     replaying = false;
     timeline.capture(world, recorder, true);
     loop.reset(world);
-    hud.log({ tMin: world.tMin, text: r.complete ? JA.ui.sharedOpened : JA.ui.sharedPartial, important: true });
-    toast(r.complete ? JA.ui.sharedOpenedToast : JA.ui.sharedPartial, 5000);
+    // みんなの遭難記録の「この分岐から」（replay.cp がある）と、場面の URL とで知らせを変える
+    const fromRecord = replay.cp !== undefined;
+    const partial = fromRecord ? JA.ui.recordPartial : JA.ui.sharedPartial;
+    hud.log({ tMin: world.tMin, text: r.complete ? (fromRecord ? JA.ui.recordOpened : JA.ui.sharedOpened) : partial, important: true });
+    toast(r.complete ? (fromRecord ? JA.ui.recordOpenedToast : JA.ui.sharedOpenedToast) : partial, 5000);
   }
   // 途中から再開したとき、見守るパーティが変わっていれば、そのリーダーを選ぶ
   if (world.focusGroup) focusGroup(world.focusGroup);

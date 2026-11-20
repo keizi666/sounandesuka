@@ -19,16 +19,24 @@ export interface SharedState {
   d: [string, string, number, 'u' | 'b'][];
   /** いまの時刻（分） */
   t: number;
+  /** 乱数の種。シナリオの種と違うときだけ入れる（みんなの遭難記録から、投稿のあとに種が変わったシナリオを再現する） */
+  seed?: number;
+  /**
+   * 止める分岐点（みんなの遭難記録の「この分岐から」）。あるときは時刻ではなく分岐点の順で選択を当てて進め、
+   * 前の選択をすべて当てた後に出る最初の分岐点で止める（投稿のあとにモデルが変わり、時刻が少しずれても同じ選択で進められる）
+   */
+  cp?: string;
 }
 
 export const STATE_PARAM = 'st';
 export const SCENARIO_PARAM = 'scenario';
 
-export function stateOf(world: World, mode: PlayMode, cond: StartConditions | undefined): SharedState {
+export function stateOf(world: World, mode: PlayMode, cond: StartConditions | undefined, scenarioSeed?: number): SharedState {
   return {
     v: 1,
     mode,
     ...(cond ? { cond } : {}),
+    ...(scenarioSeed !== undefined && world.seed !== scenarioSeed ? { seed: world.seed } : {}),
     d: world.decisions.map((x) => [x.cpId, x.optionId, Math.round(x.tMin * 1000) / 1000, x.by === 'user' ? 'u' : 'b']),
     t: Math.round(world.tMin * 1000) / 1000,
   };
@@ -58,7 +66,7 @@ export async function decodeState(text: string): Promise<SharedState | null> {
   try {
     const stream = new Blob([fromBase64Url(text)]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
     const s = JSON.parse(await new Response(stream).text()) as SharedState;
-    if (s?.v !== 1 || !Array.isArray(s.d) || typeof s.t !== 'number' || !['i', 't', 'o'].includes(s.mode)) return null;
+    if (s?.v !== 1 || !Array.isArray(s.d) || typeof s.t !== 'number' || !['i', 't', 'o'].includes(s.mode) || (s.seed !== undefined && typeof s.seed !== 'number') || (s.cp !== undefined && typeof s.cp !== 'string')) return null;
     return s;
   } catch {
     return null;

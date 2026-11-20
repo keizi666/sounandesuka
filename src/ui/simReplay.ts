@@ -22,6 +22,7 @@ const MAX_TICKS = 30 * 24 * 360;
  * world を state の場面まで進める。onEvents にはティックと選択で出た出来事を順に渡す（tick: ティックの中で出たか）
  */
 export function replayTo(world: World, ctx: StaticContext, state: SharedState, onEvents: (evs: readonly SimEvent[], tick: boolean) => void): ReplayResult {
+  if (state.cp !== undefined) return replayByOrder(world, ctx, state, state.cp, onEvents);
   const ds = state.d;
   let i = 0;
   for (let n = 0; n < MAX_TICKS && !world.ended; n += 1) {
@@ -48,4 +49,38 @@ export function replayTo(world: World, ctx: StaticContext, state: SharedState, o
     onEvents(ctx.events.splice(0), true);
   }
   return { complete: i >= ds.length };
+}
+
+/** 時刻が合わなくても、止める分岐点までこの時間（分）を過ぎたら止める */
+const ORDER_SLACK_MIN = 6 * 60;
+
+/**
+ * 分岐点の順で選択を当てて進める（みんなの遭難記録の「この分岐から」）。記録の選択は、出た分岐点が同じなら時刻がずれていても同じ選択肢を選ぶ
+ * （自動で決めた選択も、記録と同じ選択肢にする）。前の選択をすべて当てたら、次に出る分岐点で止める。
+ * 記録にない分岐点が先に出た・選択肢が選べなかったときは、そこで止めて complete: false（その場面から自分で選ぶ）
+ */
+function replayByOrder(world: World, ctx: StaticContext, state: SharedState, target: string, onEvents: (evs: readonly SimEvent[], tick: boolean) => void): ReplayResult {
+  const ds = state.d;
+  let i = 0;
+  for (let n = 0; n < MAX_TICKS && !world.ended; n += 1) {
+    const p = world.pendingChoice;
+    if (p) {
+      const next = ds[i];
+      if (!next) return { complete: p.cpId === target };
+      if (next[0] !== p.cpId) return { complete: false };
+      try {
+        resolveChoice(world, ctx, next[1], next[3] === 'u' ? 'user' : 'bias');
+      } catch {
+        onEvents(ctx.events.splice(0), false);
+        return { complete: false };
+      }
+      i += 1;
+      onEvents(ctx.events.splice(0), false);
+      continue;
+    }
+    if (i >= ds.length && world.tMin > state.t + ORDER_SLACK_MIN) return { complete: false };
+    stepWorld(world, ctx);
+    onEvents(ctx.events.splice(0), true);
+  }
+  return { complete: false };
 }

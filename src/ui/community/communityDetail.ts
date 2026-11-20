@@ -23,6 +23,50 @@ import { cIcon, dateText, errorText, hm, sexAgeText, userAvatar } from './common
 import { ENDING_COLOR } from './endingColors';
 import { showUserRuns } from './communityScreen';
 import { drawTrackOnly } from './trackOnly';
+import { progressTo, showLoading } from '../loading';
+import type { SharedState } from '../../app/shareState';
+import { DT_SEC } from '../../sim/core/step';
+
+/**
+ * 記録のシナリオを開く（ユーザーの指定: 遭難記録から同じシナリオで遊ぶ・分岐の場面から始める）。
+ * state があれば、記録と同じ選択で進め直してその場面から（場面の URL と同じ仕組み。src/ui/simReplay.ts）、なければ説明の画面から
+ */
+async function playFrom(app: AppContext, scenarioId: string, state: SharedState | null): Promise<void> {
+  const entry = (await loadIndex().catch(() => [] as ScenarioIndexEntry[])).find((e) => e.id === scenarioId);
+  if (!entry) {
+    toast(JA.community.notPlayable, 5000);
+    return;
+  }
+  const ld = showLoading(JA.ui.loadingTitle);
+  try {
+    const loaded = { ...(await loadEntry(entry, progressTo(ld, { data: JA.ui.loadingData, terrain: JA.ui.loadingTerrain }))), listed: true };
+    ld.done();
+    if (state) app.go({ name: 'sim', loaded, replay: state });
+    else app.go({ name: 'briefing', loaded });
+  } catch (e) {
+    ld.done();
+    toast(String(e), 6000);
+  }
+}
+
+/** 記録の時刻は 0.1 分に丸めてあるので、刻み（DT_SEC）の格子に戻す。作り直しは分岐の時刻がぴったり合うことで確かめる */
+const onGrid = (tMin: number): number => {
+  const perMin = 60 / DT_SEC;
+  return Math.round(tMin * perMin) / perMin;
+};
+
+/** 記録の k 番目の分岐の場面（それまでの選択をすべて同じに選び直し、その分岐が出た時刻で止める） */
+function stateAt(rec: RunRecord, k: number): SharedState {
+  const d = rec.decisions;
+  return {
+    v: 1,
+    mode: 'i',
+    d: d.slice(0, k).map((x) => [x.cpId, x.optionId, onGrid(x.tMin), x.by === 'user' ? 'u' : 'b']),
+    t: onGrid(d[k]!.tMin),
+    seed: rec.seed,
+    cp: d[k]!.cpId,
+  };
+}
 
 const MARK_EVENTS = ['FALL', 'DEATH', 'RESCUED', 'LOST_AWARE', 'LIGHTNING_STRIKE', 'CARDIAC_ARREST'];
 
@@ -134,6 +178,30 @@ function build(app: AppContext, r: RunDetail, root: HTMLElement): void {
   ]);
   root.closest('main')?.classList.add(`tone-${tone}`);
   const chartsBox = el('div', {}, el('p', { class: 'cm-msg' }, C.loading));
+  // 分岐の一覧。記録を読んだら、記録の分岐（分岐点・選択肢の ID がある）から作り直し、「この分岐から」を付ける
+  const decRow = (tMin: number, title: string, label: string, auto: boolean, go: (() => void) | null): HTMLElement =>
+    el('li', {}, [
+      el('time', {}, formatClock(tMin)),
+      el('span', { class: 'dia' }, '◆'),
+      el('span', {}, [title ? el('small', {}, title) : null, el('strong', {}, label)]),
+      auto ? el('small', {}, C.auto) : null,
+      go ? el('button', { class: 'small cm-from', type: 'button', title: C.fromHereTitle, onclick: go }, [icon('playArrow'), C.fromHere]) : null,
+    ]);
+  const decBox = el('div', {}, r.decisions.length > 0
+    ? el('ol', { class: 'en-decisions cm-decisions' }, r.decisions.map((d) => decRow(d.tMin, d.title, d.label, d.auto, null)))
+    : el('p', { class: 'cm-note' }, C.noDecisions));
+  const playNote = el('p', { class: 'cm-note' }, r.conditions ? C.replayNoCond : `${C.replayLead}${C.replayDrift}`);
+  const fillDecisions = (rec: RunRecord): void => {
+    const shown = rec.decisions.map((d, k) => ({ d, k })).filter(({ d }) => d.by === 'user' || d.by === 'bias');
+    if (shown.length === 0) return;
+    decBox.replaceChildren(
+      el('ol', { class: 'en-decisions cm-decisions' }, shown.map(({ d, k }, i) => {
+        // 見出しと選択肢の文は、投稿のときに整えた要約の方を使う（汎用の分岐点は記録の側に文がないことがある）
+        const sm = shown.length === r.decisions.length ? r.decisions[i] : undefined;
+        return decRow(d.tMin, sm?.title ?? d.title, sm?.label ?? d.label, d.by !== 'user', r.conditions ? null : () => void playFrom(app, r.scenarioId, stateAt(rec, k)));
+      })),
+    );
+  };
   const notes = el('div', { class: 'bf-notes' }, el('p', { class: 'note' }, JA.disclaimer.endingNote));
   root.replaceChildren(
     el('header', { class: 'en-hero cm-hero', style: `--end:${ENDING_COLOR[r.ending] ?? '#6b7280'}` }, [
@@ -162,9 +230,11 @@ function build(app: AppContext, r: RunDetail, root: HTMLElement): void {
       ]),
       el('section', { class: 'bf-card' }, [
         el('h2', {}, [icon('route'), C.decisions]),
-        r.decisions.length > 0
-          ? el('ol', { class: 'en-decisions cm-decisions' }, r.decisions.map((d) => el('li', {}, [el('time', {}, formatClock(d.tMin)), el('span', { class: 'dia' }, '◆'), el('span', {}, [d.title ? el('small', {}, d.title) : null, el('strong', {}, d.label)]), d.auto ? el('small', {}, C.auto) : null])))
-          : el('p', { class: 'cm-note' }, C.noDecisions),
+        decBox,
+        el('div', { class: 'cm-play' }, [
+          el('button', { class: 'primary', type: 'button', onclick: () => void playFrom(app, r.scenarioId, null) }, [icon('playArrow'), C.playScenario]),
+          playNote,
+        ]),
       ]),
       chartsBox,
       notes,
@@ -174,6 +244,7 @@ function build(app: AppContext, r: RunDetail, root: HTMLElement): void {
   void (async () => {
     try {
       const [rec, idx] = await Promise.all([unpackRecord(r.record), loadIndex().catch(() => [] as ScenarioIndexEntry[])]);
+      fillDecisions(rec);
       const entry = idx.find((e) => e.id === r.scenarioId);
       const s = await scenarioOnly(entry);
       if (!s) {

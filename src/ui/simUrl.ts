@@ -28,7 +28,7 @@ export function createUrlSync(o: { world: World; loaded: LoadedScenario; mode: P
       last = key;
       at = now;
       const mine = (seq += 1);
-      void encodeState(stateOf(world, o.mode, loaded.conditions)).then((enc) => {
+      void encodeState(stateOf(world, o.mode, loaded.conditions, loaded.scenario.seed)).then((enc) => {
         if (mine === seq && o.alive()) setAddress(stateUrl(loaded.scenario.id, enc));
       });
     },
@@ -37,7 +37,7 @@ export function createUrlSync(o: { world: World; loaded: LoadedScenario; mode: P
         toast(JA.ui.shareUnavailable, 4000);
         return;
       }
-      const url = stateUrl(loaded.scenario.id, await encodeState(stateOf(world, o.mode, loaded.conditions)));
+      const url = stateUrl(loaded.scenario.id, await encodeState(stateOf(world, o.mode, loaded.conditions, loaded.scenario.seed)));
       setAddress(url);
       try {
         await navigator.clipboard.writeText(url);
