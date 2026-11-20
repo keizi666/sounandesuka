@@ -14,6 +14,8 @@ import { detectQuality } from './quality';
 import { showBriefing } from '../ui/briefing';
 import { showDebrief } from '../ui/debrief';
 import { showEnding } from '../ui/ending';
+import { setPhoneEra } from '../ui/phoneWord';
+import { replayResult } from '../ui/resultReplay';
 import { showHistory } from '../ui/history';
 import { showCommunity } from '../ui/community/communityScreen';
 import { showCommunityRun } from '../ui/community/communityDetail';
@@ -175,6 +177,14 @@ export function startApp(root: HTMLElement): void {
         if (stText && !shared) toast(JA.ui.sharedBroken, 5000);
         if (shared) {
           const l = shared.cond ? { ...loaded, scenario: applyConditions(loaded.scenario, shared.cond), conditions: shared.cond } : loaded;
+          // 結末まで進んだ場面の URL（結果の画面から共有したもの）は、3D の画面を開かずに結果の画面だけを出す（ユーザーの指定）
+          const result = shared.cp === undefined ? replayResult(l, shared) : null;
+          if (result) {
+            setPhoneEra(l.scenario);
+            app.go({ name: 'ending', loaded: l, result });
+            showLoading(JA.ui.loadingTitle).done();
+            return;
+          }
           app.go({ name: 'sim', loaded: l, replay: shared });
         } else app.go({ name: 'sim', loaded, observe: params.get('observe') === '1' });
       })

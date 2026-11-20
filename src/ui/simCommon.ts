@@ -16,6 +16,8 @@ export interface SimResult {
   parentRunId: string | null;
   /** 画面のログ（結果の画面で見られるように。ユーザーの指定） */
   log?: LogLine[];
+  /** 共有された結果の URL から作り直した結果（自分の回ではないので、みんなの遭難記録には載せない） */
+  shared?: boolean;
 }
 
 /** 外部データ由来の内容には出典を出す（鉄則 9）。実在の山のシナリオでは注記も添える */

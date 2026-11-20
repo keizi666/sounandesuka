@@ -126,7 +126,7 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
             ])
           : null,
         // みんなの遭難記録に載せる（docs/20_community.md）
-        communityPostCard(app, loaded, result, { kind: e.kind, title: endTitle }),
+        result.shared ? null : communityPostCard(app, loaded, result, { kind: e.kind, title: endTitle }),
         shareCard,
         // ログ（ユーザーの指定: 結果の画面でも見られる）。長いので、開いたときに並べる
         result.log && result.log.length > 0 ? logCard(result.log) : null,
