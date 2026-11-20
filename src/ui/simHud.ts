@@ -187,7 +187,30 @@ export class Hud {
     if (scenario.party.length > 3) for (const p of scenario.party) this.collapsed.add(p.id);
     this.logEl = el('ol', { class: 'log', 'aria-label': JA.ui.log });
     this.tripEl = el('div', { class: 'trip-banner', 'aria-live': 'off' });
-    this.logPane = el('div', { class: 'logpane' }, [el('div', { class: 'logscroll' }, this.logEl), this.tripEl]);
+    // ログを過去へスクロールしたら、新しい行が来ても下へ送らない。下に「最新を表示」を出す（ユーザーの指定）
+    this.logScroll = el('div', { class: 'logscroll' }, this.logEl);
+    this.latestBtn = el('button', { class: 'log-latest', type: 'button', hidden: true, onclick: () => this.followLog(true) }, [icon('keyboardArrowDown'), JA.ui.logLatest]);
+    this.logScroll.addEventListener('scroll', () => {
+      const sc = this.logScroll;
+      this.stickLog = sc.scrollHeight - sc.scrollTop - sc.clientHeight < 24;
+      if (this.stickLog) this.latestBtn.hidden = true;
+    });
+    this.logPane = el('div', { class: 'logpane' }, [this.logScroll, this.latestBtn, this.tripEl]);
+  }
+
+  private readonly logScroll: HTMLElement;
+  private readonly latestBtn: HTMLButtonElement;
+  /** ログをいちばん下に合わせ続けるか（過去へスクロールしたら false） */
+  private stickLog = true;
+
+  /** 新しい行のあと: 下に合わせているときだけ下へ送る。過去を見ているあいだは位置を保ち、「最新を表示」を出す。force で下へ */
+  private followLog(force = false): void {
+    const sc = this.logScroll;
+    if (force) this.stickLog = true;
+    if (this.stickLog) {
+      sc.scrollTop = sc.scrollHeight;
+      this.latestBtn.hidden = true;
+    } else this.latestBtn.hidden = false;
   }
 
   /** ログの下の帯（行動時間・移動距離・累計標高）。選んでいる人の分 */
@@ -322,8 +345,8 @@ export class Hud {
   setCutoff(tMin: number | null): void {
     this.cutoff = tMin;
     for (const li of this.logEl.children) (li as HTMLElement).hidden = tMin !== null && Number((li as HTMLElement).dataset['t']) > tMin + 1e-6;
-    const sc = this.logEl.parentElement ?? this.logEl;
-    sc.scrollTop = sc.scrollHeight;
+    // 時刻を動かしたときは、その時刻までの最新を見せる
+    this.followLog(true);
   }
 
   /** この時刻より後のログを消す（戻した先からやり直すとき） */
@@ -381,8 +404,7 @@ export class Hud {
           }
           r.grouped = g;
           this.lastSpeaker = null;
-          const sc = this.logEl.parentElement ?? this.logEl;
-          sc.scrollTop = sc.scrollHeight;
+          this.followLog();
           return;
         }
       } else this.run = { kind: line.group, lines: [line], lis: [], grouped: null };
@@ -446,8 +468,7 @@ export class Hud {
     this.logEl.append(li);
     if (line.group && this.run) this.run.lis.push(li);
     while (this.logEl.childElementCount > 300) this.logEl.firstElementChild?.remove();
-    // ログはウィンドウの本体（親）がスクロールする
-    const sc = this.logEl.parentElement ?? this.logEl;
-    sc.scrollTop = sc.scrollHeight;
+    // ログはウィンドウの本体（親）がスクロールする。過去を見ているあいだは位置を保つ
+    this.followLog();
   }
 }

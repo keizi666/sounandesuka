@@ -12,6 +12,7 @@ import { nearestIndex } from '../terrain/sample';
 import type { ClimberState, NodeId, SearchLeadDef, StaticContext, World } from '../types';
 import { sampleLocal } from '../weather/local';
 import { blindHeliFind, cocoheliFind, distToPlannedRoute, whereaboutsUnknown } from './heliSearch';
+import { stepPassersby } from './passersby';
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
 
@@ -308,41 +309,6 @@ function search(world: World, ctx: StaticContext, perH: number, by: 'heli' | 'gr
 export function reportMissing(world: World, by?: string): void {
   if (world.flags['reportedMissing'] === undefined) world.flags['reportedMissing'] = world.tMin;
   if (by && world.rescue.reportedBy === undefined) world.rescue.reportedBy = by;
-}
-
-/** 困っていて、通りかかった人に助けを頼む状態 */
-const DISTRESS = new Set(['LOST_AWARE', 'STAYING', 'WAITING_RESCUE', 'BIVOUAC', 'INCAPACITATED', 'UNCONSCIOUS', 'SEEKING_SIGNAL']);
-
-/** 通りかかる登山者（scenario.passersby）。困っている人に気づけば、下山して正確な場所を通報してくれる */
-function stepPassersby(world: World, ctx: StaticContext, dtMin: number): void {
-  const defs = ctx.scenario.passersby;
-  if (!defs || defs.length === 0 || world.sun.isDark) return;
-  const r = world.rescue;
-  if (r.status === 'dispatched' || r.status === 'contacted') return;
-  const clock = clockMinOf(world.tMin);
-  const day = Math.floor(world.tMin / 1440);
-  for (const p of defs) {
-    if (p.fromDay !== undefined && day < p.fromDay) continue;
-    if (p.from && clock < parseHHMM(p.from)) continue;
-    if (p.to && clock > parseHHMM(p.to)) continue;
-    if (!chance(world.rng.rescue, (p.perHour * dtMin) / 60)) continue;
-    // その道を一組が通った。道からの距離で気づくか
-    for (const c of world.climbers) {
-      if (TERMINAL.has(c.state) || !DISTRESS.has(c.state)) continue;
-      let d = Infinity;
-      for (const e of p.edges) for (const s of ctx.map.trails[e]?.samples ?? []) d = Math.min(d, (s.x - c.x) * (s.x - c.x) + (s.z - c.z) * (s.z - c.z));
-      d = Math.sqrt(d);
-      const reach = c.body.conscious ? (c.def.gear.whistle ? (p.whistleM ?? 300) : (p.voiceM ?? 120)) : (p.seeM ?? 40);
-      if (d > Math.max(reach, p.seeM ?? 40)) continue;
-      r.status = 'dispatched';
-      r.via = 'passerby';
-      r.calledAtMin = world.tMin;
-      r.locationEstimate = { x: c.x, z: c.z, radiusM: ctx.tuning.rescue.preciseM };
-      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { passerby: true } });
-      ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALLED', climberId: c.id, important: true, data: { via: 'passerby' } });
-      return;
-    }
-  }
 }
 
 /** 救助の 1 ティック（docs/03 §4 の 10） */

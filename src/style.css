@@ -787,7 +787,12 @@ ol.log .face.tappable:hover { filter: brightness(1.12); }
 
 /* ---- ログの下の帯: 行動時間・移動距離・累計標高（ユーザーの指定） ---- */
 .fwin-body:has(> .logpane) { overflow: hidden; display: flex; flex-direction: column; }
-.logpane { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.logpane { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; position: relative; }
+/* 過去を見ているあいだの「最新を表示」（オレンジのカプセル。ユーザーの指定） */
+.log-latest { position: absolute; left: 50%; bottom: 52px; z-index: 3; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 4px; min-height: 30px; padding: 4px 14px 4px 10px; border: 0; border-radius: 999px; background: #ea8a1a; color: #1d1a12; font-weight: 700; font-size: 0.85rem; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45); cursor: pointer; }
+.log-latest:hover { background: #f59e0b; }
+.log-latest[hidden] { display: none; }
+.log-latest svg { width: 18px; height: 18px; fill: currentColor; }
 .logscroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.25) transparent; }
 .trip-banner { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 8px 12px; border-top: 1px solid rgba(255, 255, 255, 0.12); background: linear-gradient(180deg, rgba(30, 34, 40, 0.92), rgba(20, 23, 28, 0.96)); font-size: 0.9rem; }
 .trip-banner:empty { display: none; }

@@ -391,6 +391,8 @@ export const JA = {
     saveFailed: '保存できませんでした（容量不足）',
     historyTitle: '実行履歴',
     endingLog: 'ログ（{n} 行）',
+    logLatest: '最新を表示',
+    hutNightSkipped: '山小屋で夜を過ごした（翌日 03:00 まで進めた）',
     endConfirmTitle: '結末',
     endConfirmGo: '結果を見る',
     memberDead: '亡くなった',

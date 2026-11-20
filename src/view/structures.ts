@@ -4,6 +4,7 @@
  */
 import * as THREE from 'three';
 import type { MapRuntime } from '../sim/types';
+import { restSpot } from '../sim/climber/situation';
 import { UNIT, type ViewScale } from './scale';
 import { injectEnv, type EnvUniforms } from './terrainMaterial';
 
@@ -212,6 +213,34 @@ export function buildStructures(map: MapRuntime, s: ViewScale, heightAt: (x: num
           obj.add(rk);
         }
       }
+      obj.rotation.y = (nd.x * 13 + nd.z * 7) % Math.PI;
+    } else if (restSpot(nd)) {
+      // 茶屋・休憩所（小屋の設定はないが、休む所として名前のある地点。ユーザーの指定: 休む人が中に入れるように建物を描く）
+      const w = 6 * k;
+      const d = 4.5 * k;
+      const h = 2.5 * k;
+      const baseH = 0.4 * k;
+      obj.add(box(w * 1.06, baseH + 2.5 * k, d * 1.08, stone, 0, baseH / 2 - 1.25 * k, 0, [4, 2]));
+      obj.add(box(w, h, d, wood, 0, baseH + h / 2, 0, [3, 1.5]));
+      const roofH = 1.7 * k;
+      const eave = 0.9 * k;
+      const rf = gableRoof(w + eave * 1.6, d + eave * 2, roofH * ((d + eave * 2) / d), roof, 0.2 * k);
+      rf.position.y = baseH + h - (roofH * eave * 2) / d;
+      obj.add(rf);
+      obj.add(box(w + eave * 1.7, 0.26 * k, 0.45 * k, darkWood, 0, baseH + h + roofH + 0.04 * k, 0));
+      for (const sx of [-1, 1]) {
+        const gw = gableWall(d, roofH, wood);
+        gw.position.set((sx * w) / 2, baseH + h, 0);
+        if (sx < 0) gw.rotation.y = -Math.PI / 2;
+        obj.add(gw);
+      }
+      for (const sx of [-1, 1]) for (const sz of [-1, 1]) obj.add(box(0.3 * k, h, 0.3 * k, darkWood, (sx * w) / 2, baseH + h / 2, (sz * d) / 2));
+      // 開け放した店先（暖簾の代わりの布）・縁台・窓
+      obj.add(box(2.4 * k, 1.9 * k, 0.16 * k, darkWood, -w * 0.18, baseH + 0.95 * k, d / 2));
+      obj.add(box(2.4 * k, 0.5 * k, 0.05 * k, white, -w * 0.18, baseH + 1.75 * k, d / 2 + 0.1 * k));
+      windowAt(obj, w * 0.28, baseH + 1.4 * k, d / 2, 0.9 * k, 0.8 * k);
+      obj.add(box(2.6 * k, 0.14 * k, 0.7 * k, paleWood, w * 0.05, baseH * 0.2 + 0.45 * k, d / 2 + 1.1 * k));
+      for (const sx of [-1, 1]) obj.add(box(0.14 * k, 0.45 * k, 0.6 * k, paleWood, w * 0.05 + sx * 1.1 * k, baseH * 0.2 + 0.22 * k, d / 2 + 1.1 * k));
       obj.rotation.y = (nd.x * 13 + nd.z * 7) % Math.PI;
     } else if (nd.type === 'peak') {
       // 山頂: ケルン（積んだ石）と標柱

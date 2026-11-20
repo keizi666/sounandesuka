@@ -1,6 +1,7 @@
 /**
  * P6 の受け入れ: 道迷い・落雷・電波・救助（docs/13 P6、docs/14 navigation / hazards / rescue）
  */
+import { TUNING } from '../src/sim/tuning';
 import { describe, expect, it } from 'vitest';
 import { applyActions } from '../src/sim/climber/actions';
 import { confuserErrorP } from '../src/sim/climber/navigation';
@@ -193,7 +194,9 @@ describe('電波と救助（docs/08 §4〜5）', () => {
     // 動けなくなって山中に残る
     const sc: ScenarioDef = { ...base, choices: [], events: [] };
     const w = createWorld(map, sc);
-    const ctx = createStaticContext(map, sc);
+    // 通りかかる人（昼に道の上で気づいて通報する）はこのテストでは止める（未帰還通報だけを見る）
+    const noPass = { ...TUNING, rescue: { ...TUNING.rescue, passerby: { ...TUNING.rescue.passerby, busyPerHour: { T1: 0, T2: 0, T3: 0 }, streamPerHour: 0 } } };
+    const ctx = createStaticContext(map, sc, { tuning: noPass });
     w.climbers[0]!.state = 'STAYING';
     while (w.tMin < parseTimeRef('D0 21:10') && !w.ended) {
       stepWorld(w, ctx);

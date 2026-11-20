@@ -296,6 +296,30 @@ export const rescue = {
   whistleExtraM: 150,
   /** 沢を下っている・沢床にいる人の見つけやすさ（谷の底で上からも横からも見えにくい。ユーザーの指定で 0.5 → 0.3） */
   deepDrainageF: 0.3,
+  /**
+   * 通りかかる登山者（ユーザーの指定。src/sim/rescue/passersby.ts）。busyPerHour は土日祝に、登山道のある一点を 1 時間に通る組の数（道の区分ごと）。
+   * 平日は weekdayF 倍（8 分の 1）。雨・荒天・冬は減り、夜と from〜to の外は通らない。気づく距離は見える・声・笛
+   */
+  passerby: {
+    busyPerHour: { T1: 2, T2: 1, T3: 0.4 } as Record<string, number>,
+    /** 沢床（地図の沢のセル）を通る割合がこれを超える道は沢登りのルートとし、土日祝でも 1 時間にこれだけ */
+    streamShareMin: 0.4,
+    streamPerHour: 0.15,
+    weekdayF: 1 / 8,
+    rainMmH: 2,
+    rainF: 0.3,
+    stormThunder: 0.3,
+    stormWindMs: 15,
+    stormF: 0.1,
+    winterF: 0.3,
+    from: '07:00',
+    to: '16:30',
+    noticeP: 0.9,
+    seeM: 40,
+    voiceM: 120,
+    whistleM: 300,
+    checkEveryTicks: 6,
+  },
   /** 居場所の分からない人を上空から探すとき、森の中にいる人の見つけやすさ */
   blindForestF: 0.6,
   /** 地上隊: 道から外れた人は、探している道からの距離でも見つけにくくなる（1 / (1 + 距離 / この長さ)） */

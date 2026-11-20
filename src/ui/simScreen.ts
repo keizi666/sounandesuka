@@ -17,7 +17,7 @@ import { effectiveQuality } from '../app/settings';
 import { addHistory, clearResume, newRunId, saveResume, type ResumeData } from '../app/storage';
 import { JA } from '../i18n/ja';
 import { fill, formatEvent, speechView, formatDateTime } from '../i18n/format';
-import { DT_SEC } from '../sim/core/step';
+import { DT_SEC, stepWorld } from '../sim/core/step';
 import { createStaticContext, createWorld } from '../sim/core/world';
 import type { PlayMode, SharedState } from '../app/shareState';
 import { replayTo } from './simReplay';
@@ -417,13 +417,46 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     },
     onChoice,
     onEnded,
-    onUi: () => refresh(),
+    onUi: () => {
+      refresh();
+      skipHutNight();
+    },
     shouldPause: (e) => {
       if (st.autoPause === 'choice') return false;
       if (st.autoPause === 'important') return IMPORTANT_PAUSE.has(e.type);
       return Boolean(e.important) && e.type !== 'CHOICE_FIRED' && e.type !== 'CHOICE_RESOLVED';
     },
   });
+  // 山小屋に泊まることになったら、夜を飛ばして翌日 03:00 まで進める（ユーザーの指定）。1 晩に 1 回。
+  // 分岐点が出た・結末になった・誰かが小屋を出たら、そこで止める
+  const skippedNights = new Set<number>();
+  function skipHutNight(): void {
+    if (loop.paused || world.pendingChoice || world.ended || !world.sun.isDark) return;
+    const active = world.climbers.filter((c) => c.body.alive && c.state !== 'FINISHED' && c.state !== 'RESCUED' && !c.offMap);
+    if (active.length === 0 || !active.every((c) => c.state === 'SHELTERED' && c.body.shelterNodeId !== null)) return;
+    const day = Math.floor((world.tMin - 180) / 1440);
+    if (skippedNights.has(day)) return;
+    skippedNights.add(day);
+    const target = (day + 1) * 1440 + 180;
+    if (target <= world.tMin) return;
+    replaying = true;
+    const startMin = world.tMin;
+    for (let n = 0; n < 30 * 360 && world.tMin < target && !world.ended && !world.pendingChoice; n += 1) {
+      stepWorld(world, ctx);
+      const evs = ctx.events.splice(0);
+      recordTick(recorder, world, ctx, evs, DT_SEC / 60);
+      handleEvents(evs);
+      timeline.capture(world, recorder);
+      if (active.some((c) => c.state !== 'SHELTERED')) break;
+    }
+    replaying = false;
+    timeline.capture(world, recorder, true);
+    loop.reset(world);
+    if (world.tMin > startMin) hud.log({ tMin: world.tMin, text: JA.ui.hutNightSkipped, important: true });
+    if (world.pendingChoice) onChoice();
+    if (world.ended) onEnded();
+    refresh(true);
+  }
   if (observe) loop.speed = 15;
   // 途中から再開したら、そのときの再生の速さに戻す（ユーザーの指定）
   else if (resume?.speed !== undefined && resume.speed !== 0) loop.speed = resume.speed;
