@@ -119,5 +119,5 @@ describe('まとめて試すの集計', () => {
     const t = suggestTarget('recommended', merged);
     expect(t.goodMin).toBeLessThanOrEqual(1);
     expect(t.fatalMax).toBeGreaterThanOrEqual(0);
-  });
+  }, 30000); // 24 回走らせるので、ほかのテストと同時だと 5 秒を超えることがある（速さではなく一致を見るテスト）
 });

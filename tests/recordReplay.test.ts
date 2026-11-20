@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
-import { runHeadless } from '../src/sim/headless';
+import { stepWorld } from '../src/sim/core/step';
+import { autoResolve } from '../src/sim/scenario/choices';
 import { replayTo } from '../src/ui/simReplay';
 import { loadEntryRuntime, loadIndex } from '../tools/lib/scenarios';
 
@@ -9,8 +10,15 @@ import { loadEntryRuntime, loadIndex } from '../tools/lib/scenarios';
 describe('記録の分岐から始める', () => {
   const e = loadIndex().find((x) => x.id === 's02_fog_descent')!;
   const { scenario, map } = loadEntryRuntime(e)!;
-  const run = runHeadless(map, scenario, { policy: 'bias', seed: scenario.seed });
-  const ds = run.world.decisions;
+  // 記録は画面で遊んだときと同じ進め方で作る（分岐点が出たティックではそこで止まり、その人らしく自動で決める）
+  const rec = createWorld(map, scenario, scenario.seed);
+  const recCtx = createStaticContext(map, scenario, { mode: 'interactive' });
+  for (let n = 0; n < 30 * 24 * 360 && !rec.ended; n += 1) {
+    if (rec.pendingChoice) autoResolve(rec, recCtx, 'bias');
+    else stepWorld(rec, recCtx);
+    recCtx.events.length = 0;
+  }
+  const ds = rec.decisions;
   it('記録に分岐が 3 つ以上ある', () => expect(ds.length).toBeGreaterThanOrEqual(3));
   for (const shift of [0, 0.1, -0.1]) {
     it(`時刻が ${shift} 分ずれていても、最後の分岐の場面で止まる`, () => {

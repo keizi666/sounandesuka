@@ -40,6 +40,22 @@ export interface WalkResult {
 }
 
 /**
+ * すぐそこ（hutNearM 以内）の開いている小屋へ向かっているなら、計算上は進めなくても這うような遅さでは進める
+ * （ユーザーの指摘: s18 で頂上宿舎の手前、強風と低体温で速さが 0 になり、小屋に入れなかった）。全員に意識があるときだけ
+ */
+function hutCrawlMs(ctx: StaticContext, c: ClimberState, members: readonly ClimberState[]): number {
+  const id = c.plan.goTo?.node;
+  if (id === undefined) return 0;
+  const nd = ctx.map.nodes[id];
+  if (!nd?.shelter || !(ctx.scenario.nodeOverrides?.[id]?.open ?? nd.shelter.open)) return 0;
+  const bt = ctx.tuning.behavior;
+  const dx = c.x - nd.x;
+  const dz = c.z - nd.z;
+  if (dx * dx + dz * dz > bt.hutNearM * bt.hutNearM) return 0;
+  return members.every((m) => m.body.alive && m.body.conscious) ? bt.hutCrawlMs : 0;
+}
+
+/**
  * 先頭 c を dtSec 秒進める。members は一緒に歩く人（c を含む）。速度は全員の上限の最小。
  * 位置・ルートの更新は c だけに行い、呼び出し側が他のメンバーに写す。
  */
@@ -52,6 +68,7 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
   let headX = 0;
   let headZ = 0;
   let gradeTime = 0;
+  const crawlMs = hutCrawlMs(ctx, c, members);
   while (t > EPS) {
     if (c.pos.mode === 'node') {
       const next = c.plan.route[c.plan.routeIndex];
@@ -103,6 +120,7 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
       // 足を骨折して這う人は、這う速さの上限だけで決める（運動能力が低く MET の上限で 0 にならないように）
       vMs = Math.min(vMs, m.body.injury === 'legFracture' && m.body.conscious ? cand : capSpeedByMet(cand, grade, m, env.windMs, ctx.tuning).vMs);
     }
+    vMs = Math.max(vMs, crawlMs);
     if (!(vMs > EPS)) break;
     const dt = Math.min(t, dist / vMs);
     const d = vMs * dt;

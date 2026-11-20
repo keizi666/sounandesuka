@@ -126,7 +126,30 @@ export function callRescue(world: World, ctx: StaticContext, c: ClimberState, vi
   return null;
 }
 
+/** 歩ける（小屋まで自分で歩いて行ける） */
+function canWalkToHut(c: ClimberState): boolean {
+  const b = c.body;
+  return b.alive && b.conscious && c.state !== 'INCAPACITATED' && c.state !== 'UNCONSCIOUS' && b.injury !== 'legFracture' && b.injury !== 'severeTrauma' && c.M >= 0.2;
+}
+
 function startBivouac(world: World, ctx: StaticContext, c: ClimberState, until: UntilRef, findLee: boolean, state: 'BIVOUAC' | 'WAITING_RESCUE'): void {
+  // すぐそこに開いている小屋があれば、外でビバークせずに小屋へ入る（ユーザーの指摘: 小屋の横でツェルトにくるまっていた）
+  if (canWalkToHut(c) && !c.body.shelterNodeId) {
+    const hut = nearestShelterNode(ctx, c, ctx.tuning.behavior.hutNearM);
+    if (hut) {
+      leaveShelter(world, ctx, c);
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { toHutInstead: hut } });
+      if (c.pos.mode === 'free') {
+        c.plan.pendingGoTo = { node: hut, then: 'stay' };
+        if (toTrailFirst(world, ctx, c)) return;
+        c.plan.pendingGoTo = null;
+      }
+      if (goToNode(ctx, c, hut, 'stay')) {
+        transition(world, ctx, c, 'WALKING', 'toHut');
+        return;
+      }
+    }
+  }
   leaveShelter(world, ctx, c);
   // 歩いていた道順は捨てる（風下を探すときは、下で新しく引く）
   c.nav = { ...c.nav, path: [] };

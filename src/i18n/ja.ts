@@ -146,6 +146,8 @@ export const JA = {
     anaphylaxisOnset: '{who}の顔と体にじんましんが広がり、息が苦しそうだ。ぐったりしている',
     epipen: '{who}にエピペンを打った。少し呼吸が楽になったようだ',
     chargeStart: '{who}はモバイルバッテリーでスマホを充電し始めた',
+    toHutInstead: '{node}はすぐそこだ。{who}は外で夜を明かさずに、{node}へ向かった',
+    hutCarried: '{node}の人が出てきて、動けなくなっていた{who}を小屋へ運び込んだ',
     locPrecise: 'スマホの位置情報で、ほぼ正確に',
     locRough: '誤差 約 {m} m',
     rescueLocKnown: '救助隊は、{who}の通報で場所を知った（{acc}）',

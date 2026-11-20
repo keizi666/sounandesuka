@@ -51,6 +51,20 @@ export function replayTo(world: World, ctx: StaticContext, state: SharedState, o
   return { complete: i >= ds.length };
 }
 
+/**
+ * 自動で決めた選択は、自動で決め直して（乱数の進み方を記録と合わせて）同じ選択肢になればそれを使う。
+ * 違う選択肢になったら、決める前に戻して false（呼び出し側が記録の選択肢を選ぶ）
+ */
+function autoResolveAs(world: World, ctx: StaticContext, optionId: string): boolean {
+  const snap = structuredClone(world);
+  const evLen = ctx.events.length;
+  if (autoResolve(world, ctx, 'bias') === optionId) return true;
+  for (const k of Object.keys(world)) delete (world as unknown as Record<string, unknown>)[k];
+  Object.assign(world, snap);
+  ctx.events.length = evLen;
+  return false;
+}
+
 /** 時刻が合わなくても、止める分岐点までこの時間（分）を過ぎたら止める */
 const ORDER_SLACK_MIN = 6 * 60;
 
@@ -69,7 +83,7 @@ function replayByOrder(world: World, ctx: StaticContext, state: SharedState, tar
       if (!next) return { complete: p.cpId === target };
       if (next[0] !== p.cpId) return { complete: false };
       try {
-        resolveChoice(world, ctx, next[1], next[3] === 'u' ? 'user' : 'bias');
+        if (next[3] === 'u' || !autoResolveAs(world, ctx, next[1])) resolveChoice(world, ctx, next[1], next[3] === 'u' ? 'user' : 'bias');
       } catch {
         onEvents(ctx.events.splice(0), false);
         return { complete: false };

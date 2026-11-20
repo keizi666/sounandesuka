@@ -235,6 +235,8 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (d['anaphylaxisOnset']) return fill(L.anaphylaxisOnset, { who });
       if (d['epipen']) return fill(L.epipen, { who });
       if (d['chargeStart']) return fill(L.chargeStart, { who });
+      if (typeof d['toHutInstead'] === 'string') return fill(L.toHutInstead, { who, node: f.nodeName(String(d['toHutInstead'])) });
+      if (typeof d['hutCarried'] === 'string') return fill(L.hutCarried, { who, node: f.nodeName(String(d['hutCarried'])) });
       if (d['rescueLoc']) {
         const r = Number(d['radiusM'] ?? 0);
         const acc = r <= 60 ? L.locPrecise : fill(L.locRough, { m: r });
