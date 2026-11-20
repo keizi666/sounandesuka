@@ -319,6 +319,8 @@ export const rescue = {
     voiceM: 120,
     whistleM: 300,
     checkEveryTicks: 6,
+    /** この距離より近くにいる人たちは同じ所にいるとして、通るかのサイコロを 1 回だけ振る（m） */
+    sameSpotM: 300,
   },
   /** 居場所の分からない人を上空から探すとき、森の中にいる人の見つけやすさ */
   blindForestF: 0.6,

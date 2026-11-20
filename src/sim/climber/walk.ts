@@ -76,6 +76,12 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
         transition(world, ctx, c, 'STAYING', 'routeEnd');
         break;
       }
+      // 次の行き先が今いる地点（列から離れて小屋へ向かうときなど）: もう着いている
+      if (next === c.pos.nodeId) {
+        arriveAt(world, ctx, c, next);
+        if (c.state !== 'WALKING') break;
+        continue;
+      }
       let r = edgeBetween(map, c.pos.nodeId, next);
       if ('error' in r) {
         // 次のノードが隣でない（道迷いの後など）: 最短経路でつなぎ直す

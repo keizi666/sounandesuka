@@ -30,6 +30,19 @@ function streamFraction(map: MapRuntime, id: EdgeId): number {
   return f;
 }
 
+/**
+ * 沢登りのルートか。沢床を通る割合が多い道に加えて、両端がどちらも沢床の道につながっている道
+ * （s13 のホラの貝の高巻きのように、沢登りの途中で斜面を巻く道）も沢登りのルートとする
+ */
+function isStreamRoute(map: MapRuntime, id: EdgeId, minShare: number): boolean {
+  if (streamFraction(map, id) > minShare) return true;
+  const t = map.trails[id];
+  if (!t || t.def.from === undefined || t.def.to === undefined) return false;
+  const touches = (node: string): boolean =>
+    Object.entries(map.trails).some(([oid, o]) => oid !== id && o.def.kind !== 'false' && (o.def.from === node || o.def.to === node) && streamFraction(map, oid) > minShare);
+  return touches(t.def.from) && touches(t.def.to);
+}
+
 /** 1970-01-01 からの日数（Howard Hinnant の days_from_civil） */
 function daysFromCivil(y0: number, m: number, d: number): number {
   const y = m <= 2 ? y0 - 1 : y0;
@@ -206,13 +219,17 @@ export function stepPassersby(world: World, ctx: StaticContext, dtMin: number): 
   if (world.tick % pt.checkEveryTicks !== 0) return;
   if (clock < parseHHMM(pt.from) || clock > parseHHMM(pt.to)) return;
   const stepMin = dtMin * pt.checkEveryTicks;
+  // 同じ所にいる何人もの人のそばを通るのは、1 組の登山者が 1 回通ることなので、サイコロは場所ごとに 1 回（人数分振らない）
+  const rolled: { x: number; z: number }[] = [];
   for (const c of world.climbers) {
     if (TERMINAL.has(c.state) || !DISTRESS.has(c.state)) continue;
+    if (rolled.some((q) => (q.x - c.x) * (q.x - c.x) + (q.z - c.z) * (q.z - c.z) < pt.sameSpotM * pt.sameSpotM)) continue;
     const near = nearestTrail(ctx, c);
     if (!near || near.d > reachM(ctx, c)) continue;
+    rolled.push({ x: c.x, z: c.z });
     const cls = ctx.map.trails[near.id]!.def.class;
-    // 沢床を通る道（沢登りのルート）は、一般の登山道より人が少ない
-    const base = streamFraction(ctx.map, near.id) > pt.streamShareMin ? pt.streamPerHour : (pt.busyPerHour[cls] ?? pt.busyPerHour['T2'] ?? 1);
+    // 沢登りのルートは、一般の登山道より人が少ない
+    const base = isStreamRoute(ctx.map, near.id, pt.streamShareMin) ? pt.streamPerHour : (pt.busyPerHour[cls] ?? pt.busyPerHour['T2'] ?? 1);
     const perH = base * crowdF(world, ctx, c, true);
     if (!chance(world.rng.rescue, Math.min(1, (perH * stepMin) / 60) * pt.noticeP)) continue;
     reported(world, ctx, c);
