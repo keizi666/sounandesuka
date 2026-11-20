@@ -714,8 +714,12 @@ export interface RescueState {
   searchRadiusM: number;
   /** 届け出た人（reportMissing の by） */
   reportedBy?: string;
-  /** 居場所の分からない人を、ヘリが実際に探した時間（分）。見つかる率はこれで決まる（古い保存にはない） */
+  /** 居場所の分からない人を、ヘリか地上隊が実際に探した時間（分）。見つかる率はこれで決まる（古い保存にはない） */
   heliBlindMin?: number;
+  /** 居場所の分からない人を探した時間を最後に足したティック（ヘリと地上隊が同じティックに探しても 1 回だけ数える） */
+  blindTick?: number;
+  /** 居場所の分からない人を見つけたとき、それまでの捜索で見つかる見込みだった率（ログに書く。書いたら消す） */
+  blindOdds?: number;
   /** まだ向かっていない通報（別々の場所から通報があったとき。向かう先は locationEstimate）。古い保存にはない */
   reports?: RescueReport[];
 }

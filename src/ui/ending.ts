@@ -15,6 +15,7 @@ import { hpLevel, hpOf } from './hp';
 import { icon, type IconName } from './icons';
 import { ringGauge } from './logDetail';
 import { optionLabel, type SimResult } from './simScreen';
+import type { LogLine } from './simHud';
 import { audio } from './audio';
 import { endingMusic } from './simAudio';
 import { openDebriefPanel } from './debrief';
@@ -56,6 +57,19 @@ function memberCard(c: ClimberState, outcome: string, minCoreC: number): HTMLEle
       ]),
     ]),
   ]);
+}
+
+/** 結果の画面のログ（たたんでおき、開いたら並べる） */
+function logCard(lines: readonly LogLine[]): HTMLElement {
+  const list = el('ol', { class: 'en-log' });
+  const det = el('details', { class: 'bf-card en-log-card' }, [el('summary', {}, [el('h2', {}, [icon('listAlt'), fill(JA.ui.endingLog, { n: lines.length })])]), list]);
+  det.addEventListener('toggle', () => {
+    if (!det.open || list.childElementCount > 0) return;
+    list.replaceChildren(
+      ...lines.map((l) => el('li', { class: l.important ? 'imp' : '' }, [el('time', {}, formatClock(l.tMin)), el('span', {}, l.text)])),
+    );
+  });
+  return det;
 }
 
 export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimResult): () => void {
@@ -114,6 +128,8 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
         // みんなの遭難記録に載せる（docs/20_community.md）
         communityPostCard(app, loaded, result, { kind: e.kind, title: endTitle }),
         shareCard,
+        // ログ（ユーザーの指定: 結果の画面でも見られる）。長いので、開いたときに並べる
+        result.log && result.log.length > 0 ? logCard(result.log) : null,
         el('div', { class: 'bf-notes' }, [
           el('p', { class: 'note' }, JA.disclaimer.endingNote),
           s.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,

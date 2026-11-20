@@ -129,7 +129,7 @@ export function openLogDetail(d: LogDetailInput): void {
   const pop = el('div', { class: 'log-pop', role: 'dialog', 'aria-label': D.title }, [
     el('header', {}, [
       avatar(d.who, 56),
-      el('div', { class: 'pop-who' }, [el('strong', {}, `${d.who.name} ${d.who.age}`), el('small', {}, `${d.time} ・ ${JA.labels.state[s.state] ?? s.state} ・ ${s.elevM.toLocaleString()} m`)]),
+      el('div', { class: 'pop-who' }, [el('strong', {}, `${d.who.name} ${d.who.age}歳`), el('small', {}, `${d.time} ・ ${JA.labels.state[s.state] ?? s.state} ・ ${s.elevM.toLocaleString()} m`)]),
       close,
     ]),
     d.text ? el('p', { class: 'pop-text' }, d.text) : null,

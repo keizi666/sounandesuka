@@ -965,3 +965,36 @@ div.choice .rec-badge svg { width: 1em; height: 1em; fill: currentColor; }
 .sel-favonly { display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 3px 12px; border-radius: 999px; font-size: 0.85rem; }
 .sel-favonly svg { width: 18px; height: 18px; fill: currentColor; }
 .sel-favonly.on { color: #fb7185; border-color: rgba(251, 113, 133, 0.7); background: rgba(251, 113, 133, 0.12); }
+
+/* ---- 結果の画面のログ（たたんでおき、開いたら並べる） ---- */
+.en-log-card > summary { list-style: none; cursor: pointer; }
+.en-log-card > summary::-webkit-details-marker { display: none; }
+.en-log-card > summary h2 { display: flex; align-items: center; gap: 8px; margin: 0; }
+.en-log-card > summary h2::after { content: '▸'; margin-left: auto; opacity: 0.6; transition: transform 0.15s; }
+.en-log-card[open] > summary h2::after { transform: rotate(90deg); }
+.en-log { list-style: none; margin: 12px 0 0; padding: 0; max-height: 60vh; overflow: auto; display: grid; gap: 2px; font-size: 0.86rem; }
+.en-log li { display: grid; grid-template-columns: 3.4em 1fr; gap: 8px; padding: 4px 6px; border-radius: 6px; }
+.en-log li:nth-child(odd) { background: rgba(255, 255, 255, 0.03); }
+.en-log li.imp { font-weight: 600; }
+.en-log time { font-variant-numeric: tabular-nums; opacity: 0.65; }
+
+/* メンバーの状態の推移: 名前の下に一人ひとりの結果。亡くなった人は顔を灰色に（ユーザーの指定） */
+.mc-result { display: inline-block; margin: 2px 0; padding: 1px 8px; border-radius: 999px; font-size: 0.74rem; font-weight: 700; line-height: 1.5; background: rgba(255, 255, 255, 0.08); }
+.mc-result.good { color: #4ade80; background: rgba(74, 222, 128, 0.12); }
+.mc-result.rescued { color: #fbbf24; background: rgba(251, 191, 36, 0.12); }
+.mc-result.bad { color: #fb923c; background: rgba(251, 146, 60, 0.12); }
+.mc-result.dead { color: #c3c8d0; background: rgba(163, 171, 184, 0.16); }
+.mc-row.dead .mc-face { filter: grayscale(1) brightness(0.8); }
+.mc-row.dead .mc-who strong { color: #a3abb8; }
+
+/* ---- シナリオが終わったときの確認（結末を見せてから結果の画面へ） ---- */
+.end-confirm { width: min(520px, calc(100vw - 32px)); padding: 22px 24px 20px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 16px; background: #1b1e24; color: #e9ecf1; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6); --tone: #4ade80; border-top: 4px solid var(--tone); }
+.end-confirm.tone-mid { --tone: #fbbf24; }
+.end-confirm.tone-bad { --tone: #a3abb8; }
+.end-confirm::backdrop { background: rgba(6, 8, 12, 0.45); }
+.ec-kicker { display: flex; justify-content: space-between; gap: 12px; margin: 0 0 4px; font-size: 0.82rem; opacity: 0.7; }
+.end-confirm h2 { margin: 0 0 8px; font-size: 1.7rem; letter-spacing: 0.06em; color: var(--tone); }
+.ec-text { margin: 0 0 18px; line-height: 1.7; }
+.ec-actions { display: flex; justify-content: flex-end; }
+.ec-actions button { display: inline-flex; align-items: center; gap: 4px; }
+.ec-actions svg { width: 20px; height: 20px; fill: currentColor; }

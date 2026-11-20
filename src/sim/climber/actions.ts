@@ -117,6 +117,9 @@ export function callRescue(world: World, ctx: StaticContext, c: ClimberState, vi
       }
     }
     ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALLED', climberId: c.id, important: true, data: { via: usedVia } });
+    // 救助隊が位置を知れたか（ユーザーの指定: ログに書く）。queued: もう別の場所へ向かっているので、覚えておいて後で向かう
+    const queued = stored !== null && stored !== (r.locationEstimate as RescueReport | null);
+    ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { rescueLoc: queued ? 'queued' : 'known', radiusM: stored?.radiusM ?? 0 } });
     return stored;
   }
   ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALL_FAILED', climberId: c.id, important: true, data: { radio } });

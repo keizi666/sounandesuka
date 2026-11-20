@@ -157,7 +157,10 @@ export function arriveAt(world: World, ctx: StaticContext, c: ClimberState, node
       // 仲間の急病やけがを知らせに来たのなら、伝える場所はその仲間のいる所（スマホの地図で分かる）
       if (rep) {
         const patient = world.climbers.find((o) => o !== c && o.body.alive && (o.body.illness?.active === true || o.body.injury !== 'none'));
-        if (patient) Object.assign(rep, { x: patient.x, z: patient.z, radiusM: c.inv.phone.gpsApp ? 100 : 500 });
+        if (patient) {
+          Object.assign(rep, { x: patient.x, z: patient.z, radiusM: c.inv.phone.gpsApp ? 100 : 500 });
+          ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: patient.id, important: true, data: { rescueLoc: 'relayed', radiusM: rep.radiusM, by: c.def.name } });
+        }
       }
       transition(world, ctx, c, world.rescue.status === 'dispatched' ? 'WAITING_RESCUE' : 'STAYING', 'signalSought');
       return true;

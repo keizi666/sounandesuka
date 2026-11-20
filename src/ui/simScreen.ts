@@ -42,6 +42,12 @@ import { createTimeTravel } from './simTimeTravel';
 import { createKeyHandler } from './simKeys';
 import { createFrameExtras } from './simFrame';
 import { createSimCapture } from './simCapture';
+import { openEndConfirm } from './endConfirm';
+
+/** 遊ぶたびの乱数の種（UI 層なので Math.random を使ってよい。sim の中では使わない） */
+function freshSeed(): number {
+  return Math.floor(Math.random() * 0xffffffff) >>> 0;
+}
 import { countPlay } from '../app/playStats';
 import { resolveEnding } from '../sim/scenario/endings';
 import { recVars } from '../sim/record/recorder';
@@ -65,7 +71,11 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (replay) observe = replay.mode === 'o';
   const timed = replay ? replay.mode === 't' : !observe && st.timed;
   const playMode: PlayMode = observe ? 'o' : timed ? 't' : 'i';
-  const world = resume ? resume.world : createWorld(map, scenario, replay?.seed ?? scenario.seed);
+  // 乱数の種: 遊ぶたびに違う種（ユーザーの指定: 確率の絡むことは毎回違う結果に）。場面の URL・記録から始めるときはその回の種、
+  // 途中からの再開は保存した世界の種のまま。史実のシナリオだけは、記録どおりに選べば記録どおりになるよう、シナリオの種（DECISIONS.md）
+  // 種のない場面の URL（この変更の前に作ったもの）は、シナリオの種で作り直す
+  const seed = replay ? (replay.seed ?? scenario.seed) : scenario.historical ? scenario.seed : freshSeed();
+  const world = resume ? resume.world : createWorld(map, scenario, seed);
   const ctx = createStaticContext(map, scenario, { mode: timed ? 'timed' : 'interactive' });
   const recorder = resume?.recorder ?? createRecorder(world);
   const snapshots: SimResult['choiceSnapshots'] = resume?.choiceSnapshots ?? {};
@@ -335,6 +345,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   }
 
   let ended = false;
+  let closeEndConfirm: (() => void) | null = null;
   function onEnded(): void {
     if (ended) return;
     ended = true;
@@ -357,7 +368,18 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       conditions: !!loaded.conditions,
     });
     countPlay(scenario.id);
-    window.setTimeout(() => app.go({ name: 'ending', loaded, result: { world, recorder, choiceSnapshots: snapshots, runId, parentRunId } }), 1500);
+    // 結末を確かめてから結果の画面へ（ユーザーの指定: いきなり飛ばない）。少し待って最後の場面を見せてから出す
+    const end = resolveEnding(world, ctx, recVars(recorder, world));
+    window.setTimeout(() => {
+      if (!simMain.isConnected) return;
+      closeEndConfirm = openEndConfirm({
+        kind: world.ended!.kind,
+        title: end?.title ?? JA.endings[world.ended!.kind]?.title ?? world.ended!.kind,
+        text: end?.text ?? JA.endings[world.ended!.kind]?.text ?? '',
+        time: formatDateTime(scenario, world.tMin),
+        onGo: () => app.go({ name: 'ending', loaded, result: { world, recorder, choiceSnapshots: snapshots, runId, parentRunId, log: hud.allLines() } }),
+      });
+    }, 1200);
   }
 
   // ---- ループ ----
@@ -529,6 +551,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     bubbles.dispose();
     sound.dispose();
     figIcons.dispose();
+    closeEndConfirm?.();
     simCap.dispose();
     closeLogDetail();
     tlBar.dispose();

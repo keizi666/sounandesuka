@@ -99,7 +99,10 @@ function arrivedSignal(world: World, ctx: StaticContext, c: ClimberState): void 
     const key = Object.keys(world.latches).find((k) => k.startsWith(`return:${c.id}:`) && world.latches[k]);
     const gid = key?.split(':')[2];
     const mate = gid ? world.climbers.find((o) => o.groupId === gid && o.body.alive) : undefined;
-    if (mate) Object.assign(rep, { x: mate.x, z: mate.z, radiusM: c.inv.phone.gpsApp ? 100 : 500 });
+    if (mate) {
+      Object.assign(rep, { x: mate.x, z: mate.z, radiusM: c.inv.phone.gpsApp ? 100 : 500 });
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: mate.id, important: true, data: { rescueLoc: 'relayed', radiusM: rep.radiusM, by: c.def.name } });
+    }
   }
   transition(world, ctx, c, world.rescue.status === 'dispatched' ? 'WAITING_RESCUE' : 'STAYING', 'signalSought');
   // 用事で離れた人は、電話を終えたらその場に座らず、歩いて仲間のところへ戻り始める

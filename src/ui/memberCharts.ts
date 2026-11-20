@@ -5,6 +5,7 @@
  * 値は記録の 5 分ごとの標本（RecordSample）から。けがと意識は標本にないので、HP は体温と消耗だけから求めた目安。
  */
 import { formatClock } from '../i18n/format';
+import { JA } from '../i18n/ja';
 import type { RunRecord, ScenarioDef } from '../sim/types';
 import { avatar } from './avatar';
 import { el } from './dom';
@@ -183,8 +184,18 @@ export function memberCharts(rec: RunRecord, s: ScenarioDef, o: MemberChartsOpti
     charts.push({ canvas, id, draw });
     draw(null);
     const last = rec.samples[rec.samples.length - 1]?.climbers.find((q) => q.id === id);
-    return el('div', { class: 'mc-row', style: `--c:${def?.color ?? '#888'}` }, [
-      el('div', { class: 'mc-who' }, [def ? avatar(def, 44) : null, el('strong', {}, def?.name ?? id), last ? el('small', {}, `最低体温 ${Math.min(...rec.samples.map((sm) => sm.climbers.find((q) => q.id === id)?.coreC ?? 37)).toFixed(1)}℃`) : null]),
+    // 一人ひとりの結果（ユーザーの指定: アイコンの下に。亡くなった人はアイコンを灰色に）
+    const pc = rec.ending?.perClimber.find((q) => q.id === id);
+    const dead = pc?.state === 'DEAD';
+    const result = pc ? (dead ? `${JA.ui.memberDead}${pc.cause ? `（${JA.labels.deathCause[pc.cause] ?? pc.cause}）` : ''}` : (JA.labels.state[pc.state] ?? pc.state)) : null;
+    const tone = !pc ? '' : dead ? 'dead' : pc.state === 'FINISHED' || pc.state === 'SHELTERED' ? 'good' : pc.state === 'RESCUED' ? 'rescued' : 'bad';
+    return el('div', { class: `mc-row${dead ? ' dead' : ''}`, style: `--c:${def?.color ?? '#888'}` }, [
+      el('div', { class: 'mc-who' }, [
+        def ? el('span', { class: 'mc-face' }, avatar(def, 44)) : null,
+        el('strong', {}, def?.name ?? id),
+        result ? el('span', { class: `mc-result ${tone}` }, result) : null,
+        last ? el('small', {}, `最低体温 ${Math.min(...rec.samples.map((sm) => sm.climbers.find((q) => q.id === id)?.coreC ?? 37)).toFixed(1)}℃`) : null,
+      ]),
       el('div', { class: 'mc-plot' }, [canvas, readout]),
     ]);
   });

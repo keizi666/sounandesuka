@@ -228,6 +228,26 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (d['anaphylaxisOnset']) return fill(L.anaphylaxisOnset, { who });
       if (d['epipen']) return fill(L.epipen, { who });
       if (d['chargeStart']) return fill(L.chargeStart, { who });
+      if (d['rescueLoc']) {
+        const r = Number(d['radiusM'] ?? 0);
+        const acc = r <= 60 ? L.locPrecise : fill(L.locRough, { m: r });
+        switch (d['rescueLoc']) {
+          case 'known':
+            return fill(L.rescueLocKnown, { who, acc });
+          case 'queued':
+            return fill(L.rescueLocQueued, { who, acc });
+          case 'relayed':
+            return fill(L.rescueLocRelayed, { who, by: s('by'), acc });
+          case 'unknown':
+            return L.rescueLocUnknown;
+          case 'restUnknown':
+            return L.rescueLocRestUnknown;
+          case 'foundAtReport':
+            return fill(L.rescueFoundAtReport, { who });
+          case 'foundBySearch':
+            return fill(d['oddsPct'] !== undefined ? L.rescueFoundBySearchOdds : L.rescueFoundBySearch, { who, m: String(d['distM'] ?? '?'), pct: String(d['oddsPct'] ?? '') });
+        }
+      }
       if (d['passerby']) return fill(L.passerby, { who });
       if (d['unimplementedAction'] || d['unimplementedEffect']) return fill(L.unimplemented, { what: s('unimplementedAction') || s('unimplementedEffect') });
       return null;

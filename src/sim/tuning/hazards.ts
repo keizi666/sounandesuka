@@ -262,7 +262,14 @@ export const rescue = {
   heliBlindDayMin: 600,
   heliBlindMaxP: 0.6,
   /** 計画の道からこれより離れた人は「居場所が分からない」（通報した場所があるときは、その範囲 + movedAwayM の外） */
-  heliBlindFromRouteM: 300,
+  /**
+   * 道を歩く捜索で気づける距離（探している道から。これより外れた人は「居場所が分からない」として日数の率でしか見つからない。ユーザーの指定）。
+   * 地上隊: 意識があれば声（笛があれば whistleExtraM）、意識がない・声を出せなければ目で見える所だけ。ヘリ: 開けた所と森の中
+   */
+  groundVoiceReachM: 40,
+  groundSilentReachM: 10,
+  heliOpenReachM: 40,
+  heliForestReachM: 10,
   /** ココヘリを持つ人をヘリが見つける率（1 時間あたり。受信機で電波をとらえる。居場所が分からなくても同じ） */
   cocoheliFindPerH: 3,
   heliFindForestPerH: 0.25,
@@ -287,7 +294,12 @@ export const rescue = {
   movedFindScaleM: 250,
   /** 地上隊が道から探す範囲の外でも、笛の音が届けば気づく距離（森の中） */
   whistleExtraM: 150,
-  deepDrainageF: 0.5,
+  /** 沢を下っている・沢床にいる人の見つけやすさ（谷の底で上からも横からも見えにくい。ユーザーの指定で 0.5 → 0.3） */
+  deepDrainageF: 0.3,
+  /** 居場所の分からない人を上空から探すとき、森の中にいる人の見つけやすさ */
+  blindForestF: 0.6,
+  /** 地上隊: 道から外れた人は、探している道からの距離でも見つけにくくなる（1 / (1 + 距離 / この長さ)） */
+  groundOffTrailScaleM: 400,
   /** 救助隊と接触した登山者の近くにいる仲間も一緒に収容する距離 */
   contactRadiusM: 300,
 };

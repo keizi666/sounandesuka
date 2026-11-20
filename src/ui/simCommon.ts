@@ -6,6 +6,7 @@ import { JA } from '../i18n/ja';
 import type { RecorderState } from '../sim/record/recorder';
 import type { World } from '../sim/types';
 import { el } from './dom';
+import type { LogLine } from './simHud';
 
 export interface SimResult {
   world: World;
@@ -13,6 +14,8 @@ export interface SimResult {
   choiceSnapshots: Record<string, { world: World; recorder: RecorderState }>;
   runId: string;
   parentRunId: string | null;
+  /** 画面のログ（結果の画面で見られるように。ユーザーの指定） */
+  log?: LogLine[];
 }
 
 /** 外部データ由来の内容には出典を出す（鉄則 9）。実在の山のシナリオでは注記も添える */

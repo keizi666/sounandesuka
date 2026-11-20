@@ -157,7 +157,7 @@ function notThere(world: World, ctx: StaticContext, by: 'heli' | 'ground'): void
 }
 
 /** 見つけやすさの倍率（合図できる・森林や沢の中） */
-function findFactor(ctx: StaticContext, c: ClimberState, base: 'heli' | 'ground', est: { x: number; z: number } | null = null): number {
+function findFactor(ctx: StaticContext, c: ClimberState, base: 'heli' | 'ground', est: { x: number; z: number } | null = null, route: readonly NodeId[] | null = null): number {
   const rt = ctx.tuning.rescue;
   const i = nearestIndex(ctx.map, c.x, c.z);
   let f = 1;
@@ -170,11 +170,22 @@ function findFactor(ctx: StaticContext, c: ClimberState, base: 'heli' | 'ground'
   if (c.body.conscious && (c.inv.headlamp.on || c.body.inBivy || c.def.gear.whistle)) f *= base === 'heli' ? rt.signalF : rt.groundVoiceF;
   else if (base === 'ground' && c.body.conscious) f *= rt.groundVoiceF;
   if (c.state === 'DESCENDING_DRAINAGE' || ctx.map.stream[i]) f *= rt.deepDrainageF;
+  // 地上隊: 道から外れた人は、探している道から離れているほど見つけにくい（ユーザーの指定）
+  if (base === 'ground' && c.pos.mode === 'free' && route) f /= 1 + distToPlannedRoute(ctx, c.x, c.z, route) / rt.groundOffTrailScaleM;
   return f;
 }
 
 function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'heli' | 'ground'): void {
   const rt = ctx.tuning.rescue;
+  // 通報の場所で見つけたか、居場所が分からないまま探して見つけたか（ユーザーの指定: ログに書く）
+  const est0 = world.rescue.locationEstimate;
+  const atReport = est0 !== null && (found.x - est0.x) * (found.x - est0.x) + (found.z - est0.z) * (found.z - est0.z) <= (est0.radiusM + rt.movedAwayM) * (est0.radiusM + rt.movedAwayM);
+  // 探して見つけたときは、探していた道からの距離も書く（あとで確かめられるように）
+  const lead0 = est0 ? undefined : activeLead(world, ctx);
+  const distM = atReport ? 0 : Math.round(distToPlannedRoute(ctx, found.x, found.z, lead0?.route ?? ctx.scenario.plan.route));
+  const odds = world.rescue.blindOdds;
+  delete world.rescue.blindOdds;
+  if (!safeInHut(found)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, important: true, data: { rescueLoc: atReport ? 'foundAtReport' : 'foundBySearch', by, distM, ...(odds !== undefined ? { oddsPct: Math.round(odds * 1000) / 10 } : {}) } });
   for (const c of world.climbers) {
     if (TERMINAL.has(c.state) || safeInHut(c)) continue;
     const dx = c.x - found.x;
@@ -216,6 +227,7 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
   }
   // 通報のない人がまだ山に残っていれば、居場所は分からないので探す（収容した人の話から、本当の位置へまっすぐ向かうことはしない）
   if (missing(world, ctx).some((c) => !safeInHut(c))) {
+    ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', important: true, data: { rescueLoc: 'restUnknown' } });
     r.status = 'searching';
     r.locationEstimate = null;
     r.searchRadiusM = rt.searchStartM;
@@ -271,8 +283,9 @@ function search(world: World, ctx: StaticContext, perH: number, by: 'heli' | 'gr
   if (by === 'heli') {
     const beacon = cocoheliFind(world, ctx, people, dtMin);
     if (beacon) return beacon;
-    for (const c of people) if (c.def.gear.cocoheli !== true && whereaboutsUnknown(ctx, c, est, lead?.route)) blind.push(c);
   }
+  // 居場所の分からない人（道を外れた人）は、ヘリでも地上隊でも、探した時間で決まる低い率でしか見つからない（ユーザーの指定）
+  for (const c of people) if (!(by === 'heli' && c.def.gear.cocoheli === true) && whereaboutsUnknown(ctx, c, est, lead?.route, by)) blind.push(c);
   for (const c of people) {
     if (blind.includes(c)) continue;
     // 捜索範囲の中にいるか
@@ -285,7 +298,7 @@ function search(world: World, ctx: StaticContext, perH: number, by: 'heli' | 'gr
       const extra = by === 'ground' && c.body.conscious && c.def.gear.whistle ? ctx.tuning.rescue.whistleExtraM : 0;
       if (distToPlannedRoute(ctx, c.x, c.z, lead.route) > Math.min(r.searchRadiusM, lead.maxRadiusM ?? Infinity) + extra) continue;
     } else if (distToPlannedRoute(ctx, c.x, c.z) > r.searchRadiusM) continue;
-    const pTick = (perH * findFactor(ctx, c, by, est) * (lead?.findF ?? 1) * dtMin) / 60;
+    const pTick = (perH * findFactor(ctx, c, by, est, est ? null : (lead?.route ?? ctx.scenario.plan.route)) * (lead?.findF ?? 1) * dtMin) / 60;
     if (chance(world.rng.rescue, Math.min(1, pTick))) return c;
   }
   return blindHeliFind(world, ctx, blind, dtMin);
@@ -348,6 +361,8 @@ export function stepRescue(world: World, ctx: StaticContext, dtMin: number): voi
     // 届け出た人と、予定の時刻を過ぎたからか（それより前の相談か）
     const scheduled = due !== null && world.tMin >= parseTimeRef(due) && world.flags['reportedMissing'] === undefined;
     ctx.events.push({ tMin: world.tMin, type: 'RESCUE_CALLED', important: true, data: { via: 'overdue', by: r.reportedBy ?? '', scheduled } });
+    // 届け出には位置がない: 救助隊は居場所を知らない（ユーザーの指定: ログに書く）
+    ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', important: true, data: { rescueLoc: 'unknown' } });
     // 行き先の手がかりが何もなければ、届け出は受けても捜索隊は出せない（手がかりが分かった時点で出る）
     if (activeLead(world, ctx) === null) {
       ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', important: true, data: { noLead: true } });

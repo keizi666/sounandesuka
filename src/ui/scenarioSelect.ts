@@ -171,7 +171,7 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
     people.replaceChildren(
       ...shown.map((p) => el('span', { class: 'sel-face', title: `${p.name}（${p.age}歳${p.role ? `・${p.role}` : ''}）` }, avatar(p, 40))),
       ...more,
-      el('span', { class: 'sel-names' }, s.party.length <= 4 ? s.party.map((p) => `${p.name} ${p.age}`).join('・') : `${s.party[0]!.name} ほか ${s.party.length - 1} 人`),
+      el('span', { class: 'sel-names' }, s.party.length <= 4 ? s.party.map((p) => `${p.name} ${p.age}歳`).join('・') : `${s.party[0]!.name} ほか ${s.party.length - 1} 人`),
     );
   });
   // 実地形のバンドルがまだ作られていなければ、選べないことを示す

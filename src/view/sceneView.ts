@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { DEG } from '../sim/core/dmath';
+import { hutHere } from '../sim/climber/situation';
 import type { MapRuntime, ScenarioDef, World } from '../sim/types';
 import { createFigure, type Figure } from './climberFigure';
 import { makeScale, toSceneY, UNIT, type ViewScale } from './scale';
@@ -514,8 +515,9 @@ export class SceneView {
       // 進行方向（北=0、時計回り）→ three の回転
       fig.root.rotation.y = Math.PI - c.headingRad;
       // 登山者の視点では、道迷い中の人形を推定位置に置く（真の位置は描かない）
-      // 地図の外（駅など）へ移った人は描かない
-      fig.root.visible = !c.offMap && (this.godView || !c.perception.awareLost);
+      // 地図の外（駅など）へ移った人は描かない。小屋・茶屋の中（泊まる・休む）にいる人も描かない（ユーザーの指定: 複数人で休むときは全員いったん中へ）
+      const inside = c.body.alive && ((c.state === 'SHELTERED' && c.body.shelterNodeId !== null) || (c.state === 'RESTING' && hutHere(this.map, c)));
+      fig.root.visible = !c.offMap && !inside && (this.godView || !c.perception.awareLost);
       fig.update(c, timeSec, this.selected === c.id);
       this.updateLocator(c.id, fig, timeSec, c.body.alive, k === 0);
       // 亡くなった瞬間（前のフレームでは生きていた）に、半透明の姿が昇っていく。読み込み・巻き戻しで最初から亡くなっていれば出さない
