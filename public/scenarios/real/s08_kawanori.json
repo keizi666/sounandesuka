@@ -129,19 +129,147 @@
     {
       "id": "ev_leaf_slip",
       "trigger": {
-        "all": [
-          { "any": [{ "state": "OFFROUTE_UNAWARE" }, { "state": "DESCENDING_DRAINAGE" }] },
-          { "any": [{ "near": { "x": 340, "z": -1700, "r": 150 } }, { "near": { "x": 380, "z": -1870, "r": 150 } }] },
-          { "var": "leader.elevM", "op": ">", "value": 700 },
-          { "var": "leader.elevM", "op": "<", "value": 800 }
+        "any": [
+          {
+            "all": [
+              {
+                "any": [
+                  {
+                    "state": "OFFROUTE_UNAWARE"
+                  },
+                  {
+                    "state": "DESCENDING_DRAINAGE"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "near": {
+                      "x": 340,
+                      "z": -1700,
+                      "r": 150
+                    }
+                  },
+                  {
+                    "near": {
+                      "x": 380,
+                      "z": -1870,
+                      "r": 150
+                    }
+                  }
+                ]
+              },
+              {
+                "var": "leader.elevM",
+                "op": ">",
+                "value": 700
+              },
+              {
+                "var": "leader.elevM",
+                "op": "<",
+                "value": 800
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "state": "DESCENDING_DRAINAGE"
+              },
+              {
+                "var": "leader.elevM",
+                "op": ">",
+                "value": 500
+              },
+              {
+                "var": "leader.elevM",
+                "op": "<",
+                "value": 850
+              }
+            ]
+          }
         ]
       },
       "once": true,
       "effects": [
-        { "type": "setFlag", "flag": "leafSlip" },
-        { "type": "say", "who": "leader", "text": "うわっ……！", "tone": "shout" },
-        { "type": "log", "text": "落ち葉の急斜面で足を取られ、{leader.name}さんは沢床の近くまで 20 m ほど滑り落ちた", "important": true },
-        { "type": "injure", "who": "leader", "injury": "bruise" }
+        {
+          "type": "setFlag",
+          "flag": "leafSlip"
+        },
+        {
+          "type": "say",
+          "who": "leader",
+          "text": "うわっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "log",
+          "text": "落ち葉の急斜面で足を取られ、{leader.name}さんは沢床の近くまで 20 m ほど滑り落ちた",
+          "important": true
+        },
+        {
+          "type": "injure",
+          "who": "leader",
+          "injury": "bruise"
+        }
+      ]
+    },
+    {
+      "id": "ev_stream_fall",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "state": "DESCENDING_DRAINAGE"
+          },
+          {
+            "var": "leader.elevM",
+            "op": "<",
+            "value": 730
+          },
+          {
+            "var": "leader.elevM",
+            "op": ">",
+            "value": 650
+          },
+          {
+            "not": {
+              "flag": "reachedRindo"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "streamFall"
+        },
+        {
+          "type": "say",
+          "who": "leader",
+          "text": "あっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "log",
+          "text": "沢の段差（小さな滝）で、濡れた岩に足を取られた。{leader.name}さんは 3 m ほど下の岩の上に落ち、足首から嫌な音がした",
+          "important": true
+        },
+        {
+          "type": "injure",
+          "who": "leader",
+          "injury": "legFracture"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "soak",
+              "level": "waist"
+            }
+          ]
+        }
       ]
     },
     {
@@ -862,7 +990,7 @@
     },
     { "id": "l_solo", "when": { "var": "leader.injury", "op": "!=", "value": "none" }, "title": "単独では、小さなけがやミスが重くなる", "text": "単独で動けなくなると、知らせる人も助けを呼びに行く人もいない。分かれ目では必ず止まり、少しでもおかしいと思ったら戻る。" }
   ],
-  "balanceTargets": { "recommended": { "goodMin": 0.97, "fatalMax": 0.01 }, "bias": { "goodMin": 0.9, "goodMax": 0.99, "fatalMax": 0.04, "lostMin": 0.15, "lostMax": 0.6 }, "risky": { "fatalMin": 0.04, "badMin": 0.06 } },
+  "balanceTargets": { "recommended": { "goodMin": 0.97, "fatalMax": 0.01 }, "bias": { "goodMin": 0.85, "goodMax": 0.99, "fatalMax": 0.04, "lostMin": 0.15, "lostMax": 0.6 }, "risky": { "fatalMin": 0.04, "badMin": 0.06 } },
   "sources": [
     "原案: 松本圭司「架空遭難　60代単独男性、川苔山からの下山で道迷い後滑落」note（2024年3月28日） https://note.com/keizi666/n/nb9b7b6317e46",
     "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
