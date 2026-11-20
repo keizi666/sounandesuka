@@ -11,6 +11,8 @@ export const behavior = {
   stragglerDistM: 100,
   /** tight のグループで、この距離より離れた仲間は自分で歩いて合流する */
   regroupDistM: 30,
+  /** この人数以上の列で歩けない人が出たら、付き添いを残して残りは先へ（大人数のパーティ。少人数は肩を貸すなど全員で動く） */
+  leaveBehindMinSize: 6,
   /** この人数以上の tight のグループでは、歩行中の食事・水分・重ね着・疲労休憩をリーダーの休憩に合わせる */
   groupSyncMinSize: 4,
   /** 強い雨の中で着替えたときの冷え（℃） */
@@ -65,6 +67,23 @@ export const behavior = {
   drinkGapMaxMin: 25,
   drinkGapMinMin: 8,
   drinkRestGapF: 0.6,
+  /**
+   * 残りを気にして控える（ユーザーの指定）: 残りが持ってきた量のこの割合を切ると、1 回の量にこの倍率を掛ける（[残りの割合, 倍率] の昇順）。
+   * 道に迷った・救助を待つ・ビバークのとき（いつ補えるか分からない）は、さらに rationUnsureF を掛ける
+   */
+  rationWaterF: [
+    [0.1, 0.4],
+    [0.25, 0.55],
+    [0.5, 0.8],
+    [0.6, 1],
+  ],
+  rationFoodF: [
+    [0.1, 0.35],
+    [0.25, 0.5],
+    [0.5, 0.75],
+    [0.6, 1],
+  ],
+  rationUnsureF: 0.75,
   /** 決まった間隔で休む習慣（50 分歩いて 10 分。P2 のコースタイム検証と同じ前提） */
   habitRestEveryMin: 50,
   habitRestMin: 10,

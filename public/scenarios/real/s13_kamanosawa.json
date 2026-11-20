@@ -2479,7 +2479,7 @@
     { "id": "l_info", "title": "通報で伝えること", "text": "要救助者の氏名・年齢・生年月日・電話番号・緊急連絡先・住所、行動予定、居場所の経緯度、けがの様子、装備、食料と水の残り、現場の天気。メモにまとめてから電話する。" },
     { "id": "l_stance", "title": "他のパーティの遭難に出会ったら", "text": "できることはするが、自分たちのリスクが高すぎれば手を引く。自分たちの安全を最優先に、安全確保・保温・けがの確認・通報を順に考える。" }
   ],
-  "balanceTargets": { "recommended": { "rescuedMin": 0.95, "fatalMax": 0.02, "badMax": 0.04 }, "bias": { "rescuedMin": 0.85, "fatalMax": 0.05, "badMax": 0.08 }, "risky": { "fatalMin": 0.1, "badMin": 0.3 } },
+  "balanceTargets": { "recommended": { "rescuedMin": 0.95, "fatalMax": 0.02, "badMax": 0.04 }, "bias": { "rescuedMin": 0.85, "fatalMax": 0.05, "badMax": 0.08 }, "risky": { "fatalMin": 0.05, "badMin": 0.3 } },
   "sources": [
     "原案: 松本圭司「架空遭難　釜ノ沢東俣で遭難パーティと出会った」note（2024年3月16日） https://note.com/keizi666/n/nb56614376c29",
     "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",

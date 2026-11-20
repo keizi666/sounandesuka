@@ -80,12 +80,17 @@ export function showChoice(
       opts.onPick(id);
     }, 1000);
   };
+  // 史実のシナリオ: 実際の遭難で選ばれた選択（ユーザーの指定）。その選択肢に印を付け、上にも一行で出す
+  const recorded = ctx.scenario.historical?.recordedChoices[pending.cpId];
+  const recordedOpt = recorded ? found.cp.options.find((o) => o.id === recorded) : undefined;
   const options = found.cp.options
-    .filter((o) => avail.has(o.id) || !o.hideIfUnavailable)
+    .filter((o) => avail.has(o.id) || !o.hideIfUnavailable || o.id === recorded)
     .map((o) => {
       const ok = avail.has(o.id);
-      const b = el('button', { class: 'option', disabled: !ok, onclick: () => pick(o.id, b) }, [
+      const isRec = o.id === recorded;
+      const b = el('button', { class: `option${isRec ? ' recorded' : ''}`, disabled: !ok, onclick: () => pick(o.id, b) }, [
         el('span', { class: 'opt-text' }, [
+          isRec ? el('span', { class: 'rec-badge' }, [icon('history'), JA.ui.recordedBadge]) : null,
           el('strong', {}, t.label(o.id, o.label)),
           o.detail ? el('span', {}, expand(o.detail)) : null,
           !ok ? el('small', {}, o.unavailableText ?? '今は選べない') : null,
@@ -104,6 +109,7 @@ export function showChoice(
     found.cp.knowledge?.length
       ? el('div', { class: 'knowledge' }, [el('h3', {}, fill(JA.ui.knowledge, { name: deciderOf(world, leader).def.name })), el('ul', {}, found.cp.knowledge.map((k) => el('li', {}, expand(k))))])
       : null,
+    recordedOpt ? el('p', { class: 'recorded-line' }, [icon('history'), fill(JA.ui.recordedLine, { label: t.label(recordedOpt.id, recordedOpt.label) })]) : null,
     el('p', { class: 'options-head' }, JA.ui.chooseAction),
     el('div', { class: 'options' }, options),
     opts.timeoutSec !== null ? timer : null,

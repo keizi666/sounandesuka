@@ -13,6 +13,20 @@ import { hutHere as hutHereAt, restSpot } from './situation';
 
 const hutHere = (ctx: StaticContext, c: ClimberState): boolean => hutHereAt(ctx.map, c);
 
+const UNSURE = new Set(['LOST_AWARE', 'OFFROUTE_UNAWARE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL', 'DESCENDING_DRAINAGE', 'WAITING_RESCUE', 'BIVOUAC', 'STAYING', 'INCAPACITATED']);
+
+/**
+ * 残りを気にして控える倍率（0〜1）。持ってきた量に対する残りの割合で決める。道に迷った・救助を待つ・ビバークのときは、さらに控える
+ */
+export function rationF(c: ClimberState, tuning: Tuning, what: 'water' | 'food'): number {
+  const bt = tuning.behavior;
+  const cap = what === 'water' ? c.def.gear.waterL : c.def.gear.foodKcal;
+  if (!(cap > 0)) return 1;
+  const left = (what === 'water' ? c.inv.waterL : c.inv.foodKcal) / cap;
+  const f = piecewise(what === 'water' ? bt.rationWaterF : bt.rationFoodF, left);
+  return f * (f < 1 && UNSURE.has(c.state) ? bt.rationUnsureF : 1);
+}
+
 /**
  * 喉の渇きの強さ（0〜1）。渇きを感じていなければ null。
  * 感じる不足 = 体の水分不足 × 寒さ（寒いと感じにくい）× 暑さ（汗で口が渇く）× 年齢（高齢では感じにくい）
@@ -130,7 +144,9 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
       const p = habitDue ? bt.eatHabitP : J < bt.eatForgetBelowJ ? bt.eatForgetP : bt.eatLowP * J;
       if (chance(rng, p)) {
         c.memo.lastEatMin = world.tMin;
-        return startTask(world, c, `eat:${Math.min(bt.eatKcal, c.inv.foodKcal)}`, taskMinutes(c, bt.eatMin, ctx));
+        // 残りが少なければ、1 回に食べる量を控える（ユーザーの指定）
+        const kcal = Math.round(bt.eatKcal * rationF(c, ctx.tuning, 'food'));
+        return startTask(world, c, `eat:${Math.min(kcal, c.inv.foodKcal)}`, taskMinutes(c, bt.eatMin, ctx));
       }
     }
   }
@@ -141,7 +157,8 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
     const gapOk = c.memo.lastDrinkMin === null || world.tMin - c.memo.lastDrinkMin >= gap;
     if (gapOk && chance(rng, bt.drinkP * J)) {
       c.memo.lastDrinkMin = world.tMin;
-      const want = Math.round((bt.drinkSipL + (bt.drinkMaxL - bt.drinkSipL) * thirst) * 100) / 100;
+      // 残りが少なければ、ひと口を小さくする（ユーザーの指定）
+      const want = Math.max(0.03, Math.round((bt.drinkSipL + (bt.drinkMaxL - bt.drinkSipL) * thirst) * rationF(c, ctx.tuning, 'water') * 100) / 100);
       return startTask(world, c, `drink:${Math.min(want, c.inv.waterL, b.waterDeficitL)}`, bt.drinkMin);
     }
   }

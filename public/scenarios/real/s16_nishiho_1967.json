@@ -8,7 +8,7 @@
  "season": "summer",
  "estMinutes": 20,
  "mapId": "nishiho",
- "seed": 19670801,
+ "seed": 3384511004,
  "startDate": "1967-08-01",
  "startAt": "D0 06:55",
  "timeLimit": "D1 06:30",
@@ -22,7 +22,7 @@
   "real": true
  },
  "briefing": {
-  "text": "1967年8月1日。松本の高校の2年生50人と引率の教員5人が、学校の恒例行事で西穂高岳を目指す。\n上高地から西穂山荘・独標を経て山頂を往復する。ロープウェイはまだない。\n朝は快晴。だが上空に冷たい空気が入り、午後は雷になりやすい。\n画面の20人は55人の代わり。教員 T1 が先頭で列を率いる。",
+  "text": "1967年8月1日。松本の高校の2年生50人と引率の教員5人が、学校の恒例行事で西穂高岳を目指す。\n上高地から西穂山荘・独標を経て山頂を往復する。ロープウェイはまだない。\n朝は快晴。だが上空に冷たい空気が入り、午後は雷になりやすい。\n教員 T1 が先頭で列を率いる。",
   "forecast": [
    {
     "label": "今日",
@@ -73,7 +73,7 @@
    "fitness": 1.1,
    "navSkill": 0.55,
    "riskTolerance": 0.6,
-   "color": "#b03a2e",
+   "color": "#8e2929",
    "leader": true,
    "habits": {
     "eatEveryMin": 150,
@@ -138,7 +138,7 @@
    "fitness": 1.1,
    "navSkill": 0.55,
    "riskTolerance": 0.5,
-   "color": "#1f618d",
+   "color": "#298e47",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -191,8 +191,200 @@
    "notes": "引率の教員。記号は井村（1967）の T1・T2 に合わせたが、同じ人物に当たるとは限らない"
   },
   {
-   "id": "SA",
-   "name": "生徒 A",
+   "id": "T3",
+   "name": "教員 T3",
+   "role": "引率の教員（列の中ほど）",
+   "age": 44,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 7,
+   "experience": 0.55,
+   "fitness": 1.1,
+   "navSkill": 0.55,
+   "riskTolerance": 0.5,
+   "color": "#64298e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ],
+   "notes": "引率の教員。記号は井村（1967）の T1・T2 に合わせたが、同じ人物に当たるとは限らない"
+  },
+  {
+   "id": "T4",
+   "name": "教員 T4",
+   "role": "引率の教員（列の中ほど）",
+   "age": 35,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 7,
+   "experience": 0.55,
+   "fitness": 1.1,
+   "navSkill": 0.55,
+   "riskTolerance": 0.5,
+   "color": "#8e8229",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ],
+   "notes": "引率の教員。記号は井村（1967）の T1・T2 に合わせたが、同じ人物に当たるとは限らない"
+  },
+  {
+   "id": "T5",
+   "name": "教員 T5",
+   "role": "引率の教員（列の後ろ）",
+   "age": 28,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 7,
+   "experience": 0.55,
+   "fitness": 1.1,
+   "navSkill": 0.55,
+   "riskTolerance": 0.5,
+   "color": "#297d8e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ],
+   "notes": "引率の教員。記号は井村（1967）の T1・T2 に合わせたが、同じ人物に当たるとは限らない"
+  },
+  {
+   "id": "S01",
+   "name": "生徒 1",
    "role": "2年生",
    "age": 16,
    "sex": "m",
@@ -202,7 +394,7 @@
    "fitness": 1.05,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#117a65",
+   "color": "#64298e",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -254,8 +446,8 @@
    ]
   },
   {
-   "id": "SB",
-   "name": "生徒 B",
+   "id": "S02",
+   "name": "生徒 2",
    "role": "2年生",
    "age": 17,
    "sex": "m",
@@ -265,7 +457,7 @@
    "fitness": 1.1,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#b9770e",
+   "color": "#8e8229",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -317,8 +509,8 @@
    ]
   },
   {
-   "id": "SC",
-   "name": "生徒 C",
+   "id": "S03",
+   "name": "生徒 3",
    "role": "2年生",
    "age": 17,
    "sex": "m",
@@ -328,7 +520,7 @@
    "fitness": 1.1500000000000001,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#6c3483",
+   "color": "#297d8e",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -380,18 +572,18 @@
    ]
   },
   {
-   "id": "SD",
-   "name": "生徒 D",
+   "id": "S04",
+   "name": "生徒 4",
    "role": "2年生",
    "age": 16,
-   "sex": "f",
-   "weightKg": 50,
+   "sex": "m",
+   "weightKg": 61,
    "packKg": 5,
    "experience": 0.25,
    "fitness": 1.05,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#2e4053",
+   "color": "#8e2960",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -443,8 +635,8 @@
    ]
   },
   {
-   "id": "SE",
-   "name": "生徒 E",
+   "id": "S05",
+   "name": "生徒 5",
    "role": "2年生",
    "age": 17,
    "sex": "m",
@@ -454,7 +646,7 @@
    "fitness": 1.1,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#a04000",
+   "color": "#428e29",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -506,8 +698,8 @@
    ]
   },
   {
-   "id": "SF",
-   "name": "生徒 F",
+   "id": "S06",
+   "name": "生徒 6",
    "role": "2年生",
    "age": 17,
    "sex": "m",
@@ -517,7 +709,7 @@
    "fitness": 1.1500000000000001,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#196f3d",
+   "color": "#2e298e",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -569,8 +761,764 @@
    ]
   },
   {
-   "id": "SG",
-   "name": "生徒 G",
+   "id": "S07",
+   "name": "生徒 7",
+   "role": "2年生",
+   "age": 16,
+   "sex": "f",
+   "weightKg": 50,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e4b29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S08",
+   "name": "生徒 8",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#298e69",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S09",
+   "name": "生徒 9",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#86298e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S10",
+   "name": "生徒 10",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#798e29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S11",
+   "name": "生徒 11",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#295c8e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S12",
+   "name": "生徒 12",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e293e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S13",
+   "name": "生徒 13",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#298e32",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S14",
+   "name": "生徒 14",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#4f298e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S15",
+   "name": "生徒 15",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e6d29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S16",
+   "name": "生徒 16",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#298e8a",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S17",
+   "name": "生徒 17",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e2975",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S18",
+   "name": "生徒 18",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#578e29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S19",
+   "name": "生徒 19",
    "role": "2年生",
    "age": 16,
    "sex": "m",
@@ -580,7 +1528,7 @@
    "fitness": 1.05,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#7b241c",
+   "color": "#293a8e",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -632,8 +1580,8 @@
    ]
   },
   {
-   "id": "SH",
-   "name": "生徒 H",
+   "id": "S20",
+   "name": "生徒 20",
    "role": "2年生",
    "age": 17,
    "sex": "m",
@@ -643,7 +1591,7 @@
    "fitness": 1.1,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#1a5276",
+   "color": "#8e3629",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -695,386 +1643,8 @@
    ]
   },
   {
-   "id": "SI",
-   "name": "生徒 I",
-   "role": "2年生",
-   "age": 17,
-   "sex": "m",
-   "weightKg": 58,
-   "packKg": 5,
-   "experience": 0.25,
-   "fitness": 1.1500000000000001,
-   "navSkill": 0.3,
-   "riskTolerance": 0.5,
-   "color": "#0e6655",
-   "habits": {
-    "eatEveryMin": 150,
-    "drinkEveryMin": 60,
-    "delaysRainwear": 0.4,
-    "gpsCheckEveryMin": null
-   },
-   "gear": {
-    "rainwear": "poncho",
-    "cloWorn": 0.55,
-    "cloPack": 0.3,
-    "gloves": "none",
-    "hat": true,
-    "bivy": "none",
-    "headlamp": {
-     "has": false,
-     "batteryH": 3,
-     "inPack": true,
-     "spareBatteryH": 0
-    },
-    "phone": {
-     "has": false,
-     "batteryPct": 0,
-     "gpsApp": false,
-     "trackRecording": false,
-     "satelliteSos": false
-    },
-    "map": false,
-    "compass": false,
-    "foodKcal": 900,
-    "waterL": 1,
-    "stove": false,
-    "crampons": false,
-    "helmet": false,
-    "trekkingPoles": false,
-    "whistle": false,
-    "tent": false,
-    "rescueSheet": false
-   },
-   "estimated": [
-    "weightKg",
-    "packKg",
-    "experience",
-    "fitness",
-    "navSkill",
-    "riskTolerance",
-    "gear",
-    "age",
-    "sex"
-   ]
-  },
-  {
-   "id": "SJ",
-   "name": "生徒 J",
-   "role": "2年生",
-   "age": 16,
-   "sex": "m",
-   "weightKg": 59,
-   "packKg": 5,
-   "experience": 0.25,
-   "fitness": 1.05,
-   "navSkill": 0.3,
-   "riskTolerance": 0.5,
-   "color": "#9a7d0a",
-   "habits": {
-    "eatEveryMin": 150,
-    "drinkEveryMin": 60,
-    "delaysRainwear": 0.4,
-    "gpsCheckEveryMin": null
-   },
-   "gear": {
-    "rainwear": "poncho",
-    "cloWorn": 0.55,
-    "cloPack": 0.3,
-    "gloves": "none",
-    "hat": true,
-    "bivy": "none",
-    "headlamp": {
-     "has": false,
-     "batteryH": 3,
-     "inPack": true,
-     "spareBatteryH": 0
-    },
-    "phone": {
-     "has": false,
-     "batteryPct": 0,
-     "gpsApp": false,
-     "trackRecording": false,
-     "satelliteSos": false
-    },
-    "map": false,
-    "compass": false,
-    "foodKcal": 900,
-    "waterL": 1,
-    "stove": false,
-    "crampons": false,
-    "helmet": false,
-    "trekkingPoles": false,
-    "whistle": false,
-    "tent": false,
-    "rescueSheet": false
-   },
-   "estimated": [
-    "weightKg",
-    "packKg",
-    "experience",
-    "fitness",
-    "navSkill",
-    "riskTolerance",
-    "gear",
-    "age",
-    "sex"
-   ]
-  },
-  {
-   "id": "SK",
-   "name": "生徒 K",
-   "role": "2年生",
-   "age": 17,
-   "sex": "f",
-   "weightKg": 50,
-   "packKg": 5,
-   "experience": 0.25,
-   "fitness": 1.1,
-   "navSkill": 0.3,
-   "riskTolerance": 0.5,
-   "color": "#5b2c6f",
-   "habits": {
-    "eatEveryMin": 150,
-    "drinkEveryMin": 60,
-    "delaysRainwear": 0.4,
-    "gpsCheckEveryMin": null
-   },
-   "gear": {
-    "rainwear": "poncho",
-    "cloWorn": 0.55,
-    "cloPack": 0.3,
-    "gloves": "none",
-    "hat": true,
-    "bivy": "none",
-    "headlamp": {
-     "has": false,
-     "batteryH": 3,
-     "inPack": true,
-     "spareBatteryH": 0
-    },
-    "phone": {
-     "has": false,
-     "batteryPct": 0,
-     "gpsApp": false,
-     "trackRecording": false,
-     "satelliteSos": false
-    },
-    "map": false,
-    "compass": false,
-    "foodKcal": 900,
-    "waterL": 1,
-    "stove": false,
-    "crampons": false,
-    "helmet": false,
-    "trekkingPoles": false,
-    "whistle": false,
-    "tent": false,
-    "rescueSheet": false
-   },
-   "estimated": [
-    "weightKg",
-    "packKg",
-    "experience",
-    "fitness",
-    "navSkill",
-    "riskTolerance",
-    "gear",
-    "age",
-    "sex"
-   ]
-  },
-  {
-   "id": "SL",
-   "name": "生徒 L",
-   "role": "2年生",
-   "age": 17,
-   "sex": "m",
-   "weightKg": 61,
-   "packKg": 5,
-   "experience": 0.25,
-   "fitness": 1.1500000000000001,
-   "navSkill": 0.3,
-   "riskTolerance": 0.5,
-   "color": "#424949",
-   "habits": {
-    "eatEveryMin": 150,
-    "drinkEveryMin": 60,
-    "delaysRainwear": 0.4,
-    "gpsCheckEveryMin": null
-   },
-   "gear": {
-    "rainwear": "poncho",
-    "cloWorn": 0.55,
-    "cloPack": 0.3,
-    "gloves": "none",
-    "hat": true,
-    "bivy": "none",
-    "headlamp": {
-     "has": false,
-     "batteryH": 3,
-     "inPack": true,
-     "spareBatteryH": 0
-    },
-    "phone": {
-     "has": false,
-     "batteryPct": 0,
-     "gpsApp": false,
-     "trackRecording": false,
-     "satelliteSos": false
-    },
-    "map": false,
-    "compass": false,
-    "foodKcal": 900,
-    "waterL": 1,
-    "stove": false,
-    "crampons": false,
-    "helmet": false,
-    "trekkingPoles": false,
-    "whistle": false,
-    "tent": false,
-    "rescueSheet": false
-   },
-   "estimated": [
-    "weightKg",
-    "packKg",
-    "experience",
-    "fitness",
-    "navSkill",
-    "riskTolerance",
-    "gear",
-    "age",
-    "sex"
-   ]
-  },
-  {
-   "id": "SM",
-   "name": "生徒 M",
-   "role": "2年生",
-   "age": 16,
-   "sex": "m",
-   "weightKg": 58,
-   "packKg": 5,
-   "experience": 0.25,
-   "fitness": 1.05,
-   "navSkill": 0.3,
-   "riskTolerance": 0.5,
-   "color": "#873600",
-   "habits": {
-    "eatEveryMin": 150,
-    "drinkEveryMin": 60,
-    "delaysRainwear": 0.4,
-    "gpsCheckEveryMin": null
-   },
-   "gear": {
-    "rainwear": "poncho",
-    "cloWorn": 0.55,
-    "cloPack": 0.3,
-    "gloves": "none",
-    "hat": true,
-    "bivy": "none",
-    "headlamp": {
-     "has": false,
-     "batteryH": 3,
-     "inPack": true,
-     "spareBatteryH": 0
-    },
-    "phone": {
-     "has": false,
-     "batteryPct": 0,
-     "gpsApp": false,
-     "trackRecording": false,
-     "satelliteSos": false
-    },
-    "map": false,
-    "compass": false,
-    "foodKcal": 900,
-    "waterL": 1,
-    "stove": false,
-    "crampons": false,
-    "helmet": false,
-    "trekkingPoles": false,
-    "whistle": false,
-    "tent": false,
-    "rescueSheet": false
-   },
-   "estimated": [
-    "weightKg",
-    "packKg",
-    "experience",
-    "fitness",
-    "navSkill",
-    "riskTolerance",
-    "gear",
-    "age",
-    "sex"
-   ]
-  },
-  {
-   "id": "SN",
-   "name": "生徒 N",
-   "role": "2年生",
-   "age": 17,
-   "sex": "m",
-   "weightKg": 59,
-   "packKg": 5,
-   "experience": 0.25,
-   "fitness": 1.1,
-   "navSkill": 0.3,
-   "riskTolerance": 0.5,
-   "color": "#145a32",
-   "habits": {
-    "eatEveryMin": 150,
-    "drinkEveryMin": 60,
-    "delaysRainwear": 0.4,
-    "gpsCheckEveryMin": null
-   },
-   "gear": {
-    "rainwear": "poncho",
-    "cloWorn": 0.55,
-    "cloPack": 0.3,
-    "gloves": "none",
-    "hat": true,
-    "bivy": "none",
-    "headlamp": {
-     "has": false,
-     "batteryH": 3,
-     "inPack": true,
-     "spareBatteryH": 0
-    },
-    "phone": {
-     "has": false,
-     "batteryPct": 0,
-     "gpsApp": false,
-     "trackRecording": false,
-     "satelliteSos": false
-    },
-    "map": false,
-    "compass": false,
-    "foodKcal": 900,
-    "waterL": 1,
-    "stove": false,
-    "crampons": false,
-    "helmet": false,
-    "trekkingPoles": false,
-    "whistle": false,
-    "tent": false,
-    "rescueSheet": false
-   },
-   "estimated": [
-    "weightKg",
-    "packKg",
-    "experience",
-    "fitness",
-    "navSkill",
-    "riskTolerance",
-    "gear",
-    "age",
-    "sex"
-   ]
-  },
-  {
-   "id": "SO",
-   "name": "生徒 O",
+   "id": "S21",
+   "name": "生徒 21",
    "role": "2年生",
    "age": 17,
    "sex": "f",
@@ -1084,7 +1654,7 @@
    "fitness": 1.1500000000000001,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#922b21",
+   "color": "#298e54",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -1136,8 +1706,386 @@
    ]
   },
   {
-   "id": "SP",
-   "name": "生徒 P",
+   "id": "S22",
+   "name": "生徒 22",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#71298e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S23",
+   "name": "生徒 23",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e8e29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S24",
+   "name": "生徒 24",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#29718e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S25",
+   "name": "生徒 25",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e2953",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S26",
+   "name": "生徒 26",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#368e29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S27",
+   "name": "生徒 27",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#3b298e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S28",
+   "name": "生徒 28",
    "role": "2年生",
    "age": 16,
    "sex": "m",
@@ -1147,7 +2095,7 @@
    "fitness": 1.05,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#21618c",
+   "color": "#8e5829",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -1199,8 +2147,8 @@
    ]
   },
   {
-   "id": "SQ",
-   "name": "生徒 Q",
+   "id": "S29",
+   "name": "生徒 29",
    "role": "2年生",
    "age": 17,
    "sex": "m",
@@ -1210,7 +2158,7 @@
    "fitness": 1.1,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#148f77",
+   "color": "#298e75",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -1262,8 +2210,8 @@
    ]
   },
   {
-   "id": "SR",
-   "name": "生徒 R",
+   "id": "S30",
+   "name": "生徒 30",
    "role": "2年生",
    "age": 17,
    "sex": "m",
@@ -1273,7 +2221,1267 @@
    "fitness": 1.1500000000000001,
    "navSkill": 0.3,
    "riskTolerance": 0.5,
-   "color": "#7d6608",
+   "color": "#8e298a",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S31",
+   "name": "生徒 31",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#6c8e29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S32",
+   "name": "生徒 32",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#294f8e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S33",
+   "name": "生徒 33",
+   "role": "2年生",
+   "age": 17,
+   "sex": "f",
+   "weightKg": 50,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e2931",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S34",
+   "name": "生徒 34",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#298e3f",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S35",
+   "name": "生徒 35",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#5c298e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S36",
+   "name": "生徒 36",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e7a29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S37",
+   "name": "生徒 37",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#29858e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S38",
+   "name": "生徒 38",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e2968",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S39",
+   "name": "生徒 39",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#4a8e29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S40",
+   "name": "生徒 40",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#292d8e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S41",
+   "name": "生徒 41",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e4329",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S42",
+   "name": "生徒 42",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#298e61",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S43",
+   "name": "生徒 43",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#7e298e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S44",
+   "name": "生徒 44",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#818e29",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S45",
+   "name": "生徒 45",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#29648e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S46",
+   "name": "生徒 46",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e2946",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S47",
+   "name": "生徒 47",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#298e2a",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S48",
+   "name": "生徒 48",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1500000000000001,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#47298e",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S49",
+   "name": "生徒 49",
+   "role": "2年生",
+   "age": 16,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.05,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#8e6529",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "poncho",
+    "cloWorn": 0.55,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 3,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "tent": false,
+    "rescueSheet": false
+   },
+   "estimated": [
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "age",
+    "sex"
+   ]
+  },
+  {
+   "id": "S50",
+   "name": "生徒 50",
+   "role": "2年生",
+   "age": 17,
+   "sex": "m",
+   "weightKg": 59,
+   "packKg": 5,
+   "experience": 0.25,
+   "fitness": 1.1,
+   "navSkill": 0.3,
+   "riskTolerance": 0.5,
+   "color": "#298e82",
    "habits": {
     "eatEveryMin": 150,
     "drinkEveryMin": 60,
@@ -1663,7 +3871,7 @@
      ]
     ],
     "radiusM": 180,
-    "peak": 15,
+    "peak": 5,
     "heavyRainMmH": 0,
     "hail": false
    }
@@ -1704,7 +3912,7 @@
     },
     {
      "type": "log",
-     "text": "西穂山荘に着いた。快晴で、焼岳の方に雲が浮き始めた。生徒4人がここに残る（画面では生徒 P）",
+     "text": "西穂山荘に着いた。快晴で、焼岳の方に雲が浮き始めた。生徒4人がここに残る",
      "important": true
     },
     {
@@ -1716,7 +3924,37 @@
       },
       {
        "type": "detach",
-       "who": "SP",
+       "who": "S47",
+       "then": [
+        {
+         "type": "stayInShelter",
+         "until": "D1 09:00"
+        }
+       ]
+      },
+      {
+       "type": "detach",
+       "who": "S48",
+       "then": [
+        {
+         "type": "stayInShelter",
+         "until": "D1 09:00"
+        }
+       ]
+      },
+      {
+       "type": "detach",
+       "who": "S49",
+       "then": [
+        {
+         "type": "stayInShelter",
+         "until": "D1 09:00"
+        }
+       ]
+      },
+      {
+       "type": "detach",
+       "who": "S50",
        "then": [
         {
          "type": "stayInShelter",
@@ -1876,7 +4114,7 @@
    "effects": [
     {
      "type": "log",
-     "text": "生徒5人が独標に残り、41人と教員5人の46人が西穂高岳へ向かった（画面では生徒 Q・R が残る）",
+     "text": "生徒5人が独標に残り、41人と教員5人の46人が西穂高岳へ向かった",
      "important": true
     }
    ]
@@ -2125,7 +4363,7 @@
    ]
   },
   {
-   "id": "ev_in_SQ",
+   "id": "ev_in_S42",
    "trigger": {
     "all": [
      {
@@ -2135,7 +4373,7 @@
       }
      },
      {
-      "var": "c.SQ.indoors",
+      "var": "c.S42.indoors",
       "op": "==",
       "value": true
      }
@@ -2148,7 +4386,7 @@
      "actions": [
       {
        "type": "stayInShelter",
-       "who": "SQ",
+       "who": "S42",
        "until": "D1 09:00"
       }
      ]
@@ -2156,7 +4394,7 @@
    ]
   },
   {
-   "id": "ev_in_SR",
+   "id": "ev_in_S43",
    "trigger": {
     "all": [
      {
@@ -2166,7 +4404,7 @@
       }
      },
      {
-      "var": "c.SR.indoors",
+      "var": "c.S43.indoors",
       "op": "==",
       "value": true
      }
@@ -2179,7 +4417,100 @@
      "actions": [
       {
        "type": "stayInShelter",
-       "who": "SR",
+       "who": "S43",
+       "until": "D1 09:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_in_S44",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_dokuhyo",
+       "option": "go"
+      }
+     },
+     {
+      "var": "c.S44.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "S44",
+       "until": "D1 09:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_in_S45",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_dokuhyo",
+       "option": "go"
+      }
+     },
+     {
+      "var": "c.S45.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "S45",
+       "until": "D1 09:00"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_in_S46",
+   "trigger": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_dokuhyo",
+       "option": "go"
+      }
+     },
+     {
+      "var": "c.S46.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "S46",
        "until": "D1 09:00"
       }
      ]
@@ -2418,7 +4749,7 @@
    ]
   },
   {
-   "id": "ev_down_SA",
+   "id": "ev_down_T3",
    "trigger": {
     "all": [
      {
@@ -2427,19 +4758,19 @@
      {
       "all": [
        {
-        "var": "c.SA.alive",
+        "var": "c.T3.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SA.conscious",
+        "var": "c.T3.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SA.indoors",
+      "var": "c.T3.indoors",
       "op": "==",
       "value": false
      }
@@ -2452,7 +4783,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SA",
+       "who": "T3",
        "then": [
         {
          "type": "setPace",
@@ -2470,7 +4801,7 @@
    ]
   },
   {
-   "id": "ev_down_SB",
+   "id": "ev_down_T4",
    "trigger": {
     "all": [
      {
@@ -2479,19 +4810,19 @@
      {
       "all": [
        {
-        "var": "c.SB.alive",
+        "var": "c.T4.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SB.conscious",
+        "var": "c.T4.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SB.indoors",
+      "var": "c.T4.indoors",
       "op": "==",
       "value": false
      }
@@ -2504,7 +4835,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SB",
+       "who": "T4",
        "then": [
         {
          "type": "setPace",
@@ -2522,7 +4853,7 @@
    ]
   },
   {
-   "id": "ev_down_SC",
+   "id": "ev_down_T5",
    "trigger": {
     "all": [
      {
@@ -2531,19 +4862,19 @@
      {
       "all": [
        {
-        "var": "c.SC.alive",
+        "var": "c.T5.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SC.conscious",
+        "var": "c.T5.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SC.indoors",
+      "var": "c.T5.indoors",
       "op": "==",
       "value": false
      }
@@ -2556,7 +4887,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SC",
+       "who": "T5",
        "then": [
         {
          "type": "setPace",
@@ -2574,7 +4905,7 @@
    ]
   },
   {
-   "id": "ev_down_SD",
+   "id": "ev_down_S01",
    "trigger": {
     "all": [
      {
@@ -2583,19 +4914,19 @@
      {
       "all": [
        {
-        "var": "c.SD.alive",
+        "var": "c.S01.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SD.conscious",
+        "var": "c.S01.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SD.indoors",
+      "var": "c.S01.indoors",
       "op": "==",
       "value": false
      }
@@ -2608,7 +4939,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SD",
+       "who": "S01",
        "then": [
         {
          "type": "setPace",
@@ -2626,7 +4957,7 @@
    ]
   },
   {
-   "id": "ev_down_SE",
+   "id": "ev_down_S02",
    "trigger": {
     "all": [
      {
@@ -2635,19 +4966,19 @@
      {
       "all": [
        {
-        "var": "c.SE.alive",
+        "var": "c.S02.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SE.conscious",
+        "var": "c.S02.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SE.indoors",
+      "var": "c.S02.indoors",
       "op": "==",
       "value": false
      }
@@ -2660,7 +4991,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SE",
+       "who": "S02",
        "then": [
         {
          "type": "setPace",
@@ -2678,7 +5009,7 @@
    ]
   },
   {
-   "id": "ev_down_SF",
+   "id": "ev_down_S03",
    "trigger": {
     "all": [
      {
@@ -2687,19 +5018,19 @@
      {
       "all": [
        {
-        "var": "c.SF.alive",
+        "var": "c.S03.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SF.conscious",
+        "var": "c.S03.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SF.indoors",
+      "var": "c.S03.indoors",
       "op": "==",
       "value": false
      }
@@ -2712,7 +5043,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SF",
+       "who": "S03",
        "then": [
         {
          "type": "setPace",
@@ -2730,7 +5061,7 @@
    ]
   },
   {
-   "id": "ev_down_SG",
+   "id": "ev_down_S04",
    "trigger": {
     "all": [
      {
@@ -2739,19 +5070,19 @@
      {
       "all": [
        {
-        "var": "c.SG.alive",
+        "var": "c.S04.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SG.conscious",
+        "var": "c.S04.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SG.indoors",
+      "var": "c.S04.indoors",
       "op": "==",
       "value": false
      }
@@ -2764,7 +5095,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SG",
+       "who": "S04",
        "then": [
         {
          "type": "setPace",
@@ -2782,7 +5113,7 @@
    ]
   },
   {
-   "id": "ev_down_SH",
+   "id": "ev_down_S05",
    "trigger": {
     "all": [
      {
@@ -2791,19 +5122,19 @@
      {
       "all": [
        {
-        "var": "c.SH.alive",
+        "var": "c.S05.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SH.conscious",
+        "var": "c.S05.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SH.indoors",
+      "var": "c.S05.indoors",
       "op": "==",
       "value": false
      }
@@ -2816,7 +5147,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SH",
+       "who": "S05",
        "then": [
         {
          "type": "setPace",
@@ -2834,7 +5165,7 @@
    ]
   },
   {
-   "id": "ev_down_SI",
+   "id": "ev_down_S06",
    "trigger": {
     "all": [
      {
@@ -2843,19 +5174,19 @@
      {
       "all": [
        {
-        "var": "c.SI.alive",
+        "var": "c.S06.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SI.conscious",
+        "var": "c.S06.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SI.indoors",
+      "var": "c.S06.indoors",
       "op": "==",
       "value": false
      }
@@ -2868,7 +5199,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SI",
+       "who": "S06",
        "then": [
         {
          "type": "setPace",
@@ -2886,7 +5217,7 @@
    ]
   },
   {
-   "id": "ev_down_SJ",
+   "id": "ev_down_S07",
    "trigger": {
     "all": [
      {
@@ -2895,19 +5226,19 @@
      {
       "all": [
        {
-        "var": "c.SJ.alive",
+        "var": "c.S07.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SJ.conscious",
+        "var": "c.S07.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SJ.indoors",
+      "var": "c.S07.indoors",
       "op": "==",
       "value": false
      }
@@ -2920,7 +5251,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SJ",
+       "who": "S07",
        "then": [
         {
          "type": "setPace",
@@ -2938,7 +5269,7 @@
    ]
   },
   {
-   "id": "ev_down_SK",
+   "id": "ev_down_S08",
    "trigger": {
     "all": [
      {
@@ -2947,19 +5278,19 @@
      {
       "all": [
        {
-        "var": "c.SK.alive",
+        "var": "c.S08.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SK.conscious",
+        "var": "c.S08.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SK.indoors",
+      "var": "c.S08.indoors",
       "op": "==",
       "value": false
      }
@@ -2972,7 +5303,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SK",
+       "who": "S08",
        "then": [
         {
          "type": "setPace",
@@ -2990,7 +5321,7 @@
    ]
   },
   {
-   "id": "ev_down_SL",
+   "id": "ev_down_S09",
    "trigger": {
     "all": [
      {
@@ -2999,19 +5330,19 @@
      {
       "all": [
        {
-        "var": "c.SL.alive",
+        "var": "c.S09.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SL.conscious",
+        "var": "c.S09.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SL.indoors",
+      "var": "c.S09.indoors",
       "op": "==",
       "value": false
      }
@@ -3024,7 +5355,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SL",
+       "who": "S09",
        "then": [
         {
          "type": "setPace",
@@ -3042,7 +5373,7 @@
    ]
   },
   {
-   "id": "ev_down_SM",
+   "id": "ev_down_S10",
    "trigger": {
     "all": [
      {
@@ -3051,19 +5382,19 @@
      {
       "all": [
        {
-        "var": "c.SM.alive",
+        "var": "c.S10.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SM.conscious",
+        "var": "c.S10.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SM.indoors",
+      "var": "c.S10.indoors",
       "op": "==",
       "value": false
      }
@@ -3076,7 +5407,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SM",
+       "who": "S10",
        "then": [
         {
          "type": "setPace",
@@ -3094,7 +5425,7 @@
    ]
   },
   {
-   "id": "ev_down_SN",
+   "id": "ev_down_S11",
    "trigger": {
     "all": [
      {
@@ -3103,19 +5434,19 @@
      {
       "all": [
        {
-        "var": "c.SN.alive",
+        "var": "c.S11.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SN.conscious",
+        "var": "c.S11.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SN.indoors",
+      "var": "c.S11.indoors",
       "op": "==",
       "value": false
      }
@@ -3128,7 +5459,7 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SN",
+       "who": "S11",
        "then": [
         {
          "type": "setPace",
@@ -3146,7 +5477,7 @@
    ]
   },
   {
-   "id": "ev_down_SO",
+   "id": "ev_down_S12",
    "trigger": {
     "all": [
      {
@@ -3155,19 +5486,19 @@
      {
       "all": [
        {
-        "var": "c.SO.alive",
+        "var": "c.S12.alive",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SO.conscious",
+        "var": "c.S12.conscious",
         "op": "==",
         "value": true
        }
       ]
      },
      {
-      "var": "c.SO.indoors",
+      "var": "c.S12.indoors",
       "op": "==",
       "value": false
      }
@@ -3180,7 +5511,1515 @@
      "actions": [
       {
        "type": "detach",
-       "who": "SO",
+       "who": "S12",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S13",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S13.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S13.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S13.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S13",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S14",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S14.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S14.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S14.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S14",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S15",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S15.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S15.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S15.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S15",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S16",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S16.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S16.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S16.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S16",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S17",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S17.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S17.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S17.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S17",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S18",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S18.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S18.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S18.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S18",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S19",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S19.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S19.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S19.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S19",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S20",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S20.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S20.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S20.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S20",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S21",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S21.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S21.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S21.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S21",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S22",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S22.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S22.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S22.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S22",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S23",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S23.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S23.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S23.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S23",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S24",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S24.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S24.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S24.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S24",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S25",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S25.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S25.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S25.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S25",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S26",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S26.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S26.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S26.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S26",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S27",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S27.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S27.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S27.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S27",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S28",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S28.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S28.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S28.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S28",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S29",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S29.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S29.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S29.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S29",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S30",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S30.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S30.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S30.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S30",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S31",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S31.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S31.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S31.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S31",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S32",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S32.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S32.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S32.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S32",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S33",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S33.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S33.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S33.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S33",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S34",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S34.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S34.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S34.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S34",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S35",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S35.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S35.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S35.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S35",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S36",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S36.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S36.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S36.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S36",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S37",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S37.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S37.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S37.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S37",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S38",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S38.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S38.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S38.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S38",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S39",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S39.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S39.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S39.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S39",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S40",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S40.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S40.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S40.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S40",
+       "then": [
+        {
+         "type": "setPace",
+         "factor": 0.7
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_down_S41",
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "all": [
+       {
+        "var": "c.S41.alive",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S41.conscious",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.S41.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "detach",
+       "who": "S41",
        "then": [
         {
          "type": "setPace",
@@ -3377,77 +7216,207 @@
      {
       "any": [
        {
-        "var": "c.SA.indoors",
+        "var": "c.S01.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SB.indoors",
+        "var": "c.S02.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SC.indoors",
+        "var": "c.S03.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SD.indoors",
+        "var": "c.S04.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SE.indoors",
+        "var": "c.S05.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SF.indoors",
+        "var": "c.S06.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SG.indoors",
+        "var": "c.S07.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SH.indoors",
+        "var": "c.S08.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SI.indoors",
+        "var": "c.S09.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SJ.indoors",
+        "var": "c.S10.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SK.indoors",
+        "var": "c.S11.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SL.indoors",
+        "var": "c.S12.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SM.indoors",
+        "var": "c.S13.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SN.indoors",
+        "var": "c.S14.indoors",
         "op": "==",
         "value": true
        },
        {
-        "var": "c.SO.indoors",
+        "var": "c.S15.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S16.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S17.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S18.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S19.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S20.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S21.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S22.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S23.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S24.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S25.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S26.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S27.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S28.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S29.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S30.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S31.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S32.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S33.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S34.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S35.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S36.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S37.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S38.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S39.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S40.indoors",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.S41.indoors",
         "op": "==",
         "value": true
        }
@@ -3544,7 +7513,7 @@
       },
       {
        "type": "detach",
-       "who": "SQ",
+       "who": "S42",
        "then": [
         {
          "type": "rest",
@@ -3559,7 +7528,52 @@
       },
       {
        "type": "detach",
-       "who": "SR",
+       "who": "S43",
+       "then": [
+        {
+         "type": "rest",
+         "minutes": 30
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      },
+      {
+       "type": "detach",
+       "who": "S44",
+       "then": [
+        {
+         "type": "rest",
+         "minutes": 30
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      },
+      {
+       "type": "detach",
+       "who": "S45",
+       "then": [
+        {
+         "type": "rest",
+         "minutes": 30
+        },
+        {
+         "type": "goToNode",
+         "node": "HUT",
+         "then": "stay"
+        }
+       ]
+      },
+      {
+       "type": "detach",
+       "who": "S46",
        "then": [
         {
          "type": "rest",
@@ -4142,7 +8156,7 @@
  "speech": [
   {
    "key": "s16_rain_talk",
-   "who": "SC",
+   "who": "S03",
    "to": "T1",
    "when": {
     "all": [
@@ -4190,7 +8204,7 @@
   },
   {
    "key": "s16_crouch_talk",
-   "who": "SF",
+   "who": "S06",
    "when": {
     "all": [
      {
@@ -4261,7 +8275,7 @@
     }
    },
    "title": "独標の落雷",
-   "text": "独標を越えようとした列に雷が落ちた。このシミュレーションでは、画面の20人のうち {rec.deathCount:0} 人が亡くなった。記録では、山頂へ向かった46人のうち生徒11人が亡くなり（9人は電撃、2人は転落）、一般登山者1人を含む12人が重軽傷を負った。"
+   "text": "独標を越えようとした列に雷が落ちた。このシミュレーションでは {rec.deathCount:0} 人が亡くなった。記録では、山頂へ向かった46人のうち生徒11人が亡くなり（9人は電撃、2人は転落）、一般登山者1人を含む12人が重軽傷を負った。"
   },
   {
    "kind": "FATAL",
@@ -4378,10 +8392,10 @@
  ],
  "balanceTargets": {
   "historical": {
-   "fatalMin": 0.8,
+   "fatalMin": 0.6,
    "deathCountMedian": [
-    3,
-    5
+    8,
+    14
    ]
   },
   "recommended": {
@@ -4392,7 +8406,7 @@
    "fatalMax": 0.55
   },
   "risky": {
-   "fatalMin": 0.7
+   "fatalMin": 0.55
   }
  },
  "historical": {
@@ -4400,20 +8414,31 @@
   "sources": [
    {
     "title": "1967年8月1日西穂高落雷遭難",
+    "url": "https://www.metsoc.jp/tenki/pdf/1967/1967_12_0449.pdf",
     "publisher": "日本気象学会「天気」14巻12号（井村宇一郎、松本測候所）",
     "year": 1967
    },
    {
     "title": "校長通信 No.120「西穂遭難追悼式」",
+    "url": "https://www.nagano-c.ed.jp/fukasi/Kouchou/kouchoutuusinn/No.120_200811.pdf",
     "publisher": "長野県松本深志高等学校",
     "year": 2020
    },
    {
-    "title": "西穂高岳落雷遭難事故（Wikipedia 日本語版の項目。死因の内訳・その夜と翌朝の経過・救助の要約。補助的に使用）"
+    "title": "西穂高岳落雷遭難事故（Wikipedia 日本語版の項目。死因の内訳・その夜と翌朝の経過・救助の要約。補助的に使用）",
+    "url": "https://ja.wikipedia.org/wiki/西穂高岳落雷遭難事故"
    }
   ],
-  "labelsNote": "人物は記号で表す。教員の T1・T2 は井村（1967）の記号に合わせたが、同じ人物とは限らない。生徒 A〜R は架空の記号。画面の20人は、教員5人・生徒50人の計55人の代わり（エンジンの上限が20人のため）。年齢・性別の内訳・体重・体力・装備・服装は推定。",
-  "disclaimer": "このシナリオは、気象学会誌の調査報告と学校の記録をもとに当日の経過を再構成したものです。画面の20人は実際の55人の代わりで、人数の割合だけを記録に合わせています。体重・体力・装備・体温などは推定値です。シミュレーションの結果は実際の出来事を説明するものではありません。亡くなられた方々に哀悼の意を表します。",
+  "labelsNote": "人物は記号で表す。教員の T1・T2 は井村（1967）の記号に合わせたが、同じ人物とは限らない。教員 T3〜T5・生徒 1〜50 は架空の記号。人数は記録どおり（教員5人・生徒50人の計55人）。年齢・性別の内訳・体重・体力・装備・服装は推定。",
+  "disclaimer": "このシナリオは、気象学会誌の調査報告と学校の記録をもとに当日の経過を再構成したものです。人数は記録どおりです。体重・体力・装備・体温などは推定値です。シミュレーションの結果は実際の出来事を説明するものではありません。亡くなられた方々に哀悼の意を表します。",
+  "recordedSurvivors": [
+   "T1",
+   "T2",
+   "T3",
+   "T4",
+   "T5"
+  ],
+  "recordedDeaths": 11,
   "recordedChoices": {
    "generic:lostAware": "backtrack",
    "cp_dokuhyo": "go",

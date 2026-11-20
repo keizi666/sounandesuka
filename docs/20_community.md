@@ -89,7 +89,7 @@ POST は `Content-Type: application/json` に限る（よそのサイトのフ�
 
 - PHP 8 ＋ SQLite（PDO）。外部のライブラリは使わない。ファイルは `server/api/`（`index.php`・`lib.php`・`admin.php`・`.htaccess`）。
 - `npm run deploy` が `server/api` を `dist/api` に写し、`deploy.config.json` の `api` から `config.local.php`（データの置き場所・塩・管理トークンのハッシュ）を作って一緒に上げる。塩と管理トークンがなければ作って `deploy.config.json` に書き足す。`deploy.config.json` も `config.local.php` も git に入れない。
-- データの置き場所 `api.dataDir` は公開フォルダーの外がよい（例 `/home/<user>/sounandesuka-data`）。省略すると `api/data`（`.htaccess` で読めなくする）。初めて呼ばれたときにフォルダーと表を作る。
+- データの置き場所 `api.dataDir` は公開フォルダーの外がよい（例 `/home/<user>/sounandesuyo-data`）。省略すると `api/data`（`.htaccess` で読めなくする）。初めて呼ばれたときにフォルダーと表を作る。
 - `.htaccess` で、外から開けるのは `index.php` と `admin.php` だけにする。
 - 管理ページ `<base>/api/admin.php`: 管理トークンを入れると、新しい 200 件（または通報あり・隠したもの）が見え、隠す・戻す・消す・利用者ごと消すができる。トークンの誤りは 1 時間に 10 回まで。
 - IP アドレスはそのまま残さない（塩を混ぜたハッシュで、回数の制限と通報の重なりにだけ使う）。サーバーのアクセスログは別。

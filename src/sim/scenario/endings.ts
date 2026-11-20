@@ -57,11 +57,22 @@ export function worstOutcome(climbers: readonly ClimberState[], ctx: StaticConte
 }
 
 /** 終了を判定し、終わっていれば world.ended を立てる（docs/03 §4 の 11） */
+/** 遭難が起きたか（道迷い・ビバーク・救助待ち・動けない・死亡の状態に入った、重いけが・急病、救助の要請） */
+function incidentHappened(world: World): boolean {
+  if (world.latches['incident'] || world.rescue.calledAtMin !== null) return true;
+  return world.climbers.some((c) => !c.body.alive || (c.body.injury !== 'none' && c.body.injury !== 'bruise') || c.body.illness?.active === true || c.memo.bivouacked);
+}
+
 export function checkEnding(world: World, ctx: StaticContext): boolean {
   if (world.ended) return true;
   const allTerminal = world.climbers.every((c) => TERMINAL.has(c.state));
   const timeUp = world.tMin >= parseTimeRef(ctx.scenario.timeLimit);
-  if (!allTerminal && !timeUp) return false;
+  // 遭難が起きたあと、生き残った人が全員安全（下山・救助・小屋の中・地図の外）になったら、そこで結末にする（ユーザーの指定）。
+  // 遭難の前の予定の小屋泊まりでは終わらない（翌朝のつづきがある）
+  // 遭難がなくても、誰かが下山していて、ほかが全員小屋の中なら終わる（予定の小屋泊まりで全員が小屋の中のときは、翌朝につづく）
+  const someoneDown = world.climbers.some((c) => c.state === 'FINISHED');
+  const allSafe = (incidentHappened(world) || someoneDown) && world.climbers.every((c) => TERMINAL.has(c.state) || c.offMap !== undefined || (c.state === 'SHELTERED' && c.body.shelterNodeId !== null));
+  if (!allTerminal && !timeUp && !allSafe) return false;
   const kind = worstOutcome(world.climbers, ctx);
   world.ended = { kind, atMin: world.tMin };
   ctx.events.push({ tMin: world.tMin, type: 'ENDED', important: true, data: { kind, timeUp } });

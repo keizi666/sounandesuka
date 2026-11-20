@@ -30,12 +30,21 @@ export function slipClassAt(ctx: StaticContext, c: ClimberState, moveGrade = 0):
     if (e.class === 'T3' || isChainAt(ctx.map, c.pos.edgeId, c.pos.s)) return 'EXPOSED';
     return e.class === 'T1' ? 'T1' : 'T2';
   }
+  // 道の分岐・終点（ノード）にいるときは道の上。つながる道のうち一番やさしい区分で判定する（取付の岩棚を崖と見ない）
+  if (c.pos.mode === 'node') {
+    const cls = (ctx.map.adjacency[c.pos.nodeId] ?? []).map((id) => ctx.map.trails[id]?.def.class);
+    return cls.includes('T1') ? 'T1' : cls.includes('T2') || cls.length === 0 ? 'T2' : 'EXPOSED';
+  }
   const inWaterfall = ctx.map.def.hazards.some((h) => h.type === 'waterfall' && (h.x - c.x) * (h.x - c.x) + (h.z - c.z) * (h.z - c.z) <= h.radius * h.radius);
-  const slope = datan(Math.abs(moveGrade)) / DEG;
-  if (inWaterfall || slope > st.offCliffDeg) return 'CLIFF';
-  // 沢床（濡れた岩・苔・倒木・淵）は、道外の急斜面と同じかそれ以上に滑りやすい
-  if (ctx.map.veg[nearestIndex(ctx.map, c.x, c.z)] === VegClass.STREAM) return 'STREAM';
-  return slope > st.offSteepDeg ? 'OFF_STEEP' : 'OFF';
+  const i = nearestIndex(ctx.map, c.x, c.z);
+  // 進む向きの傾きと、斜面そのものの傾き（急斜面を横切って巻くときは、向きの傾きが小さくても危ない。ユーザーの指定）
+  const along = datan(Math.abs(moveGrade)) / DEG;
+  const across = (ctx.map.slopeDeg[i] ?? 0) * st.traverseF;
+  if (inWaterfall || along > st.offCliffDeg) return 'CLIFF';
+  // 沢床（濡れた岩・苔・倒木・淵）は、道外の急斜面と同じかそれ以上に滑りやすい（谷の側壁の傾きは使わない）
+  if (ctx.map.veg[i] === VegClass.STREAM) return 'STREAM';
+  if (across > st.offCliffDeg) return 'CLIFF';
+  return Math.max(along, across) > st.offSteepDeg ? 'OFF_STEEP' : 'OFF';
 }
 
 /** 10 m あたりの転倒確率（docs/08 §1.2） */

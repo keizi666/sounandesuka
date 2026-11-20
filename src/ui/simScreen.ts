@@ -5,21 +5,21 @@
 import { createAmbientSound } from '../view/ambientSound';
 import { createFigureIcons, ICON_LIFT_PX } from './figureIcons';
 import { closeLogDetail, snapOf } from './logDetail';
-import { Timeline, type TimelineSnap } from '../app/timeline';
+import { Timeline } from '../app/timeline';
 import { createTimelineBar } from './timelineBar';
 import { showTitleCard } from './titleCard';
 import { createDock } from './dockWindows';
 import { dlog, versionLabel } from '../app/version';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
-import { Loop, SPEEDS, type Speed } from '../app/loop';
+import { Loop, SPEEDS } from '../app/loop';
 import { effectiveQuality } from '../app/settings';
 import { addHistory, clearResume, newRunId, saveResume, type ResumeData } from '../app/storage';
 import { JA } from '../i18n/ja';
 import { fill, formatEvent, speechView, formatDateTime } from '../i18n/format';
 import { DT_SEC } from '../sim/core/step';
 import { createStaticContext, createWorld } from '../sim/core/world';
-import { encodeState, setAddress, stateOf, stateUrl, type PlayMode, type SharedState } from '../app/shareState';
+import type { PlayMode, SharedState } from '../app/shareState';
 import { replayTo } from './simReplay';
 import { loadViewPre, saveViewPre, viewKeys, type ViewPre } from '../view/viewCache';
 import { icon } from './icons';
@@ -35,37 +35,18 @@ import { Hud } from './simHud';
 import { openSettings } from './settingsDialog';
 import { audio } from './audio';
 import { anySoundOn, toggleSoundPanel } from './soundPanel';
-import { autoMusic, eventSound } from './simAudio';
+import { eventSound } from './simAudio';
+import { attributionLine, optionLabel, type SimResult } from './simCommon';
+import { createUrlSync } from './simUrl';
+import { createTimeTravel } from './simTimeTravel';
+import { createKeyHandler } from './simKeys';
+import { createFrameExtras } from './simFrame';
 
-export interface SimResult {
-  world: World;
-  recorder: RecorderState;
-  choiceSnapshots: Record<string, { world: World; recorder: RecorderState }>;
-  runId: string;
-  parentRunId: string | null;
-}
+export { attributionLine, optionLabel, type SimResult } from './simCommon';
 
 const TIMED_SEC = 30;
 const AUTOSAVE_MS = 30000;
 const IMPORTANT_PAUSE = new Set(['DEATH', 'CARDIAC_ARREST', 'INJURY', 'LOST_AWARE', 'LIGHTNING_STRIKE', 'RESCUED', 'STAGE_CHANGE']);
-
-/** 外部データ由来の内容には出典を出す（鉄則 9）。実在の山のシナリオでは注記も添える */
-export function attributionLine(loaded: LoadedScenario): HTMLElement | null {
-  const a = loaded.attribution;
-  if (a.length === 0 && !loaded.scenario.region?.real) return null;
-  return el('p', { class: 'attribution' }, [
-    ...a.flatMap((x, i) => [i > 0 ? ' / ' : '', el('a', { href: x.url, target: '_blank', rel: 'noopener' }, x.text)]),
-    loaded.scenario.region?.real ? el('span', {}, ` ${JA.disclaimer.realMountainShort}`) : null,
-  ]);
-}
-
-export function optionLabel(loaded: LoadedScenario, cpId: string, optionId: string): string {
-  const s = loaded.scenario;
-  const cp = cpId.startsWith('generic:') ? null : s.choices.find((c) => c.id === cpId);
-  const o = cp?.options.find((x) => x.id === optionId);
-  if (o?.label) return o.label;
-  return JA.generic[cpId.slice(8)]?.options[optionId] ?? optionId;
-}
 
 /** 画面を開く前に、前に作った 3D のデータ（キャッシュ）を読む（ユーザーの指定: 同じ条件なら作り直さない） */
 export async function preloadView(app: AppContext, loaded: LoadedScenario): Promise<ViewPre> {
@@ -93,7 +74,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // 一時停止中は、画面の中央に角丸のパネルで ▶ を出し、押すと再開する（ユーザーの指定）
   const pauseOverlay = el('button', { class: 'pause-overlay', type: 'button', title: `${JA.ui.resumeShort} (Space)`, 'aria-label': JA.ui.resumeShort, hidden: true }, [icon('playArrow'), el('span', {}, JA.ui.resumeShort)]);
   pauseOverlay.addEventListener('click', () => {
-    beforePlay();
+    tt.beforePlay();
     loop.paused = false;
     refresh();
   });
@@ -133,12 +114,12 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     {
       setSpeed: (s) => {
         loop.speed = s;
-        beforePlay();
+        tt.beforePlay();
         loop.paused = false;
         refresh();
       },
       togglePause: () => {
-        if (loop.paused) beforePlay();
+        if (loop.paused) tt.beforePlay();
         loop.paused = !loop.paused;
         refresh();
       },
@@ -155,7 +136,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       },
       setLayer: (n, on) => view.setLayer(n, on),
       setOverlay: (k) => view.overlay.set(k),
-      jumpToChoice: (t) => jumpToChoice(t),
+      jumpToChoice: (t) => tt.jumpToChoice(t),
       select: (id) => {
         view.selected = id;
         view.lookAt(id);
@@ -178,7 +159,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
             hud.setSound(anySoundOn(app.settings, true));
           },
         }),
-      share: () => void shareUrl(),
+      share: () => void url.share(),
       quit: () => {
         if (!confirm(JA.ui.quitConfirm)) return;
         void save().then(() => app.go({ name: 'title' }));
@@ -189,9 +170,9 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // ---- タイムライン（時間を戻す） ----
   const timeline = new Timeline(scenario.party.length > 6 ? 5 : 2);
   const tlBar = createTimelineBar({
-    seek: (t) => seekTo(t),
-    latest: () => seekTo(Infinity),
-    seekChoice: (t) => jumpToChoice(t),
+    seek: (t) => tt.seekTo(t),
+    latest: () => tt.seekTo(Infinity),
+    seekChoice: (t) => tt.jumpToChoice(t),
     formatTime: (t) => formatDateTime(scenario, t).split(' ')[1] ?? '',
   });
   // 3D 画面を全面に敷き、ログ・登山者・気象は「合体できるタブ式のウィンドウ」として重ねる（狭い画面では最小化して始める）
@@ -234,37 +215,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // ---- URL の状況（リロード・共有で同じ場面から始められる。ユーザーの指定） ----
   /** URL の場面から進め直している間（音・吹き出しを出さない） */
   let replaying = false;
-  let urlSeq = 0;
-  let urlAt = 0;
-  let urlKey = '';
-  /** いまの場面を URL に入れる（一覧のシナリオだけ。force でなければ 2 秒に 1 回まで、時刻か選択が変わったときだけ） */
-  function writeUrl(force = false): void {
-    if (!loaded.listed || replaying) return;
-    const now = performance.now();
-    const key = `${world.decisions.length}|${Math.round(world.tMin)}`;
-    if (!force && (key === urlKey || now - urlAt < 2000)) return;
-    urlKey = key;
-    urlAt = now;
-    const seq = (urlSeq += 1);
-    void encodeState(stateOf(world, playMode, loaded.conditions)).then((enc) => {
-      if (seq === urlSeq && simMain.isConnected) setAddress(stateUrl(scenario.id, enc));
-    });
-  }
-  /** いまの場面の URL をコピーする（共有） */
-  async function shareUrl(): Promise<void> {
-    if (!loaded.listed) {
-      toast(JA.ui.shareUnavailable, 4000);
-      return;
-    }
-    const url = stateUrl(scenario.id, await encodeState(stateOf(world, playMode, loaded.conditions)));
-    setAddress(url);
-    try {
-      await navigator.clipboard.writeText(url);
-      toast(JA.ui.shareCopied, 3500);
-    } catch {
-      window.prompt(JA.ui.shareCopyManual, url);
-    }
-  }
+  const url = createUrlSync({ world, loaded, mode: playMode, skip: () => replaying, alive: () => simMain.isConnected });
 
   // ---- 分岐点 ----
   let choiceUi: ChoiceUi | null = null;
@@ -310,7 +261,12 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         // 吹き出しの中は文だけ。注記（記録・架空・ろれつ）は下に小さく
         const tag = v.log.replace(/^.*[」）]/, '');
         hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: v.thought ? 'thought' : 'speech', bubble: v.thought ? v.display : v.display, tag, to: v.to ? (party.get(v.to)?.name ?? v.to) : undefined, shout: v.tone === 'shout', snap });
-      } else hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: e.climberId ? 'action' : 'system', snap, jumpTo: e.type === 'CHOICE_FIRED' ? e.tMin : undefined });
+      } else {
+        // 飲食の行は、3 人以上続いたら 1 行にまとめる（hud.log）
+        const group = e.type === 'DRINK' ? 'drink' : e.type === 'EAT' ? 'eat' : undefined;
+        const amount = e.type === 'DRINK' ? `${Math.round(Number(e.data?.['liters'] ?? 0) * 1000)} mL` : e.type === 'EAT' ? `${Math.round(Number(e.data?.['kcal'] ?? 0))} kcal` : undefined;
+        hud.log({ tMin: e.tMin, text, important: Boolean(e.important), climberId: e.climberId, kind: e.climberId ? 'action' : 'system', snap, jumpTo: e.type === 'CHOICE_FIRED' ? e.tMin : undefined, group, amount });
+      }
     }
   }
 
@@ -353,7 +309,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       onPick: (id) => {
         choiceUi = null;
         if (!world.pendingChoice) return;
-        truncateIfPast();
+        tt.truncateIfPast();
         if (id) resolveChoice(world, ctx, id, 'user');
         else autoResolve(world, ctx, 'bias');
         shownCp = null;
@@ -390,41 +346,14 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
 
   // ---- ループ ----
   let lastFrame = performance.now();
-  let wasFlash = false;
-  let lastMusicAt = 0;
-  // 描画が重い（平均 30fps 未満が 5 秒続く）ときは画質を下げる提案を 1 回だけ出す
-  let slowSince = 0;
-  let suggested = effectiveQuality(st) === 'low';
+  const frame = createFrameExtras({ view, sound, scenario, cam: () => cam, scriptMusic: () => scriptMusic, lowQuality: effectiveQuality(st) === 'low' });
   loop = new Loop(world, ctx, {
     render: (w, prev, alpha, t) => {
-      applySeek();
+      tt.applySeek();
       view.gameSpeed = loop.paused || w.pendingChoice || w.ended ? 0 : SPEEDS[loop.speed] * DT_SEC;
       view.render(w, prev, alpha, t);
-      // 音: 注目している登山者の場所の天気。カメラが遠いほど小さく
-      {
-        const fc = w.climbers.find((x) => x.id === view.selected) ?? w.climbers[0];
-        const fd = view.focusDistance();
-        const near = cam === 'eye' ? 1 : Math.max(0.12, Math.min(1, 1.25 - fd / 1.6));
-        if (fc) sound.update(Math.min(0.1, (performance.now() - lastFrame) / 1000), { windMs: fc.local.windMs * w.weather.gust, precipMmH: fc.local.precipMmH, snow: fc.local.precipType === 'snow' || fc.local.precipType === 'sleet', near });
-        const fl = view.flashing;
-        if (fl && !wasFlash) sound.thunder(0.6 + (1 - Math.min(1, w.weather.thunder)) * 8);
-        wasFlash = fl;
-      }
       const now = performance.now();
-      // 曲: シナリオの指定がなければ、昼・夜・遭難のさなかで選ぶ（2 秒ごと）
-      if (now - lastMusicAt > 2000) {
-        lastMusicAt = now;
-        audio().music(w.ended ? null : scriptMusic ?? autoMusic(w, scenario));
-      }
-      if (!suggested && !document.hidden) {
-        if (now - lastFrame > 1000 / 30 && now - lastFrame < 500) {
-          slowSince ||= now;
-          if (now - slowSince > 5000) {
-            suggested = true;
-            toast(JA.ui.slowHint, 6000);
-          }
-        } else slowSince = 0;
-      }
+      frame.update(w, now, now - lastFrame);
       const dt = loop.paused || w.pendingChoice ? 0 : (now - lastFrame) / 1000;
       lastFrame = now;
       const r = canvas.getBoundingClientRect();
@@ -461,75 +390,23 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (st.sound) sound.setOn(true);
   hud.setSound(anySoundOn(st, true));
 
-  /** 写しの中身で、いまの世界と記録を置き換える（同じオブジェクトのまま中身を入れ替える） */
-  function replaceInPlace(target: object, src: object): void {
-    for (const k of Object.keys(target)) delete (target as Record<string, unknown>)[k];
-    Object.assign(target, src);
-  }
-  let seekQueued: number | null = null;
-  /** タイムラインの時刻へ移る。その時刻以前でいちばん新しい写しを表示し、一時停止する */
-  function seekTo(tMin: number): void {
-    if (world.ended) return;
-    // いまが最新なら、戻る前に最新の状態も写しておく（「最新へ」で戻れるように）
-    if (world.tMin >= timeline.endMin - 1e-6) timeline.capture(world, recorder, true);
-    seekQueued = tMin;
-  }
-  function applySeek(): void {
-    if (seekQueued === null) return;
-    const snap: TimelineSnap | null = timeline.at(seekQueued);
-    seekQueued = null;
-    if (!snap || Math.abs(snap.tMin - world.tMin) < 1e-6) return;
-    choiceUi?.close();
-    choiceUi = null;
-    shownCp = null;
-    replaceInPlace(world, structuredClone(snap.world));
-    replaceInPlace(recorder, structuredClone(snap.recorder));
-    ctx.events.length = 0;
-    loop.reset(world);
-    loop.paused = true;
-    hud.setCutoff(world.tMin < timeline.endMin - 1e-6 ? world.tMin : null);
-    refresh(true);
-  }
-  /** 過去を表示していたなら、そこからやり直す（それより先の写し・ログ・分岐点の記録を捨てる） */
-  function truncateIfPast(): void {
-    if (world.tMin < timeline.endMin - 1e-6) {
-      timeline.truncateAfter(world.tMin);
-      for (const [id, sn] of Object.entries(snapshots)) if (sn.world.tMin > world.tMin + 1e-6) delete snapshots[id];
-      hud.truncate(world.tMin);
-      toast(JA.ui.timelineRewound, 3500);
-    }
-  }
-  /**
-   * 分岐点の場面へ戻る（ログの「この場面へ」・タイムラインの分岐点の印）。選択肢が出た瞬間の写しに戻し、選択肢の窓を出す。
-   * 選び直すと、そこから先をやり直す（それまでは「最新へ」で戻れる）。写しがなければ、その時刻へ移る
-   */
-  function jumpToChoice(tMin: number): void {
-    if (world.ended) return;
-    const found = Object.values(snapshots).find((sn) => Math.abs(sn.world.tMin - tMin) < 0.05);
-    if (!found || !found.world.pendingChoice) {
-      seekTo(tMin);
-      return;
-    }
-    if (world.tMin >= timeline.endMin - 1e-6) timeline.capture(world, recorder, true);
-    choiceUi?.close();
-    choiceUi = null;
-    shownCp = null;
-    replaceInPlace(world, structuredClone(found.world));
-    replaceInPlace(recorder, structuredClone(found.recorder));
-    ctx.events.length = 0;
-    loop.reset(world);
-    loop.paused = true;
-    hud.setCutoff(world.tMin < timeline.endMin - 1e-6 ? world.tMin : null);
-    refresh(true);
-    toast(JA.ui.jumpedToChoice, 3500);
-    onChoice();
-  }
-  /** 再生に入る直前: 過去を表示していたなら、そこからやり直す */
-  function beforePlay(): void {
-    truncateIfPast();
-    // 分岐点の回答待ちで止まっている時刻へ戻った場合は、選択肢を出し直す
-    if (world.pendingChoice) window.setTimeout(() => onChoice(), 0);
-  }
+
+  const tt = createTimeTravel({
+    world,
+    recorder,
+    ctx,
+    loop: () => loop,
+    timeline,
+    snapshots,
+    hud,
+    closeChoice: () => {
+      choiceUi?.close();
+      choiceUi = null;
+      shownCp = null;
+    },
+    refresh: (f) => refresh(f),
+    onChoice: () => onChoice(),
+  });
 
   let uiTick = 0;
   function refresh(force = false): void {
@@ -543,32 +420,26 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       view.overlay.update(world, ctx);
     }
     if (!world.ended && performance.now() - lastSave > AUTOSAVE_MS) void save();
-    writeUrl();
+    url.write();
   }
 
   // ---- 入力 ----
-  const onKey = (e: KeyboardEvent): void => {
-    if (choiceUi || (e.target as HTMLElement).closest('input,select,textarea,dialog')) return;
-    const speeds: Speed[] = [1, 4, 15, 60];
-    if (e.key === ' ') {
-      if (loop.paused) beforePlay();
-      loop.paused = !loop.paused;
-      e.preventDefault();
-    } else if (/^[1-4]$/.test(e.key)) {
-      loop.speed = speeds[Number(e.key) - 1]!;
-      beforePlay();
-      loop.paused = false;
-    } else if (e.key === 'g' || e.key === 'G') {
+  const onKey = createKeyHandler({
+    blocked: () => choiceUi !== null,
+    loop: () => loop,
+    beforePlay: () => tt.beforePlay(),
+    toggleGod: () => {
       hud.god = !hud.god;
       view.godView = hud.god;
-    } else if (e.key === 'c' || e.key === 'C') {
+    },
+    cycleCamera: () => {
       const order: CameraMode[] = ['overview', 'follow', 'eye'];
       cam = order[(order.indexOf(cam) + 1) % 3]!;
       view.mode = cam;
       bubbles.eyeOf = cam === 'eye' ? (view.selected ?? world.climbers[0]?.id ?? null) : null;
-    } else return;
-    refresh(true);
-  };
+    },
+    refresh: () => refresh(true),
+  });
   document.addEventListener('keydown', onKey);
   const ro = new ResizeObserver(() => {
     const r = stage.getBoundingClientRect();
@@ -621,7 +492,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (world.pendingChoice) onChoice();
   // URL の場面が結末のあとなら、結末の画面へ
   if (replay && world.ended) onEnded();
-  writeUrl(true);
+  url.write(true);
 
   return () => {
     // 画面を離れるとき（ブラウザの戻るなど）も続きを保存する（結末に着いていれば何もしない）

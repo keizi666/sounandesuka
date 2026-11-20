@@ -18,6 +18,7 @@ import { optionLabel, type SimResult } from './simScreen';
 import { audio } from './audio';
 import { endingMusic } from './simAudio';
 import { openDebriefPanel } from './debrief';
+import { historicalSources } from './historicalLinks';
 import { communityPostCard } from './community/postCard';
 
 export function endingTone(kind: string): 'good' | 'mid' | 'bad' {
@@ -104,6 +105,7 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
           el('p', { class: 'note' }, JA.disclaimer.endingNote),
           s.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,
           s.historical ? el('p', { class: 'note strong' }, s.historical.disclaimer) : null,
+          s.historical ? historicalSources(s.historical) : null,
         ]),
       ]),
       el('footer', { class: 'bf-bar' }, [

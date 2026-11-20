@@ -813,3 +813,46 @@ dialog.settings .settings-foot button { min-width: 140px; padding: 8px 24px; }
 .sel-bar .sel-bar-in { width: 100%; box-sizing: border-box; justify-content: flex-start; }
 .sel-bar .sel-bar-in h1 { flex: 0 1 auto; }
 .sel-bar .sel-bar-in .sel-count { margin-left: 0; }
+
+/* ---- 上のバー: 俯瞰/FPV の切り替え、狭い画面の短い文字・小さいボタン・たたむ（ユーザーの指定） ---- */
+.topbar .lbl-short { display: none; }
+.topbar .tb-fold { display: none; }
+@media (max-width: 760px) {
+  .topbar { gap: 3px; padding: 3px 4px; }
+  .topbar button, .topbar .layers summary { min-height: 30px; padding: 2px 6px; font-size: 0.82rem; gap: 3px; }
+  .topbar button.icon { padding: 2px 5px; }
+  .topbar button.icon .ic, .topbar .ic { width: 1.25em; height: 1.25em; }
+  .topbar .group button { padding: 2px 6px; }
+  .topbar .clock { font-size: 0.95em; padding: 0 3px; }
+  .topbar .grp-ic { display: none; }
+  .topbar .lbl-long { display: none; }
+  .topbar .lbl-short { display: inline; }
+  .topbar .tb-fold { display: inline-flex; margin-left: auto; }
+  /* たたんだら、ホーム・時刻・再生/一時停止・ひらくボタンだけ */
+  .topbar.folded > :not(:first-child):not(.clockbox):not(.speeds):not(.tb-fold) { display: none; }
+  .topbar.folded .speeds > :not(:first-child) { display: none; }
+}
+
+/* ---- ログ: 3 人以上の飲食を 1 行にまとめる（ユーザーの指定） ---- */
+ol.log li.group-intake .pill { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+ol.log li.group-intake .pill > svg { width: 1.1em; height: 1.1em; fill: currentColor; opacity: 0.85; }
+ol.log li.group-intake .gi-faces { display: inline-flex; flex-wrap: wrap; gap: 0; padding-left: 4px; }
+ol.log li.group-intake .gi-face { padding: 0; min-height: 0; border: none; background: none; margin-left: -6px; border-radius: 50%; cursor: pointer; }
+ol.log li.group-intake .gi-face:first-child { margin-left: 0; }
+ol.log li.group-intake .gi-face:hover { transform: translateY(-2px); }
+
+/* ---- 史実: 選択肢の窓に、実際の遭難での選択（ユーザーの指定） ---- */
+div.choice .recorded-line { display: flex; align-items: center; gap: 6px; margin: 8px 0 2px; padding: 6px 10px; border-radius: 8px; background: rgba(120, 160, 220, 0.14); border: 1px solid rgba(120, 160, 220, 0.35); color: #cfe0ff; font-size: 0.92rem; }
+div.choice .recorded-line svg { width: 1.1em; height: 1.1em; fill: currentColor; flex: 0 0 auto; }
+div.choice .option.recorded { border-color: rgba(120, 160, 220, 0.6); }
+div.choice .rec-badge { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; margin-bottom: 3px; padding: 1px 8px; border-radius: 999px; background: rgba(120, 160, 220, 0.22); color: #cfe0ff; font-size: 0.75rem; font-weight: 600; }
+div.choice .rec-badge svg { width: 1em; height: 1em; fill: currentColor; }
+
+/* ---- 史実: 出典の一覧（リンク） ---- */
+.hist-src h3 { display: flex; align-items: center; gap: 6px; margin: 10px 0 4px; font-size: 0.95rem; }
+.hist-src h3 svg { width: 1.1em; height: 1.1em; fill: currentColor; }
+.hist-src ul { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 3px; }
+.hist-src li { font-size: 0.88rem; line-height: 1.5; }
+.hist-src a { color: #8ec5ff; text-decoration: underline; text-underline-offset: 2px; }
+.hist-src a:hover { color: #b9dcff; }
+.hist-src small { color: var(--muted); margin-left: 4px; }

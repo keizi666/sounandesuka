@@ -289,6 +289,10 @@ export interface HistoricalDef {
   labelsNote: string;
   disclaimer: string;
   recordedChoices: Record<string, string>;
+  /** 記録の死者数。記録どおりに選び続けたら、この人数になるよう乱数の種（seed）を選ぶ（npm run historical） */
+  recordedDeaths?: number;
+  /** 記録で助かった人。記録どおりに選び続けたら、この人たちも助かるよう種を選ぶ */
+  recordedSurvivors?: ClimberId[];
   reference: { at: TimeRef; label: string; who?: ClimberId | null; node?: NodeId | null }[];
 }
 

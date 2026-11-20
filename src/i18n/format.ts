@@ -215,6 +215,9 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (d['stung']) return fill(L.stung, { who });
       if (d['streamDrink']) return fill(L.streamDrink, { who });
       if (d['walkOut']) return fill(L.walkOut, { who });
+      if (d['leftBehind']) return fill(L.leftBehind, { who, companion: String(d['companion'] ?? '') });
+      if (d['reportedLeftBehind']) return fill(L.reportedLeftBehind, { who });
+      if (typeof d['groundCurrent'] === 'number') return fill(L.groundCurrent, { who, n: String(d['groundCurrent']) });
       if (typeof d['errandHutSeen'] === 'string') return fill(L.errandHutSeen, { who, node: f.nodeName(String(d['errandHutSeen'])) });
       if (d['rescueNotThere']) return L.rescueNotThere;
       if (typeof d['rescueHold'] === 'string') {

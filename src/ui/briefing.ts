@@ -2,6 +2,7 @@
  * ブリーフィング（FR-02）: 山行の概要、計画ルートの地図と行程表、パーティと装備、出発前の予報、注記・出典。
  * レイアウト: 写真つきの見出し（題名と要点）→ 左に地図と行程表、右に物語・パーティ・予報 → 下に固定した「出発する」。
  */
+import { historicalSources } from './historicalLinks';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { JA } from '../i18n/ja';
@@ -181,7 +182,7 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
         s.historical
           ? el('section', { class: 'bf-card bf-historical' }, [
               el('p', { class: 'strong' }, [icon('warning'), s.historical.disclaimer]),
-              el('p', {}, `出典: ${s.historical.sources.map((x) => `${x.title}（${x.publisher ?? ''} ${x.year ?? ''}）`).join(' / ')}`),
+              historicalSources(s.historical),
               el('p', {}, s.historical.labelsNote),
               el('p', {}, '※印のセリフは架空です。記録に残る発言には「記録」と表示しています。'),
             ])

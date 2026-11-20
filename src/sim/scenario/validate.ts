@@ -247,7 +247,7 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
   // パーティ
   const leaders = s.party.filter((p) => p.leader).length;
   if (leaders !== 1) v.err('party', 'leader', `leader: true の登山者がちょうど 1 人必要です（${leaders} 人）`);
-  if (s.party.length === 0 || s.party.length > 20) v.err('party', 'partySize', 'パーティは 1〜20 人');
+  if (s.party.length === 0 || s.party.length > 60) v.err('party', 'partySize', 'パーティは 1〜60 人');
   const seen = new Set<string>();
   s.party.forEach((p, i) => {
     if (seen.has(p.id)) v.err(`party[${i}].id`, 'duplicate', `登山者 ID "${p.id}" が重複しています`);

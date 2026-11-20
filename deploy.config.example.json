@@ -1,9 +1,9 @@
 {
   "host": "example.sakura.ne.jp",
   "user": "example",
-  "remoteDir": "/home/example/www/example/sounandesuka",
-  "base": "/sounandesuka/",
+  "remoteDir": "/home/example/www/example/sounandesuyo",
+  "base": "/sounandesuyo/",
   "api": {
-    "dataDir": "/home/example/sounandesuka-data"
+    "dataDir": "/home/example/sounandesuyo-data"
   }
 }

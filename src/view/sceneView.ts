@@ -107,6 +107,8 @@ export class SceneView {
   private locatorTex: THREE.Texture | null = null;
   /** 並びのずれ（シーン単位の x・z） */
   private formation = new Map<string, THREE.Vector2>();
+  /** 列の先頭が歩いた跡（メートル。新しい順）。後ろの人はこの跡に沿って並ぶ（ユーザーの指定: 一直線に並んで道を外れない） */
+  private crumbs = new Map<string, [number, number][]>();
   private veg: Vegetation;
   private windows: THREE.MeshStandardMaterial;
   private falseTrails: THREE.Object3D[];
@@ -420,18 +422,55 @@ export class SceneView {
     for (const f of this.falseTrails) f.visible = this.godView;
     // 同じ場所にいる仲間は、描くときだけ一列に並べる（シミュレーション上は同じ位置を歩いている）
     const rank = new Map<string, number>();
+    /** 並びの先頭の人（同じ場所の仲間の 1 人目） */
+    const headOf = new Map<string, string>();
     {
-      const seen: { x: number; z: number; g: string | null; n: number }[] = [];
+      const seen: { x: number; z: number; g: string | null; n: number; head: string }[] = [];
       for (const c of world.climbers) {
         let slot = seen.find((q) => q.g === c.groupId && Math.hypot(q.x - c.x, q.z - c.z) < 4);
         if (!slot) {
-          slot = { x: c.x, z: c.z, g: c.groupId, n: 0 };
+          slot = { x: c.x, z: c.z, g: c.groupId, n: 0, head: c.id };
           seen.push(slot);
         }
         rank.set(c.id, slot.n);
+        headOf.set(c.id, slot.head);
         slot.n += 1;
       }
     }
+    const gapM = (this.figureHeight() * 0.62) / UNIT;
+    // 先頭の人の跡を足す（少し動くごとに 1 点。大きく飛んだら（時間を戻したなど）やり直す）
+    for (const c of world.climbers) {
+      if (rank.get(c.id) !== 0) continue;
+      const p = prev?.[c.id];
+      const hx = p ? p.x + (c.x - p.x) * alpha : c.x;
+      const hz = p ? p.z + (c.z - p.z) * alpha : c.z;
+      let tr = this.crumbs.get(c.id);
+      const last = tr?.[0];
+      if (!tr || !last || Math.hypot(last[0] - hx, last[1] - hz) > gapM * 30) {
+        tr = [[hx, hz]];
+        this.crumbs.set(c.id, tr);
+      } else if (Math.hypot(last[0] - hx, last[1] - hz) >= gapM * 0.3) {
+        tr.unshift([hx, hz]);
+        const maxPts = Math.ceil((world.climbers.length + 2) / 0.3) + 4;
+        if (tr.length > maxPts) tr.length = maxPts;
+      }
+    }
+    /** 跡に沿って、先頭から distM 後ろの点（跡が短ければ null） */
+    const alongCrumbs = (headId: string, hx: number, hz: number, distM: number): [number, number] | null => {
+      const tr = this.crumbs.get(headId);
+      if (!tr || tr.length === 0) return null;
+      let ax = hx;
+      let az = hz;
+      let left = distM;
+      for (const [bx, bz] of tr) {
+        const seg = Math.hypot(bx - ax, bz - az);
+        if (seg >= left && seg > 1e-6) return [ax + ((bx - ax) * left) / seg, az + ((bz - az) * left) / seg];
+        left -= seg;
+        ax = bx;
+        az = bz;
+      }
+      return null;
+    };
     for (const c of world.climbers) {
       let fig = this.figures.get(c.id);
       if (!fig) {
@@ -442,19 +481,32 @@ export class SceneView {
       const p = prev?.[c.id];
       const x = p ? p.x + (c.x - p.x) * alpha : c.x;
       const z = p ? p.z + (c.z - p.z) * alpha : c.z;
-      // 並びのずれ: 先頭から k 人目は進行方向の後ろへ。少し左右に振って一直線にしない。向きが変わっても急に飛ばないよう、ゆっくり追従させる
+      // 並びのずれ: 先頭から k 人目は、先頭が歩いた跡に沿って k 人分うしろへ（道の曲がりに沿う）。跡がまだ短ければ進行方向の後ろへ。
+      // 少し左右に振って一直線にしない。急に飛ばないよう、なめらかに追従させる
       const k = rank.get(c.id) ?? 0;
       const gap = this.figureHeight() * 0.62;
-      const side = k === 0 ? 0 : (k % 2 === 1 ? 1 : -1) * gap * 0.22;
-      const wantX = -Math.sin(c.headingRad) * gap * k + Math.cos(c.headingRad) * side;
-      const wantZ = Math.cos(c.headingRad) * gap * k + Math.sin(c.headingRad) * side;
+      const side = k === 0 ? 0 : (k % 2 === 1 ? 1 : -1) * gap * 0.18;
+      let wantX = -Math.sin(c.headingRad) * gap * k + Math.cos(c.headingRad) * side;
+      let wantZ = Math.cos(c.headingRad) * gap * k + Math.sin(c.headingRad) * side;
+      const head = headOf.get(c.id);
+      if (k > 0 && head) {
+        const hp = prev?.[head];
+        const hc = world.climbers.find((q) => q.id === head);
+        const hx = hc ? (hp ? hp.x + (hc.x - hp.x) * alpha : hc.x) : x;
+        const hz = hc ? (hp ? hp.z + (hc.z - hp.z) * alpha : hc.z) : z;
+        const at = alongCrumbs(head, hx, hz, gapM * k);
+        if (at) {
+          wantX = (at[0] - x) * UNIT + Math.cos(c.headingRad) * side;
+          wantZ = (at[1] - z) * UNIT + Math.sin(c.headingRad) * side;
+        }
+      }
       let off = this.formation.get(c.id);
       if (!off) {
         off = new THREE.Vector2(wantX, wantZ);
         this.formation.set(c.id, off);
       }
-      off.x += (wantX - off.x) * 0.06;
-      off.y += (wantZ - off.y) * 0.06;
+      off.x += (wantX - off.x) * 0.2;
+      off.y += (wantZ - off.y) * 0.2;
       const sx = x * UNIT + off.x;
       const sz = z * UNIT + off.y;
       fig.root.position.set(sx, this.heightAt(sx, sz), sz);

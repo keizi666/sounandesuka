@@ -108,6 +108,8 @@ export const slip = {
   base100: { T1: 0.0015, T2: 0.004, EXPOSED: 0.01, OFF: 0.012, OFF_STEEP: 0.04, STREAM: 0.06, CLIFF: 0.35 } as Record<string, number>,
   offSteepDeg: 30,
   offCliffDeg: 45,
+  /** 道の外で、斜面そのものの傾きをどれだけ見るか（横切って巻くとき。1 = 斜面の傾きそのまま） */
+  traverseF: 0.9,
   wetF: 1.6,
   icyCramponsF: 1.3,
   icyF: 4.0,
@@ -166,6 +168,21 @@ export const lightning = {
   bystanderM: 5,
   bystanderP: 0.3,
   struckUnconsciousMin: 30,
+  /**
+   * 地面を伝わる電流・側撃（1 回の落雷で近くの何人もが倒れる。1967 年の西穂高では、濡れた斜面に並んだ列の多くが倒れた）。
+   * 打たれた人からの距離 d が groundM（地面が濡れていれば groundWetM）以内の人に、k = 1 − d / 半径 として:
+   * 心停止 groundDeathP × k²、気を失う（頭部外傷として扱う）groundKnockP × k、ほかは打撲 bystanderP × k。しゃがんでいれば postureF 倍
+   */
+  groundM: 12,
+  groundWetM: 25,
+  groundWetAbove: 0.5,
+  groundDeathP: 0.25,
+  groundKnockP: 0.55,
+  /**
+   * 群れ: 近く（groundM 以内）に n 人いると、雷はそのうちの誰か 1 か所に落ちる。一人ひとりの確率を n で割り、
+   * 群れ全体の受け方は 1 + clusterK × (n − 1) 倍にする（人が多いほど少しだけ目立つ）。一人ずつ独立に落ちると、密集した列で回数が人数倍になる
+   */
+  clusterK: 0.15,
 };
 
 /** docs/08 §4 機器 */

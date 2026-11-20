@@ -8,7 +8,7 @@
   "season": "autumn",
   "estMinutes": 25,
   "mapId": "shirouma2006",
-  "seed": 20061007,
+  "seed": 2915118956,
   "startDate": "2006-10-07",
   "startAt": "D0 05:08",
   "timeLimit": "D2 09:00",
@@ -1021,15 +1021,23 @@
   "historical": {
     "event": "2006年10月7日 白馬岳 清水尾根のガイド登山遭難",
     "sources": [
+      { "title": "2006年10月の低気圧（白馬岳の遭難を含む事典記事）", "publisher": "Wikipedia 日本語版", "url": "https://ja.wikipedia.org/wiki/2006年10月の低気圧" },
       { "title": "東京高裁 平成27年10月30日判決（平成27年(う)第1017号 業務上過失致死被告事件）", "publisher": "東京高等裁判所（判例タイムズ1421号146頁）", "year": 2015 },
       { "title": "長野地裁松本支部 平成27年4月20日判決", "publisher": "長野地方裁判所松本支部", "year": 2015 },
       { "title": "判例研究 登山における山岳ガイドの注意義務 ── 白馬岳「気象遭難」事件", "publisher": "専修ロージャーナル 第12号（専修大学）", "year": 2016 },
       { "title": "白馬岳の遭難の報道（2006年10月8日〜11日、2007年10月4日）", "publisher": "信濃毎日新聞・朝日新聞", "year": 2006 },
-      { "title": "Guide gets suspended three-year term over '06 climbing deaths in Nagano", "publisher": "The Japan Times", "year": 2015 },
-      { "title": "『麓は秋でも山は冬』が起こる条件 ── 2006年10月の白馬岳遭難事故の教訓", "publisher": "山と溪谷オンライン" }
+      {
+        "title": "Guide gets suspended three-year term over '06 climbing deaths in Nagano",
+        "url": "https://www.japantimes.co.jp/news/2015/04/20/national/guide-gets-suspended-three-year-term-06-climbing-deaths-nagano/",
+        "publisher": "The Japan Times",
+        "year": 2015
+      },
+      { "title": "『麓は秋でも山は冬』が起こる条件 ── 2006年10月の白馬岳遭難事故の教訓", "url": "https://www.yamakei-online.com/yama-ya/detail.php?id=824", "publisher": "山と溪谷オンライン" }
     ],
     "labelsNote": "人物は判決の記号（客B〜F、見習いガイドG）と役割（ガイド）で表記し、実名は使わない。年齢・性別・役割・時刻・亡くなった場所は記録にもとづく。体重・体力・服装の保温力・防寒着の量・食べる間隔は推定。",
     "disclaimer": "このシナリオは、判決の要旨・判例研究・報道をもとに当日の経過を再構成したものです。年齢・性別・役割・行動の経過は記録にもとづきますが、体重・体力・装備の細部・体温などはシミュレーションの推定値であり、実際の値ではありません。シミュレーションの結果は実際の出来事を説明するものではありません。亡くなられた方々に哀悼の意を表します。※印のセリフ・思考は架空です。記録に残る発言には「記録」と表示しています。",
+    "recordedSurvivors": ["guide", "subg"],
+    "recordedDeaths": 4,
     "recordedChoices": { "generic:lostAware": "backtrack", "cp_depart": "go", "cp_hut": "go", "cp_ridge": "go", "cp_shozu": "go", "cp_split": "split", "cp_leave": "help", "cp_lead": "huddle" },
     "reference": [
       { "at": "D0 05:10", "label": "小雨の中、祖母谷温泉の小屋を出発", "node": "BABA" },

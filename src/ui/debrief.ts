@@ -20,6 +20,7 @@ import type { WhatIfIn, WhatIfJob, WhatIfOut } from '../workers/whatif.worker';
 import { drawTimeline, timeAtX, type ChartMarks } from './charts';
 import { el } from './dom';
 import { icon } from './icons';
+import { historicalSources } from './historicalLinks';
 import { drawMap2d } from './map2d';
 import { zoomableMap } from './mapZoom';
 import { attributionLine, optionLabel, type SimResult } from './simScreen';
@@ -196,6 +197,7 @@ function buildDebrief(app: AppContext, loaded: LoadedScenario, result: SimResult
           ...s.historical.reference.map((r) => el('tr', {}, [el('td', {}, formatDateTime(s, parseTimeRef(r.at))), el('td', {}, r.label)])),
         ]),
         el('p', { class: 'note strong' }, s.historical.disclaimer),
+        historicalSources(s.historical),
       ])
     : null;
 

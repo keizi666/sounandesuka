@@ -43,6 +43,10 @@ const BUILTIN: Builtin[] = [
   // 本降りでも着ないでいる（止まって着るのが面倒・どうせ濡れる、という先延ばし）
   { key: 'rain_delay_heavy', priority: 4, when: (_w, _c, c) => c.local.precipMmH >= RAIN_HEAVY_MMH && !c.body.rainwearOn && c.def.gear.rainwear !== 'none' && c.state === 'WALKING' },
   { key: 'cold_hands', priority: 5, when: (_w, _c, c) => c.body.coreC < 35.8 },
+  // 水・食べ物の残りを気にして控える（ユーザーの指定）
+  { key: 'water_ration', priority: 5, when: (_w, _c, c) => c.def.gear.waterL > 0 && c.inv.waterL > 0 && c.inv.waterL / c.def.gear.waterL < 0.5 },
+  { key: 'water_out', priority: 6, when: (_w, _c, c) => c.def.gear.waterL > 0 && c.inv.waterL <= 0.01 && c.body.waterDeficitL > 0.8 },
+  { key: 'food_ration', priority: 5, when: (_w, _c, c) => c.def.gear.foodKcal > 0 && c.inv.foodKcal > 0 && c.inv.foodKcal / c.def.gear.foodKcal < 0.5 },
   // 「今夜はここで」は夕方から（昼の雨宿り・休憩では出さない）
   { key: 'sheltered', priority: 5, when: (w, _c, c) => c.state === 'SHELTERED' && (w.sun.isDark || clockOf(w) >= 15 * 60) },
   { key: 'unaware_offroute', priority: 6, when: (_w, _c, c) => c.state === 'OFFROUTE_UNAWARE' },

@@ -41,6 +41,6 @@ d.text((x + 4, 378), '選ぶのは登山者の行動。結果は、気象・地�
 d.text((x + 4, 420), '体温や体力のモデルと確率が決める。', font=font(29, 500), fill=(214, 220, 228))
 # 下: URL の帯
 d.rounded_rectangle((x, 500, x + 380, 552), radius=26, fill=(212, 166, 74))
-d.text((x + 24, 506), 'kzi.jp/sounandesuka', font=font(30, 700), fill=(28, 24, 18))
+d.text((x + 24, 506), 'kzi.jp/sounandesuyo', font=font(30, 700), fill=(28, 24, 18))
 card.convert('RGB').save(R + r"\public\og-card.jpg", quality=88, optimize=True, progressive=True)
 print('ok')

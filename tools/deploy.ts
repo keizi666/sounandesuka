@@ -3,7 +3,7 @@
 // 公開用にビルドして、サーバーへ SSH（scp）で上げる。設定はリポジトリに入れない deploy.config.json に書く
 // （書き方は deploy.config.example.json）。パスワードは ssh・scp が聞いてくるので、その場で入れる（SSH 鍵を登録しておけば聞かれない）。
 //
-// - ビルドのベースパスは設定の base（例: /sounandesuka/）
+// - ビルドのベースパスは設定の base（例: /sounandesuyo/）
 // - 実在の山の地形データ（*.sounan.json。地理院の標高・OSM 由来）は、権利の確認が済むまで上げない。上げるときは --with-real-data
 // - --dry-run: ビルドと、上げるファイルの一覧だけ（サーバーにはつながない）
 // - 「みんなの遭難記録」の API（server/api の PHP）を dist/api に写し、設定 config.local.php を作って一緒に上げる（docs/20_community.md §5）。
@@ -21,7 +21,7 @@ interface DeployConfig {
   user: string;
   /** 置く場所（サーバーの絶対パス） */
   remoteDir: string;
-  /** 公開する URL のパス（例: /sounandesuka/） */
+  /** 公開する URL のパス（例: /sounandesuyo/） */
   base: string;
   /** SSH のポート（省略は 22） */
   port?: number;

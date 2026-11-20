@@ -74,7 +74,7 @@
 |---|---|
 | `npm run dev` | 開発サーバー（http://localhost:5281 。`/` プレイヤー、`/editor.html` エディター） |
 | `npm run build` | `dist/` に静的ビルド（`VITE_BASE` でベースパス指定可） |
-| `npm run build:sounan` | `/sounandesuka/` に置く用の静的ビルド |
+| `npm run build:sounan` | `/sounandesuyo/` に置く用の静的ビルド |
 | `npm run deploy [-- --with-real-data] [--dry-run]` | 公開用にビルドしてサーバーへ scp で上げる。「みんなの遭難記録」の API（`server/api`）と、その設定 `api/config.local.php` も一緒に作って上げる（設定は git に入れない `deploy.config.json`、見本は `deploy.config.example.json`。実在の山の地形データは権利の確認まで既定で上げない） |
 | `npm run typecheck` | `tsc --noEmit`（全体と、DOM・Node の型なしで `src/sim` だけを見る `tsconfig.sim.json` の 2 回） |
 | `npm run test` | vitest（ユニット・較正・決定論テスト） |

@@ -9,6 +9,9 @@ import { per10m } from './navigation';
 import { stepFree } from './offtrail';
 import { transition } from './state';
 import { walkStep, type WalkResult } from './walk';
+import { splitParty } from './groups';
+import { applyActions } from './actions';
+import { reportMissing } from '../rescue/rescue';
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
 /** 歩いて移動する状態 */
@@ -107,6 +110,45 @@ function follow(world: World, ctx: StaticContext, leader: ClimberState, m: Climb
   }
 }
 
+/** 列について歩けない人（足の骨折・力尽きかけ）。気を失った・動けない人は、全員で止まる（下の処理） */
+function cannotKeepUp(m: ClimberState): boolean {
+  return m.body.alive && m.body.conscious && m.state !== 'INCAPACITATED' && (m.body.injury === 'legFracture' || m.M < 0.1);
+}
+
+/**
+ * 歩けない人と付き添い 1 人を残し、残りは先へ進む。残った二人はその場で風を避けて救助を待つ。
+ * 先へ進んだ人が小屋か登山口に着いたら、残った人のことを知らせる（reportLeftBehind）
+ */
+function leaveBehind(world: World, ctx: StaticContext, leader: ClimberState, members: readonly ClimberState[]): boolean {
+  const downs = members.filter((m) => m !== leader && cannotKeepUp(m));
+  if (downs.length === 0) return false;
+  const able = members.filter((m) => m !== leader && !downs.includes(m) && m.body.conscious && m.M >= 0.5);
+  if (able.length === 0) return false;
+  // 付き添いは、経験のある人（引率の大人など）を先に、同じなら元気な人。リーダーは動ける人を率いて小屋へ行き、救助を頼む（ユーザーの指定）
+  const companion = able.reduce((a, b) => (b.def.experience > a.def.experience + 1e-9 || (Math.abs(b.def.experience - a.def.experience) <= 1e-9 && b.M > a.M) ? b : a));
+  const gid = `left_${downs[0]!.id}`;
+  splitParty(world, ctx, [{ id: gid, members: [companion.id, ...downs.map((d) => d.id)], leader: companion.id, cohesion: 'tight', actions: [{ type: 'bivouac', until: 'rescue', findLee: true }] }], members, (acts, group, l) => applyActions(world, ctx, acts, group, l));
+  world.latches[`leftBehind:${leader.groupId}`] = true;
+  ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: downs[0]!.id, important: true, data: { leftBehind: true, companion: companion.def.name, n: downs.length } });
+  return true;
+}
+
+/** 歩けない人を残して先へ進んだ列が、小屋（通るだけでも）か登山口に着いたら、残った人のことを知らせる（救助が動く） */
+function reportLeftBehind(world: World, ctx: StaticContext): void {
+  for (const g of world.groups) {
+    if (!world.latches[`leftBehind:${g.id}`]) continue;
+    const l = groupLeader(world, g.id);
+    // 登山口に着いた・小屋に入った・小屋のある地点を通った（小屋の人に知らせる）
+    const atHut = l.pos.mode === 'node' && ctx.map.nodes[l.pos.nodeId]?.shelter !== undefined;
+    if (!(l.state === 'FINISHED' || l.body.shelterNodeId || atHut)) continue;
+    world.latches[`leftBehind:${g.id}`] = false;
+    if (world.rescue.calledAtMin === null) {
+      reportMissing(world, l.def.name);
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: l.id, important: true, data: { reportedLeftBehind: true } });
+    }
+  }
+}
+
 /**
  * 移動（8d）。返り値は登山者 ID ごとの移動の結果（動かなかった人は含めない）。
  * hold が true なら誰も動かない（判断時間制限モードで分岐点の回答待ち）。
@@ -114,6 +156,7 @@ function follow(world: World, ctx: StaticContext, leader: ClimberState, m: Climb
 export function moveParty(world: World, ctx: StaticContext, dtSec: number, hold: boolean): Record<string, MoveOutcome> {
   const out: Record<string, MoveOutcome> = {};
   if (hold) return out;
+  reportLeftBehind(world, ctx);
   const done = new Set<string>();
   for (const c of world.climbers) {
     if (done.has(c.id)) continue;
@@ -132,6 +175,9 @@ export function moveParty(world: World, ctx: StaticContext, dtSec: number, hold:
     if (members.length === 0) continue;
     const leader = groupLeader(world, g.id);
     if (!canMove(leader)) continue;
+    // 大人数の列で、リーダー以外の人が歩けなくなった（足の骨折・力尽きかけ）ら、その人と付き添いを残して先へ進む
+    // （列は一番遅い人に合わせて歩くので、そのままでは全員がほとんど進まずに止まってしまう。ユーザーの指摘）
+    if (MOVING.has(leader.state) && members.length >= ctx.tuning.behavior.leaveBehindMinSize && leaveBehind(world, ctx, leader, members)) continue;
     // 動けない人がいれば全員止まる
     if (members.some((m) => m.state === 'INCAPACITATED' || m.state === 'UNCONSCIOUS')) {
       for (const m of members) if (MOVING.has(m.state)) transition(world, ctx, m, 'STAYING', 'groupStopped');

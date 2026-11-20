@@ -6,7 +6,7 @@ import { closeLogDetail, openLogDetail, snapGauges, type LogSnap } from './logDe
 import { avatar } from './avatar';
 import { icon } from './icons';
 import { JA } from '../i18n/ja';
-import { formatDateTime } from '../i18n/format';
+import { fill, formatDateTime } from '../i18n/format';
 import type { ClimberState, ScenarioDef, World } from '../sim/types';
 import type { CameraMode } from '../view/sceneView';
 import type { OverlayKind } from '../view/overlay';
@@ -52,9 +52,19 @@ export interface LogLine {
   snap?: LogSnap;
   /** 分岐点の行: この時刻の場面へ戻れる */
   jumpTo?: number;
+  /** 飲食の行（3 人以上続いたら 1 行にまとめる。ユーザーの指定）と、その量の文 */
+  group?: 'drink' | 'eat';
+  amount?: string;
 }
 
+/** まとめる飲食の行が続いているとみなす時間（分） */
+const GROUP_GAP_MIN = 15;
+/** この人数からまとめる */
+const GROUP_MIN = 3;
+
 const SPEED_LIST: Speed[] = [1, 4, 15, 60];
+/** 上のバーをたたんでいるか（狭い画面） */
+const TOPBAR_FOLD_KEY = 'hks.v1.topbarFolded';
 
 export class Hud {
   readonly top: HTMLElement;
@@ -72,6 +82,9 @@ export class Hud {
   private pauseBtn: HTMLButtonElement;
   private godBtn: HTMLButtonElement;
   private camBtns = new Map<CameraMode, HTMLButtonElement>();
+  /** 俯瞰 ⇄ FPV を切り替えるボタン（ユーザーの指定） */
+  private povBtn: HTMLButtonElement;
+  private cam: CameraMode = 'follow';
   private climbersEl: HTMLElement;
   private weatherEl: HTMLElement;
   private forecastEl: HTMLElement;
@@ -98,9 +111,9 @@ export class Hud {
       this.speedBtns.set(s, b);
     }
     this.godBtn = el('button', { class: 'toggle', title: 'G', onclick: () => h.setGod(!this.god) });
-    const cams: [CameraMode, string][] = [['overview', JA.ui.camOverview], ['follow', JA.ui.camFollow], ['eye', JA.ui.camEye]];
-    const camIcon = { overview: 'landscape', follow: 'myLocation', eye: 'directionsWalk' } as const;
-    for (const [m, label] of cams) this.camBtns.set(m, el('button', { class: 'cam', onclick: () => h.setCamera(m) }, [icon(camIcon[m]), label]));
+    // カメラ: 「追従」と、俯瞰 ⇄ FPV（一人称）の切り替えボタン（ユーザーの指定）。押すたびに俯瞰と FPV が替わる
+    this.camBtns.set('follow', el('button', { class: 'cam', onclick: () => h.setCamera('follow') }, [icon('myLocation'), JA.ui.camFollow]));
+    this.povBtn = el('button', { class: 'cam pov', title: `${JA.ui.camOverview} / ${JA.ui.camEye}`, onclick: () => h.setCamera(this.cam === 'overview' ? 'eye' : 'overview') });
     const layerBox = (name: 'trail' | 'track' | 'cloud', label: string, on: boolean): HTMLElement => {
       const cb = el('input', { type: 'checkbox', checked: on, onchange: () => h.setLayer(name, cb.checked) });
       return el('label', {}, [cb, label]);
@@ -117,6 +130,26 @@ export class Hud {
       el('div', { class: 'menu' }, [layerBox('trail', JA.ui.layerTrail, true), layerBox('track', JA.ui.layerTrack, true), layerBox('cloud', JA.ui.layerCloud, true), el('label', {}, [JA.ui.layerOverlay, ov])]),
     ]);
     const modeTag = opts.observe ? el('span', { class: 'tag' }, JA.settingsUi.observe) : opts.timed ? el('span', { class: 'tag' }, JA.settingsUi.timed) : null;
+    // 狭い画面では、上のバーをたためる（ホーム・時刻・再生だけを残す。ユーザーの指定）
+    const foldBtn = el('button', { class: 'icon tb-fold', type: 'button' });
+    const paintFold = (): void => {
+      const folded = this.top.classList.contains('folded');
+      foldBtn.replaceChildren(icon(folded ? 'keyboardArrowDown' : 'keyboardArrowUp'));
+      foldBtn.title = folded ? JA.ui.topbarExpand : JA.ui.topbarFold;
+      foldBtn.setAttribute('aria-label', foldBtn.title);
+      foldBtn.setAttribute('aria-expanded', String(!folded));
+    };
+    foldBtn.addEventListener('click', () => {
+      const folded = this.top.classList.toggle('folded');
+      try {
+        localStorage.setItem(TOPBAR_FOLD_KEY, folded ? '1' : '0');
+      } catch {
+        // 覚えられなくても続ける
+      }
+      paintFold();
+      // 上のバーの高さが変わったので、パネルを並べ直す
+      window.dispatchEvent(new Event('resize'));
+    });
     this.top = el('header', { class: 'topbar' }, [
       el('button', { class: 'icon', title: JA.ui.quit, 'aria-label': JA.ui.quit, onclick: () => h.quit() }, icon('home')),
       el('strong', { class: 'title' }, scenario.title),
@@ -124,12 +157,19 @@ export class Hud {
       modeTag,
       el('div', { class: 'group speeds', role: 'group', 'aria-label': JA.ui.speed }, [this.pauseBtn, el('span', { class: 'grp-ic', title: JA.ui.speed }, icon('speed')), ...this.speedBtns.values()]),
       this.godBtn,
-      el('div', { class: 'group cams', role: 'group', 'aria-label': JA.ui.camera }, [...this.camBtns.values()]),
+      el('div', { class: 'group cams', role: 'group', 'aria-label': JA.ui.camera }, [this.povBtn, ...this.camBtns.values()]),
       layers,
       this.soundBtn,
       h.share ? el('button', { class: 'icon', title: JA.ui.share, 'aria-label': JA.ui.share, onclick: () => h.share?.() }, icon('link')) : null,
       el('button', { class: 'icon', title: JA.ui.settings, 'aria-label': JA.ui.settings, onclick: () => h.settings() }, icon('settings')),
+      foldBtn,
     ]);
+    try {
+      if (localStorage.getItem(TOPBAR_FOLD_KEY) === '1') this.top.classList.add('folded');
+    } catch {
+      // 読めなくても続ける
+    }
+    paintFold();
     this.climbersEl = el('div', { class: 'climbers' });
     this.weatherEl = el('div');
     this.forecastEl = el('div');
@@ -178,9 +218,16 @@ export class Hud {
     this.pauseBtn.title = `${paused ? JA.ui.play : JA.ui.pause} (Space)`;
     for (const [s, b] of this.speedBtns) b.classList.toggle('on', s === speed && !paused);
     for (const [m, b] of this.camBtns) b.classList.toggle('on', m === cam);
+    if (this.povBtn.dataset['c'] !== cam) {
+      this.cam = cam;
+      this.povBtn.dataset['c'] = cam;
+      this.povBtn.classList.toggle('on', cam !== 'follow');
+      this.povBtn.replaceChildren(icon(cam === 'eye' ? 'directionsWalk' : 'landscape'), cam === 'eye' ? JA.ui.camFpv : JA.ui.camOverview);
+    }
     if (this.godBtn.dataset['g'] !== String(this.god)) {
       this.godBtn.dataset['g'] = String(this.god);
-      this.godBtn.replaceChildren(icon(this.god ? 'visibility' : 'hiking'), this.god ? JA.ui.godView : JA.ui.climberView);
+      // 狭い画面では短く（神／登山者。ユーザーの指定）
+      this.godBtn.replaceChildren(icon('visibility'), el('span', { class: 'lbl-long' }, this.god ? JA.ui.godView : JA.ui.climberView), el('span', { class: 'lbl-short' }, this.god ? JA.ui.godShort : JA.ui.climberShort));
     }
   }
 
@@ -265,8 +312,55 @@ export class Hud {
   /** 直前の行の話し手（同じ人が続くときは顔と名前を省く。LINE のトーク画面と同じ） */
   private lastSpeaker: string | null = null;
 
+  /** 続いている飲食の行（まとめる候補） */
+  private run: { kind: 'drink' | 'eat'; lines: LogLine[]; lis: HTMLElement[]; grouped: HTMLElement | null } | null = null;
+
+  /** 飲食の行を 1 行にまとめて描く（時刻・何をしたか・顔のアイコンの並び） */
+  private groupLi(kind: 'drink' | 'eat', lines: LogLine[]): HTMLElement {
+    const t0 = formatDateTime(this.scenario, lines[0]!.tMin).split(' ')[1] ?? '';
+    const t1 = formatDateTime(this.scenario, lines[lines.length - 1]!.tMin).split(' ')[1] ?? '';
+    const faces = lines.map((l) => {
+      const who = this.party.get(l.climberId ?? '');
+      if (!who) return null;
+      const b = el('button', { class: 'gi-face', type: 'button', title: `${who.name}${l.amount ? `（${l.amount}）` : ''}` }, avatar(who, 26));
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.h.select(who.id);
+      });
+      return b;
+    });
+    return el('li', { class: 'sys group-intake', 'data-t': lines[0]!.tMin }, [
+      el('span', { class: 'pill' }, [
+        el('time', {}, t0 === t1 ? t0 : `${t0}–${t1}`),
+        icon(kind === 'drink' ? 'waterDrop' : 'restaurant'),
+        fill(kind === 'drink' ? JA.ui.groupDrink : JA.ui.groupEat, { n: String(lines.length) }),
+        el('span', { class: 'gi-faces' }, faces),
+      ]),
+    ]);
+  }
+
   log(line: LogLine): void {
     this.lines.push(line);
+    // 飲食: 同じ種類が続いて 3 人目になったら、それまでの行を 1 行にまとめ、そのあとはその行にアイコンを足す
+    if (line.group) {
+      const r = this.run;
+      if (r && r.kind === line.group && line.tMin - r.lines[r.lines.length - 1]!.tMin <= GROUP_GAP_MIN && this.logEl.lastElementChild === (r.grouped ?? r.lis[r.lis.length - 1])) {
+        r.lines.push(line);
+        if (r.grouped || r.lines.length >= GROUP_MIN) {
+          const g = this.groupLi(line.group, r.lines);
+          if (this.cutoff !== null && line.tMin > this.cutoff + 1e-6) g.hidden = true;
+          if (r.grouped) r.grouped.replaceWith(g);
+          else {
+            r.lis.forEach((x, i) => (i === 0 ? x.replaceWith(g) : x.remove()));
+          }
+          r.grouped = g;
+          this.lastSpeaker = null;
+          const sc = this.logEl.parentElement ?? this.logEl;
+          sc.scrollTop = sc.scrollHeight;
+          return;
+        }
+      } else this.run = { kind: line.group, lines: [line], lis: [], grouped: null };
+    } else this.run = null;
     const time = formatDateTime(this.scenario, line.tMin).split(' ')[1] ?? '';
     const who = line.climberId ? this.party.get(line.climberId) : undefined;
     const kind = line.kind ?? (who ? 'action' : 'system');
@@ -324,6 +418,7 @@ export class Hud {
     }
     if (this.cutoff !== null && line.tMin > this.cutoff + 1e-6) li.hidden = true;
     this.logEl.append(li);
+    if (line.group && this.run) this.run.lis.push(li);
     while (this.logEl.childElementCount > 300) this.logEl.firstElementChild?.remove();
     // ログはウィンドウの本体（親）がスクロールする
     const sc = this.logEl.parentElement ?? this.logEl;
