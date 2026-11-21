@@ -1,0 +1,53 @@
+{
+  "id": "kamuiek",
+  "name": "日高山脈 カムイエクウチカウシ山（九ノ沢カール〜主稜線〜八ノ沢カール・八ノ沢〜札内川）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "日高山脈の主稜線のうち、九ノ沢カールの北西の峰からカムイエクウチカウシ山（1,979 m）まで。九ノ沢カール・八ノ沢カールの二つのカールと、九ノ沢・十ノ沢・八ノ沢を下って札内川に出て、札内川の林道まで。一辺 8 km 程度（513 頂点）。稜線はハイマツと岩の吹きさらしで道はない。沢は河原と滝の連続。",
+    "sizeM": 8192
+  },
+  "size": 8192,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 1350, "forestLineNoise": 60, "broadleafLine": 900, "krummholzBandM": 300 },
+  "nodes": [
+    { "id": "P_NW", "name": "主稜線（九ノ沢カールの北西の峰）", "type": "peak", "x": 0, "z": 0, "expectedElevM": 1900 },
+    { "id": "KYU_RIM", "name": "九ノ沢カールの縁（主稜線）", "type": "saddle", "x": 0, "z": 0, "expectedElevM": 1730 },
+    { "id": "KYU_CAMP", "name": "九ノ沢カールのテント場", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 1630 },
+    { "id": "P1900", "name": "九ノ沢カールの上の峰（記録の「1900M峰の次のピーク」）", "type": "peak", "x": 0, "z": 0, "expectedElevM": 1850 },
+    { "id": "MID", "name": "主稜線の中間のピーク（26 日のテント場）", "type": "peak", "x": 0, "z": 0, "expectedElevM": 1760 },
+    { "id": "J_HACHI", "name": "八ノ沢カールへの下り口", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1730 },
+    { "id": "KAMUIEK", "name": "カムイエクウチカウシ山", "type": "peak", "x": 0, "z": 0, "expectedElevM": 1979 },
+    { "id": "HACHI_CIRQUE", "name": "八ノ沢カール（ほかの大学のテント場）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 1540 },
+    { "id": "HACHI_UP", "name": "八ノ沢の上流（カールの出口）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1080 },
+    { "id": "HACHI_DEAI", "name": "八ノ沢出合", "type": "junction", "x": 0, "z": 0, "expectedElevM": 680 },
+    { "id": "KYU_DEAI", "name": "九ノ沢と十ノ沢の出合", "type": "junction", "x": 0, "z": 0, "expectedElevM": 775 },
+    { "id": "JU_DEAI", "name": "十ノ沢出合（札内川）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 712 },
+    { "id": "RINDO", "name": "札内川の林道の終点", "type": "junction", "x": 0, "z": 0, "expectedElevM": 595 },
+    { "id": "EXIT", "name": "札内川の林道（五ノ沢の砂防ダム工事現場へ）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 567 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "主稜線（北西の峰〜九ノ沢カールの縁。ハイマツと岩）", "kind": "trail", "from": "P_NW", "to": "KYU_RIM", "class": "T3", "markers": 0.05, "drift": 0.02, "sinuosity": 1.2, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "九ノ沢カールの縁〜テント場（カールへ下る）", "kind": "trail", "from": "KYU_RIM", "to": "KYU_CAMP", "class": "T3", "markers": 0.05, "drift": 0.02, "sinuosity": 1.2, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "テント場〜カールの上の峰（主稜線へ登る）", "kind": "trail", "from": "KYU_CAMP", "to": "P1900", "class": "T3", "markers": 0.05, "drift": 0.02, "sinuosity": 1.2, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "主稜線（カールの上の峰〜中間のピーク）", "kind": "trail", "from": "P1900", "to": "MID", "class": "T3", "markers": 0.05, "drift": 0.02, "sinuosity": 1.2, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "主稜線（中間のピーク〜八ノ沢カールへの下り口）", "kind": "trail", "from": "MID", "to": "J_HACHI", "class": "T3", "markers": 0.05, "drift": 0.02, "sinuosity": 1.2, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "主稜線（下り口〜カムイエクウチカウシ山）", "kind": "trail", "from": "J_HACHI", "to": "KAMUIEK", "class": "T3", "markers": 0.05, "drift": 0.02, "sinuosity": 1.2, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "八ノ沢カールへ下る（ハイマツと岩の斜面）", "kind": "trail", "from": "J_HACHI", "to": "HACHI_CIRQUE", "class": "T3", "markers": 0.05, "drift": 0.02, "sinuosity": 1.2, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "八ノ沢カール〜八ノ沢の上流（カールの出口の滝場）", "kind": "trail", "from": "HACHI_CIRQUE", "to": "HACHI_UP", "class": "T2", "markers": 0.05, "drift": 0.01, "sinuosity": 1.3, "smooth": false, "streamBedM": 3, "noRest": true, "waypoints": [] },
+    { "id": "E9", "name": "八ノ沢（上流〜八ノ沢出合。河原と小滝）", "kind": "trail", "from": "HACHI_UP", "to": "HACHI_DEAI", "class": "T2", "markers": 0.1, "drift": 0.01, "sinuosity": 1.5, "smooth": false, "streamBedM": 6, "waypoints": [] },
+    { "id": "E10", "name": "九ノ沢（テント場〜十ノ沢との出合。滝と河原）", "kind": "trail", "from": "KYU_CAMP", "to": "KYU_DEAI", "class": "T2", "markers": 0.05, "drift": 0.01, "sinuosity": 1.4, "smooth": false, "streamBedM": 4, "waypoints": [] },
+    { "id": "E11", "name": "十ノ沢（九ノ沢の出合〜札内川）", "kind": "trail", "from": "KYU_DEAI", "to": "JU_DEAI", "class": "T2", "markers": 0.1, "drift": 0.01, "sinuosity": 1.5, "smooth": false, "streamBedM": 8, "waypoints": [] },
+    { "id": "E12", "name": "札内川（十ノ沢出合〜八ノ沢出合。河原を歩く）", "kind": "trail", "from": "JU_DEAI", "to": "HACHI_DEAI", "class": "T2", "markers": 0.2, "drift": 0.01, "sinuosity": 1.6, "smooth": false, "streamBedM": 12, "waypoints": [] },
+    { "id": "E13", "name": "札内川（八ノ沢出合〜林道の終点。河原と渡渉）", "kind": "trail", "from": "HACHI_DEAI", "to": "RINDO", "class": "T2", "markers": 0.2, "drift": 0.01, "sinuosity": 1.6, "smooth": false, "streamBedM": 15, "waypoints": [] },
+    { "id": "E14", "name": "札内川の林道", "kind": "trail", "from": "RINDO", "to": "EXIT", "class": "T1", "markers": 0.9, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

@@ -2,7 +2,7 @@
 
 interface SpeciesTuning {
   /** 既定のふるまい */
-  behavior: 'graze' | 'watch' | 'wander' | 'cross' | 'flee';
+  behavior: 'graze' | 'watch' | 'wander' | 'cross' | 'flee' | 'stalk';
   /** 既定の、立ち去るまでの分 */
   durationMin: number;
   /** 昼に見つけられる距離（m。視程と暗さで縮む） */
@@ -61,4 +61,11 @@ export const animals = {
   maxCount: 6,
   /** 立ち去るとき、この距離（m）以内の人から離れる向きへ */
   awayFromM: 300,
+  /**
+   * stalk（付きまとう熊）: 近づく速さ（歩く速さの倍率）、襲わなかったあとに止まっている分、
+   * いちばん近い人がこの距離（m）より離れたらあきらめて立ち去る。ゲームの値
+   */
+  stalkSpeedF: 1.5,
+  stalkRestMin: 20,
+  stalkGiveUpM: 800,
 };

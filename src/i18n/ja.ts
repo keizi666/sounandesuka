@@ -227,12 +227,12 @@ export const JA = {
       monkey: 'サル',
     } as Record<string, string>,
     /** 頭数（1 頭なら「ツキノワグマが」、2 頭以上なら「シカが 3 頭」。サルは「匹」） */
-    animalLeft: '{name}は、林の奥へ離れていった',
-    animalLeftMany: '{name}の群れは、林の奥へ離れていった',
+    animalLeft: '{name}は、向こうへ離れていった',
+    animalLeftMany: '{name}の群れは、向こうへ離れていった',
     /** 熊に襲われた（{injury} はけがの種類） */
-    bearAttack: '近づいた{name}が、{who}に向かってきた。{who}は{injury}を負った。{name}はそのまま林の奥へ去っていった',
-    bearAttackSurprise: 'すぐ近くにいた{name}と鉢合わせした。{name}が{who}に向かってきて、{who}は{injury}を負った。{name}はそのまま林の奥へ去っていった',
-    bearAttackFatal: '{name}が{who}に向かってきた。{name}はそのまま林の奥へ去っていった',
+    bearAttack: '近づいた{name}が、{who}に向かってきた。{who}は{injury}を負った。{name}はそのまま離れていった',
+    bearAttackSurprise: 'すぐ近くにいた{name}と鉢合わせした。{name}が{who}に向かってきて、{who}は{injury}を負った。{name}はそのまま離れていった',
+    bearAttackFatal: '{name}が{who}に向かってきた。{name}はそのまま離れていった',
     animalOne: '{name}が',
     animalMany: '{name}が {n} {unit}',
     animalUnit: { monkey: '匹' } as Record<string, string>,
@@ -243,6 +243,7 @@ export const JA = {
       wander: 'うろつく',
       cross: '道を横切る',
       flee: 'すぐに逃げていく',
+      stalk: '人に付きまとう',
     } as Record<string, string>,
     rescueHold: {
       heli: {

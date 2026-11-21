@@ -2,6 +2,8 @@
  * 野生動物（熊・鹿・カモシカ・イノシシ・サル）。シナリオの効果 animal で出て、人が近づくか時間が来ると立ち去る。
  * 位置は時刻の純粋な関数（animalPos）で、sim と画面（src/view/animals.ts）が同じ式を使う。乱数は使わない。
  * 見つけたときにログと不安が出る。熊は、近づいた人に低い確率で向かってきて、けがをさせてから立ち去る（tryAttack）。
+ * ふるまい stalk の熊は人に付きまとう（stepStalk）: いちばん近い人へ歩いて近づき、近づくたびに襲うかを引く。
+ * 襲わなければ少し止まって、また近づく。人が十分に離れるか時間が来ると立ち去る。位置は毎ティックの動き（a.stalk）からの純粋な関数。
  */
 import { partyLeader } from '../climber/party';
 import { isIndoors, isMoving } from '../climber/situation';
@@ -30,9 +32,15 @@ export function headingOf(dx: number, dz: number): number {
   return datan2(dx, -dz);
 }
 
-/** 立ち去る前の位置（cross は横切る、wander は小さな輪を回る、ほかはその場） */
+/** 立ち去る前の位置（cross は横切る、wander は小さな輪を回る、stalk はいまの動き、ほかはその場） */
 function stayPos(a: AnimalState, tMin: number, t: AnimalTuning): [number, number, number] {
   const st = speciesTuning(t, a.species);
+  if (a.stalk) {
+    // 描画では前のティックとの間の時刻も来る（負の経過は、いまの向きに沿って戻した位置）
+    const [dx, dz] = dirOf(a.stalk.headingRad);
+    const s = a.stalk.ms * 60 * (tMin - a.stalk.atMin);
+    return [a.stalk.x + dx * s, a.stalk.z + dz * s, a.stalk.headingRad];
+  }
   const el = Math.max(0, tMin - a.fromMin);
   if (a.behavior === 'cross') {
     const [dx, dz] = dirOf(a.headingRad);
@@ -130,6 +138,8 @@ export function spawnAnimal(world: World, ctx: StaticContext, ef: AnimalEffect, 
     quiet: ef.quiet ?? false,
     seenBy: [],
     ...(ef.aggression !== undefined ? { aggression: ef.aggression } : {}),
+    ...(ef.attackInjury !== undefined ? { attackInjury: [...ef.attackInjury] } : {}),
+    ...(behavior === 'stalk' ? { stalk: { x, z, atMin: world.tMin, headingRad: heading, ms: 0, restUntilMin: world.tMin } } : {}),
   };
   // 同じ ID の動物がまだいれば置き換える
   const k = list.findIndex((o) => o.id === id);
@@ -169,14 +179,15 @@ function tryAttack(world: World, ctx: StaticContext, a: AnimalState, c: ClimberS
   const t = ctx.tuning.animals;
   const st = speciesTuning(t, a.species);
   const base = surprise ? st.attackSurpriseP : st.attackApproachP;
-  if (base <= 0 || (a.aggression ?? 1) <= 0 || st.attackInjury.length === 0) return false;
+  const table = a.attackInjury ?? st.attackInjury;
+  if (base <= 0 || (a.aggression ?? 1) <= 0 || table.length === 0) return false;
   const n = world.climbers.filter((m) => m.groupId === c.groupId && m.body.alive).length;
   const p = Math.min(1, (base * (a.aggression ?? 1) * (isMoving(c) ? 1 : t.attackStillF)) / (1 + t.attackGroupK * Math.max(0, n - 1)));
   if (!chance(world.rng.hazard, p)) return false;
   // けが（表から引く）
   let r = nextFloat(world.rng.hazard);
   let k = 0;
-  while (k < st.attackInjury.length - 1 && r >= st.attackInjury[k]!) r -= st.attackInjury[k++]!;
+  while (k < table.length - 1 && r >= table[k]!) r -= table[k++]!;
   const injury = ATTACK_INJURY[Math.min(k, ATTACK_INJURY.length - 1)]!;
   // 熊は人のすぐ前まで向かってきて、そのあと来た方へ立ち去る
   const d = Math.max(1e-6, dist(ax, az, c.x, c.z));
@@ -195,6 +206,44 @@ function tryAttack(world: World, ctx: StaticContext, a: AnimalState, c: ClimberS
   }
   injure(world, ctx, c, injury, 'trauma');
   return true;
+}
+
+/**
+ * stalk の熊の 1 ティック: いちばん近い人（外にいる人）へ近づく。種類ごとの距離（fleeM）まで来たら襲うかを引き、
+ * 襲わなければ stalkRestMin 分その場で止まる。見えなくなったグループは、次に見つけたときにまた「見つけた」になる
+ * （暗さや霧で気づかないうちに近づかれると、鉢合わせの確率で引く）。
+ */
+function stepStalk(world: World, ctx: StaticContext, a: AnimalState, ax: number, az: number, seenBefore: readonly string[]): void {
+  const t = ctx.tuning.animals;
+  const st = speciesTuning(t, a.species);
+  let near: ClimberState | null = null;
+  let nearD = Infinity;
+  for (const c of world.climbers) {
+    if (!c.body.alive || c.offMap || isIndoors(ctx.map, c)) continue;
+    const d = dist(c.x, c.z, ax, az);
+    if (d < nearD) {
+      nearD = d;
+      near = c;
+    }
+  }
+  if (!near || nearD > t.stalkGiveUpM || world.tMin >= a.untilMin) {
+    leave(world, ctx, a, true);
+    return;
+  }
+  // 見えなくなったグループを外す（次に見えたら、また見つけたことになる）
+  a.seenBy = a.seenBy.filter((g) =>
+    world.climbers.some((c) => (c.groupId ?? '') === g && canSee(ctx, c) && dist(c.x, c.z, ax, az) <= Math.min(st.noticeM, c.local.visibilityM) * (world.sun.isDark ? t.darkNoticeF : 1)),
+  );
+  const toNear = headingOf(near.x - ax, near.z - az);
+  const resting = world.tMin < (a.stalk?.restUntilMin ?? 0);
+  if (nearD < st.fleeM && !resting) {
+    if (tryAttack(world, ctx, a, near, ax, az, !seenBefore.includes(near.groupId ?? ''))) return;
+    a.stalk = { x: ax, z: az, atMin: world.tMin, headingRad: toNear, ms: 0, restUntilMin: world.tMin + t.stalkRestMin };
+    return;
+  }
+  // 止まっている間はこちらを見ている。近すぎるときも、それ以上は寄らない
+  const ms = resting || nearD < st.fleeM ? 0 : st.walkMs * t.stalkSpeedF;
+  a.stalk = { x: ax, z: az, atMin: world.tMin, headingRad: toNear, ms, restUntilMin: a.stalk?.restUntilMin ?? world.tMin };
 }
 
 /** 効果 animalLeave */
@@ -231,6 +280,10 @@ export function stepAnimals(world: World, ctx: StaticContext): void {
             m.body.anxiety = Math.min(100, Math.max(0, m.body.anxiety + a.anxiety));
           }
         }
+      }
+      if (a.behavior === 'stalk') {
+        stepStalk(world, ctx, a, ax, az, seenBefore);
+        continue;
       }
       // 人が近づいた（いちばん近い人に向かってくることがある）・時間が来た
       let near: ClimberState | null = null;

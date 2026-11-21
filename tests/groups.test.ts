@@ -85,6 +85,25 @@ describe('グループ', () => {
     expect(Math.hypot(e.x - a.x, e.z - a.z)).toBeGreaterThan(200);
   });
 
+  it('joinGroup: 分かれた 2 人が同じ所でもとのグループに戻り、そのあとは一緒に歩く', () => {
+    const s = party5();
+    const w = createWorld(map, s);
+    const ctx = createStaticContext(map, s);
+    for (let i = 0; i < 60; i += 1) stepWorld(w, ctx);
+    applyActions(w, ctx, [{ type: 'splitParty', groups: [{ id: 'msg', members: ['d', 'e'], leader: 'd', cohesion: 'tight', actions: [{ type: 'rest', minutes: 30 }] }] }], w.climbers, w.climbers[0]!);
+    expect(groupMembers(w, 'msg').map((c) => c.id)).toEqual(['d', 'e']);
+    applyActions(w, ctx, [{ type: 'rest', minutes: 30 }], groupMembers(w, 'main'), groupLeader(w, 'main'));
+    stepWorld(w, ctx);
+    applyActions(w, ctx, [{ type: 'joinGroup', who: 'd', group: 'main' }, { type: 'joinGroup', who: 'e', group: 'main' }], groupMembers(w, 'msg'), groupLeader(w, 'msg'));
+    expect(groupMembers(w, 'main').map((c) => c.id).sort()).toEqual(['a', 'b', 'c', 'd', 'e']);
+    expect(JSON.parse(JSON.stringify(w))).toEqual(structuredClone(w));
+    applyActions(w, ctx, [{ type: 'continueRoute' }], groupMembers(w, 'main'), groupLeader(w, 'main'));
+    for (let i = 0; i < 600; i += 1) stepWorld(w, ctx);
+    const l = groupLeader(w, 'main');
+    const e = w.climbers.find((c) => c.id === 'e')!;
+    expect(Math.hypot(e.x - l.x, e.z - l.z)).toBeLessThan(5);
+  });
+
   it('loose: リーダーは先に進み、遅い人は離れる。人数確認で STRAGGLER が出る', () => {
     const s = party5();
     s.party[4] = { ...s.party[4]!, fitness: 0.6, experience: 0.1, weightKg: 50, packKg: 14 };

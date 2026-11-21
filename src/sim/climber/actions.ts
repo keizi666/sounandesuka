@@ -14,7 +14,7 @@ import { shelterFromWind } from '../weather/local';
 import { checkPosition as navCheck, findLeeSpot, pathOffRidge, rejoinTrail, trailAt } from './navigation';
 import { dawnRef, ensureRouteAhead, enterShelter, goToNode, leaveShelter, setRoute, turnBack } from './route';
 import { transition } from './state';
-import { detach, goToMember, setCohesion, soloErrand, splitParty } from './groups';
+import { detach, goToMember, joinGroup, setCohesion, soloErrand, splitParty } from './groups';
 import { applySoak, soakWaterTempC } from './physiology';
 
 /** 細かい作業の所要時間（寒冷ストレス・手袋なしで延びる。docs/06 §7、§8） */
@@ -394,6 +394,9 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
     case 'goToMember':
       leaveShelter(world, ctx, c);
       goToMember(world, ctx, c, a.member);
+      return;
+    case 'joinGroup':
+      joinGroup(world, ctx, c, a.group);
       return;
     case 'abortTrip':
       return; // パーティ全体の処理は applyActions で行う

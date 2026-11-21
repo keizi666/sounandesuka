@@ -95,6 +95,27 @@ export function splitParty(world: World, ctx: StaticContext, defs: readonly (Gro
   for (const x of created) apply(x.def.actions, x.members, groupLeader(world, x.def.id));
 }
 
+/**
+ * 対象を別のグループに入れる（分かれていた仲間と、同じ所で合流する）。そのグループのリーダーの計画・状態にそろえ、
+ * regroupDistM 以内ならリーダーの位置に並ぶ。離れていれば、歩いて追いつく（loose から tight に戻したときと同じ）
+ */
+export function joinGroup(world: World, ctx: StaticContext, c: ClimberState, gid: string): void {
+  if (!c.body.alive || c.groupId === gid || TERMINAL.has(c.state)) return;
+  if (!groupMembers(world, gid).some((m) => m !== c && m.body.alive && !TERMINAL.has(m.state))) return;
+  const l = groupLeader(world, gid);
+  c.groupId = gid;
+  c.plan = JSON.parse(JSON.stringify(l.plan)) as ClimberState['plan'];
+  c.nav = JSON.parse(JSON.stringify(l.nav)) as ClimberState['nav'];
+  const near = ctx.tuning.behavior.regroupDistM;
+  if ((c.x - l.x) * (c.x - l.x) + (c.z - l.z) * (c.z - l.z) <= near * near) {
+    c.pos = JSON.parse(JSON.stringify(l.pos)) as ClimberState['pos'];
+    c.x = l.x;
+    c.z = l.z;
+    c.elevM = l.elevM;
+  } else world.latches[`scattered:${gid}`] = true;
+  if (c.state !== l.state) transition(world, ctx, c, l.state, 'joinGroup');
+}
+
 /** 対象をパーティから外し、個別に行動させる */
 export function detach(world: World, ctx: StaticContext, c: ClimberState, then: readonly Action[], apply: Apply, returnAfter = false): void {
   const id = `solo_${c.id}`;

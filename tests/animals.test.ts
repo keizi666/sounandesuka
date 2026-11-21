@@ -125,4 +125,40 @@ describe('野生動物', () => {
     const [x, z] = animalPos(a!, a!.leaveMin! - 1e-6, TUNING.animals);
     expect(Math.hypot(x - c.x, z - c.z)).toBeLessThan(TUNING.animals.chargeStopM + 1);
   });
+
+  it('stalk: 熊は人に付きまとい、近づかれても立ち去らない（相手がいる間）。World は JSON で往復できる', () => {
+    const sc = scenarioWith([{ type: 'animal', species: 'brownBear', aheadM: -300, behavior: 'stalk', durationMin: 40, aggression: 0 }]);
+    const { map } = sounanMap();
+    const world = createWorld(map, sc);
+    const ctx = createStaticContext(map, sc);
+    const dists: number[] = [];
+    for (let i = 0; i < 6 * 30; i += 1) {
+      stepWorld(world, ctx);
+      const a = world.animals?.[0];
+      const c = world.climbers[0]!;
+      if (c.state === 'FINISHED') break;
+      if (!a) continue;
+      const [x, z] = animalPos(a, world.tMin, TUNING.animals);
+      dists.push(Math.hypot(x - c.x, z - c.z));
+      expect(a.leaveMin).toBeNull();
+    }
+    // 後ろ 300 m から追いつき、それより近くでは止まって見ている（fleeM の内側で襲うかを引き、0 なので襲わない）
+    expect(Math.min(...dists)).toBeLessThan(TUNING.animals.species['brownBear']!.fleeM + 15);
+    expect(world.flags['bearAttack']).toBeUndefined();
+    expect(JSON.parse(JSON.stringify(world))).toEqual(structuredClone(world));
+    // 付きまとう相手がいなくなったら（下山した）立ち去り始める
+    stepWorld(world, ctx);
+    expect(world.animals?.[0]?.leaveMin ?? 0).not.toBeNull();
+  });
+
+  it('stalk: 人が stalkGiveUpM より遠ければすぐあきらめる。attackInjury でけがの割合を変えられる', () => {
+    const far = run(scenarioWith([{ type: 'animal', species: 'brownBear', aheadM: -(TUNING.animals.stalkGiveUpM + 200), behavior: 'stalk', durationMin: 60 }]), 3);
+    expect(far.world.animals ?? []).toEqual([]);
+    const sure = run(scenarioWith([{ type: 'animal', species: 'brownBear', aheadM: -200, behavior: 'stalk', durationMin: 60, aggression: 100, attackInjury: [0, 0, 1, 0, 0, 0] }]), 20);
+    const ev = sure.events.find((e) => e.type === 'SCRIPT_LOG' && e.data?.['bearAttack'] === 'brownBear');
+    expect(ev?.data?.['injury']).toBe('legFracture');
+    expect(sure.world.climbers[0]!.body.injury).toBe('legFracture');
+    const bad = scenarioWith([{ type: 'animal', species: 'bear', behavior: 'stalk', attackInjury: [1, 2] }]);
+    expect(validateScenario(bad, loadSounanDef()).some((i) => i.code === 'range' && i.path.endsWith('attackInjury'))).toBe(true);
+  });
 });

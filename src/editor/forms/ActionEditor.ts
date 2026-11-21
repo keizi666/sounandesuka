@@ -51,6 +51,7 @@ export const ACTION_LABELS: Partial<Record<ActionType, string>> = {
   setCohesion: '隊のまとまり',
   soak: '濡れる（渡渉など）',
   goToMember: '仲間のところへ',
+  joinGroup: '別のグループと合流',
   say: 'セリフ',
 };
 
@@ -102,6 +103,8 @@ export function defaultAction(t: ActionType, s: ScenarioDef, map: MapDef): Actio
       return { type: t, level: 'knees' };
     case 'goToMember':
       return { type: t, member: s.party[0]?.id ?? '' };
+    case 'joinGroup':
+      return { type: t, group: s.groups?.[0]?.id ?? 'main' };
     case 'say':
       return { type: t, text: '' };
     case 'sound':
@@ -215,6 +218,9 @@ export function actionEditor(list: Action[], s: ScenarioDef, map: MapDef, commit
         break;
       case 'goToMember':
         extra.push(field('仲間', choose('member', s.party.map((p) => [p.id, p.name]))));
+        break;
+      case 'joinGroup':
+        extra.push(field('グループ ID', input('group', 'text', '8em')));
         break;
       case 'sound':
         extra.push(field('音', choose('id', SE_CATALOG.map((x) => [x.id, `${x.name}（${x.note}）`]))), field('音量', input('volume', 'number', '4em')));

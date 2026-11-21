@@ -470,6 +470,7 @@ export type Action = { who?: Who } & (
   | { type: 'soak'; level: SoakLevel; snowmelt?: boolean }
   | { type: 'detach'; then: Action[]; returnAfter?: boolean }   // returnAfter: 用事（then）が済んで止まったら元のグループへ戻る
   | { type: 'goToMember'; member: ClimberId }
+  | { type: 'joinGroup'; group: string }   // 対象（who）を別のグループに入れる（同じ所に着いた仲間と合流する）。そのグループのリーダーの計画と状態にそろえる
   | { type: 'carryInjured' }   // 歩けない仲間を、介助の 2 人が支えて（背負って）運ぶ。荷物はほかの人が分けて持つ
   | { type: 'sendForHelp' }    // けが人に 1 人が付き添って残り、ほかの人は救助を呼びに行く（2 人以下のパーティは付き添いなし）
   | { type: 'say'; text: string; to?: SpeakerRef; tone?: SpeechTone; documented?: boolean; source?: string }
@@ -527,8 +528,11 @@ export type ScriptEffect =
 // ---------- 野生動物（src/sim/hazards/animals.ts） ----------
 /** bear: ツキノワグマ / brownBear: ヒグマ / deer: ニホンジカ / serow: カモシカ / boar: イノシシ / monkey: ニホンザル */
 export type AnimalSpecies = 'bear' | 'brownBear' | 'deer' | 'serow' | 'boar' | 'monkey';
-/** graze: 草を食む / watch: こちらを見ている / wander: うろつく / cross: 道を横切る / flee: すぐに逃げていく */
-export type AnimalBehavior = 'graze' | 'watch' | 'wander' | 'cross' | 'flee';
+/**
+ * graze: 草を食む / watch: こちらを見ている / wander: うろつく / cross: 道を横切る / flee: すぐに逃げていく /
+ * stalk: 人に付きまとう（いちばん近い人へ歩いて近づき、近づくたびに襲うかを引く。襲わなければ少し止まってまた近づく。熊のみ）
+ */
+export type AnimalBehavior = 'graze' | 'watch' | 'wander' | 'cross' | 'flee' | 'stalk';
 /**
  * 動物を出す。場所は at（地点 ID）か x・z（メートル）。どちらもなければリーダーの位置。
  * そこから aheadM（リーダーの進む向きに）・sideM（右へ。負で左）ずらす。
@@ -551,6 +555,7 @@ export interface AnimalEffect {
   anxiety?: number;          // 見つけたときの不安の増え方（既定は種類ごと。0 で増えない）
   quiet?: boolean;           // 見つけたときの自動のログを出さない（シナリオの log で書くとき）
   aggression?: number;       // 襲ってくる確率の倍率（既定 1。0 で襲わない）
+  attackInjury?: number[];   // 襲われたときのけがの割合（bruise, sprain, legFracture, headInjury, severeTrauma, death の順。既定は種類ごと）
 }
 
 export interface AnimalState {
@@ -577,6 +582,10 @@ export interface AnimalState {
   chargeMin?: number;
   chargeX?: number;
   chargeZ?: number;
+  /** 襲われたときのけがの割合（なければ種類ごと） */
+  attackInjury?: number[];
+  /** stalk: いまの動き（atMin の位置 x・z から、向き headingRad へ ms m/s で進む）と、止まっている終わりの時刻 */
+  stalk?: { x: number; z: number; atMin: number; headingRad: number; ms: number; restUntilMin: number };
 }
 
 export interface ScriptEventDef { id: string; trigger: Condition; once?: boolean; effects: ScriptEffect[] }

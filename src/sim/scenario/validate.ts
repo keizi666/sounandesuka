@@ -26,7 +26,7 @@ export const ACTION_TYPES = [
   'continueRoute', 'setRoute', 'turnBack', 'goToNode', 'stayInShelter', 'rest', 'eat', 'drink', 'drinkAlcohol', 'reportMissing', 'focus', 'leaveMap', 'sound', 'music', 'setPhone', 'addAnxiety', 'illness', 'medicate', 'sting', 'epipen', 'wearRainwear', 'addLayer', 'changeDry',
   'stopAndCheck', 'missJunction', 'checkPosition', 'bivouac', 'stayPut', 'backtrack', 'navigateToTrail', 'descendDrainage', 'seekSignal', 'callRescue',
   'waitRescue', 'setPace', 'lightningPosture', 'moveOffRidge', 'removeMetal', 'setFlag', 'clearFlag', 'narrate', 'abortTrip', 'splitParty',
-  'setCohesion', 'soak', 'detach', 'goToMember', 'say', 'carryInjured', 'sendForHelp',
+  'setCohesion', 'soak', 'detach', 'goToMember', 'joinGroup', 'say', 'carryInjured', 'sendForHelp',
 ];
 
 class Collector {
@@ -222,6 +222,9 @@ function checkEffects(v: Collector, path: string, effects: readonly ScriptEffect
         if (e.count !== undefined && !(e.count >= 1 && e.count <= 6)) v.warn(`${p}.count`, 'range', 'count は 1〜6（範囲外は切り詰める）');
         if (e.durationMin !== undefined && !(e.durationMin >= 0)) v.err(`${p}.durationMin`, 'range', 'durationMin は 0 以上');
         if (e.aggression !== undefined && !(e.aggression >= 0)) v.err(`${p}.aggression`, 'range', 'aggression は 0 以上');
+        if (e.attackInjury !== undefined && !(Array.isArray(e.attackInjury) && e.attackInjury.length === 6 && e.attackInjury.every((x) => x >= 0)))
+          v.err(`${p}.attackInjury`, 'range', 'attackInjury は 0 以上の数 6 つ（打撲・ねんざ・脚の骨折・頭のけが・重い外傷・死亡の割合）');
+        if (e.behavior === 'stalk' && e.species !== 'bear' && e.species !== 'brownBear') v.warn(`${p}.behavior`, 'stalkSpecies', 'stalk（付きまとう）は熊のためのふるまい');
         break;
       case 'animalLeave':
         if (e.species !== undefined && !ANIMAL_SPECIES.includes(e.species)) v.err(`${p}.species`, 'unknownAnimal', `未知の動物 "${e.species}"`);
@@ -232,7 +235,7 @@ function checkEffects(v: Collector, path: string, effects: readonly ScriptEffect
   });
 }
 
-const ANIMAL_BEHAVIORS = ['graze', 'watch', 'wander', 'cross', 'flee'];
+const ANIMAL_BEHAVIORS = ['graze', 'watch', 'wander', 'cross', 'flee', 'stalk'];
 
 export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
   const v = new Collector();

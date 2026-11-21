@@ -1,0 +1,2541 @@
+{
+ "id": "s21_kamuiek_1970",
+ "version": 1,
+ "title": "F大学W部日高ヒグマ事件",
+ "subtitle": "7月・大学生の5人・日高山脈 カムイエクウチカウシ山（史実にもとづく再構成）",
+ "theme": "mixed",
+ "difficulty": 5,
+ "season": "summer",
+ "estMinutes": 30,
+ "mapId": "kamuiek",
+ "seed": 3029494862,
+ "startDate": "1970-07-25",
+ "startAt": "D0 13:45",
+ "timeLimit": "D2 20:00",
+ "sun": {
+  "sunrise": "04:08",
+  "sunset": "18:58",
+  "maxElevDeg": 67
+ },
+ "moon": {
+  "illumination": 0.5,
+  "rise": "23:40",
+  "set": "12:40"
+ },
+ "region": {
+  "name": "日高山脈・カムイエクウチカウシ山（九ノ沢カール〜八ノ沢カール）",
+  "real": true
+ },
+ "briefing": {
+  "text": "1970年7月25日。九州の大学のワンダーフォーゲル部の5人は、7月14日に芽室岳から入山し、日高山脈の主稜線を南へ縦走している。\n食料と日数を考え、ペテガリ岳までは行かず、カムイエクウチカウシ山で縦走を打ち切ることにした。今日は九ノ沢カールにテントを張り、明日は山頂を往復して八ノ沢を下る予定だ。\n主稜線に道はなく、ハイマツと岩の上を歩く。電話も無線もない。近くの八ノ沢カールには、ほかの大学のパーティもテントを張っているらしい。\n天気は快晴が続いている。",
+  "forecast": [
+   {
+    "label": "今日",
+    "text": "快晴",
+    "icon": "sunny"
+   },
+   {
+    "label": "明日",
+    "text": "晴れ",
+    "icon": "sunny"
+   },
+   {
+    "label": "あさって",
+    "text": "下り坂。山は霧",
+    "icon": "cloudy"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "P_NW",
+   "KYU_RIM",
+   "KYU_CAMP",
+   "P1900",
+   "MID",
+   "J_HACHI",
+   "KAMUIEK",
+   "J_HACHI",
+   "HACHI_CIRQUE",
+   "HACHI_UP",
+   "HACHI_DEAI",
+   "RINDO",
+   "EXIT"
+  ],
+  "goalNodes": [
+   "EXIT"
+  ],
+  "plannedFinish": "D1 17:00",
+  "submittedPlan": true,
+  "reportIfNotBackBy": null
+ },
+ "groups": [
+  {
+   "id": "main",
+   "members": "all",
+   "leader": "A",
+   "cohesion": "tight"
+  }
+ ],
+ "party": [
+  {
+   "id": "A",
+   "name": "A",
+   "role": "リーダー",
+   "age": 20,
+   "sex": "m",
+   "weightKg": 63,
+   "packKg": 22,
+   "experience": 0.6,
+   "fitness": 0.95,
+   "navSkill": 0.6,
+   "riskTolerance": 0.55,
+   "color": "#b03a2e",
+   "portrait": "young_m:1",
+   "leader": true,
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.8,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "tent": true,
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 8000,
+    "waterL": 3,
+    "stove": true,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 25,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "age",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits",
+    "initial"
+   ],
+   "notes": "記録の指示役。体重・体力・装備は推定"
+  },
+  {
+   "id": "B",
+   "name": "B",
+   "role": "サブリーダー",
+   "age": 20,
+   "sex": "m",
+   "weightKg": 62,
+   "packKg": 22,
+   "experience": 0.55,
+   "fitness": 0.95,
+   "navSkill": 0.55,
+   "riskTolerance": 0.55,
+   "color": "#1f5fa8",
+   "portrait": "young_m:3",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.8,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "tent": false,
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 8000,
+    "waterL": 3,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 25,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "age",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits",
+    "initial"
+   ],
+   "notes": "記録の生還者の 1 人（報告書の「サブリーダー」）"
+  },
+  {
+   "id": "C",
+   "name": "C",
+   "role": "部員",
+   "age": 19,
+   "sex": "m",
+   "weightKg": 60,
+   "packKg": 22,
+   "experience": 0.5,
+   "fitness": 0.95,
+   "navSkill": 0.5,
+   "riskTolerance": 0.55,
+   "color": "#17a589",
+   "portrait": "young_m:4",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.8,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "tent": true,
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 8000,
+    "waterL": 3,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 25,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "age",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits",
+    "initial"
+   ],
+   "notes": "記録では、熊から逃げて一人になり、ほかの大学のテントで夜を明かした。メモを残している"
+  },
+  {
+   "id": "D",
+   "name": "D",
+   "role": "部員",
+   "age": 19,
+   "sex": "m",
+   "weightKg": 61,
+   "packKg": 22,
+   "experience": 0.5,
+   "fitness": 0.95,
+   "navSkill": 0.5,
+   "riskTolerance": 0.55,
+   "color": "#d68910",
+   "portrait": "young_m:6",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.8,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "tent": false,
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 8000,
+    "waterL": 3,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 25,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "age",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits",
+    "initial"
+   ],
+   "notes": "記録の生還者の 1 人"
+  },
+  {
+   "id": "E",
+   "name": "E",
+   "role": "部員（1 年生）",
+   "age": 18,
+   "sex": "m",
+   "weightKg": 58,
+   "packKg": 22,
+   "experience": 0.35,
+   "fitness": 0.92,
+   "navSkill": 0.5,
+   "riskTolerance": 0.55,
+   "color": "#8e44ad",
+   "portrait": "young_m:2",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 90,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.8,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "tent": false,
+    "headlamp": {
+     "has": true,
+     "batteryH": 6,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": true,
+    "compass": true,
+    "foodKcal": 8000,
+    "waterL": 3,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false
+   },
+   "initial": {
+    "wetness": 0,
+    "fatigue": 25,
+    "rainwearOn": false
+   },
+   "estimated": [
+    "age",
+    "weightKg",
+    "packKg",
+    "experience",
+    "fitness",
+    "navSkill",
+    "riskTolerance",
+    "gear",
+    "habits",
+    "initial"
+   ],
+   "notes": "記録では 26 日の朝、B と救助を頼みに沢を下り、また稜線へ戻った"
+  }
+ ],
+ "weather": {
+  "refElevM": 1900,
+  "lapseRateCPer100m": 0.6,
+  "cloudThicknessM": 1500,
+  "keyframes": [
+   {
+    "at": "D0 10:00",
+    "tempC": 15,
+    "windMs": 4,
+    "windDirDeg": 250,
+    "precipMmH": 0,
+    "cloudCover": 0.15,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1008,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D0 15:00",
+    "tempC": 15.5,
+    "windMs": 4,
+    "windDirDeg": 240,
+    "precipMmH": 0,
+    "cloudCover": 0.2,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1008,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D0 19:00",
+    "tempC": 11,
+    "windMs": 3,
+    "windDirDeg": 230,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1008,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 01:00",
+    "tempC": 8,
+    "windMs": 3,
+    "windDirDeg": 220,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1008,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 05:00",
+    "tempC": 8,
+    "windMs": 3,
+    "windDirDeg": 220,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1008,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 12:00",
+    "tempC": 16,
+    "windMs": 4,
+    "windDirDeg": 220,
+    "precipMmH": 0,
+    "cloudCover": 0.2,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1008,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 17:00",
+    "tempC": 14,
+    "windMs": 4,
+    "windDirDeg": 200,
+    "precipMmH": 0,
+    "cloudCover": 0.3,
+    "cloudBaseM": 2800,
+    "visibilityM": 35000,
+    "pressureHpa": 1008,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 20:00",
+    "tempC": 11,
+    "windMs": 4,
+    "windDirDeg": 180,
+    "precipMmH": 0,
+    "cloudCover": 0.6,
+    "cloudBaseM": 2200,
+    "visibilityM": 20000,
+    "pressureHpa": 1006,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D2 00:00",
+    "tempC": 10,
+    "windMs": 5,
+    "windDirDeg": 160,
+    "precipMmH": 0,
+    "cloudCover": 0.9,
+    "cloudBaseM": 1600,
+    "visibilityM": 10000,
+    "pressureHpa": 1004,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 30
+   },
+   {
+    "at": "D2 04:00",
+    "tempC": 10,
+    "windMs": 5,
+    "windDirDeg": 160,
+    "precipMmH": 0.1,
+    "cloudCover": 1,
+    "cloudBaseM": 1100,
+    "visibilityM": 3000,
+    "pressureHpa": 1003,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 8
+   },
+   {
+    "at": "D2 09:00",
+    "tempC": 11,
+    "windMs": 5,
+    "windDirDeg": 160,
+    "precipMmH": 0.1,
+    "cloudCover": 1,
+    "cloudBaseM": 1100,
+    "visibilityM": 3000,
+    "pressureHpa": 1003,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 8
+   },
+   {
+    "at": "D2 12:00",
+    "tempC": 13,
+    "windMs": 5,
+    "windDirDeg": 170,
+    "precipMmH": 0.1,
+    "cloudCover": 1,
+    "cloudBaseM": 1300,
+    "visibilityM": 5000,
+    "pressureHpa": 1003,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 20
+   },
+   {
+    "at": "D2 20:00",
+    "tempC": 12,
+    "windMs": 5,
+    "windDirDeg": 170,
+    "precipMmH": 0.2,
+    "cloudCover": 1,
+    "cloudBaseM": 1300,
+    "visibilityM": 5000,
+    "pressureHpa": 1004,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 20
+   }
+  ]
+ },
+ "events": [
+  {
+   "id": "ev_start",
+   "trigger": {
+    "after": "D0 13:45"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "朝はエサオマントッタベツ岳を越えた。主稜線のハイマツをこいで、九ノ沢カールへ向かう。空は晴れわたっている"
+    }
+   ]
+  },
+  {
+   "id": "ev_camp",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "KYU_CAMP"
+     },
+     {
+      "before": "D0 18:00"
+     },
+     {
+      "not": {
+       "flag": "leftPack"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "九ノ沢カールに着いた。雪渓の水がとれる平らな所にテントを張り、キスリング（ザック）はテントの外に置いた。夕食の支度にかかる",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "eat",
+       "kcal": 600
+      },
+      {
+       "type": "bivouac",
+       "until": "D1 05:00",
+       "findLee": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_bear1",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 16:30"
+     },
+     {
+      "beenAt": "KYU_CAMP"
+     },
+     {
+      "near": {
+       "x": -2800,
+       "z": -650,
+       "r": 150
+      }
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "at": "KYU_CAMP",
+     "aheadM": 7,
+     "sideM": 3,
+     "behavior": "stalk",
+     "durationMin": 40,
+     "aggression": 0,
+     "quiet": true,
+     "anxiety": 15
+    },
+    {
+     "type": "log",
+     "text": "夕食のあと、テントから 6〜7 m の所にヒグマが現れた。まだ若い熊だ。外に置いたキスリングに鼻を突っ込み、中の食料をあさり始めた。はじめは珍しさが先に立ち、写真を撮る者もいた",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "bear1"
+    }
+   ]
+  },
+  {
+   "id": "ev_bear1_gone",
+   "trigger": {
+    "all": [
+     {
+      "flag": "packRetaken"
+     },
+     {
+      "elapsedSince": {
+       "flag": "packRetaken",
+       "min": 30
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animalLeave",
+     "id": "higuma"
+    },
+    {
+     "type": "log",
+     "text": "30 分ほどで熊は姿を消した。荷物はテントの中に入れた。夜は 2 人ずつ 2 時間交代で見張りに立つことにした"
+    }
+   ]
+  },
+  {
+   "id": "ev_bear_eats",
+   "trigger": {
+    "all": [
+     {
+      "any": [
+       {
+        "flag": "leftPack"
+       },
+       {
+        "flag": "allDown"
+       }
+      ]
+     },
+     {
+      "elapsedSince": {
+       "flag": "downStart",
+       "min": 4
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "at": "KYU_CAMP",
+     "aheadM": 2,
+     "behavior": "graze",
+     "durationMin": 600,
+     "aggression": 0,
+     "quiet": true,
+     "anxiety": 0
+    },
+    {
+     "type": "log",
+     "text": "振り返ると、熊はテント場で、置いてきたキスリングの中身を食べていた。こちらを追ってくる様子はない"
+    }
+   ]
+  },
+  {
+   "id": "ev_nopack_night",
+   "trigger": {
+    "all": [
+     {
+      "flag": "stayNoPack"
+     },
+     {
+      "after": "D0 20:30"
+     },
+     {
+      "near": {
+       "x": -2800,
+       "z": -650,
+       "r": 200
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "暗くなってから、テントから少し離れた所で、熊が置いたキスリングをあさる音がした。テントには近づいてこない"
+    }
+   ]
+  },
+  {
+   "id": "ev_night",
+   "trigger": {
+    "all": [
+     {
+      "flag": "packRetaken"
+     },
+     {
+      "after": "D0 21:00"
+     },
+     {
+      "before": "D1 02:00"
+     },
+     {
+      "near": {
+       "x": -2800,
+       "z": -650,
+       "r": 200
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "at": "KYU_CAMP",
+     "aheadM": 4,
+     "behavior": "stalk",
+     "durationMin": 6,
+     "aggression": 0,
+     "quiet": true,
+     "anxiety": 12
+    },
+    {
+     "type": "log",
+     "text": "21 時ごろ、テントのすぐ外で熊の鼻息がした。熊がテントに一度触れ、幕にこぶし大の穴が開いた。ラジオの音を大きくして、交代で見張りを続ける",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_dawn",
+   "trigger": {
+    "all": [
+     {
+      "flag": "packRetaken"
+     },
+     {
+      "after": "D1 04:30"
+     },
+     {
+      "near": {
+       "x": -2800,
+       "z": -650,
+       "r": 150
+      }
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "at": "KYU_CAMP",
+     "aheadM": 6,
+     "behavior": "stalk",
+     "durationMin": 95,
+     "aggression": 0,
+     "quiet": true,
+     "anxiety": 20
+    },
+    {
+     "type": "log",
+     "text": "4 時半、出発の荷造りをしていると、また熊が現れた。15 分ほどテントの外からこちらを見ていたが、やがて入り口の幕をつかんで引っ張り始めた。5 人は内側から幕を押さえた",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "bear2"
+    }
+   ]
+  },
+  {
+   "id": "ev_radio",
+   "trigger": {
+    "all": [
+     {
+      "flag": "ridgeWait"
+     },
+     {
+      "after": "D1 06:07"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animalLeave",
+     "id": "higuma"
+    },
+    {
+     "type": "log",
+     "text": "6 時すぎ、置いてきたラジオが鳴ると、熊は驚いたように離れていった（記録のメモ）"
+    }
+   ]
+  },
+  {
+   "id": "ev_retrieve",
+   "trigger": {
+    "all": [
+     {
+      "flag": "ridgeWait"
+     },
+     {
+      "after": "D1 06:35"
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "not": {
+       "flag": "goRetrieve"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "goRetrieve"
+    },
+    {
+     "type": "log",
+     "text": "熊の姿が見えなくなった。倒れたテントと荷物を取り戻しに、テント場へ下りる"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "goToNode",
+       "node": "KYU_CAMP",
+       "then": "stay"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_retrieved",
+   "trigger": {
+    "all": [
+     {
+      "flag": "goRetrieve"
+     },
+     {
+      "near": {
+       "x": -2800,
+       "z": -650,
+       "r": 40
+      }
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "tentRetaken"
+    },
+    {
+     "type": "setFlag",
+     "flag": "fixated"
+    },
+    {
+     "type": "log",
+     "text": "テントと荷物を取り戻した。熊のあさった跡が残っている。荷物を担いで主稜線へ上がり、山頂の手前のピークでほかの仲間を待つことにした",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "goToNode",
+       "node": "MID",
+       "then": "stay"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_mid_tent",
+   "trigger": {
+    "all": [
+     {
+      "flag": "tentRetaken"
+     },
+     {
+      "after": "D1 15:00"
+     },
+     {
+      "near": {
+       "x": -2500,
+       "z": 300,
+       "r": 60
+      }
+     },
+     {
+      "not": {
+       "flag": "bear3"
+      }
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "15 時、山頂の手前のピークにテントを張り直した"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "bivouac",
+       "until": "D2 05:00",
+       "findLee": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_reported",
+   "trigger": {
+    "flag": "reported"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "そのパーティが、学校と営林署へ知らせてくれることになった（電話のある所まで下りるには時間がかかる）"
+    }
+   ]
+  },
+  {
+   "id": "ev_rejoin",
+   "trigger": {
+    "all": [
+     {
+      "flag": "backUp"
+     },
+     {
+      "var": "c.B.state",
+      "op": "==",
+      "value": "RESTING"
+     },
+     {
+      "var": "c.B.elevM",
+      "op": ">",
+      "value": 1650
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "rejoined"
+    },
+    {
+     "type": "log",
+     "text": "八ノ沢を登り返した 2 人が稜線に戻り、5 人がそろった。借りてきた食料で食事をとる",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "joinGroup",
+       "who": "B",
+       "group": "main"
+      },
+      {
+       "type": "joinGroup",
+       "who": "E",
+       "group": "main"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_bear3",
+   "trigger": {
+    "all": [
+     {
+      "flag": "fixated"
+     },
+     {
+      "after": "D1 16:30"
+     },
+     {
+      "near": {
+       "x": -2500,
+       "z": 300,
+       "r": 600
+      }
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "at": "P1900",
+     "behavior": "stalk",
+     "durationMin": 900,
+     "aggression": 4,
+     "attackInjury": [
+      0.05,
+      0.05,
+      0.1,
+      0.15,
+      0.3,
+      0.35
+     ]
+    },
+    {
+     "type": "setFlag",
+     "flag": "bear3"
+    },
+    {
+     "type": "log",
+     "text": "夕食のあと、また熊が現れた。稜線の向こうから、こちらへ下りてくる。3 度目だ",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_drop",
+   "trigger": {
+    "all": [
+     {
+      "flag": "dropAll"
+     },
+     {
+      "elapsedSince": {
+       "flag": "dropAll",
+       "min": 3
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "at": "MID",
+     "aheadM": 2,
+     "behavior": "graze",
+     "durationMin": 90,
+     "aggression": 0,
+     "quiet": true,
+     "anxiety": 0
+    },
+    {
+     "type": "log",
+     "text": "熊は、置いてきたテントとキスリングに向かった。しばらくはそこを離れないだろう"
+    }
+   ]
+  },
+  {
+   "id": "ev_drop_resume",
+   "trigger": {
+    "all": [
+     {
+      "flag": "dropAll"
+     },
+     {
+      "elapsedSince": {
+       "flag": "dropAll",
+       "min": 95
+      }
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "at": "MID",
+     "behavior": "stalk",
+     "durationMin": 300,
+     "aggression": 2,
+     "attackInjury": [
+      0.05,
+      0.05,
+      0.1,
+      0.15,
+      0.3,
+      0.35
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_cirque_empty",
+   "trigger": {
+    "all": [
+     {
+      "flag": "toCirque"
+     },
+     {
+      "atNode": "HACHI_CIRQUE"
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "八ノ沢カールのテント場に着いたが、ほかの大学のテントには誰もいなかった。熊が出たと聞いて、すでに下山したらしい。暗くなる。ここで夜を明かすしかない",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "bivouac",
+       "until": "D2 08:00",
+       "findLee": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_bear_n1",
+   "trigger": {
+    "all": [
+     {
+      "flag": "fixated"
+     },
+     {
+      "flag": "bear3"
+     },
+     {
+      "after": "D1 22:30"
+     },
+     {
+      "var": "animal.brownBear",
+      "op": ">=",
+      "value": 99999
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 1150
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "not": {
+       "flag": "dropAll"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "aheadM": -150,
+     "sideM": 40,
+     "behavior": "stalk",
+     "durationMin": 240,
+     "aggression": 4,
+     "attackInjury": [
+      0.05,
+      0.05,
+      0.1,
+      0.15,
+      0.3,
+      0.35
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_bear_n2",
+   "trigger": {
+    "all": [
+     {
+      "flag": "fixated"
+     },
+     {
+      "flag": "bear3"
+     },
+     {
+      "after": "D2 03:00"
+     },
+     {
+      "var": "animal.brownBear",
+      "op": ">=",
+      "value": 99999
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 1150
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "not": {
+       "flag": "dropAll"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "aheadM": -150,
+     "sideM": -40,
+     "behavior": "stalk",
+     "durationMin": 240,
+     "aggression": 4,
+     "attackInjury": [
+      0.05,
+      0.05,
+      0.1,
+      0.15,
+      0.3,
+      0.35
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_fog",
+   "trigger": {
+    "all": [
+     {
+      "after": "D2 07:30"
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 1150
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "朝になっても、カールは濃い霧に包まれている。5 m 先も見えない",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_bear_fog",
+   "trigger": {
+    "all": [
+     {
+      "flag": "fixated"
+     },
+     {
+      "flag": "bear3"
+     },
+     {
+      "after": "D2 07:50"
+     },
+     {
+      "var": "animal.brownBear",
+      "op": ">=",
+      "value": 99999
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 1150
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "not": {
+       "flag": "dropAll"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "animal",
+     "species": "brownBear",
+     "id": "higuma",
+     "aheadM": -120,
+     "sideM": 30,
+     "behavior": "stalk",
+     "durationMin": 240,
+     "aggression": 4,
+     "attackInjury": [
+      0.05,
+      0.05,
+      0.1,
+      0.15,
+      0.3,
+      0.35
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_heli",
+   "trigger": {
+    "all": [
+     {
+      "flag": "reported"
+     },
+     {
+      "after": "D2 15:30"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "15 時半、ヘリコプターが現場へ向かったが、乱気流で近づけずに引き返した（記録）"
+    }
+   ]
+  },
+  {
+   "id": "ev_A_left",
+   "trigger": {
+    "var": "c.A.state",
+    "op": "==",
+    "value": "FINISHED"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "leaveMap",
+       "who": "A",
+       "place": "五ノ沢の砂防ダムの工事現場（車を借りて中札内の駐在所へ）"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_B_left",
+   "trigger": {
+    "var": "c.B.state",
+    "op": "==",
+    "value": "FINISHED"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "leaveMap",
+       "who": "B",
+       "place": "五ノ沢の砂防ダムの工事現場（車を借りて中札内の駐在所へ）"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_C_left",
+   "trigger": {
+    "var": "c.C.state",
+    "op": "==",
+    "value": "FINISHED"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "leaveMap",
+       "who": "C",
+       "place": "五ノ沢の砂防ダムの工事現場（車を借りて中札内の駐在所へ）"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_D_left",
+   "trigger": {
+    "var": "c.D.state",
+    "op": "==",
+    "value": "FINISHED"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "leaveMap",
+       "who": "D",
+       "place": "五ノ沢の砂防ダムの工事現場（車を借りて中札内の駐在所へ）"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_E_left",
+   "trigger": {
+    "var": "c.E.state",
+    "op": "==",
+    "value": "FINISHED"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "leaveMap",
+       "who": "E",
+       "place": "五ノ沢の砂防ダムの工事現場（車を借りて中札内の駐在所へ）"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_pack",
+   "title": "荷物をあさるヒグマ",
+   "group": "main",
+   "priority": 30,
+   "trigger": {
+    "flag": "bear1"
+   },
+   "situation": "ヒグマがテントのすぐそばで、キスリングの食料をあさっている。人を怖がる様子はない。どうする？",
+   "knowledge": [
+    "日没まで約 2 時間半",
+    "九ノ沢を下れば、札内川まで約 2 時間",
+    "八ノ沢カールには、ほかの大学のパーティがいるらしい",
+    "熊のことは、前もってよく調べてこなかった"
+   ],
+   "options": [
+    {
+     "id": "retake",
+     "label": "音を立てて追い払い、荷物を取り返す",
+     "detail": "火を焚き、ラジオの音を大きくし、食器を鳴らす。荷物はテントの中へ。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "食器を鳴らせ。荷物をテントに入れろ",
+       "tone": "shout"
+      },
+      {
+       "type": "setFlag",
+       "flag": "packRetaken"
+      },
+      {
+       "type": "setFlag",
+       "flag": "fixated"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "leave_down",
+     "label": "荷物は置いたまま、すぐに九ノ沢を下る",
+     "detail": "食料の入ったキスリングはあきらめる。暗くなる前に札内川へ。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "荷物はいい。今すぐ下りよう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "leftPack"
+      },
+      {
+       "type": "setFlag",
+       "flag": "downStart"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "KYU_CAMP",
+        "KYU_DEAI",
+        "JU_DEAI",
+        "HACHI_DEAI",
+        "RINDO",
+        "EXIT"
+       ],
+       "goalNodes": [
+        "EXIT"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.25
+     }
+    },
+    {
+     "id": "leave_stay",
+     "label": "荷物はあきらめ、テントで夜を明かして朝いちばんに下る",
+     "detail": "暗い沢は下らない。熊が食べ終えて離れるのを待つ。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "荷物はくれてやろう。明るくなったらすぐ下りる"
+      },
+      {
+       "type": "setFlag",
+       "flag": "stayNoPack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "KYU_CAMP",
+        "KYU_DEAI",
+        "JU_DEAI",
+        "HACHI_DEAI",
+        "RINDO",
+        "EXIT"
+       ],
+       "goalNodes": [
+        "EXIT"
+       ]
+      },
+      {
+       "type": "bivouac",
+       "until": "D1 03:30",
+       "findLee": false
+      }
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_dawn",
+   "title": "倒されるテント",
+   "group": "main",
+   "priority": 30,
+   "trigger": {
+    "flag": "bear2"
+   },
+   "situation": "熊がテントの幕を引っ張っている。5 人で押さえているが、支柱がきしむ。どうする？",
+   "knowledge": [
+    "反対側の幕から外へ出られる",
+    "すぐ上の主稜線へ逃げられる",
+    "九ノ沢を下れば、札内川まで約 2 時間。八ノ沢出合の先に、ほかのパーティがいるかもしれない"
+   ],
+   "options": [
+    {
+     "id": "split",
+     "label": "全員で逃げ出し、2 人を救助を頼みに下ろす",
+     "detail": "B と E が九ノ沢を下り、営林署に知らせてハンターを頼む。3 人は上の峰で熊を見張る。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "反対側から出ろ。B と E は沢を下って、営林署に知らせてくれ",
+       "tone": "shout"
+      },
+      {
+       "type": "setFlag",
+       "flag": "split"
+      },
+      {
+       "type": "setFlag",
+       "flag": "ridgeWait"
+      },
+      {
+       "type": "splitParty",
+       "groups": [
+        {
+         "id": "msg",
+         "members": [
+          "B",
+          "E"
+         ],
+         "leader": "B",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "setRoute",
+           "route": [
+            "KYU_CAMP",
+            "KYU_DEAI",
+            "JU_DEAI",
+            "HACHI_DEAI",
+            "RINDO",
+            "EXIT"
+           ],
+           "goalNodes": [
+            "EXIT"
+           ]
+          }
+         ]
+        },
+        {
+         "id": "main",
+         "members": "rest",
+         "leader": "A",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "goToNode",
+           "node": "P1900",
+           "then": "stay"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "all_down",
+     "label": "テントも荷物も置いて、全員ですぐ九ノ沢を下る",
+     "detail": "持てる物だけ持ち、5 人で離れずに沢を下りる。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "全員で下りるぞ。荷物はいい"
+      },
+      {
+       "type": "setFlag",
+       "flag": "allDown"
+      },
+      {
+       "type": "setFlag",
+       "flag": "downStart"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "KYU_CAMP",
+        "KYU_DEAI",
+        "JU_DEAI",
+        "HACHI_DEAI",
+        "RINDO",
+        "EXIT"
+       ],
+       "goalNodes": [
+        "EXIT"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "retrieve",
+     "label": "全員で稜線へ逃げ、熊が離れたらテントを取り戻す",
+     "detail": "縦走はまだ続けられる。荷物を失えば、下山までの食料もない。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "いったん上に逃げよう。熊がいなくなったら、テントを取りに戻る"
+      },
+      {
+       "type": "setFlag",
+       "flag": "ridgeWait"
+      },
+      {
+       "type": "goToNode",
+       "node": "P1900",
+       "then": "stay"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_msg",
+   "title": "八ノ沢出合",
+   "group": "msg",
+   "priority": 30,
+   "trigger": {
+    "all": [
+     {
+      "flag": "split"
+     },
+     {
+      "atNode": "HACHI_DEAI"
+     }
+    ]
+   },
+   "situation": "7 時すぎ、八ノ沢出合でほかの大学のパーティ（約 10 人）に会った。「自分たちも熊に荷物をあさられた」という。学校と営林署へ知らせてくれることになった。2 人はどうする？",
+   "knowledge": [
+    "稜線には、まだ 3 人の仲間が残っている",
+    "八ノ沢を登り返せば、稜線まで 4〜5 時間",
+    "札内川を下れば、林道まで約 1 時間半。そこから先に工事現場がある"
+   ],
+   "options": [
+    {
+     "id": "back_up",
+     "label": "食料と地図を借り、仲間のもとへ八ノ沢を登り返す",
+     "detail": "知らせはそのパーティに託す。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "知らせはお願いします。僕らは仲間のところへ戻ります"
+      },
+      {
+       "type": "setFlag",
+       "flag": "backUp"
+      },
+      {
+       "type": "setFlag",
+       "flag": "reported"
+      },
+      {
+       "type": "goToNode",
+       "node": "MID",
+       "then": "stay"
+      }
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "go_down",
+     "label": "伝言を頼み、自分たちもそのまま下山して知らせる",
+     "detail": "林道に出て、警察と営林署に直接伝える。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "僕らも下りて、警察に直接知らせます"
+      },
+      {
+       "type": "setFlag",
+       "flag": "msgDown"
+      },
+      {
+       "type": "setFlag",
+       "flag": "reported"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_evening",
+   "title": "3 度目のヒグマ",
+   "group": "main",
+   "priority": 30,
+   "trigger": {
+    "all": [
+     {
+      "flag": "bear3"
+     },
+     {
+      "var": "animal.brownBear",
+      "op": "<",
+      "value": 400
+     }
+    ]
+   },
+   "situation": "熊が稜線をこちらへ下りてくる（{leader.name}から約 {animal.brownBear:0} m）。日没まで約 2 時間。八ノ沢カールには、ほかの大学のテントがあるはずだ。どうする？",
+   "knowledge": [
+    "八ノ沢カールのテント場まで、下りで約 30 分",
+    "八ノ沢を札内川まで下るには 3〜4 時間。途中で暗くなる",
+    "熊は荷物を取り返されてから、何度も戻ってきている"
+   ],
+   "options": [
+    {
+     "id": "to_cirque",
+     "label": "八ノ沢カールの、ほかの大学のテントへ移る",
+     "detail": "泊めてもらい、一緒に下山する。荷物は担いでいく。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "カールの、別の大学のテントへ行こう。泊めてもらうんだ"
+      },
+      {
+       "type": "setFlag",
+       "flag": "toCirque"
+      },
+      {
+       "type": "goToNode",
+       "node": "HACHI_CIRQUE",
+       "then": "stay"
+      }
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "drop_down",
+     "label": "荷物はすべて置き、全員で離れずに八ノ沢を下り続ける",
+     "detail": "熊の気を荷物に向けさせる。暗くなっても、ヘッドランプで沢を下る。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "荷物は置いていく。走るな。全員で固まって下りるぞ"
+      },
+      {
+       "type": "setFlag",
+       "flag": "dropAll"
+      },
+      {
+       "type": "setCohesion",
+       "cohesion": "tight"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "J_HACHI",
+        "HACHI_CIRQUE",
+        "HACHI_UP",
+        "HACHI_DEAI",
+        "RINDO",
+        "EXIT"
+       ],
+       "goalNodes": [
+        "EXIT"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "stay_tent",
+     "label": "テントに固まり、火を焚いて夜を明かす",
+     "detail": "暗い中を動くより、5 人でいるほうが安全だと考える。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "動くのはよそう。火を絶やすな"
+      },
+      {
+       "type": "setFlag",
+       "flag": "stayRidge"
+      },
+      {
+       "type": "bivouac",
+       "until": "D2 08:00",
+       "findLee": false
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_morning",
+   "title": "霧の朝",
+   "group": "main",
+   "priority": 20,
+   "trigger": {
+    "all": [
+     {
+      "after": "D2 07:55"
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 1150
+     },
+     {
+      "not": {
+       "flag": "dropAll"
+      }
+     },
+     {
+      "any": [
+       {
+        "flag": "toCirque"
+       },
+       {
+        "flag": "stayRidge"
+       }
+      ]
+     }
+    ]
+   },
+   "situation": "濃い霧で 5 m 先も見えない。熊がどこにいるか分からない。どうする？",
+   "knowledge": [
+    "八ノ沢を下れば、札内川の八ノ沢出合まで 2〜3 時間",
+    "霧は昼すぎまで晴れそうにない",
+    "救助を頼む知らせが届いているかは分からない"
+   ],
+   "options": [
+    {
+     "id": "down",
+     "label": "全員で声を掛け合い、霧の中を八ノ沢へ下る",
+     "detail": "離れないよう、前の人の背中を見て歩く。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "下りるぞ。前の人から離れるな"
+      },
+      {
+       "type": "setFlag",
+       "flag": "fogDown"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HACHI_UP",
+        "HACHI_DEAI",
+        "RINDO",
+        "EXIT"
+       ],
+       "goalNodes": [
+        "EXIT"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "wait",
+     "label": "霧が晴れるまで、固まって動かずに待つ",
+     "detail": "見通しが利くようになってから下る。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "霧が晴れるまで待とう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "fogWait"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HACHI_UP",
+        "HACHI_DEAI",
+        "RINDO",
+        "EXIT"
+       ],
+       "goalNodes": [
+        "EXIT"
+       ]
+      },
+      {
+       "type": "bivouac",
+       "until": "D2 12:00",
+       "findLee": false
+      }
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  }
+ ],
+ "genericOverrides": {
+  "hypothermia": {
+   "enabled": false
+  },
+  "darkness": {
+   "situation": "日が暮れた。沢の音で、まわりの物音が聞き取りにくい。"
+  }
+ },
+ "thoughts": [
+  {
+   "key": "s21_clear",
+   "when": {
+    "all": [
+     {
+      "before": "D0 16:00"
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "lines": [
+    "縦走もあと少しだ",
+    "カムイエクはもう目の前だ"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s21_watch",
+   "when": {
+    "all": [
+     {
+      "flag": "packRetaken"
+     },
+     {
+      "after": "D0 21:30"
+     },
+     {
+      "before": "D1 04:00"
+     }
+    ]
+   },
+   "lines": [
+    "また来るだろうか",
+    "物音がするたびに目が覚める"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s21_fear",
+   "when": {
+    "all": [
+     {
+      "flag": "bear3"
+     },
+     {
+      "var": "animal.brownBear",
+      "op": "<",
+      "value": 300
+     }
+    ]
+   },
+   "lines": [
+    "どうしてこんなに付きまとうんだ",
+    "荷物を取り返したからだろうか"
+   ],
+   "priority": 6
+  }
+ ],
+ "speech": [],
+ "endings": [
+  {
+   "kind": "SELF_RESCUE",
+   "when": {
+    "flag": "leftPack"
+   },
+   "title": "荷物を置いて九ノ沢を下った",
+   "text": "5 人は、熊が荷物をあさっているうちに九ノ沢を下った。食料の入ったキスリングは失ったが、熊はそれ以上ついてこなかった。5 人は札内川の林道に出て、熊が出たことを知らせた。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "when": {
+    "flag": "stayNoPack"
+   },
+   "title": "荷物をあきらめて下った",
+   "text": "5 人は荷物を取り返さず、夜明け前に九ノ沢を下った。熊は残された荷物に気を取られていた。5 人は札内川の林道に出た。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "when": {
+    "flag": "allDown"
+   },
+   "title": "テントを捨てて下った",
+   "text": "5 人は夜明けにテントと荷物を置いて九ノ沢を下った。熊は倒したテントをあさり続け、5 人を追わなかった。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "when": {
+    "flag": "dropAll"
+   },
+   "title": "荷物を置いて八ノ沢を下った",
+   "text": "5 人は 3 度目に熊が現れたとき、荷物をすべて置いて八ノ沢を下った。暗い沢を下り続け、札内川の林道に出た。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "title": "札内川の林道へ",
+   "text": "一行は札内川の林道に出た。熊に付きまとわれた 2 日間だった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "title": "札内川の林道へ",
+   "text": "一行は札内川の林道に出た。"
+  },
+  {
+   "kind": "MISSING",
+   "title": "まだ山の中に",
+   "text": "7 月 27 日の夕方の時点で、山の中にまだ仲間が残っている。実際の記録では、救助隊ができたのは 28 日、3 人が見つかったのは 29 日と 30 日だった。"
+  },
+  {
+   "kind": "FATAL",
+   "when": {
+    "var": "rec.deathCount",
+    "op": ">=",
+    "value": 3
+   },
+   "title": "八ノ沢カール",
+   "text": "このシミュレーションでは {rec.deathCount:0} 人が亡くなった。実際の記録でも、5 人のうち 3 人が八ノ沢カールの付近で熊に襲われて亡くなり、2 人が八ノ沢と札内川を下って生還した。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "帰らなかった仲間",
+   "text": "このシミュレーションでは {rec.deathCount:0} 人が亡くなった。実際の記録では、5 人のうち 3 人が八ノ沢カールの付近で熊に襲われて亡くなり、2 人が八ノ沢と札内川を下って生還した。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_retake",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_pack",
+       "option": "retake"
+      }
+     },
+     {
+      "flag": "tentRetaken"
+     }
+    ]
+   },
+   "title": "熊に取られた荷物は取り返さない",
+   "text": "事件を調べたヒグマの研究者は、熊があさった荷物を取り返したことで、熊が一行を「自分の獲物を奪う相手」とみなし、執着した可能性を挙げている。熊が荷物に手をつけたら、荷物はあきらめ、その場を離れる。"
+  },
+  {
+   "id": "l_first",
+   "when": {
+    "not": {
+     "chose": {
+      "cp": "cp_pack",
+      "option": "leave_down"
+     }
+    }
+   },
+   "title": "最初に見た時点で下山する",
+   "text": "生還した部員は、熊を見たとき「はじめは物珍しさが先に立った」と話している。人や荷物を恐れずに近づく熊は危険な兆候で、最初に現れた時点ですぐに下山し、知らせるべきだったと指摘されている。"
+  },
+  {
+   "id": "l_food",
+   "when": {
+    "beenAt": "KYU_CAMP"
+   },
+   "title": "食べ物を熊に渡さない",
+   "text": "熊は一度人の食べ物の味を覚えると、また戻ってくる。テントのそばに食料を置かない、調理と食料はテントから離す、食べ残しやごみを残さない。熊の出る山では、においの漏れない容器にまとめて保管する。"
+  },
+  {
+   "id": "l_msg",
+   "when": {
+    "chose": {
+     "cp": "cp_msg",
+     "option": "back_up"
+    }
+   },
+   "title": "知らせに下りたら、知らせ終えるまで下る",
+   "text": "記録では、2 人はそのパーティに伝言を託し、残った 3 人を助けようと稜線へ戻った。伝言は届いたが、救助隊ができたのは 28 日だった。危険な動物がいるときは、知らせに下りた人はそのまま下山して自分で通報し、残った人もできるだけ早くその場を離れる。"
+  },
+  {
+   "id": "l_run",
+   "when": {
+    "flag": "bearAttack"
+   },
+   "title": "背を向けて逃げない",
+   "text": "熊には、逃げるものを追う習性があるとされる。記録では、熊が現れるたびに一行は散り散りに逃げ、一人になったところを襲われた。慌てて走らず、仲間と固まり、熊から目を離さずにゆっくりその場を離れる。"
+  },
+  {
+   "id": "l_fog",
+   "when": {
+    "any": [
+     {
+      "flag": "toCirque"
+     },
+     {
+      "flag": "stayRidge"
+     }
+    ]
+   },
+   "title": "夜や霧でも熊は動く",
+   "text": "一行は、暗くなれば・霧が出れば熊は動かないと考えていたとされる。実際には熊は夜も霧の中も現れた。時間や天気で熊の行動が止まるとは考えない。"
+  },
+  {
+   "id": "l_prep",
+   "when": {
+    "beenAt": "KYU_CAMP"
+   },
+   "title": "出会ったときの対処を前もって確かめる",
+   "text": "九州から来た一行は、ヒグマについて詳しく調べていなかった。入る山にどんな動物がいて、出会ったときにどうするか（荷物を取り返さない・走らない・すぐ下山して知らせる）を、計画の段階で全員で確かめておく。"
+  }
+ ],
+ "balanceTargets": {
+  "historical": {
+   "fatalMin": 0.5
+  },
+  "recommended": {
+   "fatalMax": 0.05
+  },
+  "risky": {
+   "fatalMin": 0.3
+  }
+ },
+ "historical": {
+  "event": "1970年7月 日高山脈カムイエクウチカウシ山のヒグマ事件",
+  "sources": [
+   {
+    "title": "この事件の記事（2026 年 10 月の版。大学名は伏せた）",
+    "publisher": "Wikipedia 日本語版",
+    "url": "https://ja.wikipedia.org/wiki/%E7%A6%8F%E5%B2%A1%E5%A4%A7%E5%AD%A6%E3%83%AF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%95%E3%82%A9%E3%83%BC%E3%82%B2%E3%83%AB%E9%83%A8%E3%83%92%E3%82%B0%E3%83%9E%E4%BA%8B%E4%BB%B6"
+   },
+   {
+    "title": "保存版 ワンゲル部ヒグマ襲撃事件報告書（部の遭難報告書〈1970 年 8 月〉の転載。大学名は伏せた）",
+    "publisher": "YAMA HACK",
+    "url": "https://yamahack.com/4450"
+   },
+   {
+    "title": "ヒグマそこが知りたい 理解と予防のための10章（木村盛武。Wikipedia の引用による）",
+    "publisher": "共同文化社",
+    "year": 2001
+   },
+   {
+    "title": "ワンダーフォーゲル部遭難報告書抜粋（Wikipedia の引用による。大学名は伏せた）",
+    "publisher": "北の山脈（北海道撮影社）",
+    "year": 1971
+   }
+  ],
+  "labelsNote": "大学名・部名・人名は出さず、人物はリーダー A・サブリーダー B・C・D・E の記号で表記する（Wikipedia の記号に合わせた。部の報告書とは記号が異なる）。年齢・体重・体力・装備はシミュレーションの推定。",
+  "disclaimer": "このシナリオは、Wikipedia の記事と、部の遭難報告書（の転載）をもとに経過を再構成したものです。日付・人数・遭遇の時刻と場所・天気（25・26 日は快晴、27 日は濃い霧）は記録にもとづきますが、年齢・体重・体力・装備、熊の動き、一人ひとりの位置はシミュレーションの推定であり、実際のものではありません。シミュレーションの結果は実際の出来事を説明するものではありません。テント場・峰・沢筋の位置は作者の概略です。亡くなられた方々に哀悼の意を表します。※印のセリフ・思考は架空です。",
+  "recordedDeaths": 3,
+  "recordedSurvivors": [
+   "B",
+   "D"
+  ],
+  "recordedChoices": {
+   "cp_pack": "retake",
+   "cp_dawn": "split",
+   "cp_msg": "back_up",
+   "cp_evening": "to_cirque",
+   "cp_morning": "down"
+  },
+  "reference": [
+   {
+    "at": "D0 15:20",
+    "label": "九ノ沢カールに着き、テントを張る",
+    "node": "KYU_CAMP"
+   },
+   {
+    "at": "D0 16:30",
+    "label": "夕食後、テントの 6〜7 m 先にヒグマ。キスリングをあさる。音を立てて追い払い、荷物をテントに入れる（約 30 分で姿を消す）",
+    "node": "KYU_CAMP"
+   },
+   {
+    "at": "D0 21:00",
+    "label": "熊がテントに触れ、こぶし大の穴が開く。2 人ずつ 2 時間交代で見張り",
+    "node": "KYU_CAMP"
+   },
+   {
+    "at": "D1 04:30",
+    "label": "熊がまた現れ、テントの幕を引っ張る。反対側から逃げ、熊はテントを倒してキスリングをあさる",
+    "node": "KYU_CAMP"
+   },
+   {
+    "at": "D1 05:00",
+    "label": "リーダーの指示で 2 人（B・E）が救助を頼みに九ノ沢を下る"
+   },
+   {
+    "at": "D1 06:35",
+    "label": "残った 3 人がテントと荷物を取り戻し、稜線へ上がる（C のメモ）"
+   },
+   {
+    "at": "D1 07:15",
+    "label": "八ノ沢出合でそのパーティに会い、学校と営林署への連絡を頼む。2 人は八ノ沢を登り返す",
+    "node": "HACHI_DEAI"
+   },
+   {
+    "at": "D1 13:00",
+    "label": "稜線で 5 人がそろう"
+   },
+   {
+    "at": "D1 15:00",
+    "label": "山頂の手前のピークにテントを張る",
+    "node": "MID"
+   },
+   {
+    "at": "D1 16:30",
+    "label": "熊が 3 度目に現れる。様子を見たのち、八ノ沢カールの別の大学のテントへ移ることにする"
+   },
+   {
+    "at": "D1 18:30",
+    "label": "稜線から 60〜70 m 下った所で熊に追われ、全員が散り散りに逃げる。E が襲われて亡くなる。C ははぐれる"
+   },
+   {
+    "at": "D1 20:00",
+    "label": "A・B・D は岩場で夜を明かす。C は無人のテントに入って夜を明かす"
+   },
+   {
+    "at": "D2 07:00",
+    "label": "C のメモの最後の時刻。テントの外にまた熊がいると書かれていた。C はこのあと襲われて亡くなる",
+    "node": "HACHI_CIRQUE"
+   },
+   {
+    "at": "D2 08:15",
+    "label": "濃い霧の中を下り始めてすぐ、熊が現れ、A が襲われて亡くなる。B・D は八ノ沢へ下る"
+   },
+   {
+    "at": "D2 10:30",
+    "label": "B・D が八ノ沢出合に着く",
+    "node": "HACHI_DEAI"
+   },
+   {
+    "at": "D2 13:00",
+    "label": "B・D が五ノ沢の砂防ダムの工事現場に着き、事情を話す"
+   },
+   {
+    "at": "D2 15:30",
+    "label": "ヘリコプターが飛ぶが、乱気流で現場を確かめられずに引き返す"
+   },
+   {
+    "at": "D2 18:00",
+    "label": "B・D が車で中札内の駐在所に着き、保護される"
+   }
+  ]
+ },
+ "sources": [
+  "経過・時刻・場所・天気: Wikipedia 日本語版のこの事件の記事と、部の遭難報告書（1970 年 8 月）の転載（YAMA HACK）。資料によって時刻・人物の記号が少し異なり、ここでは Wikipedia の記号を使った",
+  "原因の指摘（荷物を取り返したこと・すぐに下山しなかったこと・背を向けて逃げたこと・事前の調べ・夜や霧でも熊は動くこと）: 木村盛武『ヒグマそこが知りたい』（2001。Wikipedia の引用による）",
+  "その後: 熊は 29 日 16 時 30 分ごろ、八ノ沢カールの付近でハンターに駆除された（Wikipedia）。シナリオは 27 日 20 時で終わる",
+  "気象: 報告書の天気の記録（25・26 日快晴、27 日濃いガス・視界 5 m）をもとにした推定。気温・風・雲の高さは推定。月の満ち欠けと出入りは概略",
+  "熊のふるまい（付きまとい、近づくたびに襲うかを引く・襲う確率とけがの重さ）はゲームの値で、統計にもとづく値ではない",
+  "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工。主稜線・カール・沢筋の道は OSM にないため、作者が標高と OSM の川の線（© OpenStreetMap contributors）から描いた概略"
+ ]
+}

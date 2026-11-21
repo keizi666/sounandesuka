@@ -9,7 +9,7 @@ import { JA } from '../../i18n/ja';
 import { el } from '../../ui/dom';
 import { check, num, select, text } from './fields';
 
-const BEHAVIORS: AnimalBehavior[] = ['graze', 'watch', 'wander', 'cross', 'flee'];
+const BEHAVIORS: AnimalBehavior[] = ['graze', 'watch', 'wander', 'cross', 'flee', 'stalk'];
 
 export function speciesOptions(): [AnimalSpecies, string][] {
   return ANIMAL_SPECIES.map((s) => [s, JA.log.animal[s] ?? s]);
