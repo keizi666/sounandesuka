@@ -572,7 +572,7 @@ export class SceneView {
     // 野生動物（補間した時刻で。人形と同じ拡大率）
     // 付きまとう熊が人形の列と重ならないよう、描いている人形の位置（m）も渡す
     const figPts: FigurePoint[] = [];
-    for (const f of this.figures.values()) if (f.root.visible) figPts.push({ x: f.root.position.x / UNIT, z: f.root.position.z / UNIT });
+    for (const [id, f] of this.figures) if (f.root.visible) figPts.push({ id, x: f.root.position.x / UNIT, z: f.root.position.z / UNIT });
     this.animals.update(world, world.tMin - (1 - alpha) * (DT_SEC / 60), timeSec, this.figureHeight() / 1.7, figPts);
     this.updateCamera(world);
     this.veg.update(this.camera);

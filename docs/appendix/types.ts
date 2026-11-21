@@ -586,6 +586,11 @@ export interface AnimalState {
   chargeZ?: number;
   /** 襲われたときのけがの割合（なければ種類ごと） */
   attackInjury?: number[];
+  /**
+   * 襲う相手と、着いたときに負わせるけが。熊が人のところに着いた（chargeMin + 向かってくる時間）ときにけがを負わせ、
+   * そのあと少しその場にいてから立ち去る（ユーザーの指定: 熊が来る前に人が倒れるのはおかしい）
+   */
+  attack?: { climberId: ClimberId; injury: string; surprise: boolean; applied: boolean };
   /** stalk: いまの動き（atMin の位置 x・z から、向き headingRad へ ms m/s で進む）と、止まっている終わりの時刻 */
   stalk?: { x: number; z: number; atMin: number; headingRad: number; ms: number; restUntilMin: number };
 }

@@ -82,8 +82,11 @@ export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options:
   injured: {
     priority: 5,
     options: [
-      // 足の骨折では歩いて下りられない（這うしかない）
-      opt('slow_descend', [{ type: 'setPace', factor: 0.6 }, { type: 'continueRoute' }], 0.8, { available: { var: 'leader.injury', op: '!=', value: 'legFracture' }, hideIfUnavailable: true }),
+      // 足の骨折では歩いて下りられない（這うしかない）。頭のけが・重い外傷でも歩けない（列は止まるので、「下山する」を選んでも動かない。ユーザーの指摘）
+      opt('slow_descend', [{ type: 'setPace', factor: 0.6 }, { type: 'continueRoute' }], 0.8, {
+        available: { all: [{ var: 'leader.injury', op: '!=', value: 'legFracture' }, { var: 'leader.injury', op: '!=', value: 'headInjury' }, { var: 'leader.injury', op: '!=', value: 'severeTrauma' }] },
+        hideIfUnavailable: true,
+      }),
       opt('crawl', [{ type: 'continueRoute' }], 0.3, { tags: ['risky'], available: { var: 'leader.injury', op: '==', value: 'legFracture' }, hideIfUnavailable: true }),
       opt('bivouac', [{ type: 'bivouac', until: 'rescue', findLee: true }], 0.3, { bias: { base: 0.3, mods: [{ when: { var: 'leader.injury', op: '==', value: 'legFracture' }, add: 0.6 }] } }),
       opt('call', [{ type: 'callRescue', via: 'auto' }, { type: 'waitRescue' }], 0.5, { tags: ['recommended'], available: CALL_OK }),

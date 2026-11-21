@@ -33,12 +33,31 @@ interface Herd {
   /** 人形の列のまわりを回るときの、sim の向きからの角度のずれ（rad）と、最後に描いた時刻（ゲーム内分） */
   orbitA: number;
   orbitT: number | null;
+  /** 最後に描いた位置（m） */
+  dispX: number | null;
+  dispZ: number | null;
+  /** 人に向かい始めたときに描いていた位置と、立ち去るときの sim の位置からのずれ（襲った人の人形のそばから立ち去る） */
+  chargeFrom: [number, number] | null;
+  leaveD: [number, number];
 }
 
 /** 描いている人形の位置（m） */
 export interface FigurePoint {
+  id: string;
   x: number;
   z: number;
+}
+
+/** 描く位置と動き方。charge: 人へ走る / hold: 人のそば（襲った直後） / orbit: 列のまわりを歩く / sim: sim の位置のまま */
+interface Disp {
+  x: number;
+  z: number;
+  heading: number;
+  mode: 'sim' | 'orbit' | 'charge' | 'hold';
+  /** hold のとき、着いてからの経過（ゲーム内分） */
+  heldMin: number;
+  /** hold のとき、襲った人の方の向き */
+  faceTo: number | null;
 }
 
 function hash01(s: string, salt: number): number {
@@ -115,34 +134,69 @@ export class AnimalsView {
       const r = i === 0 ? 0 : 1.2 + Math.sqrt(i) * 1.1;
       list.push({ rig, ox: Math.cos(ang) * r, oz: Math.sin(ang) * r * 1.4 - i * 0.4, phase: seed * 6.28, yaw: a.headingRad, pitch: 0, seed });
     }
-    return { key, list, lastX: a.x, lastZ: a.z, lastT: -1, speed: 0, orbitA: 0, orbitT: null };
+    return { key, list, lastX: a.x, lastZ: a.z, lastT: -1, speed: 0, orbitA: 0, orbitT: null, dispX: null, dispZ: null, chargeFrom: null, leaveD: [0, 0] };
   }
 
   /**
-   * 付きまとう熊（stalk）の描く位置。人形と熊は大きく描くので、sim では数十 m 離れていても重なって見える。
-   * いちばん近い人形のまわりの列（近くの人形）の中心から、列の広がり＋体の大きさより内側に来たら、その半径の輪の上を歩いて回る。
-   * 向かってくる間（charge）は輪から人の方へ寄せる。それ以外は sim の位置のまま（x, z, 向き, 輪を回っているか）
+   * 描く位置。人形と熊は大きく描くので、sim では数十 m 離れていても重なって見える。
+   * - 襲うとき（attack）: 描いていた位置から、襲う人の人形のそばまで走り（charge）、着いたら少しそこにいて（hold）、そこから立ち去る。
+   *   人が倒れるのは熊が着いたとき（sim と同じ時刻）
+   * - 付きまとう熊（stalk）: いちばん近い人形のまわりの列の中心から、列の広がり＋体の大きさより内側に来たら、その輪の上を歩いて回る
+   * - ほかは sim の位置のまま
    */
-  private displayPos(h: Herd, a: AnimalState, tMin: number, figures: readonly FigurePoint[], sc: number): [number, number, number, boolean] {
+  private displayPos(h: Herd, a: AnimalState, tMin: number, figures: readonly FigurePoint[], sc: number): Disp {
+    const d0 = this.displayPosRaw(h, a, tMin, figures, sc);
+    h.dispX = d0.x;
+    h.dispZ = d0.z;
+    return d0;
+  }
+
+  private displayPosRaw(h: Herd, a: AnimalState, tMin: number, figures: readonly FigurePoint[], sc: number): Disp {
     const t = TUNING.animals;
     const [x, z, heading] = animalPos(a, tMin, t);
+    const sim: Disp = { x, z, heading, mode: 'sim', heldMin: 0, faceTo: null };
     const dtG = h.orbitT === null ? 0 : tMin - h.orbitT;
     h.orbitT = tMin;
-    if (dtG < 0 || dtG > 5) h.orbitA = 0; // 巻き戻し・大きな飛び
-    const leaving = a.leaveMin !== null && tMin >= a.leaveMin && !(a.chargeMin !== undefined && tMin < a.leaveMin);
+    if (dtG < 0 || dtG > 5) {
+      // 巻き戻し・大きな飛び
+      h.orbitA = 0;
+      h.chargeFrom = null;
+    }
+    // 人形 1 体の大きさ（m）
+    const fig = (sc / this.unit) * 1.7;
+    // 襲う: 人形のそばまで走り、そばにいて、そこから立ち去る
+    if (a.attack && a.chargeMin !== undefined && a.leaveMin !== null && tMin >= a.chargeMin) {
+      const victim = figures.find((f) => f.id === a.attack!.climberId);
+      if (tMin < a.leaveMin) {
+        if (!h.chargeFrom) h.chargeFrom = h.dispX !== null && h.dispZ !== null ? [h.dispX, h.dispZ] : [a.chargeX ?? x, a.chargeZ ?? z];
+        const [fx, fz] = h.chargeFrom;
+        const vx = victim?.x ?? a.leaveX;
+        const vz = victim?.z ?? a.leaveZ;
+        const dd = Math.max(1e-6, Math.hypot(fx - vx, fz - vz));
+        const stop = victim ? fig * 0.8 : 0;
+        const tx = vx + ((fx - vx) / dd) * stop;
+        const tz = vz + ((fz - vz) / dd) * stop;
+        h.leaveD = [tx - a.leaveX, tz - a.leaveZ];
+        const f = Math.min(1, (tMin - a.chargeMin) / t.chargeMin);
+        const face = Math.atan2(vx - fx, -(vz - fz));
+        return { x: fx + (tx - fx) * f, z: fz + (tz - fz) * f, heading: face, mode: f < 1 ? 'charge' : 'hold', heldMin: Math.max(0, tMin - a.chargeMin - t.chargeMin), faceTo: face };
+      }
+      // 立ち去る（襲った人のそばから）
+      return { x: x + h.leaveD[0], z: z + h.leaveD[1], heading, mode: 'sim', heldMin: 0, faceTo: null };
+    }
+    h.chargeFrom = null;
+    const leaving = a.leaveMin !== null && tMin >= a.leaveMin;
     if (a.behavior !== 'stalk' || leaving || figures.length === 0) {
       h.orbitA = 0;
-      return [x, z, heading, false];
+      return sim;
     }
-    // 人形 1 体の大きさ（m）。列はこの間隔で並ぶ
-    const fig = (sc / this.unit) * 1.7;
     let near: FigurePoint | null = null;
     let nd = Infinity;
     for (const f of figures) {
       const d = Math.hypot(f.x - x, f.z - z);
       if (d < nd) (nd = d), (near = f);
     }
-    if (!near) return [x, z, heading, false];
+    if (!near) return sim;
     const group = figures.filter((f) => Math.hypot(f.x - near!.x, f.z - near!.z) < fig * 4);
     const cx = group.reduce((s2, f) => s2 + f.x, 0) / group.length;
     const cz = group.reduce((s2, f) => s2 + f.z, 0) / group.length;
@@ -150,32 +204,28 @@ export class AnimalsView {
     const R = spread + fig * 1.5;
     const d = Math.hypot(x - cx, z - cz);
     const base = Math.atan2(z - cz, x - cx);
-    const charging = a.chargeMin !== undefined && a.leaveMin !== null && tMin >= a.chargeMin && tMin < a.leaveMin;
-    if (charging) {
-      // 輪の上から人の方へ: 角度のずれを戻しながら、半径を sim の距離へ
-      const f = Math.min(1, (tMin - a.chargeMin!) / Math.max(1e-6, a.leaveMin! - a.chargeMin!));
-      const ang = base + h.orbitA * (1 - f);
-      const r = Math.max(d, R) * (1 - f) + d * f;
-      return [cx + Math.cos(ang) * r, cz + Math.sin(ang) * r, heading, false];
-    }
     const inside = d < R;
     if (inside) h.orbitA += (speciesWalk(a) / R) * dtG * 60;
     else h.orbitA *= Math.exp(-dtG / 0.5);
-    if (!inside && Math.abs(h.orbitA) < 1e-3) return [x, z, heading, false];
+    if (!inside && Math.abs(h.orbitA) < 1e-3) return sim;
     const ang = base + h.orbitA;
     const r = Math.max(d, R);
     // 輪の接線の向き（角が増える向き: (−sin, cos)）。北 = 0、時計回り
     const hd = inside ? Math.atan2(-Math.sin(ang), -Math.cos(ang)) : heading;
-    return [cx + Math.cos(ang) * r, cz + Math.sin(ang) * r, hd, inside];
+    return { x: cx + Math.cos(ang) * r, z: cz + Math.sin(ang) * r, heading: hd, mode: inside ? 'orbit' : 'sim', heldMin: 0, faceTo: null };
   }
 
   private updateHerd(h: Herd, a: AnimalState, world: World, tMin: number, timeSec: number, sc: number, figures: readonly FigurePoint[]): void {
     const t = TUNING.animals;
-    const [cx, cz, heading, orbiting] = this.displayPos(h, a, tMin, figures, sc);
-    // 速さ（m/s）: 少し前の時刻の位置との差から（輪を回っている間は歩く速さ）
+    const disp = this.displayPos(h, a, tMin, figures, sc);
+    const cx = disp.x;
+    const cz = disp.z;
+    const heading = disp.heading;
+    // 速さ（m/s）: 少し前の時刻の位置との差から（輪を回っている間は歩く速さ、人へ向かう間は走る速さ、そばにいる間は 0）
     const [px, pz] = animalPos(a, tMin - 1 / 60, t);
     const [sx0, sz0] = animalPos(a, tMin, t);
-    const speed = orbiting ? speciesWalk(a) : Math.hypot(sx0 - px, sz0 - pz);
+    const st = TUNING.animals.species[a.species] ?? TUNING.animals.species['deer']!;
+    const speed = disp.mode === 'orbit' ? st.walkMs : disp.mode === 'charge' ? st.runMs : disp.mode === 'hold' ? 0 : Math.hypot(sx0 - px, sz0 - pz);
     h.speed += (speed - h.speed) * 0.15;
     const leaving = a.leaveMin !== null && tMin >= a.leaveMin;
     // 現れる・消える
@@ -211,9 +261,10 @@ export class AnimalsView {
       const sz = cz * this.unit + dz * sc;
       // 向き: 動いていれば進む向き、止まっていて watch なら人の方、ほかは出た向き
       let want = heading;
-      if (!moving && near && (a.behavior === 'watch' || nd < 60)) want = Math.atan2(near.x - wx, -(near.z - wz));
+      if (disp.faceTo !== null) want = disp.faceTo;
+      else if (!moving && near && (a.behavior === 'watch' || nd < 60)) want = Math.atan2(near.x - wx, -(near.z - wz));
       else if (!moving) want = heading + (o.seed - 0.5) * 1.2;
-      o.yaw += angDiff(want, o.yaw) * Math.min(1, dt * (moving ? 6 : 1.5));
+      o.yaw += angDiff(want, o.yaw) * Math.min(1, dt * (moving || disp.faceTo !== null ? 6 : 1.5));
       // 斜面に合わせて前後に傾ける
       const fx = Math.sin(o.yaw) * s.len * 0.5 * sc;
       const fz = -Math.cos(o.yaw) * s.len * 0.5 * sc;
@@ -236,12 +287,13 @@ export class AnimalsView {
         m.opacity = opacity;
         m.depthWrite = !fade;
       }
-      this.pose(o, a, moving, running, h.speed, dt, timeSec, near ? Math.atan2(near.x - wx, -(near.z - wz)) : null);
+      this.pose(o, a, moving, running, h.speed, dt, timeSec, near ? Math.atan2(near.x - wx, -(near.z - wz)) : null, disp.mode === 'hold' ? disp.heldMin : null);
     }
   }
 
   /** 骨の角度: 歩く（斜めの脚が組）・走る（前後の脚が組で跳ねる）・草を食む・見る・座る */
-  private pose(o: One, a: AnimalState, moving: boolean, running: boolean, speed: number, dt: number, timeSec: number, lookAt: number | null): void {
+  /** heldMin: 人を襲ってそばにいる間の経過（ゲーム内分。null でなし）。はじめの少しの間は立ち上がって前脚を振り、そのあとは頭を下げて立つ */
+  private pose(o: One, a: AnimalState, moving: boolean, running: boolean, speed: number, dt: number, timeSec: number, lookAt: number | null, heldMin: number | null = null): void {
     const rig = o.rig;
     const s = rig.spec;
     const stride = s.len * (running ? 2.2 : 1.1);
@@ -310,6 +362,24 @@ export class AnimalsView {
         }
       }
       rig.neck.rotation.x = 0.7 + neckX;
+    }
+    // 人を襲った直後: 後ろ脚で立ち上がり、前脚を振り下ろす（約 15 秒）。そのあとは四つ足で頭を下げて立つ
+    if (heldMin !== null) {
+      const rear = smooth(0, 0.03, heldMin) * (1 - smooth(0.2, 0.27, heldMin));
+      const swing = Math.sin(timeSec * 7) * rear;
+      rig.body.position.y = rig.bodyY + rear * s.shoulderH * 0.45;
+      rig.body.rotation.set(-0.75 * rear, 0, 0);
+      for (const l of rig.legs) {
+        if (l.front) {
+          l.upper.rotation.set(-0.9 * rear + swing * 0.6 * l.side, 0, 0);
+          l.lower.rotation.set(0.5 * rear, 0, 0);
+        } else {
+          l.upper.rotation.set(0.75 * rear, 0, 0);
+          l.lower.rotation.set(-0.3 * rear, 0, 0);
+        }
+      }
+      rig.neck.rotation.set(0.15 + (1 - rear) * 0.45, 0, 0);
+      rig.head.rotation.set(0.1, 0, 0);
     }
   }
 

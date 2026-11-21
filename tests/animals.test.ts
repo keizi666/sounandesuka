@@ -126,6 +126,31 @@ describe('野生動物', () => {
     expect(Math.hypot(x - c.x, z - c.z)).toBeLessThan(TUNING.animals.chargeStopM + 1);
   });
 
+  it('けがは熊が人のところに着いたときに負わせ、熊は少しそばにいてから立ち去る', () => {
+    const sc = scenarioWith([{ type: 'animal', species: 'bear', aheadM: 60, durationMin: 30, aggression: 100 }]);
+    const { map } = sounanMap();
+    const world = createWorld(map, sc);
+    const ctx = createStaticContext(map, sc);
+    const t = TUNING.animals;
+    let chargeAt: number | null = null;
+    let hurtAt: number | null = null;
+    for (let i = 0; i < 300 && hurtAt === null; i += 1) {
+      stepWorld(world, ctx);
+      const a = world.animals?.[0];
+      if (chargeAt === null && a?.chargeMin !== undefined) {
+        chargeAt = a.chargeMin;
+        // 向かい始めたときは、まだけがをしていない
+        expect(world.climbers[0]!.body.injury).toBe('none');
+        expect(a.leaveMin).toBeCloseTo(a.chargeMin + t.chargeMin + t.attackHoldMin, 6);
+      }
+      if (ctx.events.some((e) => e.type === 'SCRIPT_LOG' && e.data?.['bearAttack'] !== undefined)) hurtAt = world.tMin;
+      ctx.events.length = 0;
+    }
+    expect(chargeAt).not.toBeNull();
+    expect(hurtAt! - chargeAt!).toBeGreaterThanOrEqual(t.chargeMin - 1e-9);
+    expect(world.animals?.[0]?.attack?.applied).toBe(true);
+  });
+
   it('stalk: 熊は人に付きまとい、近づかれても立ち去らない（相手がいる間）。World は JSON で往復できる', () => {
     const sc = scenarioWith([{ type: 'animal', species: 'brownBear', aheadM: -300, behavior: 'stalk', durationMin: 40, aggression: 0 }]);
     const { map } = sounanMap();

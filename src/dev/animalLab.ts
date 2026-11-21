@@ -1,12 +1,14 @@
 /**
  * 開発用: 野生動物の造形と動きを確認するページ（animal-lab.html。ビルドには含めない）。
- * 種類ごとに 1 列: 草を食む・こちらを見る・うろつく（歩く）・立ち去る（走る）、熊は向かってくる動きも。?night=1 で夜、?n=3 で群れ。
+ * 種類ごとに 1 列: 草を食む・こちらを見る・うろつく（歩く）・立ち去る（走る）、熊は向かってくる動きも（人の前まで走り、立ち上がって前脚を振り、
+ * そばにいてから立ち去る。80 秒ごと）。?night=1 で夜、?n=3 で群れ。
  */
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { ANIMAL_SPECIES } from '../sim/hazards/animals';
 import type { AnimalBehavior, AnimalState, World } from '../sim/types';
-import { AnimalsView } from '../view/animals';
+import { TUNING } from '../sim/tuning';
+import { AnimalsView, type FigurePoint } from '../view/animals';
 
 const params = new URLSearchParams(location.search);
 const night = params.get('night') === '1';
@@ -50,12 +52,20 @@ ANIMAL_SPECIES.forEach((sp, row) => {
     });
   });
 });
-// 熊が向かってくる動き（5 列目。4 秒ごとに、6 m 先の人の前まで向かってきて立ち去る）
+// 熊が向かってくる動き（5 列目。80 秒ごとに、6 m 先の人（印の柱）の前まで向かってきて、そばにいてから立ち去る）
 const charging: AnimalState[] = (['bear', 'brownBear'] as const).map((sp, row) => ({
   id: `${sp}-charge`, species: sp, behavior: 'watch', count: 1, x: 10, z: (row - 2.5) * 3.2, headingRad: -Math.PI / 2,
   fromMin: -1, untilMin: 1e9, leaveMin: null, leaveX: 0, leaveZ: 0, leaveHeadingRad: 0, anxiety: 0, quiet: true, seenBy: [],
 }));
 animals.push(...charging);
+// 襲われる人の目印（柱）
+const victims: FigurePoint[] = charging.map((a) => ({ id: `v-${a.id}`, x: a.x - 6, z: a.z }));
+for (const v of victims) {
+  const post = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 1.7), new THREE.MeshStandardMaterial({ color: 0xd9452b }));
+  post.position.set(v.x, 0.85, v.z);
+  post.castShadow = true;
+  scene.add(post);
+}
 const world = { animals, climbers: [] } as unknown as World;
 
 controls.target.set(0, 0.5, 0);
@@ -80,18 +90,19 @@ function render(tMs: number): void {
     a.leaveMin = start / 60;
     a.fromMin = a.leaveMin - 1;
   }
-  for (const a of charging) {
-    const start = (Math.floor(t / 4) * 4) / 60;
+  charging.forEach((a, i) => {
+    const start = (Math.floor(t / 80) * 80) / 60;
     a.chargeMin = start;
     a.chargeX = a.x;
     a.chargeZ = a.z;
-    a.leaveMin = start + 0.15;
-    a.leaveX = a.x - 6;
+    a.leaveMin = start + TUNING.animals.chargeMin + TUNING.animals.attackHoldMin;
+    a.leaveX = a.x - 6 + TUNING.animals.chargeStopM;
     a.leaveZ = a.z;
     a.leaveHeadingRad = Math.PI / 2;
     a.fromMin = start - 1;
-  }
-  view.update(world, tMin, t, 1);
+    a.attack = { climberId: victims[i]!.id, injury: 'bruise', surprise: false, applied: true };
+  });
+  view.update(world, tMin, t, 1, victims);
   controls.update();
   renderer.render(scene, camera);
 }

@@ -2072,6 +2072,218 @@
    ]
   },
   {
+   "id": "cp_downed",
+   "title": "動けない仲間",
+   "group": "main",
+   "priority": 25,
+   "once": false,
+   "trigger": {
+    "all": [
+     {
+      "var": "group.main.unwellCount",
+      "op": ">=",
+      "value": 1
+     },
+     {
+      "var": "group.main.count",
+      "op": ">=",
+      "value": 2
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "situation": "仲間が大けがをして、自分では歩けない。熊はまた来るかもしれない。どうする？",
+   "knowledge": [
+    "電話も無線もない。知らせるには、札内川の林道の先の工事現場まで下りるしかない",
+    "担いで沢を下ると、とても時間がかかる",
+    "暗いうちや霧の中で沢を下ると、転んだり道を外れたりしやすい"
+   ],
+   "options": [
+    {
+     "id": "send",
+     "label": "1 人が付き添い、ほかの者で八ノ沢を下って知らせる",
+     "detail": "付き添いはけが人のそばで助けを待つ。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "お前はここに残ってくれ。僕らは下りて、すぐ助けを呼んでくる"
+      },
+      {
+       "type": "setFlag",
+       "flag": "sentHelp"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HACHI_UP",
+        "HACHI_DEAI",
+        "RINDO",
+        "EXIT"
+       ],
+       "goalNodes": [
+        "EXIT"
+       ]
+      },
+      {
+       "type": "sendForHelp"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.5
+     }
+    },
+    {
+     "id": "carry",
+     "label": "動けない仲間を担ぎ、全員で離れずに八ノ沢を下る",
+     "detail": "置いていかない。そのぶん、下りるのにとても時間がかかる。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "担いでいくぞ。みんなで交代だ"
+      },
+      {
+       "type": "setFlag",
+       "flag": "carried"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HACHI_UP",
+        "HACHI_DEAI",
+        "RINDO",
+        "EXIT"
+       ],
+       "goalNodes": [
+        "EXIT"
+       ]
+      },
+      {
+       "type": "carryInjured"
+      }
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "stay",
+     "label": "動けない仲間のそばで、全員で固まってとどまる",
+     "detail": "熊が来ても、みんなでいれば追い払えるかもしれない。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "離れるな。みんなでここにいよう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "stayedDowned"
+      },
+      {
+       "type": "bivouac",
+       "until": "dawn",
+       "findLee": false
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_downed_msg",
+   "title": "動けない仲間",
+   "group": "msg",
+   "priority": 25,
+   "once": false,
+   "trigger": {
+    "all": [
+     {
+      "var": "group.msg.unwellCount",
+      "op": ">=",
+      "value": 1
+     },
+     {
+      "var": "group.msg.count",
+      "op": ">=",
+      "value": 2
+     }
+    ]
+   },
+   "situation": "2 人のうち 1 人が大けがをして、自分では歩けない。どうする？",
+   "knowledge": [
+    "電話も無線もない",
+    "八ノ沢出合の近くには、ほかの大学のパーティがいるかもしれない",
+    "1 人で残すと、熊が来たときに助けがない"
+   ],
+   "options": [
+    {
+     "id": "send",
+     "label": "けが人を残し、1 人で下って知らせる",
+     "detail": "林道の先の工事現場まで急ぐ。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "すぐ助けを呼んでくる。ここで待っていてくれ"
+      },
+      {
+       "type": "setFlag",
+       "flag": "msgSentHelp"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HACHI_DEAI",
+        "RINDO",
+        "EXIT"
+       ],
+       "goalNodes": [
+        "EXIT"
+       ]
+      },
+      {
+       "type": "sendForHelp"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.5
+     }
+    },
+    {
+     "id": "stay",
+     "label": "けが人のそばにとどまる",
+     "detail": "一人にはしておけない。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "一人にはしない。ここにいる"
+      },
+      {
+       "type": "bivouac",
+       "until": "dawn",
+       "findLee": false
+      }
+     ],
+     "bias": {
+      "base": 0.5
+     }
+    }
+   ]
+  },
+  {
    "id": "cp_morning",
    "title": "霧の朝",
    "group": "main",
@@ -2183,6 +2395,9 @@
  ],
  "genericOverrides": {
   "hypothermia": {
+   "enabled": false
+  },
+  "injured": {
    "enabled": false
   },
   "darkness": {
