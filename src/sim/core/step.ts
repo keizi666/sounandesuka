@@ -24,6 +24,7 @@ import { chance } from './rng';
 import { updateTimeBehind, updateWeatherImpression } from '../climber/perception';
 import { integrateBody, thermalEnvFor, updateAnxiety } from '../climber/physiology';
 import { stepIllness } from '../climber/illness';
+import { stepAltitude } from '../climber/altitude';
 import { autoResolve, checkChoices } from '../scenario/choices';
 import { checkEnding } from '../scenario/endings';
 import { runEvents, weatherEvents } from '../scenario/events';
@@ -172,6 +173,8 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
   // 8f. 生理
   const env = thermalEnvFor(world, ctx, c);
   integrateBody(c, env, { metAct: c.metAct, grade: move?.grade ?? 0, walking }, dtMin, t);
+  // 高山病（慣れた高さを超えた高さ × 時間で進む。ユーザーの指定）
+  stepAltitude(world, ctx, c, dtMin);
   // 初めて沢の水を飲んだ（のどが渇いていて、沢に手が届く）ときに、ログに 1 行
   if (env.streamWater && c.body.conscious && c.body.waterDeficitL > t.physiology.streamDrinkFromL && world.latches[`streamDrink:${c.id}`] !== true) {
     world.latches[`streamDrink:${c.id}`] = true;

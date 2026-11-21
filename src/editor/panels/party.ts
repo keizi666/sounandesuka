@@ -96,6 +96,7 @@ function climberCard(ed: Ed, c: ClimberDef, i: number): HTMLElement {
     check('リーダー', c.leader ?? false, (v) => set('リーダー', () => ed.p.scenario.party.forEach((p) => (p.leader = v ? p === c : Boolean(p.leader) && p !== c)))),
     section('装備', [
       presetSel,
+      select('靴', g.footwear ?? 'hikingBoots', [['sneakers', 'スニーカー'], ['trailRunners', 'トレランシューズ'], ['hikingBoots', '登山靴'], ['mountainBoots', '冬用の登山靴']], (v) => set('靴', () => (g.footwear = v === 'hikingBoots' ? undefined : v))),
       select('雨具', g.rainwear, [['none', 'なし'], ['poncho', 'ポンチョ'], ['basic', '普通'], ['goretex', '透湿防水']], (v) => set('雨具', () => (g.rainwear = v))),
       num('着ている服', g.cloWorn, (v) => set('服', () => (g.cloWorn = v)), { min: 0.3, max: 3, step: 0.1, unit: 'clo' }),
       num('予備の防寒着', g.cloPack, (v) => set('服', () => (g.cloPack = v)), { min: 0, max: 3, step: 0.1, unit: 'clo' }),

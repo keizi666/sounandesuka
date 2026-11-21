@@ -8,6 +8,7 @@ import { isChainAt, sharesLampOf } from '../climber/movement';
 import { bacPct } from '../climber/physiology';
 import { transition } from '../climber/state';
 import { piecewise } from '../climber/capacity';
+import { amsLevelOf } from '../climber/altitude';
 import { nearestIndex, sampleElev, sampleNormal } from '../terrain/sample';
 import type { ClimberState, InjuryKind, StaticContext, World } from '../types';
 import { VegClass } from '../types';
@@ -53,10 +54,14 @@ export function slipP10(world: World, ctx: StaticContext, c: ClimberState, cls: 
   const gr = groundAt(world.ground, c.elevM);
   const slope = ctx.map.slopeDeg[nearestIndex(ctx.map, c.x, c.z)]!;
   const crampons = c.def.gear.crampons;
-  let p = ((st.base100[cls] ?? 0) * (st.classScale[cls] ?? 1)) / 10;
-  if (gr.wet > 0.5 || cls === 'STREAM') p *= st.wetF;
+  // 靴（ユーザーの指定）。省略は登山靴
+  const shoe = st.footwear[c.def.gear.footwear ?? 'hikingBoots'] ?? { base: 1, down: 1, wet: 1, snow: 1 };
+  let p = ((st.base100[cls] ?? 0) * (st.classScale[cls] ?? 1) * shoe.base) / 10;
+  if (gr.wet > 0.5 || cls === 'STREAM') p *= st.wetF * shoe.wet;
+  const snowy = footSnowCm(world, ctx, c) > 5 && slope > st.snowSlopeDeg;
   if (gr.icy) p *= crampons ? st.icyCramponsF : st.icyF;
-  else if (footSnowCm(world, ctx, c) > 5 && slope > st.snowSlopeDeg) p *= crampons ? st.snowCramponsF : st.snowF;
+  else if (snowy) p *= crampons ? st.snowCramponsF : st.snowF;
+  if ((gr.icy || snowy) && !crampons) p *= shoe.snow;
   // 夜: ヘッドランプの光は狭く、道外では足元の岩・穴・段差が読めない
   const offTrail = cls === 'OFF' || cls === 'OFF_STEEP' || cls === 'STREAM' || cls === 'CLIFF';
   if (world.sun.isDark) p *= c.inv.headlamp.on ? (offTrail ? st.darkLampOffF : st.darkLampF) : !offTrail && sharesLampOf(c, world.climbers, ctx.tuning) ? st.darkSharedLampF : st.darkF;
@@ -66,7 +71,9 @@ export function slipP10(world: World, ctx: StaticContext, c: ClimberState, cls: 
   if (c.plan.hurry) p *= st.hurryF;
   p *= 1 + st.alcoholK * bacPct(c, ctx.tuning);
   if (c.def.gear.trekkingPoles && cls !== 'CLIFF') p *= st.polesF;
-  if (downhill) p *= st.downF;
+  if (downhill) p *= st.downF * shoe.down;
+  // 高地脳浮腫: まっすぐ歩けず、足元がふらつく（ユーザーの指定）
+  if (amsLevelOf(c.body.ams, ctx.tuning) === 'hace') p *= ctx.tuning.altitude.haceSlipF;
   const gust = c.local.windMs * world.weather.gust;
   if (gust > st.gustFromMs) p *= 1 + (gust - st.gustFromMs) / st.gustDivMs;
   return Math.min(1, p);

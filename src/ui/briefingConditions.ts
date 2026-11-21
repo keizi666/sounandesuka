@@ -46,6 +46,7 @@ function gearChip(ic: IconName, text: string, has = true): HTMLElement {
 function gearChips(g: ClimberDef['gear']): HTMLElement[] {
   const B = JA.briefing;
   return [
+    gearChip('footprint', B.footwear[g.footwear ?? 'hikingBoots'] ?? '', true),
     gearChip('checkroom', `${B.rainwear} ${B.rainwearKind[g.rainwear] ?? g.rainwear}`, g.rainwear !== 'none'),
     gearChip('acUnit', g.cloPack > 0 ? B.warmSpare : B.warmNone, g.cloPack > 0),
     gearChip('flashlightOn', g.headlamp.has ? B.headlamp : B.noHeadlamp, g.headlamp.has),

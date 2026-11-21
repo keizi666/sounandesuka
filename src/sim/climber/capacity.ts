@@ -4,6 +4,7 @@
 import { chance } from '../core/rng';
 import { TUNING, type Tuning } from '../tuning';
 import type { ClimberBody, ClimberState, StaticContext, World } from '../types';
+import { amsJ, amsM } from './altitude';
 import { illnessM } from './illness';
 import { bacPct } from './physiology';
 import { transition } from './state';
@@ -42,7 +43,7 @@ export function computeJ(c: ClimberState, tuning: Tuning = TUNING): number {
   const fHeat = b.coreC >= k.heatExhaustionC ? k.heatExhaustionJ : 1;
   const fAlc = Math.max(0.5, 1 - k.alcoholJK * bacPct(c, tuning));
   const fHealth = k.healthJ[c.def.health ?? 'good'] ?? 1;
-  const j = j0 * fCore * fGly * fFat * fAnx * fDehyd * fHead * fHeat * fAlc * fHealth;
+  const j = j0 * fCore * fGly * fFat * fAnx * fDehyd * fHead * fHeat * fAlc * fHealth * amsJ(c, tuning);
   return Math.min(1, Math.max(k.jMin, j));
 }
 
@@ -55,6 +56,8 @@ export function computeM(c: ClimberState, tuning: Tuning = TUNING): number {
   const fGly = b.glycogenKcal < k.veryLowGlycogenKcal ? k.veryLowGlycogenM : 1;
   let m = illnessM(c, fCore * fInj * fGly);
   m *= k.healthM[c.def.health ?? 'good'] ?? 1;
+  // 高山病（ユーザーの指定）
+  m *= amsM(c, tuning);
   if (b.coreC >= k.heatStrokeC) m = Math.min(m, k.heatStrokeM);
   else if (b.coreC >= k.heatExhaustionC) m *= k.heatExhaustionSpeed;
   return Math.min(1, Math.max(0, m));

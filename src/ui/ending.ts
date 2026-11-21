@@ -6,6 +6,7 @@ import type { LoadedScenario } from '../app/data';
 import { JA } from '../i18n/ja';
 import { fill, formatClock, formatDateTime } from '../i18n/format';
 import { createStaticContext } from '../sim/core/world';
+import { TUNING } from '../sim/tuning';
 import { ENDING_SEVERITY, resolveEnding } from '../sim/scenario/endings';
 import { recVars } from '../sim/record/recorder';
 import type { ClimberState } from '../sim/types';
@@ -62,6 +63,12 @@ export function symptomsOf(c: ClimberState, w: Worst): { text: string; serious: 
   if (w.maxWaterL >= 2) out.push({ text: fill(w.maxWaterL >= 4 ? S.dehydrationSevere : S.dehydration, { l: w.maxWaterL.toFixed(1) }), serious: false });
   if (w.minKcal <= 100) out.push({ text: S.bonk, serious: false });
   if (w.maxFatigue >= 90) out.push({ text: S.exhausted, serious: false });
+  // 高山病（ユーザーの指定）。重い高山病・高地脳浮腫は重い症状
+  const ams = b.amsMax ?? 0;
+  if (ams >= TUNING.altitude.amsMild) {
+    const lv = ams >= TUNING.altitude.amsHace ? 'hace' : ams >= TUNING.altitude.amsModerate ? 'moderate' : 'mild';
+    out.push({ text: fill(S.ams, { lv: S.amsLv[lv] ?? lv }), serious: lv !== 'mild' });
+  }
   return out;
 }
 

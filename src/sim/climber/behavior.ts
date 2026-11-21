@@ -8,6 +8,7 @@ import { nextSunriseTMin, parseHHMM, scenarioStartMin, sunParamsOf } from '../co
 import type { ClimberState, StaticContext, World } from '../types';
 import type { Tuning } from '../tuning';
 import { piecewise } from './capacity';
+import { amsLevelOf } from './altitude';
 import { startTask, taskMinutes, untilReached } from './actions';
 import { ensureRouteAhead, leaveShelter } from './route';
 import { hutHere as hutHereAt, restSpot } from './situation';
@@ -170,7 +171,9 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
         c.memo.lastEatMin = world.tMin;
         // 残りが少なければ、1 回に食べる量を控える（ユーザーの指定）
         // 二日酔いの吐き気が残っているあいだは、少ししか食べられない
-        const kcal = Math.round(bt.eatKcal * rationF(c, ctx.tuning, 'food') * (nauseous(world, ctx, c) ? bt.hangoverEatF : 1));
+        // 重い高山病の吐き気でも、少ししか食べられない（ユーザーの指定）
+        const amsSick = amsLevelOf(c.body.ams, ctx.tuning);
+        const kcal = Math.round(bt.eatKcal * rationF(c, ctx.tuning, 'food') * (nauseous(world, ctx, c) ? bt.hangoverEatF : 1) * (amsSick === 'moderate' || amsSick === 'hace' ? ctx.tuning.altitude.amsEatF : 1));
         return startTask(world, c, `eat:${Math.min(kcal, c.inv.foodKcal)}`, taskMinutes(c, bt.eatMin, ctx));
       }
     }

@@ -88,18 +88,18 @@ export function gearOfPreset(g: ClimberDef['gear'], preset: GearPreset, season: 
   const none = { has: false, batteryH: 0, inPack: false, spareBatteryH: 0 };
   const base = { ...g };
   switch (preset) {
-    // 観光（普段着・手ぶら）: 季節の普段着だけ。雨具・予備の防寒着・ライト・地図はない
+    // 観光（普段着・手ぶら）: 季節の普段着とスニーカーだけ。雨具・予備の防寒着・ライト・地図はない
     case 'tourist':
-      return { ...base, rainwear: 'none', cloWorn: worn, cloPack: 0, gloves: 'none', hat: false, bivy: 'none', headlamp: none, map: false, compass: false, stove: false, crampons: false, helmet: false, trekkingPoles: false, whistle: false, rescueSheet: false };
+      return { ...base, footwear: 'sneakers', rainwear: 'none', cloWorn: worn, cloPack: 0, gloves: 'none', hat: false, bivy: 'none', headlamp: none, map: false, compass: false, stove: false, crampons: false, helmet: false, trekkingPoles: false, whistle: false, rescueSheet: false };
     // 軽装: ポンチョ・薄い上着・小さなライトくらい
     case 'light':
-      return { ...base, rainwear: 'poncho', cloWorn: worn, cloPack: 0.3, gloves: 'thin', hat: true, bivy: 'none', headlamp: { has: true, batteryH: 4, inPack: true, spareBatteryH: 0 }, map: false, compass: false, stove: false, crampons: false, helmet: false, trekkingPoles: false, whistle: false, rescueSheet: false };
+      return { ...base, footwear: 'trailRunners', rainwear: 'poncho', cloWorn: worn, cloPack: 0.3, gloves: 'thin', hat: true, bivy: 'none', headlamp: { has: true, batteryH: 4, inPack: true, spareBatteryH: 0 }, map: false, compass: false, stove: false, crampons: false, helmet: false, trekkingPoles: false, whistle: false, rescueSheet: false };
     // 登山用（無雪期の装備）: 防水の雨具・季節の防寒着・ヘッドランプと予備電池・地図・ツェルト
     case 'hiking':
-      return { ...base, rainwear: 'goretex', cloWorn: worn, cloPack: SEASON_PACK_CLO[season] ?? 0.8, gloves: season === 'winter' ? 'waterproof' : 'thin', hat: true, bivy: 'tarp', headlamp: { has: true, batteryH: 10, inPack: false, spareBatteryH: 6 }, map: true, compass: true, crampons: false, trekkingPoles: true, whistle: true, rescueSheet: true };
+      return { ...base, footwear: 'hikingBoots', rainwear: 'goretex', cloWorn: worn, cloPack: SEASON_PACK_CLO[season] ?? 0.8, gloves: season === 'winter' ? 'waterproof' : 'thin', hat: true, bivy: 'tarp', headlamp: { has: true, batteryH: 10, inPack: false, spareBatteryH: 6 }, map: true, compass: true, crampons: false, trekkingPoles: true, whistle: true, rescueSheet: true };
     // 厳冬期用: 厚い防寒着と予備、防水の手袋、アイゼン、コンロ、ツェルト
     case 'winter':
-      return { ...base, rainwear: 'goretex', cloWorn: Math.max(worn, 1.3), cloPack: 1.2, gloves: 'waterproof', hat: true, bivy: 'tarp', headlamp: { has: true, batteryH: 12, inPack: false, spareBatteryH: 10 }, map: true, compass: true, stove: true, crampons: true, helmet: true, trekkingPoles: true, whistle: true, rescueSheet: true };
+      return { ...base, footwear: 'mountainBoots', rainwear: 'goretex', cloWorn: Math.max(worn, 1.3), cloPack: 1.2, gloves: 'waterproof', hat: true, bivy: 'tarp', headlamp: { has: true, batteryH: 12, inPack: false, spareBatteryH: 10 }, map: true, compass: true, stove: true, crampons: true, helmet: true, trekkingPoles: true, whistle: true, rescueSheet: true };
   }
 }
 

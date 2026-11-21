@@ -98,6 +98,16 @@ export const nav = {
 
 /** docs/08 §1 転倒・滑落 */
 export const slip = {
+  /**
+   * 靴による転倒の倍率（ユーザーの指定: 靴の違いで滑りやすさ、特に下りが変わる）。base はいつも、down は下りで、wet は濡れた所で、
+   * snow は雪・凍った所で（アイゼンを着けていないとき）さらに掛ける。登山靴が 1。スニーカーは靴底が平らで柔らかく、下りで踏ん張れない
+   */
+  footwear: {
+    sneakers: { base: 1.6, down: 1.5, wet: 1.3, snow: 2.0 },
+    trailRunners: { base: 1.15, down: 1.15, wet: 1.2, snow: 1.4 },
+    hikingBoots: { base: 1, down: 1, wet: 1, snow: 1 },
+    mountainBoots: { base: 0.95, down: 0.95, wet: 1, snow: 0.8 },
+  } as Record<string, { base: number; down: number; wet: number; snow: number }>,
   /** けがで動けないまま、体力 100 が 0 になるまでの時間（時間。ユーザーの指定） */
   debilityFullH: 96,
   /** 這って動いているとき（足の骨折）の 10 m あたりの滑落の確率。その場の斜面の傾斜（度）で決める [傾斜, 確率]。急なほど、止まれずに滑り落ちる */

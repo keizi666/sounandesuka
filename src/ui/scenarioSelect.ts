@@ -254,7 +254,16 @@ export function showScenarioSelect(app: AppContext): () => void {
     el('main', { class: 'select2' }, [
       el('header', { class: 'sel-bar' }, [
         el('div', { class: 'sel-bar-in' }, [
-          el('h1', {}, [el('img', { class: 'sel-logo', src: assetUrl('icon-128.webp'), srcset: `${assetUrl('icon-128.webp')} 1x, ${assetUrl('icon-256.webp')} 2x`, alt: '', width: 64, height: 64 }), JA.app.title]),
+          // ロゴ: アイコンと、明朝の題・線・英字・ひとこと（ユーザーの指定。画像ではなく文字で組む）
+          el('h1', { class: 'sel-brand', 'aria-label': JA.app.title }, [
+            el('img', { class: 'sel-logo', src: assetUrl('icon-128.webp'), srcset: `${assetUrl('icon-128.webp')} 1x, ${assetUrl('icon-256.webp')} 2x`, alt: '', width: 64, height: 64 }),
+            el('span', { class: 'brand-text', 'aria-hidden': 'true' }, [
+              el('span', { class: 'brand-ja' }, JA.app.title),
+              el('span', { class: 'brand-rule' }),
+              el('span', { class: 'brand-en' }, JA.app.titleEn),
+              el('span', { class: 'brand-tag' }, JA.app.tagline),
+            ]),
+          ]),
           count,
           el('nav', { class: 'sel-caps' }, [soundCap, historyCap, settingsCap, editorCap]),
           profCap,

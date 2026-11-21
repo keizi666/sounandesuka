@@ -287,6 +287,8 @@ export interface SearchLeadDef {
 }
 
 export type RainwearType = 'none' | 'poncho' | 'basic' | 'goretex';
+/** 靴（ユーザーの指定: 靴の違いで滑りやすさ、特に下りが変わる）。スニーカー・トレイルランニングシューズ・登山靴・冬用の登山靴 */
+export type FootwearType = 'sneakers' | 'trailRunners' | 'hikingBoots' | 'mountainBoots';
 
 export interface ClimberDef {
   id: ClimberId;
@@ -297,6 +299,7 @@ export interface ClimberDef {
   packKg: number;
   experience: number;     // 0..1
   fitness: number;        // 0.5..1.3
+  amsSusceptibility?: number; // 高山病の起きやすさの倍率（省略は年齢で決める）
   navSkill: number;       // 0..1
   riskTolerance: number;  // 0..1
   color: string;
@@ -363,6 +366,7 @@ export interface GearDef {
   rescueSheet?: boolean;       // エマージェンシーシート
   cocoheli?: boolean;          // ココヘリ（会員制の捜索用の発信機）。ヘリの受信機が電波をとらえ、短い時間で見つかる
   powerBankMah?: number;       // モバイルバッテリーの容量（mAh。0 は持たない。省略はスマホを持つ人なら tuning の既定 5000）
+  footwear?: FootwearType;     // 靴（省略は登山靴）
 }
 
 export interface WeatherKeyframe {
@@ -701,6 +705,11 @@ export interface ClimberBody {
   stage: 'normal' | 'cold' | 'mild' | 'moderate' | 'severe' | 'heatExhaustion' | 'heatStroke';
   /** けがで動けないあいだの衰弱（0〜1。1 で亡くなる）。体力（HP）を (1 - 衰弱) 倍にする。古い保存にはない */
   debility?: number;
+  /** 高山病の点（0〜100。30 軽い・60 重い・85 高地脳浮腫）と、これまでの最大 */
+  ams?: number;
+  amsMax?: number;
+  /** 体が慣れている高さ（m。高い所にいるあいだにゆっくり上がる） */
+  acclimElevM?: number;
 }
 
 export interface ClimberInventory {

@@ -272,6 +272,8 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
     if (seen.has(p.id)) v.err(`party[${i}].id`, 'duplicate', `登山者 ID "${p.id}" が重複しています`);
     seen.add(p.id);
     if (p.portrait !== undefined && !/^(child|young|mid|senior)_[mf]:[1-9][0-9]*$/.test(p.portrait)) v.warn(`party[${i}].portrait`, 'badPortrait', `顔アイコンの指定 "${p.portrait}" は「区分:番号」（例: mid_m:3）の形にしてください。自動で選んだ顔を使います`);
+    const shoe = p.gear.footwear;
+    if (shoe !== undefined && !['sneakers', 'trailRunners', 'hikingBoots', 'mountainBoots'].includes(shoe)) v.err(`party[${i}].gear.footwear`, 'badFootwear', `靴 "${String(shoe)}" は sneakers・trailRunners・hikingBoots・mountainBoots のどれか`);
   });
 
   // 計画

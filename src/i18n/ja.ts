@@ -2,6 +2,9 @@
 export const JA = {
   app: {
     title: '遭難ですよ',
+    /** ロゴの英字と、ひとこと（ユーザーの指定） */
+    titleEn: 'SOUNAN DESU YO',
+    tagline: 'A MOUNTAIN SURVIVAL GAME',
     preparing: '準備中です。シミュレーションは描画なしで先に作っています。',
   },
   editor: {
@@ -145,6 +148,8 @@ export const JA = {
     dehydrationSevere: '重い脱水（最大 {l} L 不足）',
     bonk: 'エネルギー切れ（シャリバテ）',
     exhausted: '疲労困憊',
+    ams: '高山病（{lv}）',
+    amsLv: { mild: '軽い', moderate: '重い', hace: '高地脳浮腫' } as Record<string, string>,
     badgeReturn: '下山・{s}',
     badgeShelter: '小屋で過ごした・{s}',
   },
@@ -214,6 +219,12 @@ export const JA = {
     medicated: '{who}は持っていた薬を飲んだ',
     stung: '{who}がハチに刺された',
     streamDrink: '{who}は沢の水を飲み、水筒にも汲んだ',
+    /** 高山病の段階が上がった（ユーザーの指定） */
+    ams: {
+      mild: '{who}は頭が痛く、少し吐き気がする（高山病）',
+      moderate: '{who}はひどい頭痛と吐き気で、食べ物が喉を通らない（重い高山病）',
+      hace: '{who}はまっすぐ歩けず、話しかけても反応が鈍い（高地脳浮腫のおそれ）',
+    } as Record<string, string>,
     /** 野生動物を見つけた（{what} は「シカが 2 頭」など） */
     animalSeen: '{who}が、{m} m ほど先に{what}いるのに気づいた',
     animalSeenSolo: '{who}は、{m} m ほど先に{what}いるのに気づいた',
@@ -323,6 +334,7 @@ export const JA = {
     itineraryNote: '時刻は標準コースタイムどおりに歩いた場合の目安です（休憩を含みません）。',
     rainwear: '雨具',
     rainwearKind: { none: 'なし', poncho: 'ポンチョ', basic: '簡易なもの', goretex: '透湿防水' } as Record<string, string>,
+    footwear: { sneakers: 'スニーカー', trailRunners: 'トレランシューズ', hikingBoots: '登山靴', mountainBoots: '冬用の登山靴' } as Record<string, string>,
     warmSpare: '予備の防寒着',
     warmNone: '予備の防寒着なし',
     headlamp: 'ヘッドランプ',

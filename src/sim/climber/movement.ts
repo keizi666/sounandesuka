@@ -4,6 +4,7 @@
  */
 import { datan, DEG, dexp } from '../core/dmath';
 import { dehydrationF, piecewise } from './capacity';
+import { hypoxiaMetF } from './altitude';
 import { TUNING, type Tuning } from '../tuning';
 import type { ClimberDef, ClimberState, EdgeDef, MapRuntime } from '../types';
 
@@ -151,7 +152,9 @@ export function usableMet(c: ClimberState, tuning: Tuning = TUNING): number {
   const maxMet = m.maxMetBase + m.maxMetPerFitness * c.def.fitness;
   const gly = c.body.glycogenKcal < m.lowGlycogenKcal ? m.lowGlycogenMetF : 1;
   const dehyd = dehydrationF(c.body.waterDeficitL, tuning).met;
-  return maxMet * gly * dehyd * c.M * (1 - (m.fatigueMetK * c.body.fatigue) / 100);
+  // 酸素が薄いと、出せる力の上限が下がる（ユーザーの指定）
+  const thin = hypoxiaMetF(c.elevM, tuning);
+  return maxMet * thin * gly * dehyd * c.M * (1 - (m.fatigueMetK * c.body.fatigue) / 100);
 }
 
 /** 候補速度の MET が持続上限を超えるなら、二分探索で速度を下げる */
