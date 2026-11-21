@@ -139,18 +139,19 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
       ]),
       el('footer', { class: 'bf-bar' }, [
         el('div', { class: 'bf-bar-in' }, [
+          // 下のバー（ユーザーの指定）: 左端に「もう一度」、右に「振り返る」「トップページへ」。3 つとも同じ黄色の大きなボタン
+          el('button', { class: 'primary big', onclick: () => app.go({ name: 'briefing', loaded }) }, [icon('replay'), JA.ui.again]),
           el('div', { class: 'en-bar-btns' }, [
-            el('button', { onclick: () => app.go({ name: 'briefing', loaded }) }, JA.ui.again),
-            el('button', { onclick: () => app.go({ name: 'select' }) }, JA.ui.toSelect),
+            // 振り返りは、結果画面の上にパネルとして重ねる（ユーザーの指定）
+            el('button', {
+              class: 'primary big',
+              onclick: () => {
+                closeDebrief?.();
+                closeDebrief = openDebriefPanel(app, loaded, result, main);
+              },
+            }, [icon('history'), JA.ui.debrief]),
+            el('button', { class: 'primary big', onclick: () => app.go({ name: 'select' }) }, [icon('home'), JA.ui.toTop]),
           ]),
-          // 振り返りは、結果画面の上にパネルとして重ねる（ユーザーの指定）
-          el('button', {
-            class: 'primary big',
-            onclick: () => {
-              closeDebrief?.();
-              closeDebrief = openDebriefPanel(app, loaded, result, main);
-            },
-          }, [icon('history'), JA.ui.debrief]),
         ]),
       ]),
     ]);

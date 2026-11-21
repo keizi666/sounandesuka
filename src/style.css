@@ -1026,3 +1026,15 @@ div.choice .rec-badge svg { width: 1em; height: 1em; fill: currentColor; }
 .ec-actions { display: flex; justify-content: flex-end; }
 .ec-actions button { display: inline-flex; align-items: center; gap: 4px; }
 .ec-actions svg { width: 20px; height: 20px; fill: currentColor; }
+
+/* ---- 結果の画面の下のバー: 「もう一度」「振り返る」「トップページへ」を同じ黄色の大きなボタンに（ユーザーの指定） ---- */
+main.ending2 .bf-bar .en-bar-btns { display: flex; align-items: center; gap: 12px; }
+@media (max-width: 640px) {
+  main.ending2 .bf-bar-in { gap: 8px; }
+  main.ending2 .bf-bar .en-bar-btns { gap: 8px; }
+  main.ending2 .bf-bar button.big { padding: 9px 14px; font-size: 0.95rem; gap: 5px; }
+}
+@media (max-width: 420px) {
+  main.ending2 .bf-bar button.big { padding: 8px 10px; font-size: 0.88rem; }
+  main.ending2 .bf-bar button.big svg { display: none; }
+}

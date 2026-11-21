@@ -391,6 +391,7 @@ export const JA = {
     debrief: '振り返る',
     again: 'もう一度',
     toSelect: 'シナリオ選択へ',
+    toTop: 'トップページへ',
     toTitle: 'タイトルへ',
     whatIf: 'もし…',
     restart: 'この分岐からやり直す',
