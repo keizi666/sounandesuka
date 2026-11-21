@@ -47,7 +47,7 @@ export function openSynopsis(o: SynopsisInput): () => void {
     el('p', { class: 'syn-lead' }, fill(S.lead, { title: o.scenario.title })),
     el('ol', { class: 'syn-list' }, [
       skipped > 0 ? el('li', { class: 'syn-skip' }, fill(S.skipped, { n: skipped })) : null,
-      ...lines.map((l) => el('li', { class: l.text.startsWith('◆') ? 'choice' : '' }, [el('time', {}, o.time(l.tMin)), el('span', {}, l.text)])),
+      ...lines.map((l) => el('li', { class: l.text.startsWith('◆') ? 'syn-choice' : '' }, [el('time', {}, o.time(l.tMin)), el('span', {}, l.text)])),
     ]),
     el('h3', {}, S.party),
     el('ul', { class: 'syn-party' }, party),

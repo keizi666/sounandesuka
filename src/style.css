@@ -1133,7 +1133,7 @@ dialog.synopsis .syn-lead { margin: 0; font-size: 0.9rem; opacity: 0.85; }
 dialog.synopsis .syn-list { list-style: none; margin: 0; padding: 8px 10px; flex: 1 1 auto; min-height: 80px; overflow-y: auto; border-radius: 10px; background: rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; gap: 5px; font-size: 0.9rem; line-height: 1.5; }
 dialog.synopsis .syn-list li { display: flex; gap: 10px; }
 dialog.synopsis .syn-list li time { flex: 0 0 auto; font-variant-numeric: tabular-nums; opacity: 0.65; }
-dialog.synopsis .syn-list li.choice span { color: #f1d9a4; font-weight: 600; }
+dialog.synopsis .syn-list li.syn-choice span { color: #f1d9a4; font-weight: 600; }
 dialog.synopsis .syn-list li.syn-skip { opacity: 0.6; font-size: 0.82rem; }
 dialog.synopsis h3 { margin: 4px 0 0; font-size: 0.95rem; }
 dialog.synopsis .syn-party { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.88rem; }
@@ -1149,3 +1149,11 @@ dialog.synopsis .syn-actions svg { width: 20px; height: 20px; fill: currentColor
 .cm-card-end .df-tag.df-easy { color: #86efac; }
 .cm-card-end .df-tag.df-normal { color: #f1d9a4; }
 .cm-card-end .df-tag.df-hard { color: #fca5a5; }
+
+/* あらすじの行は狭い画面でも窓に収める（長い文は折り返す） */
+dialog.synopsis .syn-list li span { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  dialog.synopsis { padding: 14px 14px 12px; }
+  dialog.synopsis .syn-list li { flex-direction: column; gap: 0; }
+  dialog.synopsis .syn-list li time { font-size: 0.8rem; }
+}
