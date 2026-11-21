@@ -19,6 +19,12 @@ export interface RouteLeg {
 function anchoredWaypoints(map: MapRuntime, e: EdgeDef): [number, number][] {
   const wps = e.waypoints.map(([x, z]) => [x, z] as [number, number]);
   const from = map.nodes[e.from];
+  // 途中の点が 2 つ未満の短い道（OSM の短い区間、エディターで山頂の印とつないだ道など）は、両端の地点を足して形を作る
+  // （置き換えるだけでは形ができず、長さ 0 の道になって歩けなかった）
+  if (wps.length < 2 && from) {
+    const to = e.to ? map.nodes[e.to] : undefined;
+    return [[from.x, from.z], ...wps, ...(to ? [[to.x, to.z] as [number, number]] : wps.length === 0 ? [[from.x, from.z] as [number, number]] : [])];
+  }
   if (from && wps.length > 0) wps[0] = [from.x, from.z];
   if (e.to) {
     const to = map.nodes[e.to];
@@ -36,6 +42,8 @@ export function buildTrailRuntime(map: MapRuntime, e: EdgeDef, tuning: Tuning = 
     sH: p.sH,
     s: p.sH * e.sinuosity,
   }));
+  // 両端が同じ所（山頂へ寄せた地点とすぐ横の印など）でも、区間として扱えるようサンプルを 2 つ以上にする
+  while (samples.length > 0 && samples.length < 2) samples.push({ ...samples[0]! });
   const last = samples[samples.length - 1];
   return { def: e, samples, lengthM: last ? last.s : 0 };
 }
