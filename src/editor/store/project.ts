@@ -9,7 +9,7 @@ export const GENERATOR = 'sounan-editor 0.1';
 export const ATTR = {
   gsi: { id: 'gsi', text: '出典：国土地理院（標高タイル）を加工して作成', url: 'https://maps.gsi.go.jp/development/ichiran.html', modified: true },
   osm: { id: 'osm', text: '登山道データ © OpenStreetMap contributors（ODbL）', url: 'https://www.openstreetmap.org/copyright', modified: true },
-  gsiVector: { id: 'gsi-vector', text: '出典：国土地理院（ベクトルタイル）の建物・道路・鉄道を加工して作成', url: 'https://maps.gsi.go.jp/development/vt.html', modified: true },
+  gsiVector: { id: 'gsi-vector', text: '出典：国土地理院（ベクトルタイル）の植生記号・建物・道路・鉄道を加工して作成', url: 'https://maps.gsi.go.jp/development/vt.html', modified: true },
   openMeteo: { id: 'open-meteo', text: '気象の下書き: Open-Meteo（CC BY 4.0）、Copernicus Climate Change Service の情報を使用', url: 'https://open-meteo.com/', modified: true },
 } satisfies Record<string, Attribution>;
 
@@ -170,7 +170,7 @@ export function mapWithHeights(p: EditorProject): MapDef {
 export function attributionFor(p: EditorProject): Attribution[] {
   const out: Attribution[] = [];
   if (p.map.geo && p.map.terrain.type === 'heightmap') out.push(ATTR.gsi);
-  if (p.map.urban) out.push(ATTR.gsiVector);
+  if (p.map.urban || p.raw.gsiVector) out.push(ATTR.gsiVector);
   if (p.map.nodes.some((n) => n.source === 'osm') || p.map.edges.some((e) => e.source === 'osm')) out.push(ATTR.osm);
   if ((p.scenario.sources ?? []).some((s) => s.includes('Open-Meteo'))) out.push(ATTR.openMeteo);
   return out;

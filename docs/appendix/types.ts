@@ -879,7 +879,7 @@ export interface EditorProject {
   map: MapDef;                       // heightmap の data は空文字で保存し heightsBuffer に分離
   heightsBuffer: ArrayBuffer | null; // Float32 (resolution²)
   scenario: ScenarioDef;
-  raw: { osm?: unknown; gpx?: string[]; weather?: unknown };
+  raw: { osm?: unknown; gpx?: string[]; weather?: unknown; gsiVector?: { fetchedAt: string } };
   editorState: {
     mapView: { lat: number; lon: number; zoom: number };
     tab: 'area' | 'trails' | 'points' | 'environment' | 'weather' | 'party' | 'choices' | 'endings' | 'test' | 'json' | 'ai';

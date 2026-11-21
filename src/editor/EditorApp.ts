@@ -8,7 +8,7 @@ import { buildHeights, buildMapRuntime } from '../sim/terrain/map';
 import type { EditorProject, MapRuntime } from '../sim/types';
 import { el, toast } from '../ui/dom';
 import type { Ed, SelKind, TabId } from './context';
-import { createLayers, type LayerState, type OverlayKind } from './map/layers';
+import { createLayers, overlayLegend, type LayerState, type OverlayKind } from './map/layers';
 import { TileMapView } from './map/TileMapView';
 import { PANELS } from './panels';
 import { openPreview3d, type Preview3d } from './preview3d';
@@ -333,6 +333,28 @@ export class EditorApp implements Ed {
     this.layerState.overlay = kind;
     this.layerState.paint = paint;
     this.view.redraw();
+    this.renderLegend();
+  }
+
+  /** 重ね表示の凡例（地図の左下）。重ね表示がなければ消す */
+  private legendEl: HTMLElement | null = null;
+  private renderLegend(): void {
+    const lg = overlayLegend(this.layerState.overlay, this.layerState.paint !== null);
+    if (!lg) {
+      this.legendEl?.remove();
+      this.legendEl = null;
+      return;
+    }
+    const box = el('div', { class: 'map-legend', 'aria-label': `凡例: ${lg.title}` }, [
+      el('strong', {}, lg.title),
+      ...lg.items.map(([c, label]) => el('div', { class: 'lg-row' }, [el('span', { class: 'lg-sw', style: `background:${c}` }), label])),
+      lg.gradient ? el('div', { class: 'lg-grad', style: `background:linear-gradient(to right, ${lg.gradient[0]}, ${lg.gradient[1]})` }) : null,
+      lg.gradient ? el('div', { class: 'lg-note' }, lg.gradient[2]) : null,
+      lg.note ? el('div', { class: 'lg-note' }, lg.note) : null,
+    ].filter((x): x is HTMLElement => x !== null));
+    if (this.legendEl) this.legendEl.replaceWith(box);
+    else this.view.root.append(box);
+    this.legendEl = box;
   }
 
   setShowSteep(on: boolean): void {

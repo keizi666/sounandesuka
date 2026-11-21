@@ -4,14 +4,15 @@
  * - 道路（層 RdCL の線）は幅の区分（vt_rnkwidth）から幅を決める。トンネル（vt_code の末尾 3）と徒歩道（272x。登山道は OSM で取り込む）は除く
  * - 鉄道（層 RailCL）はトンネルを除く
  * 植生の塗り（vegetation.overrides）は、建物の周りと道路のセルを「市街地」にする（沢・崖のセルは道路では塗らない）。
- * 変換は Node でテストできる純粋関数。取得（fetchUrban）だけが通信する。
+ * 変換は Node でテストできる純粋関数。取得は gsiVector.ts（森の種類の記号と同じタイルを使い回す）。
  */
 import { VegClass, type GridOverride, type MapRuntime, type UrbanDef } from '../../sim/types';
 import { decodeGrid, encodeGrid } from '../../sim/terrain/codec';
 import { decodeMvtFeatures } from './mvt';
-import { bboxOf, toXZ } from './projection';
-import { lonLatToTile, tileToLonLat } from './tiles';
-import { GSI_VECTOR_ZOOM, vectorTileUrl } from './vegsym';
+import type { VectorTile } from './gsiVector';
+import { toXZ } from './projection';
+import { tileToLonLat } from './tiles';
+import { GSI_VECTOR_ZOOM } from './vegsym';
 
 type Building = UrbanDef['buildings'][number];
 type Line = UrbanDef['lines'][number];
@@ -107,40 +108,16 @@ export function urbanFromTile(buf: Uint8Array, z: number, tx: number, ty: number
   return { buildings, lines: lines.filter(near) };
 }
 
-/** 範囲を覆う z16 のタイル */
-export function urbanTiles(lat0: number, lon0: number, sizeM: number): { x: number; y: number }[] {
-  const b = bboxOf(lat0, lon0, sizeM);
-  const z = GSI_VECTOR_ZOOM;
-  const a = lonLatToTile(b.west, b.north, z);
-  const c = lonLatToTile(b.east, b.south, z);
-  const out: { x: number; y: number }[] = [];
-  for (let y = Math.floor(a.y); y <= Math.floor(c.y); y += 1) for (let x = Math.floor(a.x); x <= Math.floor(c.x); x += 1) out.push({ x, y });
-  return out;
-}
-
-/** タイルをまとめて取得して市街地を作る。onProgress(済んだ枚数, 全部の枚数)。同時に 4 枚まで */
-export async function fetchUrban(lat0: number, lon0: number, sizeM: number, onProgress?: (done: number, total: number) => void, headers?: Record<string, string>): Promise<UrbanDef> {
-  const tiles = urbanTiles(lat0, lon0, sizeM);
+/** タイルから市街地を作る（タイルの取得は gsiVector.ts。森の種類の記号と同じタイル） */
+export function urbanFromTiles(tiles: readonly VectorTile[], lat0: number, lon0: number, sizeM: number): UrbanDef {
   const buildings: Building[] = [];
   const lines: Line[] = [];
-  let done = 0;
-  let next = 0;
-  const worker = async (): Promise<void> => {
-    for (;;) {
-      const t = tiles[next++];
-      if (!t) return;
-      const res = await fetch(vectorTileUrl(GSI_VECTOR_ZOOM, t.x, t.y), { headers });
-      // 404 は地物のないタイル（海など）
-      if (res.ok) {
-        const r = urbanFromTile(new Uint8Array(await res.arrayBuffer()), GSI_VECTOR_ZOOM, t.x, t.y, lat0, lon0, sizeM);
-        buildings.push(...r.buildings);
-        lines.push(...r.lines);
-      } else if (res.status !== 404) throw new Error(`地理院地図のタイルを取得できませんでした（${res.status}）`);
-      done += 1;
-      onProgress?.(done, tiles.length);
-    }
-  };
-  await Promise.all([worker(), worker(), worker(), worker()]);
+  for (const t of tiles) {
+    if (!t.buf) continue;
+    const r = urbanFromTile(t.buf, GSI_VECTOR_ZOOM, t.x, t.y, lat0, lon0, sizeM);
+    buildings.push(...r.buildings);
+    lines.push(...r.lines);
+  }
   // タイルの境目で同じ建物が 2 つに割れることがあるので、中心がほぼ同じものは 1 つに
   const seen = new Set<string>();
   const uniq = buildings.filter((b) => {

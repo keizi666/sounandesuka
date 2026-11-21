@@ -30,6 +30,38 @@ export const VEG_RGB: Record<number, [number, number, number]> = {
   [VegClass.URBAN]: [150, 110, 150],
 };
 
+/** 重ね表示の凡例（地図の左下に出す）。色は overlayCanvas と同じ */
+export function overlayLegend(kind: OverlayKind, painting: boolean): { title: string; items: [string, string][]; gradient?: [string, string, string]; note?: string } | null {
+  const rgb = (c: readonly number[]): string => `rgb(${c[0]},${c[1]},${c[2]})`;
+  switch (kind) {
+    case 'veg':
+      return {
+        title: '植生',
+        items: [
+          [rgb(VEG_RGB[VegClass.BROADLEAF]!), '広葉樹林'],
+          [rgb(VEG_RGB[VegClass.CONIFER]!), '針葉樹林'],
+          [rgb(VEG_RGB[VegClass.KRUMMHOLZ]!), 'ハイマツ帯'],
+          [rgb(VEG_RGB[VegClass.ALPINE]!), '高山草原・岩礫'],
+          [rgb(VEG_RGB[VegClass.ROCK]!), '岩場'],
+          [rgb(VEG_RGB[VegClass.STREAM]!), '沢'],
+          [rgb(VEG_RGB[VegClass.CLIFF]!), '崖・滝'],
+          [rgb(VEG_RGB[VegClass.URBAN]!), '市街地'],
+        ],
+        note: painting ? '濃い色は塗り直した所' : undefined,
+      };
+    case 'radio':
+      return { title: '電波（近似）', items: [['rgb(60,190,90)', 'つながる'], ['rgb(230,200,60)', '弱い（つながりにくい）'], ['rgb(210,70,60)', '圏外']], note: painting ? '濃い緑・赤は塗り直した所' : undefined };
+    case 'slope':
+      return { title: '傾斜', items: [['rgb(240,210,60)', '25〜38°'], ['rgb(240,120,40)', '38〜50°（転倒・滑落しやすい）'], ['rgb(200,30,30)', '50° 超（崖）']], note: '25° 未満は色なし' };
+    case 'tpi':
+      return { title: '風の露出（TPI）', items: [['rgb(230,120,60)', '尾根・高まり（風が当たる）'], ['rgb(60,120,230)', '谷・くぼみ（風を避けられる）']], note: '色が濃いほど程度が大きい' };
+    case 'sky':
+      return { title: '空の見通し', items: [], gradient: ['rgb(0,0,0)', 'rgb(255,255,255)', '狭い（谷・森） → 広い（尾根・頂上）'] };
+    default:
+      return null;
+  }
+}
+
 const overlayCache = new WeakMap<MapRuntime, Map<string, HTMLCanvasElement>>();
 
 export function overlayCanvas(map: MapRuntime, kind: OverlayKind): HTMLCanvasElement | null {
