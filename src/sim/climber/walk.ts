@@ -8,7 +8,7 @@ import { datan2 } from '../core/dmath';
 import { edgeBetween, segmentIndexAt } from '../terrain/trails';
 import type { ClimberState, MapRuntime, StaticContext, World } from '../types';
 import { footSnowCm, groundAt } from '../weather/ground';
-import { capSpeedByMet, isChainAt, trailSpeedMs, walkMet, type MoveEnv } from './movement';
+import { capSpeedByMet, isChainAt, sharesLampOf, trailSpeedMs, walkMet, type MoveEnv } from './movement';
 import { syncPosition } from './position';
 import { chooseLegAtNode, onWrongNode } from './navigation';
 import { arriveAt, setRoute } from './route';
@@ -26,6 +26,7 @@ export function moveEnvFor(world: World, c: ClimberState, ctx?: StaticContext): 
     snowCm: ctx ? footSnowCm(world, ctx, c) : gr.snowCm,
     icy: gr.icy,
     groundWet: gr.wet,
+    sharedLamp: world.sun.isDark && sharesLampOf(c, world.climbers, ctx?.tuning),
   };
 }
 

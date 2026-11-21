@@ -791,6 +791,49 @@
           "important": true
         }
       ]
+    },
+    {
+      "id": "ev_hurry_fall",
+      "trigger": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "hurried",
+              "min": 35
+            }
+          },
+          {
+            "var": "c.c3.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "chance": 0.35
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "injure",
+          "who": "c3",
+          "injury": "sprain"
+        },
+        {
+          "type": "setFlag",
+          "flag": "moritaFell"
+        },
+        {
+          "type": "log",
+          "text": "スマートフォンの明かりだけで急いでいた森田さんが、段差を踏み外した。左の足首をひねった。",
+          "important": true
+        },
+        {
+          "type": "say",
+          "who": "c3",
+          "text": "いたた……すみません、足が……"
+        }
+      ]
     }
   ],
   "choices": [],
@@ -808,7 +851,7 @@
     {
       "kind": "SAFE_RETURN",
       "title": "日の入り前に駅へ",
-      "text": "石井さんに支えられ、テーピングした足首をかばいながら下りきった。駅のベンチで靴を脱ぐと、足首は倍ほどに腫れていた。「散々だったわね」と谷口さんは笑った。"
+      "text": "石井さんに支えられ、痛む足首をかばいながら下りきった。駅のベンチで靴を脱ぐと、足首は倍ほどに腫れていた。「散々だったわね」と谷口さんは笑った。"
     },
     {
       "kind": "ABORTED",
@@ -817,8 +860,80 @@
     },
     {
       "kind": "SELF_RESCUE",
+      "when": {
+        "after": "D1 04:00"
+      },
+      "title": "夜を越して、自力で下山",
+      "text": "山の中で長い夜を越し、明るくなってから歩き出した。駅に着いたのは朝。帰らない 3 人を心配した家族は、ゆうべのうちに警察に届けていた。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "when": {
+        "after": "D0 20:00"
+      },
       "title": "夜遅く、自力で下山",
-      "text": "駅にたどり着いたのは夜遅く。帰らない 3 人を心配した家族は、すでに警察に連絡していた。"
+      "text": "駅にたどり着いたのは夜遅く。帰らない 3 人を心配した家族は、すでに警察に届けていた。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "title": "暗い中を、自力で下山",
+      "text": "道に迷い、暗い中をなんとか駅までたどり着いた。家族への連絡が遅れ、ずいぶん心配をかけた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "chose": {
+                  "cp": "generic:injured",
+                  "option": "call"
+                }
+              },
+              {
+                "flag": "called"
+              },
+              {
+                "flag": "calledAtDark"
+              }
+            ]
+          },
+          {
+            "before": "D0 17:00"
+          }
+        ]
+      },
+      "title": "明るいうちに救助隊が",
+      "text": "通報から 1 時間あまり。救助隊が登ってきて、谷口さんは救助隊に背負われて山を下りた。早く助けを呼んだので、明るいうちに下りられた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "chose": {
+                  "cp": "generic:injured",
+                  "option": "call"
+                }
+              },
+              {
+                "flag": "called"
+              },
+              {
+                "flag": "calledAtDark"
+              }
+            ]
+          },
+          {
+            "after": "D1 04:00"
+          }
+        ]
+      },
+      "title": "夜明けに救助隊が",
+      "text": "救助隊が登ってきたのは、夜が明けてから。谷口さんは救助隊に背負われて山を下りた。待つ間に体は冷えきっていた。"
     },
     {
       "kind": "RESCUED",
@@ -843,8 +958,24 @@
     },
     {
       "kind": "RESCUED",
+      "when": {
+        "flag": "splitForHelp"
+      },
+      "title": "知らせを受けた救助隊が",
+      "text": "一人で下りた森田さんが助けを呼び、救助隊が谷口さんと石井さんを迎えに登ってきた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "after": "D1 04:00"
+      },
       "title": "救助された",
       "text": "下りきれずに夜を越し、救助隊に助けられた。3 人とも命に別状はなかった。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助された",
+      "text": "自力では下りきれず、救助隊に助けられた。3 人とも命に別状はなかった。"
     },
     {
       "kind": "RESCUED_CRITICAL",
@@ -879,7 +1010,7 @@
     {
       "id": "l_sprain",
       "title": "足首をひねったら",
-      "text": "冷やして、テーピングや三角巾で固定し、荷物を仲間が持つ。けがをした足ではふだんの半分ほどの速さしか出ないので、日没までに下りられるかを計算する。歩けなくなる・暗くなる前に、家族や 119 番へ早めに連絡する。"
+      "text": "冷やして、テーピングや三角巾で固定し、荷物を仲間が持つ。けがをした足ではふだんの半分以下の速さしか出ないので、日没までに下りられるかを計算する。歩けなくなる・暗くなる前に、家族や 119 番へ早めに連絡する。"
     },
     {
       "id": "l_light",
@@ -923,12 +1054,20 @@
         "flag": "bivouacked"
       },
       "title": "夜を越す装備と天気",
-      "text": "明日が雨の予報なら、山で夜を越すのは危ない。日帰りの服装では夜の冷え込みに耐えられない。ツェルトがあっても、まず下りられる道と時間を考える。"
+      "text": "明日が雨の予報なら、山で夜を越すのは危ない。日帰りの服装では夜の冷え込みに耐えられない。ツェルトがあっても、まず下りられる道と時間を考える。夜を越すなら、道から離れずに。朝、道に戻れなくなる。"
     },
     {
       "id": "l_party",
       "title": "体力と経験の違うパーティー",
       "text": "経験豊富でも 76 歳の体力と、初めての人の装備。パーティーの歩く速さと装備は、いちばん弱い人に合わせて計画する。"
+    },
+    {
+      "id": "l_hurry",
+      "when": {
+        "flag": "hurried"
+      },
+      "title": "暗くなってから急がない",
+      "text": "暗い山道で急ぐと、明かりのない人は足元が見えないまま歩くことになる。けが人がもう一人増えれば、下りるのはさらに遅くなる。明かりを持つ人が前と後ろから照らし、ゆっくり確実に下る。"
     }
   ],
   "region": {
@@ -945,10 +1084,10 @@
       "situation": "岩茸石山からの急な下りで、谷口さんが右の足首をひねった。みるみる腫れてきたが、支えればなんとか歩けそうだ。日の入りは 17:06。どうする？",
       "knowledge": [
         "惣岳山を越えて御嶽駅まで、ふつうの足で約 1 時間 46 分。惣岳山への登り返しは短い",
-        "惣岳山の手前から軍畑へ下る道もある（約 1 時間 59 分）",
+        "惣岳山の手前から軍畑へ下る道もある（コースタイム約 2 時間）。歩く人が少なく荒れた道で、道標も少ない。けがをした足では、ほかの道よりさらに時間がかかる",
         "来た道（岩茸石山・高水山）で軍畑駅へ戻ると約 2 時間 6 分。岩茸石山へ急な登り返しがある",
         "ここは電波が入る。谷口さんはツェルトとヘッドランプを持つ。石井さんのヘッドランプはザックの奥。森田さんはライトを持っていない",
-        "足首をひねったら、冷やして・固定して（テーピング）、無理をしない。けがをした足では、ふだんの半分ほどの速さしか出ない"
+        "足首をひねったら、冷やして・固定して（テーピング）、無理をしない。けがをした足では、ふだんの半分以下の速さしか出ない。下りはなおさら"
       ],
       "options": [
         {
@@ -987,7 +1126,7 @@
         {
           "id": "shortcut",
           "label": "惣岳山へは登らず、手前から軍畑へ下る",
-          "detail": "登り返しはないが、道は長い（約 1 時間 59 分）。歩く人が少ない道。",
+          "detail": "登り返しはないが、歩く人が少ない荒れた道で、道標も少ない（コースタイム約 2 時間）。",
           "actions": [
             {
               "type": "say",
@@ -1178,7 +1317,7 @@
             },
             {
               "type": "setPace",
-              "factor": 0.6
+              "factor": 0.85
             },
             {
               "type": "continueRoute"
@@ -1215,7 +1354,7 @@
         {
           "id": "bivouac",
           "label": "ツェルトをかぶって、朝を待つ",
-          "detail": "今夜は雨と強い風の予報。ツェルトは 1 つ。",
+          "detail": "道の上でツェルトをかぶって夜を越す。今夜は雨と強い風の予報。ツェルトは 1 つ。",
           "actions": [
             {
               "type": "say",
@@ -1229,7 +1368,7 @@
             {
               "type": "bivouac",
               "until": "dawn",
-              "findLee": true
+              "findLee": false
             }
           ],
           "tags": [
@@ -1250,8 +1389,12 @@
               "text": "スマホで照らせば大丈夫ですよ"
             },
             {
+              "type": "setFlag",
+              "flag": "hurried"
+            },
+            {
               "type": "setPace",
-              "factor": 0.85
+              "factor": 1.15
             },
             {
               "type": "continueRoute"
@@ -1316,6 +1459,1922 @@
       ],
       "once": true,
       "priority": 25
+    },
+    {
+      "key": "a_sorry",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "after": "D0 09:23"
+          },
+          {
+            "not": {
+              "beenAt": "J143"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "今朝は本当にすみません。目覚ましを止めて、また寝ちゃって"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "いいのいいの。山は逃げないわよ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "a_first",
+      "who": "c1",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "after": "D0 09:35"
+          },
+          {
+            "not": {
+              "beenAt": "J143"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "森田さん、山はほんとに初めてなんですか"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "ハイキングくらいはあるけど、ちゃんと登るのは初めてでね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "a_shoes",
+      "who": "c2",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "after": "D0 09:50"
+          },
+          {
+            "not": {
+              "beenAt": "J143"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "その靴、おろしたて？ 靴ずれしそうなら早めに言ってね"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "先週買ったんです。お店の人に勧められて"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "a_pace",
+      "who": "c2",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "after": "D0 10:05"
+          },
+          {
+            "not": {
+              "beenAt": "J143"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "ここからは登りが続くわ。息が上がらない速さでね"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "ばあちゃん、それ前にも聞いた"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "a_creek",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "after": "D0 10:20"
+          },
+          {
+            "not": {
+              "beenAt": "J143"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "沢の音がしますね。涼しくていいな"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "この先の尾根まで、しばらく登りよ。今のうちに水を飲んでおいてね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "a_steep",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "after": "D0 10:45"
+          },
+          {
+            "not": {
+              "beenAt": "J143"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "けっこう登りますね……。まだ半分くらいですか"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "もう少しで半分。焦らなくていいわよ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "a_grandma",
+      "who": "c1",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "after": "D0 11:05"
+          },
+          {
+            "not": {
+              "beenAt": "J143"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "ばあちゃん、毎週どこかの山に登ってるんですよ。僕より速い"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "いや本当に。私のほうが先にへばりそうだ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "a_lunch",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "after": "D0 11:20"
+          },
+          {
+            "not": {
+              "beenAt": "J143"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "お昼はどこで食べるんですか"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "高水山のお寺に休憩所があるの。もうひと登りよ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "a_behind",
+      "who": "c2",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "after": "D0 11:35"
+          },
+          {
+            "not": {
+              "beenAt": "J143"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "お昼は短めにしましょう。思ったより時間がかかってる"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "了解。森田さんのペースでいいよね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "b_temple",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "beenAt": "J143"
+          },
+          {
+            "not": {
+              "beenAt": "PK001"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "立派なお寺ですね。こんな山の上に"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "高水山のお不動さま。昔から山の人がお参りしてきたの"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "b_summit",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "beenAt": "PK001"
+          },
+          {
+            "not": {
+              "beenAt": "PK002"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "ここが一つ目の山ですか。木に囲まれてるんですね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "次の岩茸石山は見晴らしがいいわよ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "c_ridge",
+      "who": "c1",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "beenAt": "PK001"
+          },
+          {
+            "not": {
+              "beenAt": "PK002"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 12:15"
+          }
+        ]
+      },
+      "lines": [
+        "尾根に出ると楽ですね。風が気持ちいい"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "さっきの登りに比べたら天国だ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "c_family",
+      "who": "c3",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "beenAt": "PK001"
+          },
+          {
+            "not": {
+              "beenAt": "PK002"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 12:25"
+          }
+        ]
+      },
+      "lines": [
+        "石井くんは、おばあちゃんとよく山に来るの？"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "子どものころはよく。最近は年に 1、2 回かな"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "c_leaves",
+      "who": "c2",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "beenAt": "PK001"
+          },
+          {
+            "not": {
+              "beenAt": "PK002"
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 12:35"
+          }
+        ]
+      },
+      "lines": [
+        "少し色づいてきたわね。あと 2 週間もすると、このあたりは紅葉がきれいなの"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "次は紅葉の時期に来たいですね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "d_view",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "beenAt": "PK002"
+          },
+          {
+            "not": {
+              "flag": "sprained"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "おー、見晴らしいい！ あっちの山は？"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "棒ノ折山。その奥は奥武蔵の山よ。……さあ、ここからは急な下り。木の根に気をつけてね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "e_sorry",
+      "who": "c2",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 16
+            }
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "ごめんなさいね。気をつけてって言った私が転ぶなんて"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "いやいや。朝の私の遅刻に比べたら"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "e_pack",
+      "who": "c3",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 26
+            }
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "荷物、少し持つよ"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "じゃあ水を 1 本お願いします"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "e_called",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "flag": "toldFamily"
+          },
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 36
+            }
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "母さんに連絡しといた。遅くなるかもって"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "心配させちゃうわね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "e_ask",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 45
+            }
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "足、どう？",
+        "痛くなったら言ってね。止まるから",
+        "肩につかまって。段差あるよ",
+        "少し休む？"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "大丈夫。下りがつらいだけ",
+          "ありがとう。ゆっくりね",
+          "平らな所なら平気よ",
+          "止まると冷えるから、ゆっくり歩くわ"
+        ]
+      },
+      "priority": 7,
+      "cooldownMin": 40
+    },
+    {
+      "key": "e_tape",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "flag": "taped"
+          },
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 60
+            }
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "テーピング、きつくない？"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "ちょうどいいわ。上手ね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "e_time",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 50
+            }
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "このペースだと、駅に着くのは何時ごろになりますかね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "……暗くなるかもしれないわね。下りは無理をしないで行きましょう"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "e_student",
+      "who": "c3",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 75
+            }
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "石井くんは学生さん？"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "大学 4 年です。来年から働きます"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "e_forecast",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "after": "D0 15:01"
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "天気の通知が来た。夜 8 時ごろから雨だって"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "前線が早まったのね。急がないと。でも走ると危ないから、確実にね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "e_shrine",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "beenAt": "LM016"
+          },
+          {
+            "not": {
+              "beenAt": "J058"
+            }
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "神社がありますね。彫り物がすごいな"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "青渭神社。ここが惣岳山の頂上よ。あとは下るだけ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "f_lamp",
+      "who": "c2",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "beenAt": "PK003"
+          },
+          {
+            "not": {
+              "beenAt": "J058"
+            }
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "ここから御嶽駅まで下り一本。ヘッドランプはすぐ出せる所に入れておいてね"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "ザックの一番下だ……。次に止まったら出すよ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "f_dusk",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "after": "D0 16:40"
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "日が傾いてきましたね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "森の中は暗くなるのが早いの。見えるうちに少しでも下りましょう"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "f_how",
+      "who": "c1",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 100
+            }
+          },
+          {
+            "flag": "sprained"
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "森田さん、初めての山がこんなことになっちゃって"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "いやあ、忘れられない山になりそうです"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "x_shortcut",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "chose": {
+              "cp": "generic:injured",
+              "option": "shortcut"
+            }
+          },
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 20
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "この道、誰も歩いてないね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "歩く人の少ない道なの。道標を見落とさないようにね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "x_back",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "chose": {
+              "cp": "generic:injured",
+              "option": "back"
+            }
+          },
+          {
+            "elapsedSince": {
+              "flag": "sprained",
+              "min": 16
+            }
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "また岩茸石山に登るんですね……"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "知ってる道のほうが安心だから。ゆっくり行きましょう"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "x_rest",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "waitedHour",
+              "min": 40
+            }
+          }
+        ]
+      },
+      "lines": [
+        "休んでも腫れが引かないね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "……そうね。休んでも、歩けるようにはならないわね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "x_help",
+      "who": "c2",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "splitForHelp",
+              "min": 15
+            }
+          }
+        ]
+      },
+      "lines": [
+        "森田さん、一人で大丈夫かしら"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "道は一本だから。何かあったら電話してって言ったよ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "x_called",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "elapsedSince": {
+              "flag": "called",
+              "min": 5
+            }
+          }
+        ]
+      },
+      "lines": [
+        "電話つながった。動かないで待っててって"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "ありがとう。風の当たらない所で待ちましょう"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "x_wait",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "c.c2.state",
+            "op": "==",
+            "value": "WAITING_RESCUE"
+          },
+          {
+            "elapsedSince": {
+              "flag": "called",
+              "min": 30
+            }
+          }
+        ]
+      },
+      "lines": [
+        "まだですかね",
+        "冷えてきましたね",
+        "救助の人、ここが分かりますかね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "山の救助は時間がかかるの。体を冷やさないようにね",
+          "上着を全部着て、くっついていましょう",
+          "場所は伝えてあるわ。動かないのがいちばん"
+        ]
+      },
+      "priority": 7,
+      "cooldownMin": 30
+    },
+    {
+      "key": "g_dark",
+      "who": "c2",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "森田さん、前の人の明かりを見て、同じ所に足を置いてね"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "はい。……思ったより真っ暗ですね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_phone_hurry",
+      "who": "c1",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 17:28"
+          },
+          {
+            "chose": {
+              "cp": "generic:darkness",
+              "option": "hurry"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "森田さん、足元ちゃんと見えてます？"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "スマホでなんとか……電池が減るのが早いな"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_phone",
+      "who": "c3",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 17:28"
+          },
+          {
+            "chose": {
+              "cp": "generic:darkness",
+              "option": "lamps"
+            }
+          },
+          {
+            "var": "c.c1.headlamp.usable",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "スマホのライト、電池がもつかな"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "地図を見るのに要るから、森田さんのスマホは取っておいて。僕のランプで照らすよ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_step",
+      "who": "c1",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 17:36"
+          }
+        ]
+      },
+      "lines": [
+        "段差あります",
+        "根っこ、気をつけて",
+        "ここ滑ります",
+        "ゆっくりで大丈夫です",
+        "石が浮いてます。右側を",
+        "水が流れてます。またいで"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "はい",
+          "ありがとう、見えた",
+          "おっと……ありがとう",
+          "すみません、助かります",
+          "右ね。はい",
+          "よいしょ……"
+        ]
+      },
+      "priority": 6,
+      "cooldownMin": 22
+    },
+    {
+      "key": "g_route",
+      "who": "c2",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 17:50"
+          }
+        ]
+      },
+      "lines": [
+        "道標があったら照らして",
+        "尾根から外れないようにね",
+        "急がなくていいわ。止まって確かめながら行きましょう",
+        "足元だけじゃなく、ときどき先も照らしてね",
+        "ここ、道が二つに分かれてない？"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "あった。駅はこっちだ",
+          "うん、踏み跡はこっちに続いてる",
+          "分かった",
+          "了解",
+          "……大丈夫、こっちが本道だ"
+        ]
+      },
+      "priority": 6,
+      "cooldownMin": 35
+    },
+    {
+      "key": "n_past",
+      "who": "c2",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 19:00"
+          }
+        ]
+      },
+      "lines": [
+        "昔、雪の山で暗くなったことがあってね。あのときも、ゆっくり下りたら大丈夫だった"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "谷口さんがいてくれてよかった"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "n_wife",
+      "who": "c3",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 19:45"
+          }
+        ]
+      },
+      "lines": [
+        "家内に、夕飯までには帰るって言っちゃったんだよな"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "連絡しておいたほうがいいですよ。電波があるうちに"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "n_train",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 20:15"
+          }
+        ]
+      },
+      "lines": [
+        "電車、まだあるかな"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "青梅線は遅くまであるわ。なくても、駅まで行けば何とかなる"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "n_rain",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 20:25"
+          },
+          {
+            "var": "g.precipMmH",
+            "op": ">",
+            "value": 1
+          }
+        ]
+      },
+      "lines": [
+        "雨、強くなってきましたね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "フードをかぶって。首から雨が入ると冷えるの"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "n_battery",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 20:45"
+          }
+        ]
+      },
+      "lines": [
+        "ランプの電池、まだ大丈夫？"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "予備の電池も持ってるわ。心配しないで"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "n_hot",
+      "who": "c1",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 21:15"
+          }
+        ]
+      },
+      "lines": [
+        "下りたら、温かいもの食べたいですね"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "ラーメンだな。いや、なんでもいい"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "n_knee",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 21:35"
+          }
+        ]
+      },
+      "lines": [
+        "膝が笑ってきました"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "下りが続くとそうなるの。小さい歩幅で、ゆっくりね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "n_thanks",
+      "who": "c2",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 22:00"
+          }
+        ]
+      },
+      "lines": [
+        "……来てくれてありがとう。あなたがいなかったら、どうなってたか"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "何言ってんの。また来ようよ。今度は明るいうちに"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_sorry",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 18:20"
+          }
+        ]
+      },
+      "lines": [
+        "私が遅れなければ、明るいうちに下りられたのに"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "誰のせいでもないわ。転んだのは私だもの。3 人で下りましょう"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_rainwear",
+      "who": "c2",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "var": "g.precipMmH",
+            "op": ">",
+            "value": 0.3
+          },
+          {
+            "var": "c.c2.rainwearOn",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.c3.rainwearOn",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "lines": [
+        "森田さん、雨具を着て。濡れてからじゃ体が冷えるわ"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "まだ小降りだから、もう少し様子を見ます"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_snack",
+      "who": "c1",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "var": "c.c3.coreC",
+            "op": "<",
+            "value": 36.1
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "森田さん、これ食べて。甘いもの食べると、少し温まるから"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "ありがとう……助かる"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_home",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 19:30"
+          },
+          {
+            "flag": "sprained"
+          }
+        ]
+      },
+      "lines": [
+        "母さんに、もっと遅くなるって連絡しとくね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "お願い。だいたい何時ごろになるかも伝えてね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_last",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "after": "D0 21:00"
+          }
+        ]
+      },
+      "lines": [
+        "あとは下るだけですよね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "そう。最後まで気を抜かないで。転ぶのは下りの終わりが多いの"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_lights",
+      "who": "c1",
+      "to": "c3",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.moving",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.elevM",
+            "op": "<",
+            "value": 300
+          }
+        ]
+      },
+      "lines": [
+        "木の間から、町の明かりが見える！"
+      ],
+      "replies": {
+        "who": "c3",
+        "lines": [
+          "まだ遠いけど……あの明かりを目指せばいいんだ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_temple",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "beenAt": "J058"
+          }
+        ]
+      },
+      "lines": [
+        "お寺だ。もう町だよ"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "みんな、よく頑張ったわね"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_lost",
+      "who": "c2",
+      "to": "c1",
+      "when": {
+        "all": [
+          {
+            "var": "c.c2.state",
+            "op": "==",
+            "value": "LOST_AWARE"
+          }
+        ]
+      },
+      "lines": [
+        "道を外れたみたい。さっきの道標まで戻りましょう"
+      ],
+      "replies": {
+        "who": "c1",
+        "lines": [
+          "分かった。来た所を照らすね"
+        ]
+      },
+      "priority": 14,
+      "cooldownMin": 60
+    },
+    {
+      "key": "g_bivouac",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "c.c2.state",
+            "op": "==",
+            "value": "BIVOUAC"
+          }
+        ]
+      },
+      "lines": [
+        "ツェルト、3 人で入るとけっこう暖かいね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "体をくっつけてね。朝になったら明るくなる"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_night",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "c.c2.state",
+            "op": "==",
+            "value": "BIVOUAC"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "長い夜ですね",
+        "風の音がすごいな",
+        "朝まで、あと何時間くらいでしょう"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "少しずつ食べて、水も飲んでね",
+          "ツェルトの裾を押さえておいて",
+          "夜明けは 6 時前。それまでの辛抱よ"
+        ]
+      },
+      "priority": 6,
+      "cooldownMin": 40
     }
   ],
   "balanceTargets": {

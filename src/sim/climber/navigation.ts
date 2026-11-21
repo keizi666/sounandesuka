@@ -87,6 +87,16 @@ export function chooseLegAtNode(world: World, ctx: StaticContext, c: ClimberStat
   let k = 0;
   while (k < ps.length - 1 && r >= ps[k]!) r -= ps[k++]!;
   const wrong = confs[k]!.edge;
+  // 別の正規の道が、すぐ先の予定の地点に出る（短い並行の道・林道との交差など）: 道迷いではない。その道を通って予定の地点へ行く
+  const wd = ctx.map.trails[wrong]!.def;
+  if (wd.kind !== 'false' && wd.to !== undefined) {
+    const far = wd.from === node ? wd.to : wd.from;
+    const j = c.plan.route.indexOf(far, c.plan.routeIndex);
+    if (j >= 0 && j - c.plan.routeIndex <= nt.rejoinAheadNodes) {
+      c.plan.route = [...c.plan.route.slice(0, c.plan.routeIndex), far, ...c.plan.route.slice(j + 1)];
+      return { leg: { edgeId: wrong, dir: wd.from === node ? 1 : -1, from: node, to: far } };
+    }
+  }
   const intendedStartS = leg.dir === 1 ? 0 : ctx.map.trails[leg.edgeId]!.lengthM;
   rememberOnRoute(c, leg.edgeId, intendedStartS, nd!.x, nd!.z);
   c.perception.routeBelief = { edgeId: leg.edgeId, s: intendedStartS };
@@ -108,6 +118,15 @@ export function chooseLegAtNode(world: World, ctx: StaticContext, c: ClimberStat
 export function onWrongNode(world: World, ctx: StaticContext, c: ClimberState, node: NodeId, viaEdge: EdgeId): void {
   const nt = ctx.tuning.nav;
   if (c.nav.offrouteSinceMin === null) return;
+  // 別の道を通って、予定のルートのすぐ先の地点に出た: そのまま予定の道に戻る（道標で分かる）
+  const j = c.plan.route.indexOf(node, c.plan.routeIndex);
+  if (j >= 0 && j - c.plan.routeIndex <= nt.rejoinAheadNodes) {
+    c.plan.routeIndex = j + 1;
+    c.nav.offrouteSinceMin = null;
+    c.perception.routeBelief = null;
+    ctx.events.push({ tMin: world.tMin, type: 'BACK_ON_ROUTE', climberId: c.id, important: true });
+    return;
+  }
   const visCue = Math.min(1, Math.max(0, 1 - c.local.visibilityM / nt.visCueM));
   const markers = ctx.map.trails[viaEdge]?.def.markers ?? 0;
   const p = (nt.signBase + nt.signMarkersK * markers) * (1 - visCue * nt.signVisCueK);

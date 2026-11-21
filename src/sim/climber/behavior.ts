@@ -98,7 +98,7 @@ export function finishTask(world: World, ctx: StaticContext, c: ClimberState): v
     // 位置確認の結果はアクションの時点で決まっている（knowsPosition）
   } else if (what === 'lamp') {
     c.inv.headlamp.on = true;
-    ctx.events.push({ tMin: world.tMin, type: 'LAMP', climberId: c.id, data: { on: true } });
+    ctx.events.push({ tMin: world.tMin, type: 'LAMP', climberId: c.id, data: { on: true, again: lampLit(world, c) } });
   }
 }
 
@@ -195,7 +195,7 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   if (world.sun.isDark && moving && lamp.has && !lamp.on && lamp.batteryH > 0 && chance(rng, bt.lampP)) {
     if (lamp.inPack) return startTask(world, c, 'lamp', taskMinutes(c, bt.lampInPackMin, ctx));
     lamp.on = true;
-    ctx.events.push({ tMin: world.tMin, type: 'LAMP', climberId: c.id, data: { on: true } });
+    ctx.events.push({ tMin: world.tMin, type: 'LAMP', climberId: c.id, data: { on: true, again: lampLit(world, c) } });
     return;
   }
   // 雨具を脱ぐ（登りで暑い）
@@ -250,4 +250,14 @@ export function stepState(world: World, ctx: StaticContext, c: ClimberState): vo
     default:
       return;
   }
+}
+
+/**
+ * ヘッドランプをつけたことを覚える。2 回目からは（休んで消したあとにまたつけた）true を返し、ログに出さない
+ * （thoughtHistory の 'lamp:on' に最初につけた時刻を入れる。'speech:' と同じ使い方）
+ */
+function lampLit(world: World, c: ClimberState): boolean {
+  if (c.thoughtHistory['lamp:on'] !== undefined) return true;
+  c.thoughtHistory['lamp:on'] = world.tMin;
+  return false;
 }

@@ -25,6 +25,8 @@ export const nav = {
   signBase: 0.6,
   signMarkersK: 0.4,
   signVisCueK: 0.5,
+  /** 別の正規の道が、予定のルートのこの数の地点以内の先に出るなら道迷いにしない（短い並行の道・林道との交差。高水三山で、60 m の並行の道で「迷った」になっていた） */
+  rejoinAheadNodes: 3,
   /** 道の途中での踏み外し（10 m ごと）: drift / 10 × cue × (1 − k × navEff) × (1 + fatigue / 100) */
   driftNavK: 0.8,
   /** 踏み外しの全体倍率（バランス調整用） */
@@ -122,6 +124,8 @@ export const slip = {
   /** 夜に道外（沢・やぶ・急斜面）をヘッドランプで歩くとき */
   darkLampOffF: 3.0,
   darkF: 4.0,
+  /** 自分の明かりはないが、すぐそばの仲間のヘッドランプで足元を照らしてもらって道を歩くとき */
+  darkSharedLampF: 2.5,
   fatigueDiv: 80,
   /** 血中アルコール濃度 1% あたりの転倒の増え方。0.05% で 1.5 倍 */
   alcoholK: 10,

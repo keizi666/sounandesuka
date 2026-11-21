@@ -4,7 +4,7 @@
  */
 import { datan, DEG } from '../core/dmath';
 import { chance, nextFloat, randRange } from '../core/rng';
-import { isChainAt } from '../climber/movement';
+import { isChainAt, sharesLampOf } from '../climber/movement';
 import { bacPct } from '../climber/physiology';
 import { transition } from '../climber/state';
 import { piecewise } from '../climber/capacity';
@@ -59,7 +59,7 @@ export function slipP10(world: World, ctx: StaticContext, c: ClimberState, cls: 
   else if (footSnowCm(world, ctx, c) > 5 && slope > st.snowSlopeDeg) p *= crampons ? st.snowCramponsF : st.snowF;
   // 夜: ヘッドランプの光は狭く、道外では足元の岩・穴・段差が読めない
   const offTrail = cls === 'OFF' || cls === 'OFF_STEEP' || cls === 'STREAM' || cls === 'CLIFF';
-  if (world.sun.isDark) p *= c.inv.headlamp.on ? (offTrail ? st.darkLampOffF : st.darkLampF) : st.darkF;
+  if (world.sun.isDark) p *= c.inv.headlamp.on ? (offTrail ? st.darkLampOffF : st.darkLampF) : !offTrail && sharesLampOf(c, world.climbers, ctx.tuning) ? st.darkSharedLampF : st.darkF;
   p *= 1 + c.body.fatigue / st.fatigueDiv;
   p *= 1 + 2 * (1 - c.M);
   p *= 1 + (1 - c.J);

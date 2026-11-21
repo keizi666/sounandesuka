@@ -154,7 +154,8 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'DRINK':
       return fill(L.drink, { who, ml: String(Math.round(Number(d['liters'] ?? 0) * 1000)) });
     case 'LAMP':
-      return fill(L.lampOn, { who });
+      // 休んで消したあとにまたつけたときは書かない（「つけた」が何度も出ないように）
+      return d['again'] === true ? '' : fill(L.lampOn, { who });
     case 'LAMP_DEAD':
       return fill(L.lampDead, { who });
     case 'PHONE_DEAD':

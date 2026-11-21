@@ -17,6 +17,10 @@ export const movement = {
   darkHeadlampF: 0.75,
   darkNoLampBase: 0.25,
   darkNoLampMoon: 0.2,
+  /** 自分は明かりがなくても、すぐそばの仲間のヘッドランプで足元が見えるときの暗さの係数（ユーザーの指摘: 高水三山でランプの 2 人ではさんで下っても遅すぎた） */
+  darkSharedLampF: 0.55,
+  /** 仲間の明かりが届く距離（m） */
+  sharedLampM: 6,
   lowVisM: 30,
   lowVisF: 0.8,
   snowDeepCm: 20,

@@ -60,7 +60,7 @@ const BUILTIN: Builtin[] = [
   // 暗いのに明かりがない: 持っていない人と、持っているのに点けていない人で考えが違う
   // 足元の暗さを気にするのは、歩いているときだけ（休む・待つ・小屋の中では出さない）
   { key: 'dark_no_lamp', priority: 6, when: (w, _c, c) => w.sun.isDark && MOVING.has(c.state) && !c.inv.headlamp.has },
-  { key: 'dark_lamp_off', priority: 6, when: (w, _c, c) => w.sun.isDark && MOVING.has(c.state) && c.inv.headlamp.has && !c.inv.headlamp.on && c.inv.headlamp.batteryH > 0 },
+  { key: 'dark_lamp_off', priority: 6, when: (w, _c, c) => w.sun.isDark && MOVING.has(c.state) && c.inv.headlamp.has && !c.inv.headlamp.on && c.inv.headlamp.batteryH > 0 && c.thoughtHistory['lamp:on'] === undefined },
   // 「電話はつながった」は、電話・衛星で自分たちが通報したときだけ（家族の届け出・通りかかった人の通報ではない）
   { key: 'rescue_wait', priority: 6, when: (w, _c, c) => c.state === 'WAITING_RESCUE' && w.rescue.calledAtMin !== null && (w.rescue.via === 'phone' || w.rescue.via === 'satellite') },
   { key: 'wait_nocall', priority: 6, when: (w, _c, c) => c.state === 'WAITING_RESCUE' && !(w.rescue.calledAtMin !== null && (w.rescue.via === 'phone' || w.rescue.via === 'satellite')) },

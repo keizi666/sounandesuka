@@ -16,6 +16,8 @@ export interface MoveEnv {
   snowCm: number;
   icy: boolean;
   groundWet: number;
+  /** 自分の明かりはないが、すぐそばの仲間のヘッドランプで足元が見える */
+  sharedLamp?: boolean;
 }
 
 export const CLEAR_DAY: MoveEnv = {
@@ -65,6 +67,24 @@ export function exhaustionSpeedF(b: ClimberState['body'], tuning: Tuning = TUNIN
   return piecewise(m.exhaustGlycogenF, b.glycogenKcal) * piecewise(m.exhaustDehydF, b.waterDeficitL) * piecewise(m.exhaustCoreF, b.coreC);
 }
 
+/** 暗いときの速さの係数（自分のランプ・そばの仲間のランプ・明かりなし） */
+export function darkSpeedF(c: ClimberState, moonIllum: number, sharedLamp: boolean, tuning: Tuning = TUNING): number {
+  const m = tuning.movement;
+  if (c.inv.headlamp.on) return m.darkHeadlampF;
+  const none = m.darkNoLampBase + m.darkNoLampMoon * moonIllum;
+  return sharedLamp ? Math.max(none, m.darkSharedLampF) : none;
+}
+
+/**
+ * c の明かりがないとき、同じグループの意識のある仲間が sharedLampM 以内でヘッドランプをつけているか。
+ * 急いでいるときは、明かりを持つ人が足元を照らしてくれる歩き方をしないので、使えない
+ */
+export function sharesLampOf(c: ClimberState, climbers: readonly ClimberState[], tuning: Tuning = TUNING): boolean {
+  if (c.inv.headlamp.on || c.plan.hurry) return false;
+  const r = tuning.movement.sharedLampM;
+  return climbers.some((o) => o !== c && o.groupId === c.groupId && o.body.alive && o.body.conscious && o.inv.headlamp.on && (o.x - c.x) * (o.x - c.x) + (o.z - c.z) * (o.z - c.z) <= r * r);
+}
+
 /** 登山道上の候補速度（m/s、MET 上限の前） */
 export function trailSpeedMs(
   c: ClimberState,
@@ -77,8 +97,7 @@ export function trailSpeedMs(
   const m = tuning.movement;
   const b = c.body;
   const classF = chain ? m.classF.chain : m.classF[edge.class];
-  let darkF = 1;
-  if (env.isDark) darkF = c.inv.headlamp.on ? m.darkHeadlampF : m.darkNoLampBase + m.darkNoLampMoon * env.moonIllum;
+  const darkF = env.isDark ? darkSpeedF(c, env.moonIllum, env.sharedLamp === true, tuning) : 1;
   const visF = env.visibilityM < m.lowVisM ? m.lowVisF : 1;
   let snowF = 1;
   if (env.snowCm > m.snowDeepCm) snowF = m.snowDeepF;

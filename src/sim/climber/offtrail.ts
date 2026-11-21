@@ -16,7 +16,7 @@ import { onErrand, returnAfterErrand } from './groups';
 import { footSnowCm } from '../weather/ground';
 import { dawnRef, enterShelter } from './route';
 import type { WalkResult } from './walk';
-import { crawlCapMs, exhaustionSpeedF } from './movement';
+import { crawlCapMs, darkSpeedF, exhaustionSpeedF, sharesLampOf } from './movement';
 
 const EPS = 1e-9;
 
@@ -24,8 +24,7 @@ const EPS = 1e-9;
 export function offTrailSpeedMs(world: World, ctx: StaticContext, c: ClimberState): number {
   const m = ctx.tuning.movement;
   const i = nearestIndex(ctx.map, c.x, c.z);
-  let darkF = 1;
-  if (world.sun.isDark) darkF = c.inv.headlamp.on ? m.darkHeadlampF : m.darkNoLampBase + m.darkNoLampMoon * world.sun.moonIllum;
+  const darkF = world.sun.isDark ? darkSpeedF(c, world.sun.moonIllum, sharesLampOf(c, world.climbers, ctx.tuning), ctx.tuning) : 1;
   const f = c.body.fatigue / 100;
   // 道の外の雪: 深いとラッセル（膝・腰まで沈む）で大きく遅れる
   const snow = footSnowCm(world, ctx, c);
