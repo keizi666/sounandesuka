@@ -7,6 +7,7 @@ import { baseElevationFor, suggestForestLine } from '../geo/dem';
 import type { DemMessage, DemRequest } from '../geo/dem.worker';
 import { gridFor } from '../geo/projection';
 import { keepHintsOnRecenter } from '../geo/skeletonBind';
+import { centerShift, remapGrids, shiftContents, type Frame } from '../geo/reframe';
 import type { BaseLayer } from '../geo/tiles';
 import { areaRect, type OverlayKind } from '../map/layers';
 import type { MapTool } from '../map/TileMapView';
@@ -29,15 +30,61 @@ function recenter(ed: Ed, lat: number, lon: number): void {
   keepHintsOnRecenter(ed.p.map, old.lat, old.lon);
 }
 
-/** 範囲を動かす・角で大きさを変える道具（地形を取得する前だけ） */
+/**
+ * 範囲を数値・ボタンで変える。標高を取ったあとなら、中身を同じ緯度経度に保ち、塗りを写し直してから標高を取り直す
+ */
+function changeFrame(ed: Ed, label: string, next: Partial<Frame>): void {
+  const terrain = hasTerrain(ed.p);
+  const from = frameOf(ed);
+  const gr = next.size !== undefined ? gridFor(next.size) : { size: from.size, resolution: from.resolution };
+  const to: Frame = { lat: next.lat ?? from.lat, lon: next.lon ?? from.lon, size: gr.size, resolution: gr.resolution };
+  if (to.lat === from.lat && to.lon === from.lon && to.size === from.size) return;
+  ed.change(label, () => {
+    if (!terrain) {
+      recenter(ed, to.lat, to.lon);
+    } else {
+      const d = centerShift(from, to);
+      shiftContents(ed.p.map, d.dx, d.dz);
+      ed.p.map.geo!.centerLat = to.lat;
+      ed.p.map.geo!.centerLon = to.lon;
+      remapGrids(ed.p.map, from, to);
+    }
+    ed.p.map.size = to.size;
+    ed.p.map.resolution = to.resolution;
+    if (terrain) dropHeightsIfResized(ed, from);
+  }, true);
+  ed.view.lat0 = to.lat;
+  ed.view.lon0 = to.lon;
+  if (terrain) {
+    ed.toast('範囲を変えたので、標高を取り直しています（地点・道・建物は同じ場所のまま）', 5000);
+    fetchTerrain(ed);
+  }
+}
+
+/** 大きさ（頂点の数）が変わったら、古い標高は使えないので消す（取り直すまで地形なし） */
+function dropHeightsIfResized(ed: Ed, from: Frame): void {
+  if (ed.p.map.size === from.size && ed.p.map.resolution === from.resolution) return;
+  ed.p.heightsBuffer = null;
+  if (ed.p.map.terrain.type === 'heightmap') ed.p.map.terrain.data = '';
+}
+
+const frameOf = (ed: Ed): Frame => ({ lat: ed.p.map.geo!.centerLat, lon: ed.p.map.geo!.centerLon, size: ed.p.map.size, resolution: ed.p.map.resolution });
+
+/**
+ * 範囲を動かす・角で大きさを変える道具。標高を取ったあとでも使える（ユーザーの指定）:
+ * 動かすあいだ地点・道などを同じ緯度経度に保ち、離したら植生・電波の塗りを写し直して標高を取り直す
+ */
 function areaTool(ed: Ed): MapTool | null {
   if (!ed.p.map.geo) return null;
   let mode: null | 'move' | 'resize' = null;
   let start = { pLat: 0, pLon: 0, lat: 0, lon: 0 };
+  let terrain = false;
+  let from: Frame = { lat: 0, lon: 0, size: 0, resolution: 0 };
   return {
     cursor: 'move',
     down(p) {
-      if (hasTerrain(ed.p)) return false;
+      terrain = hasTerrain(ed.p);
+      from = frameOf(ed);
       const r = areaRect(ed.view, ed.p.map.size);
       const nearCorner = Math.hypot(p.px - (r.x + r.w), p.py - (r.y + r.h)) < 14;
       const inside = p.px > r.x && p.px < r.x + r.w && p.py > r.y && p.py < r.y + r.h;
@@ -51,8 +98,14 @@ function areaTool(ed: Ed): MapTool | null {
       if (!dragging || !mode) return;
       const g = ed.p.map.geo!;
       if (mode === 'move') {
+        const prev = frameOf(ed);
         g.centerLat = start.lat + (p.lat - start.pLat);
         g.centerLon = start.lon + (p.lon - start.pLon);
+        // 標高を取ったあと: 中身（地点・道・建物など）を同じ緯度経度に保つ
+        if (terrain) {
+          const d = centerShift(prev, frameOf(ed));
+          shiftContents(ed.p.map, d.dx, d.dz);
+        }
         ed.view.lat0 = g.centerLat;
         ed.view.lon0 = g.centerLon;
       } else {
@@ -64,14 +117,26 @@ function areaTool(ed: Ed): MapTool | null {
       ed.view.redraw();
     },
     up() {
-      if (mode === 'move') keepHintsOnRecenter(ed.p.map, start.lat, start.lon);
-      if (mode) ed.touched(true);
+      const was = mode;
       mode = null;
+      if (!was) return;
+      if (!terrain) {
+        if (was === 'move') keepHintsOnRecenter(ed.p.map, start.lat, start.lon);
+        ed.touched(true);
+        return;
+      }
+      const to = frameOf(ed);
+      if (to.lat === from.lat && to.lon === from.lon && to.size === from.size) return;
+      remapGrids(ed.p.map, from, to);
+      dropHeightsIfResized(ed, from);
+      ed.touched(true);
+      ed.toast('範囲を変えたので、標高を取り直しています（地点・道・建物は同じ場所のまま）', 5000);
+      fetchTerrain(ed);
     },
   };
 }
 
-function fetchTerrain(ed: Ed, progress: HTMLProgressElement, msg: HTMLElement): void {
+function fetchTerrain(ed: Ed, progress: HTMLProgressElement = el('progress', { value: 0, max: 1 }), msg: HTMLElement = el('p')): void {
   const g = ed.p.map.geo!;
   const w = new Worker(new URL('../geo/dem.worker.ts', import.meta.url), { type: 'module' });
   const t0 = performance.now();
@@ -143,26 +208,12 @@ export const areaPanel: Panel = {
       return;
     }
     const center = section('範囲', [
-      el('p', { class: 'note' }, '地名検索はありません。緯度経度を入れるか、地図を動かして探してください。範囲の枠はドラッグで移動、右下の角で大きさを変えられます（標高の取得前のみ）。'),
-      num('中心の緯度', g.centerLat, (x) => ed.change('中心', () => recenter(ed, x, g.centerLon), true), { step: 0.0001 }),
-      num('中心の経度', g.centerLon, (x) => ed.change('中心', () => recenter(ed, g.centerLat, x), true), { step: 0.0001 }),
-      num('一辺', Math.round(ed.p.map.size), (s) => ed.change('大きさ', () => {
-        const gr = gridFor(s);
-        ed.p.map.size = gr.size;
-        ed.p.map.resolution = gr.resolution;
-      }, true), { min: 2048, max: 12288, step: 128, unit: 'm' }),
+      el('p', { class: 'note' }, '地名検索はありません。緯度経度を入れるか、地図を動かして探してください。範囲の枠はドラッグで移動、右下の角で大きさを変えられます。標高を取ったあとに動かすと、地点・道・建物は同じ場所のまま、離したときに標高を取り直します（そのため ↶ では戻せません。戻すときは枠を動かし直してください）。'),
+      num('中心の緯度', g.centerLat, (x) => changeFrame(ed, '中心', { lat: x }), { step: 0.0001 }),
+      num('中心の経度', g.centerLon, (x) => changeFrame(ed, '中心', { lon: x }), { step: 0.0001 }),
+      num('一辺', Math.round(ed.p.map.size), (s) => changeFrame(ed, '大きさ', { size: s }), { min: 2048, max: 12288, step: 128, unit: 'm' }),
       el('p', {}, `解像度 ${ed.p.map.resolution} 頂点・セル ${(ed.p.map.size / (ed.p.map.resolution - 1)).toFixed(0)} m`),
-      button('範囲を地図の中心に置く', () => {
-        if (terrain && !confirm('取得済みの地形は消えます。範囲を置き直しますか？')) return;
-        ed.change('範囲を置く', () => {
-          recenter(ed, v.lat, v.lon);
-          if (terrain) {
-            ed.p.heightsBuffer = null;
-          }
-        }, true);
-        v.lat0 = g.centerLat;
-        v.lon0 = g.centerLon;
-      }),
+      button('範囲を地図の中心に置く', () => changeFrame(ed, '範囲を置く', { lat: v.lat, lon: v.lon })),
       button('範囲を画面に合わせる', () => v.fitArea(ed.p.map.size)),
     ]);
     const dem = section('地形を作る', [
