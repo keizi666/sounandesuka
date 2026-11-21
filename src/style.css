@@ -1103,3 +1103,13 @@ div.choice button.option.recommended:hover:not(:disabled) { background: rgba(34,
 div.choice .good-badge { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; margin-bottom: 3px; padding: 1px 8px; border-radius: 999px; background: #22c55e; color: #0d1f13; font-size: 0.75rem; font-weight: 700; }
 div.choice .good-badge svg { width: 1em; height: 1em; fill: currentColor; }
 .climber .words.unknown { margin: 2px 0 0; font-size: 0.8rem; color: var(--muted, #9aa3ad); }
+
+/* ---- トップページ（シナリオの一覧）の背景に、作者が撮影した写真（ユーザーの指定）。文字が読めるよう暗く重ね、画面に固定する ---- */
+main.select2 {
+  background:
+    linear-gradient(180deg, rgba(12, 16, 22, 0.55) 0%, rgba(12, 16, 22, 0.72) 45%, rgba(12, 16, 22, 0.88) 100%),
+    url('/photos/title-bg.jpg') center 35% / cover no-repeat fixed,
+    var(--bg, #15181d);
+}
+/* 背景が写真になったので、トップページのカードの内側は濃いグレーにする（ユーザーの指定） */
+main.select2 .sel-card { background: #23262c; }

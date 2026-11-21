@@ -66,6 +66,16 @@ const HARD_VIEW_FOREST_M = 100;
 const HARD_VIEW_OPEN_M = 300;
 /** 見える範囲が変わりきるまでの目安（秒） */
 const HARD_VIEW_EASE_SEC = 1.5;
+/** ノーマルは、ハードの何倍の範囲までぼかさないか（ユーザーの指定） */
+const NORMAL_VIEW_F = 2;
+/** 現在地が分からないとき、はっきり見える範囲（ハード。m） */
+const LOST_VIEW_M = 50;
+/** ぼかさないとき（なめらかに変えるための大きな値。これより広ければぼかさない。m） */
+const VIEW_NONE_M = 4000;
+const VIEW_NONE_AT_M = 3000;
+/** ノーマルで悪天候とみなす見通し（m）と降水（mm/h） */
+const BAD_WEATHER_VIS_M = 300;
+const BAD_WEATHER_PRECIP_MMH = 1;
 /** 見える範囲の下限（m。人形のまわりは別にぼかさない） */
 const HARD_VIEW_MIN_M = 25;
 /** 夜の見える範囲（ヘッドランプあり・なし。m） */
@@ -438,7 +448,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (difficulty === 'hard') hud.knows = (id) => ownLeader(world).id === id;
   /** 現在地が分からなくなってぼかしているか（ログに出したか） */
   let lostShown = false;
-  /** ハードの見える範囲（樹林帯の出入りで、なめらかに変える） */
+  /** 見える範囲（樹林帯の出入り・天気で、なめらかに変える） */
   let hardViewM: number | null = null;
   let hardViewAt = performance.now();
   function updateAreaBlur(w: World): void {
@@ -450,19 +460,20 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     // 道に迷ったと気づき、現在地が分からない（地図・GPS で確かめたら解く）
     const lost = l.body.alive && l.perception.awareLost && !l.perception.knowsPosition && !TERMINAL_STATES.has(l.state);
     const keepIds = w.climbers.filter((c) => c.groupId === l.groupId && c.body.alive).map((c) => c.id);
-    let farM: number | null = null;
-    if (difficulty === 'hard') {
-      const target = hardViewRangeM(ctx.map, l, w.sun.isDark);
-      const now = performance.now();
-      const a = Math.min(1, (now - hardViewAt) / 1000 / HARD_VIEW_EASE_SEC);
-      hardViewAt = now;
-      hardViewM = hardViewM === null ? target : hardViewM + (target - hardViewM) * a;
-      farM = hardViewM;
-    }
-    view.setAreaBlur({ x: l.x, z: l.z, lost, farM, keepIds });
+    // 見える範囲: ハードはいつも（樹林帯・霧・雨や雪・夜）。ノーマルは悪天候（霧・雨や雪）のときだけ、ハードの 2 倍（ユーザーの指定）
+    let target = VIEW_NONE_M;
+    if (difficulty === 'hard') target = hardViewRangeM(ctx.map, l, w.sun.isDark);
+    else if (l.local.visibilityM < BAD_WEATHER_VIS_M || l.local.precipMmH > BAD_WEATHER_PRECIP_MMH) target = hardViewRangeM(ctx.map, l, false) * NORMAL_VIEW_F;
+    const now = performance.now();
+    const a = Math.min(1, (now - hardViewAt) / 1000 / HARD_VIEW_EASE_SEC);
+    hardViewAt = now;
+    hardViewM = hardViewM === null ? target : hardViewM + (target - hardViewM) * a;
+    const farM = hardViewM >= VIEW_NONE_AT_M ? null : hardViewM;
+    const lostM = difficulty === 'hard' ? LOST_VIEW_M : LOST_VIEW_M * NORMAL_VIEW_F;
+    view.setAreaBlur({ x: l.x, z: l.z, lost, lostM, farM, keepIds });
     if (lost !== lostShown && !replaying) {
       lostShown = lost;
-      hud.log({ tMin: w.tMin, text: fill(lost ? JA.difficulty.lostBlurOn : JA.difficulty.lostBlurOff, { who: l.def.name }), important: true });
+      hud.log({ tMin: w.tMin, text: fill(lost ? JA.difficulty.lostBlurOn : JA.difficulty.lostBlurOff, { who: l.def.name, m: lostM }), important: true });
     }
   }
 

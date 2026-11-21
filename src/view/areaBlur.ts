@@ -20,6 +20,8 @@ export interface AreaBlurParams {
   z: number;
   /** 現在地が分からない（強いぼかし） */
   lost: boolean;
+  /** 現在地が分からないとき、はっきり見える範囲（m） */
+  lostM: number;
   /** これより遠い所をぼかす（m。ハード）。なければ null */
   farM: number | null;
   /** ぼかさない人形（自分たち）の登山者 ID */
@@ -125,7 +127,9 @@ export class AreaBlurPass extends Pass {
     }
     this.enabled = true;
     (u['uCenter']!.value as THREE.Vector2).set(p.x * UNIT, p.z * UNIT);
-    (u['uLost']!.value as THREE.Vector4).w = p.lost ? 1 : 0;
+    const lostV = u['uLost']!.value as THREE.Vector4;
+    lostV.x = p.lostM;
+    lostV.w = p.lost ? 1 : 0;
     const far = u['uFar']!.value as THREE.Vector4;
     far.x = p.farM ?? 0;
     far.w = p.farM === null ? 0 : 1;
