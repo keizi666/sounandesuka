@@ -1057,3 +1057,20 @@ main.ending2 .bf-bar .en-bar-btns { display: flex; align-items: center; gap: 12p
 .en-symptoms small { color: var(--muted, #9aa3ad); margin-right: 2px; }
 .en-symptoms span { padding: 1px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); color: #d6dbe1; }
 .en-symptoms span.serious { background: rgba(250, 204, 21, 0.14); border-color: rgba(250, 204, 21, 0.5); color: #fde68a; }
+
+/* ---- シナリオの説明: 題の右に共有（狭い画面では題の下。ユーザーの指定） ---- */
+.bf-title-row { display: flex; align-items: center; gap: 16px; }
+.bf-title-row h1 { flex: 1 1 auto; min-width: 0; }
+.bf-share { position: relative; flex: 0 0 auto; }
+.bf-share summary { list-style: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px 8px 14px; border-radius: 999px; cursor: pointer; font-weight: 700; color: #1d1a12; background: var(--accent); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); user-select: none; }
+.bf-share summary::-webkit-details-marker { display: none; }
+.bf-share summary svg { width: 20px; height: 20px; fill: currentColor; }
+.bf-share summary:hover { filter: brightness(1.08); }
+.bf-share-pop { position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; width: min(440px, calc(100vw - 32px)); padding: 12px 14px; border-radius: 14px; background: rgba(24, 27, 33, 0.97); border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55); }
+.bf-share-h { margin: 0 0 8px; font-weight: 700; font-size: 0.95rem; }
+.bf-share-pop .sh-note { margin-bottom: 0; }
+@media (max-width: 640px) {
+  .bf-title-row { flex-wrap: wrap; gap: 8px; }
+  .bf-title-row h1 { flex-basis: 100%; }
+  .bf-share-pop { left: 0; right: auto; }
+}

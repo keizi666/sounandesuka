@@ -20,6 +20,8 @@ import { icon, type IconName } from './icons';
 import { drawMap2d } from './map2d';
 import { audio } from './audio';
 import { applyConditions, DEFAULT_CONDITIONS, DEFAULT_POWER_BANK_MAH, isDefaultConditions, POWER_BANK_CHOICES, WATER_DELTA_CHOICES, type Health, type SeasonOverride, type StartConditions, type WeatherOverride } from '../sim/scenario/startConditions';
+import { shareButtons } from './shareButtons';
+import { briefUrl } from '../app/shareState';
 
 /** 予報の文から、天気のアイコンを選ぶ */
 function forecastIcon(label: string, text: string): IconName {
@@ -187,7 +189,19 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
         el('div', { class: 'bf-hero-in' }, [
           el('button', { class: 'bf-back', onclick: () => app.go({ name: 'select' }) }, [icon('arrowBack'), JA.ui.back]),
           el('p', { class: 'bf-kicker' }, [JA.ui.briefing, el('span', { class: 'tag' }, JA.labels.theme[s.theme] ?? s.theme), s.region?.name ? el('span', { class: 'tag plain' }, s.region.name) : null]),
-          el('h1', {}, s.title),
+          // 題と共有（ユーザーの指定: 共有は題の右、狭い画面では題の下）。一覧にあるシナリオだけ（エディターで作った物は出さない）
+          el('div', { class: 'bf-title-row' }, [
+            el('h1', {}, s.title),
+            loaded.listed
+              ? el('details', { class: 'bf-share' }, [
+                  el('summary', { title: JA.share.scenarioTitle }, [icon('share'), JA.share.scenarioButton]),
+                  el('div', { class: 'bf-share-pop' }, [
+                    el('p', { class: 'bf-share-h' }, JA.share.scenarioTitle),
+                    shareButtons({ text: fill(JA.share.scenarioText, { title: s.title }), url: briefUrl(s.id) }, { note: JA.share.scenarioNote }),
+                  ]),
+                ])
+              : null,
+          ]),
           s.subtitle ? el('p', { class: 'bf-sub' }, s.subtitle) : null,
           facts,
         ]),

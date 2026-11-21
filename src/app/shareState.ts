@@ -30,6 +30,15 @@ export interface SharedState {
 
 export const STATE_PARAM = 'st';
 export const SCENARIO_PARAM = 'scenario';
+/** シナリオの説明（ブリーフィング）の画面への直接のリンク（ユーザーの指定）: ?brief=<シナリオ ID> */
+export const BRIEF_PARAM = 'brief';
+
+/** シナリオの説明の画面を開く URL（公開先のトップに ?brief=） */
+export function briefUrl(scenarioId: string): string {
+  const u = new URL(import.meta.env.BASE_URL, location.origin);
+  u.searchParams.set(BRIEF_PARAM, scenarioId);
+  return u.href;
+}
 
 export function stateOf(world: World, mode: PlayMode, cond: StartConditions | undefined, scenarioSeed?: number): SharedState {
   return {

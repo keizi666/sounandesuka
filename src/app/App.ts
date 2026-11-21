@@ -4,7 +4,7 @@
  * 開発用: ?scenario=<id> で直接シミュレーション画面を開く（&observe=1 で観察のみ、&debug=1 でデバッグパネル）。
  */
 import { scrollMemory } from './scrollMemory';
-import { decodeState, setAddress, STATE_PARAM, type SharedState } from './shareState';
+import { BRIEF_PARAM, briefUrl, decodeState, setAddress, STATE_PARAM, type SharedState } from './shareState';
 import { applyConditions } from '../sim/scenario/startConditions';
 import { JA } from '../i18n/ja';
 import { loadEditorProject, loadEntry, loadIndex } from './data';
@@ -83,7 +83,9 @@ export function startApp(root: HTMLElement): void {
       else history.replaceState({ hk: screen.name }, '');
     }
     // 場面の URL（?scenario=…&st=…）は、シミュレーションと結末・振り返りの間だけ残す。一覧や説明の画面に移ったら消す
-    if (screen.name !== 'sim' && screen.name !== 'ending' && screen.name !== 'debrief' && location.search !== '') setAddress(null);
+    // シナリオの説明の画面では、アドレス欄をその画面への直接のリンク（?brief=）にする（一覧にあるシナリオだけ。ユーザーの指定）
+    if (screen.name === 'briefing' && screen.loaded.listed) setAddress(briefUrl(screen.loaded.scenario.id));
+    else if (screen.name !== 'sim' && screen.name !== 'ending' && screen.name !== 'debrief' && location.search !== '') setAddress(null);
     onTop = top;
     {
       cleanup?.();
@@ -157,6 +159,29 @@ export function startApp(root: HTMLElement): void {
     root.replaceChildren(el('p', { class: 'loading' }, JA.ui.loading));
     void loadEditorProject(bundleRef.slice(7))
       .then((loaded) => app.go({ name: 'briefing', loaded }))
+      .catch((e: unknown) => root.replaceChildren(el('div', { class: 'fatal' }, [el('h1', {}, JA.app.title), el('p', { class: 'error' }, String(e)), el('a', { href: location.pathname }, JA.ui.toTitle)])));
+    return;
+  }
+  // シナリオの説明の画面への直接のリンク（?brief=<ID>）
+  const brief = params.get(BRIEF_PARAM);
+  if (brief) {
+    root.replaceChildren(el('p', { class: 'loading' }, JA.ui.loading));
+    void loadIndex()
+      .then(async (idx) => {
+        const e = idx.find((x) => x.id === brief);
+        if (!e) {
+          toast(JA.ui.briefNotFound, 5000);
+          navigate({ name: 'select' }, true);
+          return;
+        }
+        const ld = showLoading(JA.ui.loadingTitle);
+        try {
+          const loaded = await loadEntry(e, progressTo(ld, { data: JA.ui.loadingData, terrain: JA.ui.loadingTerrain }));
+          app.go({ name: 'briefing', loaded: { ...loaded, listed: true } });
+        } finally {
+          ld.done();
+        }
+      })
       .catch((e: unknown) => root.replaceChildren(el('div', { class: 'fatal' }, [el('h1', {}, JA.app.title), el('p', { class: 'error' }, String(e)), el('a', { href: location.pathname }, JA.ui.toTitle)])));
     return;
   }
