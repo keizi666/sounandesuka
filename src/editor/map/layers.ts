@@ -27,6 +27,7 @@ export const VEG_RGB: Record<number, [number, number, number]> = {
   [VegClass.ROCK]: [150, 140, 130],
   [VegClass.STREAM]: [60, 120, 220],
   [VegClass.CLIFF]: [200, 60, 50],
+  [VegClass.URBAN]: [150, 110, 150],
 };
 
 const overlayCache = new WeakMap<MapRuntime, Map<string, HTMLCanvasElement>>();

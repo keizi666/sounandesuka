@@ -31,6 +31,19 @@ export interface MapDef {
   attribution?: Attribution[];
   skeleton?: boolean;        // 座標なしの骨組みマップ（docs/16 §8）
   areaHint?: { text: string; sizeM: number };
+  urban?: UrbanDef;          // 市街地（建物・道路・鉄道。実在エリアで地理院地図から取り込む）
+}
+
+/**
+ * 市街地（地理院の最適化ベクトルタイルの建物・道路・鉄道から作る）。3D の建物・道路の描画と、植生の「市街地」の塗りに使う。
+ * 座標はワールド座標（m）。建物は向きのある長方形に単純化する
+ */
+export interface UrbanDef {
+  /** 建物: [中心 x, 中心 z, 幅 m, 奥行き m, 向き（度。幅の向きが +x から +z へ回る角）, 階の目安（1〜）] */
+  buildings: [number, number, number, number, number, number][];
+  /** 道路・鉄道の中心線 */
+  lines: { kind: 'road' | 'rail'; widthM: number; major?: boolean; pts: [number, number][] }[];
+  source: { tiles: 'gsi-optimal_bvmap-v1'; zoom: number; fetchedAt: string };
 }
 
 export interface GeoRef { centerLat: number; centerLon: number; projection: 'local-tangent' }
@@ -40,7 +53,7 @@ export interface VegetationDef {
   forestLineNoise: number;
   broadleafLine: number;
   krummholzBandM?: number;   // ハイマツ帯の幅（既定 200）
-  overrides?: GridOverride;  // 0 = 自動、1..7 = VegClass + 1
+  overrides?: GridOverride;  // 0 = 自動、1..8 = VegClass + 1
 }
 
 /** resolution×resolution の 8bit グリッドを RLE（[値, 個数(uint16 LE)] の繰り返し）+ base64 で保持 */
@@ -150,7 +163,8 @@ export interface MapRuntime {
 }
 
 // Vite（esbuild, isolatedModules）では const enum をファイル間で使えないため as const オブジェクトにする
-export const VegClass = { BROADLEAF: 0, CONIFER: 1, KRUMMHOLZ: 2, ALPINE: 3, ROCK: 4, STREAM: 5, CLIFF: 6 } as const;
+/** URBAN: 市街地・集落（建物・舗装・庭。地理院地図の建物と道路から塗る） */
+export const VegClass = { BROADLEAF: 0, CONIFER: 1, KRUMMHOLZ: 2, ALPINE: 3, ROCK: 4, STREAM: 5, CLIFF: 6, URBAN: 7 } as const;
 export type VegClass = (typeof VegClass)[keyof typeof VegClass];
 
 // ---------- シナリオ定義（JSON） ----------

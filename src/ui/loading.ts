@@ -54,5 +54,15 @@ export function progressTo(ld: Loading, labels: { data: string; terrain: string 
 
 /** 画面に描かせてから続ける（重い処理の前に、読み込み中の表示を先に出す） */
 export function nextPaint(): Promise<void> {
-  return new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())));
+  // タブが隠れていると requestAnimationFrame が来ないので、0.2 秒で先へ進む
+  return new Promise((r) => {
+    let done = false;
+    const go = (): void => {
+      if (done) return;
+      done = true;
+      r();
+    };
+    requestAnimationFrame(() => requestAnimationFrame(go));
+    setTimeout(go, 200);
+  });
 }

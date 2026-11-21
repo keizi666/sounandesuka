@@ -277,6 +277,17 @@ function patchFragment(shader: { fragmentShader: string }, terrain: boolean, fad
         // 縁は少し暗い（踏まれて湿った土）
         hkPath *= 0.82 + 0.18 * smoothstep(0.5, 0.9, hkM.r);
         diffuseColor.rgb = mix(diffuseColor.rgb, hkPath, hkTr);
+        // 市街地の道路（B）: 芯はアスファルト、縁は路肩の砂利。鉄道は砂利の上に枕木の縞
+        float hkRdB = hkM.b;
+        float hkRoad = smoothstep(0.5, 0.66, hkRdB);
+        float hkRail = smoothstep(0.3, 0.37, hkRdB) * (1.0 - smoothstep(0.45, 0.52, hkRdB));
+        float hkShoulder = smoothstep(0.12, 0.22, hkRdB) * (1.0 - hkRoad) * (1.0 - hkRail);
+        vec3 hkAsph = mix(vec3(0.2, 0.2, 0.21), vec3(0.29, 0.29, 0.3), hkFine) * (0.92 + 0.16 * hkMid) * mix(vec3(1.0), hkGravelT, 0.25);
+        vec3 hkBallast = mix(vec3(0.3, 0.28, 0.26), vec3(0.42, 0.4, 0.37), hkSpeck) * mix(vec3(1.0), hkGravelT, 0.5);
+        hkBallast = mix(hkBallast, vec3(0.2, 0.15, 0.1), step(0.62, fract((vWorldPos.x + vWorldPos.z) * 900.0)) * 0.6);
+        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.4, 0.38, 0.35) * hkGravelT, hkShoulder * 0.55);
+        diffuseColor.rgb = mix(diffuseColor.rgb, hkBallast, hkRail);
+        diffuseColor.rgb = mix(diffuseColor.rgb, hkAsph, hkRoad);
         // 沢: 岸は濡れて暗い土と丸石、その内側が浅瀬、中心が流れ
         float hkS = hkM.g + (hkMid - 0.5) * 0.18;
         float hkBank = smoothstep(0.12, 0.4, hkS);

@@ -1,6 +1,6 @@
 /**
  * 地面の塗り分けの地図（docs/19 フェーズ 4）。登山道と沢の位置を 1 枚の画像に描く。
- *   R = 登山道（踏み固めた土）、G = 沢（水と岸）
+ *   R = 登山道（踏み固めた土）、G = 沢（水と岸）、B = 市街地の道路（芯は 1、縁は 0.23）と鉄道（0.4）
  * 地形のシェーダー（塗り分け）と、地形メッシュ・高さの読み出し（道と沢を掘り下げる）の両方が同じ地図を使う。
  */
 import * as THREE from 'three';
@@ -128,6 +128,17 @@ export function buildGroundMasks(map: MapRuntime, pre?: Uint8ClampedArray): Grou
       if (t.def.kind === 'false' || (t.def.streamBedM ?? 0) > 0) continue;
       g.beginPath();
       t.samples.forEach((p, i) => (i === 0 ? g.moveTo(px(p.x), px(p.z)) : g.lineTo(px(p.x), px(p.z))));
+      g.stroke();
+    }
+  }
+  // 道路・鉄道（地理院地図から取り込んだ市街地）。画素が粗い（1 画素 5〜6 m）ので、登山道と同じく実際より太めに描く
+  for (const l of map.def.urban?.lines ?? []) {
+    const passes: [number, string][] = l.kind === 'rail' ? [[Math.max(6, l.widthM * 1.4), 'rgb(0,0,102)']] : [[Math.max(10, l.widthM * 1.6 + 4), 'rgb(0,0,60)'], [Math.max(7, l.widthM * 1.6), 'rgb(0,0,200)']];
+    for (const [wM, color] of passes) {
+      g.strokeStyle = color;
+      g.lineWidth = Math.max(1.2, wM * pxPerM);
+      g.beginPath();
+      l.pts.forEach(([x, z], i) => (i === 0 ? g.moveTo(px(x), px(z)) : g.lineTo(px(x), px(z))));
       g.stroke();
     }
   }

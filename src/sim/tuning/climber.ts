@@ -87,7 +87,8 @@ export const movement = {
   /** 道外の基本速度（km/h）。速度係数は植生クラスで docs/04 §4 */
   offTrailKmh: 3.0,
   offTrailMinSlopeF: 0.15,
-  vegSpeed: [0.5, 0.45, 0.2, 0.7, 0.45, 0.35, 0.05],
+  /** 植生ごと（VegClass の順）。市街地（URBAN）は舗装・庭で歩きやすい */
+  vegSpeed: [0.5, 0.45, 0.2, 0.7, 0.45, 0.35, 0.05, 0.9],
 };
 
 /** docs/06 §6 判断力・運動能力 */

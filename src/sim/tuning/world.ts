@@ -38,7 +38,7 @@ export const weather = {
   altWindMax: 2.0,
   leeK: 0.6,
   /** 植生クラスごとの風速倍率（docs/04 §4 の表） */
-  vegWindFactor: [0.45, 0.4, 0.8, 1.0, 1.0, 0.6, 1.0],
+  vegWindFactor: [0.45, 0.4, 0.8, 1.0, 1.0, 0.6, 1.0, 0.7],
   /** 風下判定: 風上方向にこの距離まで見る（m）、この刻みで、この高さで 1 */
   shelterLookM: 100,
   shelterStepM: 25,

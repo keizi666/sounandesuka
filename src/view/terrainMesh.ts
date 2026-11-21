@@ -22,6 +22,8 @@ export function vegColors(season: string): Record<number, THREE.Color> {
     // 沢のセルは岸辺の草木の色（水面は地面の塗り分けで細く描く。セル全体を灰色にすると沢が太く見える）
     [VegClass.STREAM]: new THREE.Color(autumn ? 0x6f5a32 : winter ? 0x5e5a4c : 0x4b6a36),
     [VegClass.CLIFF]: new THREE.Color(0x5d5751),
+    // 市街地: 庭・空き地・舗装のまじった色（建物と道路は別に描く）
+    [VegClass.URBAN]: new THREE.Color(autumn ? 0x857c66 : winter ? 0x7a756b : 0x737a5f),
   };
 }
 
@@ -95,7 +97,7 @@ export function buildTerrain(map: MapRuntime, s: ViewScale, env: EnvUniforms, se
         tmp.multiplyScalar((v === VegClass.CONIFER ? 0.62 : 0.74) + (4 - forestNb) * 0.07);
       }
       cellCol.set([tmp.r, tmp.g, tmp.b], gi * 3);
-      cellCover.set([forest ? (v === VegClass.CONIFER ? 0.6 : 1) : 0, v === VegClass.ALPINE || v === VegClass.KRUMMHOLZ ? 1 : 0, v === VegClass.ROCK || v === VegClass.CLIFF ? 1 : 0], gi * 3);
+      cellCover.set([forest ? (v === VegClass.CONIFER ? 0.6 : 1) : 0, v === VegClass.ALPINE || v === VegClass.KRUMMHOLZ ? 1 : v === VegClass.URBAN ? 0.45 : 0, v === VegClass.ROCK || v === VegClass.CLIFF ? 1 : 0], gi * 3);
     }
   }
   const bilinear = (arr: ArrayLike<number>, stride: number, off: number, fx: number, fz: number): number => {

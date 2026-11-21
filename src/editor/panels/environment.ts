@@ -12,6 +12,7 @@ import { paintCircle } from '../map/tools';
 import type { MapTool } from '../map/TileMapView';
 import { sampleElevAt } from './elev';
 import type { Panel } from './types';
+import { urbanSection } from './urbanSection';
 
 type Mode = 'view' | 'veg' | 'radio' | 'station';
 let mode: Mode = 'view';
@@ -28,6 +29,7 @@ const VEG_OPTS: [number, string][] = [
   [VegClass.ALPINE + 1, '高山草原'],
   [VegClass.ROCK + 1, '岩場'],
   [VegClass.STREAM + 1, '沢'],
+  [VegClass.URBAN + 1, '市街地'],
 ];
 
 function tool(ed: Ed): MapTool | null {
@@ -143,6 +145,7 @@ export const environmentPanel: Panel = {
         mode === 'veg' || mode === 'radio' ? num('ブラシの半径', radius, (v) => (radius = v), { min: 20, max: 200, step: 10, unit: 'm' }) : null,
         vg.overrides ? button('植生の塗りをすべて消す', () => set('植生の塗り', () => delete vg.overrides)) : null,
       ]),
+      urbanSection(ed),
       section('電波（近似）', [
         el('p', { class: 'note' }, '実在のキャリアのエリアマップは使えないため、基地局からの見通しで近似します。山頂で通じた・小屋で通じないなどの経験は「塗り」で反映してください。'),
         ...ed.p.map.radio.stations.map((st) => stationRow(ed, st)),

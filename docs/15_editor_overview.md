@@ -93,7 +93,7 @@ IndexedDB は `src/editor/store/idb.ts` で扱う（素の API、または確認
 |---|---|---|---|
 | 背景地図 | 国土地理院 | `https://cyberjapandata.gsi.go.jp/xyz/{std|pale|hillshademap|seamlessphoto}/{z}/{x}/{y}.{png|jpg}` | 出典表示のみで申請不要（リアルタイム読込） |
 | 標高 | 国土地理院 | `https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png`（z≤14, DEM10B 相当）/ `dem5a_png`（z15, 一部地域） | 無効値は (R,G,B)=(128,0,0) |
-| 植生記号（広葉樹林・針葉樹林） | 国土地理院（ベクトルタイル） | `https://cyberjapandata.gsi.go.jp/xyz/optimal_bvmap-v1/{z}/{x}/{y}.pbf`（z16。注記の層 `Anno` の `vt_code` 6321 広葉樹林・6322 針葉樹林） | 出典表示のみで申請不要。取得したタイルは保存して再取得しない（2026-11-19 ユーザーの指定で追加） |
+| 植生記号（広葉樹林・針葉樹林）、建物・道路・鉄道（市街地） | 国土地理院（ベクトルタイル） | `https://cyberjapandata.gsi.go.jp/xyz/optimal_bvmap-v1/{z}/{x}/{y}.pbf`（z16。注記の層 `Anno` の `vt_code` 6321 広葉樹林・6322 針葉樹林） | 出典表示のみで申請不要。取得したタイルは保存して再取得しない（2026-11-19 ユーザーの指定で追加）。市街地は層 `BldA`（建物の面）・`RdCL`（道路の中心線）・`RailCL`（鉄道）を読み、変換した結果を `map.urban` に保存する（2026-11-21 ユーザーの指定で追加） |
 | 登山道・地点 | OpenStreetMap（Overpass API） | `https://overpass-api.de/api/interpreter`（POST） | 1 エリアにつき 1 回の問い合わせ。結果は `raw.osm` に保存し再取得しない |
 | 過去の気象 | Open-Meteo Historical | `https://archive-api.open-meteo.com/v1/archive` | 非商用は API キー不要。商用利用ではキーが必要 |
 

@@ -1,7 +1,7 @@
 /**
- * Mapbox Vector Tile（PBF）の最小の読み取り。地理院のベクトルタイルから点の地物（植生記号など）を取り出すためだけに使う。
+ * Mapbox Vector Tile（PBF）の最小の読み取り。地理院のベクトルタイルから地物（植生記号の点、建物の面、道路・鉄道の線）を取り出す。
  * 仕様: https://github.com/mapbox/vector-tile-spec （Tile.layers=3、Layer: name=1 features=2 keys=3 values=4 extent=5、
- * Feature: tags=2 type=3 geometry=4）。線・面の座標は読まない（点だけ）。
+ * Feature: tags=2 type=3 geometry=4。type 1 点・2 線・3 面。geometry は MoveTo=1・LineTo=2・ClosePath=7 の命令列）。
  */
 export type MvtValue = string | number | boolean | null;
 
@@ -56,15 +56,25 @@ class Reader {
 const td = new TextDecoder();
 const zigzag = (n: number): number => (n % 2 === 1 ? -(n + 1) / 2 : n / 2);
 
-/** タイルの中の点の地物をすべて返す（layers を指定すればその層だけ） */
-export function decodeMvtPoints(buf: Uint8Array, layers?: readonly string[]): MvtPoint[] {
+/** 線・面も含めた地物。parts は点列（線は 1 本ずつ、面は輪ずつ。座標はタイルの左上を 0、extent を右下とする） */
+export interface MvtFeature {
+  layer: string;
+  /** 1 点・2 線・3 面 */
+  type: number;
+  parts: [number, number][][];
+  extent: number;
+  props: Record<string, MvtValue>;
+}
+
+/** タイルの中の地物をすべて返す（layers を指定すればその層だけ） */
+export function decodeMvtFeatures(buf: Uint8Array, layers?: readonly string[]): MvtFeature[] {
   const r = new Reader(buf);
   const dv = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
   const layerRanges: [number, number][] = [];
   r.fields(0, buf.length, (f, t, v) => {
     if (f === 3 && t === 2) layerRanges.push(v as [number, number]);
   });
-  const out: MvtPoint[] = [];
+  const out: MvtFeature[] = [];
   for (const [ls, le] of layerRanges) {
     let name = '';
     let extent = 4096;
@@ -112,10 +122,11 @@ export function decodeMvtPoints(buf: Uint8Array, layers?: readonly string[]): Mv
         }
       });
       r.p = save;
-      if (type !== 1) continue; // 点だけ
       const props: Record<string, MvtValue> = {};
       for (let i = 0; i + 1 < tags.length; i += 2) props[keys[tags[i]!] ?? `k${tags[i]}`] = values[tags[i + 1]!] ?? null;
-      // MoveTo（id 1）の連続。座標は前の点からの差（zigzag）
+      // 命令列: MoveTo（1）で新しい点列、LineTo（2）で点を足す、ClosePath（7）で輪を閉じる。座標は前の点からの差（zigzag）
+      const parts: [number, number][][] = [];
+      let cur: [number, number][] | null = null;
       let cx = 0;
       let cy = 0;
       let i = 0;
@@ -123,14 +134,29 @@ export function decodeMvtPoints(buf: Uint8Array, layers?: readonly string[]): Mv
         const cmd = geom[i++]!;
         const id = cmd & 7;
         const count = Math.floor(cmd / 8);
-        if (id !== 1) break;
+        if (id === 7) {
+          if (cur && cur.length > 0) cur.push([cur[0]![0], cur[0]![1]]);
+          continue;
+        }
         for (let k = 0; k < count && i + 1 < geom.length; k += 1) {
           cx += zigzag(geom[i++]!);
           cy += zigzag(geom[i++]!);
-          out.push({ layer: name, x: cx, y: cy, extent, props });
+          if (id === 1 && (type !== 1 || !cur)) parts.push((cur = []));
+          cur!.push([cx, cy]);
         }
       }
+      out.push({ layer: name, type, parts, extent, props });
     }
+  }
+  return out;
+}
+
+/** タイルの中の点の地物をすべて返す（layers を指定すればその層だけ） */
+export function decodeMvtPoints(buf: Uint8Array, layers?: readonly string[]): MvtPoint[] {
+  const out: MvtPoint[] = [];
+  for (const f of decodeMvtFeatures(buf, layers)) {
+    if (f.type !== 1) continue;
+    for (const part of f.parts) for (const [x, y] of part) out.push({ layer: f.layer, x, y, extent: f.extent, props: f.props });
   }
   return out;
 }
