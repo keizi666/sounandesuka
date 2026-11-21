@@ -174,15 +174,21 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
       el('span', { class: 'place' }, [el('strong', {}, n?.name ?? id), n ? el('small', {}, `${Math.round(n.elevM).toLocaleString()} m`) : null]),
     ]);
   };
+  // 名前のない地点（道の途中の分岐など）は行程に載せず、前後の区間をまとめる（ユーザーの指定）。出発と到着は名前がなくても載せる
   const steps: HTMLElement[] = [];
+  let sinceShown = 0;
   legs.forEach((l, i) => {
     if (i === 0) steps.push(stop(l.from, startMin, true, false));
     const t = legCourseTimeMin(map, l);
     total += t;
+    sinceShown += t;
     distM += map.trails[l.edgeId]?.lengthM ?? 0;
     ascentM += Math.max(0, (map.nodes[l.to]?.elevM ?? 0) - (map.nodes[l.from]?.elevM ?? 0));
-    steps.push(el('li', { class: 'bf-leg' }, [el('span', {}), el('span', { class: 'line' }), el('span', { class: 'dur' }, hoursMinutes(t))]));
-    steps.push(stop(l.to, startMin + total, false, i === legs.length - 1));
+    const last = i === legs.length - 1;
+    if (!last && !map.nodes[l.to]?.name) return;
+    steps.push(el('li', { class: 'bf-leg' }, [el('span', {}), el('span', { class: 'line' }), el('span', { class: 'dur' }, hoursMinutes(sinceShown))]));
+    steps.push(stop(l.to, startMin + total, false, last));
+    sinceShown = 0;
   });
 
   const fact = (ic: IconName, label: string, value: string): HTMLElement => el('div', { class: 'bf-fact' }, [icon(ic), el('span', {}, [el('small', {}, label), el('strong', {}, value)])]);
