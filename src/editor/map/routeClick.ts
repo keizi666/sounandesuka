@@ -111,6 +111,29 @@ function setRoute(ed: Ed, label: string, route: string[], before?: () => void): 
   if (notes.length) ed.toast(`${notes.join('。')}（Ctrl＋Z で戻せます）`, 8000);
 }
 
+/**
+ * ルートを入れる（計画ルートの一覧の入れ替え用）。also はシナリオだけを変える（下山口の付け替えなど）ので、地図は作り直さない。
+ * 道が 2 本ある区間があれば、setRoute と同じく経由点を足す
+ */
+export function setPlanRoute(ed: Ed, label: string, route: string[], also?: () => void): void {
+  const ambiguous = route.some((b, i) => i > 0 && edgesBetween(ed.p.map, route[i - 1]!, b).length > 1);
+  if (!ambiguous) {
+    ed.change(label, () => {
+      ed.p.scenario.plan.route = route;
+      also?.();
+    });
+    return;
+  }
+  let notes: string[] = [];
+  ed.change(label, () => {
+    const r = disambiguateRoute(ed.p.map, route);
+    ed.p.scenario.plan.route = r.route;
+    also?.();
+    notes = r.notes;
+  }, true);
+  if (notes.length) ed.toast(`${notes.join('。')}（Ctrl＋Z で戻せます）`, 8000);
+}
+
 /** いまのルートの、道が 2 本ある区間をまとめて決める（人と計画タブのボタン） */
 export function fixAmbiguousRoute(ed: Ed): void {
   setRoute(ed, 'ルートの道を決める', [...ed.p.scenario.plan.route]);

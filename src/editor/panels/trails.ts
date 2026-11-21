@@ -12,6 +12,7 @@ import { parseGpx, trackAsTrails, trackToRoute, trackToXZ } from '../geo/gpx';
 import { fetchOsm, osmToGraph, resample, suggestConfusers, type OsmJson } from '../geo/overpass';
 import { sampleElevAt } from './elev';
 import { clickRouteNode } from '../map/routeClick';
+import { routeList } from './routeList';
 import { edgePoints, hitEdge, hitNode, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
 import type { MapTool } from '../map/TileMapView';
 import { nextId } from '../store/project';
@@ -510,7 +511,7 @@ export const trailsPanel: Panel = {
       selSection,
       draftList,
       section('計画ルート', [
-        el('p', {}, route.length > 0 ? route.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name || id).join(' → ') : '（未設定）'),
+        routeList(ed),
         button('ルートを空にする', () => ed.change('ルート', () => (ed.p.scenario.plan.route = []))),
         button('最後の地点を取り消す', () => ed.change('ルート', () => (ed.p.scenario.plan.route = route.slice(0, -1)))),
         button('最後の地点を下山口に', () => ed.change('下山口', () => (ed.p.scenario.plan.goalNodes = route.length ? [route[route.length - 1]!] : []))),

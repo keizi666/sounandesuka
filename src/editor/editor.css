@@ -156,3 +156,15 @@ textarea.mono { width: 100%; min-height: 60vh; }
 .ai-result { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 8px; }
 .ai-result-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 textarea.mono.ai-out { min-height: 36vh; margin-top: 4px; }
+
+/* 計画ルートの一覧（↑ ↓ × で並べ替え。ユーザーの指定） */
+.route-list ol { list-style: none; margin: 0 0 6px; padding: 0; max-height: 260px; overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; }
+.route-list .route-row { display: flex; align-items: center; gap: 4px; padding: 2px 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.route-list .route-row:last-child { border-bottom: none; }
+.route-list .route-no { min-width: 1.8em; text-align: right; color: var(--muted, #9aa3ad); font-size: 0.85em; }
+.route-list .route-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.route-list .route-name.noname { color: var(--muted, #9aa3ad); font-size: 0.9em; }
+.route-list .route-name small { color: #e6b34a; margin-left: 4px; }
+.route-list button.mini { min-width: 26px; padding: 1px 6px; line-height: 1.3; }
+.route-list button.mini:disabled { opacity: 0.3; }
+

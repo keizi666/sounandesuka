@@ -13,6 +13,7 @@ import { area, button, check, fill, num, section, select, slider, text, timeRef 
 import { hhmm, sunTimes } from '../geo/sunrise';
 import { hitNode } from '../map/tools';
 import { clickRouteNode, fixAmbiguousRoute } from '../map/routeClick';
+import { routeList } from './routeList';
 import type { MapTool } from '../map/TileMapView';
 import { standardLegMin } from '../pace';
 import { defaultClimber, pickColor } from '../store/project';
@@ -213,7 +214,7 @@ export const partyPanel: Panel = {
       ]),
       stageSection(ed),
       section('計画', [
-        el('p', {}, plan.route.length ? plan.route.map(nodeName).join(' → ') : '（ルート未設定）'),
+        routeList(ed),
         button(routeMode ? 'ルートを引くのをやめる' : '地図でルートを引く（地点を順にクリック）', () => {
           routeMode = !routeMode;
           ed.refresh();
