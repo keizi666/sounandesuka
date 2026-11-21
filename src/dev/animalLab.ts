@@ -1,6 +1,6 @@
 /**
  * 開発用: 野生動物の造形と動きを確認するページ（animal-lab.html。ビルドには含めない）。
- * 種類ごとに 1 列: 草を食む・こちらを見る・うろつく（歩く）・立ち去る（走る）。?night=1 で夜、?n=3 で群れ。
+ * 種類ごとに 1 列: 草を食む・こちらを見る・うろつく（歩く）・立ち去る（走る）、熊は向かってくる動きも。?night=1 で夜、?n=3 で群れ。
  */
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -50,6 +50,12 @@ ANIMAL_SPECIES.forEach((sp, row) => {
     });
   });
 });
+// 熊が向かってくる動き（5 列目。4 秒ごとに、6 m 先の人の前まで向かってきて立ち去る）
+const charging: AnimalState[] = (['bear', 'brownBear'] as const).map((sp, row) => ({
+  id: `${sp}-charge`, species: sp, behavior: 'watch', count: 1, x: 10, z: (row - 2.5) * 3.2, headingRad: -Math.PI / 2,
+  fromMin: -1, untilMin: 1e9, leaveMin: null, leaveX: 0, leaveZ: 0, leaveHeadingRad: 0, anxiety: 0, quiet: true, seenBy: [],
+}));
+animals.push(...charging);
 const world = { animals, climbers: [] } as unknown as World;
 
 controls.target.set(0, 0.5, 0);
@@ -73,6 +79,17 @@ function render(tMs: number): void {
     const start = Math.floor(t / 4) * 4;
     a.leaveMin = start / 60;
     a.fromMin = a.leaveMin - 1;
+  }
+  for (const a of charging) {
+    const start = (Math.floor(t / 4) * 4) / 60;
+    a.chargeMin = start;
+    a.chargeX = a.x;
+    a.chargeZ = a.z;
+    a.leaveMin = start + 0.15;
+    a.leaveX = a.x - 6;
+    a.leaveZ = a.z;
+    a.leaveHeadingRad = Math.PI / 2;
+    a.fromMin = start - 1;
   }
   view.update(world, tMin, t, 1);
   controls.update();

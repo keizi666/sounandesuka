@@ -221,6 +221,7 @@ function checkEffects(v: Collector, path: string, effects: readonly ScriptEffect
         if (e.behavior !== undefined && !ANIMAL_BEHAVIORS.includes(e.behavior)) v.err(`${p}.behavior`, 'unknownBehavior', `未知のふるまい "${e.behavior}"（${ANIMAL_BEHAVIORS.join(', ')}）`);
         if (e.count !== undefined && !(e.count >= 1 && e.count <= 6)) v.warn(`${p}.count`, 'range', 'count は 1〜6（範囲外は切り詰める）');
         if (e.durationMin !== undefined && !(e.durationMin >= 0)) v.err(`${p}.durationMin`, 'range', 'durationMin は 0 以上');
+        if (e.aggression !== undefined && !(e.aggression >= 0)) v.err(`${p}.aggression`, 'range', 'aggression は 0 以上');
         break;
       case 'animalLeave':
         if (e.species !== undefined && !ANIMAL_SPECIES.includes(e.species)) v.err(`${p}.species`, 'unknownAnimal', `未知の動物 "${e.species}"`);

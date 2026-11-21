@@ -1,10 +1,12 @@
 /**
  * 野生動物（熊・鹿・カモシカ・イノシシ・サル）。シナリオの効果 animal で出て、人が近づくか時間が来ると立ち去る。
  * 位置は時刻の純粋な関数（animalPos）で、sim と画面（src/view/animals.ts）が同じ式を使う。乱数は使わない。
- * 動物が人を襲うことはモデル化しない（けがはシナリオの injure で書く）。見つけたときにログと不安が出る。
+ * 見つけたときにログと不安が出る。熊は、近づいた人に低い確率で向かってきて、けがをさせてから立ち去る（tryAttack）。
  */
 import { partyLeader } from '../climber/party';
-import { isIndoors } from '../climber/situation';
+import { isIndoors, isMoving } from '../climber/situation';
+import { chance, nextFloat } from '../core/rng';
+import { injure } from './slip';
 import { datan2, dcos, dsin, PI } from '../core/dmath';
 import type { AnimalEffect, AnimalSpecies, AnimalState, ClimberState, StaticContext, World } from '../types';
 import type { Tuning } from '../tuning';
@@ -52,6 +54,13 @@ function stayPos(a: AnimalState, tMin: number, t: AnimalTuning): [number, number
 
 /** 時刻 tMin の位置と向き（x, z, headingRad） */
 export function animalPos(a: AnimalState, tMin: number, t: AnimalTuning): [number, number, number] {
+  // 人に向かってくる間（向かい始めた位置 → 立ち去り始める位置）
+  if (a.chargeMin !== undefined && a.leaveMin !== null && tMin >= a.chargeMin && tMin < a.leaveMin) {
+    const x0 = a.chargeX ?? a.x;
+    const z0 = a.chargeZ ?? a.z;
+    const f = (tMin - a.chargeMin) / Math.max(1e-6, a.leaveMin - a.chargeMin);
+    return [x0 + (a.leaveX - x0) * f, z0 + (a.leaveZ - z0) * f, headingOf(a.leaveX - x0, a.leaveZ - z0)];
+  }
   if (a.leaveMin === null || tMin < a.leaveMin) return stayPos(a, tMin, t);
   const st = speciesTuning(t, a.species);
   const [dx, dz] = dirOf(a.leaveHeadingRad);
@@ -120,6 +129,7 @@ export function spawnAnimal(world: World, ctx: StaticContext, ef: AnimalEffect, 
     anxiety: ef.anxiety ?? st.anxiety,
     quiet: ef.quiet ?? false,
     seenBy: [],
+    ...(ef.aggression !== undefined ? { aggression: ef.aggression } : {}),
   };
   // 同じ ID の動物がまだいれば置き換える
   const k = list.findIndex((o) => o.id === id);
@@ -149,6 +159,44 @@ function leave(world: World, ctx: StaticContext, a: AnimalState, auto: boolean):
   a.leaveHeadingRad = best && bestD > 0.01 ? headingOf(x - best.x, z - best.z) : h;
 }
 
+const ATTACK_INJURY = ['bruise', 'sprain', 'legFracture', 'headInjury', 'severeTrauma', 'death'] as const;
+
+/**
+ * 人が近づいたとき、熊が向かってくるか（1 回の出会いごとに 1 回だけ引く）。向かってきたら、けがをさせてから立ち去る。
+ * surprise: その人のグループが、近づく前に熊に気づいていなかった（鉢合わせ）
+ */
+function tryAttack(world: World, ctx: StaticContext, a: AnimalState, c: ClimberState, ax: number, az: number, surprise: boolean): boolean {
+  const t = ctx.tuning.animals;
+  const st = speciesTuning(t, a.species);
+  const base = surprise ? st.attackSurpriseP : st.attackApproachP;
+  if (base <= 0 || (a.aggression ?? 1) <= 0 || st.attackInjury.length === 0) return false;
+  const n = world.climbers.filter((m) => m.groupId === c.groupId && m.body.alive).length;
+  const p = Math.min(1, (base * (a.aggression ?? 1) * (isMoving(c) ? 1 : t.attackStillF)) / (1 + t.attackGroupK * Math.max(0, n - 1)));
+  if (!chance(world.rng.hazard, p)) return false;
+  // けが（表から引く）
+  let r = nextFloat(world.rng.hazard);
+  let k = 0;
+  while (k < st.attackInjury.length - 1 && r >= st.attackInjury[k]!) r -= st.attackInjury[k++]!;
+  const injury = ATTACK_INJURY[Math.min(k, ATTACK_INJURY.length - 1)]!;
+  // 熊は人のすぐ前まで向かってきて、そのあと来た方へ立ち去る
+  const d = Math.max(1e-6, dist(ax, az, c.x, c.z));
+  a.chargeMin = world.tMin;
+  a.chargeX = ax;
+  a.chargeZ = az;
+  a.leaveMin = world.tMin + t.chargeMin;
+  a.leaveX = c.x + ((ax - c.x) / d) * t.chargeStopM;
+  a.leaveZ = c.z + ((az - c.z) / d) * t.chargeStopM;
+  a.leaveHeadingRad = headingOf(ax - c.x, az - c.z);
+  ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { bearAttack: a.species, injury, surprise } });
+  if (world.flags['bearAttack'] === undefined) world.flags['bearAttack'] = world.tMin;
+  for (const m of world.climbers) {
+    if (m.groupId !== c.groupId || !m.body.alive || !m.body.conscious) continue;
+    m.body.anxiety = Math.min(100, m.body.anxiety + t.attackAnxiety);
+  }
+  injure(world, ctx, c, injury, 'trauma');
+  return true;
+}
+
 /** 効果 animalLeave */
 export function dismissAnimals(world: World, ctx: StaticContext, id: string | undefined, species: AnimalSpecies | undefined): void {
   for (const a of world.animals ?? []) {
@@ -167,6 +215,7 @@ export function stepAnimals(world: World, ctx: StaticContext): void {
     const st = speciesTuning(t, a.species);
     const [ax, az] = animalPos(a, world.tMin, t);
     if (a.leaveMin === null) {
+      const seenBefore = [...a.seenBy];
       // 見つける（グループごとに一度）
       for (const c of world.climbers) {
         const g = c.groupId ?? '';
@@ -183,9 +232,18 @@ export function stepAnimals(world: World, ctx: StaticContext): void {
           }
         }
       }
-      // 人が近づいた・時間が来た
-      let near = false;
-      for (const c of world.climbers) if (c.body.alive && !c.offMap && dist(c.x, c.z, ax, az) < st.fleeM) near = true;
+      // 人が近づいた（いちばん近い人に向かってくることがある）・時間が来た
+      let near: ClimberState | null = null;
+      let nearD = st.fleeM;
+      for (const c of world.climbers) {
+        if (!c.body.alive || c.offMap || isIndoors(ctx.map, c)) continue;
+        const d = dist(c.x, c.z, ax, az);
+        if (d < nearD) {
+          nearD = d;
+          near = c;
+        }
+      }
+      if (near && tryAttack(world, ctx, a, near, ax, az, !seenBefore.includes(near.groupId ?? ''))) continue;
       if (near || world.tMin >= a.untilMin) leave(world, ctx, a, true);
     }
   }

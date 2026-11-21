@@ -245,6 +245,11 @@ function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
       if (typeof d['leftMap'] === 'string') return fill(L.leftMap, { who, place: d['leftMap'] });
       if (d['stung']) return fill(L.stung, { who });
       if (d['streamDrink']) return fill(L.streamDrink, { who });
+      if (typeof d['bearAttack'] === 'string') {
+        const name = L.animal[d['bearAttack']] ?? d['bearAttack'];
+        if (d['injury'] === 'death') return fill(L.bearAttackFatal, { who, name });
+        return fill(d['surprise'] ? L.bearAttackSurprise : L.bearAttack, { who, name, injury: JA.labels.injury[s('injury')] ?? s('injury') });
+      }
       if (typeof d['animalLeft'] === 'string') return fill(Number(d['count'] ?? 1) > 1 ? L.animalLeftMany : L.animalLeft, { name: L.animal[d['animalLeft']] ?? d['animalLeft'] });
       if (d['walkOut']) return fill(L.walkOut, { who });
       if (d['leftBehind']) return fill(L.leftBehind, { who, companion: String(d['companion'] ?? '') });

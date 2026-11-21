@@ -247,7 +247,7 @@ JSON で表す論理式。`eval` は使わない。
 | `say` | `who`, `text`, `to?`, `tone?`, `documented?`, `source?`（セリフを言わせる） |
 | `soak` | `who`, `level`, `snowmelt?`（渡渉での転倒など） |
 | `triggerChoice` | `cp`（分岐点 ID を即発火） |
-| `animal` | 野生動物を出す。`species`（`bear` ツキノワグマ / `brownBear` ヒグマ / `deer` シカ / `serow` カモシカ / `boar` イノシシ / `monkey` サル）、`count?`（1〜6）、場所は `at?`（地点 ID）か `x?`・`z?`、なければリーダーの位置。そこから `aheadM?`（進む向きへ）・`sideM?`（右へ。負で左）ずらす。`behavior?`（`graze` 草を食む / `watch` こちらを見る / `wander` うろつく / `cross` 道を横切る / `flee` すぐ逃げる）、`durationMin?`、`anxiety?`（見つけたときの不安。既定は種類ごと）、`quiet?`（自動のログを出さない）、`id?`、`headingDeg?`。人が種類ごとの距離まで近づくか、時間が来ると立ち去る。見つけると出来事 `ANIMAL`（条件 `event` で使える）とログ。襲われることはモデル化しない |
+| `animal` | 野生動物を出す。`species`（`bear` ツキノワグマ / `brownBear` ヒグマ / `deer` シカ / `serow` カモシカ / `boar` イノシシ / `monkey` サル）、`count?`（1〜6）、場所は `at?`（地点 ID）か `x?`・`z?`、なければリーダーの位置。そこから `aheadM?`（進む向きへ）・`sideM?`（右へ。負で左）ずらす。`behavior?`（`graze` 草を食む / `watch` こちらを見る / `wander` うろつく / `cross` 道を横切る / `flee` すぐ逃げる）、`durationMin?`、`anxiety?`（見つけたときの不安。既定は種類ごと）、`quiet?`（自動のログを出さない）、`id?`、`headingDeg?`。人が種類ごとの距離まで近づくか、時間が来ると立ち去る。見つけると出来事 `ANIMAL`（条件 `event` で使える）とログ。熊（`bear`・`brownBear`）は、人が近づいた出会いごとに低い確率で向かってきて、いちばん近い人にけがをさせてから立ち去る（気づかずに近づいた鉢合わせのほうが高い。止まっている人・人数の多いグループでは下がる。`aggression?` で倍率、0 で襲わない）。襲われるとフラグ `bearAttack` が立つ |
 | `animalLeave` | `id?`・`species?`（動物を立ち去らせる。どちらもなければ全部） |
 
 ### 8.1 セリフのテンプレート（`speech`）

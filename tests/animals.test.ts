@@ -95,4 +95,34 @@ describe('野生動物', () => {
     const ok = scenarioWith([{ type: 'animal', species: 'monkey', at: 'J_FOREST', count: 4 }], { choices: [] });
     expect(validateScenario(ok, map).filter((i) => i.level === 'error' && i.path.startsWith('events'))).toEqual([]);
   });
+
+  it('熊は近づいた人に向かってくることがある（aggression で倍率、0 で襲わない）。シカは襲わない', () => {
+    const attack = (sc: ScenarioDef): SimEvent | undefined => run(sc, 30).events.find((e) => e.type === 'SCRIPT_LOG' && e.data?.['bearAttack'] !== undefined);
+    const sure = run(scenarioWith([{ type: 'animal', species: 'bear', aheadM: 60, durationMin: 30, aggression: 100 }]), 30);
+    const ev = sure.events.find((e) => e.type === 'SCRIPT_LOG' && e.data?.['bearAttack'] === 'bear');
+    expect(ev).toBeDefined();
+    expect(sure.world.flags['bearAttack']).toBe(ev!.tMin);
+    const c = sure.world.climbers[0]!;
+    expect(c.body.injury !== 'none' || !c.body.alive).toBe(true);
+    // 向かってきたあとは、立ち去る（自分から離れたログは出さない）
+    expect(sure.events.some((e) => e.data?.['animalLeft'] === 'bear')).toBe(false);
+    expect(attack(scenarioWith([{ type: 'animal', species: 'bear', aheadM: 60, durationMin: 30, aggression: 0 }]))).toBeUndefined();
+    expect(attack(scenarioWith([{ type: 'animal', species: 'deer', aheadM: 60, durationMin: 30, aggression: 100 }]))).toBeUndefined();
+  });
+
+  it('向かってくる間は、熊の位置が人の前まで動く', () => {
+    const sc = scenarioWith([{ type: 'animal', species: 'bear', aheadM: 60, durationMin: 30, aggression: 100 }]);
+    const { map } = sounanMap();
+    const world = createWorld(map, sc);
+    const ctx = createStaticContext(map, sc);
+    let a = null as NonNullable<typeof world.animals>[number] | null;
+    for (let i = 0; i < 300 && !a?.chargeMin; i += 1) {
+      stepWorld(world, ctx);
+      a = world.animals?.[0] ?? null;
+    }
+    expect(a?.chargeMin).toBeDefined();
+    const c = world.climbers[0]!;
+    const [x, z] = animalPos(a!, a!.leaveMin! - 1e-6, TUNING.animals);
+    expect(Math.hypot(x - c.x, z - c.z)).toBeLessThan(TUNING.animals.chargeStopM + 1);
+  });
 });

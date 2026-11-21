@@ -40,9 +40,12 @@ export function animalEffectEditor(e: AnimalEffect, map: MapDef, set: (patch: Pa
     ]),
     num('出ている時間', e.durationMin ?? st?.durationMin ?? 10, (v) => set({ durationMin: v }), { min: 0, unit: '分', hint: '人が近づくと、これより早く立ち去る' }),
     num('見つけたときの不安', e.anxiety ?? st?.anxiety ?? 0, (v) => set({ anxiety: v }), { min: -30, max: 50, hint: 'そのグループの全員の不安（0〜100）に足す。0 で増えない' }),
+    st && st.attackApproachP > 0
+      ? num('襲ってくる確率の倍率', e.aggression ?? 1, (v) => set({ aggression: v === 1 ? undefined : v }), { min: 0, max: 10, step: 0.1, hint: `0 で襲わない。既定（1）では、気づいて近づくと ${Math.round(st.attackApproachP * 100)}%、鉢合わせで ${Math.round(st.attackSurpriseP * 100)}%（止まっている人・人数の多いグループでは下がる）` })
+      : null,
     check('自動のログを出さない（ログの効果で書く）', e.quiet ?? false, (v) => set({ quiet: v || undefined })),
     text('ID（省略可。立ち去らせるときに使う）', e.id, (v) => set({ id: v === '' ? undefined : v })),
-    el('p', { class: 'note' }, `分岐点の条件では animal.${e.species}（リーダーから最も近い${JA.log.animal[e.species] ?? ''}までの m。いなければ 99999）が使えます。人が ${st?.fleeM ?? '?'} m まで近づくと立ち去ります。`),
+    el('p', { class: 'note' }, `分岐点の条件では animal.${e.species}（リーダーから最も近い${JA.log.animal[e.species] ?? ''}までの m。いなければ 99999）が使えます。人が ${st?.fleeM ?? '?'} m まで近づくと立ち去ります${st && st.attackApproachP > 0 ? '（低い確率で向かってきて、けがをさせてから立ち去ります。そのときフラグ bearAttack が立ちます）' : ''}。`),
   ];
   return el('div', {}, rows.filter((x): x is HTMLElement => x !== null));
 }

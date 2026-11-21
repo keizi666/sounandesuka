@@ -532,7 +532,8 @@ export type AnimalBehavior = 'graze' | 'watch' | 'wander' | 'cross' | 'flee';
 /**
  * 動物を出す。場所は at（地点 ID）か x・z（メートル）。どちらもなければリーダーの位置。
  * そこから aheadM（リーダーの進む向きに）・sideM（右へ。負で左）ずらす。
- * 人が近づくと（種類ごとの距離）立ち去る。durationMin を過ぎても立ち去る。見つけたときのログと不安は anxiety・quiet で変えられる
+ * 人が近づくと（種類ごとの距離）立ち去る。durationMin を過ぎても立ち去る。見つけたときのログと不安は anxiety・quiet で変えられる。
+ * 熊は、近づいた人に低い確率で向かってきて、けがをさせてから立ち去る（鉢合わせのほうが高い）。aggression はその確率の倍率
  */
 export interface AnimalEffect {
   type: 'animal';
@@ -549,6 +550,7 @@ export interface AnimalEffect {
   durationMin?: number;      // 立ち去るまでの分（既定は種類ごと）
   anxiety?: number;          // 見つけたときの不安の増え方（既定は種類ごと。0 で増えない）
   quiet?: boolean;           // 見つけたときの自動のログを出さない（シナリオの log で書くとき）
+  aggression?: number;       // 襲ってくる確率の倍率（既定 1。0 で襲わない）
 }
 
 export interface AnimalState {
@@ -569,6 +571,12 @@ export interface AnimalState {
   quiet: boolean;
   /** 見つけたグループ（groupId。なしは ''） */
   seenBy: string[];
+  /** 襲ってくる確率の倍率（なければ 1） */
+  aggression?: number;
+  /** 人に向かってきた時刻と、向かい始めた位置（そのあと leaveMin から立ち去る） */
+  chargeMin?: number;
+  chargeX?: number;
+  chargeZ?: number;
 }
 
 export interface ScriptEventDef { id: string; trigger: Condition; once?: boolean; effects: ScriptEffect[] }
