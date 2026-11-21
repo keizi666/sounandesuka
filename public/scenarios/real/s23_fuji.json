@@ -139,7 +139,6 @@
    "color": "#d35400",
    "portrait": "young_m:2",
    "leader": true,
-   "footwear": "sneakers",
    "habits": {
     "eatEveryMin": 240,
     "drinkEveryMin": 70,
@@ -177,7 +176,8 @@
     "crampons": false,
     "helmet": false,
     "trekkingPoles": false,
-    "whistle": false
+    "whistle": false,
+    "footwear": "sneakers"
    },
    "initial": {
     "fatigue": 12,
