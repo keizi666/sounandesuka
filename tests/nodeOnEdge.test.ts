@@ -8,7 +8,7 @@ import type { MapDef, ScenarioDef } from '../src/sim/types';
 function mapWith(): MapDef {
   return {
     id: 'm', name: 'm', size: 2048, resolution: 257,
-    terrain: { type: 'heightmap', encoding: 'u16-base64', minElevM: 0, maxElevM: 1, baseElevation: 0, data: '' },
+    terrain: { type: 'heightmap', encoding: 'u16-base64', minElevM: 0, maxElevM: 1, baseElevation: 0, data: '' } as MapDef['terrain'],
     vegetation: { forestLine: 2500, forestLineNoise: 0, broadleafLine: 1500 },
     nodes: [
       { id: 'A', name: 'A', type: 'trailhead', x: 0, z: 0 },

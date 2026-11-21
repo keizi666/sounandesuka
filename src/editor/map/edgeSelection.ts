@@ -46,6 +46,9 @@ export function removeSelection(ed: Ed, edgeIds: string[], nodeIds: string[], op
     map.edges = map.edges.filter((e) => !ids.has(e.id));
     // 消した道を指す紛らわしさも消す
     pruneConfusers(map);
+    // 通りかかる人の通る道からも外す（ユーザーの指定: ない道を指す設定は自動で消してよい）
+    const sc = ed.p.scenario;
+    if (sc.passersby) sc.passersby = sc.passersby.map((ps) => ({ ...ps, edges: ps.edges.filter((x) => !ids.has(x)) })).filter((ps) => ps.edges.length > 0);
     ed.p.editorState.draftEdgeIds = ed.p.editorState.draftEdgeIds.filter((x) => !ids.has(x));
     // 下書きの一括除外では、どの道にもつながらなくなった分岐点（手で置いたものを除く）と境界点も消す
     const used = new Set(map.edges.flatMap((e) => [e.from, e.to ?? '']));

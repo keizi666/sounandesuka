@@ -68,26 +68,96 @@ function fixTrailhead(p: EditorProject): string {
   return changed.length ? `ルートの端の ${changed.join('・')} を登山口にしました` : '';
 }
 
-/** ルートの道がつながらない区間は最短の道順で埋め、道が 2 本ある区間は短いほうに経由点を足す */
-function fixRoute(p: EditorProject, rt: MapRuntime | null): string {
-  const r = p.scenario.plan.route.filter((id) => p.map.nodes.some((n) => n.id === id));
+/** 仮の直線の道の名前の印（結合で登山道が見つからなかった区間・道のない区間を直線でつないだもの） */
+export const STRAIGHT_MARK = '（仮の直線）';
+
+/**
+ * 1 本のルートを直す: もうない地点は外し、道でつながらない区間は最短の道順で埋める。最短の道順が大きな遠回り
+ * （直線距離の 2.5 倍＋800 m より長い）か、道がまったくないなら、2 地点を直線の仮の道でつなぐ（手描きで形を直してもらう）
+ */
+function fixOneRoute(p: EditorProject, rt: MapRuntime | null, route: readonly string[], stat: { filled: number; straight: string[] }): string[] {
+  const nodeOf = (id: string) => p.map.nodes.find((n) => n.id === id);
+  const r = route.filter((id) => nodeOf(id));
   const out: string[] = r.length ? [r[0]!] : [];
-  let filled = 0;
   for (let i = 1; i < r.length; i += 1) {
     const a = out[out.length - 1]!;
     const b = r[i]!;
     if (a === b) continue;
     const direct = p.map.edges.some((e) => e.kind === 'trail' && e.to && ((e.from === a && e.to === b) || (e.from === b && e.to === a)));
-    const path = !direct && rt ? shortestPath(rt, a, b) : null;
-    if (path) {
+    if (direct) {
+      out.push(b);
+      continue;
+    }
+    const na = nodeOf(a)!;
+    const nb = nodeOf(b)!;
+    const path = rt ? shortestPath(rt, a, b) : null;
+    let len = 0;
+    for (let k = 1; path && k < path.length; k += 1) {
+      const u = nodeOf(path[k - 1]!);
+      const v = nodeOf(path[k]!);
+      if (u && v) len += Math.hypot(u.x - v.x, u.z - v.z);
+    }
+    if (path && len <= 2.5 * Math.hypot(na.x - nb.x, na.z - nb.z) + 800) {
       out.push(...path.slice(1));
-      filled += 1;
-    } else out.push(b);
+      stat.filled += 1;
+      continue;
+    }
+    const e = connectorEdge(p.map, na, nb);
+    e.name = `${na.name || na.id}〜${nb.name || nb.id}${STRAIGHT_MARK}`;
+    p.map.edges.push(e);
+    stat.straight.push(`${na.name || na.id}〜${nb.name || nb.id}`);
+    out.push(b);
   }
-  const d = disambiguateRoute(p.map, out);
-  p.scenario.plan.route = d.route;
-  const notes = [...(filled ? [`道のない区間 ${filled} か所を最短の道順で埋めました`] : []), ...d.notes];
-  return notes.join('。');
+  return out;
+}
+
+/**
+ * ルートを直す: 計画ルートと、分岐点・イベント・結末の行動の「ルートを変える」（setRoute）のすべてで、道のない区間を埋め、
+ * 道が 2 本ある区間は短いほうに経由点を足す（ユーザーの指摘: 選択肢のルートのエラーが「まとめて直す」で直らなかった）
+ */
+function fixRoute(p: EditorProject, rt: MapRuntime | null): string {
+  const stat = { filled: 0, straight: [] as string[] };
+  const notes: string[] = [];
+  const one = (route: readonly string[]): string[] => {
+    const d = disambiguateRoute(p.map, fixOneRoute(p, rt, route, stat));
+    notes.push(...d.notes);
+    return d.route;
+  };
+  p.scenario.plan.route = one(p.scenario.plan.route);
+  const walk = (v: unknown): void => {
+    if (Array.isArray(v)) {
+      for (const x of v) walk(x);
+      return;
+    }
+    if (!v || typeof v !== 'object') return;
+    const o = v as Record<string, unknown>;
+    if (o['type'] === 'setRoute' && Array.isArray(o['route'])) o['route'] = one(o['route'] as string[]);
+    for (const k of Object.keys(o)) if (k !== 'route') walk(o[k]);
+  };
+  walk(p.scenario.choices);
+  walk(p.scenario.genericOverrides);
+  walk(p.scenario.events);
+  walk(p.scenario.groups);
+  return [
+    ...(stat.filled ? [`道のない区間 ${stat.filled} か所を最短の道順で埋めました`] : []),
+    ...(stat.straight.length ? [`登山道のない区間 ${stat.straight.length} か所（${[...new Set(stat.straight)].join('、')}）を、直線の仮の道でつなぎました。登山道と地点のタブで、手描きで道の形を直してください`] : []),
+    ...notes,
+  ].join('。');
+}
+
+/** もうない道を指す設定を外す（通りかかる人の通る道・紛らわしい分岐） */
+function fixUndefinedEdges(p: EditorProject): string {
+  const ids = new Set(p.map.edges.map((e) => e.id));
+  let n = 0;
+  const list = p.scenario.passersby ?? [];
+  for (const ps of list) {
+    const before = ps.edges.length;
+    ps.edges = ps.edges.filter((e) => ids.has(e));
+    n += before - ps.edges.length;
+  }
+  if (p.scenario.passersby) p.scenario.passersby = list.filter((ps) => ps.edges.length > 0);
+  const c = pruneConfusers(p.map);
+  return [n ? `通りかかる人の通る道から、ない道 ${n} 本を外しました` : '', c ? `紛らわしい分岐の設定を ${c} 件消しました` : ''].filter(Boolean).join('。');
 }
 
 function fixSources(p: EditorProject): string {
@@ -143,12 +213,18 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
       };
     case 'routeGap':
       return {
-        hint: i.message.includes('決まりません')
-          ? '2 つの地点を結ぶ道が 2 本以上あって、どちらを歩くか決まりません（0 本なら道がつながっていません）。短いほうの道に経由点を足し、つながらない区間は最短の道順で埋めます。'
-          : 'ルートの隣り合う地点の間に道がありません。最短の道順で埋めます。',
+        hint: 'ルートの隣り合う 2 地点を結ぶ道が、ないか 2 本以上あって、どこを歩くか決まりません。「ルートを直す」で、計画ルートと選択肢・イベントのルートをまとめて直します: 道が 2 本ある区間は短いほうを通るようにし、道がつながっていない区間は最短の道順で埋めます。登山道がない区間（スケルトンの結合で OSM に道がなかった所など）は直線の仮の道でつなぐので、あとで「手描き」で形を直してください。',
         fix: { label: 'ルートを直す', run: fixRoute },
         locate: { tab: 'party' },
       };
+    case 'undefinedEdge':
+      return {
+        hint: '道を消したり、スケルトンの結合で作り直したりしたので、もうない道を指しています。「ない道を外す」で、通りかかる人（passersby）の通る道と紛らわしい分岐の設定から外します。通りかかる人の通る道が足りなくなったら、JSON のタブで足してください。',
+        fix: { label: 'ない道を外す', run: fixUndefinedEdges },
+        locate: { tab: 'json' },
+      };
+    case 'straightEdge':
+      return { hint: '登山道が見つからなかった区間を、2 地点の直線で仮につないだ道です。このままでも動きますが、尾根や沢を無視した道になります。「手描き」で地点から地点へ道を描き直し、この道を消してください。', locate: edge ? { tab: 'trails', kind: 'edge', id: edge } : undefined };
     case 'undefinedNode':
       if (i.path.startsWith('plan.')) return { hint: 'ルート・下山口に、もうない地点が入っています。ルートから外して直します。', fix: { label: 'ルートを直す', run: fixRoute }, locate: { tab: 'party' } };
       return { hint: 'もうない地点を参照しています。該当の欄（分岐点・イベントなど）で選び直してください。' };
@@ -189,12 +265,12 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
 export function fixAll(p: EditorProject, rt: MapRuntime | null, issues: readonly Issue[]): string[] {
   const notes: string[] = [];
   const done = new Set<string>();
-  const order = ['confuserEdge', 'nodeOnEdge', 'isolated', 'routeGap', 'undefinedNode', 'drafts', 'noTrailhead', 'sources'];
+  const order = ['undefinedEdge', 'confuserEdge', 'nodeOnEdge', 'isolated', 'routeGap', 'undefinedNode', 'drafts', 'noTrailhead', 'sources'];
   const list = [...issues].sort((a, b) => order.indexOf(a.code) - order.indexOf(b.code));
   for (const i of list) {
     const h = helpFor(p, i);
     if (!h.fix) continue;
-    const key = i.code === 'isolated' || i.code === 'nodeOnEdge' ? i.path : i.code === 'confuserEdge' ? 'confuserEdge' : i.code === 'undefinedNode' ? 'routeGap' : i.code;
+    const key = i.code === 'isolated' || i.code === 'nodeOnEdge' ? i.path : i.code === 'confuserEdge' || i.code === 'undefinedEdge' ? 'confuserEdge' : i.code === 'undefinedNode' ? 'routeGap' : i.code;
     if (done.has(key)) continue;
     done.add(key);
     const note = h.fix.run(p, rt);

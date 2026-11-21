@@ -319,7 +319,14 @@ export function joinSkeleton(
     }
     const path = tracePath(g, a, b);
     if (!path) {
-      warnings.push(`道 ${e.name}: 登山道がつながっていません`);
+      // OSM に登山道がない区間（バリエーションルートなど）: 道を落とすとルートや通りかかる人の設定が壊れるので、
+      // 2 地点を直線で仮につなぐ（手描きで直してもらう。検証で「仮の直線」と知らせる）
+      warnings.push(`道 ${e.name}: 登山道が見つからないので、直線で仮につなぎました（手描きで形を直してください）`);
+      const ax = g.xs[a]!, az = g.zs[a]!, bx = g.xs[b]!, bz = g.zs[b]!;
+      const n = Math.max(1, Math.round(Math.hypot(bx - ax, bz - az) / 10));
+      const wps: [number, number][] = [];
+      for (let k = 1; k < n; k += 1) wps.push([Math.round((ax + ((bx - ax) * k) / n) * 10) / 10, Math.round((az + ((bz - az) * k) / n) * 10) / 10]);
+      edges.push({ ...e, name: `${e.name}（仮の直線）`, smooth: false, sinuosity: 1, waypoints: wps });
       continue;
     }
     edges.push({ ...e, smooth: false, sinuosity: 1, waypoints: path.slice(1, -1).map((v) => [Math.round(g.xs[v]! * 10) / 10, Math.round(g.zs[v]! * 10) / 10] as [number, number]) });

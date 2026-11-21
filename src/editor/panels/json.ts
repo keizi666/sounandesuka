@@ -72,16 +72,15 @@ export const jsonPanel: Panel = {
   label: 'JSON',
   render(ed) {
     const text = draft ?? textOf(ed);
-    const ta = el('textarea', { class: 'mono', spellcheck: 'false' });
+    // スクロールバーは文字の欄の 1 本だけ（ユーザーの指摘: 3 本出ていた）。折り返さないので、行番号と行がずれない
+    const ta = el('textarea', { class: 'mono json-ta', spellcheck: 'false', wrap: 'off' });
     ta.value = text;
-    const nums = el('pre', { class: 'mono', style: 'margin:0;text-align:right;color:var(--muted);user-select:none;padding:3px 4px' }, Array.from({ length: text.split('\n').length }, (_, i) => String(i + 1)).join('\n'));
+    const nums = el('pre', { class: 'mono json-nums' }, Array.from({ length: text.split('\n').length }, (_, i) => String(i + 1)).join('\n'));
     ta.addEventListener('input', () => {
       draft = ta.value;
       nums.textContent = Array.from({ length: ta.value.split('\n').length }, (_, i) => String(i + 1)).join('\n');
     });
     ta.addEventListener('scroll', () => (nums.scrollTop = ta.scrollTop));
-    nums.style.overflow = 'hidden';
-    nums.style.maxHeight = '60vh';
     fill(
       ed.inspector,
       el('h2', {}, 'JSON'),
@@ -99,7 +98,6 @@ export const jsonPanel: Panel = {
       })]),
       message ? el('p', { class: message.startsWith('反映しました') ? 'note' : 'error' }, message) : null,
     );
-    ed.bottom.replaceChildren(el('div', { style: 'display:grid;grid-template-columns:auto minmax(0,1fr);max-height:42vh;overflow:auto' }, [nums, ta]));
-    ta.style.minHeight = '40vh';
+    ed.bottom.replaceChildren(el('div', { class: 'json-edit' }, [nums, ta]));
   },
 };

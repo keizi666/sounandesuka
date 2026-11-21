@@ -33,7 +33,9 @@ export function openPreview3d(host: HTMLElement, map: MapRuntime, s: ScenarioDef
   host.append(root);
   const view = new SceneView(canvas, map, s, { quality, figureScale: 25, vExag });
   const world = previewWorld(map, s);
-  // 地形を見るためのプレビューなので、昼の光にする
+  // 地形を見るためのプレビューなので、昼の光にする。空（太陽・月・星）はシナリオの日付と時刻から計算するので、
+  // 開始日の正午にする（ユーザーの指摘: 開始が 4 時のシナリオでプレビューが夜になった）
+  world.tMin = Math.floor(world.tMin / 1440) * 1440 + 12 * 60;
   world.sun = { ...world.sun, elevDeg: 40, isDark: false, twilight: false };
   let alive = true;
   const resize = (): void => {
