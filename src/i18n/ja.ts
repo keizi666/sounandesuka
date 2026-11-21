@@ -573,6 +573,7 @@ export const JA = {
     bundleBroken: 'バンドルを読み込めませんでした',
     bundleMissing: '実在の地形のデータがまだ作られていません（国土地理院の標高と OpenStreetMap から作るため、配布物には含めていません）',
     bundleInvalid: 'バンドルのシナリオに誤りがあります',
+    bundleNeedsEditor: 'このファイルは、まだ地形のない下書き（AI などが作ったもの）です。シナリオエディターの「ファイルから読み込む」で開き、国土地理院の標高と OpenStreetMap の登山道を取り込んでから、書き出したバンドルを読み込んでください',
     slowHint: '描画が重いようです。設定で画質を下げると滑らかになります。',
   },
 
@@ -685,6 +686,7 @@ export const JA = {
       /** 夜のうちに休んでいて、夜明け前の暗いうちに歩き出したとき（午前 0 時〜正午に出たら、こちらの題と文） */
       predawnTitle: 'まだ暗い',
       predawnSituation: '夜明け前で、あたりはまだ暗い。足元が見えにくい。',
+      predawnOptions: { bivouac: '明るくなるまで、その場で待つ' },
       options: { continue: 'ヘッドランプをつけて進む', grope: '明かりなしで、手探りで少しずつ進む', bivouac: 'その場でビバークする', toShelter: '近くの小屋を目指す' },
     },
     hypothermia: {

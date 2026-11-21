@@ -41,6 +41,11 @@ async function openBundle(app: AppContext, file: File): Promise<void> {
     toast(JA.ui.bundleBroken, 5000);
     return;
   }
+  // 地形のまだない下書き（AI などが書いたスケルトン）は、エディターで標高と登山道を取り込んでから（ユーザーの指摘: 「高さマップの大きさが合いません」になった）
+  if (b.map.skeleton === true || (b.map.terrain?.type === 'heightmap' && !b.map.terrain.data)) {
+    toast(JA.ui.bundleNeedsEditor, 15000);
+    return;
+  }
   const errors = validateScenario(b.scenario, b.map).filter((x) => x.level === 'error');
   if (errors.length > 0) {
     toast(`${JA.ui.bundleInvalid}: ${errors.slice(0, 3).map((x) => `${x.path} ${x.message}`).join(' / ')}`, 8000);
