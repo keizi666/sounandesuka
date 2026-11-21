@@ -23,6 +23,9 @@ const EFFECTS: [EffType, string][] = [
   ['say', 'セリフを言う'],
   ['injure', 'けがをさせる'],
   ['rockfall', '落石'],
+  ['fall', '滑落する'],
+  ['fillWater', '水を汲む'],
+  ['heatIllness', '熱中症になる'],
   ['soak', '濡れる'],
   ['weatherOverride', '天気を差し込む'],
   ['pin', '地図に印'],
@@ -82,6 +85,12 @@ function defaultEffect(t: EffType, ed: Ed): ScriptEffect {
       return { type: t, who: 'leader', injury: 'sprain' };
     case 'rockfall':
       return { type: t, who: 'leader', p: 0.3, injuryTable: 'T2' };
+    case 'fall':
+      return { type: t, who: 'any', outcomes: { bruise: 0.5, sprain: 0.4, legFracture: 0.1 } };
+    case 'fillWater':
+      return { type: t, who: 'all', toL: 2 };
+    case 'heatIllness':
+      return { type: t, who: 'leader' };
     case 'soak':
       return { type: t, who: 'all', level: 'knees' };
     case 'weatherOverride':

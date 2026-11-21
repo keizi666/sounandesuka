@@ -206,7 +206,16 @@ function checkEffects(v: Collector, path: string, effects: readonly ScriptEffect
       case 'rockfall':
       case 'soak':
       case 'say':
+      case 'heatIllness':
         checkWho(v, `${p}.who`, e.who, r);
+        break;
+      case 'fillWater':
+        checkWho(v, `${p}.who`, e.who, r);
+        if (!(e.toL > 0)) v.err(`${p}.toL`, 'range', 'toL は 0 より大きい');
+        break;
+      case 'fall':
+        if (e.who !== 'any') checkWho(v, `${p}.who`, e.who, r);
+        if (!Object.values(e.outcomes).some((x) => (x ?? 0) > 0)) v.err(`${p}.outcomes`, 'range', 'outcomes に 0 より大きい重みを 1 つ以上');
         break;
       case 'weatherOverride':
         checkTime(v, `${p}.keyframe.at`, e.keyframe.at);

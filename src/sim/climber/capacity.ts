@@ -29,6 +29,13 @@ export function dehydrationF(deficitL: number, tuning: Tuning = TUNING): { j: nu
   return { j: 1, met: 1 };
 }
 
+/** 熱疲労になる体温（脱水していると下がる） */
+export function heatExhaustionAtC(c: ClimberState, tuning: Tuning = TUNING): number {
+  const k = tuning.capacity;
+  const pct = (100 * c.body.waterDeficitL) / c.def.weightKg;
+  return Math.max(k.heatExhaustionMinC, k.heatExhaustionC - k.heatExhaustionDehydPerPct * Math.max(0, pct - k.heatExhaustionDehydFromPct));
+}
+
 export function computeJ(c: ClimberState, tuning: Tuning = TUNING): number {
   const k = tuning.capacity;
   const b = c.body;
@@ -40,7 +47,7 @@ export function computeJ(c: ClimberState, tuning: Tuning = TUNING): number {
   const fAnx = b.anxiety > k.anxietyHigh ? k.anxietyHighJ : b.anxiety > k.anxietyMid ? k.anxietyMidJ : 1;
   const fDehyd = dehydrationF(b.waterDeficitL, tuning).j;
   const fHead = b.injury === 'headInjury' ? k.headInjuryJ : 1;
-  const fHeat = b.coreC >= k.heatExhaustionC ? k.heatExhaustionJ : 1;
+  const fHeat = b.coreC >= heatExhaustionAtC(c, tuning) ? k.heatExhaustionJ : 1;
   const fAlc = Math.max(0.5, 1 - k.alcoholJK * bacPct(c, tuning));
   const fHealth = k.healthJ[c.def.health ?? 'good'] ?? 1;
   const j = j0 * fCore * fGly * fFat * fAnx * fDehyd * fHead * fHeat * fAlc * fHealth * amsJ(c, tuning);
@@ -54,21 +61,22 @@ export function computeM(c: ClimberState, tuning: Tuning = TUNING): number {
   const fCore = piecewise(k.coreM, b.coreC);
   const fInj = k.injuryM[b.injury];
   const fGly = b.glycogenKcal < k.veryLowGlycogenKcal ? k.veryLowGlycogenM : 1;
-  let m = illnessM(c, fCore * fInj * fGly);
+  const fDehyd = piecewise(k.dehydM, (100 * b.waterDeficitL) / c.def.weightKg);
+  let m = illnessM(c, fCore * fInj * fGly * fDehyd);
   m *= k.healthM[c.def.health ?? 'good'] ?? 1;
   // 高山病（ユーザーの指定）
   m *= amsM(c, tuning);
   if (b.coreC >= k.heatStrokeC) m = Math.min(m, k.heatStrokeM);
-  else if (b.coreC >= k.heatExhaustionC) m *= k.heatExhaustionSpeed;
+  else if (b.coreC >= heatExhaustionAtC(c, tuning)) m *= k.heatExhaustionSpeed;
   return Math.min(1, Math.max(0, m));
 }
 
 /** 体温の段階（docs/06 §7、高体温を含む） */
-export function stageOf(coreC: number, tuning: Tuning = TUNING): ClimberBody['stage'] {
+export function stageOf(coreC: number, tuning: Tuning = TUNING, exhaustionAtC: number = tuning.capacity.heatExhaustionC): ClimberBody['stage'] {
   const p = tuning.physiology;
   const k = tuning.capacity;
   if (coreC >= k.heatStrokeC) return 'heatStroke';
-  if (coreC >= k.heatExhaustionC) return 'heatExhaustion';
+  if (coreC >= exhaustionAtC) return 'heatExhaustion';
   if (coreC >= p.stageColdC) return 'normal';
   if (coreC >= p.stageMildC) return 'cold';
   if (coreC >= p.stageModerateC) return 'mild';
@@ -100,7 +108,7 @@ export function updateCapacity(world: World, ctx: StaticContext, c: ClimberState
   const b = c.body;
   if (!b.alive) return;
 
-  const stage = stageOf(b.coreC, ctx.tuning);
+  const stage = stageOf(b.coreC, ctx.tuning, heatExhaustionAtC(c, ctx.tuning));
   if (stage !== b.stage) {
     const from = b.stage;
     b.stage = stage;

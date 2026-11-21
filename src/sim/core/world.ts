@@ -123,7 +123,7 @@ export function createClimberState(
     M: 1,
     inv: {
       foodKcal: g.foodKcal,
-      waterL: g.waterL,
+      waterL: Math.min(g.waterL, ini.waterL ?? g.waterL),
       phone: { ...g.phone, dead: false, lastCheckMin: null },
       headlamp: { ...g.headlamp, on: false },
       // モバイルバッテリー: 省略はスマホを持つ人なら既定の容量（ユーザーの指定: 既定は 5000 mAh を持つ）

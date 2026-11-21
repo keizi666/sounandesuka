@@ -8,7 +8,7 @@ import { datan2 } from '../core/dmath';
 import { edgeBetween, segmentIndexAt } from '../terrain/trails';
 import type { ClimberState, MapRuntime, StaticContext, World } from '../types';
 import { footSnowCm, groundAt } from '../weather/ground';
-import { capSpeedByMet, isChainAt, sharesLampOf, trailSpeedMs, walkMet, type MoveEnv } from './movement';
+import { capSpeedByMet, extraLoadKg, isChainAt, sharesLampOf, trailSpeedMs, walkMet, type MoveEnv } from './movement';
 import { syncPosition } from './position';
 import { chooseLegAtNode, onWrongNode } from './navigation';
 import { arriveAt, setRoute } from './route';
@@ -141,7 +141,7 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
     t -= dt;
     moved += d;
     for (let k = 0; k < members.length; k += 1) {
-      metTime[k] = metTime[k]! + walkMet(vMs, grade, members[k]!.def, envs[k]!.windMs, ctx.tuning, members[k]!.plan.carryKg ?? 0) * dt;
+      metTime[k] = metTime[k]! + walkMet(vMs, grade, members[k]!.def, envs[k]!.windMs, ctx.tuning, extraLoadKg(members[k]!)) * dt;
     }
     gradeTime += grade * dt;
     headX += (b.x - a.x) * pos.dir;

@@ -2,6 +2,7 @@
  * スクリプトイベント（docs/09 §8）と、リーダーの局地気象・暗さの変化から出るイベント（RAIN_START など）。
  */
 import { applyActions, soak } from '../climber/actions';
+import { heatExhaustionAtC } from '../climber/capacity';
 import { chance, nextFloat } from '../core/rng';
 import { injure } from '../hazards/slip';
 import { dismissAnimals, spawnAnimal } from '../hazards/animals';
@@ -74,6 +75,31 @@ function applyEffect(world: World, ctx: StaticContext, ef: ScriptEffect, evId: s
     case 'injure':
       for (const c of whoOf(world, ef.who, party, leader)) injure(world, ctx, c, ef.injury, 'trauma');
       return;
+    case 'fillWater':
+      for (const c of whoOf(world, ef.who, party, leader)) {
+        c.plan.fillToL = ef.toL;
+        c.inv.waterL = Math.max(c.inv.waterL, Math.min(c.def.gear.waterL, ef.toL));
+      }
+      return;
+    case 'heatIllness':
+      // 熱疲労（めまい・足のつり・吐き気・脱力）: 深部体温を熱疲労の体温より上げる。日陰で休めば下がる
+      for (const c of whoOf(world, ef.who, party, leader)) c.body.coreC = Math.max(c.body.coreC, heatExhaustionAtC(c, ctx.tuning) + ctx.tuning.capacity.heatIllnessOverC);
+      return;
+    case 'fall': {
+      // 滑落: who が any なら、列の中の誰か 1 人（hazard ストリームで選ぶ）
+      const alive = party.filter((c) => c.body.alive);
+      const pick = ef.who === 'any' ? (alive.length > 0 ? [alive[Math.min(alive.length - 1, Math.floor(nextFloat(world.rng.hazard) * alive.length))]!] : []) : whoOf(world, ef.who, party, leader);
+      const kinds = ['none', 'bruise', 'sprain', 'legFracture', 'headInjury', 'severeTrauma', 'death'] as const;
+      const total = kinds.reduce((s, k) => s + (ef.outcomes[k] ?? 0), 0);
+      for (const c of pick) {
+        let r = nextFloat(world.rng.hazard) * total;
+        let k = 0;
+        while (k < kinds.length - 1 && r >= (ef.outcomes[kinds[k]!] ?? 0)) r -= ef.outcomes[kinds[k++]!] ?? 0;
+        ctx.events.push({ tMin: world.tMin, type: 'FALL', climberId: c.id, important: true, data: { injury: kinds[k]!, event: evId } });
+        injure(world, ctx, c, kinds[k]!, 'trauma');
+      }
+      return;
+    }
     case 'rockfall':
       // 落石: 確率 p で当たり、結果は転倒の表（T2 / EXPOSED）から引く
       for (const c of whoOf(world, ef.who, party, leader)) {

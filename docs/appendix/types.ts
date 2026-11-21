@@ -320,6 +320,8 @@ export interface ClimberDef {
 export interface ClimberInitialDef {
   wetness?: number; glycogenKcal?: number; fatigue?: number; coreC?: number;
   rainwearOn?: boolean; waterDeficitL?: number; cloWorn?: number;
+  /** 出発のときに持っている水（L）。省くと gear.waterL（水筒いっぱい）。沢でもこの量までしか汲まない（効果 fillWater で変わる） */
+  waterL?: number;
 }
 
 export interface GroupDef {
@@ -528,6 +530,12 @@ export type ScriptEffect =
   | { type: 'clearFlag'; flag: string }
   | { type: 'injure'; who: Who; injury: InjuryKind }
   | { type: 'rockfall'; who: Who; p: number; injuryTable: 'T2' | 'EXPOSED' }
+  /** 水を汲む: 水筒を toL まで満たし、以後は沢でもその量まで汲む（gear.waterL まで） */
+  | { type: 'fillWater'; who: Who; toL: number }
+  /** 熱中症（熱疲労）になる: 深部体温を熱疲労の体温より少し上に上げる（休めば下がる） */
+  | { type: 'heatIllness'; who: Who }
+  /** 滑落: who（any なら列の中の誰か 1 人）が落ち、outcomes の重みでけがを引く */
+  | { type: 'fall'; who: Who | 'any'; outcomes: Partial<Record<InjuryKind | 'death', number>> }
   | { type: 'actions'; actions: Action[] }
   | { type: 'weatherOverride'; keyframe: WeatherKeyframe }
   | { type: 'pin'; x: number; z: number; label: string }
@@ -731,6 +739,8 @@ export interface ClimberPlanState {
   bivouacUntil: UntilRef | null;
   /** いまのビバークは計画どおりの野営（尾根の上のテント泊など）。通りかかった人は困っているとは思わない */
   plannedCamp?: boolean;
+  /** 沢で汲む水の量の上限（L。効果 fillWater で決める。ないときは initial.waterL、それもなければ gear.waterL） */
+  fillToL?: number;
   paceFactor: number;
   /** 運ぶために増えた（減った）荷物（kg）。けが人を背負う・荷物を分けて持つ（climber/carry.ts）。古い保存にはない */
   carryKg?: number;

@@ -157,6 +157,15 @@ export function usableMet(c: ClimberState, tuning: Tuning = TUNING): number {
   return maxMet * thin * gly * dehyd * c.M * (1 - (m.fatigueMetK * c.body.fatigue) / 100);
 }
 
+/**
+ * 荷物に足す重さ（kg）: 運ぶために増えた荷物と、出発のときより多く持った水（1 L = 1 kg。ユーザーの指定: 北鎌沢で水を汲むと荷物が増えて遅くなる）。
+ * 出発のときの水は packKg に入っている
+ */
+export function extraLoadKg(c: ClimberState): number {
+  const start = Math.min(c.def.gear.waterL, c.def.initial?.waterL ?? c.def.gear.waterL);
+  return (c.plan.carryKg ?? 0) + Math.max(0, c.inv.waterL - start);
+}
+
 /** 候補速度の MET が持続上限を超えるなら、二分探索で速度を下げる */
 export function capSpeedByMet(
   vMs: number,
@@ -166,7 +175,7 @@ export function capSpeedByMet(
   tuning: Tuning = TUNING,
 ): { vMs: number; met: number } {
   const limit = tuning.movement.sustainableMetRatio * usableMet(c, tuning);
-  const extra = c.plan.carryKg ?? 0;
+  const extra = extraLoadKg(c);
   const met = walkMet(vMs, grade, c.def, windMs, tuning, extra);
   if (met <= limit) return { vMs, met };
   let lo = 0;

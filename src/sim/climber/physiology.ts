@@ -163,7 +163,8 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   // 体温調節の発汗（余った熱を捨てる）に、激しい運動そのものによる発汗を足す。
   // 上限は暑さと脱水で下がる（汗をかいても乾かず冷えない＝熱がこもる）
   const hotF = Math.min(1, Math.max(p.sweatHotMinF, (p.sweatHotRefC - env.tairC) / p.sweatHotSpanC));
-  const dehydF = Math.max(p.sweatDehydMinF, 1 - p.sweatDehydPerL * b.waterDeficitL);
+  const dehydPct = (100 * b.waterDeficitL) / d.weightKg;
+  const dehydF = Math.max(p.sweatDehydMinF, 1 - p.sweatDehydPerL * b.waterDeficitL - p.sweatDehydPerPct * Math.max(0, dehydPct - p.sweatDehydFromPct));
   const sweatCap = p.sweatMaxW * hotF * dehydF;
   let sweatW = 0;
   if (b.coreC > p.sweatStartC && net > 0) sweatW = Math.min(net, sweatCap);
@@ -224,7 +225,9 @@ export function integrateBody(c: ClimberState, env: ThermalEnv, act: Activity, d
   // 沢の水が手の届く所にあれば、のどが渇いていれば飲み、水筒も満たす（持ってきた入れ物の量まで）
   if (env.streamWater && b.conscious) {
     if (b.waterDeficitL > p.streamDrinkFromL) b.waterDeficitL = Math.max(0, b.waterDeficitL - (p.streamDrinkLPerH / 60) * dtMin);
-    if (c.inv.waterL < d.gear.waterL) c.inv.waterL = Math.min(d.gear.waterL, c.inv.waterL + (p.streamFillLPerH / 60) * dtMin);
+    // 汲むのは、決めた量まで（シナリオの fillWater・initial.waterL。ないときは水筒いっぱい）
+    const fillTo = Math.min(d.gear.waterL, c.plan.fillToL ?? d.initial?.waterL ?? d.gear.waterL);
+    if (c.inv.waterL < fillTo) c.inv.waterL = Math.min(fillTo, c.inv.waterL + (p.streamFillLPerH / 60) * dtMin);
   }
   // ツエルト・タープで止まっていて雨が降っていれば、雨水をためて水筒に足す（持ってきた量まで）
   if (STILL.has(c.state) && d.gear.bivy !== 'none' && env.precipMmH > 0.5 && c.inv.waterL < d.gear.waterL) {

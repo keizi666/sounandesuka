@@ -134,6 +134,16 @@ export const capacity = {
   dehydHighL: 4.0,
   dehydHighJ: 0.7,
   dehydHighMet: 0.6,
+  /**
+   * 脱水による運動能力 M の低下（[体重の何 % の不足, 係数] の昇順）。5 % で持久力が落ち、7 % で足がつり・めまいで歩き続けられず、
+   * 9 % でほぼ動けない（熱疲労。体温が上がらなくても起きる。ユーザーの指定: 水切れが熱中症につながるように）
+   */
+  dehydM: [
+    [3, 1],
+    [5, 0.75],
+    [7, 0.4],
+    [9, 0.15],
+  ] as const,
   veryLowGlycogenKcal: 100,
   veryLowGlycogenM: 0.7,
   jMin: 0.05,
@@ -142,6 +152,15 @@ export const capacity = {
   injuryM: { none: 1.0, bruise: 0.9, sprain: 0.45, legFracture: 0.03, headInjury: 0.5, severeTrauma: 0 },
   headInjuryJ: 0.4,
   heatExhaustionC: 39.0,
+  /**
+   * 脱水していると、低い体温でも熱疲労（めまい・足のつり・吐き気・脱力）になる: 体重の from % を超えた不足 1 % ごとに
+   * 熱疲労の体温を perPct ℃ 下げる（minC まで）。ユーザーの指定: 水切れが熱中症につながるように
+   */
+  heatExhaustionDehydFromPct: 2,
+  heatExhaustionDehydPerPct: 0.4,
+  heatExhaustionMinC: 38.0,
+  /** 効果 heatIllness で、熱疲労の体温よりどれだけ上げるか（℃） */
+  heatIllnessOverC: 0.4,
   heatExhaustionJ: 0.85,
   heatExhaustionSpeed: 0.7,
   heatStrokeC: 40.5,
@@ -223,9 +242,16 @@ export const physiology = {
   sweatHotRefC: 36,
   sweatHotSpanC: 12,
   sweatHotMinF: 0.3,
-  /** 脱水による発汗の低下: max(min, 1 − k × 不足 L) */
+  /**
+   * 脱水による発汗の低下: max(min, 1 − k × 不足 L − k2 × (不足が体重の何 % か − from))。
+   * 体重の 2 % を超えて水が足りなくなると、さらに汗が出にくくなって熱がこもる（ユーザーの指定: 水切れが熱中症につながるように。
+   * 前は不足 1 L あたり 1 割だけで、3 L 足りなくても汗の冷却は 7 割残った）
+   */
   sweatDehydPerL: 0.1,
-  sweatDehydMinF: 0.4,
+  sweatDehydFromPct: 2,
+  sweatDehydPerPct: 0.1,
+  sweatDehydMinF: 0.35,
+
   trapF: { none: 0.5, poncho: 0.6, basic: 0.8, goretex: 0.5 } as Record<string, number>,
   /** 深部体温 */
   specificHeatJ: 3470,
