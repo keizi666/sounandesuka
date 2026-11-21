@@ -137,8 +137,8 @@ textarea.mono { width: 100%; min-height: 60vh; }
 .wtl-tip[hidden] { display: none; }
 .wtl-scroll { width: calc(100% - 114px); margin: 2px 10px 4px 104px; }
 .wtl-scroll[hidden] { display: none; }
-/* 重ね表示の凡例（地図の左下。道具パレットと重ならない高さ） */
-.map-legend { position: absolute; left: 10px; bottom: 22px; z-index: 4; max-width: 260px; padding: 7px 10px 8px; border-radius: 9px; background: rgba(28, 31, 38, 0.9); border: 1px solid rgba(255, 255, 255, 0.14); color: #e9ecf1; font-size: 12px; line-height: 1.5; pointer-events: none; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); }
+/* 重ね表示の凡例（地図の左下。左端の道具パレットの右に置いて重ならないように） */
+.map-legend { position: absolute; left: 72px; bottom: 22px; z-index: 4; max-width: 260px; padding: 7px 10px 8px; border-radius: 9px; background: rgba(28, 31, 38, 0.9); border: 1px solid rgba(255, 255, 255, 0.14); color: #e9ecf1; font-size: 12px; line-height: 1.5; pointer-events: none; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); }
 .map-legend strong { display: block; margin-bottom: 3px; font-size: 12.5px; }
 .lg-row { display: flex; align-items: center; gap: 7px; }
 .lg-sw { width: 14px; height: 11px; border-radius: 2px; border: 1px solid rgba(255, 255, 255, 0.35); flex: none; }

@@ -2,7 +2,8 @@
  * タブ 3 地点（docs/16 §4.5、§5）: ノード（名前・種類・小屋・ID の一括書き換え・紛らわしい分岐の表）、危険箇所（鎖場・滝・落石帯・保護範囲）。
  */
 import { toolPalette } from '../forms/toolPalette';
-import type { HazardDef, NodeDef, NodeType } from '../../sim/types';
+import type { HazardDef, LandmarkDef, LandmarkKind, NodeDef, NodeType } from '../../sim/types';
+import { deleteLandmark, hitLandmark, landmarkInspector, landmarkSection, moveLandmark, placeLandmark } from './landmarkTools';
 import { el } from '../../ui/dom';
 import type { Ed } from '../context';
 import { button, check, fill, num, section, select, text } from '../forms/fields';
@@ -12,8 +13,10 @@ import { nextId } from '../store/project';
 import type { Panel } from './types';
 import { removeSelection } from '../map/edgeSelection';
 
-type Mode = 'select' | 'move' | 'node' | 'waterfall' | 'protectionZone' | 'chain' | 'rockfallZone';
+type Mode = 'select' | 'move' | 'node' | 'landmark' | 'waterfall' | 'protectionZone' | 'chain' | 'rockfallZone';
 let dragging: NodeDef | null = null;
+let draggingLm: LandmarkDef | null = null;
+let newLandmark: LandmarkKind = 'tower';
 let mode: Mode = 'select';
 let newType: NodeType = 'junction';
 let sectionStart: { edge: string; s: number } | null = null;
@@ -51,17 +54,28 @@ function tool(ed: Ed): MapTool {
     down(p) {
       if (mode !== 'move') return false;
       dragging = hitNode(ed.view, ed.p.map, p.px, p.py, 12);
-      if (!dragging) return false;
-      ed.checkpoint('地点を動かす');
+      draggingLm = dragging ? null : hitLandmark(ed, p.px, p.py, 12);
+      if (!dragging && !draggingLm) return false;
+      ed.checkpoint(dragging ? '地点を動かす' : '施設・鉄塔を動かす');
       return true;
     },
     move(p, drag) {
+      if (drag && draggingLm) {
+        moveLandmark(ed, draggingLm, p.x, p.z);
+        ed.view.redraw();
+        return;
+      }
       if (!drag || !dragging) return;
       dragging.x = Math.round(p.x * 10) / 10;
       dragging.z = Math.round(p.z * 10) / 10;
       ed.view.redraw();
     },
     up() {
+      if (draggingLm) {
+        ed.p.editorState.selection = { kind: 'landmark', id: draggingLm.id };
+        draggingLm = null;
+        ed.touched(true);
+      }
       if (dragging) {
         ed.p.editorState.selection = { kind: 'node', id: dragging.id };
         dragging = null;
@@ -74,6 +88,8 @@ function tool(ed: Ed): MapTool {
       if (mode === 'select') {
         const n = hitNode(ed.view, map, p.px, p.py);
         if (n) return ed.select('node', n.id);
+        const lm = hitLandmark(ed, p.px, p.py);
+        if (lm) return ed.select('landmark', lm.id);
         const h = hitHazard(ed.view, map, p.px, p.py);
         return ed.select(h ? 'hazard' : null, h?.id ?? null);
       }
@@ -86,6 +102,7 @@ function tool(ed: Ed): MapTool {
         }, true);
         return;
       }
+      if (mode === 'landmark') return placeLandmark(ed, newLandmark, p.x, p.z);
       if (mode === 'waterfall' || mode === 'protectionZone') {
         const id = nextId(map.hazards.map((h) => h.id), mode === 'waterfall' ? 'WF' : 'PZ');
         ed.change('危険箇所', () => {
@@ -224,6 +241,7 @@ export const pointsPanel: Panel = {
     const sel = ed.p.editorState.selection;
     if (sel.kind === 'node' && sel.id) deleteNode(ed, sel.id);
     else if (sel.kind === 'hazard' && sel.id) deleteHazard(ed, sel.id);
+    else if (sel.kind === 'landmark' && sel.id) deleteLandmark(ed, sel.id);
     else return false;
     return true;
   },
@@ -231,13 +249,15 @@ export const pointsPanel: Panel = {
     const sel = ed.p.editorState.selection;
     const n = sel.kind === 'node' ? ed.p.map.nodes.find((x) => x.id === sel.id) : undefined;
     const h = sel.kind === 'hazard' ? ed.p.map.hazards.find((x) => x.id === sel.id) : undefined;
+    const lm = sel.kind === 'landmark' ? ed.p.map.landmarks?.find((x) => x.id === sel.id) : undefined;
     fill(
       ed.inspector,
       el('h2', {}, '地点と危険箇所'),
       toolPalette<Mode>(ed, [
         { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: '地点か危険箇所をクリック。Delete キーで削除' },
-        { id: 'move', icon: 'openWith', label: '地点を動かす', key: 'm', hint: '地点をドラッグ' },
+        { id: 'move', icon: 'openWith', label: '地点を動かす', key: 'm', hint: '地点・施設・鉄塔をドラッグ（鉄塔は送電線の上を動く）' },
         { id: 'node', icon: 'addLocationAlt', label: '地点を置く', key: 'n', hint: 'クリックした所に置く（種類は下で選ぶ）' },
+        { id: 'landmark', icon: 'templeBuddhist', label: '施設・鉄塔を置く', key: 'l', hint: 'クリックした所に置く（種類は下で選ぶ。鉄塔は送電線の上に載せる）' },
         { id: 'waterfall', icon: 'waves', label: '滝を置く', key: 'w', hint: 'クリックした所に置く' },
         { id: 'protectionZone', icon: 'shield', label: '保護範囲を置く', key: 'z', hint: 'クリックした所に置く' },
         { id: 'chain', icon: 'link', label: '鎖場', key: 'c', hint: '道の上を 2 回クリック（始まりと終わり）' },
@@ -249,7 +269,8 @@ export const pointsPanel: Panel = {
       }),
       mode === 'node' ? select('置く種類', newType, TYPES, (t) => (newType = t)) : null,
       check('傾斜 50° 超（崖）を赤で重ねる', false, (v) => ed.setOverlay(v ? 'slope' : 'none')),
-      n ? nodeInspector(ed, n) : h ? hazardInspector(ed, h) : el('p', { class: 'note' }, '地点か危険箇所をクリックすると編集できます。ID は自動で N001 のように付きます。読みやすい ID（HUT_ENZAN など）に変えると、ルートや条件の参照も書き換えます。'),
+      landmarkSection(ed, newLandmark, (k) => (newLandmark = k), mode === 'landmark'),
+      n ? nodeInspector(ed, n) : h ? hazardInspector(ed, h) : lm ? landmarkInspector(ed, lm) : el('p', { class: 'note' }, '地点か危険箇所をクリックすると編集できます。ID は自動で N001 のように付きます。読みやすい ID（HUT_ENZAN など）に変えると、ルートや条件の参照も書き換えます。'),
       section(`地点の一覧（${ed.p.map.nodes.length}）`, [
         el('table', { class: 'ed-table' }, ed.p.map.nodes.map((x) => el('tr', { class: x === n ? 'sel' : '', onclick: () => ed.select('node', x.id) }, [el('td', {}, x.id), el('td', {}, x.name), el('td', {}, TYPES.find((t) => t[0] === x.type)?.[1] ?? x.type)]))),
       ], false),

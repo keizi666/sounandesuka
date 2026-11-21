@@ -3,6 +3,7 @@
  */
 import { edgeSel } from './edgeSelection';
 import { routeLayer } from './routeLayer';
+import { landmarkLayer } from './landmarkLayer';
 import { reliefCanvas } from '../../ui/map2d';
 import { VegClass, type MapRuntime } from '../../sim/types';
 import { asInt8, decodeGrid } from '../../sim/terrain/codec';
@@ -361,5 +362,5 @@ export function createLayers(ed: Ed, state: LayerState): MapLayer[] {
       g.setLineDash([]);
     },
   };
-  return [relief, area, trails, route, track, nodes, cells, selBox];
+  return [relief, area, trails, landmarkLayer(ed), route, track, nodes, cells, selBox];
 }

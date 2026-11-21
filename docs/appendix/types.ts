@@ -32,7 +32,29 @@ export interface MapDef {
   skeleton?: boolean;        // 座標なしの骨組みマップ（docs/16 §8）
   areaHint?: { text: string; sizeM: number };
   urban?: UrbanDef;          // 市街地（建物・道路・鉄道。実在エリアで地理院地図から取り込む）
+  landmarks?: LandmarkDef[];  // 地図記号の施設（寺・神社・駅・交番など）と送電線の鉄塔（見た目だけ。エディターで動かせる）
+  powerLines?: PowerLineDef[]; // 送電線（鉄塔の間に電線を張る）
 }
+
+/** 地図記号の施設・鉄塔の種類 */
+export type LandmarkKind = 'temple' | 'shrine' | 'station' | 'police' | 'school' | 'post' | 'hospital' | 'fire' | 'office' | 'care' | 'library' | 'tower';
+
+/** 地図記号の施設・送電線の鉄塔（3D の見た目だけ。シミュレーションには使わない） */
+export interface LandmarkDef {
+  id: string;
+  kind: LandmarkKind;
+  x: number;
+  z: number;
+  /** 向き（度。+x から +z へ） */
+  rotDeg?: number;
+  name?: string;
+  /** 鉄塔: 載っている送電線の ID */
+  line?: string;
+}
+
+/** 送電線の中心線（ワールド座標 m）。鉄塔（LandmarkDef.kind = 'tower'、line = この ID）の間に電線を張る */
+export interface PowerLineDef { id: string; pts: [number, number][] }
+
 
 /**
  * 市街地（地理院の最適化ベクトルタイルの建物・道路・鉄道から作る）。3D の建物・道路の描画と、植生の「市街地」の塗りに使う。
@@ -883,7 +905,7 @@ export interface EditorProject {
   editorState: {
     mapView: { lat: number; lon: number; zoom: number };
     tab: 'area' | 'trails' | 'points' | 'environment' | 'weather' | 'party' | 'choices' | 'endings' | 'test' | 'json' | 'ai';
-    selection: { kind: 'node' | 'edge' | 'hazard' | 'choice' | 'event' | 'keyframe' | 'cell' | null; id: string | null };
+    selection: { kind: 'node' | 'edge' | 'hazard' | 'landmark' | 'choice' | 'event' | 'keyframe' | 'cell' | null; id: string | null };
     draftEdgeIds: EdgeId[];          // 取り込み後、未確定の道
     probePoints: { label: string; x: number; z: number }[];
     rightsConfirmed: boolean;        // 書き出し時の権利確認

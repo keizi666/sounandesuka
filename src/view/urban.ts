@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import type { MapRuntime } from '../sim/types';
 import { UNIT, type ViewScale } from './scale';
 import { injectEnv, type EnvUniforms } from './terrainMaterial';
+import { facilityNear } from './landmarks';
 
 /** 1 階の高さ（m）と、見た目の高さの倍率 */
 const FLOOR_M = 3.0;
@@ -50,7 +51,9 @@ export function buildUrban(map: MapRuntime, s: ViewScale, heightAt: (x: number, 
   const list = map.def.urban?.buildings ?? [];
   if (list.length === 0) return group;
   const half = map.half;
-  const inside = list.filter(([x, z]) => Math.abs(x) < half - 2 && Math.abs(z) < half - 2);
+  // 施設（寺・学校など）を置いた所の建物は施設の模型で描くので除く
+  const near = facilityNear(map);
+  const inside = list.filter(([x, z, w, d]) => Math.abs(x) < half - 2 && Math.abs(z) < half - 2 && !near(x, z, Math.max(w, d) / 2 + 4));
   const wallMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85 });
   const roofMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.6, metalness: 0.15 });
   const flatMat = new THREE.MeshStandardMaterial({ color: 0x8d8a84, roughness: 0.9 });

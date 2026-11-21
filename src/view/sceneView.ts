@@ -17,6 +17,7 @@ import { buildStructures } from './structures';
 import { buildTrails } from './trails';
 import { buildVegetation, buryUnderSnow, placeTrees, TREE_SCALE, type Vegetation } from './vegetation';
 import { buildUrban } from './urban';
+import { buildLandmarks } from './landmarks';
 import { createWeatherFx, type WeatherFx } from './weatherFx';
 import { baseSnowLineM } from './snowCover';
 import { Overlay } from './overlay';
@@ -253,6 +254,8 @@ export class SceneView {
     this.scene.add(st.group);
     // 市街地の建物（地理院地図から取り込んだ実在エリアだけ。道路は地面に塗る）
     this.scene.add(buildUrban(map, this.s, this.heightAt, this.env, q.shadow > 0));
+    // 地図記号の施設（寺・神社・駅など）と送電線の鉄塔・電線
+    this.scene.add(buildLandmarks(map, this.s, this.heightAt, this.env, q.shadow > 0));
     this.ghosts = new Ghosts(this.scene);
     // 沢の急な所の滝（見た目だけ）
     this.scene.add(buildWaterfalls(map, this.s, this.heightAt, this.env));
