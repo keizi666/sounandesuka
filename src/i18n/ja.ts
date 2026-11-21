@@ -66,6 +66,23 @@ export const JA = {
     via: { phone: '電話', satellite: '衛星 SOS', overdue: '未帰還の通報', script: '他の登山者', passerby: '通りかかった登山者', relay: '呼びに行った仲間' } as Record<string, string>,
   },
 
+  /** 結果の画面: 一人ひとりの途中で出た症状（ユーザーの指定） */
+  symptoms: {
+    title: '途中で出た症状',
+    hypothermia: '低体温症（{lv}・最低 {c}℃）',
+    hypoMild: '軽度',
+    hypoModerate: '中等度',
+    hypoSevere: '重度',
+    illness: '急病',
+    anaphylaxis: 'アナフィラキシー',
+    dehydration: '脱水（最大 {l} L 不足）',
+    dehydrationSevere: '重い脱水（最大 {l} L 不足）',
+    bonk: 'エネルギー切れ（シャリバテ）',
+    exhausted: '疲労困憊',
+    badgeReturn: '下山・{s}',
+    badgeShelter: '小屋で過ごした・{s}',
+  },
+
   /** 結末の既定の題と文（シナリオに endings がないとき） */
   endings: {
     SAFE_RETURN: { title: '無事下山', text: '予定どおり、または判断を変えて、無事に下山した。' },
@@ -407,6 +424,8 @@ export const JA = {
     hutNightSkipped: '山小屋で夜を過ごした（翌日 03:00 まで進めた）',
     endConfirmTitle: '結末',
     endConfirmGo: '結果を見る',
+    endBackToChoice: 'これまでの選択に戻る',
+    endBackToChoiceNote: '選ぶと、その分岐の場面に戻って選び直せます。',
     memberDead: '亡くなった',
     noHistory: 'まだ記録がありません',
     attribution: '出典',
@@ -440,6 +459,7 @@ export const JA = {
     layerOverlay: '地図の色',
     sortByCore: '体温順',
     wholeParty: 'パーティ',
+    groupMore: '{names} ほか {n} 人',
     autoChose: '◆ 観察: {who}は「{label}」にした',
     jumpToChoice: 'この場面へ',
     jumpedToChoice: '選択の場面に戻りました。選び直すと、ここから先をやり直します',

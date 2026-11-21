@@ -35,6 +35,17 @@ export interface HudHandlers {
   jumpToChoice?(tMin: number): void;
 }
 
+/**
+ * 登山者の一覧のグループの見出し（ユーザーの指摘: gsolo・solo_kD などの英語の ID が出ていた）。
+ * パーティ全体は「パーティ」、ほかはリーダーを先にしたメンバーの名前（多ければ「ほか n 人」）
+ */
+function groupLabel(world: World, g: string, members: readonly ClimberState[]): string {
+  if (g === 'party' || g === '') return JA.ui.wholeParty;
+  const leaderId = world.groups.find((x) => x.id === g)?.leader;
+  const names = [...members].sort((a, b) => Number(b.id === leaderId) - Number(a.id === leaderId)).map((c) => c.def.name);
+  return names.length <= 3 ? names.join('・') : fill(JA.ui.groupMore, { names: names.slice(0, 2).join('・'), n: names.length - 2 });
+}
+
 export interface LogLine {
   tMin: number;
   /** 1 行の文（タイムラインの点の説明・検索用。表示はこれと下の項目から組み立てる） */
@@ -283,7 +294,7 @@ export class Hud {
           const members = list.filter((c) => (c.groupId ?? '') === g);
           const worst = Math.min(...members.map((c) => c.body.coreC));
           const d = el('details', { 'data-g': g, open: open.size === 0 || open.has(g) }, [
-            el('summary', {}, `${g === 'party' ? JA.ui.wholeParty : g}（${members.length}人・最低 ${worst.toFixed(1)}℃）`),
+            el('summary', {}, `${groupLabel(world, g, members)}（${members.length}人・最低 ${worst.toFixed(1)}℃）`),
             ...cards(members),
           ]);
           return d;

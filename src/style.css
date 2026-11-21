@@ -1038,3 +1038,22 @@ main.ending2 .bf-bar .en-bar-btns { display: flex; align-items: center; gap: 12p
   main.ending2 .bf-bar button.big { padding: 8px 10px; font-size: 0.88rem; }
   main.ending2 .bf-bar button.big svg { display: none; }
 }
+
+/* ---- 結末のダイアログ: これまでの選択に戻る（ユーザーの指定） ---- */
+.ec-choices { margin: 0 0 16px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; background: rgba(255, 255, 255, 0.03); }
+.ec-choices summary { display: flex; align-items: center; gap: 6px; padding: 9px 12px; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+.ec-choices summary svg { width: 18px; height: 18px; fill: currentColor; opacity: 0.8; }
+.ec-choices-note { margin: 0 12px 6px; font-size: 0.82rem; opacity: 0.7; }
+.ec-choices ol { list-style: none; margin: 0; padding: 0 8px 8px; display: flex; flex-direction: column; gap: 4px; max-height: 40vh; overflow-y: auto; }
+.ec-choices li button { width: 100%; display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid transparent; color: inherit; text-align: left; font-size: 0.92rem; cursor: pointer; }
+.ec-choices li button:hover { background: rgba(200, 160, 80, 0.16); border-color: rgba(200, 160, 80, 0.5); }
+.ec-choices li time { font-variant-numeric: tabular-nums; opacity: 0.75; flex: 0 0 auto; }
+.ec-choices .ec-dia { color: var(--accent, #c8a050); flex: 0 0 auto; }
+.ec-choices li span:not(.ec-dia) { flex: 1; min-width: 0; }
+.ec-choices li svg { width: 18px; height: 18px; fill: currentColor; opacity: 0.6; flex: 0 0 auto; }
+
+/* ---- 結果の画面: 一人ひとりの途中で出た症状（ユーザーの指定） ---- */
+.en-symptoms { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: -2px 0 8px; font-size: 0.82rem; }
+.en-symptoms small { color: var(--muted, #9aa3ad); margin-right: 2px; }
+.en-symptoms span { padding: 1px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); color: #d6dbe1; }
+.en-symptoms span.serious { background: rgba(250, 204, 21, 0.14); border-color: rgba(250, 204, 21, 0.5); color: #fde68a; }

@@ -36,17 +36,53 @@ function hm(min: number): string {
 
 const DEATH_CAUSE: Record<string, string> = JA.labels.deathCause;
 
-function memberCard(c: ClimberState, outcome: string, minCoreC: number): HTMLElement {
+/** 記録から、その人の途中の体の値の最悪（最低体温・最大の水分不足・最少のエネルギー・最大の疲労） */
+export interface Worst {
+  minCoreC: number;
+  maxWaterL: number;
+  minKcal: number;
+  maxFatigue: number;
+}
+
+/**
+ * 途中で出た症状（ユーザーの指定: 最低体温 32℃ 台で「無事下山」はおかしい。低体温症など途中の症状を載せる）。
+ * serious は、結末の札を「無事」にしない症状（低体温症・急病・打撲より重いけが）
+ */
+export function symptomsOf(c: ClimberState, w: Worst): { text: string; serious: boolean }[] {
+  const b = c.body;
+  const S = JA.symptoms;
+  const out: { text: string; serious: boolean }[] = [];
+  if (w.minCoreC < 35) {
+    const lv = w.minCoreC < 28 ? S.hypoSevere : w.minCoreC < 32 ? S.hypoModerate : S.hypoMild;
+    out.push({ text: fill(S.hypothermia, { lv, c: w.minCoreC.toFixed(1) }), serious: true });
+  }
+  if (b.illness) out.push({ text: b.illness.kind === 'anaphylaxis' ? S.anaphylaxis : S.illness, serious: true });
+  if (b.injury !== 'none') out.push({ text: JA.labels.injury[b.injury] ?? b.injury, serious: b.injury !== 'bruise' });
+  if (w.maxWaterL >= 2) out.push({ text: fill(w.maxWaterL >= 4 ? S.dehydrationSevere : S.dehydration, { l: w.maxWaterL.toFixed(1) }), serious: false });
+  if (w.minKcal <= 100) out.push({ text: S.bonk, serious: false });
+  if (w.maxFatigue >= 90) out.push({ text: S.exhausted, serious: false });
+  return out;
+}
+
+function memberCard(c: ClimberState, outcome: string, worst: Worst): HTMLElement {
   const b = c.body;
   const hp = hpOf(b);
-  const tone = endingTone(outcome);
+  const minCoreC = worst.minCoreC;
+  const symptoms = b.alive ? symptomsOf(c, worst) : [];
+  // 下山・小屋で過ごした人でも、低体温症などの重い症状が出ていたら「無事」とは書かない（ユーザーの指定）
+  const marred = (outcome === 'SAFE_RETURN' || outcome === 'SAFE_SHELTER') && symptoms.some((s) => s.serious);
+  const tone = marred ? 'mid' : endingTone(outcome);
+  const badge = marred ? fill(outcome === 'SAFE_SHELTER' ? JA.symptoms.badgeShelter : JA.symptoms.badgeReturn, { s: symptoms.find((s) => s.serious)!.text.replace(/（.*$/, '') }) : (JA.endings[outcome]?.title ?? outcome);
   const stat = (ic: IconName, label: string, value: string, lv: 'ok' | 'warn' | 'danger' | 'critical'): HTMLElement =>
     el('div', { class: `en-stat lv-${lv}` }, [icon(ic), el('small', {}, label), el('strong', {}, value)]);
   return el('li', { class: `en-member tone-${tone}`, style: `--c:${c.def.color}` }, [
     el('div', { class: 'en-face' }, [avatar(c.def, 72), ringGauge('favorite', hp / 100, hpLevel(hp), `${JA.ui.hp} ${hp}`)]),
     el('div', { class: 'en-info' }, [
-      el('div', { class: 'en-name' }, [el('strong', {}, c.def.name), el('span', {}, `${c.def.age}歳`), el('span', { class: `en-badge tone-${tone}` }, JA.endings[outcome]?.title ?? outcome)]),
-      el('p', { class: 'en-state' }, [outcome === 'SAFE_SHELTER' && c.state !== 'DEAD' ? '小屋で過ごした' : (JA.labels.state[c.state] ?? c.state), !b.alive && b.deathCause ? `（${DEATH_CAUSE[b.deathCause] ?? b.deathCause}）` : '', b.injury !== 'none' ? ` ・ ${JA.labels.injury[b.injury] ?? b.injury}` : '']),
+      el('div', { class: 'en-name' }, [el('strong', {}, c.def.name), el('span', {}, `${c.def.age}歳`), el('span', { class: `en-badge tone-${tone}` }, badge)]),
+      el('p', { class: 'en-state' }, [outcome === 'SAFE_SHELTER' && c.state !== 'DEAD' ? '小屋で過ごした' : (JA.labels.state[c.state] ?? c.state), !b.alive && b.deathCause ? `（${DEATH_CAUSE[b.deathCause] ?? b.deathCause}）` : '', !b.alive && b.injury !== 'none' ? ` ・ ${JA.labels.injury[b.injury] ?? b.injury}` : '']),
+      symptoms.length > 0
+        ? el('p', { class: 'en-symptoms' }, [el('small', {}, JA.symptoms.title), ...symptoms.map((s) => el('span', { class: s.serious ? 'serious' : '' }, s.text))])
+        : null,
       el('div', { class: 'en-stats' }, [
         stat('favorite', JA.ui.hp, `${hp}`, hpLevel(hp)),
         stat('thermostat', '最低体温', `${minCoreC.toFixed(1)}℃`, levelOf(minCoreC, 36, 35, 32)),
@@ -85,6 +121,16 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
   const decisions = r.decisions.filter((d) => d.by === 'user' || d.by === 'bias');
   const tone = endingTone(e.kind);
   const minCore = (id: string): number => Math.min(37, ...r.samples.map((sm) => sm.climbers.find((q) => q.id === id)?.coreC ?? 37));
+  /** 途中の体の値の最悪（記録の 1 分ごとの値と、いまの値から） */
+  const worstOf = (c: ClimberState): Worst => {
+    const xs = r.samples.map((sm) => sm.climbers.find((q) => q.id === c.id)).filter((q) => q !== undefined);
+    return {
+      minCoreC: minCore(c.id),
+      maxWaterL: Math.max(c.body.waterDeficitL, ...xs.map((q) => q.waterDeficitL)),
+      minKcal: Math.min(c.body.glycogenKcal, ...xs.map((q) => q.glycogenKcal)),
+      maxFatigue: Math.max(c.body.fatigue, ...xs.map((q) => q.fatigue)),
+    };
+  };
   const fact = (ic: IconName, label: string, value: string): HTMLElement => el('div', { class: 'bf-fact' }, [icon(ic), el('span', {}, [el('small', {}, label), el('strong', {}, value)])]);
 
   let closeDebrief: (() => void) | null = null;
@@ -117,7 +163,10 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
       el('div', { class: 'en-body' }, [
         el('section', { class: 'bf-card' }, [
           el('h2', {}, [icon('groups'), JA.ui.perClimber]),
-          el('ul', { class: 'en-members' }, e.perClimber.map((p) => memberCard(w.climbers.find((x) => x.id === p.id)!, p.outcome, minCore(p.id)))),
+          el('ul', { class: 'en-members' }, e.perClimber.map((p) => {
+            const c = w.climbers.find((x) => x.id === p.id)!;
+            return memberCard(c, p.outcome, worstOf(c));
+          })),
         ]),
         decisions.length > 0
           ? el('section', { class: 'bf-card' }, [

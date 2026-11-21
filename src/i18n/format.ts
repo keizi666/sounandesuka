@@ -106,7 +106,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
     case 'FOCUS': {
       const g = f.scenario.groups?.find((x) => x.id === s('group'));
       const leader = g ? f.scenario.party.find((p) => p.id === g.leader) : undefined;
-      return fill(L.focus, { who: leader?.name ?? s('group') });
+      return fill(L.focus, { who: leader?.name ?? JA.ui.wholeParty });
     }
     case 'RAIN_STOP': {
       const what = L.precipName[String(d['precipType'] ?? 'rain')];

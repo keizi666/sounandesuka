@@ -388,6 +388,18 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         text: end?.text ?? JA.endings[world.ended!.kind]?.text ?? '',
         time: formatDateTime(scenario, world.tMin),
         onGo: () => app.go({ name: 'ending', loaded, result: { world, recorder, choiceSnapshots: snapshots, runId, parentRunId, log: hud.allLines() } }),
+        // これまでの選択（分岐点の写しがあるもの）。選ぶとその場面に戻って選び直せる（ユーザーの指定）
+        choices: world.decisions
+          .filter((dc) => Object.values(snapshots).some((sn) => sn.world.pendingChoice && Math.abs(sn.world.tMin - dc.tMin) < 0.05))
+          .map((dc) => ({
+            time: formatDateTime(scenario, dc.tMin).split(' ')[1] ?? '',
+            label: optionLabel(loaded, dc.cpId, dc.optionId),
+            onPick: () => {
+              closeEndConfirm = null;
+              ended = false;
+              tt.jumpToChoice(dc.tMin);
+            },
+          })),
       });
     }, 1200);
   }

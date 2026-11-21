@@ -83,12 +83,12 @@ export function createTimeTravel(d: TimeTravelDeps): TimeTravel {
       toast(JA.ui.timelineRewound, 3500);
     },
     jumpToChoice(tMin) {
-      if (world.ended) return;
       const found = Object.values(snapshots).find((sn) => Math.abs(sn.world.tMin - tMin) < 0.05);
       if (!found || !found.world.pendingChoice) {
-        tt.seekTo(tMin);
+        if (!world.ended) tt.seekTo(tMin);
         return;
       }
+      // 終わったあとでも、分岐点の写しへは戻れる（結末のダイアログの「これまでの選択に戻る」。ユーザーの指定）
       if (atLatest()) timeline.capture(world, recorder, true);
       restore(found.world, found.recorder);
       toast(JA.ui.jumpedToChoice, 3500);
