@@ -62,6 +62,7 @@ export const storyPanel: Panel = {
         ed.refresh();
       },
       blank: (kind, k) => addBlank(ed, kind, k),
+      done,
       close() {
         sel = null;
         ed.refresh();

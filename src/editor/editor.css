@@ -293,3 +293,10 @@ button.attention { box-shadow: 0 0 0 2px rgba(230, 140, 20, 0.9); animation: att
 .brx-opt.add { min-height: 60px; display: flex; align-items: center; }
 .brx input[type='text'], .brx input[type='number'], .brx input[type='time'], .brx select, .brx textarea { background: var(--panel2); border: 1px solid var(--line); border-radius: 4px; padding: 3px 5px; color: var(--fg); min-width: 0; }
 .brx button { padding: 3px 8px; min-height: 26px; margin: 2px; }
+
+/* 開いた会話・結末・教訓: 結末は列が細いので、開いたものは横いっぱいに */
+.sb-ending:has(.brx) { grid-column: 1 / -1; }
+.brx-src.k-speech, .brx-src.k-thought { border-left-color: #b08be0; }
+.brx-src.k-ending { border-left-color: #6fcf7f; }
+.brx-src.k-lesson { border-left-color: #b7d36a; }
+.sb-ending .brx, .sb-talks .brx { margin: 4px 0; }

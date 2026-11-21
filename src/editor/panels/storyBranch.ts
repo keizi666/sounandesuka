@@ -12,7 +12,8 @@ import { nextId } from '../store/project';
 import { varInserter } from './choiceDetail';
 import type { BoardApi } from './storyBoard';
 import { effectEditor } from './storyDetail';
-import { optionBox } from './storyInspector';
+import type { StorySel } from '../templates/story';
+import { inlineParts, optionBox } from './storyInspector';
 
 const bar = (api: BoardApi, label: string): HTMLElement => el('div', { class: 'brx-bar' }, [el('strong', {}, label), el('span', { class: 'spacer' }), el('button', { class: 'small', title: 'たたんでカードに戻す', onclick: () => api.close() }, '✕ 閉じる')]);
 const arrow = (): HTMLElement => el('span', { class: 'brx-arrow' }, '▶');
@@ -48,5 +49,14 @@ export function eventBranch(ed: Ed, api: BoardApi, ev: ScriptEventDef): HTMLElem
   const opts = el('div', { class: 'brx-opts' }, [
     el('div', { class: 'brx-opt' }, [arrow(), el('div', { class: 'si-opt' }, [h('② なにが起きる（上から順に）'), effectEditor(ed, ev.effects, (l) => set('起きること', () => (ev.effects = l)))])]),
   ]);
+  return el('div', { class: 'brx' }, [src, opts]);
+}
+
+/** 会話・心の声・結末・教訓: 左に「いつ・どんなとき」、矢印の先に「文」。開けないとき（もうない項目）は null */
+export function inlineBranch(ed: Ed, api: BoardApi, sel: StorySel): HTMLElement | null {
+  const p = inlineParts(ed, sel, (s) => api.done(s));
+  if (!p) return null;
+  const src = el('div', { class: `brx-src k-${sel.kind}` }, [bar(api, p.title), h(p.srcTitle), ...p.src.filter((x): x is HTMLElement => x !== null)]);
+  const opts = el('div', { class: 'brx-opts' }, [el('div', { class: 'brx-opt' }, [arrow(), el('div', { class: 'si-opt' }, [h(p.outTitle), ...p.out.filter((x): x is HTMLElement => x !== null)])])]);
   return el('div', { class: 'brx' }, [src, opts]);
 }

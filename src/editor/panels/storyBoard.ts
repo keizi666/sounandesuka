@@ -14,7 +14,7 @@ import { varLabel } from '../forms/varPaths';
 import { clockLabel, plainWhen, RECORD_PRESETS } from '../forms/whenPicker';
 import type { StoryCat, StorySel } from '../templates/story';
 import { KIT_TEMPLATES } from '../templates/storyParts2';
-import { choiceBranch, eventBranch } from './storyBranch';
+import { choiceBranch, eventBranch, inlineBranch } from './storyBranch';
 import { ENDING_KINDS, plainEffects } from './storyDetail';
 
 export interface BoardApi {
@@ -28,6 +28,8 @@ export interface BoardApi {
   showMap(): void;
   /** 開いている枝分かれの編集をたたむ */
   close(): void;
+  /** 編集の中で選ぶものが変わった（並べ替え・削除）。描き直しは呼び出し側の変更が行う */
+  done(s: StorySel | null): void;
 }
 
 const GENERICS: GenericChoiceKey[] = ['lostAware', 'darkness', 'hypothermia', 'injured', 'lightning', 'waterfall', 'straggler', 'rescueFailed'];
@@ -65,7 +67,12 @@ function choseLinks(ed: Ed): Map<string, string[]> {
 const cut = (t: string, n: number): string => (t.length > n ? `${t.slice(0, n)}…` : t);
 /** 文の中の {leader.local.tempC:0} のような変数を、〔気温〕のような言葉にして見せる */
 const plainText = (ed: Ed, t: string): string => t.replace(/\{([^}:]+)(?::[^}]*)?\}/g, (_m, p: string) => (p === 'leader.def.name' || p === 'leader.name' ? 'リーダー' : `〔${varLabel(ed.p.scenario, p).replace(/^(リーダーの|局地の|記録: )/, '')}〕`));
-function card(api: BoardApi, me: StorySel, cls: string, kids: (HTMLElement | string | null)[]): HTMLElement {
+function card(api: BoardApi, me: StorySel, cls: string, kids: (HTMLElement | string | null)[], ed?: Ed): HTMLElement {
+  // 選んだ会話・結末・教訓は、その場で開いて直す
+  if (ed && api.sel?.kind === me.kind && api.sel.idx === me.idx) {
+    const open = inlineBranch(ed, api, me);
+    if (open) return open;
+  }
   const d = el('div', { class: `sb-card k-${cls}${api.sel?.kind === me.kind && api.sel.idx === me.idx ? ' sel' : ''}`, role: 'button', tabindex: 0, onclick: () => api.select(me) }, kids.filter((k): k is HTMLElement | string => k !== null));
   d.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -161,8 +168,8 @@ export function storyBoard(ed: Ed, api: BoardApi): HTMLElement {
   // ---- 会話 ----
   const who = (w: string | undefined): string => (!w || w === 'any' ? 'だれか' : w === 'leader' ? 'リーダー' : s.party.find((c) => c.id === w)?.name ?? w);
   const talk = [
-    ...(s.speech ?? []).map((sp, i) => card(api, { kind: 'speech', idx: i }, 'talk', [el('span', {}, `💬 ${who(sp.who)}「${cut(sp.lines[0] ?? '', 26)}」`), el('span', { class: 'sb-when' }, cut(plainWhen(sp.when, ctx), 30))])),
-    ...(s.thoughts ?? []).map((th, i) => card(api, { kind: 'thought', idx: i }, 'talk', [el('span', {}, `💭 ${who(th.who)}（${cut(th.lines[0] ?? '', 26)}）`), el('span', { class: 'sb-when' }, cut(plainWhen(th.when, ctx), 30))])),
+    ...(s.speech ?? []).map((sp, i) => card(api, { kind: 'speech', idx: i }, 'talk', [el('span', {}, `💬 ${who(sp.who)}「${cut(sp.lines[0] ?? '', 26)}」`), el('span', { class: 'sb-when' }, cut(plainWhen(sp.when, ctx), 30))], ed)),
+    ...(s.thoughts ?? []).map((th, i) => card(api, { kind: 'thought', idx: i }, 'talk', [el('span', {}, `💭 ${who(th.who)}（${cut(th.lines[0] ?? '', 26)}）`), el('span', { class: 'sb-when' }, cut(plainWhen(th.when, ctx), 30))], ed)),
   ];
 
   // ---- 結末 ----
@@ -170,17 +177,17 @@ export function storyBoard(ed: Ed, api: BoardApi): HTMLElement {
     const mine = s.endings.map((e, i) => ({ e, i })).filter((x) => x.e.kind === k);
     return el('div', { class: `sb-ending ${GOOD.includes(k) ? 'good' : 'bad'}` }, [
       el('div', { class: 'sb-ending-kind' }, JA.endings[k]?.title ?? k),
-      ...mine.map(({ e, i }) => card(api, { kind: 'ending', idx: i }, 'ending', [el('div', { class: 'sb-title' }, e.title || '（題なし）'), el('div', { class: 'sb-text' }, cut(e.text, 50)), e.when ? el('div', { class: 'sb-when' }, cut(plainWhen(e.when, ctx, RECORD_PRESETS), 40)) : null])),
+      ...mine.map(({ e, i }) => card(api, { kind: 'ending', idx: i }, 'ending', [el('div', { class: 'sb-title' }, e.title || '（題なし）'), el('div', { class: 'sb-text' }, cut(e.text, 50)), e.when ? el('div', { class: 'sb-when' }, cut(plainWhen(e.when, ctx, RECORD_PRESETS), 40)) : null], ed)),
       mine.length === 0 ? el('div', { class: 'sb-text muted' }, `（既定の文）${cut(JA.endings[k]?.text ?? '', 36)}`) : null,
       addBtn('＋ 文を書く', () => api.blank('ending', k)),
     ].filter((x): x is HTMLElement => x !== null));
   }));
 
-  const lessons = s.lessons.map((l, i) => card(api, { kind: 'lesson', idx: i }, 'lesson', [el('div', { class: 'sb-title' }, `💡 ${l.title || '（題なし）'}`), el('div', { class: 'sb-when' }, l.when ? cut(plainWhen(l.when, ctx, RECORD_PRESETS), 40) : 'いつも出す')]));
+  const lessons = s.lessons.map((l, i) => card(api, { kind: 'lesson', idx: i }, 'lesson', [el('div', { class: 'sb-title' }, `💡 ${l.title || '（題なし）'}`), el('div', { class: 'sb-when' }, l.when ? cut(plainWhen(l.when, ctx, RECORD_PRESETS), 40) : 'いつも出す')], ed));
 
   return el('div', { class: 'story-board' }, [
     el('div', { class: 'sb-top' }, [
-      el('div', {}, [el('h2', {}, `物語: ${s.title}`), el('p', { class: 'note' }, '分かれ道・できごとのカードを押すと、その場で開いて直せます。「＋」でテンプレートから足せます。')]),
+      el('div', {}, [el('h2', {}, `物語: ${s.title}`), el('p', { class: 'note' }, 'カードを押すと、その場で開いて直せます。「＋」でテンプレートから足せます。')]),
       el('span', { class: 'spacer' }),
       el('button', { onclick: () => api.showMap() }, '🗺 地図を見る'),
       el('button', { class: 'primary', onclick: () => api.add() }, '＋ テンプレートから足す'),
