@@ -1,6 +1,6 @@
-# 「みんなの遭難記録」API。外から開けるのは index.php と admin.php だけ
+# 「みんなの遭難記録」API。外から開けるのは index.php・admin.php と、共有の短い URL の s.php だけ
 Options -Indexes
-<FilesMatch "^(?!(index|admin)\.php$).+">
+<FilesMatch "^(?!(index|admin|s)\.php$).+">
   Require all denied
 </FilesMatch>
 <IfModule mod_rewrite.c>
