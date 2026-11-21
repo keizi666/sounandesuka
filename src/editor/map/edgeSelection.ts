@@ -24,7 +24,11 @@ export function clearEdgeSel(): void {
  * 道と地点をまとめて消す。地点を消すときは、その地点につながる道も消す。
  * 計画ルート・下山口に使っている地点を消すときは確かめ、ルートと下山口からも外す
  */
-export function removeSelection(ed: Ed, edgeIds: string[], nodeIds: string[]): boolean {
+/**
+ * 道と地点を消す。地点を消すのは nodeIds に入れたもの（選んだ地点）だけ。道を消して、どこにもつながらなくなった地点は残す
+ * （ユーザーの指摘: 両端に地点のある道を消すと地点まで消えた）。pruneOrphans は下書きの一括除外用で、つながらなくなった分岐点・境界点も消す
+ */
+export function removeSelection(ed: Ed, edgeIds: string[], nodeIds: string[], opts: { pruneOrphans?: boolean } = {}): boolean {
   const nodeSet = new Set(nodeIds);
   const ids = new Set([...edgeIds, ...ed.p.map.edges.filter((e) => nodeSet.has(e.from) || (e.to !== undefined && nodeSet.has(e.to))).map((e) => e.id)]);
   if (ids.size === 0 && nodeSet.size === 0) return false;
@@ -43,9 +47,9 @@ export function removeSelection(ed: Ed, edgeIds: string[], nodeIds: string[]): b
     // 消した道を指す紛らわしさも消す
     pruneConfusers(map);
     ed.p.editorState.draftEdgeIds = ed.p.editorState.draftEdgeIds.filter((x) => !ids.has(x));
-    // どの道にもつながらない分岐点（junction）と境界点（boundary。範囲の外へ続く道の端）は消す
+    // 下書きの一括除外では、どの道にもつながらなくなった分岐点（手で置いたものを除く）と境界点も消す
     const used = new Set(map.edges.flatMap((e) => [e.from, e.to ?? '']));
-    map.nodes = map.nodes.filter((n) => !nodeSet.has(n.id) && (used.has(n.id) || (n.type === 'junction' ? n.source === 'manual' : n.type !== 'boundary')));
+    map.nodes = map.nodes.filter((n) => !nodeSet.has(n.id) && (!opts.pruneOrphans || used.has(n.id) || (n.type === 'junction' ? n.source === 'manual' : n.type !== 'boundary')));
     if (inPlan.length > 0) {
       const alive = new Set(map.nodes.map((n) => n.id));
       ed.p.scenario.plan = { ...plan, route: plan.route.filter((id) => alive.has(id)), goalNodes: plan.goalNodes.filter((id) => alive.has(id)) };

@@ -23,6 +23,21 @@ describe('GPX', () => {
     expect(d.tracks[0]!.points[0]!.ele).toBe(1500);
     expect(d.waypoints[0]!.name).toBe('中心 & 地点');
   });
+  it('トラックのセグメントごと・2 つ目以降のトラック・ルートも別の軌跡として読む（切れ目をつながない）', () => {
+    const seg = (pts: [number, number][]): string =>
+      `<trkseg>${pts.map(([x, z]) => {
+        const p = toLatLon(lat0, lon0, x, z);
+        return `<trkpt lat="${p.lat}" lon="${p.lon}"><ele>1500</ele></trkpt>`;
+      }).join('')}</trkseg>`;
+    const rte = [[500, 500], [600, 500]].map(([x, z]) => {
+      const p = toLatLon(lat0, lon0, x!, z!);
+      return `<rtept lat="${p.lat}" lon="${p.lon}"/>`;
+    }).join('');
+    const xml = `<gpx version="1.1"><trk><name>1 日目</name>${seg([[0, 0], [100, 0]])}${seg([[300, 300], [400, 300], [500, 300]])}</trk><trk><name>2 日目</name>${seg([[0, 100], [0, 200]])}</trk><rte><name>予定</name>${rte}</rte></gpx>`;
+    const d = parseGpx(xml);
+    expect(d.tracks.map((t) => t.name)).toEqual(['1 日目（1）', '1 日目（2）', '2 日目', '予定']);
+    expect(d.tracks.map((t) => t.points.length)).toEqual([2, 3, 2, 2]);
+  });
   it('GPX でなければエラー', () => {
     expect(() => parseGpx('<kml></kml>')).toThrow();
   });

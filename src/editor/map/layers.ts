@@ -172,6 +172,16 @@ export function createLayers(ed: Ed, state: LayerState): MapLayer[] {
       g.fillStyle = 'rgba(192,57,43,0.95)';
       g.font = '12px system-ui';
       g.fillText(`箱庭 ${(ed.p.map.size / 1000).toFixed(2)} km 四方・${ed.p.map.resolution} 頂点`, r.x + 4, r.y - 6);
+      // 範囲を変えたあと地形を作り直していなければ、枠の上に知らせる（作り直しは手で）
+      if (ed.p.editorState.terrainStale) {
+        const t = '地形が前の範囲のままです（タブ 1 の「標高を取り直す」で作り直す）';
+        g.font = 'bold 13px system-ui';
+        const w = g.measureText(t).width + 12;
+        g.fillStyle = 'rgba(230,140,20,0.95)';
+        g.fillRect(r.x, r.y + 4, w, 22);
+        g.fillStyle = '#1d1a12';
+        g.fillText(t, r.x + 6, r.y + 20);
+      }
     },
   };
   const trails: MapLayer = {

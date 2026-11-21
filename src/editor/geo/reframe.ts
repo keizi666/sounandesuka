@@ -41,8 +41,11 @@ function remapGrid(g: GridOverride | undefined, from: Frame, to: Frame, dx: numb
   return any ? encodeGrid(out) : undefined;
 }
 
-/** 地点・道・危険・基地局・建物・道路・地図記号・送電線を (dx, dz) m だけ逆にずらす（中心が (dx, dz) へ動いたとき） */
-export function shiftContents(map: MapDef, dx: number, dz: number): void {
+/**
+ * 地点・道・危険・基地局・建物・道路・地図記号・送電線を (dx, dz) m だけ逆にずらす（中心が (dx, dz) へ動いたとき）。
+ * placedOnly: スケルトンで、まだ位置の決まっていない地点（x・z が 0）は動かさない
+ */
+export function shiftContents(map: MapDef, dx: number, dz: number, placedOnly = false): void {
   if (dx === 0 && dz === 0) return;
   const mv = (p: { x: number; z: number }): void => {
     p.x -= dx;
@@ -52,7 +55,7 @@ export function shiftContents(map: MapDef, dx: number, dz: number): void {
     p[0] -= dx;
     p[1] -= dz;
   };
-  for (const n of map.nodes) mv(n);
+  for (const n of map.nodes) if (!placedOnly || n.x !== 0 || n.z !== 0) mv(n);
   for (const e of map.edges) for (const w of e.waypoints) mvPt(w);
   for (const h of map.hazards) if ('x' in h) mv(h);
   for (const s of map.radio.stations) mv(s);

@@ -168,3 +168,9 @@ textarea.mono.ai-out { min-height: 36vh; margin-top: 4px; }
 .route-list button.mini { min-width: 26px; padding: 1px 6px; line-height: 1.3; }
 .route-list button.mini:disabled { opacity: 0.3; }
 
+/* 範囲を変えたあと、地形が古いことの知らせ（作り直しは手で。ユーザーの指定） */
+.stale-warn { margin: 4px 0 8px; padding: 6px 8px; border-radius: 6px; background: rgba(230, 140, 20, 0.18); border: 1px solid rgba(230, 140, 20, 0.6); color: #ffd28a; font-size: 0.9em; }
+button.attention { box-shadow: 0 0 0 2px rgba(230, 140, 20, 0.9); animation: attention-pulse 1.6s ease-in-out infinite; }
+@keyframes attention-pulse { 50% { box-shadow: 0 0 0 5px rgba(230, 140, 20, 0.35); } }
+@media (prefers-reduced-motion: reduce) { button.attention { animation: none; } }
+

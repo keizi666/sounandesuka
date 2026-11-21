@@ -6,7 +6,6 @@ import type { Ed } from '../context';
 import { baseElevationFor, suggestForestLine } from '../geo/dem';
 import type { DemMessage, DemRequest } from '../geo/dem.worker';
 import { gridFor } from '../geo/projection';
-import { keepHintsOnRecenter } from '../geo/skeletonBind';
 import { centerShift, remapGrids, shiftContents, type Frame } from '../geo/reframe';
 import type { BaseLayer } from '../geo/tiles';
 import { areaRect, type OverlayKind } from '../map/layers';
@@ -21,15 +20,6 @@ let smoothing = 1;
 let lastMsg = '';
 let overlay: OverlayKind = 'none';
 
-/** 範囲の中心を変える（スケルトンの地点の位置の手がかりは同じ緯度経度に保つ） */
-function recenter(ed: Ed, lat: number, lon: number): void {
-  const g = ed.p.map.geo!;
-  const old = { lat: g.centerLat, lon: g.centerLon };
-  g.centerLat = lat;
-  g.centerLon = lon;
-  keepHintsOnRecenter(ed.p.map, old.lat, old.lon);
-}
-
 /**
  * 範囲を数値・ボタンで変える。標高を取ったあとなら、中身を同じ緯度経度に保ち、塗りを写し直してから標高を取り直す
  */
@@ -40,26 +30,28 @@ function changeFrame(ed: Ed, label: string, next: Partial<Frame>): void {
   const to: Frame = { lat: next.lat ?? from.lat, lon: next.lon ?? from.lon, size: gr.size, resolution: gr.resolution };
   if (to.lat === from.lat && to.lon === from.lon && to.size === from.size) return;
   ed.change(label, () => {
-    if (!terrain && ed.p.map.skeleton) {
-      recenter(ed, to.lat, to.lon);
-    } else {
-      const d = centerShift(from, to);
-      shiftContents(ed.p.map, d.dx, d.dz);
-      ed.p.map.geo!.centerLat = to.lat;
-      ed.p.map.geo!.centerLon = to.lon;
-      remapGrids(ed.p.map, from, to);
-    }
+    // 中身（地点・道の曲がり点・建物など）は同じ緯度経度のまま。スケルトンの位置の決まっていない地点は動かさない
+    const d = centerShift(from, to);
+    shiftContents(ed.p.map, d.dx, d.dz, !terrain && ed.p.map.skeleton === true);
+    ed.p.map.geo!.centerLat = to.lat;
+    ed.p.map.geo!.centerLon = to.lon;
+    remapGrids(ed.p.map, from, to);
     ed.p.map.size = to.size;
     ed.p.map.resolution = to.resolution;
-    if (terrain) dropHeightsIfResized(ed, from);
+    if (terrain) {
+      dropHeightsIfResized(ed, from);
+      ed.p.editorState.terrainStale = true;
+    }
   }, true);
   ed.view.lat0 = to.lat;
   ed.view.lon0 = to.lon;
   if (terrain) {
-    ed.toast('範囲を変えたので、標高を取り直しています（地点・道・建物は同じ場所のまま）', 5000);
-    fetchTerrain(ed);
+    ed.toast(STALE_TOAST, 6000);
   }
 }
+
+/** 標高を取ったあとに範囲を変えたときの知らせ（作り直しは手で。ユーザーの指定: 自動で作られるとうるさい） */
+const STALE_TOAST = '範囲が変わりました。地形は前の範囲のままです。右の「標高を取り直す」を押すと作り直します（地点・道・建物は同じ場所のまま）';
 
 /** 大きさ（頂点の数）が変わったら、古い標高は使えないので消す（取り直すまで地形なし） */
 function dropHeightsIfResized(ed: Ed, from: Frame): void {
@@ -103,10 +95,9 @@ function areaTool(ed: Ed): MapTool | null {
         g.centerLon = start.lon + (p.lon - start.pLon);
         // 動かしているあいだも、中身（地点・道・建物など）は同じ緯度経度のまま（ユーザーの指摘: 道がいったん枠と一緒に動き、離すと戻っていた）。
         // 標高を取る前のスケルトンは、位置の手がかりのある地点だけ（座標のない地点は動かさない）
-        if (terrain || !ed.p.map.skeleton) {
-          const d = centerShift(prev, frameOf(ed));
-          shiftContents(ed.p.map, d.dx, d.dz);
-        } else keepHintsOnRecenter(ed.p.map, prev.lat, prev.lon);
+        // スケルトン（標高なし）でも、道の曲がり点（地点を挿入・結合で付いたもの）を一緒に保つ（ユーザーの指摘: 紫のルートが枠にくっついてきた）
+        const d = centerShift(prev, frameOf(ed));
+        shiftContents(ed.p.map, d.dx, d.dz, !terrain && ed.p.map.skeleton === true);
         ed.view.lat0 = g.centerLat;
         ed.view.lon0 = g.centerLon;
       } else {
@@ -129,9 +120,9 @@ function areaTool(ed: Ed): MapTool | null {
       if (to.lat === from.lat && to.lon === from.lon && to.size === from.size) return;
       remapGrids(ed.p.map, from, to);
       dropHeightsIfResized(ed, from);
+      ed.p.editorState.terrainStale = true;
       ed.touched(true);
-      ed.toast('範囲を変えたので、標高を取り直しています（地点・道・建物は同じ場所のまま）', 5000);
-      fetchTerrain(ed);
+      ed.toast(STALE_TOAST, 6000);
     },
   };
 }
@@ -158,6 +149,7 @@ function fetchTerrain(ed: Ed, progress: HTMLProgressElement = el('progress', { v
     let min = Infinity;
     for (const v of m.heights) min = Math.min(min, v);
     setHeights(ed.p, m.heights, { baseElevation: baseElevationFor(min), smoothing, fetchedAt: new Date().toISOString() });
+    delete ed.p.editorState.terrainStale;
     ed.p.map.vegetation.forestLine = suggestForestLine(g.centerLat);
     ed.p.map.vegetation.broadleafLine = ed.p.map.vegetation.forestLine - 900;
     (ed as EditorApp).mapReplaced();
@@ -208,7 +200,7 @@ export const areaPanel: Panel = {
       return;
     }
     const center = section('範囲', [
-      el('p', { class: 'note' }, '地名検索はありません。緯度経度を入れるか、地図を動かして探してください。範囲の枠はドラッグで移動、右下の角で大きさを変えられます。標高を取ったあとに動かすと、地点・道・建物は同じ場所のまま、離したときに標高を取り直します（そのため ↶ では戻せません。戻すときは枠を動かし直してください）。'),
+      el('p', { class: 'note' }, '地名検索はありません。緯度経度を入れるか、地図を動かして探してください。範囲の枠はドラッグで移動、右下の角で大きさを変えられます。標高を取ったあとに動かしても、地点・道・建物は同じ場所のままです。地形は「標高を取り直す」を押したときに作り直します。'),
       num('中心の緯度', g.centerLat, (x) => changeFrame(ed, '中心', { lat: x }), { step: 0.0001 }),
       num('中心の経度', g.centerLon, (x) => changeFrame(ed, '中心', { lon: x }), { step: 0.0001 }),
       num('一辺', Math.round(ed.p.map.size), (s) => changeFrame(ed, '大きさ', { size: s }), { min: 2048, max: 12288, step: 128, unit: 'm' }),
@@ -216,13 +208,15 @@ export const areaPanel: Panel = {
       button('範囲を地図の中心に置く', () => changeFrame(ed, '範囲を置く', { lat: v.lat, lon: v.lon })),
       button('範囲を画面に合わせる', () => v.fitArea(ed.p.map.size)),
     ]);
+    const stale = ed.p.editorState.terrainStale === true;
     const dem = section('地形を作る', [
+      stale ? el('p', { class: 'stale-warn' }, '範囲が変わったので、地形が前の範囲のままです。下の「標高を取り直す」で作り直してください。') : null,
       select<number>('平滑化', smoothing, [[0, 'なし'], [1, '1 回（既定）'], [2, '2 回'], [3, '3 回']], (s) => (smoothing = s), 'DEM10B の段差ノイズを 3×3 ガウシアンでならす'),
       button(terrain ? '標高を取り直す' : '標高を取得する（地理院 標高タイル）', () => {
         v.lat0 = g.centerLat;
         v.lon0 = g.centerLon;
         fetchTerrain(ed, progress, msg);
-      }, 'primary'),
+      }, stale ? 'primary attention' : 'primary'),
       progress,
       msg,
       terrain && ed.p.map.terrain.type === 'heightmap'

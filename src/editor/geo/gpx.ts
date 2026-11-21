@@ -41,8 +41,18 @@ export function parseGpx(xml: string): GpxData {
   for (const m of xml.matchAll(/<(trk|rte)\b[^>]*>([\s\S]*?)<\/\1>/g)) {
     const body = m[2]!;
     const name = unescape(inner(body.replace(/<(trkseg|rtept)[\s\S]*/, ''), 'name') ?? '');
-    const pts = points(body, m[1] === 'trk' ? 'trkpt' : 'rtept');
-    if (pts.length >= 2) tracks.push({ name, points: pts });
+    if (m[1] === 'rte') {
+      const pts = points(body, 'rtept');
+      if (pts.length >= 2) tracks.push({ name, points: pts });
+      continue;
+    }
+    // トラックはセグメント（<trkseg>）ごとに別の軌跡にする（切れ目を直線でつながない。ユーザーの指摘: 最初のセグメントしか読まれなかった）
+    const segs = [...body.matchAll(/<trkseg\b[^>]*>([\s\S]*?)<\/trkseg>/g)].map((s) => points(s[1]!, 'trkpt')).filter((p) => p.length >= 2);
+    if (segs.length === 0) {
+      const pts = points(body, 'trkpt');
+      if (pts.length >= 2) tracks.push({ name, points: pts });
+    }
+    segs.forEach((pts, i) => tracks.push({ name: segs.length > 1 ? `${name || '軌跡'}（${i + 1}）` : name, points: pts }));
   }
   const waypoints: GpxData['waypoints'] = [];
   for (const m of xml.matchAll(/<wpt\b([^>]*?)>([\s\S]*?)<\/wpt>/g)) {

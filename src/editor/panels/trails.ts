@@ -67,7 +67,7 @@ function confirmDrafts(ed: Ed, ids: string[]): void {
 }
 
 function removeEdges(ed: Ed, ids: string[]): void {
-  removeSelection(ed, ids, []);
+  removeSelection(ed, ids, [], { pruneOrphans: true });
 }
 
 /** いま選んでいる道（複数選択か、1 本の選択） */
@@ -116,18 +116,20 @@ function farFromRoute(ed: Ed): string[] {
 async function importGpx(ed: Ed, f: File): Promise<void> {
   const g = ed.p.map.geo;
   if (!g) return ed.toast('GPX は実在の山のプロジェクトで使えます');
-  const data = parseGpx(await f.text());
-  const tr = data.tracks[0];
-  if (!tr) return ed.toast('GPX に軌跡がありません');
-  const xz = trackToXZ(tr.points, g.centerLat, g.centerLon, ed.p.map.size);
-  ed.p.raw.gpx = [...(ed.p.raw.gpx ?? []), await f.text()];
+  const text = await f.text();
+  const data = parseGpx(text);
+  // すべての軌跡（トラックのセグメントごと・ルート）を使う（ユーザーの指摘: 最初のセグメントしか読まれなかった）。範囲の外だけの軌跡は落とす
+  const tracks = data.tracks.map((t) => ({ name: t.name, xz: trackToXZ(t.points, g.centerLat, g.centerLon, ed.p.map.size) })).filter((t) => t.xz.length >= 2);
+  if (tracks.length === 0) return ed.toast(data.tracks.length ? 'GPX の軌跡が範囲の中にありません' : 'GPX に軌跡がありません');
+  ed.p.raw.gpx = [...(ed.p.raw.gpx ?? []), text];
   if (gpxUse === 'route') {
     const rt = ed.runtime();
     if (!rt) return;
-    const route = trackToRoute(xz, rt);
+    // 軌跡を順につないで、まとめてマップマッチングする
+    const route = trackToRoute(tracks.flatMap((t) => t.xz), rt);
     if (route.length < 2) return ed.toast('軌跡を既存の登山道に重ねられませんでした');
     ed.change('GPX から計画ルート', () => (ed.p.scenario.plan.route = route));
-    return ed.toast(`計画ルート: ${route.length} 地点`);
+    return ed.toast(`計画ルート: ${route.length} 地点${tracks.length > 1 ? `（軌跡 ${tracks.length} 本をつないで）` : ''}`);
   }
   const ids = [...ed.p.map.nodes.map((n) => n.id), ...ed.p.map.edges.map((e) => e.id)];
   const nid = (p: string): string => {
@@ -136,18 +138,27 @@ async function importGpx(ed: Ed, f: File): Promise<void> {
     return id;
   };
   if (gpxUse === 'false') {
-    const start = hitNearestNode(ed, xz[0]!);
     ed.change('GPX から偽の道', () => {
-      ed.p.map.edges.push({ id: nid('F'), name: tr.name || '迷った軌跡', kind: 'false', from: start.id, class: 'T3', markers: 0.1, drift: 0.1, sinuosity: 1, smooth: false, source: 'gpx', fadeOutM: 300, attractiveness: 0.5, waypoints: xz.slice(1).map((p) => [p.x, p.z]) });
+      for (const t of tracks) {
+        const start = hitNearestNode(ed, t.xz[0]!);
+        ed.p.map.edges.push({ id: nid('F'), name: t.name || '迷った軌跡', kind: 'false', from: start.id, class: 'T3', markers: 0.1, drift: 0.1, sinuosity: 1, smooth: false, source: 'gpx', fadeOutM: 300, attractiveness: 0.5, waypoints: t.xz.slice(1).map((p) => [p.x, p.z]) });
+      }
     }, true);
-    return;
+    return ed.toast(`偽の道 ${tracks.length} 本を足しました`);
   }
-  const r = trackAsTrails(xz, { nodes: ed.p.map.nodes, edges: ed.p.map.edges }, nid);
+  // 登山道: 軌跡を 1 本ずつ足す（前の軌跡で足した道・地点にも重ねる）
+  const nodes: NodeDef[] = [];
+  const edges: EdgeDef[] = [];
+  for (const t of tracks) {
+    const r = trackAsTrails(t.xz, { nodes: [...ed.p.map.nodes, ...nodes], edges: [...ed.p.map.edges, ...edges] }, nid);
+    nodes.push(...r.nodes);
+    edges.push(...r.edges);
+  }
   ed.change('GPX から登山道', () => {
-    ed.p.map.nodes.push(...r.nodes);
-    ed.p.map.edges.push(...r.edges);
+    ed.p.map.nodes.push(...nodes);
+    ed.p.map.edges.push(...edges);
   }, true);
-  ed.toast(`新しい道 ${r.edges.length} 本（既存の道と重なる部分は既存を使いました）`);
+  ed.toast(`新しい道 ${edges.length} 本${tracks.length > 1 ? `（軌跡 ${tracks.length} 本から）` : ''}（既存の道と重なる部分は既存を使いました）`);
 }
 
 function hitNearestNode(ed: Ed, p: { x: number; z: number }): NodeDef {

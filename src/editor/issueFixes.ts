@@ -152,6 +152,8 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
       return { hint: '書かれたコースタイムと、地形からの試算が大きく違います。道のインスペクタで「歩きやすさ（paceAdj）」を変えるか、コースタイムを見直してください。', locate: edge ? { tab: 'trails', kind: 'edge', id: edge } : undefined };
     case 'outside':
       return { hint: 'エリアの外にある地点です。タブ 1 で範囲を広げるか、地点を消してください。', locate: node ? { tab: 'points', kind: 'node', id: node } : undefined };
+    case 'terrainStale':
+      return { hint: '範囲を動かした・広げたので、地形が前の範囲のままです。タブ 1（エリア）で「標高を取り直す」を押してください。', locate: { tab: 'area' } };
     case 'noTerrain':
       return { hint: 'タブ 1（エリア）で「標高を取得する」を押してください。', locate: { tab: 'area' } };
     case 'attribution':

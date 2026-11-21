@@ -980,5 +980,6 @@ export interface EditorProject {
     draftEdgeIds: EdgeId[];          // 取り込み後、未確定の道
     probePoints: { label: string; x: number; z: number }[];
     rightsConfirmed: boolean;        // 書き出し時の権利確認
+    terrainStale?: boolean;          // 標高を取ったあとに範囲を動かした（地形が前の範囲のまま。「標高を取り直す」で消える）
   };
 }

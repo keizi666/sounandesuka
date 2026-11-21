@@ -27,6 +27,7 @@ export function validateEditor(p: EditorProject, m: MapRuntime | null): Issue[] 
     const bad = (n.confusers ?? []).filter((c) => !edgeIds.has(c.edge) || c.whenIntending.some((w) => !edgeIds.has(w)));
     if (bad.length) err(`map.nodes.${n.id}`, 'confuserEdge', `${n.name} の紛らわしい分岐が、ない道（消した道）を指しています`);
   }
+  if (p.editorState.terrainStale) warn('map.terrain', 'terrainStale', '範囲を変えたあと、地形（標高）を作り直していません');
   const used = new Set(map.edges.flatMap((e) => [e.from, e.to ?? '']));
   for (const n of map.nodes) if (!used.has(n.id)) warn(`map.nodes.${n.id}`, 'isolated', `${n.name} はどの道にもつながっていません`);
   if (!map.nodes.some((n) => n.type === 'trailhead')) warn('map.nodes', 'noTrailhead', '下山口（登山口）のノードがありません');
