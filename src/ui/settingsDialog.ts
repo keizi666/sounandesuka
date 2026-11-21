@@ -4,7 +4,6 @@ import { saveSettings, type Settings } from '../app/settings';
 import { JA } from '../i18n/ja';
 import { el } from './dom';
 import { icon } from './icons';
-import { musicSelect } from './musicSelect';
 
 export function openSettings(app: AppContext, onChange?: (s: Settings) => void): void {
   const S = JA.settingsUi;
@@ -41,7 +40,6 @@ export function openSettings(app: AppContext, onChange?: (s: Settings) => void):
     row(S.clouds3d, toggle('clouds3d')),
     row(S.music, toggle('music')),
     row(S.musicVolume, range('musicVolume', 0, 1, 0.05)),
-    row(S.musicTrack, musicSelect(s, () => onChange?.(s))),
     row(S.recordQuality, select('recordQuality', [['low', S.recordLow], ['mid', S.recordMid], ['high', S.recordHigh]])),
     row(S.se, toggle('se')),
     row(S.seVolume, range('seVolume', 0, 1, 0.05)),

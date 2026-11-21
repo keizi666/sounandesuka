@@ -57,7 +57,8 @@ export function startApp(root: HTMLElement): void {
     saveSettings(settings);
   }
   document.documentElement.dataset['textSize'] = settings.textSize;
-  const prefs = (s: Settings): void => audio().setPrefs({ se: s.se, seVolume: s.seVolume, music: s.music, musicVolume: s.musicVolume, track: s.musicTrack });
+  // 曲は場面に合わせて自動で選ぶ（ユーザーの指定で曲を選ぶ操作をなくした。以前に選んで保存した曲は使わない）
+  const prefs = (s: Settings): void => audio().setPrefs({ se: s.se, seVolume: s.seVolume, music: s.music, musicVolume: s.musicVolume, track: 'auto' });
   prefs(settings);
   onSettingsSaved(prefs);
   const app: AppContext = {
