@@ -6,20 +6,16 @@ import { historicalSources } from './historicalLinks';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { JA } from '../i18n/ja';
-import { fill, formatClock, formatDateTime, phoneWordIn } from '../i18n/format';
-import { powerBankPctOf } from '../sim/core/world';
-import { eraGear, powerBankAvailable, scenarioYear } from '../sim/scenario/era';
-import { TUNING } from '../sim/tuning';
+import { fill, formatClock, formatDateTime } from '../i18n/format';
 import { parseTimeRef } from '../sim/core/clock';
 import { scenarioStartMin } from '../sim/core/clock';
 import { legCourseTimeMin, resolveRoute } from '../sim/terrain/trails';
-import type { ClimberDef } from '../sim/types';
-import { avatar } from './avatar';
 import { el } from './dom';
 import { icon, type IconName } from './icons';
 import { drawMap2d } from './map2d';
 import { audio } from './audio';
-import { applyConditions, DEFAULT_CONDITIONS, DEFAULT_POWER_BANK_MAH, isDefaultConditions, POWER_BANK_CHOICES, WATER_DELTA_CHOICES, type Health, type SeasonOverride, type StartConditions, type WeatherOverride } from '../sim/scenario/startConditions';
+import { applyConditions, DEFAULT_CONDITIONS, isDefaultConditions, type StartConditions } from '../sim/scenario/startConditions';
+import { climberCard, weatherCard } from './briefingConditions';
 import { shareButtons } from './shareButtons';
 import { briefUrl } from '../app/shareState';
 import { saveSettings, type Difficulty } from '../app/settings';
@@ -40,86 +36,6 @@ function forecastIcon(label: string, text: string): IconName {
 function hoursMinutes(min: number): string {
   const m = Math.round(min);
   return m >= 60 ? `${Math.floor(m / 60)}時間${m % 60 ? `${m % 60}分` : ''}` : `${m}分`;
-}
-
-/** 装備の 1 項目（アイコン＋文）。持っていないものは薄く出す */
-function gearChip(ic: IconName, text: string, has = true): HTMLElement {
-  return el('span', { class: `gear${has ? '' : ' none'}` }, [icon(ic), text]);
-}
-
-function climberCard(p: ClimberDef): HTMLElement {
-  const B = JA.briefing;
-  const g = p.gear;
-  return el('li', { class: 'bf-climber', style: `--c:${p.color}` }, [
-    avatar(p, 64),
-    el('div', { class: 'bf-who' }, [
-      el('div', { class: 'bf-name' }, [el('strong', {}, p.name), el('span', {}, `${p.age}${B.yearsOld}`), p.leader ? el('span', { class: 'badge' }, B.leader) : null, p.role ? el('span', { class: 'role' }, p.role) : null]),
-      el('div', { class: 'bf-gear' }, [
-        gearChip('checkroom', `${B.rainwear} ${B.rainwearKind[g.rainwear] ?? g.rainwear}`, g.rainwear !== 'none'),
-        gearChip('acUnit', g.cloPack > 0 ? B.warmSpare : B.warmNone, g.cloPack > 0),
-        gearChip('flashlightOn', g.headlamp.has ? B.headlamp : B.noHeadlamp, g.headlamp.has),
-        gearChip('map', g.phone.gpsApp ? B.mapApp : g.map ? B.paperMap : B.noMap, g.phone.gpsApp || g.map),
-        gearChip('camping', g.tent ? B.tent : g.bivy !== 'none' ? B.bivy : B.noBivy, Boolean(g.tent) || g.bivy !== 'none'),
-        gearChip('restaurant', `${g.foodKcal} kcal`),
-        gearChip('waterDrop', `${g.waterL} L`),
-        g.trekkingPoles ? gearChip('hiking', B.poles) : null,
-      ]),
-      p.estimated?.length ? el('small', { class: 'estimated' }, `${JA.ui.estimated}: ${p.estimated.join(', ')}`) : null,
-    ]),
-  ]);
-}
-
-/** 始まりの条件のカード（選ぶと cond を書き換える） */
-function conditionsCard(s: LoadedScenario['scenario'], cond: StartConditions): HTMLElement {
-  const C = JA.conditions;
-  const select = <T extends string>(value: T, opts: [T, string][], set: (v: T) => void): HTMLSelectElement => {
-    const sel = el('select', {}, opts.map(([v, l]) => el('option', { value: v, selected: v === value }, l))) as HTMLSelectElement;
-    sel.addEventListener('change', () => {
-      set(sel.value as T);
-      refresh();
-    });
-    return sel;
-  };
-  const summary = el('p', { class: 'hint' });
-  const refresh = (): void => {
-    summary.textContent = isDefaultConditions(cond) ? C.asScenario : C.changedNote;
-    card.classList.toggle('changed', !isDefaultConditions(cond));
-  };
-  const temp = el('input', { type: 'range', min: -10, max: 10, step: 1, value: cond.tempOffsetC }) as HTMLInputElement;
-  const tempLabel = el('output', {}, '');
-  const showTemp = (): void => {
-    tempLabel.textContent = `${cond.tempOffsetC > 0 ? '+' : ''}${cond.tempOffsetC}℃`;
-  };
-  temp.addEventListener('input', () => {
-    cond.tempOffsetC = Number(temp.value);
-    showTemp();
-    refresh();
-  });
-  showTemp();
-  const row = (label: string, ctrl: HTMLElement | HTMLElement[]): HTMLElement => el('label', { class: 'bf-cond-row' }, [el('span', {}, label), ...(Array.isArray(ctrl) ? ctrl : [ctrl])]);
-  // 水: 増減したあとの量（人によって違えば幅で）
-  const waterText = (d: number): string => {
-    const ls = s.party.map((p) => Math.max(0.2, Math.round((p.gear.waterL + d) * 10) / 10));
-    const lo = Math.min(...ls);
-    const hi = Math.max(...ls);
-    return lo === hi ? `${lo} L` : `${lo}〜${hi} L`;
-  };
-  const healthOpts: [Health, string][] = [['good', C.health.good], ['sleepy', C.health.sleepy], ['tired', C.health.tired], ['cold', C.health.cold], ['hangover', C.health.hangover]];
-  const card = el('section', { class: 'bf-card bf-cond' }, [
-    el('h2', {}, [icon('thermostat'), C.title]),
-    row(C.weather, select<WeatherOverride>(cond.weather, [['asIs', C.asIs], ['clear', C.w.clear], ['rain', C.w.rain], ['fog', C.w.fog], ['snow', C.w.snow], ['storm', C.w.storm]], (v) => (cond.weather = v))),
-    row(C.temp, [temp, tempLabel]),
-    row(C.season, select<SeasonOverride>(cond.season, [['asIs', C.asIs], ['spring', JA.labels.season['spring'] ?? '春'], ['summer', JA.labels.season['summer'] ?? '夏'], ['autumn', JA.labels.season['autumn'] ?? '秋'], ['winter', JA.labels.season['winter'] ?? '冬']], (v) => (cond.season = v))),
-    // モバイルバッテリーは、その年代にあり、スマホを持つ人がいるときだけ
-    powerBankAvailable(s, TUNING) && s.party.some((p) => eraGear(p.gear, scenarioYear(s), TUNING).phone.has)
-      ? row(C.powerBank, select<string>(String(cond.powerBankMah ?? DEFAULT_POWER_BANK_MAH), POWER_BANK_CHOICES.map((m) => [String(m), m === 0 ? C.powerBankNone : phoneWordIn(s, fill(C.powerBankMah, { mah: m.toLocaleString(), n: (powerBankPctOf(m) / 100).toFixed(1) }))]), (v) => (cond.powerBankMah = Number(v))))
-      : null,
-    row(C.water, select<string>(String(cond.waterDeltaL ?? 0), WATER_DELTA_CHOICES.map((d) => [String(d), d === 0 ? fill(C.waterAsIs, { l: waterText(0) }) : fill(C.waterDelta, { d: `${d > 0 ? '+' : ''}${d}`, l: waterText(d) })]), (v) => (cond.waterDeltaL = Number(v)))),
-    ...s.party.map((p) => row(`${p.name}${C.healthOf}`, select<Health>(cond.health[p.id] ?? 'good', healthOpts, (v) => (cond.health[p.id] = v)))),
-    summary,
-  ]);
-  refresh();
-  return card;
 }
 
 /** 難しさを選ぶ（出発の前。選んだものは設定に覚える。ユーザーの指定） */
@@ -207,9 +123,9 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
     loaded.attribution.length > 0 ? el('p', { class: 'note' }, `${JA.ui.attribution}: ${loaded.attribution.map((a) => a.text).join(' / ')}`) : null,
     s.sources && s.sources.length > 0 ? el('p', { class: 'note' }, [`${JA.ui.sources}: `, veil(el('span', {}, s.sources.join(' / ')))]) : null,
   ]);
-  // 始まりの条件を変えて試す（天気・気温・季節・体調）
+  // 始まりの条件を変えて試す（気象条件はカード、体調・装備・体力・持ち物は登場人物のカードで人ごとに。ユーザーの指定）
   const cond: StartConditions = structuredClone(loaded.conditions ?? DEFAULT_CONDITIONS);
-  const condCard = conditionsCard(s, cond);
+  const condCard = weatherCard(cond);
   const depart = (): void => {
     const changed = !isDefaultConditions(cond);
     const next: LoadedScenario = changed ? { ...loaded, scenario: applyConditions(loaded.scenario, cond), conditions: structuredClone(cond) } : { ...loaded, conditions: undefined };
@@ -258,7 +174,7 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
           ]),
           el('div', { class: 'bf-col' }, [
             el('section', { class: 'bf-card bf-story' }, [el('p', {}, s.briefing.text)]),
-            el('section', { class: 'bf-card' }, [el('h2', {}, [icon('groups'), JA.ui.party]), el('ul', { class: 'bf-party' }, s.party.map(climberCard))]),
+            el('section', { class: 'bf-card' }, [el('h2', {}, [icon('groups'), JA.ui.party]), el('ul', { class: 'bf-party' }, s.party.map((p) => climberCard(p, s, cond, true)))]),
             el('section', { class: 'bf-card' }, [
               el('h2', {}, [icon('partlyCloudyDay'), JA.ui.forecast]),
               el('ul', { class: 'bf-forecast' }, s.briefing.forecast.map((f) => {

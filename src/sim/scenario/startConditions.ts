@@ -1,5 +1,5 @@
 /**
- * 始まりの条件を変えて試す（ユーザーの指定）: 天気・気温・季節・登場人物の体調・モバイルバッテリー・水の量。
+ * 始まりの条件を変えて試す（ユーザーの指定）: 天気・気温・季節（気象条件）と、登場人物ごとの体調・装備・体力・モバイルバッテリー・水の量。
  * シナリオの写しを書き換える純粋な関数（元のシナリオは変えない）。変えた条件は保存して、再開のときにも同じように当てる。
  * 文章（ブリーフィング・分岐点・結末）はシナリオのままなので、天気や季節を変えると文と合わない所が出ることがある（画面に注記を出す）。
  */
@@ -8,6 +8,19 @@ import type { ClimberDef, ForecastEntry, ScenarioDef, WeatherKeyframe } from '..
 export type WeatherOverride = 'asIs' | 'clear' | 'rain' | 'fog' | 'snow' | 'storm';
 export type SeasonOverride = 'asIs' | 'spring' | 'summer' | 'autumn' | 'winter';
 export type Health = 'good' | 'sleepy' | 'tired' | 'cold' | 'hangover';
+/** 装備の組み合わせ（ユーザーの指定: 観光・軽装・登山用・厳冬期用） */
+export type GearPreset = 'tourist' | 'light' | 'hiking' | 'winter';
+
+/** 登場人物ごとの条件（書いていない項目はシナリオのまま） */
+export interface PersonConditions {
+  gear?: GearPreset;
+  /** 体力の倍率（fitness に掛ける） */
+  fitnessX?: number;
+  /** モバイルバッテリーの容量（mAh。0 は持たない。スマホを持つ人だけ） */
+  powerBankMah?: number;
+  /** 持つ水（L） */
+  waterL?: number;
+}
 
 export interface StartConditions {
   weather: WeatherOverride;
@@ -18,9 +31,20 @@ export interface StartConditions {
   health: Record<string, Health>;
   /** スマホを持つ人のモバイルバッテリーの容量（mAh。0 は持たない）。省略は既定（5000） */
   powerBankMah?: number;
-  /** 1 人あたりの水の増減（L）。省略は 0（シナリオのまま） */
+  /** 1 人あたりの水の増減（L）。省略は 0（シナリオのまま）。古い保存・URL を読むためだけに残す（いまは people で人ごと） */
   waterDeltaL?: number;
+  /** 登場人物ごとの装備・体力・モバイルバッテリー・水 */
+  people?: Record<string, PersonConditions>;
 }
+
+export const GEAR_PRESETS: readonly GearPreset[] = ['tourist', 'light', 'hiking', 'winter'];
+/** 選べる体力の倍率 */
+export const FITNESS_X_CHOICES = [0.5, 0.8, 1, 1.2, 1.5, 2] as const;
+/** 人ごとに選べる水の量（L） */
+export const WATER_L_CHOICES = [0.5, 1, 1.5, 2, 2.5, 3, 4, 5] as const;
+/** 体力の倍率を掛けたあとの範囲 */
+const FITNESS_MIN = 0.2;
+const FITNESS_MAX = 3;
 
 /** 選べるモバイルバッテリーの容量（mAh。0 は持たない）と、既定 */
 export const POWER_BANK_CHOICES = [0, 5000, 10000, 20000] as const;
@@ -32,9 +56,51 @@ const WATER_MIN_L = 0.2;
 
 export const DEFAULT_CONDITIONS: StartConditions = { weather: 'asIs', tempOffsetC: 0, season: 'asIs', health: {} };
 
+/** その人の条件を何も変えていないか */
+export function isDefaultPerson(pc: PersonConditions | undefined): boolean {
+  return !pc || (pc.gear === undefined && (pc.fitnessX ?? 1) === 1 && pc.powerBankMah === undefined && pc.waterL === undefined);
+}
+
+/** 気象条件（天気・気温・季節）を何も変えていないか */
+export function isDefaultWeather(c: StartConditions | undefined): boolean {
+  return !c || (c.weather === 'asIs' && c.tempOffsetC === 0 && c.season === 'asIs');
+}
+
 /** 何も変えていないか */
 export function isDefaultConditions(c: StartConditions | undefined): boolean {
-  return !c || (c.weather === 'asIs' && c.tempOffsetC === 0 && c.season === 'asIs' && Object.values(c.health).every((h) => h === 'good') && (c.powerBankMah ?? DEFAULT_POWER_BANK_MAH) === DEFAULT_POWER_BANK_MAH && (c.waterDeltaL ?? 0) === 0);
+  return (
+    !c ||
+    (isDefaultWeather(c) &&
+      Object.values(c.health).every((h) => h === 'good') &&
+      (c.powerBankMah ?? DEFAULT_POWER_BANK_MAH) === DEFAULT_POWER_BANK_MAH &&
+      (c.waterDeltaL ?? 0) === 0 &&
+      Object.values(c.people ?? {}).every(isDefaultPerson))
+  );
+}
+
+/** 季節ごとの、ふだん着ている服の保温（clo）。観光・軽装・登山用は季節の服装に合わせる */
+const SEASON_WORN_CLO: Record<string, number> = { spring: 0.9, summer: 0.5, autumn: 0.9, winter: 1.3 };
+const SEASON_PACK_CLO: Record<string, number> = { spring: 0.8, summer: 0.6, autumn: 0.8, winter: 1.0 };
+
+/** 装備の組み合わせを当てた装備（食べ物・水・スマホ・薬・テントなど持ち物はそのまま） */
+export function gearOfPreset(g: ClimberDef['gear'], preset: GearPreset, season: string): ClimberDef['gear'] {
+  const worn = SEASON_WORN_CLO[season] ?? 0.9;
+  const none = { has: false, batteryH: 0, inPack: false, spareBatteryH: 0 };
+  const base = { ...g };
+  switch (preset) {
+    // 観光（普段着・手ぶら）: 季節の普段着だけ。雨具・予備の防寒着・ライト・地図はない
+    case 'tourist':
+      return { ...base, rainwear: 'none', cloWorn: worn, cloPack: 0, gloves: 'none', hat: false, bivy: 'none', headlamp: none, map: false, compass: false, stove: false, crampons: false, helmet: false, trekkingPoles: false, whistle: false, rescueSheet: false };
+    // 軽装: ポンチョ・薄い上着・小さなライトくらい
+    case 'light':
+      return { ...base, rainwear: 'poncho', cloWorn: worn, cloPack: 0.3, gloves: 'thin', hat: true, bivy: 'none', headlamp: { has: true, batteryH: 4, inPack: true, spareBatteryH: 0 }, map: false, compass: false, stove: false, crampons: false, helmet: false, trekkingPoles: false, whistle: false, rescueSheet: false };
+    // 登山用（無雪期の装備）: 防水の雨具・季節の防寒着・ヘッドランプと予備電池・地図・ツェルト
+    case 'hiking':
+      return { ...base, rainwear: 'goretex', cloWorn: worn, cloPack: SEASON_PACK_CLO[season] ?? 0.8, gloves: season === 'winter' ? 'waterproof' : 'thin', hat: true, bivy: 'tarp', headlamp: { has: true, batteryH: 10, inPack: false, spareBatteryH: 6 }, map: true, compass: true, crampons: false, trekkingPoles: true, whistle: true, rescueSheet: true };
+    // 厳冬期用: 厚い防寒着と予備、防水の手袋、アイゼン、コンロ、ツェルト
+    case 'winter':
+      return { ...base, rainwear: 'goretex', cloWorn: Math.max(worn, 1.3), cloPack: 1.2, gloves: 'waterproof', hat: true, bivy: 'tarp', headlamp: { has: true, batteryH: 12, inPack: false, spareBatteryH: 10 }, map: true, compass: true, stove: true, crampons: true, helmet: true, trekkingPoles: true, whistle: true, rescueSheet: true };
+  }
 }
 
 /** 月ごとの平年の気温（東京の平年値を山の季節感の目安に使う。差だけを使う）と、北緯 36 度付近の日の出・日の入り（15 日ごろ） */
@@ -112,7 +178,19 @@ export function applyConditions(s0: ScenarioDef, c: StartConditions | undefined)
     if (h === 'good') return p;
     return { ...p, health: h, initial: { ...(p.initial ?? {}), ...HEALTH_INITIAL[h] } };
   });
-  // モバイルバッテリー（スマホを持つ人）と水の量
+  // 人ごとの装備・体力・モバイルバッテリー・水（ユーザーの指定）
+  const people = c.people ?? {};
+  s.party = s.party.map((p) => {
+    const pc = people[p.id];
+    if (isDefaultPerson(pc)) return p;
+    let gear = pc!.gear ? gearOfPreset(p.gear, pc!.gear, s.season) : p.gear;
+    if (pc!.powerBankMah !== undefined && gear.phone.has) gear = { ...gear, powerBankMah: pc!.powerBankMah };
+    if (pc!.waterL !== undefined) gear = { ...gear, waterL: pc!.waterL };
+    const x = pc!.fitnessX ?? 1;
+    const fitness = x === 1 ? p.fitness : Math.min(FITNESS_MAX, Math.max(FITNESS_MIN, Math.round(p.fitness * x * 100) / 100));
+    return { ...p, gear, fitness };
+  });
+  // モバイルバッテリー（スマホを持つ人）と水の量（古い保存・URL の、全員まとめての指定）
   const bank = c.powerBankMah ?? DEFAULT_POWER_BANK_MAH;
   const dW = c.waterDeltaL ?? 0;
   if (bank !== DEFAULT_POWER_BANK_MAH || dW !== 0) {

@@ -71,6 +71,7 @@ import thermostat from '@material-symbols/svg-400/rounded/thermostat.svg?raw';
 import thunderstorm from '@material-symbols/svg-400/rounded/thunderstorm.svg?raw';
 import visibility from '@material-symbols/svg-400/rounded/visibility.svg?raw';
 import visibilityOff from '@material-symbols/svg-400/rounded/visibility_off.svg?raw';
+import tune from '@material-symbols/svg-400/rounded/tune.svg?raw';
 import waterDrop from '@material-symbols/svg-400/rounded/water_drop.svg?raw';
 import edit from '@material-symbols/svg-400/rounded/edit.svg?raw';
 import replay from '@material-symbols/svg-400/rounded/replay.svg?raw';
@@ -110,7 +111,7 @@ const ICONS = {
   arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, trendingDown, waterBottle, warning, wbSunny,
   acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, favorite, flashlightOn, keyboardArrowDown, keyboardArrowUp, foggy, groups, healing, hiking, history, home,
   landscape, layers, listAlt, map, minimize, mobile, monitorHeart, myLocation, openInFull, partlyCloudyDay, pause, playArrow, playCircle, psychology,
-  rainy, schedule, sentimentWorried, settings, speed, thermostat, thunderstorm, visibility, visibilityOff, waterDrop,
+  rainy, schedule, sentimentWorried, settings, speed, thermostat, thunderstorm, tune, visibility, visibilityOff, waterDrop,
 } as const;
 
 export type IconName = keyof typeof ICONS;

@@ -720,6 +720,17 @@ main.select2 { min-height: 100dvh; background: radial-gradient(1200px 600px at 2
 .bf-cond .bf-cond-row select { grid-column: 2 / 4; }
 .bf-cond .bf-cond-row output { min-width: 3.5em; text-align: right; }
 .bf-cond.changed { border-color: rgba(212, 166, 74, 0.7); }
+/* 登場人物ごとの条件（体調・装備・体力・バッテリー・水。ユーザーの指定） */
+.bf-climber.changed { box-shadow: inset 0 0 0 1px rgba(212, 166, 74, 0.7); }
+.bf-adjust { margin-top: 8px; }
+.bf-adjust > summary { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; font-size: 0.84rem; color: var(--muted); list-style: none; padding: 2px 8px 2px 4px; border-radius: 999px; }
+.bf-adjust > summary::-webkit-details-marker { display: none; }
+.bf-adjust > summary:hover, .bf-adjust[open] > summary { color: var(--text, #e9ecf1); background: rgba(255, 255, 255, 0.06); }
+.bf-adjust > summary .ic { width: 1.15em; height: 1.15em; }
+.bf-climber.changed .bf-adjust > summary { color: var(--accent); }
+.bf-adj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(11.5em, 1fr)); gap: 6px 10px; margin-top: 6px; }
+.bf-adj { display: flex; flex-direction: column; gap: 2px; min-width: 0; font-size: 0.8rem; color: var(--muted); }
+.bf-adj select { width: 100%; min-width: 0; font-size: 0.86rem; }
 /* トップページ（シナリオ選択）: カプセルボタン・カードのボタン */
 .sel-caps { display: flex; gap: 8px; flex-wrap: wrap; }
 .sel-caps .cap { display: inline-flex; align-items: center; gap: 6px; min-height: 0; padding: 6px 14px 6px 10px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.06); color: #e9ecf1; font-size: 0.92em; text-decoration: none; cursor: pointer; }

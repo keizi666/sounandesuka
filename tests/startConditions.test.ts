@@ -48,4 +48,28 @@ describe('始まりの条件', () => {
       expect(r.world.ended).not.toBeNull();
     }
   });
+
+  it('人ごとの装備・体力・バッテリー・水（ユーザーの指定）: その人だけが変わり、検証を通って最後まで走る', { timeout: 60000 }, () => {
+    const id = s0.party[0]!.id;
+    const base = { ...DEFAULT_CONDITIONS, health: {} };
+    expect(isDefaultConditions({ ...base, people: { [id]: {} } })).toBe(true);
+    for (const gear of ['tourist', 'light', 'hiking', 'winter'] as const) {
+      const cond = { ...base, people: { [id]: { gear, fitnessX: 1.5, powerBankMah: 0, waterL: 3 } } };
+      expect(isDefaultConditions(cond)).toBe(false);
+      const s = applyConditions(s0, cond);
+      const p = s.party[0]!;
+      expect(p.gear.waterL).toBe(3);
+      expect(p.fitness).toBeCloseTo(Math.min(3, s0.party[0]!.fitness * 1.5), 2);
+      if (p.gear.phone.has) expect(p.gear.powerBankMah).toBe(0);
+      // 食べ物・スマホは持ち物なのでそのまま
+      expect(p.gear.foodKcal).toBe(s0.party[0]!.gear.foodKcal);
+      expect(p.gear.phone).toEqual(s0.party[0]!.gear.phone);
+      if (gear === 'tourist') expect([p.gear.rainwear, p.gear.headlamp.has, p.gear.cloPack]).toEqual(['none', false, 0]);
+      if (gear === 'winter') expect([p.gear.crampons, p.gear.gloves]).toEqual([true, 'waterproof']);
+      // ほかの人は変わらない
+      for (let i = 1; i < s.party.length; i += 1) expect(s.party[i]).toEqual(s0.party[i]);
+      expect(validateScenario(s, map.def).filter((x) => x.level === 'error')).toEqual([]);
+      expect(runHeadless(map, s, { seed: 3 }).world.ended).not.toBeNull();
+    }
+  });
 });
