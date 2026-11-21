@@ -65,7 +65,13 @@ function climberCard(ed: Ed, c: ClimberDef, i: number): HTMLElement {
   const g = c.gear;
   const presetSel = el('select', {}, [el('option', { value: '' }, '装備プリセット…'), ...Object.keys(GEAR_PRESETS).map((k) => el('option', { value: k }, k))]);
   presetSel.addEventListener('change', () => presetSel.value && set('装備プリセット', () => (c.gear = GEAR_PRESETS[presetSel.value]!(c.gear))));
-  return el('details', { class: 'f-section', open: openCard === i, ontoggle: (e: Event) => (e.target as HTMLDetailsElement).open && (openCard = i) }, [
+  // 開いたカードを覚えて描き直しても開いたままにする。閉じたら忘れる（忘れないと、ほかのボタンで描き直したときにまた開く）
+  const ontoggle = (e: Event): void => {
+    if (e.target !== e.currentTarget) return;
+    if ((e.target as HTMLDetailsElement).open) openCard = i;
+    else if (openCard === i) openCard = -1;
+  };
+  return el('details', { class: 'f-section', open: openCard === i, ontoggle }, [
     el('summary', { class: 'climber-sum' }, [avatar(c, 39), `${c.name}（${c.age}歳）${c.leader ? ' リーダー' : ''}`]),
     portraitPicker(c, (v) => set('顔アイコン', () => (c.portrait = v))),
     text('名前', c.name, (v) => set('名前', () => (c.name = v))),
