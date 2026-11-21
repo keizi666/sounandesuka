@@ -103,7 +103,7 @@ function canWalkToHut(c: ClimberState): boolean {
 function startBivouac(world: World, ctx: StaticContext, c: ClimberState, until: UntilRef, findLee: boolean, state: 'BIVOUAC' | 'WAITING_RESCUE', planned = false): void {
   // すぐそこに開いている小屋があれば、外でビバークせずに小屋へ入る（ユーザーの指摘: 小屋の横でツェルトにくるまっていた）
   if (canWalkToHut(c) && !c.body.shelterNodeId) {
-    const hut = nearestShelterNode(ctx, c, ctx.tuning.behavior.hutNearM);
+    const hut = findableHutNear(ctx, c);
     if (hut) {
       leaveShelter(world, ctx, c);
       ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { toHutInstead: hut } });
@@ -491,6 +491,33 @@ export function untilReached(world: World, ctx: StaticContext, c: ClimberState, 
 }
 
 /** 開いている小屋のうち直線距離で最も近いノード */
+/**
+ * この人から「すぐそこ」と分かる小屋の距離（m）。見通しが悪いと縮む（吹雪・霧で小屋が見えない。ユーザーの指定: s17 立山）。
+ * シナリオで「見通しが悪いと見つけられない」とした小屋（nodeOverrides.hiddenBelowVisM）は、そのあいだ見つからない
+ */
+export function hutFindableM(ctx: StaticContext, c: ClimberState, nodeId: string): number {
+  const bt = ctx.tuning.behavior;
+  const hidden = ctx.scenario.nodeOverrides?.[nodeId]?.hiddenBelowVisM;
+  if (hidden !== undefined && c.local.visibilityM < hidden) return 0;
+  return Math.min(bt.hutNearM, Math.max(bt.hutSeeMinM, c.local.visibilityM * bt.hutSeeVisF));
+}
+
+/** すぐそこに見つけられる開いている小屋（なければ null） */
+export function findableHutNear(ctx: StaticContext, c: ClimberState): string | null {
+  let best: string | null = null;
+  let bestD = Infinity;
+  for (const nd of Object.values(ctx.map.nodes)) {
+    const open = ctx.scenario.nodeOverrides?.[nd.id]?.open ?? nd.shelter?.open ?? false;
+    if (!nd.shelter || !open) continue;
+    const d = Math.sqrt((nd.x - c.x) * (nd.x - c.x) + (nd.z - c.z) * (nd.z - c.z));
+    if (d <= hutFindableM(ctx, c, nd.id) && d < bestD) {
+      bestD = d;
+      best = nd.id;
+    }
+  }
+  return best;
+}
+
 export function nearestShelterNode(ctx: StaticContext, c: ClimberState, maxM = Infinity): string | null {
   let best: string | null = null;
   let bestD = maxM;

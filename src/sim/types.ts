@@ -223,7 +223,7 @@ export interface ScenarioDef {
   region?: { name: string; real: boolean };
   groups?: GroupDef[];
   historical?: HistoricalDef;
-  nodeOverrides?: Record<NodeId, { open?: boolean }>;   // 小屋の営業状態などをシナリオごとに上書き
+  nodeOverrides?: Record<NodeId, { open?: boolean; hiddenBelowVisM?: number }>;   // 小屋の営業状態などをシナリオごとに上書き。hiddenBelowVisM: 見通しがこれ（m）より悪いと、すぐそこでも見つけられない（記録で見つけられなかった小屋）
   /** 始まりの積雪（雪山・残雪期）。lineM より上に積もり、fullM（省略は lineM+400）で depthCm になる。歩く速さ・道の見つけやすさ・地面の冷たさと、雪の見た目に効く */
   snowpack?: { lineM: number; depthCm: number; fullM?: number; trailCm?: number };   // trailCm: 登山道の上の踏み固められた雪（トレース）。省くと道の上も depthCm
   sources?: string[];                                   // 例: "気象の下書き: Open-Meteo ERA5 2025-10-12 36.40,137.71"

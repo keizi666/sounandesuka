@@ -200,8 +200,8 @@
       "habits": { "eatEveryMin": 150, "drinkEveryMin": 90, "delaysRainwear": 0, "gpsCheckEveryMin": null },
       "gear": {
         "rainwear": "goretex",
-        "cloWorn": 0.45,
-        "cloPack": 0.3,
+        "cloWorn": 0.35,
+        "cloPack": 0.1,
         "gloves": "thin",
         "hat": true,
         "bivy": "tarp",
@@ -221,7 +221,7 @@
       },
       "initial": { "wetness": 0.03, "fatigue": 5, "coreC": 37, "rainwearOn": true, "waterDeficitL": 0.1 },
       "estimated": ["weightKg", "packKg", "experience", "fitness", "navSkill", "riskTolerance", "habits", "gear", "initial"],
-      "notes": "判決の客D。山荘の手前約157 mで亡くなった。Gのツェルトに一緒に入った（bivy は共有の表現）"
+      "notes": "判決の客D。山荘の手前約157 mで亡くなった。Gのツェルトに一緒に入った（bivy は共有の表現）。服の保温力と予備の防寒着の少なさは、記録の亡くなった人数に合わせた推定"
     },
     {
       "id": "kE",
@@ -240,8 +240,8 @@
       "habits": { "eatEveryMin": 150, "drinkEveryMin": 90, "delaysRainwear": 0, "gpsCheckEveryMin": null },
       "gear": {
         "rainwear": "goretex",
-        "cloWorn": 0.45,
-        "cloPack": 0.3,
+        "cloWorn": 0.35,
+        "cloPack": 0.1,
         "gloves": "thin",
         "hat": true,
         "bivy": "tarp",
@@ -261,7 +261,7 @@
       },
       "initial": { "wetness": 0.03, "fatigue": 5, "coreC": 37, "rainwearOn": true, "waterDeficitL": 0.1 },
       "estimated": ["weightKg", "packKg", "experience", "fitness", "navSkill", "riskTolerance", "habits", "gear", "initial"],
-      "notes": "判決の客E。Gのツェルトに一緒に入った。山荘の手前約157 mで動けなくなり、運ばれる途中で亡くなった（報道）"
+      "notes": "判決の客E。Gのツェルトに一緒に入った。服の保温力と予備の防寒着の少なさは、記録の亡くなった人数に合わせた推定。山荘の手前約157 mで動けなくなり、運ばれる途中で亡くなった（報道）"
     },
     {
       "id": "kF",

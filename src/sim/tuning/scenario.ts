@@ -13,6 +13,12 @@ export const behavior = {
   regroupDistM: 30,
   /** ビバーク・救助待ちをしようとしたとき、これより近くに開いている小屋があれば、歩ける人は小屋へ入る（m） */
   hutNearM: 500,
+  /**
+   * 見通しが悪いと、すぐそこの小屋も見つけられない（s17 立山: 吹雪と夕闇で内蔵助山荘への下り口が分からなかった）。
+   * 小屋へ向かう距離は min(hutNearM, max(hutSeeMinM, その場の見通し × hutSeeVisF))。s18 の頂上宿舎（160 m）は吹雪でも向かえる
+   */
+  hutSeeMinM: 200,
+  hutSeeVisF: 2,
   /** 小屋に仲間が入っていて、これより近くで動けない人がいれば、小屋の人が運び込む（m・分） */
   hutHelpM: 600,
   hutHelpDelayMin: 30,

@@ -1,13 +1,13 @@
 /**
  * すぐそこに小屋がある（ユーザーの指摘: s18 で頂上宿舎の 160 m 手前で、ツェルトにくるまったまま全員が倒れた）。
- * - 歩ける人: 開いている小屋から hutNearM 以内で止まっている（ビバーク・救助待ち・その場で待つ）なら、列を離れて小屋へ入る
+ * - 歩ける人: 開いている小屋から hutNearM 以内（見通しが悪ければ hutSeeMinM まで縮める）で止まっている（ビバーク・救助待ち・その場で待つ）なら、列を離れて小屋へ入る
  *   （動けない仲間がいると列ごと止まるので、仲間を残して小屋へ助けを呼びに行く）
  * - 動けない人: 営業小屋に仲間が入っていて、小屋から hutHelpM 以内にいれば、hutHelpDelayMin 分後に小屋の人が運び込む
  * 1 分ごとに判定する
  */
 import { dawnRef, enterShelter } from './route';
 import { detach } from './groups';
-import { applyActions } from './actions';
+import { applyActions, hutFindableM } from './actions';
 import type { ClimberState, NodeDef, StaticContext, World } from '../types';
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
@@ -70,7 +70,9 @@ export function stepHutNearby(world: World, ctx: StaticContext): void {
     const d2 = (c: ClimberState): number => (c.x - h.x) * (c.x - h.x) + (c.z - h.z) * (c.z - h.z);
     // 歩ける人は小屋へ（止まっている、または列が遅い人に合わせて歩いてもほとんど進んでいない）
     for (const c of world.climbers) {
-      if (TERMINAL.has(c.state) || c.body.shelterNodeId || c.offMap || d2(c) > bt.hutNearM * bt.hutNearM || !canWalk(c)) continue;
+      // 見通しが悪いと、すぐそこの小屋も見つけられない（吹雪・霧。シナリオで見つけられないとした小屋も）
+      const nearM = hutFindableM(ctx, c, h.id);
+      if (TERMINAL.has(c.state) || c.body.shelterNodeId || c.offMap || d2(c) > nearM * nearM || !canWalk(c)) continue;
       // もう一人で小屋へ向かっている人は飛ばす（列のまま向かおうとして止まっている人は、列から離す）
       if (c.groupId === `solo_${c.id}` && c.plan.goTo?.node === h.id) continue;
       // 歩いて止まっているのは、列が歩けない仲間に合わせて止まっているときだけ（ユーザーの指摘: 北鎌尾根で槍の穂先をゆっくり登っているだけで殺生ヒュッテへ向かった）
