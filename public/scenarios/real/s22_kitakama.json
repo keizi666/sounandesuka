@@ -118,7 +118,7 @@
         "map": true,
         "compass": true,
         "foodKcal": 2000,
-        "waterL": 3.5,
+        "waterL": 2.5,
         "stove": true,
         "crampons": false,
         "helmet": true,
@@ -130,7 +130,7 @@
       },
       "role": "リーダー",
       "initial": {
-        "fatigue": 15,
+        "fatigue": 2.5,
         "waterDeficitL": 0.4
       },
       "health": "sleepy",
@@ -177,7 +177,7 @@
         "map": true,
         "compass": false,
         "foodKcal": 1800,
-        "waterL": 4.0,
+        "waterL": 3.0,
         "stove": false,
         "crampons": false,
         "helmet": true,
@@ -188,7 +188,7 @@
       },
       "role": "メンバー",
       "initial": {
-        "fatigue": 15,
+        "fatigue": 3.0,
         "waterDeficitL": 0.3
       },
       "notes": "ジムで1年ほどボルダリング。外岩とアルパインは数回。地図は読めるが、北鎌尾根は初めて。"
@@ -234,7 +234,7 @@
         "map": false,
         "compass": false,
         "foodKcal": 1500,
-        "waterL": 3.5,
+        "waterL": 3.0,
         "stove": false,
         "crampons": false,
         "helmet": true,
@@ -245,7 +245,7 @@
       },
       "role": "メンバー",
       "initial": {
-        "fatigue": 25,
+        "fatigue": 3.0,
         "waterDeficitL": 0.3
       },
       "notes": "登山を始めて2年。テント泊は2回目。岩場はほとんど経験がない。ヘルメットは借り物。"
@@ -857,7 +857,7 @@
         "尾根に入ったらエスケープはなく、槍ヶ岳まで抜けるしかない。あすも、慣れた人で6時間前後かかる",
         "槍沢の一般道なら、槍ヶ岳山荘・殺生ヒュッテまで小屋がつづく",
         "予報は晴れ。昼は暑くなる",
-        "水筒は鈴木さん3.5 L、南田さん4 L、楠木さん3.5 L"
+        "水筒は鈴木さん2.5 L、南田さんと楠木さん3 Lずつ。尾根で一泊するなら、1人4〜5 Lは欲しい"
       ],
       "options": [
         {
@@ -971,9 +971,13 @@
       "options": [
         {
           "id": "go",
-          "label": "北鎌沢を登る",
+          "label": "水を汲んで、すぐ北鎌沢を登る",
           "detail": "日が高くなる前にコルへ。",
           "actions": [
+            {
+              "type": "rest",
+              "minutes": 15
+            },
             {
               "type": "continueRoute"
             }
@@ -994,12 +998,12 @@
         },
         {
           "id": "rest_go",
-          "label": "沢の水を飲み、20分休んでから登る",
-          "detail": "水筒も沢の水で満たしておく。",
+          "label": "沢で40分休み、水を飲んで水筒を満たしてから登る",
+          "detail": "そのぶん、暑い時間に登ることになる。",
           "actions": [
             {
               "type": "rest",
-              "minutes": 20
+              "minutes": 40
             },
             {
               "type": "drink",
