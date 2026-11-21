@@ -929,8 +929,9 @@ export class SceneView {
   headScreen(id: string, w: number, h: number): { x: number; y: number; front: boolean; inView: boolean; occluded: boolean } | null {
     const f = this.figures.get(id);
     if (!f || !f.root.visible) return null;
-    const p = f.root.position.clone();
-    p.y += this.figureHeight() * 1.05;
+    // 実際の頭のてっぺん（姿勢・斜面に合わせて動く）。ずれないよう、決まった高さではなく骨から取る（ユーザーの指摘）
+    f.root.updateMatrixWorld(true);
+    const p = f.headTop(new THREE.Vector3());
     const v = p.clone().project(this.camera);
     const x = (v.x * 0.5 + 0.5) * w;
     const y = (-v.y * 0.5 + 0.5) * h;

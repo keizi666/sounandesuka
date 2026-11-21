@@ -12,11 +12,15 @@ import { injectEnv, type EnvUniforms } from './terrainMaterial';
 
 export interface Figure {
   root: THREE.Group;
+  /** 頭のてっぺん（ワールド座標）。顔アイコンを頭のすぐ上に出すのに使う（座る・かがむ・斜面でも頭について行く） */
+  headTop(out: THREE.Vector3): THREE.Vector3;
   update(c: ClimberState, timeSec: number, selected: boolean): void;
   dispose(): void;
 }
 
 const GREY = new THREE.Color(0x8d8d8d);
+/** 首の骨から見た頭のてっぺんの高さ（人形の模型の単位。帽子の上まで） */
+const HEAD_TOP_LOCAL = 0.3;
 
 /**
  * heightScene: シーン単位での人形の高さ（拡大率込み）。
@@ -50,6 +54,10 @@ export function createFigure(c: ClimberState, heightScene: number, env?: EnvUnif
 
   return {
     root,
+    headTop(out) {
+      // 首の骨から頭（帽子）のてっぺんまで
+      return rig.neck.localToWorld(out.set(0, HEAD_TOP_LOCAL, 0));
+    },
     update(cs, t, selected) {
       const dt = Number.isNaN(lastT) ? 0 : Math.min(0.1, Math.max(0, t - lastT));
       lastT = t;

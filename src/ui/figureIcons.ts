@@ -28,8 +28,11 @@ export interface FigureIcons {
   dispose(): void;
 }
 
-/** 頭からアイコンの中心までの高さ（px）。吹き出しはこの上に出す */
-export const ICON_LIFT_PX = 34;
+/**
+ * 頭のてっぺんからアイコンの中心までの高さ（px）。アイコンの下端が頭のすぐ上（4 px 上）に来るように（ユーザーの指定）。
+ * 吹き出しはこの上に出す
+ */
+export const ICON_LIFT_PX = 22 + 4;
 /** この人数以上のシナリオで、顔アイコンをまとめる */
 const CLUSTER_MIN_PARTY = 10;
 /** ひとつにまとめる人数の上限 */
