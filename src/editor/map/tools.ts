@@ -98,6 +98,23 @@ export function renameEdge(map: MapDef, scenario: ScenarioDef, from: string, to:
 }
 
 /** ルートの末尾にノードを足す（隣接していなければ最短経路で補う） */
+/**
+ * ルートに足せなかったときの説明。どの道にもつながらない地点（道の脇の山頂の印など）なら、そばのつながった地点を示す。
+ * つながっている地点なら、道が重なって見えても途中でつながっていない場合の手がかりを出す
+ */
+export function routeFailMessage(map: MapDef, n: NodeDef): string {
+  const linked = (id: string): boolean => map.edges.some((e) => e.kind === 'trail' && (e.from === id || e.to === id));
+  if (!linked(n.id)) {
+    const near = map.nodes
+      .filter((x) => x.id !== n.id && linked(x.id))
+      .map((x) => ({ x, d: Math.hypot(x.x - n.x, x.z - n.z) }))
+      .filter((o) => o.d < 150)
+      .sort((a, b) => a.d - b.d)[0];
+    return `${n.name}（${n.id}）はどの道にもつながっていない地点です。${near ? `すぐそば（${Math.round(near.d)} m）の ${near.x.name}（${near.x.id}）を選んでください。` : '登山道タブで道を描いてつないでください。'}`;
+  }
+  return `${n.name} へつながる道がありません。道が重なって見えても、端が地点でなく道の途中にあるとつながっていません（登山道タブの「ノードを挿入」で分岐点を作るか、手描きの道を描き直してください）`;
+}
+
 export function appendToRoute(rt: MapRuntime, route: string[], id: string): string[] | null {
   const last = route[route.length - 1];
   if (!last) return [id];

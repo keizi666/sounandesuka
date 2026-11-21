@@ -11,7 +11,7 @@ import { toolPalette } from '../forms/toolPalette';
 import { parseGpx, trackAsTrails, trackToRoute, trackToXZ } from '../geo/gpx';
 import { fetchOsm, osmToGraph, resample, suggestConfusers, type OsmJson } from '../geo/overpass';
 import { sampleElevAt } from './elev';
-import { appendToRoute, edgePoints, hitEdge, hitNode, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
+import { appendToRoute, routeFailMessage, edgePoints, hitEdge, hitNode, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
 import type { MapTool } from '../map/TileMapView';
 import { nextId } from '../store/project';
 import { clearEdgeSel, edgeSel, removeSelection } from '../map/edgeSelection';
@@ -156,11 +156,31 @@ function finishDrawing(ed: Ed): void {
   if (pts.length < 2) return;
   const map = ed.p.map;
   const ids = [...map.nodes.map((n) => n.id), ...map.edges.map((e) => e.id)];
+  const rt = ed.runtime();
+  let joined = 0;
+  /**
+   * 描いた線の端の地点: 近くの地点（20 m か画面で 12 px 以内）があればそれ。
+   * なければ、既存の道の上（画面で 10 px 以内）ならその道をそこで分けて分岐点を作り、つなぐ
+   * （道の途中に重ねただけでは、見た目はつながっていてもルートが引けないため）。どちらでもなければ新しい分岐点
+   */
   const endNode = (p: { x: number; z: number }, nodes: NodeDef[]): NodeDef => {
-    const near = map.nodes.find((n) => Math.hypot(n.x - p.x, n.z - p.z) < 20) ?? nodes.find((n) => Math.hypot(n.x - p.x, n.z - p.z) < 20);
+    const px = ed.view.xzToPx(p.x, p.z);
+    const near =
+      map.nodes.find((n) => Math.hypot(n.x - p.x, n.z - p.z) < 20) ??
+      nodes.find((n) => Math.hypot(n.x - p.x, n.z - p.z) < 20) ??
+      hitNode(ed.view, { ...map, nodes: [...map.nodes, ...nodes] }, px.px, px.py, 12);
     if (near) return near;
     const id = nextId(ids, 'N');
     ids.push(id);
+    const onEdge = hitEdge(ed.view, { ...map, edges: map.edges.filter((e) => e.kind === 'trail' && e.to) }, rt, px.px, px.py, 10);
+    if (onEdge) {
+      const eid = nextId(ids, 'E');
+      ids.push(eid);
+      splitEdge(map, onEdge.edge, p, id, eid);
+      if (ed.p.editorState.draftEdgeIds.includes(onEdge.edge.id)) ed.p.editorState.draftEdgeIds.push(eid);
+      joined += 1;
+      return map.nodes.find((n) => n.id === id)!;
+    }
     const n: NodeDef = { id, name: id, type: 'junction', x: p.x, z: p.z, snap: false, source: 'manual' };
     nodes.push(n);
     return n;
@@ -175,6 +195,7 @@ function finishDrawing(ed: Ed): void {
     map.edges.push({ id, name: `${a.name}〜${b.name}`, kind: 'trail', from: a.id, to: b.id, class: 'T2', markers: 0.6, drift: 0.02, sinuosity: 1, smooth: false, source: 'manual', waypoints: dense.slice(1, -1).map((p) => [Math.round(p.x * 10) / 10, Math.round(p.z * 10) / 10]) });
     ed.p.editorState.selection = { kind: 'edge', id };
   }, true);
+  if (joined > 0) ed.toast(`描いた道の端を、重なった道の途中につなぎました（分岐点を ${joined} つ作りました）`, 4000);
 }
 
 function tool(ed: Ed): MapTool {
@@ -237,7 +258,7 @@ function tool(ed: Ed): MapTool {
         const n = hitNode(ed.view, ed.p.map, p.px, p.py);
         if (!n) return;
         const r = appendToRoute(rt, ed.p.scenario.plan.route, n.id);
-        if (!r) return ed.toast(`${n.name} へつながる道がありません`);
+        if (!r) return ed.toast(routeFailMessage(ed.p.map, n), 7000);
         ed.change('ルート', () => (ed.p.scenario.plan.route = r));
       }
     },
