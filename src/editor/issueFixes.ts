@@ -7,8 +7,8 @@ import { shortestPath } from '../sim/terrain/trails';
 import type { EditorProject, MapRuntime } from '../sim/types';
 import type { TabId } from './context';
 import { connectorEdge, disambiguateRoute, nearestLinked } from './map/routeClick';
-import { pruneConfusers } from './map/tools';
-import { attributionFor } from './store/project';
+import { insertNodeOnEdge, nodesOnEdges, pruneConfusers } from './map/tools';
+import { attributionFor, nextId } from './store/project';
 
 export interface IssueHelp {
   /** どう直すか（1〜2 文） */
@@ -97,6 +97,17 @@ function fixSources(p: EditorProject): string {
   return `sources に出典 ${list.length} 件を入れました`;
 }
 
+/** 道の上にあるのにつながっていない地点を、その道に挿入する */
+function fixNodeOnEdge(nodeId: string) {
+  return (p: EditorProject): string => {
+    const h = nodesOnEdges(p.map).find((x) => x.node.id === nodeId);
+    if (!h) return '';
+    const ids = [...p.map.nodes.map((n) => n.id), ...p.map.edges.map((e) => e.id)];
+    insertNodeOnEdge(p.map, p.scenario, h.edge, { x: h.node.x, z: h.node.z }, h.node.id, nextId(ids, 'E'), h.node);
+    return `${h.node.name || h.node.id} を道 ${h.edge.name || h.edge.id} につなぎました`;
+  };
+}
+
 export function helpFor(p: EditorProject, i: Issue): IssueHelp {
   const node = idOf(i.path, 'map.nodes.') ?? idOf(i.path, 'nodes.');
   const edge = idOf(i.path, 'map.edges.');
@@ -112,6 +123,12 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
         locate: node ? { tab: 'trails', kind: 'node', id: node } : undefined,
       };
     }
+    case 'nodeOnEdge':
+      return {
+        hint: 'この地点は道の上にありますが、その道の分かれ目になっていないので、ルートがその道を通れません（ルートを引くと大きく遠回りします）。地点をその道に挿入してつなぎます。',
+        fix: node ? { label: 'その道につなぐ', run: fixNodeOnEdge(node) } : undefined,
+        locate: node ? { tab: 'trails', kind: 'node', id: node } : undefined,
+      };
     case 'confuserEdge':
       return {
         hint: '道を消したあとに、その道を指す「紛らわしい分岐」の設定が残っています（試走が止まることがあります）。ない道を指す設定を消します。',
@@ -172,12 +189,12 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
 export function fixAll(p: EditorProject, rt: MapRuntime | null, issues: readonly Issue[]): string[] {
   const notes: string[] = [];
   const done = new Set<string>();
-  const order = ['confuserEdge', 'isolated', 'routeGap', 'undefinedNode', 'drafts', 'noTrailhead', 'sources'];
+  const order = ['confuserEdge', 'nodeOnEdge', 'isolated', 'routeGap', 'undefinedNode', 'drafts', 'noTrailhead', 'sources'];
   const list = [...issues].sort((a, b) => order.indexOf(a.code) - order.indexOf(b.code));
   for (const i of list) {
     const h = helpFor(p, i);
     if (!h.fix) continue;
-    const key = i.code === 'isolated' ? i.path : i.code === 'confuserEdge' ? 'confuserEdge' : i.code === 'undefinedNode' ? 'routeGap' : i.code;
+    const key = i.code === 'isolated' || i.code === 'nodeOnEdge' ? i.path : i.code === 'confuserEdge' ? 'confuserEdge' : i.code === 'undefinedNode' ? 'routeGap' : i.code;
     if (done.has(key)) continue;
     done.add(key);
     const note = h.fix.run(p, rt);

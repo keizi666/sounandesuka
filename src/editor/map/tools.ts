@@ -227,3 +227,43 @@ export function insertNodeOnEdge(map: MapDef, scenario: ScenarioDef, e: EdgeDef,
   walk(scenario.events);
   walk(scenario.groups);
 }
+
+/**
+ * 道の上（maxM 以内）にあるのに、その道の分かれ目になっていない地点（ユーザーの指摘: 大曲が道の上にあるのにつながっておらず、ルートが 1 周遠回りした）。
+ * 道の端（両端の地点）から endM 以内は除く。地点ごとに、いちばん近い道を 1 本返す
+ */
+export function nodesOnEdges(map: MapDef, maxM = 6, endM = 15): { node: NodeDef; edge: EdgeDef; d: number }[] {
+  const nodeById = new Map(map.nodes.map((n) => [n.id, n]));
+  const lines = map.edges
+    .filter((e) => e.kind === 'trail' && e.to)
+    .map((e) => {
+      const pts = edgePoints(map, null, e);
+      let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
+      for (const p of pts) {
+        x0 = Math.min(x0, p.x); x1 = Math.max(x1, p.x); z0 = Math.min(z0, p.z); z1 = Math.max(z1, p.z);
+      }
+      return { e, pts, x0: x0 - maxM, x1: x1 + maxM, z0: z0 - maxM, z1: z1 + maxM, a: nodeById.get(e.from), b: nodeById.get(e.to!) };
+    });
+  const out: { node: NodeDef; edge: EdgeDef; d: number }[] = [];
+  for (const n of map.nodes) {
+    let best: { edge: EdgeDef; d: number } | null = null;
+    for (const l of lines) {
+      if (l.e.from === n.id || l.e.to === n.id) continue;
+      if (n.x < l.x0 || n.x > l.x1 || n.z < l.z0 || n.z > l.z1) continue;
+      if ((l.a && Math.hypot(l.a.x - n.x, l.a.z - n.z) < endM) || (l.b && Math.hypot(l.b.x - n.x, l.b.z - n.z) < endM)) continue;
+      for (let i = 1; i < l.pts.length; i += 1) {
+        const p = l.pts[i - 1]!;
+        const q = l.pts[i]!;
+        const dx = q.x - p.x;
+        const dz = q.z - p.z;
+        const L = dx * dx + dz * dz || 1;
+        const t = Math.max(0, Math.min(1, ((n.x - p.x) * dx + (n.z - p.z) * dz) / L));
+        const d = Math.hypot(p.x + t * dx - n.x, p.z + t * dz - n.z);
+        if (d <= maxM && (!best || d < best.d)) best = { edge: l.e, d };
+      }
+    }
+    if (best) out.push({ node: n, ...best });
+  }
+  return out;
+}
+

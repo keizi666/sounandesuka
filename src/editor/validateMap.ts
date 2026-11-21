@@ -5,6 +5,7 @@ import { standardLegMin } from './pace';
 import type { Issue } from '../sim/scenario/validate';
 import type { EditorProject, MapRuntime } from '../sim/types';
 import { attributionFor } from './store/project';
+import { nodesOnEdges } from './map/tools';
 
 export function validateEditor(p: EditorProject, m: MapRuntime | null): Issue[] {
   const out: Issue[] = [];
@@ -28,6 +29,8 @@ export function validateEditor(p: EditorProject, m: MapRuntime | null): Issue[] 
     if (bad.length) err(`map.nodes.${n.id}`, 'confuserEdge', `${n.name} の紛らわしい分岐が、ない道（消した道）を指しています`);
   }
   if (p.editorState.terrainStale) warn('map.terrain', 'terrainStale', '範囲を変えたあと、地形（標高）を作り直していません');
+  // 道の上にあるのに、その道の分かれ目になっていない地点（ルートがその道を通れず、遠回りになる）
+  for (const h of nodesOnEdges(map)) warn(`map.nodes.${h.node.id}`, 'nodeOnEdge', `${h.node.name || h.node.id} が道 ${h.edge.name || h.edge.id} の上にありますが、つながっていません`);
   const used = new Set(map.edges.flatMap((e) => [e.from, e.to ?? '']));
   for (const n of map.nodes) if (!used.has(n.id)) warn(`map.nodes.${n.id}`, 'isolated', `${n.name} はどの道にもつながっていません`);
   if (!map.nodes.some((n) => n.type === 'trailhead')) warn('map.nodes', 'noTrailhead', '下山口（登山口）のノードがありません');
