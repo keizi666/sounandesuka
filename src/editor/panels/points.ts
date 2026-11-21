@@ -7,15 +7,16 @@ import { deleteLandmark, hitLandmark, landmarkInspector, landmarkSection, moveLa
 import { el } from '../../ui/dom';
 import type { Ed } from '../context';
 import { button, check, fill, num, section, select, text } from '../forms/fields';
-import { hitEdge, hitHazard, hitNode, renameNode } from '../map/tools';
+import { hitEdge, hitHazard, hitNode, insertNodeOnEdge, renameNode } from '../map/tools';
+import { nodeDragger } from '../map/nodeDrag';
 import type { MapTool } from '../map/TileMapView';
 import { nextId } from '../store/project';
 import type { Panel } from './types';
 import { removeSelection } from '../map/edgeSelection';
 
 type Mode = 'select' | 'move' | 'node' | 'landmark' | 'waterfall' | 'protectionZone' | 'chain' | 'rockfallZone';
-let dragging: NodeDef | null = null;
 let draggingLm: LandmarkDef | null = null;
+let lmMoved = false;
 let newLandmark: LandmarkKind = 'tower';
 let mode: Mode = 'select';
 let newType: NodeType = 'junction';
@@ -49,38 +50,35 @@ function sOnEdge(ed: Ed, edgeId: string, x: number, z: number): number {
 }
 
 function tool(ed: Ed): MapTool {
+  const drag = nodeDragger(ed);
   return {
     cursor: mode === 'select' ? 'pointer' : mode === 'move' ? 'move' : 'crosshair',
+    // 「選択」でも、地点・施設・鉄塔の上で押してドラッグすれば動かす（登山道タブと同じ）
     down(p) {
-      if (mode !== 'move') return false;
-      dragging = hitNode(ed.view, ed.p.map, p.px, p.py, 12);
-      draggingLm = dragging ? null : hitLandmark(ed, p.px, p.py, 12);
-      if (!dragging && !draggingLm) return false;
-      ed.checkpoint(dragging ? '地点を動かす' : '施設・鉄塔を動かす');
-      return true;
+      if (mode !== 'move' && mode !== 'select') return false;
+      if (drag.down(p)) return true;
+      draggingLm = hitLandmark(ed, p.px, p.py, 12);
+      lmMoved = false;
+      return draggingLm !== null;
     },
-    move(p, drag) {
-      if (drag && draggingLm) {
-        moveLandmark(ed, draggingLm, p.x, p.z);
-        ed.view.redraw();
-        return;
+    move(p, dragging) {
+      if (drag.move(p, dragging)) return;
+      if (!dragging || !draggingLm) return;
+      if (!lmMoved) {
+        ed.checkpoint('施設・鉄塔を動かす');
+        lmMoved = true;
       }
-      if (!drag || !dragging) return;
-      dragging.x = Math.round(p.x * 10) / 10;
-      dragging.z = Math.round(p.z * 10) / 10;
+      moveLandmark(ed, draggingLm, p.x, p.z);
       ed.view.redraw();
     },
     up() {
-      if (draggingLm) {
+      if (drag.up()) return;
+      if (draggingLm && lmMoved) {
         ed.p.editorState.selection = { kind: 'landmark', id: draggingLm.id };
-        draggingLm = null;
         ed.touched(true);
       }
-      if (dragging) {
-        ed.p.editorState.selection = { kind: 'node', id: dragging.id };
-        dragging = null;
-        ed.touched(true);
-      }
+      draggingLm = null;
+      lmMoved = false;
     },
     click(p) {
       const map = ed.p.map;
@@ -96,6 +94,21 @@ function tool(ed: Ed): MapTool {
       if (mode === 'node') {
         const id = nextId(map.nodes.map((n) => n.id), 'N');
         const shelter = newType === 'hut' ? { kind: 'staffed' as const, open: true } : newType === 'shelter' ? { kind: 'emergency' as const, open: true } : undefined;
+        // 道の上なら、その道に地点を挿入する（道がつながったまま。登山道タブの「地点を挿入」と同じ）
+        const onEdge = hitNode(ed.view, map, p.px, p.py) ? null : hitEdge(ed.view, map, ed.runtime(), p.px, p.py);
+        if (onEdge) {
+          const ids = [...map.nodes.map((n) => n.id), ...map.edges.map((e) => e.id)];
+          ed.change('地点を挿入', () => {
+            insertNodeOnEdge(map, ed.p.scenario, onEdge.edge, { x: p.x, z: p.z }, id, nextId([...ids, id], 'E'));
+            const nd = map.nodes.find((n) => n.id === id);
+            if (nd) {
+              nd.type = newType;
+              if (shelter) nd.shelter = shelter;
+            }
+            ed.p.editorState.selection = { kind: 'node', id };
+          }, true);
+          return;
+        }
         ed.change('地点を置く', () => {
           map.nodes.push({ id, name: id, type: newType, x: p.x, z: p.z, shelter, snap: false, source: 'manual' });
           ed.p.editorState.selection = { kind: 'node', id };
@@ -166,7 +179,8 @@ function confuserTable(ed: Ed, n: NodeDef): HTMLElement {
   ]);
 }
 
-function nodeInspector(ed: Ed, n: NodeDef): HTMLElement {
+/** 地点の編集欄（登山道タブでも使う） */
+export function nodeInspector(ed: Ed, n: NodeDef): HTMLElement {
   const set = (label: string, f: () => void): void => ed.change(label, f, true);
   const idIn = el('input', { value: n.id });
   idIn.addEventListener('change', () => {
@@ -254,9 +268,9 @@ export const pointsPanel: Panel = {
       ed.inspector,
       el('h2', {}, '地点と危険箇所'),
       toolPalette<Mode>(ed, [
-        { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: '地点か危険箇所をクリック。Delete キーで削除' },
+        { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: '地点か危険箇所をクリック。地点・施設はドラッグで動かす。Delete キーで削除' },
         { id: 'move', icon: 'openWith', label: '地点を動かす', key: 'm', hint: '地点・施設・鉄塔をドラッグ（鉄塔は送電線の上を動く）' },
-        { id: 'node', icon: 'addLocationAlt', label: '地点を置く', key: 'n', hint: 'クリックした所に置く（種類は下で選ぶ）' },
+        { id: 'node', icon: 'addLocationAlt', label: '地点を置く', key: 'n', hint: 'クリックした所に置く。道の上なら道に挿入する（種類は下で選ぶ）' },
         { id: 'landmark', icon: 'templeBuddhist', label: '施設・鉄塔を置く', key: 'l', hint: 'クリックした所に置く（種類は下で選ぶ。鉄塔は送電線の上に載せる）' },
         { id: 'waterfall', icon: 'waves', label: '滝を置く', key: 'w', hint: 'クリックした所に置く' },
         { id: 'protectionZone', icon: 'shield', label: '保護範囲を置く', key: 'z', hint: 'クリックした所に置く' },

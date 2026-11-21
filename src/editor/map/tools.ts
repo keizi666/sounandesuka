@@ -190,3 +190,40 @@ export function reverseEdge(e: EdgeDef): void {
   e.waypoints = [...e.waypoints].reverse();
   if (e.courseTimeMin) e.courseTimeMin = [e.courseTimeMin[1], e.courseTimeMin[0]];
 }
+
+/** ルート（地点の並び）の a→b・b→a の間に n を入れる */
+function insertBetween(route: string[], a: string, b: string, n: string): string[] {
+  const out: string[] = [];
+  for (let i = 0; i < route.length; i += 1) {
+    out.push(route[i]!);
+    const nx = route[i + 1];
+    if ((route[i] === a && nx === b) || (route[i] === b && nx === a)) out.push(n);
+  }
+  return out;
+}
+
+/**
+ * 道に地点を挿入し、その道を通るルート（計画ルートと、選択肢・イベントの setRoute）にも地点を足す
+ * （ユーザーの指摘: 道に地点を足すと、その道を通る選択肢のルートが「道が 1 本に決まらない」になった）
+ */
+export function insertNodeOnEdge(map: MapDef, scenario: ScenarioDef, e: EdgeDef, at: { x: number; z: number }, nodeId: string, newEdgeId: string): void {
+  const a = e.from;
+  const b = e.to;
+  splitEdge(map, e, at, nodeId, newEdgeId);
+  if (!b) return;
+  scenario.plan.route = insertBetween(scenario.plan.route, a, b, nodeId);
+  const walk = (v: unknown): void => {
+    if (Array.isArray(v)) {
+      for (const x of v) walk(x);
+      return;
+    }
+    if (!v || typeof v !== 'object') return;
+    const o = v as Record<string, unknown>;
+    if (o['type'] === 'setRoute' && Array.isArray(o['route'])) o['route'] = insertBetween(o['route'] as string[], a, b, nodeId);
+    for (const k of Object.keys(o)) if (k !== 'route') walk(o[k]);
+  };
+  walk(scenario.choices);
+  walk(scenario.genericOverrides);
+  walk(scenario.events);
+  walk(scenario.groups);
+}

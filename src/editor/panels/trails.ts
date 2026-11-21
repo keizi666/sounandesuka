@@ -12,8 +12,10 @@ import { parseGpx, trackAsTrails, trackToRoute, trackToXZ } from '../geo/gpx';
 import { fetchOsm, osmToGraph, resample, suggestConfusers, type OsmJson } from '../geo/overpass';
 import { sampleElevAt } from './elev';
 import { clickRouteNode } from '../map/routeClick';
+import { nodeDragger } from '../map/nodeDrag';
+import { nodeInspector } from './points';
 import { routeList } from './routeList';
-import { edgePoints, hitEdge, hitNode, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
+import { edgePoints, hitEdge, hitNode, insertNodeOnEdge, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
 import type { MapTool } from '../map/TileMapView';
 import { nextId } from '../store/project';
 import { clearEdgeSel, edgeSel, removeSelection } from '../map/edgeSelection';
@@ -202,16 +204,20 @@ function finishDrawing(ed: Ed): void {
 
 function tool(ed: Ed): MapTool {
   let boxAdd = false;
+  const drag = nodeDragger(ed);
   return {
     cursor: mode === 'select' ? 'pointer' : 'crosshair',
     // 範囲選択の道具、または「選択」で Shift を押しながらドラッグすると、矩形で囲んで道を選ぶ
     down(p) {
+      // 「選択」「地点を挿入」では、地点の上で押してドラッグすると地点を動かす（地点タブへ行かなくてよい）
+      if ((mode === 'select' || mode === 'split') && !p.ev.shiftKey && drag.down(p)) return true;
       if (mode !== 'box' && !(mode === 'select' && p.ev.shiftKey)) return false;
       boxAdd = p.ev.shiftKey || p.ev.ctrlKey;
       edgeSel.box = { x0: p.x, z0: p.z, x1: p.x, z1: p.z };
       return true;
     },
     up(p) {
+      if (drag.up()) return;
       const b = edgeSel.box;
       if (!b) return;
       b.x1 = p.x;
@@ -253,7 +259,13 @@ function tool(ed: Ed): MapTool {
         const h = hitEdge(ed.view, ed.p.map, rt, p.px, p.py);
         if (!h) return;
         const ids = [...ed.p.map.nodes.map((n) => n.id), ...ed.p.map.edges.map((e) => e.id)];
-        ed.change('ノードを挿入', () => splitEdge(ed.p.map, h.edge, { x: p.x, z: p.z }, nextId(ids, 'N'), nextId(ids, 'E')), true);
+        const nodeId = nextId(ids, 'N');
+        ed.change('地点を挿入', () => {
+          insertNodeOnEdge(ed.p.map, ed.p.scenario, h.edge, { x: p.x, z: p.z }, nodeId, nextId(ids, 'E'));
+          // 挿入した地点を選ぶ（そのままドラッグで動かせ、名前・種類も右で編集できる）
+          clearEdgeSel();
+          ed.p.editorState.selection = { kind: 'node', id: nodeId };
+        }, true);
         return;
       }
       if (mode === 'route' && rt) {
@@ -265,6 +277,7 @@ function tool(ed: Ed): MapTool {
       if (mode === 'draw') finishDrawing(ed);
     },
     move(p, dragging) {
+      if (drag.move(p, dragging)) return;
       if (dragging && edgeSel.box) {
         edgeSel.box.x1 = p.x;
         edgeSel.box.z1 = p.z;
@@ -464,10 +477,10 @@ export const trailsPanel: Panel = {
         ])
       : null;
     const modes = toolPalette<Mode>(ed, [
-      { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: 'クリックで選ぶ。Shift＋ドラッグで範囲選択、Ctrl＋クリックで追加。Delete で削除' },
+      { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: 'クリックで選ぶ。地点はドラッグで動かす。Shift＋ドラッグで範囲選択、Ctrl＋クリックで追加。Delete で削除' },
       { id: 'box', icon: 'selectBox', label: '範囲選択', key: 'm', hint: 'ドラッグで囲んだ道と地点を選ぶ。Delete で削除' },
       { id: 'draw', icon: 'draw', label: '手描き', key: 'p', hint: 'クリックで頂点、ダブルクリックで終了' },
-      { id: 'split', icon: 'callSplit', label: 'ノードを挿入', key: 'n', hint: '道の上をクリック' },
+      { id: 'split', icon: 'callSplit', label: '地点を挿入', key: 'n', hint: '道の上をクリックすると地点を足す。足した地点はそのままドラッグで動かせ、名前と種類は下で編集' },
       { id: 'route', icon: 'route', label: '計画ルートを引く', key: 'r', hint: '地点を順にクリック' },
     ], mode, (m) => {
       mode = m;
@@ -489,9 +502,9 @@ export const trailsPanel: Panel = {
           }),
         ])
       : selNode
-        ? section(`地点 ${selNode.name}（${selNode.id}）`, [
-            el('p', { class: 'note' }, `つながる道 ${ed.p.map.edges.filter((x) => x.from === selNode.id || x.to === selNode.id).length} 本。名前や種類はタブ 3（地点）で編集します。Delete キーで、この地点とつながる道を消します。`),
-            button('この地点を削除（つながる道も）', () => removeSelection(ed, [], [selNode.id]), 'danger'),
+        ? section(`地点 ${selNode.name || selNode.id}`, [
+            el('p', { class: 'note' }, `つながる道 ${ed.p.map.edges.filter((x) => x.from === selNode.id || x.to === selNode.id).length} 本。地図の上でドラッグすると動かせます。`),
+            nodeInspector(ed, selNode),
           ])
         : null;
     fill(
