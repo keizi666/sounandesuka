@@ -257,6 +257,8 @@ export interface PlanDef {
   plannedFinish: TimeRef;
   submittedPlan: boolean;
   reportIfNotBackBy: TimeRef | null;
+  /** ビバーク・小屋で夜を過ごすときに起きる時刻（"05:00" の形。ないときはその日の日の出）。22 時からこの時刻までは寝ていて、飲み食いしない */
+  wakeAt?: string;
   /**
    * 捜索の手がかり。あると、未帰還の通報で始まる捜索は計画ルートではなく、そのとき分かっている手がかりのルートの周りだけを探す
    * （計画を出していない・家族が行き先を知らない場合）。後に並ぶ手がかりほど新しい。分かった時点でログに text を出す。

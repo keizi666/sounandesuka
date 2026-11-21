@@ -142,6 +142,8 @@ export const behavior = {
   clearHoldMin: 30,
   /** until: "dawn" = 次の日の出 + この分 */
   dawnAfterSunriseMin: 30,
+  /** ビバーク・小屋などで止まっている人が寝る時刻（その日の何分。ユーザーの指定: 22 時から朝まで寝て、飲み食いしない） */
+  sleepFromClockMin: 22 * 60,
   /** RAIN_START: リーダー局地の降水がこれ以上になった瞬間。止んでこの分以上たってからの再開でも出す */
   rainStartMmH: 0.5,
   rainRestartGapMin: 30,

@@ -4,7 +4,7 @@
  * 作業中（plan.busyUntilMin）は歩かず、終わったら効果を適用する。
  */
 import { chance } from '../core/rng';
-import { scenarioStartMin } from '../core/clock';
+import { nextSunriseTMin, parseHHMM, scenarioStartMin, sunParamsOf } from '../core/clock';
 import type { ClimberState, StaticContext, World } from '../types';
 import type { Tuning } from '../tuning';
 import { piecewise } from './capacity';
@@ -113,6 +113,22 @@ function followsLargeGroup(world: World, c: ClimberState, minSize: number): bool
   return n >= minSize;
 }
 
+/** 夜に寝る状態（止まって夜を過ごしている。歩いている・道を探しているときは寝ない） */
+const SLEEP_STATES = new Set(['BIVOUAC', 'SHELTERED', 'WAITING_RESCUE', 'STAYING']);
+
+/**
+ * 寝ているか（ユーザーの指定: ビバーク中の夜中に飲み食いするのは変）。止まって夜を過ごしている人は、
+ * 22 時から朝まで寝る。朝はシナリオの起きる時刻（plan.wakeAt）、なければその日の日の出
+ */
+export function asleep(world: World, ctx: StaticContext, c: ClimberState): boolean {
+  if (!SLEEP_STATES.has(c.state)) return false;
+  const day = Math.floor(world.tMin / 1440) * 1440;
+  const clock = world.tMin - day;
+  if (clock >= ctx.tuning.behavior.sleepFromClockMin) return true;
+  const wake = ctx.scenario.plan.wakeAt !== undefined ? parseHHMM(ctx.scenario.plan.wakeAt) : nextSunriseTMin(day, sunParamsOf(ctx.scenario.sun, ctx.scenario.season, ctx.tuning)) - day;
+  return clock < wake;
+}
+
 export function autonomous(world: World, ctx: StaticContext, c: ClimberState): void {
   const bt = ctx.tuning.behavior;
   const b = c.body;
@@ -141,8 +157,10 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   if (!waitForRest && b.cloPack > 0 && (b.coreC < bt.layerCoreBelowC || (l.windChillC < bt.layerWindChillBelowC && resting))) {
     if (chance(rng, bt.layerP * J)) return startTask(world, c, `layer:${b.cloPack}`, taskMinutes(c, bt.layerMin, ctx));
   }
+  // 寝ている間は飲み食いしない（ユーザーの指定）
+  const sleeping = asleep(world, ctx, c);
   // 食べる
-  if (!waitForRest && c.inv.foodKcal > 0) {
+  if (!waitForRest && !sleeping && c.inv.foodKcal > 0) {
     const every = c.def.habits.eatEveryMin;
     const habitDue = every !== null && c.memo.lastEatMin !== null && world.tMin - c.memo.lastEatMin >= every;
     const low = b.glycogenKcal < bt.eatLowGlycogenKcal;
@@ -159,7 +177,7 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   }
   // 飲む（喉の渇きに応じて、ひと口〜数口。ふだん 100 mL ほど、多くても 300 mL）
   const thirst = thirstOf(c, ctx.tuning);
-  if (!waitForRest && thirst !== null && c.inv.waterL > 0) {
+  if (!waitForRest && !sleeping && thirst !== null && c.inv.waterL > 0) {
     const gap = (bt.drinkGapMaxMin + (bt.drinkGapMinMin - bt.drinkGapMaxMin) * thirst) * (resting ? bt.drinkRestGapF : 1);
     const gapOk = c.memo.lastDrinkMin === null || world.tMin - c.memo.lastDrinkMin >= gap;
     if (gapOk && chance(rng, bt.drinkP * J)) {

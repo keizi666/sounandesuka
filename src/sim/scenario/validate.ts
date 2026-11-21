@@ -243,6 +243,7 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
   for (const k of ['startAt', 'timeLimit'] as const) checkTime(v, k, s[k]);
   checkTime(v, 'plan.plannedFinish', s.plan.plannedFinish);
   if (s.plan.reportIfNotBackBy !== null) checkTime(v, 'plan.reportIfNotBackBy', s.plan.reportIfNotBackBy);
+  if (s.plan.wakeAt !== undefined && !/^([01]\d|2[0-3]):[0-5]\d$/.test(s.plan.wakeAt)) v.err('plan.wakeAt', 'badTime', '起きる時刻は "05:00" の形');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(s.startDate)) v.err('startDate', 'date', `日付の書式が不正です: "${s.startDate}"`);
   if (map && s.mapId !== map.id) v.err('mapId', 'mapId', `mapId "${s.mapId}" とマップ "${map.id}" が一致しません`);
 
