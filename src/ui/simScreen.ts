@@ -644,7 +644,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     loop: () => loop,
     beforePlay: () => tt.beforePlay(),
     cycleCamera: () => {
-      const order: CameraMode[] = ['overview', 'follow', 'eye'];
+      // ボタンと同じ順（追従 → 俯瞰 → FPV）
+      const order: CameraMode[] = ['follow', 'overview', 'eye'];
       cam = order[(order.indexOf(cam) + 1) % 3]!;
       view.mode = cam;
       bubbles.eyeOf = cam === 'eye' ? (view.selected ?? world.climbers[0]?.id ?? null) : null;

@@ -77,6 +77,14 @@ const GROUP_GAP_MIN = 15;
 const GROUP_MIN = 3;
 
 const SPEED_LIST: Speed[] = [1, 4, 15, 60];
+/** カメラのボタンを押したときの次（追従 → 俯瞰 → FPV → 追従） */
+const CAM_NEXT: Record<CameraMode, CameraMode> = { follow: 'overview', overview: 'eye', eye: 'follow' };
+/** カメラごとのボタンの見た目（アイコンと名前） */
+const CAM_FACE: Record<CameraMode, ['myLocation' | 'landscape' | 'directionsWalk', string]> = {
+  follow: ['myLocation', JA.ui.camFollow],
+  overview: ['landscape', JA.ui.camOverview],
+  eye: ['directionsWalk', JA.ui.camFpv],
+};
 /** 上のバーをたたんでいるか（狭い画面） */
 const TOPBAR_FOLD_KEY = 'hks.v1.topbarFolded';
 
@@ -129,12 +137,9 @@ export class Hud {
     this.speedSel.addEventListener('change', () => h.setSpeed(Number(this.speedSel.value) as Speed));
     // 神の視点のボタンは廃止し、出発の前に選んだ難しさを札で出す（ユーザーの指定）
     this.godBtn = el('span', { class: `df-tag df-${opts.difficulty}`, title: JA.difficulty.note[opts.difficulty] }, [icon('visibility'), JA.difficulty.label[opts.difficulty]]);
-    // カメラ: 俯瞰・追従・FPV（一人称）の 3 つの切り替えボタン（ユーザーの指定）。C キーでも順に替わる
-    const camBtn = (m: CameraMode, ic: Parameters<typeof icon>[0], label: string): [CameraMode, HTMLButtonElement] => [
-      m,
-      el('button', { class: 'cam', type: 'button', title: `${label}（C キーで切り替え）`, 'aria-pressed': 'false', onclick: () => h.setCamera(m) }, [icon(ic), label]) as HTMLButtonElement,
-    ];
-    this.camBtns = new Map([camBtn('overview', 'landscape', JA.ui.camOverview), camBtn('follow', 'myLocation', JA.ui.camFollow), camBtn('eye', 'directionsWalk', JA.ui.camFpv)]);
+    // カメラ: 1 つのボタンで 追従 → 俯瞰 → FPV（一人称）→ 追従 と順に切り替える（ユーザーの指定）。C キーでも同じ順
+    const camBtn = el('button', { class: 'cam', type: 'button', title: `${JA.ui.camFollow} → ${JA.ui.camOverview} → ${JA.ui.camFpv}（C キーでも切り替え）`, onclick: () => h.setCamera(CAM_NEXT[this.cam]) }) as HTMLButtonElement;
+    this.camBtns = new Map([['follow' as CameraMode, camBtn]]);
     const layerBox = (name: 'trail' | 'track' | 'cloud', label: string, on: boolean): HTMLElement => {
       const cb = el('input', { type: 'checkbox', checked: on, onchange: () => h.setLayer(name, cb.checked) });
       return el('label', {}, [cb, label]);
@@ -268,10 +273,12 @@ export class Hud {
     if (this.cam !== cam || !this.camPainted) {
       this.cam = cam;
       this.camPainted = true;
-      // いまのカメラのボタンだけ金色
-      for (const [m, b] of this.camBtns) {
-        b.classList.toggle('on', m === cam);
-        b.setAttribute('aria-pressed', String(m === cam));
+      // 1 つのボタンに、いまのカメラ（アイコンと名前）を出す。追従のときは金色
+      for (const b of this.camBtns.values()) {
+        const [ic, label] = CAM_FACE[cam];
+        b.replaceChildren(icon(ic), label);
+        b.classList.toggle('on', cam === 'follow');
+        b.setAttribute('aria-label', `${JA.ui.camera}: ${label}`);
       }
     }
   }
