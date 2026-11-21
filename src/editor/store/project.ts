@@ -170,7 +170,7 @@ export function mapWithHeights(p: EditorProject): MapDef {
 export function attributionFor(p: EditorProject): Attribution[] {
   const out: Attribution[] = [];
   if (p.map.geo && p.map.terrain.type === 'heightmap') out.push(ATTR.gsi);
-  if (p.map.urban || p.raw.gsiVector) out.push(ATTR.gsiVector);
+  if (p.map.urban || p.raw?.gsiVector) out.push(ATTR.gsiVector);
   if (p.map.nodes.some((n) => n.source === 'osm') || p.map.edges.some((e) => e.source === 'osm')) out.push(ATTR.osm);
   if ((p.scenario.sources ?? []).some((s) => s.includes('Open-Meteo'))) out.push(ATTR.openMeteo);
   return out;

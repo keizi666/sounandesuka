@@ -7,6 +7,7 @@ import { validateScenario, type Issue } from '../sim/scenario/validate';
 import { buildHeights, buildMapRuntime } from '../sim/terrain/map';
 import type { EditorProject, MapRuntime } from '../sim/types';
 import { el, toast } from '../ui/dom';
+import { nextPaint, showLoading } from '../ui/loading';
 import type { Ed, SelKind, TabId } from './context';
 import { createLayers, overlayLegend, type LayerState, type OverlayKind } from './map/layers';
 import { TileMapView } from './map/TileMapView';
@@ -362,7 +363,11 @@ export class EditorApp implements Ed {
     this.view.redraw();
   }
 
+  /** 3D を作っている最中（ボタンの連打で二重に作らない） */
+  private building3d = false;
+
   toggle3d(on?: boolean): void {
+    if (this.building3d) return;
     const want = on ?? !this.preview;
     this.preview?.dispose();
     this.preview = null;
@@ -372,7 +377,21 @@ export class EditorApp implements Ed {
       this.toast('まだ地形がありません');
       return;
     }
-    this.preview = openPreview3d(this.center, m, this.p.scenario, 'mid', this.p.map.geo ? 1.3 : 1);
+    // 3D の箱庭（地形・森・建物）を作るあいだはメインスレッドが止まるので、先に読み込み中の表示を出して描かせる
+    this.building3d = true;
+    const ld = showLoading('3D の箱庭を作っています');
+    ld.step(`地形・森・建物を作っています…（${this.p.map.urban ? `建物 ${this.p.map.urban.buildings.length.toLocaleString('ja-JP')} 棟、` : ''}数秒かかることがあります）`, null);
+    void nextPaint()
+      .then(() => {
+        this.preview = openPreview3d(this.center, m, this.p.scenario, 'mid', this.p.map.geo ? 1.3 : 1);
+        ld.step('描いています…', 0.95);
+        return nextPaint();
+      })
+      .catch((e: unknown) => this.toast(`3D を作れませんでした: ${String(e)}`, 6000))
+      .finally(() => {
+        this.building3d = false;
+        ld.done();
+      });
   }
 
   toast(msg: string, ms = 3000): void {
