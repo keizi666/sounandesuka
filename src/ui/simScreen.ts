@@ -62,6 +62,8 @@ export { attributionLine, optionLabel, type SimResult } from './simCommon';
 
 const TIMED_SEC = 30;
 const AUTOSAVE_MS = 30000;
+/** 登山者の一覧でダブルクリックしたとき、どこまで寄るか（カメラの最短距離の何倍） */
+const ZOOM_IN_DIST_F = 4;
 /** ハードで、これより遠い所をぼかす（m。ユーザーの指定: 樹林帯の中は狭く、抜けたら広く） */
 const HARD_VIEW_FOREST_M = 100;
 const HARD_VIEW_OPEN_M = 300;
@@ -202,6 +204,15 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       select: (id) => {
         view.selected = id;
         view.lookAt(id);
+        refresh(true);
+      },
+      // 登山者の一覧でダブルクリック: その人を追従して、近くまで寄る（ユーザーの指定）
+      zoom: (id) => {
+        view.selected = id;
+        if (cam === 'eye') bubbles.eyeOf = null;
+        cam = 'follow';
+        view.mode = cam;
+        view.frameClose(world, ZOOM_IN_DIST_F);
         refresh(true);
       },
       settings: () =>

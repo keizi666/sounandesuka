@@ -56,8 +56,10 @@ export function speechView(e: SimEvent, scenario: ScenarioDef): SpeechView | nul
   const r = Number(d['r'] ?? 0.5);
   const key = String(d['key'] ?? '');
   const thought = e.type === 'THOUGHT';
-  const text = e.text ?? pickLine(thought ? JA.thoughts[key] : JA.speech[key], r);
-  if (!text) return null;
+  const raw = e.text ?? pickLine(thought ? JA.thoughts[key] : JA.speech[key], r);
+  if (!raw) return null;
+  // 2020 年以前のシナリオでは「スマホ」を「携帯電話」に（ユーザーの指定）
+  const text = phoneWordIn(scenario, raw);
   const level = Number(d['distortLevel'] ?? 0);
   const cls = classify({ documented: Boolean(d['documented']), source: (d['source'] as string | null) ?? null, distortLevel: level }, scenario);
   let display = text;
@@ -77,12 +79,30 @@ export interface FormatCtx {
 }
 
 /** イベントのログ文。出さないもの（STATE の一部など）は null */
-/** スマホがまだない年代のシナリオでは、文の中の「スマートフォン」を「携帯電話」に（ユーザーの指定） */
+/**
+ * 電話の呼び方（ユーザーの指定: 2020 年以前の事例では「スマホ」を「携帯電話」と書く）。表示だけの区切りで、
+ * 持ち物（GPS のアプリなど）を決める sim の tuning.era.smartphoneFrom とは別
+ */
+export const SMARTPHONE_WORD_AFTER_YEAR = 2020;
+/** このシナリオで「スマホ」と書くか */
+export function smartphoneWord(scenario: Pick<ScenarioDef, 'startDate'>): boolean {
+  return scenarioYear(scenario) > SMARTPHONE_WORD_AFTER_YEAR;
+}
+/** 2020 年以前のシナリオでは、文の中の「スマートフォン」「スマホ」を「携帯電話」に */
+export function phoneWordIn(scenario: Pick<ScenarioDef, 'startDate'>, text: string): string {
+  return smartphoneWord(scenario) ? text : text.replace(/スマートフォン|スマホ/g, JA.ui.featurePhone);
+}
 function phoneEra(f: FormatCtx, text: string): string {
-  return scenarioYear(f.scenario) < TUNING.era.smartphoneFrom ? text.replace(/スマートフォン|スマホ/g, JA.ui.featurePhone) : text;
+  return phoneWordIn(f.scenario, text);
 }
 
+/** イベントのログ文（電話の呼び方は年代に合わせる） */
 export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
+  const t = formatEventRaw(e, f);
+  return t === null ? null : phoneEra(f, t);
+}
+
+function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
   const L = JA.log;
   const who = e.climberId ? (f.scenario.party.find((p) => p.id === e.climberId)?.name ?? e.climberId) : '';
   const d = e.data ?? {};

@@ -4,6 +4,7 @@
  */
 import { closeLogDetail, openLogDetail, snapGauges, type LogSnap } from './logDetail';
 import { avatar } from './avatar';
+import { hpLevel, hpOf } from './hp';
 import { icon } from './icons';
 import { JA } from '../i18n/ja';
 import { fill, formatDateTime } from '../i18n/format';
@@ -24,6 +25,8 @@ export interface HudHandlers {
   setLayer(name: 'trail' | 'track' | 'cloud', on: boolean): void;
   setOverlay(k: OverlayKind): void;
   select(id: string): void;
+  /** その人へ寄る（登山者の一覧でダブルクリック。ユーザーの指定） */
+  zoom?(id: string): void;
   settings(): void;
   /** いまの場面の URL をコピーする（共有） */
   share?(): void;
@@ -44,6 +47,38 @@ function groupLabel(world: World, g: string, members: readonly ClimberState[]): 
   const leaderId = world.groups.find((x) => x.id === g)?.leader;
   const names = [...members].sort((a, b) => Number(b.id === leaderId) - Number(a.id === leaderId)).map((c) => c.def.name);
   return names.length <= 3 ? names.join('・') : fill(JA.ui.groupMore, { names: names.slice(0, 2).join('・'), n: names.length - 2 });
+}
+
+/** グループのリーダー（いなければ最初の人） */
+function groupLeaderOf(world: World, g: string, members: readonly ClimberState[]): ClimberState {
+  const id = world.groups.find((x) => x.id === g)?.leader;
+  return members.find((c) => c.id === id && c.body.alive) ?? members.find((c) => c.body.alive) ?? members[0]!;
+}
+
+/** たたんだグループの見出しに出す、リーダーの小さな札（顔と体力の輪・名前・状態・体力） */
+function leaderMini(world: World, g: string, members: readonly ClimberState[], knows: (id: string) => boolean, onSelect: () => void, onZoom: () => void): HTMLElement {
+  const l = groupLeaderOf(world, g, members);
+  const hp = hpOf(l.body);
+  const known = knows(l.id);
+  const ring = el('span', { class: 'fig-hp', 'data-lv': hpLevel(hp), style: `--hp:${hp / 100}`, hidden: !known });
+  const st = JA.labels.state[l.state] ?? l.state;
+  const card = el('span', { class: `grp-mini${l.body.alive ? '' : ' dead'}`, role: 'button', title: l.def.name }, [
+    el('span', { class: 'grp-face' }, [avatar(l.def, 34), ring]),
+    el('span', { class: 'grp-who' }, [el('strong', {}, `${l.def.name} ${l.def.age}歳`), el('small', {}, l.offMap ? `${st}・${l.offMap}` : st)]),
+    known ? el('span', { class: `grp-hp lv-${hpLevel(hp)}` }, [icon('favorite'), `${hp}`]) : null,
+  ]);
+  card.addEventListener('click', (e) => {
+    // 札を押したら、たたんだままその人を選ぶ（開け閉めはしない）
+    e.preventDefault();
+    e.stopPropagation();
+    onSelect();
+  });
+  card.addEventListener('dblclick', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onZoom();
+  });
+  return card;
 }
 
 export interface LogLine {
@@ -117,6 +152,8 @@ export class Hud {
   readonly recBtn: HTMLButtonElement;
   /** 小さくしているカード（登山者の ID） */
   private collapsed = new Set<string>();
+  /** たたんだグループ（描き直しても、たたんだままにする。全部たたんでも開かない） */
+  private closedGroups = new Set<string>();
   private party = new Map<string, ScenarioDef['party'][number]>();
   god: boolean;
   /** 体調が分かる人か（ハードではリーダーだけ。ユーザーの指定） */
@@ -300,22 +337,30 @@ export class Hud {
             this.updatePanels(world, selected);
           },
           this.knows(c.id),
+          () => this.h.zoom?.(c.id),
         ),
       );
     let list = world.climbers;
     if (this.sortByCore && world.climbers.every((c) => this.knows(c.id))) list = [...list].sort((a, b) => a.body.coreC - b.body.coreC);
     if (world.climbers.length > 6) {
       // 大人数: グループごとの折りたたみ一覧（docs/11 §2.1）
-      const open = new Set([...this.climbersEl.querySelectorAll('details[open]')].map((d) => (d as HTMLElement).dataset['g'] ?? ''));
       const groups = [...new Set(list.map((c) => c.groupId ?? ''))];
       this.climbersEl.replaceChildren(
         ...groups.map((g) => {
           const members = list.filter((c) => (c.groupId ?? '') === g);
           const worst = Math.min(...members.map((c) => c.body.coreC));
-          const d = el('details', { 'data-g': g, open: open.size === 0 || open.has(g) }, [
-            el('summary', {}, `${groupLabel(world, g, members)}（${members.length}人・最低 ${worst.toFixed(1)}℃）`),
+          const d = el('details', { 'data-g': g, open: !this.closedGroups.has(g) }, [
+            el('summary', {}, [
+              el('span', { class: 'grp-head' }, `${groupLabel(world, g, members)}（${members.length}人・最低 ${worst.toFixed(1)}℃）`),
+              // たたんだときも、リーダーの顔（体力の輪つき）・名前・体力を半分の高さの札で出す（ユーザーの指定）
+              leaderMini(world, g, members, this.knows, () => this.h.select(groupLeaderOf(world, g, members).id), () => this.h.zoom?.(groupLeaderOf(world, g, members).id)),
+            ]),
             ...cards(members),
           ]);
+          d.addEventListener('toggle', () => {
+            if (d.open) this.closedGroups.delete(g);
+            else this.closedGroups.add(g);
+          });
           return d;
         }),
       );

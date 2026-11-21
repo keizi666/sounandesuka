@@ -1,17 +1,16 @@
 /**
  * 電話の呼び方をシナリオの年代に合わせる（ユーザーの指定: スマホがまだない年代は「携帯電話」）。
- * スマホが広まった年（tuning.era.smartphoneFrom）より前のシナリオでは「携帯電話」、それ以降は「スマホ」。
+ * 2020 年以前のシナリオでは「携帯電話」、それより後は「スマホ」（ユーザーの指定。i18n/format の smartphoneWord）。
  * シナリオを始めるときに setPhoneEra を呼ぶ（画面をまたいで、結果の画面でも同じ呼び方）
  */
 import { JA } from '../i18n/ja';
-import { scenarioYear } from '../sim/scenario/era';
-import { TUNING } from '../sim/tuning';
+import { smartphoneWord } from '../i18n/format';
 import type { ScenarioDef } from '../sim/types';
 
 let smartphone = true;
 
 export function setPhoneEra(s: Pick<ScenarioDef, 'startDate'>): void {
-  smartphone = scenarioYear(s) >= TUNING.era.smartphoneFrom;
+  smartphone = smartphoneWord(s);
 }
 
 /** 体の状態の欄などの見出し */

@@ -1159,3 +1159,23 @@ dialog.synopsis .syn-list li span { min-width: 0; overflow-wrap: anywhere; }
   dialog.synopsis .syn-list li { flex-direction: column; gap: 0; }
   dialog.synopsis .syn-list li time { font-size: 0.8rem; }
 }
+
+/* ---- 登山者の一覧: たたんだグループにもリーダーの小さな札（ユーザーの指定） ---- */
+details[data-g] > summary { list-style: revert; }
+details[data-g] > summary .grp-head { display: inline; }
+details[data-g] > summary .grp-mini { display: none; }
+details[data-g]:not([open]) > summary .grp-mini { display: flex; align-items: center; gap: 10px; margin: 6px 0 4px; padding: 6px 10px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #e9ecf1; cursor: pointer; }
+details[data-g]:not([open]) > summary .grp-mini:hover { border-color: var(--accent); }
+.grp-mini .grp-face { position: relative; flex: 0 0 auto; width: 40px; height: 40px; display: inline-grid; place-items: center; }
+.grp-mini .grp-face .avatar { border-width: 2px; }
+.grp-mini .grp-face .fig-hp { inset: 0; }
+.grp-mini .grp-who { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; line-height: 1.25; }
+.grp-mini .grp-who strong { font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.grp-mini .grp-who small { color: var(--muted, #9aa3ad); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.grp-mini .grp-hp { display: inline-flex; align-items: center; gap: 3px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.grp-mini .grp-hp svg { width: 16px; height: 16px; fill: currentColor; }
+.grp-mini .grp-hp.lv-ok { color: #4ade80; }
+.grp-mini .grp-hp.lv-warn { color: #facc15; }
+.grp-mini .grp-hp.lv-danger { color: #fb923c; }
+.grp-mini .grp-hp.lv-critical { color: #ef4444; }
+.grp-mini.dead { opacity: 0.55; filter: grayscale(1); }

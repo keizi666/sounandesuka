@@ -35,7 +35,7 @@ function bottleLevel(leftL: number, capL: number): 'ok' | 'warn' | 'danger' | 'c
   return leftL < 0.05 ? 'critical' : f < 0.2 || leftL < 0.2 ? 'danger' : f < 0.45 ? 'warn' : 'ok';
 }
 
-export function climberCard(c: ClimberState, god: boolean, selected: boolean, onSelect: () => void, collapsed = false, onToggle?: () => void, bodyKnown = true): HTMLElement {
+export function climberCard(c: ClimberState, god: boolean, selected: boolean, onSelect: () => void, collapsed = false, onToggle?: () => void, bodyKnown = true, onZoom?: () => void): HTMLElement {
   const b = c.body;
   const core = levelOf(b.coreC, 36, 35, 32);
   const gly = levelOf(b.glycogenKcal, 600, 300, 100);
@@ -74,8 +74,9 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
   // 状態の横に、いまいる所の標高（ユーザーの指定）
   const elev = c.offMap ? '' : `・${Math.round(c.elevM).toLocaleString('ja-JP')} m`;
   const head = el('header', { class: 'who' }, [avatar(c.def, 51), el('h3', {}, [`${c.def.name} ${c.def.age}歳`, el('small', {}, ` ${st}${elev}`)]), toggle]);
-  if (collapsed) return el('section', { class: `climber mini${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [head, summary]);
-  return el('section', { class: `climber${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [
+  // ダブルクリックでその人へ寄る（ユーザーの指定）
+  if (collapsed) return el('section', { class: `climber mini${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect, ondblclick: () => onZoom?.() }, [head, summary]);
+  return el('section', { class: `climber${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect, ondblclick: () => onZoom?.() }, [
     head,
     summary,
     !bodyKnown

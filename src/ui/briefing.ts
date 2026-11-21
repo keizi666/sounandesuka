@@ -6,7 +6,7 @@ import { historicalSources } from './historicalLinks';
 import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { JA } from '../i18n/ja';
-import { fill, formatClock, formatDateTime } from '../i18n/format';
+import { fill, formatClock, formatDateTime, phoneWordIn } from '../i18n/format';
 import { powerBankPctOf } from '../sim/core/world';
 import { eraGear, powerBankAvailable, scenarioYear } from '../sim/scenario/era';
 import { TUNING } from '../sim/tuning';
@@ -111,7 +111,7 @@ function conditionsCard(s: LoadedScenario['scenario'], cond: StartConditions): H
     row(C.season, select<SeasonOverride>(cond.season, [['asIs', C.asIs], ['spring', JA.labels.season['spring'] ?? '春'], ['summer', JA.labels.season['summer'] ?? '夏'], ['autumn', JA.labels.season['autumn'] ?? '秋'], ['winter', JA.labels.season['winter'] ?? '冬']], (v) => (cond.season = v))),
     // モバイルバッテリーは、その年代にあり、スマホを持つ人がいるときだけ
     powerBankAvailable(s, TUNING) && s.party.some((p) => eraGear(p.gear, scenarioYear(s), TUNING).phone.has)
-      ? row(C.powerBank, select<string>(String(cond.powerBankMah ?? DEFAULT_POWER_BANK_MAH), POWER_BANK_CHOICES.map((m) => [String(m), m === 0 ? C.powerBankNone : fill(C.powerBankMah, { mah: m.toLocaleString(), n: (powerBankPctOf(m) / 100).toFixed(1) })]), (v) => (cond.powerBankMah = Number(v))))
+      ? row(C.powerBank, select<string>(String(cond.powerBankMah ?? DEFAULT_POWER_BANK_MAH), POWER_BANK_CHOICES.map((m) => [String(m), m === 0 ? C.powerBankNone : phoneWordIn(s, fill(C.powerBankMah, { mah: m.toLocaleString(), n: (powerBankPctOf(m) / 100).toFixed(1) }))]), (v) => (cond.powerBankMah = Number(v))))
       : null,
     row(C.water, select<string>(String(cond.waterDeltaL ?? 0), WATER_DELTA_CHOICES.map((d) => [String(d), d === 0 ? fill(C.waterAsIs, { l: waterText(0) }) : fill(C.waterDelta, { d: `${d > 0 ? '+' : ''}${d}`, l: waterText(d) })]), (v) => (cond.waterDeltaL = Number(v)))),
     ...s.party.map((p) => row(`${p.name}${C.healthOf}`, select<Health>(cond.health[p.id] ?? 'good', healthOpts, (v) => (cond.health[p.id] = v)))),
