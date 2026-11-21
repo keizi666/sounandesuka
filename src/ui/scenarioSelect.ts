@@ -80,6 +80,18 @@ function chip(ic: IconName, text: string, cls = ''): HTMLElement {
   return el('span', { class: `sel-chip ${cls}` }, [icon(ic), text]);
 }
 
+/**
+ * 未プレイで題名を伏せたカードの、絵の中央に大きく出す山名（ユーザーの指定）。
+ * 地域名は「奥多摩・高水三山（青梅市）」のような形なので、かっこを除き、「・」の前を小さな地域、後ろを大きな山名にする
+ */
+function mountainLabel(e: ScenarioIndexEntry): HTMLElement {
+  const name = (e.region?.real ? e.region.name : '箱庭岳').replace(/（[^）]*）/g, '').trim();
+  const i = name.indexOf('・');
+  const area = i > 0 ? name.slice(0, i) : '';
+  const main = i > 0 ? name.slice(i + 1) : name;
+  return el('div', { class: 'sel-mtn', 'aria-hidden': 'true' }, [area ? el('small', {}, area) : null, el('strong', {}, main)]);
+}
+
 function stars(n: number): HTMLElement {
   return el('span', { class: 'sel-stars', 'aria-label': `${JA.ui.difficulty} ${n}` }, Array.from({ length: 5 }, (_, i) => icon(i < n ? 'starFill' : 'star')));
 }
@@ -161,6 +173,7 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
   }, [
     img,
     el('div', { class: 'sel-shade' }),
+    hidden ? mountainLabel(e) : null,
     el('div', { class: 'sel-top' }, [veil(chip(THEME_ICON[e.theme] ?? 'warning', JA.labels.theme[e.theme] ?? e.theme, 'theme')), e.region?.real ? chip('landscape', e.region.name, 'real') : chip('landscape', '箱庭岳'), el('span', { class: 'sel-grow' }), stars(e.difficulty), fav]),
     el('div', { class: 'sel-titles' }, [veil(el('h2', {}, e.title)), e.subtitle ? veil(el('p', {}, e.subtitle)) : null]),
     mapImg,
