@@ -76,7 +76,7 @@ export function defaultCond(k: CondKind, s: ScenarioDef, map: MapDef): Condition
 /** 一覧に出す短い要約 */
 export function summarize(c: Condition | undefined, s: ScenarioDef, map: MapDef): string {
   if (!c) return '（なし）';
-  const node = (id: string): string => map.nodes.find((n) => n.id === id)?.name ?? id;
+  const node = (id: string): string => map.nodes.find((n) => n.id === id)?.name || id;
   const k = kindOf(c);
   const x = c as Record<string, unknown>;
   switch (k) {

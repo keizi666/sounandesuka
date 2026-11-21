@@ -61,7 +61,7 @@ export function disambiguateRoute(map: MapDef, route: readonly string[]): { rout
   const out: string[] = route.length ? [route[0]!] : [];
   const notes: string[] = [];
   const via = new Map<string, string>();
-  const name = (id: string): string => map.nodes.find((x) => x.id === id)?.name ?? id;
+  const name = (id: string): string => map.nodes.find((x) => x.id === id)?.name || id;
   for (let i = 1; i < route.length; i += 1) {
     const a = route[i - 1]!;
     const b = route[i]!;

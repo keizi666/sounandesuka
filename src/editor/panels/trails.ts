@@ -359,7 +359,7 @@ function joinSkeletonMap(ed: Ed): void {
     ed.p.map.skeleton = false;
     ed.p.editorState.draftEdgeIds = [];
   }, true);
-  busy = `結合しました。名前で結び付けた地点: ${r.matched.length}、登山道の上に補間で置いた地点（地点タブの「地点を動かす」で必ず確認）: ${r.interpolated.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name ?? id).join('、') || 'なし'}${r.warnings.length ? ` ／ ${r.warnings.join(' / ')}` : ''}`;
+  busy = `結合しました。名前で結び付けた地点: ${r.matched.length}、登山道の上に補間で置いた地点（地点タブの「地点を動かす」で必ず確認）: ${r.interpolated.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name || id).join('、') || 'なし'}${r.warnings.length ? ` ／ ${r.warnings.join(' / ')}` : ''}`;
   ed.refresh();
 }
 
@@ -510,7 +510,7 @@ export const trailsPanel: Panel = {
       selSection,
       draftList,
       section('計画ルート', [
-        el('p', {}, route.length > 0 ? route.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name ?? id).join(' → ') : '（未設定）'),
+        el('p', {}, route.length > 0 ? route.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name || id).join(' → ') : '（未設定）'),
         button('ルートを空にする', () => ed.change('ルート', () => (ed.p.scenario.plan.route = []))),
         button('最後の地点を取り消す', () => ed.change('ルート', () => (ed.p.scenario.plan.route = route.slice(0, -1)))),
         button('最後の地点を下山口に', () => ed.change('下山口', () => (ed.p.scenario.plan.goalNodes = route.length ? [route[route.length - 1]!] : []))),

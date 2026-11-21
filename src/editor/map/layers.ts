@@ -299,11 +299,13 @@ export function createLayers(ed: Ed, state: LayerState): MapLayer[] {
         } else g.rect(p.px - 5, p.py - 5, 10, 10);
         g.fill();
         g.stroke();
-        g.fillStyle = 'rgba(0,0,0,0.9)';
+        // 名前のない地点は ID を薄い字で（編集のときに区別できるように）
+        const label = n.name || n.id;
+        g.fillStyle = n.name ? 'rgba(0,0,0,0.9)' : 'rgba(0,0,0,0.45)';
         g.strokeStyle = 'rgba(255,255,255,0.9)';
         g.lineWidth = 3;
-        g.strokeText(n.name, p.px + 8, p.py - 6);
-        g.fillText(n.name, p.px + 8, p.py - 6);
+        g.strokeText(label, p.px + 8, p.py - 6);
+        g.fillText(label, p.px + 8, p.py - 6);
       }
     },
   };

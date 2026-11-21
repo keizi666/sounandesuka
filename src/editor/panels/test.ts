@@ -140,7 +140,7 @@ export const testPanel: Panel = {
   label: '試走',
   render(ed) {
     const s = ed.p.scenario;
-    const nodeName = (id: string): string => ed.p.map.nodes.find((n) => n.id === id)?.name ?? id;
+    const nodeName = (id: string): string => ed.p.map.nodes.find((n) => n.id === id)?.name || id;
     fill(
       ed.inspector,
       el('h2', {}, '試走'),

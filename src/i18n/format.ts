@@ -88,8 +88,11 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
   const d = e.data ?? {};
   const s = (k: string): string => String(d[k] ?? '');
   switch (e.type) {
-    case 'NODE_ARRIVE':
-      return fill(L.nodeArrive, { name: f.nodeName(s('node')) });
+    case 'NODE_ARRIVE': {
+      // 名前のない地点（道の途中の分岐など）に着いたことは書かない
+      const name = f.nodeName(s('node'));
+      return name ? fill(L.nodeArrive, { name }) : '';
+    }
     case 'FINISHED':
       return fill(d['hut'] ? (d['stay'] === false || (((e.tMin % 1440) + 1440) % 1440) < 14 * 60 ? L.finishedHutDay : L.finishedHut) : L.finished, { who, node: d['node'] ? f.nodeName(s('node')) : '' });
     case 'STATE': {

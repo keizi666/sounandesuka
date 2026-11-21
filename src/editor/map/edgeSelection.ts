@@ -31,7 +31,7 @@ export function removeSelection(ed: Ed, edgeIds: string[], nodeIds: string[]): b
   const plan = ed.p.scenario.plan;
   const inPlan = [...nodeSet].filter((id) => plan.route.includes(id) || plan.goalNodes.includes(id));
   if (inPlan.length > 0) {
-    const names = inPlan.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name ?? id).join('、');
+    const names = inPlan.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name || id).join('、');
     if (!confirm(`計画ルート・下山口に使っている地点（${names}）も消します。ルートと下山口からも外れます。よろしいですか？（Ctrl＋Z で戻せます）`)) return false;
   }
   clearEdgeSel();

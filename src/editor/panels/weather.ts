@@ -87,7 +87,7 @@ function drawTimeline(ed: Ed): void {
   }
   const rt = ed.runtime();
   const nodeIds = new Set([...s.plan.route, ...ed.p.map.nodes.filter((n) => n.shelter || n.type === 'peak').map((n) => n.id)]);
-  const nodeElevs = rt ? [...nodeIds].map((id) => ({ name: rt.nodes[id]?.name ?? id, elevM: rt.nodes[id]?.elevM ?? 0 })).filter((n, i, a) => n.elevM > 0 && a.findIndex((x) => x.name === n.name) === i).slice(0, 6) : [];
+  const nodeElevs = rt ? [...nodeIds].map((id) => ({ name: rt.nodes[id]?.name || id, elevM: rt.nodes[id]?.elevM ?? 0 })).filter((n, i, a) => n.elevM > 0 && a.findIndex((x) => x.name === n.name) === i).slice(0, 6) : [];
   const rec = ed.lastRun?.record;
   t.ghost = ghost?.keyframes ?? null;
   t.selected = selected;

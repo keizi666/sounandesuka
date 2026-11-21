@@ -143,7 +143,7 @@ function legTable(ed: Ed): HTMLElement {
     const sim = standardLegMin(rt, l.edgeId, l.dir) / (rt.trails[l.edgeId]?.def.paceAdj ?? 1);
     t += ct;
     ts += sim * 1.15;
-    return el('tr', {}, [rt.nodes[l.from]?.name ?? l.from, rt.nodes[l.to]?.name ?? l.to, `${Math.round(ct)} 分`, `${Math.round(sim)} 分`, formatTimeRef(ts)].map((x) => el('td', {}, x)));
+    return el('tr', {}, [rt.nodes[l.from]?.name || l.from, rt.nodes[l.to]?.name || l.to, `${Math.round(ct)} 分`, `${Math.round(sim)} 分`, formatTimeRef(ts)].map((x) => el('td', {}, x)));
   });
   return el('div', {}, [
     el('table', { class: 'ed-table' }, [el('tr', {}, ['から', 'まで', 'コースタイム', '試算', '予定（休憩込み）'].map((x) => el('th', {}, x))), ...rows]),
@@ -173,7 +173,7 @@ export const partyPanel: Panel = {
     const lat = geo?.centerLat ?? 36;
     const lon = geo?.centerLon ?? 138;
     const plan = s.plan;
-    const nodeName = (id: string): string => ed.p.map.nodes.find((n) => n.id === id)?.name ?? id;
+    const nodeName = (id: string): string => ed.p.map.nodes.find((n) => n.id === id)?.name || id;
     fill(
       ed.inspector,
       el('h2', {}, '人と計画'),
