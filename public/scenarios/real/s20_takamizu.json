@@ -836,7 +836,85 @@
       ]
     }
   ],
-  "choices": [],
+  "choices": [
+    {
+      "id": "cp_sawai",
+      "title": "沢井駅への分かれ道",
+      "priority": 15,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "LM022"
+          },
+          {
+            "var": "leader.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "situation": "惣岳山からの下りの途中、沢井駅へ下りる道が分かれる。谷口さんの足首は、下りのたびに痛む。どちらへ下りる？",
+      "knowledge": [
+        "沢井駅へは約 1.4 km。少し下ると舗装路に出て、あとは駅まで道なり",
+        "御嶽駅へは約 1.1 km と短いが、山道が続き、最後は急な下り",
+        "けがをした足には、平らで足元のよい道のほうが楽で、転びにくい"
+      ],
+      "options": [
+        {
+          "id": "sawai",
+          "label": "沢井駅へ下りる（途中から舗装路）",
+          "detail": "少し遠回りだが、すぐに舗装路に出る。けがをした足でも歩きやすい。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c2",
+              "text": "沢井駅へ下りましょう。少し先から舗装路よ"
+            },
+            {
+              "type": "setFlag",
+              "flag": "toSawai"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "LM022",
+                "LM021",
+                "J293",
+                "J294"
+              ],
+              "goalNodes": [
+                "J294"
+              ]
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "mitake",
+          "label": "予定どおり御嶽駅へ",
+          "detail": "距離は短いが、山道の急な下りが続く。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c2",
+              "text": "予定どおり御嶽駅へ行きましょう"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        }
+      ]
+    }
+  ],
   "endings": [
     {
       "kind": "SAFE_RETURN",
@@ -1093,7 +1171,7 @@
         {
           "id": "soutake",
           "label": "テーピングして、予定どおり惣岳山から御嶽駅へ",
-          "detail": "いちばん早く下りられる（ふつうの足で約 1 時間 46 分）。荷物は石井さんが持ち、家族に遅れると連絡する。",
+          "detail": "いちばん早く下りられる（ふつうの足で約 1 時間 46 分）。途中から沢井駅へ下りる道もある。荷物は石井さんが持ち、家族に遅れると連絡する。",
           "actions": [
             {
               "type": "say",
@@ -1593,72 +1671,6 @@
       "once": true
     },
     {
-      "key": "a_creek",
-      "who": "c3",
-      "to": "c2",
-      "when": {
-        "all": [
-          {
-            "after": "D0 10:20"
-          },
-          {
-            "not": {
-              "beenAt": "J143"
-            }
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          }
-        ]
-      },
-      "lines": [
-        "沢の音がしますね。涼しくていいな"
-      ],
-      "replies": {
-        "who": "c2",
-        "lines": [
-          "この先の尾根まで、しばらく登りよ。今のうちに水を飲んでおいてね"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
-      "key": "a_steep",
-      "who": "c3",
-      "to": "c2",
-      "when": {
-        "all": [
-          {
-            "after": "D0 10:45"
-          },
-          {
-            "not": {
-              "beenAt": "J143"
-            }
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          }
-        ]
-      },
-      "lines": [
-        "けっこう登りますね……。まだ半分くらいですか"
-      ],
-      "replies": {
-        "who": "c2",
-        "lines": [
-          "もう少しで半分。焦らなくていいわよ"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
       "key": "a_grandma",
       "who": "c1",
       "to": "c3",
@@ -1686,39 +1698,6 @@
         "who": "c3",
         "lines": [
           "いや本当に。私のほうが先にへばりそうだ"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
-      "key": "a_lunch",
-      "who": "c3",
-      "to": "c2",
-      "when": {
-        "all": [
-          {
-            "after": "D0 11:20"
-          },
-          {
-            "not": {
-              "beenAt": "J143"
-            }
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          }
-        ]
-      },
-      "lines": [
-        "お昼はどこで食べるんですか"
-      ],
-      "replies": {
-        "who": "c2",
-        "lines": [
-          "高水山のお寺に休憩所があるの。もうひと登りよ"
         ]
       },
       "priority": 12,
@@ -1808,42 +1787,6 @@
         "who": "c2",
         "lines": [
           "次の岩茸石山は見晴らしがいいわよ"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
-      "key": "c_ridge",
-      "who": "c1",
-      "to": "c3",
-      "when": {
-        "all": [
-          {
-            "beenAt": "PK001"
-          },
-          {
-            "not": {
-              "beenAt": "PK002"
-            }
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          },
-          {
-            "after": "D0 12:15"
-          }
-        ]
-      },
-      "lines": [
-        "尾根に出ると楽ですね。風が気持ちいい"
-      ],
-      "replies": {
-        "who": "c3",
-        "lines": [
-          "さっきの登りに比べたら天国だ"
         ]
       },
       "priority": 12,
@@ -1989,45 +1932,6 @@
       "once": true
     },
     {
-      "key": "e_pack",
-      "who": "c3",
-      "to": "c1",
-      "when": {
-        "all": [
-          {
-            "elapsedSince": {
-              "flag": "sprained",
-              "min": 26
-            }
-          },
-          {
-            "flag": "sprained"
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          },
-          {
-            "var": "sun.isDark",
-            "op": "==",
-            "value": false
-          }
-        ]
-      },
-      "lines": [
-        "荷物、少し持つよ"
-      ],
-      "replies": {
-        "who": "c1",
-        "lines": [
-          "じゃあ水を 1 本お願いします"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
       "key": "e_called",
       "who": "c1",
       "to": "c2",
@@ -2112,49 +2016,7 @@
         ]
       },
       "priority": 7,
-      "cooldownMin": 40
-    },
-    {
-      "key": "e_tape",
-      "who": "c1",
-      "to": "c2",
-      "when": {
-        "all": [
-          {
-            "flag": "taped"
-          },
-          {
-            "elapsedSince": {
-              "flag": "sprained",
-              "min": 60
-            }
-          },
-          {
-            "flag": "sprained"
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          },
-          {
-            "var": "sun.isDark",
-            "op": "==",
-            "value": false
-          }
-        ]
-      },
-      "lines": [
-        "テーピング、きつくない？"
-      ],
-      "replies": {
-        "who": "c2",
-        "lines": [
-          "ちょうどいいわ。上手ね"
-        ]
-      },
-      "priority": 12,
-      "once": true
+      "cooldownMin": 60
     },
     {
       "key": "e_time",
@@ -2190,45 +2052,6 @@
         "who": "c2",
         "lines": [
           "……暗くなるかもしれないわね。下りは無理をしないで行きましょう"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
-      "key": "e_student",
-      "who": "c3",
-      "to": "c1",
-      "when": {
-        "all": [
-          {
-            "elapsedSince": {
-              "flag": "sprained",
-              "min": 75
-            }
-          },
-          {
-            "flag": "sprained"
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          },
-          {
-            "var": "sun.isDark",
-            "op": "==",
-            "value": false
-          }
-        ]
-      },
-      "lines": [
-        "石井くんは学生さん？"
-      ],
-      "replies": {
-        "who": "c1",
-        "lines": [
-          "大学 4 年です。来年から働きます"
         ]
       },
       "priority": 12,
@@ -2427,10 +2250,7 @@
             }
           },
           {
-            "elapsedSince": {
-              "flag": "sprained",
-              "min": 20
-            }
+            "beenAt": "J014"
           },
           {
             "var": "leader.moving",
@@ -2732,6 +2552,18 @@
           },
           {
             "after": "D0 17:36"
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "flag": "toSawai"
+                },
+                {
+                  "beenAt": "LM021"
+                }
+              ]
+            }
           }
         ]
       },
@@ -2755,7 +2587,7 @@
         ]
       },
       "priority": 6,
-      "cooldownMin": 22
+      "cooldownMin": 35
     },
     {
       "key": "g_route",
@@ -2775,6 +2607,18 @@
           },
           {
             "after": "D0 17:50"
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "flag": "toSawai"
+                },
+                {
+                  "beenAt": "LM021"
+                }
+              ]
+            }
           }
         ]
       },
@@ -2796,7 +2640,7 @@
         ]
       },
       "priority": 6,
-      "cooldownMin": 35
+      "cooldownMin": 50
     },
     {
       "key": "n_past",
@@ -2865,39 +2709,6 @@
       "once": true
     },
     {
-      "key": "n_train",
-      "who": "c1",
-      "to": "c2",
-      "when": {
-        "all": [
-          {
-            "var": "sun.isDark",
-            "op": "==",
-            "value": true
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          },
-          {
-            "after": "D0 20:15"
-          }
-        ]
-      },
-      "lines": [
-        "電車、まだあるかな"
-      ],
-      "replies": {
-        "who": "c2",
-        "lines": [
-          "青梅線は遅くまであるわ。なくても、駅まで行けば何とかなる"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
       "key": "n_rain",
       "who": "c3",
       "to": "c2",
@@ -2930,105 +2741,6 @@
         "who": "c2",
         "lines": [
           "フードをかぶって。首から雨が入ると冷えるの"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
-      "key": "n_battery",
-      "who": "c1",
-      "to": "c2",
-      "when": {
-        "all": [
-          {
-            "var": "sun.isDark",
-            "op": "==",
-            "value": true
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          },
-          {
-            "after": "D0 20:45"
-          }
-        ]
-      },
-      "lines": [
-        "ランプの電池、まだ大丈夫？"
-      ],
-      "replies": {
-        "who": "c2",
-        "lines": [
-          "予備の電池も持ってるわ。心配しないで"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
-      "key": "n_hot",
-      "who": "c1",
-      "to": "c3",
-      "when": {
-        "all": [
-          {
-            "var": "sun.isDark",
-            "op": "==",
-            "value": true
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          },
-          {
-            "after": "D0 21:15"
-          }
-        ]
-      },
-      "lines": [
-        "下りたら、温かいもの食べたいですね"
-      ],
-      "replies": {
-        "who": "c3",
-        "lines": [
-          "ラーメンだな。いや、なんでもいい"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
-      "key": "n_knee",
-      "who": "c3",
-      "to": "c2",
-      "when": {
-        "all": [
-          {
-            "var": "sun.isDark",
-            "op": "==",
-            "value": true
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          },
-          {
-            "after": "D0 21:35"
-          }
-        ]
-      },
-      "lines": [
-        "膝が笑ってきました"
-      ],
-      "replies": {
-        "who": "c2",
-        "lines": [
-          "下りが続くとそうなるの。小さい歩幅で、ゆっくりね"
         ]
       },
       "priority": 12,
@@ -3166,42 +2878,6 @@
       "once": true
     },
     {
-      "key": "g_home",
-      "who": "c1",
-      "to": "c2",
-      "when": {
-        "all": [
-          {
-            "var": "sun.isDark",
-            "op": "==",
-            "value": true
-          },
-          {
-            "var": "leader.moving",
-            "op": "==",
-            "value": true
-          },
-          {
-            "after": "D0 19:30"
-          },
-          {
-            "flag": "sprained"
-          }
-        ]
-      },
-      "lines": [
-        "母さんに、もっと遅くなるって連絡しとくね"
-      ],
-      "replies": {
-        "who": "c2",
-        "lines": [
-          "お願い。だいたい何時ごろになるかも伝えてね"
-        ]
-      },
-      "priority": 12,
-      "once": true
-    },
-    {
       "key": "g_last",
       "who": "c3",
       "to": "c2",
@@ -3251,6 +2927,18 @@
             "value": true
           },
           {
+            "not": {
+              "all": [
+                {
+                  "flag": "toSawai"
+                },
+                {
+                  "beenAt": "LM021"
+                }
+              ]
+            }
+          },
+          {
             "var": "leader.elevM",
             "op": "<",
             "value": 300
@@ -3264,6 +2952,32 @@
         "who": "c3",
         "lines": [
           "まだ遠いけど……あの明かりを目指せばいいんだ"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_paved",
+      "who": "c3",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "flag": "toSawai"
+          },
+          {
+            "beenAt": "LM021"
+          }
+        ]
+      },
+      "lines": [
+        "舗装路に出た。ずいぶん歩きやすいですね"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "ここまで来れば、あとは駅まで道なりよ"
         ]
       },
       "priority": 12,

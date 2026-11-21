@@ -15,6 +15,8 @@ export function createKeyHandler(d: {
 }): (e: KeyboardEvent) => void {
   return (e) => {
     if (d.blocked() || (e.target as HTMLElement).closest('input,select,textarea,dialog')) return;
+    // Ctrl+C（コピー）などの組み合わせは横取りしない（ユーザーの指摘: Ctrl+C で FPV になった）
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
     const loop = d.loop();
     if (e.key === ' ') {
       if (loop.paused) d.beforePlay();
