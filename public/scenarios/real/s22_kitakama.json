@@ -1,0 +1,2205 @@
+{
+  "id": "s22_kitakama",
+  "version": 1,
+  "title": "北鎌尾根で行動不能",
+  "subtitle": "8月・3人パーティー・槍ヶ岳 北鎌尾根（実在の地形）",
+  "theme": "heat",
+  "difficulty": 5,
+  "season": "summer",
+  "estMinutes": 20,
+  "mapId": "kitakama",
+  "seed": 808,
+  "startDate": "2026-08-08",
+  "startAt": "D0 04:30",
+  "timeLimit": "D1 12:00",
+  "sun": {
+    "sunrise": "04:57",
+    "sunset": "18:39",
+    "maxElevDeg": 70
+  },
+  "moon": {
+    "illumination": 0.25
+  },
+  "briefing": {
+    "text": "鈴木さん（64）はクライミング歴40年のリーダー。南田さん（45）はジムで岩を始めたばかり、楠木さん（33）は登山を始めて2年。3人は北鎌尾根から槍ヶ岳を目指す2泊3日の計画で、きのう上高地を出て横尾から槍沢を登り、ババ平にテントを張った。今日は4時半にババ平を出て水俣乗越を越え、天上沢へ下って北鎌沢出合から北鎌沢を登り、北鎌のコルで尾根に乗る。独標・北鎌平を越えて槍ヶ岳に登り、殺生ヒュッテのテント場に泊まる。あすは槍沢を下り、横尾を経て上高地へ帰る予定。水はババ平で満タンにした。登山計画書は提出済み。",
+    "forecast": [
+      {
+        "label": "朝",
+        "text": "晴れ",
+        "icon": "sunny"
+      },
+      {
+        "label": "昼",
+        "text": "晴れ・暑い（標高2,500 mで24℃前後）",
+        "icon": "sunny"
+      },
+      {
+        "label": "午後",
+        "text": "山沿いで雲が湧く",
+        "icon": "cloudy"
+      }
+    ]
+  },
+  "plan": {
+    "route": [
+      "BABADAIRA",
+      "J002",
+      "J005",
+      "J003",
+      "OMAGARI",
+      "MIZUMATA",
+      "KK_DEAI",
+      "KK_COL",
+      "TENGU_KOSHI",
+      "DOKU_BASE",
+      "DOKUHYO",
+      "DOKU_S",
+      "KK_DAIRA",
+      "YARI",
+      "YARI_HUT",
+      "J004",
+      "SESSHO"
+    ],
+    "goalNodes": [
+      "SESSHO"
+    ],
+    "plannedFinish": "D0 18:00",
+    "submittedPlan": true,
+    "reportIfNotBackBy": "D1 19:00"
+  },
+  "party": [
+    {
+      "id": "suzuki",
+      "name": "鈴木",
+      "age": 64,
+      "sex": "m",
+      "weightKg": 68,
+      "packKg": 15,
+      "experience": 0.9,
+      "fitness": 0.85,
+      "navSkill": 0.85,
+      "riskTolerance": 0.65,
+      "color": "#d9452b",
+      "leader": true,
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 90,
+        "delaysRainwear": 0.2,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.5,
+        "cloPack": 0.6,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 10,
+          "inPack": false,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 70,
+          "gpsApp": true,
+          "trackRecording": true,
+          "satelliteSos": false
+        },
+        "map": true,
+        "compass": true,
+        "foodKcal": 2000,
+        "waterL": 2.5,
+        "stove": true,
+        "crampons": false,
+        "helmet": true,
+        "trekkingPoles": false,
+        "whistle": true,
+        "rescueSheet": true,
+        "powerBankMah": 10000,
+        "tent": true
+      },
+      "role": "リーダー",
+      "initial": {
+        "fatigue": 15,
+        "waterDeficitL": 0.4
+      },
+      "health": "sleepy",
+      "notes": "クライミング歴40年。北鎌尾根は3回目。ロープ・テント・コンロを持つので荷が重い。喉が渇いてから飲む癖がある。"
+    },
+    {
+      "id": "minamida",
+      "name": "南田",
+      "age": 45,
+      "sex": "m",
+      "weightKg": 72,
+      "packKg": 12,
+      "experience": 0.5,
+      "fitness": 1,
+      "navSkill": 0.4,
+      "riskTolerance": 0.5,
+      "color": "#2b6cd9",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.4,
+        "gpsCheckEveryMin": 60
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.5,
+        "cloPack": 0.6,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 8,
+          "inPack": false,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": true,
+        "compass": false,
+        "foodKcal": 1800,
+        "waterL": 3,
+        "stove": false,
+        "crampons": false,
+        "helmet": true,
+        "trekkingPoles": false,
+        "whistle": true,
+        "rescueSheet": true,
+        "powerBankMah": 5000
+      },
+      "role": "メンバー",
+      "initial": {
+        "fatigue": 15,
+        "waterDeficitL": 0.3
+      },
+      "notes": "ジムで1年ほどボルダリング。外岩とアルパインは数回。地図は読めるが、北鎌尾根は初めて。"
+    },
+    {
+      "id": "kusunoki",
+      "name": "楠木",
+      "age": 33,
+      "sex": "f",
+      "weightKg": 52,
+      "packKg": 10,
+      "experience": 0.2,
+      "fitness": 0.95,
+      "navSkill": 0.2,
+      "riskTolerance": 0.35,
+      "color": "#2ba84a",
+      "habits": {
+        "eatEveryMin": 90,
+        "drinkEveryMin": 45,
+        "delaysRainwear": 0.5,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.5,
+        "cloPack": 0.6,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 6,
+          "inPack": false,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 85,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 1500,
+        "waterL": 3,
+        "stove": false,
+        "crampons": false,
+        "helmet": true,
+        "trekkingPoles": true,
+        "whistle": false,
+        "rescueSheet": false,
+        "powerBankMah": 5000
+      },
+      "role": "メンバー",
+      "initial": {
+        "fatigue": 25,
+        "waterDeficitL": 0.3
+      },
+      "notes": "登山を始めて2年。テント泊は2回目。岩場はほとんど経験がない。ヘルメットは借り物。"
+    }
+  ],
+  "groups": [
+    {
+      "id": "main",
+      "members": "all",
+      "leader": "suzuki",
+      "cohesion": "tight"
+    }
+  ],
+  "weather": {
+    "refElevM": 2500,
+    "lapseRateCPer100m": 0.65,
+    "cloudThicknessM": 1200,
+    "keyframes": [
+      {
+        "at": "D0 04:00",
+        "tempC": 12,
+        "windMs": 2,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3600,
+        "visibilityM": 30000,
+        "pressureHpa": 1016
+      },
+      {
+        "at": "D0 07:00",
+        "tempC": 16,
+        "windMs": 2,
+        "windDirDeg": 210,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3600,
+        "visibilityM": 30000,
+        "pressureHpa": 1016
+      },
+      {
+        "at": "D0 10:00",
+        "tempC": 22,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3400,
+        "visibilityM": 25000,
+        "pressureHpa": 1015
+      },
+      {
+        "at": "D0 13:00",
+        "tempC": 24,
+        "windMs": 3,
+        "windDirDeg": 230,
+        "precipMmH": 0,
+        "cloudCover": 0.4,
+        "cloudBaseM": 3300,
+        "visibilityM": 20000,
+        "pressureHpa": 1013
+      },
+      {
+        "at": "D0 15:00",
+        "tempC": 22,
+        "windMs": 4,
+        "windDirDeg": 240,
+        "precipMmH": 0,
+        "cloudCover": 0.7,
+        "cloudBaseM": 3050,
+        "visibilityM": 12000,
+        "inCloudVisibilityM": 150,
+        "thunder": 0.1,
+        "pressureHpa": 1012
+      },
+      {
+        "at": "D0 17:00",
+        "tempC": 18,
+        "windMs": 3,
+        "windDirDeg": 240,
+        "precipMmH": 0,
+        "cloudCover": 0.5,
+        "cloudBaseM": 3200,
+        "visibilityM": 20000,
+        "pressureHpa": 1013
+      },
+      {
+        "at": "D0 20:00",
+        "tempC": 14,
+        "windMs": 2,
+        "windDirDeg": 230,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3500,
+        "visibilityM": 30000,
+        "pressureHpa": 1014
+      },
+      {
+        "at": "D1 04:00",
+        "tempC": 11,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3600,
+        "visibilityM": 30000,
+        "pressureHpa": 1015
+      },
+      {
+        "at": "D1 12:00",
+        "tempC": 22,
+        "windMs": 3,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.4,
+        "cloudBaseM": 3300,
+        "visibilityM": 25000,
+        "pressureHpa": 1014
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_brief",
+      "trigger": {
+        "atNode": "KK_DEAI"
+      },
+      "effects": [
+        {
+          "type": "say",
+          "who": "suzuki",
+          "text": "水は北鎌沢の途中が最後だ。尾根の上にはない。沢の水を飲めるうちに飲んで、水筒も満たしておけ。"
+        }
+      ]
+    },
+    {
+      "id": "ev_sunrise",
+      "trigger": {
+        "after": "D0 05:10"
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "東の空が明るくなった。槍沢を囲む稜線の上のほうに日が差し始めた。"
+        }
+      ]
+    },
+    {
+      "id": "ev_hoihoi",
+      "trigger": {
+        "all": [
+          {
+            "onEdge": "E020"
+          },
+          {
+            "chance": 0.35
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "沢が細かく分かれ、右へ延びる踏み跡に入りかけた。鈴木さんが気づいて引き返す。"
+        },
+        {
+          "type": "say",
+          "who": "suzuki",
+          "text": "こっちじゃない。左の沢を詰める。"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "rest",
+              "minutes": 20
+            },
+            {
+              "type": "continueRoute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_heat",
+      "trigger": {
+        "after": "D0 09:30"
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "風がない。日に焼けた岩が熱い。",
+          "important": true
+        },
+        {
+          "type": "forecastUpdate",
+          "requiresSignal": true,
+          "entries": [
+            {
+              "label": "今日",
+              "text": "晴れ。長野県に熱中症警戒アラート",
+              "icon": "sunny"
+            },
+            {
+              "label": "午後",
+              "text": "山沿いで雲が湧く",
+              "icon": "cloudy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_direct",
+      "trigger": {
+        "all": [
+          {
+            "onEdge": "E005"
+          },
+          {
+            "not": {
+              "chose": {
+                "cp": "cp_doku",
+                "option": "traverse"
+              }
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "楠木さんが出だしの岩で何度もやり直す。鈴木さんがロープで確保する。"
+        },
+        {
+          "type": "say",
+          "who": "kusunoki",
+          "to": "suzuki",
+          "text": "手が届かない……どこに足を置けばいいですか？"
+        },
+        {
+          "type": "say",
+          "who": "suzuki",
+          "to": "kusunoki",
+          "text": "右足を左の段に。ロープは張ってある。落ちても止まる。"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "rest",
+              "minutes": 15
+            },
+            {
+              "type": "continueRoute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_traverse_slip",
+      "trigger": {
+        "all": [
+          {
+            "onEdge": "E005"
+          },
+          {
+            "chose": {
+              "cp": "cp_doku",
+              "option": "traverse"
+            }
+          },
+          {
+            "chance": 0.3
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "ザレた斜面で、足元の砂利が流れた。",
+          "important": true
+        },
+        {
+          "type": "rockfall",
+          "who": "all",
+          "p": 0.12,
+          "injuryTable": "EXPOSED"
+        }
+      ]
+    },
+    {
+      "id": "ev_ridge_loose",
+      "trigger": {
+        "all": [
+          {
+            "onEdge": "E007"
+          },
+          {
+            "chance": 0.15
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "踏み跡を外れた先で、岩が脆く崩れた。"
+        },
+        {
+          "type": "rockfall",
+          "who": "all",
+          "p": 0.05,
+          "injuryTable": "EXPOSED"
+        }
+      ]
+    },
+    {
+      "id": "ev_water_flag",
+      "trigger": {
+        "all": [
+          {
+            "beenAt": "KK_COL"
+          },
+          {
+            "var": "c.suzuki.waterL",
+            "op": "<",
+            "value": 0.3
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "suzuki_water_out"
+        },
+        {
+          "type": "log",
+          "text": "鈴木さんの水筒が空になった。"
+        }
+      ]
+    },
+    {
+      "id": "ev_split_log",
+      "trigger": {
+        "flag": "split_two"
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "南田さんと楠木さんは、鈴木さんの収容を待ってから2人で進むことにした。",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "music",
+              "id": "drama-dusk"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_two_summit_slip",
+      "trigger": {
+        "all": [
+          {
+            "flag": "split_two"
+          },
+          {
+            "onEdge": "E018"
+          },
+          {
+            "chance": 0.2
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "楠木さんの足が岩から外れた。",
+          "important": true
+        },
+        {
+          "type": "rockfall",
+          "who": "kusunoki",
+          "p": 0.3,
+          "injuryTable": "EXPOSED"
+        }
+      ]
+    },
+    {
+      "id": "ev_party_summit_slip",
+      "trigger": {
+        "all": [
+          {
+            "not": {
+              "flag": "split_two"
+            }
+          },
+          {
+            "onEdge": "E018"
+          },
+          {
+            "chance": 0.08
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "楠木さんの足が岩から外れた。鈴木さんのロープが止めた。"
+        },
+        {
+          "type": "rockfall",
+          "who": "kusunoki",
+          "p": 0.15,
+          "injuryTable": "EXPOSED"
+        }
+      ]
+    },
+    {
+      "id": "ev_heli",
+      "trigger": {
+        "event": "HELI_DISPATCH"
+      },
+      "once": false,
+      "effects": [
+        {
+          "type": "log",
+          "text": "県警のヘリコプターが出動した。"
+        }
+      ]
+    },
+    {
+      "id": "ev_hut",
+      "trigger": {
+        "atNode": "YARI_HUT"
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "槍ヶ岳山荘に着いた。売店で水とスポーツドリンクが買える。今夜のテント場の殺生ヒュッテは、ここから下ってすぐ。"
+        }
+      ]
+    },
+    {
+      "id": "ev_sessho",
+      "trigger": {
+        "atNode": "SESSHO"
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "殺生ヒュッテのテント場に着いた。"
+        }
+      ]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_start",
+      "title": "ババ平の朝",
+      "trigger": {
+        "after": "D0 04:30"
+      },
+      "priority": 20,
+      "situation": "午前4時半、ババ平のテント場。まだ暗い。きのうは上高地から横尾を経て槍沢を登り、ここにテントを張った。楠木さんは後半、足取りが重かった。今日は水俣乗越を越えて北鎌沢出合へ下り、北鎌尾根を越えて槍ヶ岳から殺生ヒュッテまで行く予定。",
+      "knowledge": [
+        "ババ平から水俣乗越まで登り約450 m、天上沢の北鎌沢出合まで下り約500 m。出合から北鎌のコルまで、また登り約600 m",
+        "水は北鎌沢の途中が最後で、尾根の上には水場がない",
+        "コルから槍ヶ岳まで、慣れた人でも6〜7時間かかる。エスケープはなく、尾根に入ったら槍ヶ岳まで抜けるしかない",
+        "槍沢の一般道なら、槍ヶ岳山荘・殺生ヒュッテまで小屋がつづく",
+        "予報は晴れ。昼は暑くなる",
+        "鈴木さんの水は2.5 L、南田さんと楠木さんは3 Lずつ"
+      ],
+      "options": [
+        {
+          "id": "go",
+          "label": "予定どおり水俣乗越へ向かう",
+          "detail": "暑くなる前に北鎌沢を登ってコルまで上がりたい。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1.4,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "go_slow",
+          "label": "休みを細かく取りながら、ゆっくり登る",
+          "detail": "楠木さんのペースに合わせる。そのぶん尾根の上の時間は長くなる。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.85
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 0.7
+          }
+        },
+        {
+          "id": "retreat_yari",
+          "label": "北鎌尾根をやめ、槍沢の一般道で殺生ヒュッテへ",
+          "detail": "同じテント場に、楽な道で着ける。",
+          "actions": [
+            {
+              "type": "setRoute",
+              "route": [
+                "BABADAIRA",
+                "J002",
+                "J005",
+                "J003",
+                "OMAGARI",
+                "TENGU_JCT",
+                "BOZU",
+                "J004",
+                "SESSHO"
+              ],
+              "goalNodes": [
+                "SESSHO"
+              ]
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "retreat_down",
+          "label": "北鎌尾根をやめ、槍沢ロッジへ下る",
+          "detail": "今回は下山する。",
+          "actions": [
+            {
+              "type": "setRoute",
+              "route": [
+                "BABADAIRA",
+                "YARISAWA_LODGE"
+              ],
+              "goalNodes": [
+                "YARISAWA_LODGE"
+              ]
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_deai",
+      "title": "北鎌沢出合",
+      "trigger": {
+        "atNode": "KK_DEAI"
+      },
+      "priority": 20,
+      "situation": "水俣乗越を越えて天上沢へ下り、北鎌沢出合に着いた。気温は {leader.local.tempC:0} ℃。楠木さんの疲れは {c.kusunoki.fatigue:0}（100が限界）。鈴木さんの水は残り {c.suzuki.waterL:1} L。",
+      "knowledge": [
+        "ここから北鎌のコルまで標高差約600 m。水は北鎌沢の途中が最後で、尾根の上には水場がない",
+        "コルから槍ヶ岳まで、慣れた人でも6〜7時間かかる",
+        "水俣乗越へ登り返せば、槍沢の一般道に戻れる"
+      ],
+      "options": [
+        {
+          "id": "go",
+          "label": "北鎌沢を登る",
+          "detail": "日が高くなる前にコルへ。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "rest_go",
+          "label": "沢の水を飲み、20分休んでから登る",
+          "detail": "水筒も沢の水で満たしておく。",
+          "actions": [
+            {
+              "type": "rest",
+              "minutes": 20
+            },
+            {
+              "type": "drink",
+              "liters": 0.3
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 0.7
+          }
+        },
+        {
+          "id": "back",
+          "label": "北鎌尾根をやめ、水俣乗越へ登り返して殺生ヒュッテへ",
+          "detail": "登り返しは長いが、その先は一般道。",
+          "actions": [
+            {
+              "type": "setRoute",
+              "route": [
+                "KK_DEAI",
+                "MIZUMATA",
+                "OMAGARI",
+                "TENGU_JCT",
+                "BOZU",
+                "J004",
+                "SESSHO"
+              ],
+              "goalNodes": [
+                "SESSHO"
+              ]
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4,
+            "mods": [
+              {
+                "when": {
+                  "var": "c.kusunoki.fatigue",
+                  "op": ">",
+                  "value": 50
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_col",
+      "title": "北鎌のコル",
+      "trigger": {
+        "atNode": "KK_COL"
+      },
+      "situation": "北鎌のコルに着いた。ここから尾根に乗る。日が当たり始め、気温は {leader.local.tempC:0} ℃。鈴木さんの水は残り {c.suzuki.waterL:1} L。",
+      "knowledge": [
+        "ここが、北鎌沢を下って引き返せる最後の場所",
+        "計画では、コルに11時ごろ着くはずだった",
+        "コルから槍ヶ岳まで、標準で7時間前後。尾根の上に水場はない",
+        "北鎌沢の下りは登りより難しい。それでも尾根の上で行き詰まるよりは戻りやすい"
+      ],
+      "options": [
+        {
+          "id": "go",
+          "label": "尾根へ進む",
+          "detail": "槍ヶ岳まで抜ければ、山荘で水も買える。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.timeBehindMin",
+                  "op": ">",
+                  "value": 90
+                },
+                "add": -0.5
+              }
+            ]
+          }
+        },
+        {
+          "id": "rest_go",
+          "label": "日陰で30分休み、水を飲んでから進む",
+          "detail": "楠木さんの息が上がっている。",
+          "actions": [
+            {
+              "type": "rest",
+              "minutes": 30
+            },
+            {
+              "type": "drink",
+              "liters": 0.3
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "back",
+          "label": "ここで引き返し、北鎌沢を下って水俣乗越から槍沢ロッジへ",
+          "detail": "今日中に槍沢ロッジまで戻るのは長い。",
+          "actions": [
+            {
+              "type": "setRoute",
+              "route": [
+                "KK_COL",
+                "KK_DEAI",
+                "MIZUMATA",
+                "OMAGARI",
+                "J003",
+                "J005",
+                "J002",
+                "BABADAIRA",
+                "YARISAWA_LODGE"
+              ],
+              "goalNodes": [
+                "YARISAWA_LODGE"
+              ]
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.timeBehindMin",
+                  "op": ">",
+                  "value": 90
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_doku",
+      "title": "独標の基部",
+      "trigger": {
+        "atNode": "DOKU_BASE"
+      },
+      "situation": "独標の基部に着いた。尾根通しの直登は出だしが岩登りになる。右（千丈沢側）にはザレた斜面を横切る巻き道の踏み跡がある。気温は {leader.local.tempC:0} ℃。",
+      "knowledge": [
+        "直登は道迷いの心配が少ないが、楠木さんには難しい岩がある。鈴木さんがロープで確保すれば登れる",
+        "巻き道は多くの人が使うが、滑りやすいザレで、その下は数百 mの崖。滑落事故が多い",
+        "古い残置ロープがあるが、体重を預けてよいかは分からない"
+      ],
+      "options": [
+        {
+          "id": "direct",
+          "label": "鈴木さんがロープを出し、尾根通しに直登する",
+          "detail": "時間はかかるが、確保しながら登れる。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.8
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.experience",
+                  "op": ">",
+                  "value": 0.8
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "traverse",
+          "label": "千丈沢側の巻き道でトラバースする",
+          "detail": "踏み跡がはっきりしていて速い。",
+          "actions": [
+            {
+              "type": "setRoute",
+              "route": [
+                "DOKU_BASE",
+                "DOKUHYO",
+                "DOKU_S",
+                "KK_DAIRA",
+                "YARI",
+                "YARI_HUT",
+                "J004",
+                "SESSHO"
+              ],
+              "goalNodes": [
+                "SESSHO"
+              ]
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "back",
+          "label": "ここで引き返し、コルから北鎌沢を下る",
+          "detail": "まだ引き返せる距離にいるうちに戻る。",
+          "actions": [
+            {
+              "type": "setRoute",
+              "route": [
+                "DOKU_BASE",
+                "TENGU_KOSHI",
+                "KK_COL",
+                "KK_DEAI",
+                "MIZUMATA",
+                "OMAGARI",
+                "J003",
+                "J005",
+                "J002",
+                "BABADAIRA",
+                "YARISAWA_LODGE"
+              ],
+              "goalNodes": [
+                "YARISAWA_LODGE"
+              ]
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "c.suzuki.waterL",
+                  "op": "<",
+                  "value": 1
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_water_low",
+      "title": "鈴木さんの様子",
+      "trigger": {
+        "all": [
+          {
+            "beenAt": "KK_COL"
+          },
+          {
+            "not": {
+              "flag": "split_two"
+            }
+          },
+          {
+            "any": [
+              {
+                "var": "c.suzuki.waterL",
+                "op": "<",
+                "value": 0.3
+              },
+              {
+                "var": "c.suzuki.waterDeficitL",
+                "op": ">",
+                "value": 1.6
+              }
+            ]
+          }
+        ]
+      },
+      "priority": 15,
+      "situation": "鈴木さんのペースが落ちてきた。顔が赤く、口数が少ない。足がつるのか、ときどき立ち止まる。鈴木さんの水は残り {c.suzuki.waterL:1} L。気温は {leader.local.tempC:0} ℃で、岩の照り返しが強い。",
+      "knowledge": [
+        "熱中症の初めは、めまい・足のつり・頭痛・吐き気。動けなくなってからでは、尾根の上では運べない",
+        "槍ヶ岳山荘まではまだ数時間かかる。尾根の上に水場はない",
+        "尾根の上は携帯電話の電波が入る"
+      ],
+      "options": [
+        {
+          "id": "shade",
+          "label": "岩陰で休み、ペースを落として進む",
+          "detail": "日陰で体を冷やし、ゆっくり進む。",
+          "actions": [
+            {
+              "type": "rest",
+              "minutes": 30
+            },
+            {
+              "type": "setPace",
+              "factor": 0.8
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "call_early",
+          "label": "動けるうちに、警察に救助を要請する",
+          "detail": "鈴木さんは嫌がるかもしれない。",
+          "available": {
+            "var": "leader.radio",
+            "op": ">",
+            "value": 0
+          },
+          "unavailableText": "ここは電波が入らない",
+          "actions": [
+            {
+              "type": "say",
+              "who": "minamida",
+              "text": "北鎌尾根の上です。60代の男性が熱中症のようで、足がつって歩けなくなりかけています。3人パーティです。"
+            },
+            {
+              "type": "callRescue",
+              "via": "phone",
+              "who": "minamida"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "early_call"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "hurry",
+          "label": "槍ヶ岳山荘まで急ぐ",
+          "detail": "山荘に着けば水が買える。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 1.1
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.9,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_leader_down",
+      "title": "鈴木さんが動けない",
+      "trigger": {
+        "all": [
+          {
+            "beenAt": "KK_COL"
+          },
+          {
+            "not": {
+              "flag": "early_call"
+            }
+          },
+          {
+            "any": [
+              {
+                "var": "c.suzuki.M",
+                "op": "<",
+                "value": 0.35
+              },
+              {
+                "var": "c.suzuki.state",
+                "op": "==",
+                "value": "INCAPACITATED"
+              },
+              {
+                "var": "c.suzuki.conscious",
+                "op": "==",
+                "value": false
+              }
+            ]
+          }
+        ]
+      },
+      "priority": 30,
+      "situation": "鈴木さんが岩の上に座り込み、立てなくなった。吐き気を訴え、話しかけても返事が遅い。体温は {c.suzuki.coreC:1} ℃。南田さんと楠木さんが顔を見合わせる。",
+      "knowledge": [
+        "尾根の上は携帯電話の電波が入る。ヘリが来られるのは明るいうちだけ",
+        "ここから槍ヶ岳まで、まだ岩場が続く。この先のルートを知っているのは鈴木さんだけ",
+        "北鎌尾根を下って戻るのは、登るより難しい",
+        "南田さんの水は {c.minamida.waterL:1} L、楠木さんの水は {c.kusunoki.waterL:1} L"
+      ],
+      "options": [
+        {
+          "id": "all_wait",
+          "label": "救助を要請し、3人そろってヘリを待つ",
+          "detail": "南田さんと楠木さんも、ヘリでの収容を頼む。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "minamida",
+              "text": "北鎌尾根の上です。60代の男性が熱中症のようで動けません。3人パーティです。"
+            },
+            {
+              "type": "callRescue",
+              "via": "phone",
+              "who": "minamida"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "all_wait"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9
+          }
+        },
+        {
+          "id": "two_go",
+          "label": "鈴木さんの救助を頼み、南田と楠木は槍ヶ岳を目指す",
+          "detail": "ヘリが鈴木さんを収容するのを見届けてから、2人で尾根を進む。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "minamida",
+              "text": "北鎌尾根の上です。60代の男性が熱中症のようで動けません。3人パーティです。"
+            },
+            {
+              "type": "callRescue",
+              "via": "phone",
+              "who": "minamida"
+            },
+            {
+              "type": "splitParty",
+              "groups": [
+                {
+                  "id": "g_suzuki",
+                  "members": [
+                    "suzuki"
+                  ],
+                  "leader": "suzuki",
+                  "actions": [
+                    {
+                      "type": "waitRescue"
+                    }
+                  ]
+                },
+                {
+                  "id": "two",
+                  "members": [
+                    "minamida",
+                    "kusunoki"
+                  ],
+                  "leader": "minamida",
+                  "cohesion": "tight",
+                  "actions": [
+                    {
+                      "type": "rest",
+                      "minutes": 60
+                    },
+                    {
+                      "type": "continueRoute"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "focus",
+              "group": "two"
+            }
+          ],
+          "flags": [
+            "split_two"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "two_back",
+          "label": "鈴木さんの救助を頼み、2人は来た尾根を引き返す",
+          "detail": "知っている道を戻る。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "minamida",
+              "text": "北鎌尾根の上です。60代の男性が熱中症のようで動けません。3人パーティです。"
+            },
+            {
+              "type": "callRescue",
+              "via": "phone",
+              "who": "minamida"
+            },
+            {
+              "type": "splitParty",
+              "groups": [
+                {
+                  "id": "g_suzuki",
+                  "members": [
+                    "suzuki"
+                  ],
+                  "leader": "suzuki",
+                  "actions": [
+                    {
+                      "type": "waitRescue"
+                    }
+                  ]
+                },
+                {
+                  "id": "two",
+                  "members": [
+                    "minamida",
+                    "kusunoki"
+                  ],
+                  "leader": "minamida",
+                  "cohesion": "tight",
+                  "actions": [
+                    {
+                      "type": "rest",
+                      "minutes": 60
+                    },
+                    {
+                      "type": "turnBack"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "focus",
+              "group": "two"
+            }
+          ],
+          "flags": [
+            "split_two",
+            "two_back"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_two_daira",
+      "title": "北鎌平",
+      "group": "two",
+      "trigger": {
+        "all": [
+          {
+            "flag": "split_two"
+          },
+          {
+            "atNode": "KK_DAIRA"
+          }
+        ]
+      },
+      "situation": "南田さんと楠木さんは北鎌平に着いた。目の前に槍の穂先の岩場がそびえる。ここを登れば山頂で、その先は一般道になる。楠木さんの疲れは {c.kusunoki.fatigue:0}（100が限界）。",
+      "knowledge": [
+        "穂先の北面は、疲れていてもボルダリング5級程度の岩を登らされる",
+        "ロープを使えるのは鈴木さんだけだった",
+        "ここは電波が入る。日没は18時40分ごろ"
+      ],
+      "options": [
+        {
+          "id": "careful",
+          "label": "三点支持で、1人ずつゆっくり登る",
+          "detail": "南田さんが先に登り、楠木さんに足場を声で伝える。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.7
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "call",
+          "label": "ここで止まり、救助を要請する",
+          "detail": "楠木さんにはこの岩は無理だと判断する。",
+          "available": {
+            "var": "leader.radio",
+            "op": ">",
+            "value": 0
+          },
+          "unavailableText": "ここは電波が入らない",
+          "actions": [
+            {
+              "type": "say",
+              "who": "minamida",
+              "text": "北鎌平にいます。2人です。この先の岩を登れそうにありません。"
+            },
+            {
+              "type": "callRescue",
+              "via": "phone",
+              "who": "minamida"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "hurry",
+          "label": "暗くなる前に、急いで登る",
+          "detail": "日が傾いてきた。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 1.1
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [
+              {
+                "when": {
+                  "var": "sun.elevDeg",
+                  "op": "<",
+                  "value": 15
+                },
+                "add": 0.5
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "darkness": {
+      "situation": "日が暮れた。岩稜では、ヘッドランプの光の輪の外が見えない。踏み跡を外すと脆い斜面に出る。",
+      "knowledge": [
+        "尾根の上は電波が入る",
+        "夜はヘリが飛べない"
+      ],
+      "options": [
+        {
+          "id": "continue",
+          "label": "ヘッドランプで進む",
+          "detail": "早く安全な所へ出たい。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "風の当たらない岩陰でビバークし、明るくなるのを待つ",
+          "actions": [
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "call",
+          "label": "救助を要請し、その場で待つ",
+          "available": {
+            "var": "leader.radio",
+            "op": ">",
+            "value": 0
+          },
+          "unavailableText": "ここは電波が入らない",
+          "actions": [
+            {
+              "type": "say",
+              "who": "leader",
+              "text": "北鎌尾根の上で暗くなり、動けなくなりました。救助をお願いします。"
+            },
+            {
+              "type": "callRescue",
+              "via": "phone"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        }
+      ]
+    },
+    "lostAware": {
+      "situation": "踏み跡が消え、脆い斜面に出た。北鎌尾根では、踏み跡があっても正しい道とは限らない。",
+      "knowledge": [
+        "来た所まで戻れば、また尾根の踏み跡に乗れる",
+        "沢へ下ると、崖で行き詰まることが多い"
+      ]
+    },
+    "injured": {
+      "situation": "岩場でけが人が出た。ここは北鎌尾根の上で、歩いて下りられる道はない。",
+      "knowledge": [
+        "尾根の上は電波が入る",
+        "ヘリが来られるのは明るいうちだけ"
+      ]
+    }
+  },
+  "thoughts": [
+    {
+      "key": "th_kusunoki_start",
+      "who": "kusunoki",
+      "when": {
+        "all": [
+          {
+            "before": "D0 05:30"
+          },
+          {
+            "beenAt": "BABADAIRA"
+          }
+        ]
+      },
+      "lines": [
+        "本当に私に登れるのかな。",
+        "足がまだ重い。でも、ここまで来たんだし。"
+      ]
+    },
+    {
+      "key": "th_suzuki_water",
+      "who": "suzuki",
+      "when": {
+        "all": [
+          {
+            "beenAt": "KK_COL"
+          },
+          {
+            "var": "c.suzuki.waterL",
+            "op": "<",
+            "value": 0.8
+          },
+          {
+            "not": {
+              "flag": "split_two"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "水が残り少ない。槍の小屋まで持たせないと。",
+        "二人の前で、水が足りないとは言いにくい。"
+      ]
+    },
+    {
+      "key": "th_suzuki_heat",
+      "who": "suzuki",
+      "when": {
+        "all": [
+          {
+            "var": "c.suzuki.waterDeficitL",
+            "op": ">",
+            "value": 2
+          },
+          {
+            "var": "c.suzuki.conscious",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "頭が重い。汗が出なくなってきた。",
+        "足がつる。少し座りたい。"
+      ],
+      "priority": 20
+    },
+    {
+      "key": "th_kusunoki_rock",
+      "who": "kusunoki",
+      "when": {
+        "any": [
+          {
+            "onEdge": "E004"
+          },
+          {
+            "onEdge": "E005"
+          },
+          {
+            "onEdge": "E007"
+          },
+          {
+            "onEdge": "E018"
+          }
+        ]
+      },
+      "lines": [
+        "下を見ないようにしよう。",
+        "手がかりが遠い……。",
+        "ここで落ちたら、と考えないようにする。"
+      ]
+    },
+    {
+      "key": "th_minamida_late",
+      "who": "minamida",
+      "when": {
+        "all": [
+          {
+            "beenAt": "KK_COL"
+          },
+          {
+            "var": "leader.timeBehindMin",
+            "op": ">",
+            "value": 60
+          },
+          {
+            "not": {
+              "flag": "split_two"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "予定よりだいぶ遅れている。このペースで日のあるうちに抜けられるか。"
+      ]
+    },
+    {
+      "key": "th_minamida_two",
+      "who": "minamida",
+      "when": {
+        "flag": "split_two"
+      },
+      "lines": [
+        "この先の道を知っているのは鈴木さんだけだった。",
+        "楠木さんを無事に連れて行けるのは、自分しかいない。",
+        "踏み跡があっても、正しいとは限らない。"
+      ]
+    },
+    {
+      "key": "th_kusunoki_two",
+      "who": "kusunoki",
+      "when": {
+        "flag": "split_two"
+      },
+      "lines": [
+        "南田さんについて行くしかない。",
+        "鈴木さん、大丈夫かな。"
+      ]
+    },
+    {
+      "key": "th_minamida_dark",
+      "who": "minamida",
+      "when": {
+        "all": [
+          {
+            "flag": "split_two"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "ヘッドランプの光の外が何も見えない。"
+      ]
+    }
+  ],
+  "speech": [
+    {
+      "key": "sp_kusunoki_tired",
+      "who": "kusunoki",
+      "to": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "c.kusunoki.fatigue",
+            "op": ">",
+            "value": 60
+          },
+          {
+            "not": {
+              "flag": "split_two"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "すみません、少し休んでもいいですか。",
+        "足が上がらなくなってきました。"
+      ],
+      "replies": {
+        "who": "leader",
+        "lines": [
+          "日陰で5分だけ休もう。水を飲んでおけ。",
+          "そこの岩陰で休もう。"
+        ]
+      },
+      "priority": 10,
+      "cooldownMin": 60
+    },
+    {
+      "key": "sp_minamida_notice",
+      "who": "minamida",
+      "to": "suzuki",
+      "when": {
+        "all": [
+          {
+            "var": "c.suzuki.waterDeficitL",
+            "op": ">",
+            "value": 1.6
+          },
+          {
+            "not": {
+              "flag": "split_two"
+            }
+          },
+          {
+            "not": {
+              "flag": "early_call"
+            }
+          },
+          {
+            "var": "c.suzuki.conscious",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "鈴木さん、顔が赤いですよ。水、まだありますか？"
+      ],
+      "replies": {
+        "who": "suzuki",
+        "lines": [
+          "大丈夫だ。小屋まで持たせる。"
+        ]
+      },
+      "priority": 20,
+      "once": true
+    },
+    {
+      "key": "sp_two_cheer",
+      "who": "minamida",
+      "to": "kusunoki",
+      "when": {
+        "all": [
+          {
+            "flag": "split_two"
+          },
+          {
+            "var": "c.kusunoki.anxiety",
+            "op": ">",
+            "value": 60
+          }
+        ]
+      },
+      "lines": [
+        "一歩ずつ行こう。次の足場は俺が言う。",
+        "ここで一回休もう。水は少しずつ飲んで。"
+      ],
+      "replies": {
+        "who": "kusunoki",
+        "lines": [
+          "はい……。",
+          "わかりました。"
+        ]
+      },
+      "priority": 15,
+      "cooldownMin": 45
+    }
+  ],
+  "endings": [
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "any": [
+          {
+            "chose": {
+              "cp": "cp_start",
+              "option": "retreat_yari"
+            }
+          },
+          {
+            "chose": {
+              "cp": "cp_deai",
+              "option": "back"
+            }
+          }
+        ]
+      },
+      "title": "一般道で殺生ヒュッテへ",
+      "text": "3人は北鎌尾根をやめ、槍沢の一般道を登って殺生ヒュッテのテント場に着いた。北鎌尾根は、また力をつけてから。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "chose": {
+          "cp": "cp_start",
+          "option": "retreat_down"
+        }
+      },
+      "title": "北鎌尾根に入らなかった",
+      "text": "3人はババ平から槍沢を下り、槍沢ロッジに泊まった。楠木さんは、次は一般道で槍ヶ岳に行きたいと言った。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "beenAt": "YARISAWA_LODGE"
+      },
+      "title": "引き返して槍沢へ",
+      "text": "3人は尾根の上で行き詰まる前に引き返し、北鎌沢を下って水俣乗越を越え、槍沢ロッジにたどり着いた。長い一日だったが、3人とも自分の足で下りた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "flag": "split_two"
+          },
+          {
+            "var": "c.minamida.state",
+            "op": "==",
+            "value": "FINISHED"
+          },
+          {
+            "var": "c.kusunoki.state",
+            "op": "==",
+            "value": "FINISHED"
+          }
+        ]
+      },
+      "title": "2人で歩き通した",
+      "text": "南田さんと楠木さんは、2人で北鎌尾根を抜けて槍ヶ岳に登り、殺生ヒュッテに着いた。鈴木さんはヘリで病院へ運ばれていた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "殺生ヒュッテに着いた",
+      "text": "3人は北鎌尾根を抜けて槍ヶ岳に登り、殺生ヒュッテのテント場に着いた。鈴木さんは途中の槍ヶ岳山荘で水を何杯も飲んだ。"
+    },
+    {
+      "kind": "SAFE_SHELTER",
+      "title": "小屋で一夜",
+      "text": "3人は小屋に入り、夜を過ごした。"
+    },
+    {
+      "kind": "ABORTED",
+      "title": "山に入らなかった",
+      "text": "3人は山行をやめた。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "when": {
+        "flag": "split_two"
+      },
+      "title": "ビバークの末に",
+      "text": "南田さんと楠木さんは尾根の上で夜を明かし、翌朝、自分たちの足で槍ヶ岳にたどり着いた。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "title": "ビバークの末に",
+      "text": "尾根の上で夜を明かし、明るくなってから自力で抜けた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "early_call"
+      },
+      "title": "早めの救助要請",
+      "text": "鈴木さんが動けなくなる前に救助を頼んだ。県警のヘリが3人を収容した。鈴木さんは病院で点滴を受けた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "all_wait"
+      },
+      "title": "3人そろって収容",
+      "text": "救助要請から、ヘリが3人を収容した。鈴木さんは熱中症と診断された。南田さんと楠木さんにけがはなかった。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "flag": "two_back"
+          },
+          {
+            "var": "c.minamida.state",
+            "op": "==",
+            "value": "FINISHED"
+          },
+          {
+            "var": "c.kusunoki.state",
+            "op": "==",
+            "value": "FINISHED"
+          }
+        ]
+      },
+      "title": "2人は北鎌沢へ戻った",
+      "text": "鈴木さんはヘリで収容された。南田さんと楠木さんは来た尾根を戻って北鎌沢を下り、水俣乗越を越えてババ平にたどり着いた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "flag": "split_two"
+          },
+          {
+            "var": "c.minamida.state",
+            "op": "==",
+            "value": "FINISHED"
+          },
+          {
+            "var": "c.kusunoki.state",
+            "op": "==",
+            "value": "FINISHED"
+          }
+        ]
+      },
+      "title": "鈴木さんはヘリで、2人は歩いて",
+      "text": "鈴木さんはヘリで収容された。南田さんと楠木さんは2人で尾根を歩き通し、殺生ヒュッテにたどり着いた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "split_two"
+      },
+      "title": "全員が救助された",
+      "text": "鈴木さんに続いて、南田さんと楠木さんも尾根の上で救助を待つことになった。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助された",
+      "text": "救助隊に収容された。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重い熱中症で救助",
+      "text": "鈴木さんは意識がもうろうとした状態でヘリに収容された。"
+    },
+    {
+      "kind": "MISSING",
+      "title": "見つからない",
+      "text": "捜索は続いている。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "var": "c.suzuki.alive",
+        "op": "==",
+        "value": false
+      },
+      "title": "鈴木さんは帰らなかった",
+      "text": "鈴木さんは尾根の上で亡くなった。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "帰らなかった人がいる",
+      "text": "北鎌尾根から、帰らなかった人がいる。"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_party",
+      "title": "ルートはいちばん弱い人に合わせる",
+      "text": "北鎌尾根は一般登山道ではなく、マーキングも鎖もない。リーダーが強くても、パーティの力はいちばん経験の浅い人で決まる。リーダーが倒れたとき、残った人だけで進めるか、戻れるかを計画の時点で考えておく。"
+    },
+    {
+      "id": "l_water",
+      "when": {
+        "flag": "suzuki_water_out"
+      },
+      "title": "尾根の上に水はない",
+      "text": "夏の北鎌尾根は、最後の水場から槍ヶ岳まで一日がかり。1人4〜5 Lでも多くはない。リーダーほど重い荷を持ち、喉が渇いてから飲む癖があると先に水が尽きる。"
+    },
+    {
+      "id": "l_heat",
+      "title": "熱中症は、動けるうちに手を打つ",
+      "text": "足のつり、頭痛、吐き気、汗が止まるのは熱中症のしるし。エスケープのない尾根の上では、動けなくなってから運ぶことはできない。電波が入るなら、早めに救助を頼むのも判断のひとつ。"
+    },
+    {
+      "id": "l_early_call",
+      "when": {
+        "flag": "early_call"
+      },
+      "title": "早い通報は失敗ではない",
+      "text": "鈴木さんが動けるうちに救助を頼んだ。明るいうちにヘリが来られ、重くなる前に収容できた。"
+    },
+    {
+      "id": "l_col",
+      "when": {
+        "chose": {
+          "cp": "cp_col",
+          "option": "go"
+        }
+      },
+      "title": "コルが最後の引き返し点",
+      "text": "北鎌尾根は尾根に乗ったら槍ヶ岳まで抜けるしかない。コルに着いた時刻と水の残りで、進むか戻るかの基準を出発前に決めておく。"
+    },
+    {
+      "id": "l_traverse",
+      "when": {
+        "chose": {
+          "cp": "cp_doku",
+          "option": "traverse"
+        }
+      },
+      "title": "踏み跡は正解とは限らない",
+      "text": "独標の巻き道は多くの人が使うが、ザレで滑りやすく、下は崖。速い道が安全な道とは限らない。"
+    },
+    {
+      "id": "l_split",
+      "when": {
+        "flag": "split_two"
+      },
+      "title": "パーティを分けるとき",
+      "text": "経験の浅い2人だけで岩稜を進むと、ルートを探す力も、ロープで守る手段もなくなる。救助を頼むとき、残る人の収容も一緒に相談できる。"
+    },
+    {
+      "id": "l_dark",
+      "when": {
+        "var": "rec.darkMinutesMoving",
+        "op": ">",
+        "value": 30
+      },
+      "title": "暗い岩稜を歩かない",
+      "text": "暗くなってから {rec.darkMinutesMoving:0} 分歩いた。踏み跡を外しやすい岩稜では、明るくなるのを待つほうが安全なことが多い。"
+    }
+  ],
+  "balanceTargets": {
+    "recommended": {
+      "goodMin": 0.85,
+      "fatalMax": 0.02
+    },
+    "bias": {
+      "rescuedMin": 0.3
+    }
+  },
+  "region": {
+    "name": "北アルプス 槍ヶ岳 北鎌尾根",
+    "real": true
+  },
+  "passersby": [],
+  "music": {
+    "briefing": "wilderness",
+    "play": "wilderness-b",
+    "night": "quiet-night",
+    "distress": "drama-dusk",
+    "good": "ambient-above-clouds",
+    "bad": "quiet-night-c"
+  },
+  "sources": [
+    "原案・北鎌尾根の難しさ: keizi666「北鎌尾根」の記事（note） https://note.com/keizi666/n/nd3e6609e8a80",
+    "地形: 国土地理院",
+    "登山道: © OpenStreetMap contributors",
+    "人物・日付・気象・装備・時刻は架空（推定）"
+  ]
+}
