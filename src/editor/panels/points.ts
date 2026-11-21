@@ -10,6 +10,7 @@ import { hitEdge, hitHazard, hitNode, renameNode } from '../map/tools';
 import type { MapTool } from '../map/TileMapView';
 import { nextId } from '../store/project';
 import type { Panel } from './types';
+import { removeSelection } from '../map/edgeSelection';
 
 type Mode = 'select' | 'move' | 'node' | 'waterfall' | 'protectionZone' | 'chain' | 'rockfallZone';
 let dragging: NodeDef | null = null;
@@ -181,14 +182,25 @@ function nodeInspector(ed: Ed, n: NodeDef): HTMLElement {
     check('山頂・鞍部に自動で合わせる（snap）', n.snap ?? false, (v) => set('snap', () => (n.snap = v))),
     el('p', { class: 'note' }, `標高 ${Math.round(ed.runtime()?.nodes[n.id]?.elevM ?? NaN)} m（DEM から）`),
     section('紛らわしい分岐（ambiguity 0〜0.9）', [confuserTable(ed, n)]),
-    button('この地点を削除', () => {
-      if (ed.p.map.edges.some((e) => e.from === n.id || e.to === n.id)) return ed.toast('道につながっている地点は削除できません（先に道を消すか結合してください）');
-      set('地点の削除', () => {
-        ed.p.map.nodes = ed.p.map.nodes.filter((x) => x !== n);
-        ed.p.editorState.selection = { kind: null, id: null };
-      });
-    }),
+    (() => {
+      const k = ed.p.map.edges.filter((e) => e.from === n.id || e.to === n.id).length;
+      return button(k ? `この地点を削除（つながる道 ${k} 本も）` : 'この地点を削除', () => deleteNode(ed, n.id), 'danger');
+    })(),
+    el('p', { class: 'note' }, 'Delete キーでも消せます。ルート・下山口に使っている地点は、確かめてから消します（Ctrl＋Z で戻せます）。'),
   ]);
+}
+
+/** 地点を消す（つながる道も。登山道タブと同じ処理） */
+function deleteNode(ed: Ed, id: string): void {
+  const before = ed.p.map.edges.length;
+  if (removeSelection(ed, [], [id])) ed.toast(`地点 ${id} を削除しました${ed.p.map.edges.length < before ? `（つながる道 ${before - ed.p.map.edges.length} 本も）` : ''}（Ctrl＋Z で戻せます）`);
+}
+
+function deleteHazard(ed: Ed, id: string): void {
+  ed.change('危険箇所の削除', () => {
+    ed.p.map.hazards = ed.p.map.hazards.filter((x) => x.id !== id);
+    ed.p.editorState.selection = { kind: null, id: null };
+  }, true);
 }
 
 function hazardInspector(ed: Ed, h: HazardDef): HTMLElement {
@@ -198,10 +210,8 @@ function hazardInspector(ed: Ed, h: HazardDef): HTMLElement {
     text('名前', h.name ?? '', (v) => set('名前', () => (h.name = v))),
     'radius' in h ? num('半径', h.radius, (v) => set('半径', () => (h.radius = v)), { min: 5, step: 5, unit: 'm' }) : null,
     'sRange' in h ? el('p', {}, `${h.onEdge} の ${h.sRange[0]}〜${h.sRange[1]} m`) : null,
-    button('削除', () => set('危険箇所の削除', () => {
-      ed.p.map.hazards = ed.p.map.hazards.filter((x) => x !== h);
-      ed.p.editorState.selection = { kind: null, id: null };
-    })),
+    button('削除', () => deleteHazard(ed, h.id), 'danger'),
+    el('p', { class: 'note' }, 'Delete キーでも消せます。'),
   ]);
 }
 
@@ -209,6 +219,14 @@ export const pointsPanel: Panel = {
   id: 'points',
   label: '地点',
   tool,
+  key(ed, e) {
+    if (e.key !== 'Delete' && e.key !== 'Backspace') return false;
+    const sel = ed.p.editorState.selection;
+    if (sel.kind === 'node' && sel.id) deleteNode(ed, sel.id);
+    else if (sel.kind === 'hazard' && sel.id) deleteHazard(ed, sel.id);
+    else return false;
+    return true;
+  },
   render(ed) {
     const sel = ed.p.editorState.selection;
     const n = sel.kind === 'node' ? ed.p.map.nodes.find((x) => x.id === sel.id) : undefined;
@@ -217,7 +235,7 @@ export const pointsPanel: Panel = {
       ed.inspector,
       el('h2', {}, '地点と危険箇所'),
       toolPalette<Mode>(ed, [
-        { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: '地点か危険箇所をクリック' },
+        { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: '地点か危険箇所をクリック。Delete キーで削除' },
         { id: 'move', icon: 'openWith', label: '地点を動かす', key: 'm', hint: '地点をドラッグ' },
         { id: 'node', icon: 'addLocationAlt', label: '地点を置く', key: 'n', hint: 'クリックした所に置く（種類は下で選ぶ）' },
         { id: 'waterfall', icon: 'waves', label: '滝を置く', key: 'w', hint: 'クリックした所に置く' },
