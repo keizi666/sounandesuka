@@ -12,7 +12,7 @@ import type { Ed } from '../context';
 import { area, button, check, fill, num, section, select, slider, text, timeRef } from '../forms/fields';
 import { hhmm, sunTimes } from '../geo/sunrise';
 import { hitNode } from '../map/tools';
-import { clickRouteNode } from '../map/routeClick';
+import { clickRouteNode, fixAmbiguousRoute } from '../map/routeClick';
 import type { MapTool } from '../map/TileMapView';
 import { standardLegMin } from '../pace';
 import { defaultClimber, pickColor } from '../store/project';
@@ -130,7 +130,11 @@ function legTable(ed: Ed): HTMLElement {
   try {
     legs = resolveRoute(rt, s.plan.route);
   } catch (e) {
-    return el('p', { class: 'error' }, String(e instanceof Error ? e.message : e));
+    const msg = String(e instanceof Error ? e.message : e);
+    return el('div', {}, [
+      el('p', { class: 'error' }, msg),
+      msg.includes('一意に決まりません') ? button('自動で決める（短いほうの道に経由点を足して通す）', () => fixAmbiguousRoute(ed), 'primary') : null,
+    ]);
   }
   let t = scenarioStartMin(s);
   let ts = t;
