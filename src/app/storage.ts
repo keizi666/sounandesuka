@@ -7,6 +7,7 @@ import type { StartConditions } from '../sim/scenario/startConditions';
 import type { Speed } from './loop';
 import type { RecorderState } from '../sim/record/recorder';
 import type { EndingKind, World } from '../sim/types';
+import type { Difficulty } from './settings';
 
 export interface ResumeData {
   scenarioId: string;
@@ -23,6 +24,8 @@ export interface ResumeData {
   conditions?: StartConditions;
   /** 再生の速さ（再開のときに戻す） */
   speed?: Speed;
+  /** 遊んでいた難しさ（古い保存にはない） */
+  difficulty?: Difficulty;
 }
 
 export interface HistoryEntry {

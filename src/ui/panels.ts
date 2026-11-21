@@ -35,7 +35,7 @@ function bottleLevel(leftL: number, capL: number): 'ok' | 'warn' | 'danger' | 'c
   return leftL < 0.05 ? 'critical' : f < 0.2 || leftL < 0.2 ? 'danger' : f < 0.45 ? 'warn' : 'ok';
 }
 
-export function climberCard(c: ClimberState, god: boolean, selected: boolean, onSelect: () => void, collapsed = false, onToggle?: () => void): HTMLElement {
+export function climberCard(c: ClimberState, god: boolean, selected: boolean, onSelect: () => void, collapsed = false, onToggle?: () => void, bodyKnown = true): HTMLElement {
   const b = c.body;
   const core = levelOf(b.coreC, 36, 35, 32);
   const gly = levelOf(b.glycogenKcal, 600, 300, 100);
@@ -58,7 +58,8 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
   const hp = hpOf(b);
   const phonePct = c.inv.phone.has && !c.inv.phone.dead ? Math.round(c.inv.phone.batteryPct) : 0;
   const summary = el('div', { class: 'summary' }, [
-    bar('favorite', JA.ui.hp, hp / 100, hpLevel(hp), god ? `${hp}` : ''),
+    // ハードでリーダー以外の人は、体調が分からない（ユーザーの指定）
+    bodyKnown ? bar('favorite', JA.ui.hp, hp / 100, hpLevel(hp), god ? `${hp}` : '') : el('p', { class: 'words unknown' }, JA.difficulty.bodyUnknown),
     c.inv.phone.has ? bar('mobile', phoneLabel(c.inv.charging === true), phonePct / 100, levelOf(phonePct, 30, 15, 5), c.inv.phone.dead ? '×' : `${phonePct}%`) : null,
     // モバイルバッテリー（残りはスマホの何回分か）
     c.inv.phone.has && (c.inv.powerBankPct ?? 0) > 0 ? bar('batteryAlert', JA.ui.powerBank, Math.min(1, (c.inv.powerBankPct ?? 0) / 100), 'ok', fill(JA.ui.powerBankLeft, { n: ((c.inv.powerBankPct ?? 0) / 100).toFixed(1) })) : null,
@@ -77,7 +78,9 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
   return el('section', { class: `climber${selected ? ' selected' : ''}${b.alive ? '' : ' dead'}`, onclick: onSelect }, [
     head,
     summary,
-    god
+    !bodyKnown
+      ? null
+      : god
       ? el('div', {}, [
           bar('thermostat', JA.ui.core, (b.coreC - 30) / 8, core, `${b.coreC.toFixed(1)}℃（${JA.ui.estimated}）`),
           bar('bolt', JA.ui.energy, b.glycogenKcal / 2000, gly, `${Math.round(b.glycogenKcal)}`),

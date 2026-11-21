@@ -59,7 +59,7 @@ export function showChoice(
   host: HTMLElement,
   world: World,
   ctx: StaticContext,
-  opts: { god: boolean; timeoutSec: number | null; onPick: (optionId: string) => void },
+  opts: { god: boolean; timeoutSec: number | null; onPick: (optionId: string) => void; recommend?: boolean },
 ): ChoiceUi {
   const pending = world.pendingChoice!;
   const found = findChoicePoint(ctx, pending.cpId)!;
@@ -88,8 +88,11 @@ export function showChoice(
     .map((o) => {
       const ok = avail.has(o.id);
       const isRec = o.id === recorded;
-      const b = el('button', { class: `option${isRec ? ' recorded' : ''}`, disabled: !ok, onclick: () => pick(o.id, b) }, [
+      // イージー: 推奨の選択肢（安全なもの）に「推奨」を付けて緑に（ユーザーの指定）
+      const good = !!opts.recommend && ok && (o.tags ?? []).includes('recommended');
+      const b = el('button', { class: `option${isRec ? ' recorded' : ''}${good ? ' recommended' : ''}`, disabled: !ok, onclick: () => pick(o.id, b) }, [
         el('span', { class: 'opt-text' }, [
+          good ? el('span', { class: 'good-badge' }, [icon('checkCircle'), JA.difficulty.recommended]) : null,
           isRec ? el('span', { class: 'rec-badge' }, [icon('history'), JA.ui.recordedBadge]) : null,
           el('strong', {}, t.label(o.id, o.label)),
           o.detail ? el('span', {}, expand(o.detail)) : null,

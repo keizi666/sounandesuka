@@ -27,6 +27,7 @@ import { buildGroundMasks } from './groundMasks';
 import { reportProblem } from '../app/problem';
 import { dlog } from '../app/version';
 import { createPost, type Post } from './post';
+import { AreaBlurPass, createLowBlur, type AreaBlurParams, type LowBlur } from './areaBlur';
 import { createKishouClouds, type KishouClouds } from './kishouClouds';
 import { createSky, type Sky } from './sky';
 import { scenarioDateMs, skyState, type SkyState } from './astro';
@@ -91,6 +92,9 @@ export function poseOf(world: World): Record<string, Pose> {
   return out;
 }
 
+/** ぼかしの距離に使う深度で、地形だけを描くための層 */
+const BLUR_DEPTH_LAYER = 7;
+
 export class SceneView {
   readonly renderer: THREE.WebGLRenderer;
   readonly scene = new THREE.Scene();
@@ -129,6 +133,15 @@ export class SceneView {
   /** 箱庭風の上下ぼかし（設定で切替） */
   tiltShift = true;
   godView = true;
+  /** 見えている範囲のぼかし（難しさ。後処理があればその段、なければ低画質の短い道） */
+  private areaBlur: AreaBlurPass | null = null;
+  private lowBlur: LowBlur | null = null;
+  private blurOn = false;
+  private blurKeep: string[] = [];
+  /** ぼかしの距離に使う、地形だけを描いた深度（多重サンプルなし・半分の大きさ。ぼかすときだけ描く） */
+  private blurDepth: THREE.WebGLRenderTarget | null = null;
+  private readonly blurDepthMat = new THREE.MeshBasicMaterial({ colorWrite: false });
+  private terrainMesh: THREE.Object3D | null = null;
   private followTarget = new THREE.Vector3();
   private lastMode: CameraMode = 'overview';
   /** 登山者の視点での見回し（ドラッグで動かす。進行方向からの左右の角度と、上下の角度） */
@@ -231,6 +244,9 @@ export class SceneView {
     if (!pre.terrain) this.made.terrain = terrain.arrays;
     this.heightAt = terrain.heightAt;
     this.scene.add(terrain.mesh, buildDiorama(map, this.s, this.env));
+    // ぼかしの距離は、地形だけを描いた深度で測る（BLUR_DEPTH_LAYER にも入れておく）
+    terrain.mesh.layers.enable(BLUR_DEPTH_LAYER);
+    this.terrainMesh = terrain.mesh;
     // 雪山: 始まりの積雪の線（シナリオの snowpack か、月と緯度の目安）。草・ハイマツは埋もれる
     this.baseSnowLine = baseSnowLineM(scenario, map.def.geo?.centerLat ?? 36);
     const trees = pre.trees ?? placeTrees(map, this.s, this.heightAt, q.trees);
@@ -287,6 +303,9 @@ export class SceneView {
         this.kishou = createKishouClouds(map, scenario, this.s, this.camera, opts.quality === 'high' ? 'high' : 'mid');
         this.post.insertAfterScene(this.kishou.pass);
       }
+      // 見えている範囲のぼかし（立体の雲の後、にじみの前）
+      this.areaBlur = new AreaBlurPass(this.camera, () => this.blurDepth?.depthTexture ?? null);
+      this.post.insertBeforeBloom(this.areaBlur);
       // 前に「にじみ」で真っ黒になった環境では、最初から切っておく
       if (loadGfx().noBloom) {
         this.post.setStages({ bloom: false, finish: true });
@@ -354,6 +373,8 @@ export class SceneView {
   resize(w: number, h: number): void {
     this.renderer.setSize(w, h, false);
     this.post?.setSize(w, h);
+    this.lowBlur?.setSize(w, h);
+    this.lastSize = { w, h };
     window.clearTimeout(this.sizeLogTimer);
     this.sizeLogTimer = window.setTimeout(() => dlog('画面の大きさ', { css: `${Math.round(w)}x${Math.round(h)}`, buffer: `${this.renderer.domElement.width}x${this.renderer.domElement.height}`, post: this.post?.describe() ?? null }), 400);
     this.camera.aspect = w / Math.max(1, h);
@@ -526,10 +547,10 @@ export class SceneView {
       fig.root.scale.setScalar(this.figureHeight());
       // 進行方向（北=0、時計回り）→ three の回転
       fig.root.rotation.y = Math.PI - c.headingRad;
-      // 登山者の視点では、道迷い中の人形を推定位置に置く（真の位置は描かない）
+      // 道に迷って現在地が分からなくなっても、人形は出したまま（まわりをぼかす: setAreaBlur。ユーザーの指定）
       // 地図の外（駅など）へ移った人は描かない。小屋・茶屋の中（泊まる・休む）にいる人も描かない（ユーザーの指定: 複数人で休むときは全員いったん中へ）
       const inside = c.body.alive && ((c.state === 'SHELTERED' && c.body.shelterNodeId !== null) || (c.state === 'RESTING' && hutHere(this.map, c)));
-      fig.root.visible = !c.offMap && !inside && (this.godView || !c.perception.awareLost);
+      fig.root.visible = !c.offMap && !inside;
       fig.update(c, timeSec, this.selected === c.id);
       this.updateLocator(c.id, fig, timeSec, c.body.alive, k === 0);
       // 亡くなった瞬間（前のフレームでは生きていた）に、半透明の姿が昇っていく。読み込み・巻き戻しで最初から亡くなっていれば出さない
@@ -562,10 +583,12 @@ export class SceneView {
       this.fitShadow();
       this.renderer.shadowMap.needsUpdate = true;
     }
+    if (this.blurOn) this.prepareAreaBlur();
     if (this.post) {
       this.post.setTilt(this.mode === 'eye' || !this.tiltShift ? 0 : 1);
       this.post.render();
-    } else this.renderer.render(this.scene, this.camera);
+    } else if (this.blurOn && this.lowBlur) this.lowBlur.render();
+    else this.renderer.render(this.scene, this.camera);
     this.frames += 1;
     if (this.frames <= 3 || this.frames === 60) {
       const info = this.renderer.info;
@@ -942,7 +965,97 @@ export class SceneView {
     this.followTarget.copy(f.root.position);
   }
 
+  /**
+   * 見えている範囲のぼかし（ユーザーの指定: 現在地が分からないときは自分たちから 50 m より遠くを強く、ハードは 500 m より遠くを軽く）。
+   * null ならぼかさない
+   */
+  setAreaBlur(p: AreaBlurParams | null): void {
+    const on = !!p && (p.lost || p.farM !== null);
+    this.blurOn = on;
+    this.blurKeep = p?.keepIds ?? [];
+    if (this.post) {
+      this.areaBlur?.setParams(p);
+      return;
+    }
+    // 後処理のない画質: ぼかすときだけ短い道を作って通す
+    if (on && !this.lowBlur) {
+      this.lowBlur = createLowBlur(this.renderer, this.scene, this.camera, () => this.blurDepth?.depthTexture ?? null);
+      if (this.lastSize) this.lowBlur.setSize(this.lastSize.w, this.lastSize.h);
+    }
+    this.lowBlur?.pass.setParams(p);
+  }
+
+  private lastSize: { w: number; h: number } | null = null;
+
+  /**
+   * ぼかす前に、地形だけを描いた深度（多重サンプルなし）を作り、人形をぼかさない画面の上の円を決める。
+   * 場面の深度は多重サンプルの画面にあり、Windows（ANGLE）では取り出すと 0 になるので、別に描く
+   */
+  private prepareAreaBlur(): void {
+    const pass = this.post ? this.areaBlur : this.lowBlur?.pass;
+    if (!pass || !this.terrainMesh) return;
+    const buf = this.renderer.getDrawingBufferSize(new THREE.Vector2());
+    const dw = Math.max(1, Math.round(buf.x / 2));
+    const dh = Math.max(1, Math.round(buf.y / 2));
+    if (!this.blurDepth) {
+      this.blurDepth = new THREE.WebGLRenderTarget(dw, dh, { depthBuffer: true });
+      this.blurDepth.depthTexture = new THREE.DepthTexture(dw, dh);
+      this.blurDepth.depthTexture.type = THREE.FloatType;
+    } else if (this.blurDepth.width !== dw || this.blurDepth.height !== dh) this.blurDepth.setSize(dw, dh);
+    const mask = this.camera.layers.mask;
+    const over = this.scene.overrideMaterial;
+    const bg = this.scene.background;
+    const shadowNeeds = this.renderer.shadowMap.needsUpdate;
+    this.renderer.shadowMap.needsUpdate = false;
+    this.camera.layers.set(BLUR_DEPTH_LAYER);
+    this.scene.overrideMaterial = this.blurDepthMat;
+    this.scene.background = null;
+    this.renderer.setRenderTarget(this.blurDepth);
+    this.renderer.clear(true, true, false);
+    this.renderer.render(this.scene, this.camera);
+    this.renderer.setRenderTarget(null);
+    this.scene.overrideMaterial = over;
+    this.scene.background = bg;
+    this.camera.layers.mask = mask;
+    this.renderer.shadowMap.needsUpdate = shadowNeeds;
+    // 自分たちの人形の範囲（足もとと頭の上）を画面に写し、それを囲む円はぼかさない
+    let n = 0;
+    let sx = 0;
+    let sy = 0;
+    const pts: THREE.Vector2[] = [];
+    const v = new THREE.Vector3();
+    const hgt = this.figureHeight() * 1.1;
+    for (const id of this.blurKeep) {
+      const f = this.figures.get(id);
+      if (!f || !f.root.visible) continue;
+      for (const dy of [0, hgt]) {
+        v.copy(f.root.position);
+        v.y += dy;
+        v.project(this.camera);
+        if (v.z > 1) continue;
+        const p = new THREE.Vector2((v.x * 0.5 + 0.5) * buf.x, (v.y * 0.5 + 0.5) * buf.y);
+        pts.push(p);
+        sx += p.x;
+        sy += p.y;
+        n += 1;
+      }
+    }
+    if (n === 0) {
+      pass.setKeep(0, 0, 0, buf.x, buf.y);
+      return;
+    }
+    const cx = sx / n;
+    const cy = sy / n;
+    let r = 0;
+    for (const p of pts) r = Math.max(r, Math.hypot(p.x - cx, p.y - cy));
+    // 人形の太さと、隣の人の分の余白
+    pass.setKeep(cx, cy, r + Math.max(12, buf.y * 0.03), buf.x, buf.y);
+  }
+
   dispose(): void {
+    this.lowBlur?.dispose();
+    this.blurDepth?.dispose();
+    this.blurDepthMat.dispose();
     this.ghosts.dispose();
     this.kishou?.dispose();
     for (const f of this.figures.values()) f.dispose();

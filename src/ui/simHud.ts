@@ -13,13 +13,13 @@ import type { OverlayKind } from '../view/overlay';
 import type { Speed } from '../app/loop';
 import { el } from './dom';
 import { climberCard, forecastPanel, weatherPanel } from './panels';
+import type { Difficulty } from '../app/settings';
 
 export interface HudHandlers {
   /** 環境音の入／切 */
   sound(): void;
   setSpeed(s: Speed): void;
   togglePause(): void;
-  setGod(v: boolean): void;
   setCamera(m: CameraMode): void;
   setLayer(name: 'trail' | 'track' | 'cloud', on: boolean): void;
   setOverlay(k: OverlayKind): void;
@@ -94,7 +94,7 @@ export class Hud {
   private clock: HTMLElement;
   private speedBtns = new Map<Speed, HTMLButtonElement>();
   private pauseBtn: HTMLButtonElement;
-  private godBtn: HTMLButtonElement;
+  private godBtn: HTMLElement;
   private camBtns = new Map<CameraMode, HTMLButtonElement>();
   /** 俯瞰 ⇄ FPV を切り替えるボタン（ユーザーの指定） */
   private povBtn: HTMLButtonElement;
@@ -110,11 +110,13 @@ export class Hud {
   private collapsed = new Set<string>();
   private party = new Map<string, ScenarioDef['party'][number]>();
   god: boolean;
+  /** 体調が分かる人か（ハードではリーダーだけ。ユーザーの指定） */
+  knows: (id: string) => boolean = () => true;
 
   constructor(
     private scenario: ScenarioDef,
     private h: HudHandlers,
-    opts: { god: boolean; observe: boolean; timed: boolean },
+    opts: { god: boolean; observe: boolean; timed: boolean; difficulty: Difficulty },
   ) {
     this.god = opts.god;
     this.soundBtn = el('button', { class: 'icon', title: JA.ui.soundOn, 'aria-label': JA.ui.soundOn, onclick: () => h.sound() }, icon('volumeOff'));
@@ -126,7 +128,8 @@ export class Hud {
       const b = el('button', { class: 'speed', title: `×${s}`, onclick: () => h.setSpeed(s) }, `×${s}`);
       this.speedBtns.set(s, b);
     }
-    this.godBtn = el('button', { class: 'toggle', title: 'G', onclick: () => h.setGod(!this.god) });
+    // 神の視点のボタンは廃止し、出発の前に選んだ難しさを札で出す（ユーザーの指定）
+    this.godBtn = el('span', { class: `df-tag df-${opts.difficulty}`, title: JA.difficulty.note[opts.difficulty] }, [icon('visibility'), JA.difficulty.label[opts.difficulty]]);
     // カメラ: 「追従」と、俯瞰 ⇄ FPV（一人称）の切り替えボタン（ユーザーの指定）。押すたびに俯瞰と FPV が替わる
     this.camBtns.set('follow', el('button', { class: 'cam', onclick: () => h.setCamera('follow') }, [icon('myLocation'), JA.ui.camFollow]));
     this.povBtn = el('button', { class: 'cam pov', title: `${JA.ui.camOverview} / ${JA.ui.camEye}`, onclick: () => h.setCamera(this.cam === 'overview' ? 'eye' : 'overview') });
@@ -169,10 +172,11 @@ export class Hud {
     this.top = el('header', { class: 'topbar' }, [
       el('button', { class: 'icon', title: JA.ui.quit, 'aria-label': JA.ui.quit, onclick: () => h.quit() }, icon('home')),
       el('strong', { class: 'title' }, scenario.title),
+      // 難しさはタイトルのすぐ右（ユーザーの指定）
+      this.godBtn,
       el('span', { class: 'clockbox' }, [icon('schedule'), this.clock]),
       modeTag,
       el('div', { class: 'group speeds', role: 'group', 'aria-label': JA.ui.speed }, [this.pauseBtn, el('span', { class: 'grp-ic', title: JA.ui.speed }, icon('speed')), ...this.speedBtns.values()]),
-      this.godBtn,
       el('div', { class: 'group cams', role: 'group', 'aria-label': JA.ui.camera }, [this.povBtn, ...this.camBtns.values()]),
       layers,
       this.soundBtn,
@@ -265,11 +269,6 @@ export class Hud {
       this.povBtn.classList.toggle('on', cam !== 'follow');
       this.povBtn.replaceChildren(icon(cam === 'eye' ? 'directionsWalk' : 'landscape'), cam === 'eye' ? JA.ui.camFpv : JA.ui.camOverview);
     }
-    if (this.godBtn.dataset['g'] !== String(this.god)) {
-      this.godBtn.dataset['g'] = String(this.god);
-      // 狭い画面では短く（神／登山者。ユーザーの指定）
-      this.godBtn.replaceChildren(icon('visibility'), el('span', { class: 'lbl-long' }, this.god ? JA.ui.godView : JA.ui.climberView), el('span', { class: 'lbl-short' }, this.god ? JA.ui.godShort : JA.ui.climberShort));
-    }
   }
 
   /** パネルの更新（4Hz） */
@@ -277,14 +276,22 @@ export class Hud {
     const sel = world.climbers.find((c) => c.id === selected) ?? world.climbers[0];
     const cards = (list: ClimberState[]): HTMLElement[] =>
       list.map((c) =>
-        climberCard(c, this.god, c === sel, () => this.h.select(c.id), this.collapsed.has(c.id), () => {
-          if (this.collapsed.has(c.id)) this.collapsed.delete(c.id);
-          else this.collapsed.add(c.id);
-          this.updatePanels(world, selected);
-        }),
+        climberCard(
+          c,
+          this.god,
+          c === sel,
+          () => this.h.select(c.id),
+          this.collapsed.has(c.id),
+          () => {
+            if (this.collapsed.has(c.id)) this.collapsed.delete(c.id);
+            else this.collapsed.add(c.id);
+            this.updatePanels(world, selected);
+          },
+          this.knows(c.id),
+        ),
       );
     let list = world.climbers;
-    if (this.sortByCore) list = [...list].sort((a, b) => a.body.coreC - b.body.coreC);
+    if (this.sortByCore && world.climbers.every((c) => this.knows(c.id))) list = [...list].sort((a, b) => a.body.coreC - b.body.coreC);
     if (world.climbers.length > 6) {
       // 大人数: グループごとの折りたたみ一覧（docs/11 §2.1）
       const open = new Set([...this.climbersEl.querySelectorAll('details[open]')].map((d) => (d as HTMLElement).dataset['g'] ?? ''));
@@ -445,9 +452,9 @@ export class Hud {
       const more = snap ? el('button', { class: 'more', type: 'button', title: JA.logDetail.open, 'aria-label': JA.logDetail.open }, icon('chevronRight')) : null;
       more?.addEventListener('click', (e) => {
         e.stopPropagation();
-        openLogDetail({ who, time, text: line.bubble ?? line.text, snap: snap!, god: this.god, anchor: more });
+        openLogDetail({ who, time, text: line.bubble ?? line.text, snap: snap!, god: this.god, anchor: more, bodyHidden: !this.knows(who.id) });
       });
-      const name = cont ? null : el('div', { class: 'name' }, [el('span', { class: 'who-name' }, who.name), line.to ? el('span', { class: 'to' }, `→ ${line.to}`) : null, line.snap ? snapGauges(line.snap) : null]);
+      const name = cont ? null : el('div', { class: 'name' }, [el('span', { class: 'who-name' }, who.name), line.to ? el('span', { class: 'to' }, `→ ${line.to}`) : null, line.snap && this.knows(who.id) ? snapGauges(line.snap) : null]);
       let body: HTMLElement;
       if (kind === 'speech' || kind === 'thought') {
         body = el('div', { class: 'msg' }, [
@@ -466,7 +473,7 @@ export class Hud {
         const openInfo = (e: Event): void => {
           e.stopPropagation();
           this.h.select(who.id);
-          openLogDetail({ who, time, text: line.bubble ?? line.text, snap, god: this.god, anchor: more ?? (e.currentTarget as HTMLElement) });
+          openLogDetail({ who, time, text: line.bubble ?? line.text, snap, god: this.god, anchor: more ?? (e.currentTarget as HTMLElement), bodyHidden: !this.knows(who.id) });
         };
         for (const t of [face, name]) {
           if (!t || t.classList.contains('face-gap')) continue;

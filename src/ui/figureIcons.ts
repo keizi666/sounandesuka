@@ -24,7 +24,7 @@ export interface HeadPos {
 export interface FigureIcons {
   el: HTMLElement;
   /** 毎フレーム呼ぶ。head は頭の画面上の位置（なければ null） */
-  update(world: World, head: (id: string) => HeadPos | null, opts: { god: boolean; time: string; hidden: boolean }): void;
+  update(world: World, head: (id: string) => HeadPos | null, opts: { god: boolean; time: string; hidden: boolean; knows?: (id: string) => boolean }): void;
   dispose(): void;
 }
 
@@ -193,6 +193,8 @@ export function createFigureIcons(climbers: readonly ClimberState[]): FigureIcon
         const hp = hpOf(c.body);
         it.ring.style.setProperty('--hp', String(hp / 100));
         it.ring.dataset['lv'] = hpLevel(hp);
+        // ハードでリーダー以外の人は、体調が分からないので体力の輪を出さない
+        it.ring.hidden = o.knows ? !o.knows(c.id) : false;
       }
 
       const live = new Set<string>();

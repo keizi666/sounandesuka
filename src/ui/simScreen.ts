@@ -26,7 +26,7 @@ import { icon } from './icons';
 import { createRecorder, recordTick, type RecorderState } from '../sim/record/recorder';
 import { autoResolve, choiceLeader, findChoicePoint, resolveChoice } from '../sim/scenario/choices';
 import { deciderOf } from './choiceModal';
-import type { SimEvent, World } from '../sim/types';
+import type { ClimberState, SimEvent, StaticContext, World } from '../sim/types';
 import { SceneView, type CameraMode } from '../view/sceneView';
 import { BubbleLayer } from './bubbles';
 import { showChoice, type ChoiceUi } from './choiceModal';
@@ -52,11 +52,41 @@ function freshSeed(): number {
 import { countPlay } from '../app/playStats';
 import { resolveEnding } from '../sim/scenario/endings';
 import { recVars } from '../sim/record/recorder';
+import type { Difficulty } from '../app/settings';
+import { groupLeader } from '../sim/climber/party';
+import { isForest } from '../sim/terrain/derive';
+import { nearestIndex } from '../sim/terrain/sample';
 
 export { attributionLine, optionLabel, type SimResult } from './simCommon';
 
 const TIMED_SEC = 30;
 const AUTOSAVE_MS = 30000;
+/** ハードで、これより遠い所をぼかす（m。ユーザーの指定: 樹林帯の中は狭く、抜けたら広く） */
+const HARD_VIEW_FOREST_M = 100;
+const HARD_VIEW_OPEN_M = 300;
+/** 見える範囲が変わりきるまでの目安（秒） */
+const HARD_VIEW_EASE_SEC = 1.5;
+/** 見える範囲の下限（m。人形のまわりは別にぼかさない） */
+const HARD_VIEW_MIN_M = 25;
+/** 夜の見える範囲（ヘッドランプあり・なし。m） */
+const HARD_VIEW_NIGHT_LAMP_M = 40;
+const HARD_VIEW_NIGHT_DARK_M = 15;
+
+/**
+ * ハードの見える範囲（ユーザーの指定: 登山者の視点の状態で変える）。
+ * 樹林帯の中は 100 m、抜けたら 300 m。霧の見通しより先は見えない。強い雨・雪で狭くなり、夜はヘッドランプの届くあたりまで
+ */
+function hardViewRangeM(map: StaticContext['map'], c: ClimberState, dark: boolean): number {
+  let r = isForest(map.veg[nearestIndex(map, c.x, c.z)] ?? 0) ? HARD_VIEW_FOREST_M : HARD_VIEW_OPEN_M;
+  const l = c.local;
+  r = Math.min(r, l.visibilityM);
+  if (l.precipMmH > 8) r *= 0.5;
+  else if (l.precipMmH > 3) r *= 0.7;
+  else if (l.precipMmH > 1) r *= 0.85;
+  if (dark) r = Math.min(r, c.inv.headlamp.on ? HARD_VIEW_NIGHT_LAMP_M : HARD_VIEW_NIGHT_DARK_M);
+  return Math.max(HARD_VIEW_MIN_M, r);
+}
+const TERMINAL_STATES = new Set(['FINISHED', 'RESCUED', 'DEAD']);
 const IMPORTANT_PAUSE = new Set(['DEATH', 'CARDIAC_ARREST', 'INJURY', 'LOST_AWARE', 'LIGHTNING_STRIKE', 'RESCUED', 'STAGE_CHANGE']);
 
 /** 画面を開く前に、前に作った 3D のデータ（キャッシュ）を読む（ユーザーの指定: 同じ条件なら作り直さない） */
@@ -112,7 +142,9 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   const sound = createAmbientSound();
   sound.setVolume(st.soundVolume);
   // 前回、音を出していたら続けて出す（ブラウザが許せば。許されなければボタンで出し直す）
-  view.godView = st.godViewDefault;
+  // 難しさ（出発の前に選ぶ。途中から再開したときは、そのときの難しさ。ユーザーの指定）
+  const difficulty: Difficulty = resume?.difficulty ?? st.difficulty ?? 'normal';
+  view.godView = difficulty !== 'hard';
   view.tiltShift = st.tiltShift;
   view.mode = cam;
   view.frameClose(world);
@@ -141,11 +173,6 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         loop.paused = !loop.paused;
         refresh();
       },
-      setGod: (v) => {
-        hud.god = v;
-        view.godView = v;
-        refresh(true);
-      },
       setCamera: (m) => {
         cam = m;
         view.mode = m;
@@ -165,7 +192,6 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
           applyBubbleSettings();
           sound.setVolume(app.settings.soundVolume);
           view.tiltShift = app.settings.tiltShift;
-          view.godView = hud.god;
         }),
       // 音のパネル（音楽・効果音・環境音のオンオフと音量）
       sound: () =>
@@ -185,7 +211,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         void save().then(() => app.go({ name: 'title' }));
       },
     },
-    { god: view.godView, observe, timed },
+    { god: view.godView, observe, timed, difficulty },
   );
   // ---- タイムライン（時間を戻す） ----
   const timeline = new Timeline(scenario.party.length > 6 ? 5 : 2);
@@ -236,7 +262,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   async function save(): Promise<void> {
     if (world.ended) return;
     lastSave = performance.now();
-    const ok = await saveResume({ scenarioId: scenario.id, world: structuredClone(world), recorder: structuredClone(recorder), choiceSnapshots: snapshots, log: hud.allLines(), savedAt: new Date().toISOString(), runId, parentRunId, conditions: loaded.conditions, speed: loop.speed });
+    const ok = await saveResume({ scenarioId: scenario.id, world: structuredClone(world), recorder: structuredClone(recorder), choiceSnapshots: snapshots, log: hud.allLines(), savedAt: new Date().toISOString(), runId, parentRunId, conditions: loaded.conditions, speed: loop.speed, difficulty });
     if (!ok) toast(JA.ui.saveFailed);
   }
 
@@ -333,6 +359,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     void save();
     choiceUi = showChoice(modalHost, world, ctx, {
       god: hud.god,
+      recommend: difficulty === 'easy',
       timeoutSec: timed ? TIMED_SEC : null,
       onPick: (id) => {
         choiceUi = null;
@@ -387,7 +414,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         title: end?.title ?? JA.endings[world.ended!.kind]?.title ?? world.ended!.kind,
         text: end?.text ?? JA.endings[world.ended!.kind]?.text ?? '',
         time: formatDateTime(scenario, world.tMin),
-        onGo: () => app.go({ name: 'ending', loaded, result: { world, recorder, choiceSnapshots: snapshots, runId, parentRunId, log: hud.allLines() } }),
+        onGo: () => app.go({ name: 'ending', loaded, result: { world, recorder, choiceSnapshots: snapshots, runId, parentRunId, log: hud.allLines(), difficulty } }),
         // これまでの選択（分岐点の写しがあるもの）。選ぶとその場面に戻って選び直せる（ユーザーの指定）
         choices: world.decisions
           .filter((dc) => Object.values(snapshots).some((sn) => sn.world.pendingChoice && Math.abs(sn.world.tMin - dc.tMin) < 0.05))
@@ -402,6 +429,41 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
           })),
       });
     }, 1200);
+  }
+
+  // ---- 難しさ: 体調が分かる人・見えている範囲のぼかし（ユーザーの指定） ----
+  /** 自分たち（見守っているパーティのリーダー） */
+  const ownLeader = (w: World): ClimberState => groupLeader(w, w.focusGroup ?? w.groups[0]?.id ?? null);
+  // ハードでは、体調が分かるのはリーダーだけ
+  if (difficulty === 'hard') hud.knows = (id) => ownLeader(world).id === id;
+  /** 現在地が分からなくなってぼかしているか（ログに出したか） */
+  let lostShown = false;
+  /** ハードの見える範囲（樹林帯の出入りで、なめらかに変える） */
+  let hardViewM: number | null = null;
+  let hardViewAt = performance.now();
+  function updateAreaBlur(w: World): void {
+    if (difficulty === 'easy') {
+      view.setAreaBlur(null);
+      return;
+    }
+    const l = ownLeader(w);
+    // 道に迷ったと気づき、現在地が分からない（地図・GPS で確かめたら解く）
+    const lost = l.body.alive && l.perception.awareLost && !l.perception.knowsPosition && !TERMINAL_STATES.has(l.state);
+    const keepIds = w.climbers.filter((c) => c.groupId === l.groupId && c.body.alive).map((c) => c.id);
+    let farM: number | null = null;
+    if (difficulty === 'hard') {
+      const target = hardViewRangeM(ctx.map, l, w.sun.isDark);
+      const now = performance.now();
+      const a = Math.min(1, (now - hardViewAt) / 1000 / HARD_VIEW_EASE_SEC);
+      hardViewAt = now;
+      hardViewM = hardViewM === null ? target : hardViewM + (target - hardViewM) * a;
+      farM = hardViewM;
+    }
+    view.setAreaBlur({ x: l.x, z: l.z, lost, farM, keepIds });
+    if (lost !== lostShown && !replaying) {
+      lostShown = lost;
+      hud.log({ tMin: w.tMin, text: fill(lost ? JA.difficulty.lostBlurOn : JA.difficulty.lostBlurOff, { who: l.def.name }), important: true });
+    }
   }
 
   // ---- ループ ----
@@ -421,7 +483,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       lastFrame = now;
       const r = canvas.getBoundingClientRect();
       // 頭の上に顔アイコン。吹き出しはアイコンの左上に出し（アイコンが吹き出しの右に来る）、アイコンより手前に重ねる
-      figIcons.update(w, (id) => view.headScreen(id, r.width, r.height), { god: hud.god, time: formatDateTime(scenario, w.tMin).split(' ')[1] ?? '', hidden: cam === 'eye' });
+      figIcons.update(w, (id) => view.headScreen(id, r.width, r.height), { god: hud.god, time: formatDateTime(scenario, w.tMin).split(' ')[1] ?? '', hidden: cam === 'eye', knows: hud.knows });
+      updateAreaBlur(w);
       bubbles.align = cam === 'eye' ? 'center' : 'left';
       bubbles.update(dt, (id) => {
         const hs = view.headScreen(id, r.width, r.height);
@@ -525,10 +588,6 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     blocked: () => choiceUi !== null,
     loop: () => loop,
     beforePlay: () => tt.beforePlay(),
-    toggleGod: () => {
-      hud.god = !hud.god;
-      view.godView = hud.god;
-    },
     cycleCamera: () => {
       const order: CameraMode[] = ['overview', 'follow', 'eye'];
       cam = order[(order.indexOf(cam) + 1) % 3]!;

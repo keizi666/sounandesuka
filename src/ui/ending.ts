@@ -147,7 +147,7 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
   const main = el('main', { class: `ending2 tone-${tone}` }, [
       el('header', { class: 'en-hero' }, [
         el('div', { class: 'en-in' }, [
-          el('p', { class: 'en-kicker' }, [JA.ui.endingTitle, el('span', {}, s.title), loaded.conditions ? el('span', { class: 'tag' }, JA.conditions.tried) : null]),
+          el('p', { class: 'en-kicker' }, [JA.ui.endingTitle, el('span', {}, s.title), result.difficulty ? el('span', { class: `df-tag df-${result.difficulty}` }, [icon('visibility'), JA.difficulty.label[result.difficulty] ?? result.difficulty]) : null, loaded.conditions ? el('span', { class: 'tag' }, JA.conditions.tried) : null]),
           el('h1', {}, e.title ?? def?.title ?? e.kind),
           el('p', { class: 'en-story' }, e.text ?? def?.text ?? ''),
           el('div', { class: 'bf-facts' }, [

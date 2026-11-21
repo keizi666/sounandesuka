@@ -102,6 +102,8 @@ export function closeLogDetail(): void {
 }
 
 export interface LogDetailInput {
+  /** 体調が分からない人（ハードでリーダー以外）。体の欄を出さない */
+  bodyHidden?: boolean;
   who: ClimberDef;
   time: string;
   text: string;
@@ -135,14 +137,18 @@ export function openLogDetail(d: LogDetailInput): void {
     ]),
     d.text ? el('p', { class: 'pop-text' }, d.text) : null,
     el('h4', {}, D.body),
-    row('favorite', JA.ui.hp, s.hp / 100, hpLevel(s.hp), `${s.hp}`),
-    s.phone !== null ? row('mobile', phoneLabel(), s.phone / 100, levelOf(s.phone, 30, 15, 5), s.phone === 0 ? '×' : `${s.phone}%`) : null,
-    row('thermostat', JA.ui.core, (s.coreC - 30) / 8, levelOf(s.coreC, 36, 35, 32), `${s.coreC.toFixed(1)}℃`),
-    row('bolt', JA.ui.energy, s.gly / 2000, levelOf(s.gly, 600, 300, 100), `${s.gly}`),
-    row('waterDrop', JA.ui.water, 1 - s.waterL / 6, levelOf(s.waterL, 1, 2, 4, true), `-${s.waterL.toFixed(1)}L`),
-    row('batteryAlert', JA.ui.fatigue, s.fatigue / 100, levelOf(s.fatigue, 60, 80, 95, true), `${s.fatigue}`),
-    row('rainy', JA.ui.wetness, s.wet / 100, levelOf(s.wet, 30, 60, 85, true), `${s.wet}%`),
-    row('sentimentWorried', JA.ui.anxiety, s.anxiety / 100, levelOf(s.anxiety, 40, 60, 80, true), `${s.anxiety}`),
+    ...(d.bodyHidden
+      ? [el('p', { class: 'pop-text' }, JA.difficulty.bodyUnknown), s.phone !== null ? row('mobile', phoneLabel(), s.phone / 100, levelOf(s.phone, 30, 15, 5), s.phone === 0 ? '×' : `${s.phone}%`) : null]
+      : [
+          row('favorite', JA.ui.hp, s.hp / 100, hpLevel(s.hp), `${s.hp}`),
+          s.phone !== null ? row('mobile', phoneLabel(), s.phone / 100, levelOf(s.phone, 30, 15, 5), s.phone === 0 ? '×' : `${s.phone}%`) : null,
+          row('thermostat', JA.ui.core, (s.coreC - 30) / 8, levelOf(s.coreC, 36, 35, 32), `${s.coreC.toFixed(1)}℃`),
+          row('bolt', JA.ui.energy, s.gly / 2000, levelOf(s.gly, 600, 300, 100), `${s.gly}`),
+          row('waterDrop', JA.ui.water, 1 - s.waterL / 6, levelOf(s.waterL, 1, 2, 4, true), `-${s.waterL.toFixed(1)}L`),
+          row('batteryAlert', JA.ui.fatigue, s.fatigue / 100, levelOf(s.fatigue, 60, 80, 95, true), `${s.fatigue}`),
+          row('rainy', JA.ui.wetness, s.wet / 100, levelOf(s.wet, 30, 60, 85, true), `${s.wet}%`),
+          row('sentimentWorried', JA.ui.anxiety, s.anxiety / 100, levelOf(s.anxiety, 40, 60, 80, true), `${s.anxiety}`),
+        ]),
     d.god
       ? el('section', { class: 'weather' }, [
           el('h4', {}, D.weather),

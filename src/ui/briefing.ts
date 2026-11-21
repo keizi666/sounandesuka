@@ -22,6 +22,7 @@ import { audio } from './audio';
 import { applyConditions, DEFAULT_CONDITIONS, DEFAULT_POWER_BANK_MAH, isDefaultConditions, POWER_BANK_CHOICES, WATER_DELTA_CHOICES, type Health, type SeasonOverride, type StartConditions, type WeatherOverride } from '../sim/scenario/startConditions';
 import { shareButtons } from './shareButtons';
 import { briefUrl } from '../app/shareState';
+import { saveSettings, type Difficulty } from '../app/settings';
 
 /** 予報の文から、天気のアイコンを選ぶ */
 function forecastIcon(label: string, text: string): IconName {
@@ -117,6 +118,28 @@ function conditionsCard(s: LoadedScenario['scenario'], cond: StartConditions): H
   ]);
   refresh();
   return card;
+}
+
+/** 難しさを選ぶ（出発の前。選んだものは設定に覚える。ユーザーの指定） */
+function difficultyPicker(app: AppContext): HTMLElement {
+  const D = JA.difficulty;
+  const opts: Difficulty[] = ['easy', 'normal', 'hard'];
+  const note = el('small', { class: 'df-note' }, D.note[app.settings.difficulty]);
+  const btns = opts.map((d) => {
+    const b = el('button', { type: 'button', class: `df-btn df-${d}${app.settings.difficulty === d ? ' on' : ''}`, 'aria-pressed': app.settings.difficulty === d, title: D.note[d] }, D.label[d]);
+    b.addEventListener('click', () => {
+      app.settings.difficulty = d;
+      saveSettings(app.settings);
+      for (const x of btns) {
+        const on = x === b;
+        x.classList.toggle('on', on);
+        x.setAttribute('aria-pressed', String(on));
+      }
+      note.textContent = D.note[d] ?? '';
+    });
+    return b;
+  });
+  return el('div', { class: 'df-pick' }, [el('div', { class: 'df-row', role: 'group', 'aria-label': D.title }, [el('span', { class: 'df-title' }, D.title), ...btns]), note]);
 }
 
 export function showBriefing(app: AppContext, loaded: LoadedScenario): () => void {
@@ -240,6 +263,7 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
       el('footer', { class: 'bf-bar' }, [
         el('div', { class: 'bf-bar-in' }, [
           el('span', { class: 'bf-bar-info' }, [el('strong', {}, s.title), el('small', {}, `${formatDateTime(s, startMin)} ${B.departure} ・ ${s.party.length}${B.people}`)]),
+          difficultyPicker(app),
           el('button', { class: 'primary big', onclick: depart }, [icon('hiking'), JA.ui.depart]),
         ]),
       ]),

@@ -10,7 +10,6 @@ export function createKeyHandler(d: {
   blocked(): boolean;
   loop(): Loop;
   beforePlay(): void;
-  toggleGod(): void;
   cycleCamera(): void;
   refresh(): void;
 }): (e: KeyboardEvent) => void {
@@ -25,8 +24,7 @@ export function createKeyHandler(d: {
       loop.speed = SPEED_KEYS[Number(e.key) - 1]!;
       d.beforePlay();
       loop.paused = false;
-    } else if (e.key === 'g' || e.key === 'G') d.toggleGod();
-    else if (e.key === 'c' || e.key === 'C') d.cycleCamera();
+    } else if (e.key === 'c' || e.key === 'C') d.cycleCamera();
     else return;
     d.refresh();
   };

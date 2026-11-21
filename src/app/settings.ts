@@ -2,6 +2,13 @@
 
 export type QualitySetting = 'auto' | 'low' | 'mid' | 'high';
 export type AutoPause = 'choice' | 'important' | 'all';
+/**
+ * 難しさ（ユーザーの指定。出発の前に選ぶ。神の視点のボタンの代わり）
+ * - easy: 体の数値・天気がすべて見える。分岐で推奨の選択肢が緑になる。現在地が分からなくなってもぼかさない
+ * - normal: 体の数値・天気がすべて見える。現在地が分からなくなったら、自分たちから 50 m より遠くをぼかす
+ * - hard: 登山者に分かることだけ。体調はリーダーの分しか分からない。500 m より遠くはぼやけ、現在地が分からなくなったら強くぼかす
+ */
+export type Difficulty = 'easy' | 'normal' | 'hard';
 
 export interface Settings {
   quality: QualitySetting;
@@ -13,6 +20,7 @@ export interface Settings {
   timed: boolean;
   observe: boolean;
   godViewDefault: boolean;
+  difficulty: Difficulty;
   autoCamera: boolean;
   speechBubbles: boolean;
   thoughtBubbles: boolean;
@@ -45,6 +53,7 @@ export const DEFAULT_SETTINGS: Settings = {
   timed: false,
   observe: false,
   godViewDefault: true,
+  difficulty: 'normal',
   autoCamera: false,
   speechBubbles: true,
   thoughtBubbles: true,

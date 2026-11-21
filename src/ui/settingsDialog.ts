@@ -49,7 +49,6 @@ export function openSettings(app: AppContext, onChange?: (s: Settings) => void):
     row(S.autoPause, select('autoPause', [['choice', S.autoPauseChoice], ['important', S.autoPauseImportant], ['all', S.autoPauseAll]])),
     row(S.timed, toggle('timed')),
     row(S.observe, toggle('observe')),
-    row(S.infoDefault, select('godViewDefault', [[true, JA.ui.godView], [false, JA.ui.climberView]])),
     row(S.autoCamera, toggle('autoCamera')),
     row(S.speechBubbles, toggle('speechBubbles')),
     row(S.thoughtBubbles, toggle('thoughtBubbles')),

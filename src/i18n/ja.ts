@@ -66,6 +66,21 @@ export const JA = {
     via: { phone: '電話', satellite: '衛星 SOS', overdue: '未帰還の通報', script: '他の登山者', passerby: '通りかかった登山者', relay: '呼びに行った仲間' } as Record<string, string>,
   },
 
+  /** 難しさ（ユーザーの指定。出発の前に選ぶ） */
+  difficulty: {
+    title: '難しさ',
+    label: { easy: 'イージー', normal: 'ノーマル', hard: 'ハード' } as Record<string, string>,
+    note: {
+      easy: '体の数値と天気がすべて見え、分岐では推奨の選択肢が緑になります。',
+      normal: '体の数値と天気がすべて見えます。道に迷って現在地が分からなくなると、まわりがぼやけます。',
+      hard: '登山者に分かることだけ。体調はリーダーの分しか分からず、遠くはぼやけます（樹林帯の中は 100 m、抜けたら 300 m より先。霧・雨・雪・夜はもっと狭くなる）。現在地が分からなくなると、まわりが強くぼやけます。',
+    } as Record<string, string>,
+    recommended: '推奨',
+    bodyUnknown: '体調は分からない（リーダーには、本人の様子からしか分からない）',
+    lostBlurOn: '{who}たちは現在地が分からなくなった。自分たちのまわり 50 m より遠くは、画面をぼかしています',
+    lostBlurOff: '{who}たちは現在地が分かった。画面のぼかしを解きました',
+  },
+
   /** 結果の画面: 一人ひとりの途中で出た症状（ユーザーの指定） */
   symptoms: {
     title: '途中で出た症状',

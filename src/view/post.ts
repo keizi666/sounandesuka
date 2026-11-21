@@ -67,6 +67,10 @@ const SanitizeShader = {
 export interface Post {
   /** 場面を描いた直後（にじみなどの前）に段を差し込む。立体の雲など、場面の奥行きを使う段 */
   insertAfterScene(pass: import('three/examples/jsm/postprocessing/Pass.js').Pass): void;
+  /** にじみの直前に段を足す（見えている範囲のぼかし。立体の雲より後） */
+  insertBeforeBloom(pass: import('three/examples/jsm/postprocessing/Pass.js').Pass): void;
+  /** 場面を描いたときの深度（後の段は、入れ替わる読み出し先ではなくこれを読む） */
+  readonly depthTexture: THREE.Texture | null;
   render(): void;
   setSize(w: number, h: number): void;
   /** 上下のぼかしの強さ（0 = なし。登山者の視点では切る） */
@@ -116,6 +120,10 @@ export function createPost(renderer: THREE.WebGLRenderer, scene: THREE.Scene, ca
     insertAfterScene(pass) {
       composer.insertPass(pass, 1);
     },
+    insertBeforeBloom(pass) {
+      composer.insertPass(pass, Math.max(1, composer.passes.indexOf(bloom)));
+    },
+    depthTexture: target.depthTexture,
     dispose() {
       composer.dispose();
       target.dispose();

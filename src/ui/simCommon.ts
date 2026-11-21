@@ -3,6 +3,7 @@
  */
 import type { LoadedScenario } from '../app/data';
 import { JA } from '../i18n/ja';
+import type { Difficulty } from '../app/settings';
 import type { RecorderState } from '../sim/record/recorder';
 import type { World } from '../sim/types';
 import { el } from './dom';
@@ -18,6 +19,8 @@ export interface SimResult {
   log?: LogLine[];
   /** 共有された結果の URL から作り直した結果（自分の回ではないので、みんなの遭難記録には載せない） */
   shared?: boolean;
+  /** 遊んだ難しさ（結果の画面に出す。共有された結果の URL からは分からない） */
+  difficulty?: Difficulty;
 }
 
 /** 外部データ由来の内容には出典を出す（鉄則 9）。実在の山のシナリオでは注記も添える */
