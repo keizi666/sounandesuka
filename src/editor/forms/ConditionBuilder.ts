@@ -33,6 +33,34 @@ export function kindOf(c: Condition): CondKind {
 }
 
 const STATES = Object.keys(TEXT.labels.state) as BehaviorState[];
+/** 出来事の名前（やさしい言葉。ユーザーの指摘: RAIN_START のような記号では分からない） */
+export const EVENT_LABELS: Partial<Record<SimEventType, string>> = {
+  RAIN_START: '雨が降り始めた',
+  RAIN_STOP: '雨がやんだ',
+  PRECIP_TYPE: '雨・雪の種類が変わった',
+  SUNSET: '日が沈んだ',
+  SUNRISE: '日が昇った',
+  DARK: '暗くなった',
+  NODE_ARRIVE: '地点に着いた',
+  OFFROUTE: '道を外れた（まだ気づいていない）',
+  LOST_AWARE: '道に迷ったと気づいた',
+  BACK_ON_ROUTE: '道に戻った',
+  FALL: 'だれかが転んだ・滑落した',
+  INJURY: 'だれかがけがをした',
+  STAGE_CHANGE: '低体温症の段階が変わった',
+  LIGHTNING_STRIKE: '雷が落ちた',
+  RESCUE_CALLED: '救助を呼んだ',
+  RESCUED: '救助された',
+  SHELTER_ENTER: '小屋に入った',
+  BIVOUAC_START: 'ビバークを始めた',
+  FINISHED: '下山した',
+  GEAR: '装備を使った',
+  PHONE_DEAD: 'スマホの電池が切れた',
+  LAMP_DEAD: 'ヘッドランプの電池が切れた',
+};
+const OP_WORDS: Record<string, string> = { '<': 'より小さい', '<=': '以下', '>': 'より大きい', '>=': '以上', '==': 'に等しい', '!=': 'ではない' };
+const evLabel = (e: string): string => EVENT_LABELS[e as SimEventType] ?? e;
+
 const EVENTS: SimEventType[] = ['RAIN_START', 'RAIN_STOP', 'PRECIP_TYPE', 'SUNSET', 'SUNRISE', 'DARK', 'NODE_ARRIVE', 'OFFROUTE', 'LOST_AWARE', 'BACK_ON_ROUTE', 'FALL', 'INJURY', 'STAGE_CHANGE', 'LIGHTNING_STRIKE', 'RESCUE_CALLED', 'RESCUED', 'SHELTER_ENTER', 'BIVOUAC_START', 'FINISHED', 'GEAR', 'PHONE_DEAD', 'LAMP_DEAD'] as SimEventType[];
 
 export function defaultCond(k: CondKind, s: ScenarioDef, map: MapDef): Condition {
@@ -88,7 +116,8 @@ export function summarize(c: Condition | undefined, s: ScenarioDef, map: MapDef)
       return `「${summarize(x['not'] as Condition, s, map)}」ではない`;
     case 'var': {
       const v = c as { var: string; op: string; value: unknown };
-      return `${varLabel(s, v.var)} ${v.op} ${String(v.value)}`;
+      if (typeof v.value === 'boolean') return `${varLabel(s, v.var)}${(v.value === true) === (v.op === '==') ? '' : '（ではない）'}`;
+      return `${varLabel(s, v.var)}が ${String(v.value)} ${OP_WORDS[v.op] ?? v.op}`;
     }
     case 'after':
       return `${String(x['after'])} 以降`;
@@ -110,10 +139,11 @@ export function summarize(c: Condition | undefined, s: ScenarioDef, map: MapDef)
       return `フラグ ${String(x['flag'])}`;
     case 'chose': {
       const ch = x['chose'] as { cp: string; option: string };
-      return `${ch.cp} で ${ch.option} を選んだ`;
+      const cp = s.choices.find((p) => p.id === ch.cp);
+      return `「${cp?.title || ch.cp}」で「${cp?.options.find((o) => o.id === ch.option)?.label || ch.option}」を選んだ`;
     }
     case 'event':
-      return `出来事 ${String(x['event'])}`;
+      return evLabel(String(x['event']));
     case 'chance':
       return `確率 ${String(x['chance'])}`;
     case 'elapsedSince': {
@@ -227,7 +257,7 @@ export function conditionBuilder(root: Condition, ctx: CondCtx, commit: (c: Cond
         );
       }
       case 'event':
-        return row(sel(String(x['event']) as SimEventType, EVENTS.map((e) => [e, e]), (e) => up({ event: e })));
+        return row(sel(String(x['event']) as SimEventType, EVENTS.map((e) => [e, evLabel(e)]), (e) => up({ event: e })));
       case 'chance':
         return row(inp(Number(x['chance']), (s) => up({ chance: Math.max(0, Math.min(1, Number(s))) }), { type: 'number', step: 0.05, style: 'width:5em' }));
       case 'elapsedSince': {

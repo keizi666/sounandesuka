@@ -80,10 +80,11 @@ export class EditorApp implements Ed {
       play,
       exp,
     ]);
-    const side = el('nav', { class: 'ed-tabs' }, PANELS.map((pn, i) => {
+    // 左のタブは、作る順の 3 つのまとまりに分ける（ユーザーの指摘: 複雑すぎる。山 → 物語 → 試す、の順が見えるように）
+    const side = el('nav', { class: 'ed-tabs' }, PANELS.flatMap((pn, i) => {
       const b = el('button', { onclick: () => this.goTab(pn.id), title: pn.label }, [el('b', {}, pn.id === 'json' ? '{ }' : pn.id === 'ai' ? 'AI' : String(i + 1)), el('small', {}, pn.id === 'ai' ? 'プロンプト' : pn.label)]);
       this.tabs.set(pn.id, b);
-      return b;
+      return pn.group ? [el('div', { class: 'ed-tab-group' }, pn.group), b] : [b];
     }));
     this.center = el('div', { class: 'ed-center' });
     this.view = new TileMapView(this.center);
@@ -127,8 +128,22 @@ export class EditorApp implements Ed {
     if (p) this.center.append(p);
   }
 
+  private stageEl: HTMLElement | null = null;
+  private stageUsed = false;
+  setStage(s: HTMLElement | null): void {
+    this.stageUsed = s !== null;
+    // 描き直しても、スクロールの位置は保つ
+    const top = this.stageEl?.scrollTop ?? 0;
+    if (s) {
+      if (this.stageEl) this.stageEl.replaceWith(s);
+      else this.center.append(s);
+      s.scrollTop = top;
+    } else this.stageEl?.remove();
+    this.stageEl = s;
+  }
+
   private onKey = (e: KeyboardEvent): void => {
-    if ((e.target as HTMLElement).closest('input,textarea,select')) return;
+    if ((e.target as HTMLElement).closest('input,textarea,select,dialog')) return;
     // 道具のショートカット（修飾キーなしの 1 文字）
     if (!e.ctrlKey && !e.metaKey && !e.altKey && e.key.length === 1) {
       const f = this.paletteKeys.get(e.key.toLowerCase());
@@ -286,7 +301,9 @@ export class EditorApp implements Ed {
     const pn = PANELS.find((x) => x.id === this.p.editorState.tab)!;
     // 道具パレットは、パネルが描くときに置き直す（道具のないタブでは消える）
     this.setToolPalette(null);
+    this.stageUsed = false;
     pn.render(this);
+    if (!this.stageUsed) this.setStage(null);
     // はじめての流れ（次にやること）
     this.wizardEl?.remove();
     this.wizardEl = wizardBar(this);
@@ -320,6 +337,8 @@ export class EditorApp implements Ed {
   goTab(t: TabId): void {
     // もとの「地点」のタブは「登山道と地点」に統合した（ユーザーの指定）。保存したプロジェクトや検証の「そのタブへ」から来ても登山道と地点へ
     if (t === 'points') t = 'trails';
+    // もとの「分岐点」「結末」のタブは「物語」に統合した
+    if (t === 'choices' || t === 'endings') t = 'story';
     this.p.editorState.tab = t;
     for (const [k, b] of this.tabs) b.classList.toggle('on', k === t);
     this.bottom.replaceChildren();

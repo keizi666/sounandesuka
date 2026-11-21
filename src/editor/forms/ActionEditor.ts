@@ -55,6 +55,20 @@ export const ACTION_LABELS: Partial<Record<ActionType, string>> = {
   say: 'セリフ',
 };
 
+/** よく使う行動（選ぶ欄の上にまとめる） */
+export const COMMON_ACTIONS: ActionType[] = ['continueRoute', 'turnBack', 'goToNode', 'stayInShelter', 'rest', 'bivouac', 'stayPut', 'wearRainwear', 'addLayer', 'eat', 'drink', 'setPace', 'checkPosition', 'callRescue', 'abortTrip', 'say'];
+
+/** 行動の並びを 1 行の言葉にする（カードに出す） */
+export function plainActions(list: Action[], map: MapDef): string {
+  return list.map((a) => {
+    if (a.type === 'goToNode') return `${map.nodes.find((n) => n.id === a.node)?.name || a.node}へ向かう`;
+    if (a.type === 'rest') return `${a.minutes} 分休む`;
+    if (a.type === 'setPace') return a.factor >= 1 ? '急ぐ' : 'ペースを落とす';
+    if (a.type === 'setFlag' || a.type === 'clearFlag') return '';
+    return ACTION_LABELS[a.type] ?? a.type;
+  }).filter(Boolean).join(' → ') || '（何もしない）';
+}
+
 export function defaultAction(t: ActionType, s: ScenarioDef, map: MapDef): Action {
   const node = s.plan.route[s.plan.route.length - 1] ?? map.nodes[0]?.id ?? '';
   switch (t) {
@@ -132,7 +146,8 @@ export function actionEditor(list: Action[], s: ScenarioDef, map: MapDef, commit
       commit(next);
     };
     const x = a as Record<string, unknown>;
-    const tsel = el('select', {}, types.map((t) => el('option', { value: t, selected: t === a.type }, ACTION_LABELS[t]!)));
+    const opt = (t: ActionType): HTMLElement => el('option', { value: t, selected: t === a.type }, ACTION_LABELS[t]!);
+    const tsel = el('select', {}, [el('optgroup', { label: 'よく使う' }, COMMON_ACTIONS.map(opt)), el('optgroup', { label: 'そのほか' }, types.filter((t) => !COMMON_ACTIONS.includes(t)).map(opt))]);
     tsel.addEventListener('change', () => set(defaultAction(tsel.value as ActionType, s, map)));
     const input = (key: string, type = 'text', w = '6em'): HTMLElement => {
       const v = x[key];
@@ -237,7 +252,7 @@ export function actionEditor(list: Action[], s: ScenarioDef, map: MapDef, commit
       default:
         break;
     }
-    const who = el('select', { title: '誰が' }, [el('option', { value: '', selected: !a.who }, '（既定）'), el('option', { value: 'leader', selected: a.who === 'leader' }, 'リーダー'), el('option', { value: 'all', selected: a.who === 'all' }, '全員'), ...s.party.map((p) => el('option', { value: p.id, selected: a.who === p.id }, p.name))]);
+    const who = el('select', { title: '誰がするか（選ばなければ、いつもの人）' }, [el('option', { value: '', selected: !a.who }, '（誰が: おまかせ）'), el('option', { value: 'leader', selected: a.who === 'leader' }, 'リーダー'), el('option', { value: 'all', selected: a.who === 'all' }, '全員'), ...s.party.map((p) => el('option', { value: p.id, selected: a.who === p.id }, p.name))]);
     who.addEventListener('change', () => {
       const next = [...list];
       const n = { ...a } as Record<string, unknown>;

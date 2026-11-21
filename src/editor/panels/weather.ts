@@ -410,6 +410,7 @@ function forecastSection(ed: Ed): HTMLElement {
 export const weatherPanel: Panel = {
   id: 'weather',
   label: '天候',
+  group: '物語を作る',
   tool: (ed) => cellTool(ed),
   render(ed) {
     const w = ed.p.scenario.weather;

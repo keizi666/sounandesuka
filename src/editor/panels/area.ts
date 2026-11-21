@@ -164,6 +164,7 @@ function fetchTerrain(ed: Ed, progress: HTMLProgressElement = el('progress', { v
 
 export const areaPanel: Panel = {
   id: 'area',
+  group: '山を作る',
   label: 'エリア',
   tool: areaTool,
   render(ed) {

@@ -1,5 +1,5 @@
 /**
- * タブ 8 試走（docs/18 §6）: 1 回の試走（Worker、結末・時系列グラフ・軌跡・ログ・分岐点）、まとめて試す（Worker 2 本、結末の分布・
+ * タブ 7 試走（docs/18 §6）: 1 回の試走（Worker、結末・時系列グラフ・軌跡・ログ・分岐点）、まとめて試す（Worker 2 本、結末の分布・
  * 最低体温・選択の割合・道迷い・死亡原因）、balanceTargets の入力と合否・提案、3D で遊ぶ、書き出し。
  */
 import { JA } from '../../i18n/ja';
@@ -137,6 +137,7 @@ function targetEditor(ed: Ed, pol: PolicyName): HTMLElement {
 
 export const testPanel: Panel = {
   id: 'test',
+  group: '試す',
   label: '試走',
   render(ed) {
     const s = ed.p.scenario;

@@ -254,7 +254,7 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
     case 'dangling':
       return { hint: '道の端が地点につながっていません。道を消して描き直してください。', locate: edge ? { tab: 'trails', kind: 'edge', id: edge } : undefined };
     default:
-      return { hint: i.path.startsWith('choices') ? '分岐点のタブで直してください。' : i.path.startsWith('endings') ? '結末のタブで直してください。' : i.path.startsWith('weather') ? '天候のタブで直してください。' : i.path.startsWith('party') ? '人と計画のタブで直してください。' : 'JSON のタブで該当の所を直してください。' };
+      return { hint: i.path.startsWith('choices') || i.path.startsWith('endings') || i.path.startsWith('events') || i.path.startsWith('lessons') ? '物語のタブで直してください。' : i.path.startsWith('weather') ? '天候のタブで直してください。' : i.path.startsWith('party') ? '人と計画のタブで直してください。' : 'JSON のタブで該当の所を直してください。' };
   }
 }
 

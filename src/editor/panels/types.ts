@@ -4,6 +4,8 @@ import type { MapTool } from '../map/TileMapView';
 export interface Panel {
   id: TabId;
   label: string;
+  /** 左のタブの見出し（この見出しの最初のタブに付ける） */
+  group?: string;
   /** インスペクタ（ed.inspector）と下部パネル（ed.bottom）を描く */
   render(ed: Ed): void;
   /** 地図の道具（なければパンだけ） */

@@ -69,6 +69,7 @@ function apply(ed: Ed, text: string): void {
 
 export const jsonPanel: Panel = {
   id: 'json',
+  group: '上級',
   label: 'JSON',
   render(ed) {
     const text = draft ?? textOf(ed);

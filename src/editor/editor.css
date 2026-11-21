@@ -180,3 +180,89 @@ button.attention { box-shadow: 0 0 0 2px rgba(230, 140, 20, 0.9); animation: att
 .json-edit textarea.json-ta { height: 100%; min-height: 0; margin: 0; padding: 3px 6px; box-sizing: border-box; resize: none; white-space: pre; overflow: auto; line-height: 1.45; border-radius: 0; }
 .ed-bottom:has(.json-edit) { overflow: hidden; }
 
+
+/* ---- 左のタブのまとまり（山を作る → 物語を作る → 試す） ---- */
+.ed-tab-group { margin: 8px 0 1px; padding-top: 5px; border-top: 1px solid var(--line); font-size: 10px; line-height: 1.2; text-align: center; color: var(--accent); font-weight: 700; }
+.ed-tab-group:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+
+/* ---- 物語のボード（storyBoard.ts）。地図の上に重ねる ---- */
+.story-board { position: absolute; inset: 0; z-index: 3; overflow-y: auto; padding: 12px 18px 60px; background: var(--bg, #1b1e24); }
+.sb-top { display: flex; align-items: center; gap: 8px; }
+.sb-top h2 { margin: 0; font-size: 1.15rem; }
+.sb-top .note { margin: 2px 0 0; }
+.sb-top .spacer { flex: 1; }
+.sb-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 4px; color: var(--muted); font-size: 0.85em; }
+.sb-flow span { padding: 2px 10px; border-radius: 999px; background: var(--panel2); color: var(--fg); }
+.sb-head { display: flex; align-items: baseline; gap: 10px; margin: 20px 0 6px; padding-bottom: 3px; border-bottom: 1px solid var(--line); }
+.sb-head h3 { margin: 0; font-size: 1rem; }
+.sb-head .note { flex: 1; }
+.sb-add { border-style: dashed !important; color: var(--accent); background: transparent; white-space: nowrap; }
+.sb-cards { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
+.sb-card { box-sizing: border-box; width: 300px; max-width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); border-left: 4px solid var(--line); background: var(--panel); cursor: pointer; text-align: left; }
+.sb-card:hover { border-color: var(--accent); }
+.sb-card.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
+.sb-card.k-choice { border-left-color: #e0a84a; }
+.sb-card.k-event { border-left-color: #6aa9e0; }
+.sb-card.k-generic { border-left-color: #8a8f99; border-style: dashed; border-left-style: solid; }
+.sb-card.k-lesson { border-left-color: #b7d36a; width: 260px; }
+.sb-card.k-ending { width: auto; border-left-width: 1px; margin: 4px 0; padding: 6px 8px; }
+.sb-card.k-talk { width: auto; display: flex; flex-direction: column; gap: 1px; padding: 5px 9px; border-left-color: #b08be0; font-size: 0.9em; }
+.sb-kind { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; font-size: 0.78em; color: var(--muted); }
+.sb-when { font-size: 0.82em; color: var(--accent); }
+.sb-kind .sb-when { font-size: 1em; }
+.sb-title { font-weight: 700; margin: 2px 0; }
+.sb-text { font-size: 0.88em; line-height: 1.45; }
+.sb-text.muted, .sb-run.miss { color: var(--muted); }
+.sb-opts { list-style: none; margin: 6px 0 0; padding: 0; border-top: 1px dotted var(--line); }
+.sb-opts li { display: flex; flex-wrap: wrap; gap: 2px 6px; align-items: baseline; padding: 3px 0 3px 8px; border-left: 2px solid var(--line); margin-top: 4px; font-size: 0.88em; }
+.sb-opts li.rec { border-left-color: #6fcf7f; }
+.sb-opts li.risky { border-left-color: #e07a5f; }
+.sb-opts li.chosen { background: rgba(200, 160, 80, 0.14); }
+.sb-opt-label { font-weight: 600; }
+.sb-arrow { color: var(--muted); }
+.sb-opt-do { color: var(--muted); }
+.sb-run { margin-top: 5px; font-size: 0.78em; color: #6fcf7f; }
+.sb-trail { margin-left: 6px; border-left: 2px solid var(--line); }
+.sb-stop { position: relative; padding: 2px 0 6px 16px; }
+.sb-stop-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 28px; }
+.sb-dot { position: absolute; left: -6px; top: 10px; width: 10px; height: 10px; border-radius: 50%; background: var(--panel2); border: 2px solid var(--muted); box-sizing: border-box; }
+.sb-stop.has .sb-dot { background: var(--accent); border-color: var(--accent); }
+.sb-stop:not(.has) strong { font-weight: 500; color: var(--muted); }
+.sb-stop .sb-add { opacity: 0; transition: opacity 0.12s; }
+.sb-stop:hover .sb-add, .sb-stop .sb-add:focus { opacity: 1; }
+.sb-stop .sb-cards { margin: 4px 0 6px; }
+.sb-talks { display: flex; flex-wrap: wrap; gap: 6px; }
+.sb-fold > summary { cursor: pointer; color: var(--accent); margin-bottom: 6px; }
+.sb-endings { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+.sb-ending { padding: 6px 8px 8px; border-radius: 10px; border: 1px solid var(--line); border-top: 4px solid #6fcf7f; background: var(--panel); }
+.sb-ending.bad { border-top-color: #e07a5f; }
+.sb-ending-kind { font-weight: 700; font-size: 0.9em; margin-bottom: 2px; }
+.sb-ending .sb-add { margin-top: 6px; }
+.sb-hero { margin: 14px 0 4px; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--accent); background: rgba(200, 160, 80, 0.08); }
+.sb-hero h3 { margin: 0 0 4px; }
+
+/* ---- テンプレートの一覧（templateGallery.ts） ---- */
+.tg-dialog { max-height: 90vh; overflow-y: auto; }
+.tg-cats { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+.tg-cats button.on { background: var(--accent); color: #1d1a12; border-color: var(--accent); font-weight: 600; }
+.tg-where { margin: 6px 0; }
+.tg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; margin: 8px 0; }
+.tg-card { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 10px 12px; border-radius: 10px; text-align: left; min-height: 96px; background: var(--panel2); border: 1px solid var(--line); color: var(--fg); cursor: pointer; }
+.tg-card:hover, .tg-card:focus-visible { border-color: var(--accent); background: rgba(200, 160, 80, 0.14); }
+.tg-icon { font-size: 1.5rem; line-height: 1; }
+.tg-card small { color: var(--muted); line-height: 1.4; }
+
+/* ---- 物語のタブの右の欄（storyInspector.ts） ---- */
+.si-h { margin: 12px 0 3px; font-size: 0.92rem; }
+.si-h small { font-weight: 400; }
+.si-opt { margin: 6px 0; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel2); }
+.si-opt .si-opt-label { flex: 1; min-width: 0; max-width: none; font-weight: 600; }
+.si-opt .cond-row .spacer { flex: 1; }
+.si-tag.recommended.on { background: #2f6b3a; border-color: #6fcf7f; color: #fff; }
+.si-tag.risky.on { background: #7a3a2a; border-color: #e07a5f; color: #fff; }
+.si-foot { margin-top: 14px; padding-top: 8px; border-top: 1px solid var(--line); }
+.si-help { padding-left: 1.1em; line-height: 1.6; font-size: 0.92em; }
+.when-picker { margin: 2px 0 6px; }
+.when-picker .when-kind { max-width: none; font-weight: 600; }
+/* 「はじめての流れ」の帯があるときは、ボードの上を空ける */
+.ed-center:has(.wizard) .story-board { padding-top: 124px; }

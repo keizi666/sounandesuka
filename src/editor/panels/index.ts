@@ -5,8 +5,7 @@ import { environmentPanel } from './environment';
 import { trailsPanel } from './trails';
 import { weatherPanel } from './weather';
 import { partyPanel } from './party';
-import { choicesPanel } from './choices';
-import { endingsPanel } from './endings';
+import { storyPanel } from './story';
 import { testPanel } from './test';
 import { jsonPanel } from './json';
 import { aiPanel } from './ai';
@@ -17,8 +16,7 @@ export const PANELS: Panel[] = [
   environmentPanel,
   weatherPanel,
   partyPanel,
-  choicesPanel,
-  endingsPanel,
+  storyPanel,
   testPanel,
   jsonPanel,
   aiPanel,

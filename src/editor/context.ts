@@ -35,6 +35,8 @@ export interface Ed {
   cursorMin: number;
   /** 地図の重ね表示（植生・電波・傾斜…）と塗り直しの表示 */
   setOverlay(kind: import('./map/layers').OverlayKind, paint?: 'veg' | 'radio' | null): void;
+  /** 地図の上に重ねる画面（物語のボードなど）。パネルが描くたびに置く。null で消す */
+  setStage(el: HTMLElement | null): void;
   /** 3D プレビューを開く・閉じる */
   toggle3d(on?: boolean): void;
   save(): Promise<void>;
