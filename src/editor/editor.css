@@ -144,3 +144,15 @@ textarea.mono { width: 100%; min-height: 60vh; }
 .lg-sw { width: 14px; height: 11px; border-radius: 2px; border: 1px solid rgba(255, 255, 255, 0.35); flex: none; }
 .lg-grad { height: 10px; border-radius: 3px; border: 1px solid rgba(255, 255, 255, 0.35); margin: 3px 0 2px; }
 .lg-note { color: #aab0b8; font-size: 11px; }
+
+/* ---- トップの「AI 向けプロンプト作成」（aiTool.ts） ---- */
+.ai-tool { max-height: 92vh; }
+.ai-tool .f-col textarea { width: 100%; resize: vertical; }
+.ai-tool .f-row.ai-url-field { align-items: start; }
+.ai-urls { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.ai-url-row { display: flex; gap: 4px; width: 100%; }
+.ai-url-row input { flex: 1; }
+.ai-tool .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 8px 0; }
+.ai-result { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 8px; }
+.ai-result-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+textarea.mono.ai-out { min-height: 36vh; margin-top: 4px; }

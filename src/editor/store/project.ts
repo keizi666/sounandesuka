@@ -2,6 +2,7 @@
  * エディターのプロジェクト（docs/15 §3）: 新規作成、高さの出し入れ、バンドルとの変換、出典の自動付与。
  */
 import { decodeHeights, encodeHeights } from '../../sim/terrain/codec';
+import { gridFor, toXZ } from '../geo/projection';
 import type { Attribution, ClimberDef, EditorProject, SounanBundle, HeightmapTerrainDef, MapDef, ScenarioDef } from '../../sim/types';
 
 export const GENERATOR = 'sounan-editor 0.1';
@@ -131,6 +132,26 @@ export function createRealProject(name: string, lat: number, lon: number, size: 
   const scenario = blankScenario(map, newId('s_'));
   scenario.region = { name, real: true };
   return { id: newId(), name, createdAt: t, updatedAt: t, map, heightsBuffer: null, scenario, raw: {}, editorState: emptyEditorState(lat, lon) };
+}
+
+/**
+ * スケルトンマップ（docs/16 §8）から実在の山のプロジェクトを作る。範囲の中心は lat・lon（後から地図で動かせる）。
+ * scenario を渡すと（AI が作ったバンドルなど）そのシナリオを使い、mapId をこのマップに合わせる。なければ空のシナリオ（ルートなし）。
+ * nodeLatLon（地点 ID → [緯度, 経度]）があれば、その地点の x・z に入れる（結合のときの位置の手がかり。geo/skeletonBind.ts）
+ */
+export function fromSkeleton(sk: MapDef, lat: number, lon: number, scenario?: ScenarioDef, nodeLatLon?: Record<string, [number, number]>): EditorProject {
+  const g = gridFor(sk.areaHint?.sizeM ?? sk.size ?? 6144);
+  const p = createRealProject(scenario?.title ?? sk.name, lat, lon, g.size, g.resolution);
+  const nodes = sk.nodes.map((n) => {
+    const ll = nodeLatLon?.[n.id];
+    if (!ll || !Number.isFinite(ll[0]) || !Number.isFinite(ll[1])) return n;
+    const q = toXZ(lat, lon, { lat: ll[0], lon: ll[1] });
+    return { ...n, x: Math.round(q.x), z: Math.round(q.z) };
+  });
+  p.map = { ...p.map, name: sk.name, skeleton: true, areaHint: sk.areaHint, nodes, edges: sk.edges, hazards: sk.hazards ?? [], vegetation: { ...p.map.vegetation, ...sk.vegetation } };
+  if (scenario) p.scenario = { ...structuredClone(scenario), mapId: p.map.id };
+  else p.scenario.plan = { ...p.scenario.plan, route: [], goalNodes: [] };
+  return p;
 }
 
 /** 地形があるか（架空の箱庭岳、または高さを取得済み） */

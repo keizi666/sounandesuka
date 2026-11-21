@@ -6,6 +6,7 @@ import type { Ed } from '../context';
 import { baseElevationFor, suggestForestLine } from '../geo/dem';
 import type { DemMessage, DemRequest } from '../geo/dem.worker';
 import { gridFor } from '../geo/projection';
+import { keepHintsOnRecenter } from '../geo/skeletonBind';
 import type { BaseLayer } from '../geo/tiles';
 import { areaRect, type OverlayKind } from '../map/layers';
 import type { MapTool } from '../map/TileMapView';
@@ -18,6 +19,15 @@ let smoothing = 1;
 /** 直近の取得結果（再描画で消えないように） */
 let lastMsg = '';
 let overlay: OverlayKind = 'none';
+
+/** 範囲の中心を変える（スケルトンの地点の位置の手がかりは同じ緯度経度に保つ） */
+function recenter(ed: Ed, lat: number, lon: number): void {
+  const g = ed.p.map.geo!;
+  const old = { lat: g.centerLat, lon: g.centerLon };
+  g.centerLat = lat;
+  g.centerLon = lon;
+  keepHintsOnRecenter(ed.p.map, old.lat, old.lon);
+}
 
 /** 範囲を動かす・角で大きさを変える道具（地形を取得する前だけ） */
 function areaTool(ed: Ed): MapTool | null {
@@ -54,6 +64,7 @@ function areaTool(ed: Ed): MapTool | null {
       ed.view.redraw();
     },
     up() {
+      if (mode === 'move') keepHintsOnRecenter(ed.p.map, start.lat, start.lon);
       if (mode) ed.touched(true);
       mode = null;
     },
@@ -133,8 +144,8 @@ export const areaPanel: Panel = {
     }
     const center = section('範囲', [
       el('p', { class: 'note' }, '地名検索はありません。緯度経度を入れるか、地図を動かして探してください。範囲の枠はドラッグで移動、右下の角で大きさを変えられます（標高の取得前のみ）。'),
-      num('中心の緯度', g.centerLat, (x) => ed.change('中心', () => (g.centerLat = x), true), { step: 0.0001 }),
-      num('中心の経度', g.centerLon, (x) => ed.change('中心', () => (g.centerLon = x), true), { step: 0.0001 }),
+      num('中心の緯度', g.centerLat, (x) => ed.change('中心', () => recenter(ed, x, g.centerLon), true), { step: 0.0001 }),
+      num('中心の経度', g.centerLon, (x) => ed.change('中心', () => recenter(ed, g.centerLat, x), true), { step: 0.0001 }),
       num('一辺', Math.round(ed.p.map.size), (s) => ed.change('大きさ', () => {
         const gr = gridFor(s);
         ed.p.map.size = gr.size;
@@ -144,8 +155,7 @@ export const areaPanel: Panel = {
       button('範囲を地図の中心に置く', () => {
         if (terrain && !confirm('取得済みの地形は消えます。範囲を置き直しますか？')) return;
         ed.change('範囲を置く', () => {
-          g.centerLat = v.lat;
-          g.centerLon = v.lon;
+          recenter(ed, v.lat, v.lon);
           if (terrain) {
             ed.p.heightsBuffer = null;
           }

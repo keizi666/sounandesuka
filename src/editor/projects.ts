@@ -2,12 +2,13 @@
  * プロジェクト一覧（docs/15 §3.1、docs/18 §8）: 新規（架空の箱庭岳 / 実在の山）、開く、複製、同じマップで新しいシナリオ、削除、読み込み。
  */
 import { assetUrl, bundleExists, loadBundleFile, loadIndex, loadScenarioFile } from '../app/data';
-import type { SounanBundle, MapDef, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
+import type { EditorProject, SounanBundle, MapDef, ScenarioDef, ScenarioIndexEntry } from '../sim/types';
 import { el, toast } from '../ui/dom';
+import { JA } from '../i18n/ja';
 import { createAreaPicker } from './areaPicker';
 import { gridFor } from './geo/projection';
 import { deleteProject, getProject, listProjects, putProject } from './store/idb';
-import { createFictionalProject, createRealProject, duplicateProject, fromBundle } from './store/project';
+import { createFictionalProject, createRealProject, duplicateProject, fromBundle, fromSkeleton } from './store/project';
 import { portraitCounts } from '../ui/avatar';
 import { newProjectTemplateFields } from './panels/templateUi';
 import { applyNewProjectTemplates } from './templates/apply';
@@ -146,32 +147,61 @@ async function builtinSection(host: ProjectsHost): Promise<HTMLElement> {
   ]);
 }
 
+/** スケルトンマップの範囲の中心を聞く（map.geo があればそれを初期値に）。やめたら null */
+function askCenter(sk: MapDef): [number, number] | null {
+  const def = sk.geo ? `${sk.geo.centerLat},${sk.geo.centerLon}` : '43.526,142.846';
+  const ans = prompt(`${sk.areaHint?.text ?? 'スケルトンマップです。'}
+
+範囲の中心を「緯度,経度」で入力してください（後から地図で動かせます）`, def);
+  if (!ans) return null;
+  const [lat, lon] = ans.split(',').map((x) => Number(x.trim()));
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) throw new Error('緯度・経度が読めません');
+  return [lat!, lon!];
+}
+
+/** このブラウザのプロジェクトのうち、マップ ID が合うもの（いちばん新しいもの） */
+async function projectWithMap(mapId: string): Promise<EditorProject | null> {
+  for (const x of await listProjects()) {
+    const p = await getProject(x.id);
+    if (p?.map.id === mapId) return p;
+  }
+  return null;
+}
+
 /** バンドル・シナリオ JSON・マップ JSON の読み込み */
 async function importFile(host: ProjectsHost, f: File): Promise<void> {
   try {
     const j = JSON.parse(await f.text()) as Partial<SounanBundle> & Partial<ScenarioDef> & Partial<MapDef>;
     let p;
-    if (j.format === 'sounan-bundle' || j.format === 'hakoniwa-bundle') p = fromBundle(j as SounanBundle);
+    if ((j.format === 'sounan-bundle' || j.format === 'hakoniwa-bundle') && j.map?.skeleton) {
+      // スケルトンマップとシナリオのバンドル（「AI 向けプロンプト作成」で AI に作らせたもの）
+      const ll = askCenter(j.map);
+      if (!ll) return;
+      // nodeLatLon は AI 向けプロンプトで頼む、バンドルの外側の位置の手がかり（地点 ID → [緯度, 経度]。型 SounanBundle にはない）
+      p = fromSkeleton(j.map, ll[0], ll[1], (j as SounanBundle).scenario, (j as { nodeLatLon?: Record<string, [number, number]> }).nodeLatLon);
+      const half = p.map.size / 2;
+      const outside = p.map.nodes.filter((n) => Math.abs(n.x) > half || Math.abs(n.z) > half).map((n) => n.name);
+      if (outside.length) toast(`範囲の外の地点があります（エリアのタブで範囲を広げるか動かしてください）: ${outside.join('、')}`, 8000);
+    } else if (j.format === 'sounan-bundle' || j.format === 'hakoniwa-bundle') p = fromBundle(j as SounanBundle);
     else if (j.version === 1 && (j as ScenarioDef).party) {
-      // 既存マップを参照するシナリオ
+      // 既存マップを参照するシナリオ（箱庭岳、またはこのブラウザのプロジェクトのマップ）
       const s = j as ScenarioDef;
       const map = s.mapId === 'sounan' || s.mapId === 'hakoniwa' ? await loadSounan() : null;
-      if (!map) throw new Error(`マップ ${s.mapId} が見つかりません（バンドルで読み込んでください）`);
-      p = createFictionalProject(s.title, map);
-      p.scenario = s;
+      if (map) {
+        p = createFictionalProject(s.title, map);
+        p.scenario = s;
+      } else {
+        const base = await projectWithMap(s.mapId);
+        if (!base) throw new Error(`マップ ${s.mapId} が見つかりません（バンドルで読み込むか、そのマップのプロジェクトを先に作ってください）`);
+        p = duplicateProject(base, true);
+        p.name = s.title;
+        p.scenario = s;
+      }
     } else if ((j as MapDef).skeleton) {
       // スケルトンマップ（docs/16 §8）: 範囲の中心を聞いて実在の山のプロジェクトにし、後で登山道タブで結合する
-      const sk = j as MapDef;
-      const ans = prompt(`${sk.areaHint?.text ?? 'スケルトンマップです。'}
-
-範囲の中心を「緯度,経度」で入力してください（後から地図で動かせます）`, '43.526,142.846');
-      if (!ans) return;
-      const [lat, lon] = ans.split(',').map((x) => Number(x.trim()));
-      if (!Number.isFinite(lat) || !Number.isFinite(lon)) throw new Error('緯度・経度が読めません');
-      const g = gridFor(sk.areaHint?.sizeM ?? sk.size ?? 6144);
-      p = createRealProject(sk.name, lat!, lon!, g.size, g.resolution);
-      p.map = { ...p.map, skeleton: true, areaHint: sk.areaHint, nodes: sk.nodes, edges: sk.edges, hazards: sk.hazards ?? [], vegetation: { ...p.map.vegetation, ...sk.vegetation } };
-      p.scenario.plan = { ...p.scenario.plan, route: [], goalNodes: [] };
+      const ll = askCenter(j as MapDef);
+      if (!ll) return;
+      p = fromSkeleton(j as MapDef, ll[0], ll[1]);
     } else if ((j as MapDef).nodes && (j as MapDef).terrain) {
       const map = j as MapDef;
       p = createFictionalProject(map.name, map);
@@ -226,7 +256,11 @@ export async function showProjects(host: ProjectsHost): Promise<void> {
   host.root.replaceChildren(
     el('main', { class: 'ed-projects' }, [
       el('header', {}, [el('h1', {}, '遭難ですよ シナリオエディター'), el('a', { href: `${import.meta.env.BASE_URL}index.html` }, 'プレイヤーへ')]),
-      el('div', { class: 'actions' }, [el('button', { class: 'primary', onclick: () => newDialog(host) }, '新しいプロジェクト'), el('label', { class: 'drop' }, ['ファイルから読み込む（バンドル・シナリオ・マップ）', input])]),
+      el('div', { class: 'actions' }, [
+        el('button', { class: 'primary', onclick: () => newDialog(host) }, '新しいプロジェクト'),
+        el('label', { class: 'drop' }, ['ファイルから読み込む（バンドル・シナリオ・マップ）', input]),
+        el('button', { class: 'ed-ai-open', title: JA.editor.aiTool.openTitle, onclick: () => void import('./aiTool').then((m) => m.showAiToolDialog()) }, JA.editor.aiTool.open),
+      ]),
       list.length === 0 ? el('p', { class: 'note' }, 'まだプロジェクトがありません。') : el('table', {}, [el('tr', {}, ['名前', '舞台', '更新', ''].map((t) => el('th', {}, t))), ...rows]),
       el('p', { class: 'note' }, `プロジェクトはこのブラウザの中（IndexedDB）に保存されます。別の端末へは「書き出し」したバンドルで移してください。`),
       builtinHost,
