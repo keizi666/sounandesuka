@@ -1,24 +1,31 @@
 /**
- * タブ 3 地点（docs/16 §4.5、§5）: ノード（名前・種類・小屋・ID の一括書き換え・紛らわしい分岐の表）、危険箇所（鎖場・滝・落石帯・保護範囲）。
+ * 地点・施設・危険箇所の部品（登山道と地点のタブで使う。ユーザーの指定で、登山道のタブと地点のタブを 1 つにした）:
+ * 地点を足す（道の上なら挿入）、施設・鉄塔・滝・保護範囲・鎖場・落石帯を置く、地点・危険箇所のインスペクタ、地点の一覧。
  */
-import { toolPalette } from '../forms/toolPalette';
 import type { HazardDef, LandmarkDef, LandmarkKind, NodeDef, NodeType } from '../../sim/types';
 import { deleteLandmark, hitLandmark, landmarkInspector, landmarkSection, moveLandmark, placeLandmark } from './landmarkTools';
 import { el } from '../../ui/dom';
 import type { Ed } from '../context';
-import { button, check, fill, num, section, select, text } from '../forms/fields';
+import { button, check, num, section, select, text } from '../forms/fields';
+import type { ToolDef } from '../forms/toolPalette';
 import { hitEdge, hitHazard, hitNode, insertNodeOnEdge, renameNode } from '../map/tools';
-import { nodeDragger } from '../map/nodeDrag';
-import type { MapTool } from '../map/TileMapView';
+import type { MapPointer } from '../map/TileMapView';
 import { nextId } from '../store/project';
-import type { Panel } from './types';
 import { removeSelection } from '../map/edgeSelection';
 
-type Mode = 'select' | 'move' | 'node' | 'landmark' | 'waterfall' | 'protectionZone' | 'chain' | 'rockfallZone';
+export type PointMode = 'landmark' | 'waterfall' | 'protectionZone' | 'chain' | 'rockfallZone';
+export const POINT_TOOLS: ToolDef<PointMode>[] = [
+  { id: 'landmark', icon: 'templeBuddhist', label: '施設・鉄塔を置く', key: 'l', hint: 'クリックした所に置く（種類は下で選ぶ。鉄塔は送電線の上に載せる）。置いた施設は「選択」でドラッグして動かす' },
+  { id: 'waterfall', icon: 'waves', label: '滝を置く', key: 'w', hint: 'クリックした所に置く' },
+  { id: 'protectionZone', icon: 'shield', label: '保護範囲を置く', key: 'z', hint: 'クリックした所に置く' },
+  { id: 'chain', icon: 'link', label: '鎖場', key: 'c', hint: '道の上を 2 回クリック（始まりと終わり）' },
+  { id: 'rockfallZone', icon: 'landslide', label: '落石帯', key: 'f', hint: '道の上を 2 回クリック（始まりと終わり）' },
+];
+export const POINT_MODES: readonly string[] = POINT_TOOLS.map((t) => t.id);
+
 let draggingLm: LandmarkDef | null = null;
 let lmMoved = false;
 let newLandmark: LandmarkKind = 'tower';
-let mode: Mode = 'select';
 let newType: NodeType = 'junction';
 let sectionStart: { edge: string; s: number } | null = null;
 
@@ -49,100 +56,109 @@ function sOnEdge(ed: Ed, edgeId: string, x: number, z: number): number {
   return Math.round(best);
 }
 
-function tool(ed: Ed): MapTool {
-  const drag = nodeDragger(ed);
-  return {
-    cursor: mode === 'select' ? 'pointer' : mode === 'move' ? 'move' : 'crosshair',
-    // 「選択」でも、地点・施設・鉄塔の上で押してドラッグすれば動かす（登山道タブと同じ）
-    down(p) {
-      if (mode !== 'move' && mode !== 'select') return false;
-      if (drag.down(p)) return true;
-      draggingLm = hitLandmark(ed, p.px, p.py, 12);
-      lmMoved = false;
-      return draggingLm !== null;
-    },
-    move(p, dragging) {
-      if (drag.move(p, dragging)) return;
-      if (!dragging || !draggingLm) return;
-      if (!lmMoved) {
-        ed.checkpoint('施設・鉄塔を動かす');
-        lmMoved = true;
+/** 地点を足す（N）: 道の上なら道に挿入、なにもない所なら置く（種類は newType） */
+export function placeNode(ed: Ed, p: MapPointer): void {
+  const map = ed.p.map;
+  const ids = [...map.nodes.map((n) => n.id), ...map.edges.map((e) => e.id)];
+  const id = nextId(ids, 'N');
+  const shelter = newType === 'hut' ? { kind: 'staffed' as const, open: true } : newType === 'shelter' ? { kind: 'emergency' as const, open: true } : undefined;
+  const onEdge = hitNode(ed.view, map, p.px, p.py) ? null : hitEdge(ed.view, map, ed.runtime(), p.px, p.py);
+  if (onEdge) {
+    ed.change('地点を挿入', () => {
+      insertNodeOnEdge(map, ed.p.scenario, onEdge.edge, { x: p.x, z: p.z }, id, nextId([...ids, id], 'E'));
+      const nd = map.nodes.find((n) => n.id === id);
+      if (nd) {
+        nd.type = newType;
+        if (shelter) nd.shelter = shelter;
       }
-      moveLandmark(ed, draggingLm, p.x, p.z);
-      ed.view.redraw();
-    },
-    up() {
-      if (drag.up()) return;
-      if (draggingLm && lmMoved) {
-        ed.p.editorState.selection = { kind: 'landmark', id: draggingLm.id };
-        ed.touched(true);
-      }
-      draggingLm = null;
-      lmMoved = false;
-    },
-    click(p) {
-      const map = ed.p.map;
-      if (mode === 'move') return;
-      if (mode === 'select') {
-        const n = hitNode(ed.view, map, p.px, p.py);
-        if (n) return ed.select('node', n.id);
-        const lm = hitLandmark(ed, p.px, p.py);
-        if (lm) return ed.select('landmark', lm.id);
-        const h = hitHazard(ed.view, map, p.px, p.py);
-        return ed.select(h ? 'hazard' : null, h?.id ?? null);
-      }
-      if (mode === 'node') {
-        const id = nextId(map.nodes.map((n) => n.id), 'N');
-        const shelter = newType === 'hut' ? { kind: 'staffed' as const, open: true } : newType === 'shelter' ? { kind: 'emergency' as const, open: true } : undefined;
-        // 道の上なら、その道に地点を挿入する（道がつながったまま。登山道タブの「地点を挿入」と同じ）
-        const onEdge = hitNode(ed.view, map, p.px, p.py) ? null : hitEdge(ed.view, map, ed.runtime(), p.px, p.py);
-        if (onEdge) {
-          const ids = [...map.nodes.map((n) => n.id), ...map.edges.map((e) => e.id)];
-          ed.change('地点を挿入', () => {
-            insertNodeOnEdge(map, ed.p.scenario, onEdge.edge, { x: p.x, z: p.z }, id, nextId([...ids, id], 'E'));
-            const nd = map.nodes.find((n) => n.id === id);
-            if (nd) {
-              nd.type = newType;
-              if (shelter) nd.shelter = shelter;
-            }
-            ed.p.editorState.selection = { kind: 'node', id };
-          }, true);
-          return;
-        }
-        ed.change('地点を置く', () => {
-          map.nodes.push({ id, name: id, type: newType, x: p.x, z: p.z, shelter, snap: false, source: 'manual' });
-          ed.p.editorState.selection = { kind: 'node', id };
-        }, true);
-        return;
-      }
-      if (mode === 'landmark') return placeLandmark(ed, newLandmark, p.x, p.z);
-      if (mode === 'waterfall' || mode === 'protectionZone') {
-        const id = nextId(map.hazards.map((h) => h.id), mode === 'waterfall' ? 'WF' : 'PZ');
-        ed.change('危険箇所', () => {
-          map.hazards.push(mode === 'waterfall' ? { id, type: 'waterfall', name: '滝', x: p.x, z: p.z, radius: 40 } : { id, type: 'protectionZone', name: '保護範囲', x: p.x, z: p.z, radius: 80 });
-          ed.p.editorState.selection = { kind: 'hazard', id };
-        }, true);
-        return;
-      }
-      // 鎖場・落石帯: 同じ道の上を 2 回クリック
-      const h = hitEdge(ed.view, map, ed.runtime(), p.px, p.py);
-      if (!h) return;
-      const s = sOnEdge(ed, h.edge.id, p.x, p.z);
-      if (!sectionStart || sectionStart.edge !== h.edge.id) {
-        sectionStart = { edge: h.edge.id, s };
-        ed.toast('区間の終わりを同じ道の上でクリックしてください');
-        return;
-      }
-      const range: [number, number] = [Math.min(sectionStart.s, s), Math.max(sectionStart.s, s)];
-      sectionStart = null;
-      const id = nextId(map.hazards.map((x) => x.id), mode === 'chain' ? 'CH' : 'RF');
-      ed.change('区間の危険箇所', () => {
-        map.hazards.push(mode === 'chain' ? { id, type: 'chain', name: '鎖場', onEdge: h.edge.id, sRange: range } : { id, type: 'rockfallZone', name: '落石帯', onEdge: h.edge.id, sRange: range });
-        ed.p.editorState.selection = { kind: 'hazard', id };
-      }, true);
-    },
-  };
+      ed.p.editorState.selection = { kind: 'node', id };
+    }, true);
+    return;
+  }
+  ed.change('地点を置く', () => {
+    map.nodes.push({ id, name: id, type: newType, x: p.x, z: p.z, shelter, snap: false, source: 'manual' });
+    ed.p.editorState.selection = { kind: 'node', id };
+  }, true);
 }
+
+/** 施設・滝・保護範囲・鎖場・落石帯を置く（地図のクリック） */
+export function pointClick(ed: Ed, mode: PointMode, p: MapPointer): void {
+  const map = ed.p.map;
+  if (mode === 'landmark') return placeLandmark(ed, newLandmark, p.x, p.z);
+  if (mode === 'waterfall' || mode === 'protectionZone') {
+    const id = nextId(map.hazards.map((h) => h.id), mode === 'waterfall' ? 'WF' : 'PZ');
+    ed.change('危険箇所', () => {
+      map.hazards.push(mode === 'waterfall' ? { id, type: 'waterfall', name: '滝', x: p.x, z: p.z, radius: 40 } : { id, type: 'protectionZone', name: '保護範囲', x: p.x, z: p.z, radius: 80 });
+      ed.p.editorState.selection = { kind: 'hazard', id };
+    }, true);
+    return;
+  }
+  // 鎖場・落石帯: 同じ道の上を 2 回クリック
+  const h = hitEdge(ed.view, map, ed.runtime(), p.px, p.py);
+  if (!h) return;
+  const s = sOnEdge(ed, h.edge.id, p.x, p.z);
+  if (!sectionStart || sectionStart.edge !== h.edge.id) {
+    sectionStart = { edge: h.edge.id, s };
+    ed.toast('区間の終わりを同じ道の上でクリックしてください');
+    return;
+  }
+  const range: [number, number] = [Math.min(sectionStart.s, s), Math.max(sectionStart.s, s)];
+  sectionStart = null;
+  const id = nextId(map.hazards.map((x) => x.id), mode === 'chain' ? 'CH' : 'RF');
+  ed.change('区間の危険箇所', () => {
+    map.hazards.push(mode === 'chain' ? { id, type: 'chain', name: '鎖場', onEdge: h.edge.id, sRange: range } : { id, type: 'rockfallZone', name: '落石帯', onEdge: h.edge.id, sRange: range });
+    ed.p.editorState.selection = { kind: 'hazard', id };
+  }, true);
+}
+
+/** 道具を持ち替えたとき（鎖場・落石帯の始まりを忘れる） */
+export function resetPointTool(): void {
+  sectionStart = null;
+}
+
+/** 選択の道具で、施設・鉄塔・危険箇所をクリックしたら選ぶ（選んだら true） */
+export function selectPointAt(ed: Ed, p: MapPointer): boolean {
+  const lm = hitLandmark(ed, p.px, p.py);
+  if (lm) {
+    ed.select('landmark', lm.id);
+    return true;
+  }
+  const h = hitHazard(ed.view, ed.p.map, p.px, p.py);
+  if (h) {
+    ed.select('hazard', h.id);
+    return true;
+  }
+  return false;
+}
+
+/** 施設・鉄塔のドラッグ（選択の道具で、施設の上で押したとき） */
+export const landmarkDrag = {
+  down(ed: Ed, p: MapPointer): boolean {
+    draggingLm = hitLandmark(ed, p.px, p.py, 12);
+    lmMoved = false;
+    return draggingLm !== null;
+  },
+  move(ed: Ed, p: MapPointer, dragging: boolean): boolean {
+    if (!dragging || !draggingLm) return false;
+    if (!lmMoved) {
+      ed.checkpoint('施設・鉄塔を動かす');
+      lmMoved = true;
+    }
+    moveLandmark(ed, draggingLm, p.x, p.z);
+    ed.view.redraw();
+    return true;
+  },
+  up(ed: Ed): boolean {
+    const lm = draggingLm;
+    const was = lmMoved;
+    draggingLm = null;
+    lmMoved = false;
+    if (!lm || !was) return false;
+    ed.p.editorState.selection = { kind: 'landmark', id: lm.id };
+    ed.touched(true);
+    return true;
+  },
+};
 
 function confuserTable(ed: Ed, n: NodeDef): HTMLElement {
   const out = ed.p.map.edges.filter((e) => e.from === n.id || e.to === n.id);
@@ -179,7 +195,7 @@ function confuserTable(ed: Ed, n: NodeDef): HTMLElement {
   ]);
 }
 
-/** 地点の編集欄（登山道タブでも使う） */
+/** 地点の編集欄 */
 export function nodeInspector(ed: Ed, n: NodeDef): HTMLElement {
   const set = (label: string, f: () => void): void => ed.change(label, f, true);
   const idIn = el('input', { value: n.id });
@@ -221,7 +237,7 @@ export function nodeInspector(ed: Ed, n: NodeDef): HTMLElement {
   ]);
 }
 
-/** 地点を消す（つながる道も。登山道タブと同じ処理） */
+/** 地点を消す（つながる道も） */
 function deleteNode(ed: Ed, id: string): void {
   const before = ed.p.map.edges.length;
   if (removeSelection(ed, [], [id])) ed.toast(`地点 ${id} を削除しました${ed.p.map.edges.length < before ? `（つながる道 ${before - ed.p.map.edges.length} 本も）` : ''}（Ctrl＋Z で戻せます）`);
@@ -246,49 +262,36 @@ function hazardInspector(ed: Ed, h: HazardDef): HTMLElement {
   ]);
 }
 
-export const pointsPanel: Panel = {
-  id: 'points',
-  label: '地点',
-  tool,
-  key(ed, e) {
-    if (e.key !== 'Delete' && e.key !== 'Backspace') return false;
-    const sel = ed.p.editorState.selection;
-    if (sel.kind === 'node' && sel.id) deleteNode(ed, sel.id);
-    else if (sel.kind === 'hazard' && sel.id) deleteHazard(ed, sel.id);
-    else if (sel.kind === 'landmark' && sel.id) deleteLandmark(ed, sel.id);
-    else return false;
-    return true;
-  },
-  render(ed) {
-    const sel = ed.p.editorState.selection;
-    const n = sel.kind === 'node' ? ed.p.map.nodes.find((x) => x.id === sel.id) : undefined;
-    const h = sel.kind === 'hazard' ? ed.p.map.hazards.find((x) => x.id === sel.id) : undefined;
-    const lm = sel.kind === 'landmark' ? ed.p.map.landmarks?.find((x) => x.id === sel.id) : undefined;
-    fill(
-      ed.inspector,
-      el('h2', {}, '地点と危険箇所'),
-      toolPalette<Mode>(ed, [
-        { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: '地点か危険箇所をクリック。地点・施設はドラッグで動かす。Delete キーで削除' },
-        { id: 'move', icon: 'openWith', label: '地点を動かす', key: 'm', hint: '地点・施設・鉄塔をドラッグ（鉄塔は送電線の上を動く）' },
-        { id: 'node', icon: 'addLocationAlt', label: '地点を置く', key: 'n', hint: 'クリックした所に置く。道の上なら道に挿入する（種類は下で選ぶ）' },
-        { id: 'landmark', icon: 'templeBuddhist', label: '施設・鉄塔を置く', key: 'l', hint: 'クリックした所に置く（種類は下で選ぶ。鉄塔は送電線の上に載せる）' },
-        { id: 'waterfall', icon: 'waves', label: '滝を置く', key: 'w', hint: 'クリックした所に置く' },
-        { id: 'protectionZone', icon: 'shield', label: '保護範囲を置く', key: 'z', hint: 'クリックした所に置く' },
-        { id: 'chain', icon: 'link', label: '鎖場', key: 'c', hint: '道の上を 2 回クリック（始まりと終わり）' },
-        { id: 'rockfallZone', icon: 'landslide', label: '落石帯', key: 'f', hint: '道の上を 2 回クリック（始まりと終わり）' },
-      ], mode, (m) => {
-        mode = m;
-        sectionStart = null;
-        ed.refresh();
-      }),
-      mode === 'node' ? select('置く種類', newType, TYPES, (t) => (newType = t)) : null,
-      check('傾斜 50° 超（崖）を赤で重ねる', false, (v) => ed.setOverlay(v ? 'slope' : 'none')),
-      landmarkSection(ed, newLandmark, (k) => (newLandmark = k), mode === 'landmark'),
-      n ? nodeInspector(ed, n) : h ? hazardInspector(ed, h) : lm ? landmarkInspector(ed, lm) : el('p', { class: 'note' }, '地点か危険箇所をクリックすると編集できます。ID は自動で N001 のように付きます。読みやすい ID（HUT_ENZAN など）に変えると、ルートや条件の参照も書き換えます。'),
-      section(`地点の一覧（${ed.p.map.nodes.length}）`, [
-        el('table', { class: 'ed-table' }, ed.p.map.nodes.map((x) => el('tr', { class: x === n ? 'sel' : '', onclick: () => ed.select('node', x.id) }, [el('td', {}, x.id), el('td', {}, x.name), el('td', {}, TYPES.find((t) => t[0] === x.type)?.[1] ?? x.type)]))),
-      ], false),
-    );
-    ed.bottom.replaceChildren();
-  },
-};
+/** Delete キー: 選んだ危険箇所・施設を消す（地点は登山道と地点のタブ側で消す） */
+export function deletePointSelection(ed: Ed): boolean {
+  const sel = ed.p.editorState.selection;
+  if (sel.kind === 'hazard' && sel.id) deleteHazard(ed, sel.id);
+  else if (sel.kind === 'landmark' && sel.id) deleteLandmark(ed, sel.id);
+  else return false;
+  return true;
+}
+
+/** 道具ごとの欄（地点を足すときの種類・施設の種類と地図記号の取り込み）と、崖の重ね表示 */
+export function pointOptions(ed: Ed, mode: string): (HTMLElement | null)[] {
+  return [
+    mode === 'split' ? select('足す地点の種類', newType, TYPES, (t) => (newType = t)) : null,
+    check('傾斜 50° 超（崖）を赤で重ねる', false, (v) => ed.setOverlay(v ? 'slope' : 'none')),
+    landmarkSection(ed, newLandmark, (k) => (newLandmark = k), mode === 'landmark'),
+  ];
+}
+
+/** 選んだ危険箇所・施設のインスペクタ（なければ null） */
+export function pointSelectionInspector(ed: Ed): HTMLElement | null {
+  const sel = ed.p.editorState.selection;
+  const h = sel.kind === 'hazard' ? ed.p.map.hazards.find((x) => x.id === sel.id) : undefined;
+  const lm = sel.kind === 'landmark' ? ed.p.map.landmarks?.find((x) => x.id === sel.id) : undefined;
+  return h ? hazardInspector(ed, h) : lm ? landmarkInspector(ed, lm) : null;
+}
+
+/** 地点の一覧（クリックで選ぶ） */
+export function nodeListSection(ed: Ed): HTMLElement {
+  const sel = ed.p.editorState.selection;
+  return section(`地点の一覧（${ed.p.map.nodes.length}）`, [
+    el('table', { class: 'ed-table' }, ed.p.map.nodes.map((x) => el('tr', { class: sel.kind === 'node' && sel.id === x.id ? 'sel' : '', onclick: () => ed.select('node', x.id) }, [el('td', {}, x.id), el('td', {}, x.name), el('td', {}, TYPES.find((t) => t[0] === x.type)?.[1] ?? x.type)]))),
+  ], false);
+}

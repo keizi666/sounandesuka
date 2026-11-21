@@ -107,22 +107,22 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
       return {
         hint: near
           ? `道のそばの印（山頂・道標など）が道とつながっていません。そばの ${near.name}（${Math.round(Math.hypot(near.x - n!.x, near.z - n!.z))} m）と短い道でつなげます。ルートで通らないなら、このままでも動きます。`
-          : '道とつながっていない地点です。近く（300 m 以内）に道がないので、要らなければ地点のタブで消してください。ルートで通らないなら、このままでも動きます。',
+          : '道とつながっていない地点です。近く（300 m 以内）に道がないので、要らなければ登山道と地点のタブで消してください。ルートで通らないなら、このままでも動きます。',
         fix: near || (node && anonymous(p, node) && !referenced(p, node)) ? { label: near ? `${near.name} とつなぐ` : 'この分岐点を消す', run: fixIsolated(node!) } : undefined,
-        locate: node ? { tab: 'points', kind: 'node', id: node } : undefined,
+        locate: node ? { tab: 'trails', kind: 'node', id: node } : undefined,
       };
     }
     case 'confuserEdge':
       return {
         hint: '道を消したあとに、その道を指す「紛らわしい分岐」の設定が残っています（試走が止まることがあります）。ない道を指す設定を消します。',
         fix: { label: 'ない道を指す設定を消す', run: (pp) => `紛らわしい分岐の設定を ${pruneConfusers(pp.map)} 件消しました` },
-        locate: node ? { tab: 'points', kind: 'node', id: node } : undefined,
+        locate: node ? { tab: 'trails', kind: 'node', id: node } : undefined,
       };
     case 'noTrailhead':
       return {
         hint: '種類が「登山口」の地点がありません（下山できたかの判定に使います）。ルートの最初と最後の地点を登山口にします。',
         fix: p.scenario.plan.route.length > 0 ? { label: 'ルートの端を登山口にする', run: fixTrailhead } : undefined,
-        locate: { tab: 'points' },
+        locate: { tab: 'trails' },
       };
     case 'routeGap':
       return {
@@ -145,13 +145,13 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
       };
     case 'noHut':
     case 'noShelter':
-      return { hint: '小屋・避難小屋がありません。小屋のない山ならそのままで構いません（夜はビバークになります）。あるなら地点のタブで種類を「小屋」にしてください。', locate: { tab: 'points' } };
+      return { hint: '小屋・避難小屋がありません。小屋のない山ならそのままで構いません（夜はビバークになります）。あるなら登山道と地点のタブで種類を「小屋」にしてください。', locate: { tab: 'trails' } };
     case 'steep':
       return { hint: '道の一部がとても急です（転倒・滑落が起きやすくなります）。実際に急な道ならそのままで構いません。標高の取り違えなら、道の形を直してください。', locate: edge ? { tab: 'trails', kind: 'edge', id: edge } : undefined };
     case 'courseTime':
       return { hint: '書かれたコースタイムと、地形からの試算が大きく違います。道のインスペクタで「歩きやすさ（paceAdj）」を変えるか、コースタイムを見直してください。', locate: edge ? { tab: 'trails', kind: 'edge', id: edge } : undefined };
     case 'outside':
-      return { hint: 'エリアの外にある地点です。タブ 1 で範囲を広げるか、地点を消してください。', locate: node ? { tab: 'points', kind: 'node', id: node } : undefined };
+      return { hint: 'エリアの外にある地点です。タブ 1 で範囲を広げるか、地点を消してください。', locate: node ? { tab: 'trails', kind: 'node', id: node } : undefined };
     case 'terrainStale':
       return { hint: '範囲を動かした・広げたので、地形が前の範囲のままです。タブ 1（エリア）で「標高を取り直す」を押してください。', locate: { tab: 'area' } };
     case 'noTerrain':

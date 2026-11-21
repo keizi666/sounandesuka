@@ -198,7 +198,7 @@ async function importFile(host: ProjectsHost, f: File): Promise<void> {
         p.scenario = s;
       }
     } else if ((j as MapDef).skeleton) {
-      // スケルトンマップ（docs/16 §8）: 範囲の中心を聞いて実在の山のプロジェクトにし、後で登山道タブで結合する
+      // スケルトンマップ（docs/16 §8）: 範囲の中心を聞いて実在の山のプロジェクトにし、後で登山道と地点のタブで結合する
       const ll = askCenter(j as MapDef);
       if (!ll) return;
       p = fromSkeleton(j as MapDef, ll[0], ll[1]);

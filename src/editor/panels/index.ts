@@ -2,7 +2,6 @@
 import type { Panel } from './types';
 import { areaPanel } from './area';
 import { environmentPanel } from './environment';
-import { pointsPanel } from './points';
 import { trailsPanel } from './trails';
 import { weatherPanel } from './weather';
 import { partyPanel } from './party';
@@ -15,7 +14,6 @@ import { aiPanel } from './ai';
 export const PANELS: Panel[] = [
   areaPanel,
   trailsPanel,
-  pointsPanel,
   environmentPanel,
   weatherPanel,
   partyPanel,

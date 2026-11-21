@@ -1,5 +1,5 @@
 /**
- * タブ 6 人と計画（docs/18 §1〜2）: シナリオ情報（日の出入りの自動計算）、登山者カードと装備プリセット、計画ルートと予定時刻表。
+ * タブ 5 人と計画（docs/18 §1〜2）: シナリオ情報（日の出入りの自動計算）、登山者カードと装備プリセット、計画ルートと予定時刻表。
  */
 import { avatar, PORTRAIT_GROUPS, portraitCounts, portraitGroup, type PortraitGroup } from '../../ui/avatar';
 import { formatTimeRef, parseTimeRef, scenarioStartMin } from '../../sim/core/clock';

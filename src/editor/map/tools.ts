@@ -141,7 +141,7 @@ export function appendToRoute(rt: MapRuntime, route: string[], id: string): stri
 }
 
 /** エッジを頂点 index の位置で 2 つに分け、間にノードを入れる */
-export function splitEdge(map: MapDef, e: EdgeDef, at: { x: number; z: number }, nodeId: string, newEdgeId: string): void {
+export function splitEdge(map: MapDef, e: EdgeDef, at: { x: number; z: number }, nodeId: string, newEdgeId: string, existing?: NodeDef): void {
   const pts = e.waypoints;
   // 最も近い waypoint で分ける
   let k = 0;
@@ -153,8 +153,8 @@ export function splitEdge(map: MapDef, e: EdgeDef, at: { x: number; z: number },
       k = i;
     }
   });
-  const node: NodeDef = { id: nodeId, name: nodeId, type: 'junction', x: at.x, z: at.z, snap: false, source: 'manual' };
-  map.nodes.push(node);
+  // existing: もうある地点（どこにもつながっていない地点を道の上に置いたとき）をそのまま分かれ目にする
+  if (!existing) map.nodes.push({ id: nodeId, name: nodeId, type: 'junction', x: at.x, z: at.z, snap: false, source: 'manual' });
   const second: EdgeDef = { ...structuredClone(e), id: newEdgeId, from: nodeId, waypoints: pts.slice(k + 1), name: `${e.name}（2）` };
   e.to = nodeId;
   e.waypoints = pts.slice(0, k);
@@ -206,10 +206,10 @@ function insertBetween(route: string[], a: string, b: string, n: string): string
  * 道に地点を挿入し、その道を通るルート（計画ルートと、選択肢・イベントの setRoute）にも地点を足す
  * （ユーザーの指摘: 道に地点を足すと、その道を通る選択肢のルートが「道が 1 本に決まらない」になった）
  */
-export function insertNodeOnEdge(map: MapDef, scenario: ScenarioDef, e: EdgeDef, at: { x: number; z: number }, nodeId: string, newEdgeId: string): void {
+export function insertNodeOnEdge(map: MapDef, scenario: ScenarioDef, e: EdgeDef, at: { x: number; z: number }, nodeId: string, newEdgeId: string, existing?: NodeDef): void {
   const a = e.from;
   const b = e.to;
-  splitEdge(map, e, at, nodeId, newEdgeId);
+  splitEdge(map, e, at, nodeId, newEdgeId, existing);
   if (!b) return;
   scenario.plan.route = insertBetween(scenario.plan.route, a, b, nodeId);
   const walk = (v: unknown): void => {

@@ -1,5 +1,5 @@
 /**
- * 地点タブの「地図記号の施設と鉄塔」: 選ぶ・動かす（鉄塔は送電線の上を動く）・置く・消す、インスペクタと一覧、取り込みのボタン。
+ * 登山道と地点のタブの「地図記号の施設と鉄塔」: 選ぶ・動かす（鉄塔は送電線の上を動く）・置く・消す、インスペクタと一覧、取り込みのボタン。
  * 2D の地図の表示は map/landmarkLayer.ts。
  */
 import type { LandmarkDef, LandmarkKind } from '../../sim/types';
@@ -82,7 +82,7 @@ export function landmarkInspector(ed: Ed, l: LandmarkDef): HTMLElement {
 
 let importMsg = '';
 
-/** 地点タブの欄: 取り込み・数・一覧 */
+/** 登山道と地点のタブの欄: 取り込み・数・一覧 */
 export function landmarkSection(ed: Ed, newKind: LandmarkKind, setKind: (k: LandmarkKind) => void, placing: boolean): HTMLElement {
   const list = ed.p.map.landmarks ?? [];
   const towers = list.filter((l) => l.kind === 'tower').length;

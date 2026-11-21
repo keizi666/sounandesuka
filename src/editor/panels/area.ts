@@ -154,7 +154,7 @@ function fetchTerrain(ed: Ed, progress: HTMLProgressElement = el('progress', { v
     ed.p.map.vegetation.broadleafLine = ed.p.map.vegetation.forestLine - 900;
     (ed as EditorApp).mapReplaced();
     const sec = ((performance.now() - t0) / 1000).toFixed(1);
-    lastMsg = `地形を作りました（${sec} 秒${m.fallback > 0 ? `、無効値 ${m.fallback} 点を最小標高で埋めた` : ''}${m.failedTiles > 0 ? `、タイルなし ${m.failedTiles} 枚` : ''}）。森林限界 ${ed.p.map.vegetation.forestLine} m を提案しました（タブ 4 で確認）。`;
+    lastMsg = `地形を作りました（${sec} 秒${m.fallback > 0 ? `、無効値 ${m.fallback} 点を最小標高で埋めた` : ''}${m.failedTiles > 0 ? `、タイルなし ${m.failedTiles} 枚` : ''}）。森林限界 ${ed.p.map.vegetation.forestLine} m を提案しました（タブ 3 で確認）。`;
     msg.textContent = lastMsg;
     ed.refresh();
     ed.toggle3d(true);

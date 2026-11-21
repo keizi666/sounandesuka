@@ -1,5 +1,7 @@
 /**
- * タブ 2 登山道（docs/16 §4）: OSM から取り込む（下書き→確定）、GPX、手描き、エッジのインスペクタ、紛らわしい分岐の提案、計画ルートを引く。
+ * タブ 2 登山道と地点（docs/16 §4・§5）: OSM から取り込む（下書き→確定）、GPX、手描き、エッジのインスペクタ、紛らわしい分岐の提案、計画ルートを引く、
+ * 地点を足す・動かす・編集する、施設・鉄塔・危険箇所を置く。
+ * ユーザーの指定で、もとのタブ 2（登山道）とタブ 3（地点）を 1 つにした（道に地点を足して動かすのに往復しなくてよいように）。
  */
 import { runHeadless } from '../../sim/headless';
 import type { EdgeDef, NodeDef } from '../../sim/types';
@@ -8,12 +10,12 @@ import type { Ed } from '../context';
 import type { EditorApp } from '../EditorApp';
 import { button, check, fill, num, section, select, text } from '../forms/fields';
 import { toolPalette } from '../forms/toolPalette';
-import { parseGpx, trackAsTrails, trackToRoute, trackToXZ } from '../geo/gpx';
+import { importGpx, importOsm } from './trailImport';
 import { fetchOsm, osmToGraph, resample, suggestConfusers, type OsmJson } from '../geo/overpass';
 import { sampleElevAt } from './elev';
 import { clickRouteNode } from '../map/routeClick';
 import { nodeDragger } from '../map/nodeDrag';
-import { nodeInspector } from './points';
+import { deletePointSelection, landmarkDrag, nodeInspector, nodeListSection, placeNode, POINT_MODES, POINT_TOOLS, pointClick, pointOptions, pointSelectionInspector, resetPointTool, selectPointAt, type PointMode } from './points';
 import { routeList } from './routeList';
 import { edgePoints, hitEdge, hitNode, insertNodeOnEdge, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
 import type { MapTool } from '../map/TileMapView';
@@ -25,40 +27,11 @@ import { standardLegMin, suggestPaceAdj } from '../pace';
 import type { Panel } from './types';
 import { nextPaint, showLoading } from '../../ui/loading';
 
-type Mode = 'select' | 'box' | 'draw' | 'split' | 'route';
+type Mode = 'select' | 'box' | 'draw' | 'split' | 'route' | PointMode;
 let mode: Mode = 'select';
 let drawing: { x: number; z: number }[] = [];
 let gpxUse: 'trail' | 'route' | 'false' = 'trail';
 let busy = '';
-
-function importOsm(ed: Ed, json: OsmJson): void {
-  const g = ed.p.map.geo!;
-  const rt = ed.runtime();
-  const res = osmToGraph(json, g.centerLat, g.centerLon, ed.p.map.size, (x, z) => (rt ? sampleElevAt(rt, x, z) : 0));
-  ed.change('OSM の取り込み', () => {
-    // 既存の ID と重ならないよう振り直す
-    const map = ed.p.map;
-    const ren = new Map<string, string>();
-    for (const n of res.nodes) {
-      const prefix = n.id.replace(/\d+$/, '');
-      const id = map.nodes.some((x) => x.id === n.id) ? nextId([...map.nodes.map((x) => x.id), ...res.nodes.map((x) => x.id)], prefix) : n.id;
-      ren.set(n.id, id);
-      n.id = id;
-      map.nodes.push(n);
-    }
-    for (const e of res.edges) {
-      const id = map.edges.some((x) => x.id === e.id) ? nextId([...map.edges.map((x) => x.id), ...res.edges.map((x) => x.id)], 'E') : e.id;
-      e.from = ren.get(e.from) ?? e.from;
-      if (e.to) e.to = ren.get(e.to) ?? e.to;
-      e.id = id;
-      map.edges.push(e);
-      ed.p.editorState.draftEdgeIds.push(id);
-    }
-    map.hazards.push(...res.hazards.map((h, i) => ({ ...h, id: nextId(map.hazards.map((x) => x.id), 'WF') + (i ? '' : '') })));
-    suggestConfusers(map.nodes, map.edges);
-  }, true);
-  ed.toast(`道 ${res.edges.length} 本・地点 ${res.nodes.length} を下書きとして取り込みました${res.warnings.length ? `（${res.warnings.join('、')}）` : ''}`, 6000);
-}
 
 function confirmDrafts(ed: Ed, ids: string[]): void {
   ed.change('下書きを確定', () => {
@@ -111,58 +84,6 @@ function farFromRoute(ed: Ed): string[] {
     const pts = edgePoints(ed.p.map, null, e);
     return pts.every((p) => rnodes.every((n) => Math.hypot(n.x - p.x, n.z - p.z) > 1000));
   });
-}
-
-async function importGpx(ed: Ed, f: File): Promise<void> {
-  const g = ed.p.map.geo;
-  if (!g) return ed.toast('GPX は実在の山のプロジェクトで使えます');
-  const text = await f.text();
-  const data = parseGpx(text);
-  // すべての軌跡（トラックのセグメントごと・ルート）を使う（ユーザーの指摘: 最初のセグメントしか読まれなかった）。範囲の外だけの軌跡は落とす
-  const tracks = data.tracks.map((t) => ({ name: t.name, xz: trackToXZ(t.points, g.centerLat, g.centerLon, ed.p.map.size) })).filter((t) => t.xz.length >= 2);
-  if (tracks.length === 0) return ed.toast(data.tracks.length ? 'GPX の軌跡が範囲の中にありません' : 'GPX に軌跡がありません');
-  ed.p.raw.gpx = [...(ed.p.raw.gpx ?? []), text];
-  if (gpxUse === 'route') {
-    const rt = ed.runtime();
-    if (!rt) return;
-    // 軌跡を順につないで、まとめてマップマッチングする
-    const route = trackToRoute(tracks.flatMap((t) => t.xz), rt);
-    if (route.length < 2) return ed.toast('軌跡を既存の登山道に重ねられませんでした');
-    ed.change('GPX から計画ルート', () => (ed.p.scenario.plan.route = route));
-    return ed.toast(`計画ルート: ${route.length} 地点${tracks.length > 1 ? `（軌跡 ${tracks.length} 本をつないで）` : ''}`);
-  }
-  const ids = [...ed.p.map.nodes.map((n) => n.id), ...ed.p.map.edges.map((e) => e.id)];
-  const nid = (p: string): string => {
-    const id = nextId(ids, p);
-    ids.push(id);
-    return id;
-  };
-  if (gpxUse === 'false') {
-    ed.change('GPX から偽の道', () => {
-      for (const t of tracks) {
-        const start = hitNearestNode(ed, t.xz[0]!);
-        ed.p.map.edges.push({ id: nid('F'), name: t.name || '迷った軌跡', kind: 'false', from: start.id, class: 'T3', markers: 0.1, drift: 0.1, sinuosity: 1, smooth: false, source: 'gpx', fadeOutM: 300, attractiveness: 0.5, waypoints: t.xz.slice(1).map((p) => [p.x, p.z]) });
-      }
-    }, true);
-    return ed.toast(`偽の道 ${tracks.length} 本を足しました`);
-  }
-  // 登山道: 軌跡を 1 本ずつ足す（前の軌跡で足した道・地点にも重ねる）
-  const nodes: NodeDef[] = [];
-  const edges: EdgeDef[] = [];
-  for (const t of tracks) {
-    const r = trackAsTrails(t.xz, { nodes: [...ed.p.map.nodes, ...nodes], edges: [...ed.p.map.edges, ...edges] }, nid);
-    nodes.push(...r.nodes);
-    edges.push(...r.edges);
-  }
-  ed.change('GPX から登山道', () => {
-    ed.p.map.nodes.push(...nodes);
-    ed.p.map.edges.push(...edges);
-  }, true);
-  ed.toast(`新しい道 ${edges.length} 本${tracks.length > 1 ? `（軌跡 ${tracks.length} 本から）` : ''}（既存の道と重なる部分は既存を使いました）`);
-}
-
-function hitNearestNode(ed: Ed, p: { x: number; z: number }): NodeDef {
-  return ed.p.map.nodes.reduce((a, b) => (Math.hypot(b.x - p.x, b.z - p.z) < Math.hypot(a.x - p.x, a.z - p.z) ? b : a));
 }
 
 function finishDrawing(ed: Ed): void {
@@ -220,8 +141,9 @@ function tool(ed: Ed): MapTool {
     cursor: mode === 'select' ? 'pointer' : 'crosshair',
     // 範囲選択の道具、または「選択」で Shift を押しながらドラッグすると、矩形で囲んで道を選ぶ
     down(p) {
-      // 「選択」「地点を挿入」では、地点の上で押してドラッグすると地点を動かす（地点タブへ行かなくてよい）
+      // 「選択」「地点を足す」では、地点の上で押してドラッグすると地点を動かす。「選択」では施設・鉄塔も
       if ((mode === 'select' || mode === 'split') && !p.ev.shiftKey && drag.down(p)) return true;
+      if (mode === 'select' && !p.ev.shiftKey && landmarkDrag.down(ed, p)) return true;
       if (mode !== 'box' && !(mode === 'select' && p.ev.shiftKey)) return false;
       boxAdd = p.ev.shiftKey || p.ev.ctrlKey;
       edgeSel.box = { x0: p.x, z0: p.z, x1: p.x, z1: p.z };
@@ -229,6 +151,7 @@ function tool(ed: Ed): MapTool {
     },
     up(p) {
       if (drag.up()) return;
+      if (landmarkDrag.up(ed)) return;
       const b = edgeSel.box;
       if (!b) return;
       b.x1 = p.x;
@@ -247,6 +170,11 @@ function tool(ed: Ed): MapTool {
         if (n) {
           clearEdgeSel();
           return ed.select('node', n.id);
+        }
+        // 施設・鉄塔・危険箇所（滝・保護範囲など）
+        if (mode === 'select' && !p.ev.ctrlKey && !p.ev.shiftKey && selectPointAt(ed, p)) {
+          clearEdgeSel();
+          return;
         }
         const e = hitEdge(ed.view, ed.p.map, rt, p.px, p.py);
         // Ctrl・Shift を押しながらクリックすると、選んだ道に足す（もう一度で外す）
@@ -267,18 +195,11 @@ function tool(ed: Ed): MapTool {
         return;
       }
       if (mode === 'split') {
-        const h = hitEdge(ed.view, ed.p.map, rt, p.px, p.py);
-        if (!h) return;
-        const ids = [...ed.p.map.nodes.map((n) => n.id), ...ed.p.map.edges.map((e) => e.id)];
-        const nodeId = nextId(ids, 'N');
-        ed.change('地点を挿入', () => {
-          insertNodeOnEdge(ed.p.map, ed.p.scenario, h.edge, { x: p.x, z: p.z }, nodeId, nextId(ids, 'E'));
-          // 挿入した地点を選ぶ（そのままドラッグで動かせ、名前・種類も右で編集できる）
-          clearEdgeSel();
-          ed.p.editorState.selection = { kind: 'node', id: nodeId };
-        }, true);
-        return;
+        // 道の上なら道に挿入し、なにもない所なら地点を置く（挿入・置いた地点を選ぶので、そのままドラッグで動かせる）
+        clearEdgeSel();
+        return placeNode(ed, p);
       }
+      if (POINT_MODES.includes(mode)) return pointClick(ed, mode as PointMode, p);
       if (mode === 'route' && rt) {
         const n = hitNode(ed.view, ed.p.map, p.px, p.py);
         if (n) clickRouteNode(ed, n);
@@ -289,6 +210,7 @@ function tool(ed: Ed): MapTool {
     },
     move(p, dragging) {
       if (drag.move(p, dragging)) return;
+      if (landmarkDrag.move(ed, p, dragging)) return;
       if (dragging && edgeSel.box) {
         edgeSel.box.x1 = p.x;
         edgeSel.box.z1 = p.z;
@@ -384,7 +306,7 @@ function joinSkeletonMap(ed: Ed): void {
     ed.p.map.skeleton = false;
     ed.p.editorState.draftEdgeIds = [];
   }, true);
-  busy = `結合しました。名前で結び付けた地点: ${r.matched.length}、登山道の上に補間で置いた地点（地点タブの「地点を動かす」で必ず確認）: ${r.interpolated.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name || id).join('、') || 'なし'}${r.warnings.length ? ` ／ ${r.warnings.join(' / ')}` : ''}`;
+  busy = `結合しました。名前で結び付けた地点: ${r.matched.length}、登山道の上に補間で置いた地点（「選択」でドラッグして必ず確認）: ${r.interpolated.map((id) => ed.p.map.nodes.find((n) => n.id === id)?.name || id).join('、') || 'なし'}${r.warnings.length ? ` ／ ${r.warnings.join(' / ')}` : ''}`;
   ed.refresh();
 }
 
@@ -405,7 +327,7 @@ async function quickRun(ed: Ed): Promise<void> {
 
 export const trailsPanel: Panel = {
   id: 'trails',
-  label: '登山道',
+  label: '登山道と地点',
   tool,
   key(ed, e) {
     if (e.key === 'Escape' && (edgeSel.ids.size > 0 || edgeSel.nodeIds.size > 0)) {
@@ -414,6 +336,7 @@ export const trailsPanel: Panel = {
       return true;
     }
     if (e.key !== 'Delete' && e.key !== 'Backspace') return false;
+    if (deletePointSelection(ed)) return true;
     const ids = selectedEdgeIds(ed);
     const sel = ed.p.editorState.selection;
     // 地点を 1 つクリックで選んでいるときは、その地点（とつながる道）を消す
@@ -430,7 +353,7 @@ export const trailsPanel: Panel = {
     const gpxIn = el('input', { type: 'file', accept: '.gpx,application/gpx+xml' });
     gpxIn.addEventListener('change', () => {
       const f = gpxIn.files?.[0];
-      if (f) void importGpx(ed, f);
+      if (f) void importGpx(ed, f, gpxUse);
     });
     const osmBtn = button(ed.p.raw.osm ? 'OSM を変換し直す（再取得しない）' : 'OpenStreetMap から取り込む', async () => {
       if (!geo) return;
@@ -488,14 +411,16 @@ export const trailsPanel: Panel = {
         ])
       : null;
     const modes = toolPalette<Mode>(ed, [
-      { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: 'クリックで選ぶ。地点はドラッグで動かす。Shift＋ドラッグで範囲選択、Ctrl＋クリックで追加。Delete で削除' },
+      { id: 'select', icon: 'arrowSelectorTool', label: '選択', key: 'v', hint: '道・地点・施設・危険箇所をクリックで選ぶ。地点・施設はドラッグで動かす（どこにもつながっていない地点を道の上に置くと、その道につなぐ）。Shift＋ドラッグで範囲選択、Ctrl＋クリックで追加。Delete で削除' },
       { id: 'box', icon: 'selectBox', label: '範囲選択', key: 'm', hint: 'ドラッグで囲んだ道と地点を選ぶ。Delete で削除' },
       { id: 'draw', icon: 'draw', label: '手描き', key: 'p', hint: 'クリックで頂点、ダブルクリックで終了' },
-      { id: 'split', icon: 'callSplit', label: '地点を挿入', key: 'n', hint: '道の上をクリックすると地点を足す。足した地点はそのままドラッグで動かせ、名前と種類は下で編集' },
+      { id: 'split', icon: 'addLocationAlt', label: '地点を足す', key: 'n', hint: '道の上をクリックすると道に挿入、なにもない所なら地点を置く（種類は下で選ぶ）。足した地点はそのままドラッグで動かせる' },
       { id: 'route', icon: 'route', label: '計画ルートを引く', key: 'r', hint: '地点を順にクリック' },
+      ...POINT_TOOLS,
     ], mode, (m) => {
       mode = m;
       drawing = [];
+      resetPointTool();
       ed.refresh();
     });
     const route = ed.p.scenario.plan.route;
@@ -517,11 +442,12 @@ export const trailsPanel: Panel = {
             el('p', { class: 'note' }, `つながる道 ${ed.p.map.edges.filter((x) => x.from === selNode.id || x.to === selNode.id).length} 本。地図の上でドラッグすると動かせます。`),
             nodeInspector(ed, selNode),
           ])
-        : null;
+        : pointSelectionInspector(ed);
     fill(
       ed.inspector,
-      el('h2', {}, '登山道'),
+      el('h2', {}, '登山道と地点'),
       modes,
+      ...pointOptions(ed, mode),
       check('急傾斜（38° 超）を赤で表示', false, (v) => (ed as EditorApp).setShowSteep(v)),
       geo ? section('取り込み', [osmBtn, el('p', { class: 'note' }, '© OpenStreetMap contributors（ODbL）。応答は保存し、同じ範囲を再取得しません。'), el('hr'), select('GPX の用途', gpxUse, [['trail', '登山道として追加'], ['route', '計画ルートとして使う'], ['false', '偽の道（迷った軌跡）として追加']], (v) => (gpxUse = v)), gpxIn]) : null,
       ed.p.map.skeleton
@@ -542,7 +468,8 @@ export const trailsPanel: Panel = {
         button('推奨方針で試走（下山口に着くか）', () => void quickRun(ed)),
       ]),
       section('分岐の紛らわしさ', [button('紛らわしい分岐を提案する', () => ed.change('紛らわしい分岐の提案', () => ed.toast(`${suggestConfusers(ed.p.map.nodes, ed.p.map.edges)} 件の候補を付けました（地点のインスペクタで編集）`), true))]),
-      e ? edgeInspector(ed, e) : edgeSel.ids.size > 0 || selNodes.length > 0 || selNode ? null : el('p', { class: 'note' }, '道をクリックすると属性を編集できます（Delete キーで削除）。範囲選択（または Shift＋ドラッグ）で囲んだ道と地点をまとめて選べます。'),
+      e ? edgeInspector(ed, e) : selSection ? null : el('p', { class: 'note' }, '道・地点・施設・危険箇所をクリックすると編集できます（Delete キーで削除）。範囲選択（または Shift＋ドラッグ）で囲んだ道と地点をまとめて選べます。地点の ID は自動で N001 のように付きます。読みやすい ID に変えると、ルートや条件の参照も書き換えます。'),
+      nodeListSection(ed),
     );
     ed.bottom.replaceChildren();
   },

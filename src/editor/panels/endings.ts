@@ -1,5 +1,5 @@
 /**
- * タブ 8 結末（docs/18 §4）: スクリプトイベント（条件＋効果）、思考テンプレート、結末（種類ごと・上から評価）、教訓（{rec.*} の候補）。
+ * タブ 7 結末（docs/18 §4）: スクリプトイベント（条件＋効果）、思考テンプレート、結末（種類ごと・上から評価）、教訓（{rec.*} の候補）。
  */
 import type { EndingDef, EndingKind, ScriptEffect, ScriptEventDef } from '../../sim/types';
 import { JA } from '../../i18n/ja';

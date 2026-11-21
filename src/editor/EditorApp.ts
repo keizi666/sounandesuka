@@ -318,6 +318,8 @@ export class EditorApp implements Ed {
   }
 
   goTab(t: TabId): void {
+    // もとの「地点」のタブは「登山道と地点」に統合した（ユーザーの指定）。保存したプロジェクトや検証の「そのタブへ」から来ても登山道と地点へ
+    if (t === 'points') t = 'trails';
     this.p.editorState.tab = t;
     for (const [k, b] of this.tabs) b.classList.toggle('on', k === t);
     this.bottom.replaceChildren();
