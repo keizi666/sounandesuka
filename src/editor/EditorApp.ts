@@ -15,6 +15,7 @@ import { openPreview3d, type Preview3d } from './preview3d';
 import { putProject } from './store/idb';
 import { hasTerrain, mapWithHeights } from './store/project';
 import { validateEditor } from './validateMap';
+import { showIssuesDialog } from './issuesDialog';
 import { wizardBar } from './wizard';
 import { exportBundle, playIn3d } from './panels/exportActions';
 
@@ -307,15 +308,7 @@ export class EditorApp implements Ed {
   }
 
   private showIssues(): void {
-    const iss = this.issues();
-    const dlg = el('dialog', { class: 'ed-dialog' }, [
-      el('h2', {}, '検証'),
-      iss.length === 0 ? el('p', {}, '問題はありません') : el('ul', { class: 'issues' }, iss.map((i) => el('li', { class: i.level }, [i.level === 'error' ? '✖ ' : '⚠ ', el('code', {}, i.path), ` ${i.message}`]))),
-      el('button', { onclick: () => dlg.close() }, '閉じる'),
-    ]);
-    dlg.addEventListener('close', () => dlg.remove());
-    document.body.append(dlg);
-    dlg.showModal();
+    showIssuesDialog(this);
   }
 
   select(kind: SelKind, id: string | null): void {

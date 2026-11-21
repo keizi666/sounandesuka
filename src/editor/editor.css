@@ -55,9 +55,16 @@
 @media (max-width: 640px) { .area-picker-fields { grid-template-columns: 1fr; } }
 .ed-dialog::backdrop { background: rgba(0, 0, 0, 0.5); }
 .issues { padding-left: 0; list-style: none; max-height: 60vh; overflow-y: auto; }
-.issues li { padding: 3px 0; border-bottom: 1px dotted var(--line); }
-.issues li.error { color: #fca5a5; }
-.issues li.warning { color: #fde68a; }
+.issues li { padding: 6px 0; border-bottom: 1px dotted var(--line); }
+.issues li.error .iss-head { color: #fca5a5; }
+.issues li.warning .iss-head { color: #fde68a; }
+.iss-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.iss-msg { font-weight: 600; }
+.iss-head code { font-size: 0.8em; color: var(--muted); }
+.iss-hint { margin: 2px 0 2px 1.4em; font-size: 0.9em; color: var(--fg); opacity: 0.85; }
+.iss-acts { margin-left: 1.2em; }
+.iss-acts button { margin: 2px 4px 0 0; }
+.ed-issues-dlg { width: min(760px, 94vw); }
 .ed-projects { max-width: 960px; margin: 0 auto; padding: 16px; }
 .ed-projects header { display: flex; justify-content: space-between; align-items: center; }
 .ed-projects td button { padding: 2px 8px; min-height: 26px; margin-right: 4px; }
