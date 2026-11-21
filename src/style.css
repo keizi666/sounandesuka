@@ -1114,3 +1114,9 @@ main.select2 {
 }
 /* 背景が写真になったので、トップページのカードの内側は濃いグレーにする（ユーザーの指定） */
 main.select2 .sel-card { background: #23262c; }
+
+/* ---- 上のバー: 再生の速さはドロップダウン（ユーザーの指定） ---- */
+.topbar .speed-sel { min-height: 32px; padding: 2px 26px 2px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel2); color: inherit; font: inherit; font-weight: 700; cursor: pointer; }
+.topbar .speed-sel:hover { border-color: var(--accent); }
+.topbar .speed-sel.paused { opacity: 0.6; }
+@media (max-width: 760px) { .topbar .speed-sel { min-height: 30px; padding: 1px 22px 1px 6px; font-size: 0.82rem; } }

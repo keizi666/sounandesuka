@@ -23,6 +23,7 @@ import { applyConditions, DEFAULT_CONDITIONS, DEFAULT_POWER_BANK_MAH, isDefaultC
 import { shareButtons } from './shareButtons';
 import { briefUrl } from '../app/shareState';
 import { saveSettings, type Difficulty } from '../app/settings';
+import { shortTarget } from '../net/shareLink';
 
 /** 予報の文から、天気のアイコンを選ぶ */
 function forecastIcon(label: string, text: string): IconName {
@@ -220,7 +221,7 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
                   el('summary', { title: JA.share.scenarioTitle }, [icon('share'), JA.share.scenarioButton]),
                   el('div', { class: 'bf-share-pop' }, [
                     el('p', { class: 'bf-share-h' }, JA.share.scenarioTitle),
-                    shareButtons({ text: fill(JA.share.scenarioText, { title: s.title }), url: briefUrl(s.id) }, { note: JA.share.scenarioNote }),
+                    shareButtons(shortTarget({ text: fill(JA.share.scenarioText, { title: s.title }), url: briefUrl(s.id) }), { note: JA.share.scenarioNote }),
                   ]),
                 ])
               : null,

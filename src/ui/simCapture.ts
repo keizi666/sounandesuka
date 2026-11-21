@@ -11,6 +11,7 @@ import { createCapture, type RecordResult } from './capture';
 import { download, openCaptureDialog } from './captureDialog';
 import { toast } from './dom';
 import { siteUrl } from './shareButtons';
+import { shortTarget } from '../net/shareLink';
 
 export interface SimCapture {
   afterRender(): void;
@@ -40,14 +41,15 @@ export function createSimCapture(o: { canvas: HTMLCanvasElement; loaded: LoadedS
   });
   const stamp = (): string => timeText().replace(/[^0-9A-Za-z]+/g, '');
   const showVideo = (r: RecordResult): void => {
-    openCaptureDialog({ blob: r.blob, kind: 'video', fileName: `sounandesuyo_${s.id}_${stamp()}.${r.ext}`, share: shareTarget(), sec: r.sec });
+    openCaptureDialog({ blob: r.blob, kind: 'video', fileName: `sounandesuyo_${s.id}_${stamp()}.${r.ext}`, share: shareTarget(), shareLater: shortTarget(shareTarget()), sec: r.sec });
   };
   return {
     afterRender: () => cap.afterRender(),
     snap() {
       const share = shareTarget();
       const name = `sounandesuyo_${s.id}_${stamp()}.png`;
-      void cap.snap().then((blob) => openCaptureDialog({ blob, kind: 'image', fileName: name, share }));
+      const shareLater = shortTarget(share);
+      void cap.snap().then((blob) => openCaptureDialog({ blob, kind: 'image', fileName: name, share, shareLater }));
     },
     toggleRecord() {
       if (cap.elapsed() !== null) {

@@ -62,6 +62,8 @@ export const communityApi = {
   remove: (id: number): Promise<{ ok: true }> => call('delete', { body: { id } }),
   forget: (): Promise<{ ok: true }> => call('forget', { body: {} }),
   report: (id: number): Promise<{ ok: true }> => call('report', { body: { id } }),
+  /** 共有の短い URL の鍵を作る（target は遊ぶ画面の URL の ? から後ろ） */
+  share: (target: string, text: string): Promise<{ k: string }> => call('share', { body: { target, text }, token: null }),
 };
 
 let refreshed = false;

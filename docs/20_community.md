@@ -62,6 +62,7 @@ POST は `Content-Type: application/json` に限る（よそのサイトのフ�
 | `report` | POST | − | 通報（同じ IP から 1 件に 1 回） |
 | `avatar` | POST | 要 | `{ image }`（base64）でアイコンの画像を置く。返るプロフィールのアイコンは `img:<版>` |
 | `avatar` | GET | − | `u`・`v`。アイコンの画像（`image/webp` か `image/png`） |
+| `share` | POST | − | `{ target, text }`。遊ぶ画面の URL の `?` から後ろ（`scenario=…` か `brief=…`）を短い鍵にする。同じ target には同じ鍵。`{ k }`。開くのは `<base>/api/s.php?k=<鍵>`（シナリオの題・説明・サムネイルのカードを返し、元の URL へ移る） |
 
 型は `src/net/communityTypes.ts`。
 

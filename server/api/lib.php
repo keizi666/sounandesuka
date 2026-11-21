@@ -19,6 +19,10 @@ const EMOJIS = ['🏔️', '⛰️', '🗻', '🌋', '🏕️', '⛺', '🌲', '
 const BODY_MAX_BYTES = 800000;
 const SEXES = ['m', 'f', 'x'];
 const AGE_BANDS = ['10', '20', '30', '40', '50', '60', '70', 'x'];
+/** 共有の短い URL（ユーザーの指定: X などでリンクのカードが出るように）。鍵の長さと、元の URL（? から後ろ）・本文の上限 */
+const SHARE_KEY_LEN = 8;
+const SHARE_TARGET_MAX = 6000;
+const SHARE_TEXT_MAX = 140;
 const ENDINGS = ['SAFE_RETURN', 'SAFE_SHELTER', 'ABORTED', 'SELF_RESCUE', 'RESCUED', 'RESCUED_CRITICAL', 'MISSING', 'FATAL'];
 // 「少しねむい」のように普通の文に出る並び（しね・がいじ など）は入れない（src/net/rules.ts と同じ）
 const NG_WORDS = [
@@ -103,6 +107,10 @@ function db(): PDO
       PRIMARY KEY (run_id, ip_hash)
     );
     CREATE TABLE IF NOT EXISTS hits (ip_hash TEXT NOT NULL, kind TEXT NOT NULL, at INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS shares (
+      k TEXT PRIMARY KEY, target TEXT NOT NULL UNIQUE, scenario_id TEXT NOT NULL, text TEXT NOT NULL,
+      created_at TEXT NOT NULL, opened INTEGER NOT NULL DEFAULT 0
+    );
     CREATE INDEX IF NOT EXISTS hits_key ON hits (ip_hash, kind, at);
   SQL);
   return $pdo;
@@ -327,4 +335,25 @@ function store_avatar(int $userId, string $b64): string
   $f = avatar_dir() . '/' . $userId . '.' . $ext;
   if (file_put_contents($f . '.tmp', $out) === false || !rename($f . '.tmp', $f)) fail(500, 'server');
   return substr(sha1($out), 0, 10);
+}
+
+/** 共有の短い鍵（英数字。紛らわしい 0 O 1 l I は使わない） */
+function share_key(): string
+{
+  $chars = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  $k = '';
+  for ($i = 0; $i < SHARE_KEY_LEN; $i++) $k .= $chars[random_int(0, strlen($chars) - 1)];
+  return $k;
+}
+
+/** 公開しているシナリオの一覧（../scenarios/index.json）。ID → 項目 */
+function scenario_index(): array
+{
+  static $idx = null;
+  if ($idx !== null) return $idx;
+  $idx = [];
+  $raw = @file_get_contents(__DIR__ . '/../scenarios/index.json');
+  $j = $raw === false ? null : json_decode($raw, true);
+  if (is_array($j)) foreach ($j as $e) if (is_array($e) && isset($e['id'], $e['title'])) $idx[(string) $e['id']] = $e;
+  return $idx;
 }

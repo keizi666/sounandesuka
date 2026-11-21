@@ -16,6 +16,8 @@ export interface CaptureItem {
   fileName: string;
   /** 共有の本文と URL */
   share: ShareTarget;
+  /** 短い URL にした宛先（できたら、SNS のボタンと端末の共有はこちらを使う） */
+  shareLater?: Promise<ShareTarget>;
   /** 動画の長さ（秒） */
   sec?: number;
 }
@@ -55,9 +57,12 @@ export function openCaptureDialog(item: CaptureItem, onClose?: () => void): void
       toast(C.copyFailed, 4000);
     }
   });
+  // 短い URL ができたら、端末の共有もそれを使う
+  let shareNow: ShareTarget = item.share;
+  void item.shareLater?.then((t) => (shareNow = t));
   const device = canShareFile ? el('button', { type: 'button' }, [icon('share'), C.shareDevice]) : null;
   device?.addEventListener('click', () => {
-    navigator.share({ files: [file], text: `${item.share.text} #${JA.share.hashtag}`, url: item.share.url }).catch(() => undefined);
+    navigator.share({ files: [file], text: `${shareNow.text} #${JA.share.hashtag}`, url: shareNow.url }).catch(() => undefined);
   });
 
   const dlg = el('dialog', { class: 'cap-dlg', 'aria-label': item.kind === 'image' ? C.snapTitle : C.videoTitle }, [
@@ -69,7 +74,7 @@ export function openCaptureDialog(item: CaptureItem, onClose?: () => void): void
     el('p', { class: 'cap-meta' }, item.kind === 'video' ? fill(C.videoMeta, { sec: Math.round(item.sec ?? 0), mb: sizeMb, ext: item.fileName.split('.').pop()?.toUpperCase() ?? '' }) : fill(C.imageMeta, { mb: sizeMb })),
     el('div', { class: 'cap-actions' }, [save, copy, device]),
     el('h3', { class: 'cap-sub' }, C.toSns),
-    shareButtons(item.share, {
+    shareButtons(item.shareLater ?? item.share, {
       note: item.kind === 'image' && canCopy ? C.snsNoteImage : canShareFile ? C.snsNoteDevice : C.snsNote,
       // 画像は、SNS のボタンを押した瞬間にクリップボードへ入れる（投稿の欄に貼り付ければ添付される。ユーザーの指定）。ブラウザから SNS に画像を直接渡す方法はない
       onOpen: item.kind === 'image' && canCopy

@@ -92,11 +92,11 @@ export class Hud {
   /** ログの下の帯: 行動時間・移動距離・累計標高 */
   private tripEl: HTMLElement;
   private clock: HTMLElement;
-  private speedBtns = new Map<Speed, HTMLButtonElement>();
+  /** 再生の速さ（ドロップダウン。ユーザーの指定） */
+  private speedSel: HTMLSelectElement;
   private pauseBtn: HTMLButtonElement;
   private godBtn: HTMLElement;
-  private camBtns = new Map<CameraMode, HTMLButtonElement>();
-  /** 俯瞰 ⇄ FPV を切り替えるボタン（ユーザーの指定） */
+  /** 追従 ⇄ 俯瞰を切り替える 1 つのボタン（ユーザーの指定。一人称は C キー） */
   private povBtn: HTMLButtonElement;
   private cam: CameraMode = 'follow';
   private climbersEl: HTMLElement;
@@ -124,15 +124,12 @@ export class Hud {
     this.party = new Map(scenario.party.map((p) => [p.id, p]));
     this.clock = el('span', { class: 'clock', 'aria-live': 'off' });
     this.pauseBtn = el('button', { class: 'icon', title: `${JA.ui.pause} (Space)`, onclick: () => h.togglePause() }, icon('pause'));
-    for (const s of SPEED_LIST) {
-      const b = el('button', { class: 'speed', title: `×${s}`, onclick: () => h.setSpeed(s) }, `×${s}`);
-      this.speedBtns.set(s, b);
-    }
+    this.speedSel = el('select', { class: 'speed-sel', title: `${JA.ui.speed}（1〜4）`, 'aria-label': JA.ui.speed }, SPEED_LIST.map((s) => el('option', { value: String(s) }, `×${s}`))) as HTMLSelectElement;
+    this.speedSel.addEventListener('change', () => h.setSpeed(Number(this.speedSel.value) as Speed));
     // 神の視点のボタンは廃止し、出発の前に選んだ難しさを札で出す（ユーザーの指定）
     this.godBtn = el('span', { class: `df-tag df-${opts.difficulty}`, title: JA.difficulty.note[opts.difficulty] }, [icon('visibility'), JA.difficulty.label[opts.difficulty]]);
     // カメラ: 「追従」と、俯瞰 ⇄ FPV（一人称）の切り替えボタン（ユーザーの指定）。押すたびに俯瞰と FPV が替わる
-    this.camBtns.set('follow', el('button', { class: 'cam', onclick: () => h.setCamera('follow') }, [icon('myLocation'), JA.ui.camFollow]));
-    this.povBtn = el('button', { class: 'cam pov', title: `${JA.ui.camOverview} / ${JA.ui.camEye}`, onclick: () => h.setCamera(this.cam === 'overview' ? 'eye' : 'overview') });
+    this.povBtn = el('button', { class: 'cam pov', title: `${JA.ui.camFollow} / ${JA.ui.camOverview}（C キーで一人称も）`, onclick: () => h.setCamera(this.cam === 'follow' ? 'overview' : 'follow') });
     const layerBox = (name: 'trail' | 'track' | 'cloud', label: string, on: boolean): HTMLElement => {
       const cb = el('input', { type: 'checkbox', checked: on, onchange: () => h.setLayer(name, cb.checked) });
       return el('label', {}, [cb, label]);
@@ -176,8 +173,8 @@ export class Hud {
       this.godBtn,
       el('span', { class: 'clockbox' }, [icon('schedule'), this.clock]),
       modeTag,
-      el('div', { class: 'group speeds', role: 'group', 'aria-label': JA.ui.speed }, [this.pauseBtn, el('span', { class: 'grp-ic', title: JA.ui.speed }, icon('speed')), ...this.speedBtns.values()]),
-      el('div', { class: 'group cams', role: 'group', 'aria-label': JA.ui.camera }, [this.povBtn, ...this.camBtns.values()]),
+      el('div', { class: 'group speeds', role: 'group', 'aria-label': JA.ui.speed }, [this.pauseBtn, el('span', { class: 'grp-ic', title: JA.ui.speed }, icon('speed')), this.speedSel]),
+      el('div', { class: 'group cams', role: 'group', 'aria-label': JA.ui.camera }, [this.povBtn]),
       layers,
       this.soundBtn,
       h.snap ? el('button', { class: 'icon', title: JA.capture.snap, 'aria-label': JA.capture.snap, onclick: () => h.snap?.() }, icon('photoCamera')) : null,
@@ -261,13 +258,14 @@ export class Hud {
     }
     this.pauseBtn.setAttribute('aria-label', paused ? JA.ui.play : JA.ui.pause);
     this.pauseBtn.title = `${paused ? JA.ui.play : JA.ui.pause} (Space)`;
-    for (const [s, b] of this.speedBtns) b.classList.toggle('on', s === speed && !paused);
-    for (const [m, b] of this.camBtns) b.classList.toggle('on', m === cam);
+    if (this.speedSel.value !== String(speed)) this.speedSel.value = String(speed);
+    this.speedSel.classList.toggle('paused', paused);
     if (this.povBtn.dataset['c'] !== cam) {
       this.cam = cam;
       this.povBtn.dataset['c'] = cam;
-      this.povBtn.classList.toggle('on', cam !== 'follow');
-      this.povBtn.replaceChildren(icon(cam === 'eye' ? 'directionsWalk' : 'landscape'), cam === 'eye' ? JA.ui.camFpv : JA.ui.camOverview);
+      // 追従のときは金色。押すたびに追従 ⇄ 俯瞰（一人称のときは押すと追従へ）
+      this.povBtn.classList.toggle('on', cam === 'follow');
+      this.povBtn.replaceChildren(icon(cam === 'follow' ? 'myLocation' : cam === 'eye' ? 'directionsWalk' : 'landscape'), cam === 'follow' ? JA.ui.camFollow : cam === 'eye' ? JA.ui.camFpv : JA.ui.camOverview);
     }
   }
 

@@ -23,6 +23,7 @@ import { historicalSources } from './historicalLinks';
 import { communityPostCard } from './community/postCard';
 import { shareButtons, siteUrl } from './shareButtons';
 import { STATE_PARAM } from '../app/shareState';
+import { shortTarget } from '../net/shareLink';
 
 export function endingTone(kind: string): 'good' | 'mid' | 'bad' {
   const s = ENDING_SEVERITY[kind as keyof typeof ENDING_SEVERITY] ?? 0;
@@ -140,7 +141,8 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
   const shareCard = el('section', { class: 'bf-card sh-card' }, [
     el('h2', {}, [icon('share'), JA.share.resultTitle]),
     shareButtons(
-      { text: fill(JA.share.resultText, { scenario: s.title, ending: endTitle, time: hm(endMin - start), core: r.stats.minCoreC.toFixed(1) }), url: resultUrl },
+      // 場面の URL は長く、X などでカードが出ないので、短い URL にする（ユーザーの指定）
+      shortTarget({ text: fill(JA.share.resultText, { scenario: s.title, ending: endTitle, time: hm(endMin - start), core: r.stats.minCoreC.toFixed(1) }), url: resultUrl }),
       { note: resultUrl === siteUrl() ? JA.share.note : JA.share.resultNote },
     ),
   ]);

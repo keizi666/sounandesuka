@@ -6,6 +6,7 @@ import { encodeState, setAddress, stateOf, stateUrl, type PlayMode } from '../ap
 import { JA } from '../i18n/ja';
 import type { World } from '../sim/types';
 import { toast } from './dom';
+import { shortLink } from '../net/shareLink';
 
 export interface UrlSync {
   /** いまの場面を URL に入れる（一覧のシナリオだけ。force でなければ 2 秒に 1 回まで、時刻か選択が変わったときだけ） */
@@ -39,11 +40,13 @@ export function createUrlSync(o: { world: World; loaded: LoadedScenario; mode: P
       }
       const url = stateUrl(loaded.scenario.id, await encodeState(stateOf(world, o.mode, loaded.conditions, loaded.scenario.seed)));
       setAddress(url);
+      // コピーするのは短い URL（X などでカードが出る。作れなければ元の URL）
+      const link = await shortLink(url);
       try {
-        await navigator.clipboard.writeText(url);
+        await navigator.clipboard.writeText(link);
         toast(JA.ui.shareCopied, 3500);
       } catch {
-        window.prompt(JA.ui.shareCopyManual, url);
+        window.prompt(JA.ui.shareCopyManual, link);
       }
     },
   };

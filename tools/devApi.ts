@@ -12,7 +12,8 @@ import { AGE_BANDS, AVATAR_MAX_BYTES, checkComment, checkNickname, parseIcon, RE
 
 interface DevUser { id: number; tokenHash: string; nickname: string; sex: string; age: string; portrait: string; color: string }
 interface DevRun { id: number; userId: number; summary: Record<string, unknown> & { scenarioId: string; ending: string; scenarioTitle: string }; comment: string; record: string; createdAt: string; reports: string[]; hidden: boolean }
-interface DevDb { users: DevUser[]; runs: DevRun[]; nextUser: number; nextRun: number }
+interface DevShare { k: string; target: string; scenarioId: string; text: string }
+interface DevDb { users: DevUser[]; runs: DevRun[]; nextUser: number; nextRun: number; shares?: DevShare[] }
 
 const ENDINGS = ['SAFE_RETURN', 'SAFE_SHELTER', 'ABORTED', 'SELF_RESCUE', 'RESCUED', 'RESCUED_CRITICAL', 'MISSING', 'FATAL'];
 
@@ -182,6 +183,22 @@ export function devCommunityApi(root: string): Plugin {
       }
       return [200, { ok: true }];
     }
+    // 共有の短い URL（本番は server/api/index.php の share と s.php）
+    if (a === 'share') {
+      const target = String(b['target'] ?? '');
+      if (target.length > 6000 || !/^\?[A-Za-z0-9_=&%.~-]+$/.test(target)) throw new Fail(400, 'invalid');
+      const qs = new URLSearchParams(target.slice(1));
+      const sid = qs.get('scenario') ?? qs.get('brief') ?? '';
+      if (!/^[a-z0-9_]{1,64}$/.test(sid)) throw new Fail(400, 'invalid');
+      const shares = (db.shares ??= []);
+      let s = shares.find((x) => x.target === target);
+      if (!s) {
+        s = { k: randomBytes(6).toString('base64url').replace(/[-_]/g, 'x').slice(0, 8), target, scenarioId: sid, text: String(b['text'] ?? '').slice(0, 140) };
+        shares.push(s);
+        save(db);
+      }
+      return [200, { k: s.k }];
+    }
     throw new Fail(404, 'notFound');
   };
 
@@ -191,6 +208,22 @@ export function devCommunityApi(root: string): Plugin {
     configureServer(server) {
       server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: () => void) => {
         const url = new URL(req.url ?? '/', 'http://localhost');
+        if (url.pathname.endsWith('/api/s.php')) {
+          // 共有の短い URL を開く（本番の s.php と同じく、カード用の見出しと元の URL への移動）
+          const s = load().shares?.find((x) => x.k === url.searchParams.get('k'));
+          const base = url.pathname.replace(/api\/s\.php$/, '');
+          if (!s) {
+            res.statusCode = 302;
+            res.setHeader('Location', base);
+            res.end();
+            return;
+          }
+          const esc = (t: string): string => t.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+          const to = base + s.target;
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          res.end(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>${esc(s.scenarioId)} — 遭難ですよ</title><meta property="og:title" content="${esc(s.scenarioId)} — 遭難ですよ"><meta property="og:description" content="${esc(s.text)}"><meta name="twitter:card" content="summary_large_image"><meta http-equiv="refresh" content="0; url=${esc(to)}"></head><body><a href="${esc(to)}">開く</a></body></html>`);
+          return;
+        }
         if (!url.pathname.endsWith('/api/index.php')) return next();
         if (req.method === 'GET' && url.searchParams.get('a') === 'avatar') {
           const f = avatarFile(Number(url.searchParams.get('u')));

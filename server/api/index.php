@@ -23,6 +23,15 @@ function scenario_titles(): array
   return $titles;
 }
 
+/** 共有のカードの説明文。合わない（長い・URL・禁止語）ときは捨てる（共有そのものは止めない） */
+function share_text(string $s): string
+{
+  $s = trim((string) preg_replace('/\s+/u', ' ', $s));
+  if ($s === '' || !mb_check_encoding($s, 'UTF-8') || mb_strlen($s, 'UTF-8') > SHARE_TEXT_MAX) return '';
+  if (preg_match(CTRL_RE, $s) || preg_match(URL_RE, $s) || has_ng_word($s)) return '';
+  return $s;
+}
+
 function num($v, float $lo, float $hi): float
 {
   if (!is_int($v) && !is_float($v)) fail(400, 'invalid');
@@ -237,6 +246,39 @@ try {
     $pdo->prepare('DELETE FROM users WHERE id = ?')->execute([$u['id']]);
     delete_avatar((int) $u['id']);
     respond(200, ['ok' => true]);
+  }
+
+  // 共有の短い URL を作る（ユーザーの指定: 場面の長い URL では X などでカードが出ない）。
+  // target は遊ぶ画面の URL の ? から後ろ（scenario=… か brief=…）。同じ target には同じ鍵を返す。開くのは s.php?k=…
+  if ($method === 'POST' && $a === 'share') {
+    $b = body();
+    rate_limit('share', 120, 3600);
+    $target = (string) ($b['target'] ?? '');
+    if (strlen($target) > SHARE_TARGET_MAX || !preg_match('/^\?[A-Za-z0-9_=&%.~-]+$/', $target)) fail(400, 'invalid');
+    parse_str(substr($target, 1), $qs);
+    $sid = (string) ($qs['scenario'] ?? $qs['brief'] ?? '');
+    if (!preg_match('/^[a-z0-9_]{1,64}$/', $sid)) fail(400, 'invalid');
+    $idx = scenario_index();
+    if ($idx !== [] && !isset($idx[$sid])) fail(400, 'invalid');
+    $text = share_text((string) ($b['text'] ?? ''));
+    $pdo = db();
+    $q = $pdo->prepare('SELECT k FROM shares WHERE target = ?');
+    $q->execute([$target]);
+    $k = $q->fetchColumn();
+    if ($k === false) {
+      hit('share');
+      for ($i = 0; $i < 5 && $k === false; $i++) {
+        $try = share_key();
+        try {
+          $pdo->prepare('INSERT INTO shares (k, target, scenario_id, text, created_at) VALUES (?, ?, ?, ?, ?)')->execute([$try, $target, $sid, $text, now_iso()]);
+          $k = $try;
+        } catch (PDOException $e) {
+          $k = false;
+        }
+      }
+      if ($k === false) fail(500, 'server');
+    }
+    respond(200, ['k' => (string) $k]);
   }
 
   if ($method === 'POST' && $a === 'report') {
