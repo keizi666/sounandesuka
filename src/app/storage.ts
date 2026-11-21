@@ -131,6 +131,17 @@ export function clearResume(scenarioId: string): void {
 }
 
 /** 自動保存のあるシナリオ（新しい順） */
+/** プレイの履歴と、途中の保存をすべて消す（プロフィールの「プレイ記録を消す」） */
+export function clearHistoryAndSaves(): void {
+  const keys: string[] = [];
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const k = localStorage.key(i);
+    if (k && (k.startsWith(SAVE_PREFIX) || k.startsWith(SAVED_AT_PREFIX))) keys.push(k);
+  }
+  for (const k of keys) localStorage.removeItem(k);
+  localStorage.removeItem(HISTORY_KEY);
+}
+
 export function resumableScenarios(): string[] {
   const out: string[] = [];
   for (let i = 0; i < localStorage.length; i += 1) {

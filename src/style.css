@@ -399,6 +399,12 @@ main.briefing { min-height: 100dvh; padding-bottom: 92px; background: var(--bg);
 .bf-kicker .tag.plain { background: rgba(255, 255, 255, 0.16); color: #fff; font-weight: 500; }
 .bf-hero h1 { margin: 0; font-size: clamp(2rem, 5.2vw, 3.2rem); letter-spacing: 0.06em; line-height: 1.2; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.75); }
 .bf-sub { margin: 6px 0 0; font-size: 1.05rem; color: #e6e9ee; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8); }
+/* ネタバレを伏せる（未プレイのシナリオ。ユーザーの指定）。ぼかして選べなくする。ブリーフィングでは押すと見える */
+.spoiler { filter: blur(0.42em); -webkit-user-select: none; user-select: none; transition: filter 0.35s ease, background-color 0.35s ease; background-color: rgba(200, 206, 214, 0.22); border-radius: 0.35em; }
+.spoiler.revealable { cursor: pointer; }
+.spoiler.revealable:hover, .spoiler.revealable:focus-visible { filter: blur(0.32em); outline: none; }
+.bf-spoiler-note { display: flex; align-items: center; gap: 6px; width: fit-content; margin: 10px 0 0; padding: 4px 12px 4px 8px; border-radius: 999px; font-size: 0.82rem; color: #e6e9ee; background: rgba(12, 14, 18, 0.55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.bf-spoiler-note .ic { width: 1.1em; height: 1.1em; flex: none; }
 .bf-facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .bf-fact { display: flex; align-items: center; gap: 10px; padding: 9px 16px 9px 12px; border-radius: 12px; background: rgba(14, 17, 23, 0.6); border: 1px solid rgba(255, 255, 255, 0.14); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
 .bf-fact .ic { width: 1.7em; height: 1.7em; color: var(--accent); }

@@ -2,7 +2,7 @@
  * 自分のプレイの印（ユーザーの指定）: シナリオごとのプレイ回数（結末まで遊んだ回数）とお気に入り。端末の localStorage。
  * プレイ回数は履歴（上限あり）と別に数えるので、古い履歴が消えても減らない。初めて読むときは、それまでの履歴から数え直す。
  */
-import { loadHistory } from './storage';
+import { clearHistoryAndSaves, loadHistory } from './storage';
 
 const COUNT_KEY = 'hks.v1.playCounts';
 const FAV_KEY = 'hks.v1.favorites';
@@ -33,6 +33,19 @@ export function playCounts(): Record<string, number> {
     write(COUNT_KEY, c);
   }
   return c;
+}
+
+/**
+ * この端末のプレイ記録を消す（ユーザーの指定）。プレイ回数・プレイ済みの印・履歴・途中の保存を消す。
+ * お気に入りと、「みんなの遭難記録」に載せた記録（サーバー）はそのまま。回数は履歴から数え直さないよう、空で書く
+ */
+export function clearPlayRecords(): void {
+  try {
+    clearHistoryAndSaves();
+  } catch {
+    // 消せなかった分は残る
+  }
+  write(COUNT_KEY, {});
 }
 
 /** 結末まで遊んだ（履歴に入れるのと同じとき） */

@@ -7,6 +7,7 @@ import { fill } from '../../i18n/format';
 import { communityApi } from '../../net/communityApi';
 import type { ProfileInput } from '../../net/communityTypes';
 import { formatCode, loadProfile, parseCode, saveProfile, type LocalProfile } from '../../net/profile';
+import { clearPlayRecords } from '../../app/playStats';
 import { AGE_BANDS, checkNickname, NICK_MAX, PROFILE_COLORS, SEXES } from '../../net/rules';
 import { el, toast } from '../dom';
 import { icon } from '../icons';
@@ -187,6 +188,22 @@ export function openProfileDialog(done?: (p: LocalProfile | null) => void): void
     );
   }
 
+  // この端末のプレイ記録を消す（ユーザーの指定。載せた記録はサーバーに残る）。プロフィールがなくても使える
+  const playsBox = el('section', { class: 'cm-code cm-plays' }, [
+    el('h3', {}, [icon('history'), C.playsTitle]),
+    el('p', { class: 'cm-note' }, C.playsLead),
+    el('div', { class: 'cm-danger' }, [
+      el('button', { type: 'button', class: 'small danger', onclick: () => {
+        if (!confirm(C.playsConfirm)) return;
+        clearPlayRecords();
+        toast(C.playsCleared);
+        close();
+        // 一覧の「プレイ済み」・伏せ方・再開を作り直す
+        window.dispatchEvent(new CustomEvent('hks:plays-cleared'));
+      } }, [cIcon('delete'), C.playsClear]),
+    ]),
+  ]);
+
   const base = import.meta.env.BASE_URL;
   const field = (label: string, ctrl: HTMLElement | HTMLElement[]): HTMLElement => el('div', { class: 'cm-field' }, [el('span', { class: 'cm-label' }, label), ...(Array.isArray(ctrl) ? ctrl : [ctrl])]);
   const dlg = el('dialog', { class: 'cm-dialog' }, [
@@ -214,6 +231,7 @@ export function openProfileDialog(done?: (p: LocalProfile | null) => void): void
       ]),
       current ? null : el('p', { class: 'cm-note center' }, [el('a', { href: `${base}legal/terms.html`, target: '_blank', rel: 'noopener' }, C.termsLink), ' ・ ', el('a', { href: `${base}legal/privacy.html`, target: '_blank', rel: 'noopener' }, C.privacyLink)]),
       codeBox,
+      playsBox,
     ]),
   ]);
   dlg.addEventListener('close', () => {

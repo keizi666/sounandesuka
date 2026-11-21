@@ -30,6 +30,7 @@ import { openProfileDialog } from './community/profileDialog';
 import { loadProfile } from '../net/profile';
 import { refreshProfile } from '../net/communityApi';
 import { shareButtons, siteUrl } from './shareButtons';
+import { maskSpoiler } from './spoiler';
 
 /** バンドル（*.sounan.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
 async function openBundle(app: AppContext, file: File): Promise<void> {
@@ -84,8 +85,11 @@ function stars(n: number): HTMLElement {
 }
 
 function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumable: boolean, plays: number, onFav: () => void): HTMLElement {
-  const hue = THEME_HUE[e.theme] ?? 200;
+  // 1 回も遊んでいないシナリオは、テーマと題名をぼかす（ユーザーの指定）。カードの色もテーマで決まるので、同じ色にする
+  const hidden = !resumable && plays === 0;
+  const hue = hidden ? 210 : THEME_HUE[e.theme] ?? 200;
   const M = JA.myPlays;
+  const veil = <T extends HTMLElement>(n: T): T => (hidden ? maskSpoiler(n, false) : n);
   // お気に入り（ユーザーの指定）。カードを開く操作とは別に押せる
   const fav = el('button', { class: 'sel-fav', type: 'button' });
   const paintFav = (): void => {
@@ -146,7 +150,7 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
     class: 'sel-hero',
     role: 'button',
     tabindex: 0,
-    'aria-label': `${e.title}（${resumable ? JA.ui.resumeShort : JA.ui.start}）`,
+    'aria-label': `${hidden ? JA.spoiler.hiddenTitle : e.title}（${resumable ? JA.ui.resumeShort : JA.ui.start}）`,
     onclick: () => void open(resumable),
     onkeydown: (e0: Event) => {
       const ev = e0 as KeyboardEvent;
@@ -157,12 +161,12 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
   }, [
     img,
     el('div', { class: 'sel-shade' }),
-    el('div', { class: 'sel-top' }, [chip(THEME_ICON[e.theme] ?? 'warning', JA.labels.theme[e.theme] ?? e.theme, 'theme'), e.region?.real ? chip('landscape', e.region.name, 'real') : chip('landscape', '箱庭岳'), el('span', { class: 'sel-grow' }), stars(e.difficulty), fav]),
-    el('div', { class: 'sel-titles' }, [el('h2', {}, e.title), e.subtitle ? el('p', {}, e.subtitle) : null]),
+    el('div', { class: 'sel-top' }, [veil(chip(THEME_ICON[e.theme] ?? 'warning', JA.labels.theme[e.theme] ?? e.theme, 'theme')), e.region?.real ? chip('landscape', e.region.name, 'real') : chip('landscape', '箱庭岳'), el('span', { class: 'sel-grow' }), stars(e.difficulty), fav]),
+    el('div', { class: 'sel-titles' }, [veil(el('h2', {}, e.title)), e.subtitle ? veil(el('p', {}, e.subtitle)) : null]),
     mapImg,
     resumable ? el('span', { class: 'sel-badge' }, JA.ui.inProgress) : plays > 0 ? el('span', { class: 'sel-badge played' }, [icon('checkCircle'), M.playedBadge]) : null,
   ]);
-  const btn = el('article', { class: `sel-card${resumable ? ' resumable' : ''}${plays > 0 ? ' played' : ''}`, style: `--h:${hue}`, 'data-id': e.id }, [
+  const btn = el('article', { class: `sel-card${resumable ? ' resumable' : ''}${plays > 0 ? ' played' : ''}${hidden ? ' unplayed' : ''}`, style: `--h:${hue}`, 'data-id': e.id }, [
     hero,
     el('div', { class: 'sel-body' }, [people, facts, note, el('div', { class: 'sel-actions' }, [primary, restart])]),
   ]);
@@ -243,6 +247,9 @@ export function showScenarioSelect(app: AppContext): () => void {
   const editorCap = isLocalHost() ? el('a', { class: 'cap', href: `${import.meta.env.BASE_URL}editor.html` }, [icon('edit'), JA.ui.editorShort]) : null;
   document.addEventListener('dragover', onOver);
   document.addEventListener('drop', onDrop);
+  // プロフィールでプレイ記録を消したら、一覧（プレイ済みの印・伏せ方・再開）を作り直す
+  const onPlaysCleared = (): void => app.go({ name: 'select' });
+  window.addEventListener('hks:plays-cleared', onPlaysCleared);
   app.root.append(
     el('main', { class: 'select2' }, [
       el('header', { class: 'sel-bar' }, [
@@ -323,6 +330,7 @@ export function showScenarioSelect(app: AppContext): () => void {
     if (scrollMemory.listY > 0) window.scrollTo(0, scrollMemory.listY);
   });
   return () => {
+    window.removeEventListener('hks:plays-cleared', onPlaysCleared);
     document.removeEventListener('dragover', onOver);
     document.removeEventListener('drop', onDrop);
   };

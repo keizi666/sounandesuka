@@ -24,6 +24,7 @@ import { shareButtons } from './shareButtons';
 import { briefUrl } from '../app/shareState';
 import { saveSettings, type Difficulty } from '../app/settings';
 import { shortTarget } from '../net/shareLink';
+import { maskSpoiler, unplayed } from './spoiler';
 
 /** 予報の文から、天気のアイコンを選ぶ */
 function forecastIcon(label: string, text: string): IconName {
@@ -146,6 +147,9 @@ function difficultyPicker(app: AppContext): HTMLElement {
 export function showBriefing(app: AppContext, loaded: LoadedScenario): () => void {
   const { scenario: s, map } = loaded;
   const B = JA.briefing;
+  // 一覧にあるシナリオで、まだ 1 回も遊んでいなければ、題名・テーマ・史実の注記・出典など結末の手がかりを伏せる（ユーザーの指定）。押すと見える
+  const hide = loaded.listed === true && unplayed(s.id);
+  const veil = <T extends HTMLElement>(n: T): T => (hide ? maskSpoiler(n, true) : n);
   audio().music(s.music?.briefing ?? 'ambient-mist-lake');
   const canvas = el('canvas', { width: 640, height: 640, class: 'map2d', 'aria-label': JA.ui.plan });
   drawMap2d(canvas, map, { route: s.plan.route });
@@ -195,7 +199,7 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
     el('p', { class: 'note' }, JA.disclaimer.fictional),
     s.region?.real ? el('p', { class: 'note' }, JA.disclaimer.realMountain) : null,
     loaded.attribution.length > 0 ? el('p', { class: 'note' }, `${JA.ui.attribution}: ${loaded.attribution.map((a) => a.text).join(' / ')}`) : null,
-    s.sources && s.sources.length > 0 ? el('p', { class: 'note' }, `${JA.ui.sources}: ${s.sources.join(' / ')}`) : null,
+    s.sources && s.sources.length > 0 ? el('p', { class: 'note' }, [`${JA.ui.sources}: `, veil(el('span', {}, s.sources.join(' / ')))]) : null,
   ]);
   // 始まりの条件を変えて試す（天気・気温・季節・体調）
   const cond: StartConditions = structuredClone(loaded.conditions ?? DEFAULT_CONDITIONS);
@@ -212,10 +216,10 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
       el('header', { class: 'bf-hero' }, [
         el('div', { class: 'bf-hero-in' }, [
           el('button', { class: 'bf-back', onclick: () => app.go({ name: 'select' }) }, [icon('arrowBack'), JA.ui.back]),
-          el('p', { class: 'bf-kicker' }, [JA.ui.briefing, el('span', { class: 'tag' }, JA.labels.theme[s.theme] ?? s.theme), s.region?.name ? el('span', { class: 'tag plain' }, s.region.name) : null]),
+          el('p', { class: 'bf-kicker' }, [JA.ui.briefing, veil(el('span', { class: 'tag' }, JA.labels.theme[s.theme] ?? s.theme)), s.region?.name ? el('span', { class: 'tag plain' }, s.region.name) : null]),
           // 題と共有（ユーザーの指定: 共有は題の右、狭い画面では題の下）。一覧にあるシナリオだけ（エディターで作った物は出さない）
           el('div', { class: 'bf-title-row' }, [
-            el('h1', {}, s.title),
+            veil(el('h1', {}, s.title)),
             loaded.listed
               ? el('details', { class: 'bf-share' }, [
                   el('summary', { title: JA.share.scenarioTitle }, [icon('share'), JA.share.scenarioButton]),
@@ -226,7 +230,8 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
                 ])
               : null,
           ]),
-          s.subtitle ? el('p', { class: 'bf-sub' }, s.subtitle) : null,
+          s.subtitle ? veil(el('p', { class: 'bf-sub' }, s.subtitle)) : null,
+          hide ? el('p', { class: 'bf-spoiler-note' }, [icon('visibilityOff'), JA.spoiler.note]) : null,
           facts,
         ]),
       ]),
@@ -234,8 +239,8 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
         // 史実シナリオでは、最初に注記と出典を出す（docs/09 §11）
         s.historical
           ? el('section', { class: 'bf-card bf-historical' }, [
-              el('p', { class: 'strong' }, [icon('warning'), s.historical.disclaimer]),
-              historicalSources(s.historical),
+              el('p', { class: 'strong' }, [icon('warning'), veil(el('span', {}, s.historical.disclaimer))]),
+              veil(historicalSources(s.historical)),
               el('p', {}, s.historical.labelsNote),
               el('p', {}, '※印のセリフは架空です。記録に残る発言には「記録」と表示しています。'),
             ])
@@ -263,7 +268,7 @@ export function showBriefing(app: AppContext, loaded: LoadedScenario): () => voi
       // 下に固定: 出発
       el('footer', { class: 'bf-bar' }, [
         el('div', { class: 'bf-bar-in' }, [
-          el('span', { class: 'bf-bar-info' }, [el('strong', {}, s.title), el('small', {}, `${formatDateTime(s, startMin)} ${B.departure} ・ ${s.party.length}${B.people}`)]),
+          el('span', { class: 'bf-bar-info' }, [veil(el('strong', {}, s.title)), el('small', {}, `${formatDateTime(s, startMin)} ${B.departure} ・ ${s.party.length}${B.people}`)]),
           difficultyPicker(app),
           el('button', { class: 'primary big', onclick: depart }, [icon('hiking'), JA.ui.depart]),
         ]),
