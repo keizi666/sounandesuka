@@ -456,10 +456,12 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       view.setAreaBlur(null);
       return;
     }
-    const l = ownLeader(w);
+    // 中心は、いま追っている（選んでいる）人。パーティが分かれたとき、見守っているパーティのリーダーではなく、
+    // 画面で追っている人のまわりと人形をぼかさない（ユーザーの指摘: s06 で一人で迷った健一さんまで全部ぼけた）
+    const l = w.climbers.find((c) => c.id === view.selected) ?? ownLeader(w);
     // 道に迷ったと気づき、現在地が分からない（地図・GPS で確かめたら解く）
     const lost = l.body.alive && l.perception.awareLost && !l.perception.knowsPosition && !TERMINAL_STATES.has(l.state);
-    const keepIds = w.climbers.filter((c) => c.groupId === l.groupId && c.body.alive).map((c) => c.id);
+    const keepIds = w.climbers.filter((c) => c.id === l.id || (c.groupId !== null && c.groupId === l.groupId && c.body.alive)).map((c) => c.id);
     // 見える範囲: ハードはいつも（樹林帯・霧・雨や雪・夜）。ノーマルは悪天候（霧・雨や雪）のときだけ、ハードの 2 倍（ユーザーの指定）
     let target = VIEW_NONE_M;
     if (difficulty === 'hard') target = hardViewRangeM(ctx.map, l, w.sun.isDark);
