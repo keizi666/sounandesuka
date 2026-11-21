@@ -111,6 +111,8 @@ describe('プレースホルダ（docs/09 §5）', () => {
     expect(genericTexts('darkness', 19 * 60 + 20)?.title).toBe('日が暮れた');
     expect(genericTexts('darkness', 1440 + 3 * 60 + 30)?.title).toBe('まだ暗い');
     expect(genericTexts('darkness', 1440 + 3 * 60 + 30)?.situation).toContain('夜明け前');
+    expect(genericTexts('darkness', 1440 + 3 * 60 + 30)?.options['bivouac']).toBe('明るくなるまで、その場で待つ');
+    expect(genericTexts('darkness', 19 * 60 + 20)?.options['bivouac']).toBe('その場でビバークする');
     expect(genericTexts('lostAware', 3 * 60)?.title).toBe('道に迷った');
   });
 });

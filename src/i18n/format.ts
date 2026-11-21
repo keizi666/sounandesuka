@@ -18,15 +18,16 @@ export const TEXT_LABELS: TextLabels = {
 };
 
 /**
- * 汎用分岐点の題と既定の文。「暗くなった」（darkness）は、夜のうちに休んでいて夜明け前に歩き出したときにも出るので、
- * 午前（0〜12 時）に出たら「まだ暗い」の題と文にする（「日が暮れた」と出さない）
+ * 汎用分岐点の題・既定の文・選択肢の文。「暗くなった」（darkness）は、夜のうちに休んでいて夜明け前に歩き出したときにも出るので、
+ * 午前（0〜12 時）に出たら「まだ暗い」の題と文、「明るくなるまで待つ」の選択肢にする（「日が暮れた」「ビバークする」と出さない）。
+ * predawn が true のときは、シナリオの上書きの文（どれも夕方の文）より、こちらの文を使う
  */
-export function genericTexts(key: string, tMin: number): { title: string; situation: string } | undefined {
-  const g = JA.generic[key] as { title: string; situation: string; predawnTitle?: string; predawnSituation?: string } | undefined;
+export function genericTexts(key: string, tMin: number): { title: string; situation: string; options: Record<string, string>; predawn: boolean } | undefined {
+  const g = JA.generic[key] as { title: string; situation: string; options: Record<string, string>; predawnTitle?: string; predawnSituation?: string; predawnOptions?: Record<string, string> } | undefined;
   if (!g) return undefined;
   const clock = ((tMin % 1440) + 1440) % 1440;
-  if (clock < 720 && g.predawnTitle) return { title: g.predawnTitle, situation: g.predawnSituation ?? g.situation };
-  return { title: g.title, situation: g.situation };
+  if (clock < 720 && g.predawnTitle) return { title: g.predawnTitle, situation: g.predawnSituation ?? g.situation, options: { ...g.options, ...(g.predawnOptions ?? {}) }, predawn: true };
+  return { title: g.title, situation: g.situation, options: g.options, predawn: false };
 }
 
 export function fill(template: string, vars: Record<string, string | number>): string {
@@ -172,7 +173,7 @@ function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
       if (!label && s('cp').startsWith('generic:')) {
         // 汎用の分岐点: シナリオの上書きの文、なければ i18n の既定文
         const key = s('cp').slice(8) as keyof NonNullable<ScenarioDef['genericOverrides']>;
-        label = f.scenario.genericOverrides?.[key]?.options?.find((o) => o.id === s('option'))?.label ?? JA.generic[key]?.options[s('option')];
+        label = f.scenario.genericOverrides?.[key]?.options?.find((o) => o.id === s('option'))?.label ?? genericTexts(key, e.tMin)?.options[s('option')];
       }
       return fill(L.choiceResolved, { label: label ?? s('option'), by: JA.labels.by[s('by')] ?? s('by') });
     }

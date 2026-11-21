@@ -20,12 +20,11 @@ export interface ChoiceUi {
 function texts(ctx: StaticContext, cpId: string, tMin: number): { title: string; situation: string; label: (id: string, fallback: string) => string } {
   const found = findChoicePoint(ctx, cpId)!;
   if (cpId.startsWith('generic:')) {
-    const g = JA.generic[cpId.slice(8)];
     const tx = genericTexts(cpId.slice(8), tMin);
     return {
       title: tx?.title ?? cpId,
-      situation: found.cp.situation || tx?.situation || '',
-      label: (id, fb) => fb || g?.options[id] || id,
+      situation: (tx?.predawn ? '' : found.cp.situation) || tx?.situation || '',
+      label: (id, fb) => fb || tx?.options[id] || id,
     };
   }
   return { title: found.cp.title, situation: found.cp.situation, label: (_id, fb) => fb };
