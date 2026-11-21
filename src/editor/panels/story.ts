@@ -62,6 +62,10 @@ export const storyPanel: Panel = {
         ed.refresh();
       },
       blank: (kind, k) => addBlank(ed, kind, k),
+      close() {
+        sel = null;
+        ed.refresh();
+      },
       showMap() {
         mapShown = true;
         ed.refresh();

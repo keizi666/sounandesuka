@@ -14,6 +14,7 @@ import { varLabel } from '../forms/varPaths';
 import { clockLabel, plainWhen, RECORD_PRESETS } from '../forms/whenPicker';
 import type { StoryCat, StorySel } from '../templates/story';
 import { KIT_TEMPLATES } from '../templates/storyParts2';
+import { choiceBranch, eventBranch } from './storyBranch';
 import { ENDING_KINDS, plainEffects } from './storyDetail';
 
 export interface BoardApi {
@@ -25,6 +26,8 @@ export interface BoardApi {
   addTemplate(id: string): void;
   blank(kind: StorySel['kind'], endingKind?: EndingKind): void;
   showMap(): void;
+  /** 開いている枝分かれの編集をたたむ */
+  close(): void;
 }
 
 const GENERICS: GenericChoiceKey[] = ['lostAware', 'darkness', 'hypothermia', 'injured', 'lightning', 'waterfall', 'straggler', 'rescueFailed'];
@@ -74,6 +77,7 @@ function card(api: BoardApi, me: StorySel, cls: string, kids: (HTMLElement | str
 }
 
 function choiceCard(ed: Ed, api: BoardApi, cp: ChoicePointDef, idx: number, links: Map<string, string[]>, showWhen: boolean): HTMLElement {
+  if (api.sel?.kind === 'choice' && api.sel.idx === idx) return choiceBranch(ed, api, cp);
   const ctx = { scenario: ed.p.scenario, map: ed.p.map };
   const dec = ed.lastRun?.record?.decisions.find((d) => d.cpId === cp.id);
   return card(api, { kind: 'choice', idx }, 'choice', [
@@ -93,6 +97,7 @@ function choiceCard(ed: Ed, api: BoardApi, cp: ChoicePointDef, idx: number, link
 }
 
 function eventCard(ed: Ed, api: BoardApi, ev: ScriptEventDef, idx: number, showWhen: boolean): HTMLElement {
+  if (api.sel?.kind === 'event' && api.sel.idx === idx) return eventBranch(ed, api, ev);
   const ctx = { scenario: ed.p.scenario, map: ed.p.map };
   const fx = plainEffects(ev.effects, ed);
   return card(api, { kind: 'event', idx }, 'event', [
@@ -175,7 +180,7 @@ export function storyBoard(ed: Ed, api: BoardApi): HTMLElement {
 
   return el('div', { class: 'story-board' }, [
     el('div', { class: 'sb-top' }, [
-      el('div', {}, [el('h2', {}, `物語: ${s.title}`), el('p', { class: 'note' }, 'カードを押すと、右の欄で直せます。「＋」でテンプレートから足せます。')]),
+      el('div', {}, [el('h2', {}, `物語: ${s.title}`), el('p', { class: 'note' }, '分かれ道・できごとのカードを押すと、その場で開いて直せます。「＋」でテンプレートから足せます。')]),
       el('span', { class: 'spacer' }),
       el('button', { onclick: () => api.showMap() }, '🗺 地図を見る'),
       el('button', { class: 'primary', onclick: () => api.add() }, '＋ テンプレートから足す'),

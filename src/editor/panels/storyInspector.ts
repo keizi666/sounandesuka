@@ -18,7 +18,7 @@ type Kid = HTMLElement | null;
 const h = (t: string, note?: string): HTMLElement => el('h4', { class: 'si-h' }, note ? [t, el('small', { class: 'note' }, ` ${note}`)] : t);
 const detail = (kids: Kid[]): HTMLElement => keptDetails('story:detail', 'くわしい設定', kids, false);
 
-function optionBox(ed: Ed, cp: ChoicePointDef, o: ChoiceOptionDef, i: number): HTMLElement {
+export function optionBox(ed: Ed, cp: ChoicePointDef, o: ChoiceOptionDef, i: number): HTMLElement {
   const set = (label: string, f: () => void): void => ed.change(label, f);
   const tag = (t: 'recommended' | 'risky', label: string): HTMLElement => {
     const on = o.tags?.includes(t) ?? false;
@@ -43,17 +43,10 @@ function optionBox(ed: Ed, cp: ChoicePointDef, o: ChoiceOptionDef, i: number): H
 function choiceFields(ed: Ed, cp: ChoicePointDef, done: (s: StorySel | null) => void): Kid[] {
   const s = ed.p.scenario;
   const set = (label: string, f: () => void): void => ed.change(label, f);
-  const situ = area('状況の文（プレイヤーに見せる）', cp.situation, (v) => set('状況', () => (cp.situation = v)), 4);
   return [
     el('h2', {}, '🔀 分かれ道'),
-    text('題', cp.title, (v) => set('題', () => (cp.title = v)), { wide: true }),
-    h('いつ出す'),
-    whenPicker(cp.trigger, { scenario: s, map: ed.p.map }, (c) => c && set('いつ出す', () => (cp.trigger = c))),
-    situ,
-    varInserter(() => situ.querySelector('textarea'), cp, ed),
-    h(`選択肢（${cp.options.length}）`, '★ は安全な判断、⚠ は危ない判断'),
-    ...cp.options.map((o, i) => optionBox(ed, cp, o, i)),
-    button('＋ 選択肢を足す', () => set('選択肢の追加', () => cp.options.push({ id: nextId(cp.options.map((o) => o.id), 'o'), label: '', actions: [{ type: 'continueRoute' }], bias: { base: 1 } }))),
+    el('p', {}, `「${cp.title || '（題なし）'}」`),
+    el('p', { class: 'note' }, '題・いつ出す・状況の文・選択肢は、左のボードで開いたカードの中で直せます。'),
     detail([el('p', { class: 'note' }, 'ID・条件の組み合わせ・選択肢を選べる条件・観察だけのときの選ばれやすさ・制限時間など。'), cpEditor(ed, cp)]),
     el('div', { class: 'si-foot' }, [
       button('複製', () => set('分かれ道の複製', () => {
@@ -98,10 +91,7 @@ export function storyInspector(ed: Ed, sel: StorySel | null, done: (s: StorySel 
       if (!ev) break;
       return [
         el('h2', {}, '⚡ できごと'),
-        h('いつ起きる'),
-        whenPicker(ev.trigger, ctx, (c) => c && set('いつ起きる', () => (ev.trigger = c)), { chance: true }),
-        h('なにが起きる', '上から順に'),
-        effectEditor(ed, ev.effects, (l) => set('起きること', () => (ev.effects = l))),
+        el('p', { class: 'note' }, 'いつ起きる・なにが起きるは、左のボードで開いたカードの中で直せます。'),
         detail(eventDetail(ed, ev)),
         delBtn(ed, 'できごと', s.events, i, done),
       ];
@@ -177,7 +167,7 @@ export function storyInspector(ed: Ed, sel: StorySel | null, done: (s: StorySel 
   }
   return [
     el('h2', {}, '物語'),
-    el('p', {}, '左のカードを押すと、ここで直せます。'),
+    el('p', {}, '左の分かれ道・できごとのカードを押すと、その場で開いて直せます。会話・結末・教訓のカードは、ここで直せます。'),
     el('ul', { class: 'si-help' }, [
       el('li', {}, [el('b', {}, '🔀 分かれ道'), ' … 登山者が判断する場面。選んだ行動で、その先が変わります']),
       el('li', {}, [el('b', {}, '⚡ できごと'), ' … 時刻や場所で自動で起きること（予報・落石・動物など）']),

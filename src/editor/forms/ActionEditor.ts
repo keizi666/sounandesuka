@@ -174,6 +174,8 @@ export function actionEditor(list: Action[], s: ScenarioDef, map: MapDef, commit
           i2.addEventListener('change', () => set({ route: i2.value.split(/\s+/).filter(Boolean) } as Partial<Action>));
           return i2;
         })()));
+        // ID だけでは分からないので、名前のある地点を道順で見せる（ユーザーの指摘: 記号では分からない）
+        extra.push(el('small', { class: 'note', style: 'flex-basis:100%' }, `道順: ${(a.route ?? []).map((id) => map.nodes.find((n) => n.id === id)?.name).filter((n, k, arr) => n && n !== arr[k - 1]).join(' → ') || '（地点なし）'}`));
         break;
       case 'goToNode':
         extra.push(field('地点', choose('node', nodes)), field('着いたら', choose('then', [['stay', 'とどまる'], ['continue', 'ルートへ戻る'], ['call', '着いたら通報する']])));
