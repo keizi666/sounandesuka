@@ -2,6 +2,7 @@
  * 地図のレイヤー（docs/16 §2）: 陰影段彩と重ね表示、箱庭範囲、登山道、計画ルート、試走の軌跡、地点・危険箇所・基地局、雷雲の進路・確認地点。
  */
 import { edgeSel } from './edgeSelection';
+import { routeLayer } from './routeLayer';
 import { reliefCanvas } from '../../ui/map2d';
 import { VegClass, type MapRuntime } from '../../sim/types';
 import { asInt8, decodeGrid } from '../../sim/terrain/codec';
@@ -186,35 +187,7 @@ export function createLayers(ed: Ed, state: LayerState): MapLayer[] {
       g.setLineDash([]);
     },
   };
-  const route: MapLayer = {
-    id: 'route',
-    visible: true,
-    draw(g, v) {
-      const r = ed.p.scenario.plan.route;
-      const at = (id: string): { px: number; py: number } | null => {
-        const n = ed.p.map.nodes.find((x) => x.id === id);
-        return n ? v.xzToPx(n.x, n.z) : null;
-      };
-      g.strokeStyle = 'rgba(37,99,235,0.85)';
-      g.lineWidth = 2;
-      g.setLineDash([2, 4]);
-      g.beginPath();
-      r.forEach((id, i) => {
-        const p = at(id);
-        if (!p) return;
-        if (i === 0) g.moveTo(p.px, p.py);
-        else g.lineTo(p.px, p.py);
-      });
-      g.stroke();
-      g.setLineDash([]);
-      g.font = 'bold 11px system-ui';
-      g.fillStyle = '#1d4ed8';
-      r.forEach((id, i) => {
-        const p = at(id);
-        if (p) g.fillText(String(i + 1), p.px - 3, p.py + 18);
-      });
-    },
-  };
+  const route = routeLayer(ed);
   const track: MapLayer = {
     id: 'track',
     visible: true,

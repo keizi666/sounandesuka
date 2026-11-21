@@ -1,9 +1,10 @@
 /**
  * 新しいプロジェクトの範囲を、日本地図（地理院タイル）から選ぶ（docs/16 §2）。
  * 日本全体から始め、ホイールで近づき、地図を押すとそこが範囲の中心になる。四角の中をつまむと範囲を動かせる。
- * 有名な山へのひとっ飛び（緯度・経度は概略）。緯度・経度・一辺の入力と相互に同期する。
+ * 有名な山へのひとっ飛び（緯度・経度は概略）と、地名・山名の検索（Overpass API。geo/placeSearch.ts）。緯度・経度・一辺の入力と相互に同期する。
  */
 import { el } from '../ui/dom';
+import { searchPlaces, type PlaceHit } from './geo/placeSearch';
 import { toLatLon } from './geo/projection';
 import { TileMapView, type MapLayer, type MapPointer } from './map/TileMapView';
 
@@ -37,7 +38,17 @@ export function createAreaPicker(inputs: { lat: HTMLInputElement; lon: HTMLInput
     [el('option', { value: '' }, '山へ移動…'), ...AREA_PRESETS.map((p, i) => el('option', { value: String(i) }, p.name))],
   );
   const hint = el('p', { class: 'note' }, 'ホイールで拡大・縮小、ドラッグで地図を動かします。地図を押すとそこが範囲の中心になり、四角の中をつまむと範囲を動かせます。');
-  const root = el('div', { class: 'area-picker' }, [el('div', { class: 'area-picker-bar' }, [presets]), mapBox, hint]);
+  const q = el('input', { type: 'search', class: 'area-picker-q', placeholder: '地名・山名で探す（例: 白馬岳、上高地）', 'aria-label': '地名・山名で探す' });
+  const go = el('button', { type: 'button' }, '検索');
+  const results = el('div', { class: 'area-picker-results', hidden: true });
+  const searchNote = el('span', { class: 'note area-picker-msg' }, '');
+  const root = el('div', { class: 'area-picker' }, [
+    el('div', { class: 'area-picker-bar' }, [q, go, presets, searchNote]),
+    results,
+    mapBox,
+    hint,
+    el('p', { class: 'note' }, '地名・山名の検索: © OpenStreetMap contributors（Overpass API）。押したときだけ問い合わせます。'),
+  ]);
 
   const view = new TileMapView(mapBox);
   view.minZoom = 5;
@@ -127,6 +138,68 @@ export function createAreaPicker(inputs: { lat: HTMLInputElement; lon: HTMLInput
     },
   };
   view.setCursor('crosshair');
+  /** 検索の結果を選んだら、そこを範囲の中心にして近づく */
+  const jump = (h: { lat: number; lon: number }): void => {
+    setCenter(h.lat, h.lon);
+    view.lat0 = h.lat;
+    view.lon0 = h.lon;
+    view.fitArea(sizeM() * 1.6);
+  };
+  const showHits = (hits: PlaceHit[]): void => {
+    results.replaceChildren(
+      ...hits.map((h) =>
+        el('button', {
+          type: 'button',
+          class: 'area-picker-hit',
+          onclick: () => {
+            jump(h);
+            results.hidden = true;
+            searchNote.textContent = `${h.name}へ移動しました`;
+          },
+        }, [el('strong', {}, h.name), el('small', {}, ` ${h.kind}${h.elevM !== undefined ? ` ${h.elevM.toLocaleString('ja-JP')} m` : ''}　${h.lat.toFixed(3)}, ${h.lon.toFixed(3)}`)]),
+      ),
+    );
+    results.hidden = hits.length === 0;
+  };
+  let searching = false;
+  const search = async (): Promise<void> => {
+    const text = q.value.trim();
+    if (!text || searching) return;
+    // 収録の山の候補は通信せずに先に出す
+    const local: PlaceHit[] = AREA_PRESETS.filter((p) => p.name.includes(text)).map((p) => ({ name: p.name, kind: '候補', lat: p.lat, lon: p.lon }));
+    showHits(local);
+    searching = true;
+    go.disabled = true;
+    const t0 = performance.now();
+    let retry = '';
+    const tick = (): void => {
+      searchNote.textContent = `探しています…（OpenStreetMap。${Math.round((performance.now() - t0) / 1000)} 秒。混んでいると 1 分ほどかかります）${retry}`;
+    };
+    tick();
+    const timer = setInterval(tick, 1000);
+    try {
+      const hits = await searchPlaces(text, (n) => {
+        retry = ` 検索サーバーが混み合っているので、少し待ってやり直しています（${n} 回目）`;
+        tick();
+      });
+      showHits([...local, ...hits]);
+      searchNote.textContent = local.length + hits.length === 0 ? `「${text}」は見つかりませんでした。別の書き方（「岳」「山」を付ける・外す）でも試してください` : `${local.length + hits.length} 件。選ぶとそこへ移動します`;
+    } catch (e) {
+      searchNote.textContent = String(e instanceof Error ? e.message : e);
+    } finally {
+      clearInterval(timer);
+      searching = false;
+      go.disabled = false;
+    }
+  };
+  go.addEventListener('click', () => void search());
+  q.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      // ダイアログの「作る」を押したことにしない
+      e.preventDefault();
+      void search();
+    }
+  });
   presets.addEventListener('change', () => {
     const p = AREA_PRESETS[Number(presets.value)];
     if (!p) return;

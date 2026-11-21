@@ -2,6 +2,7 @@
  * 2D 地図ビュー（docs/16 §2）。自作の Canvas2D。地理院タイル（docs/15 §4 の表のものだけ）を背景に、レイヤーを重ねる。
  * パン（ドラッグ）、ズーム（ホイール、z 10〜17）、タイルの LRU キャッシュ 400 枚、右下に出典。
  * 道具（MapTool）がポインタを取れば、パンの代わりに道具が動く（範囲の移動、道の手描き、塗りなど）。
+ * スペースキーを押している間は、どの道具を使っていてもドラッグで地図を動かす（道具には渡さない）。
  */
 import { lonLatToTile, tileToLonLat, tileUrl, type BaseLayer } from '../geo/tiles';
 import { toLatLon, toXZ } from '../geo/projection';
@@ -33,6 +34,34 @@ export interface MapLayer {
 }
 
 const TILE = 256;
+
+/** スペースキーを押しているか（入力欄の中では数えない）。すべての地図で共有する */
+let spaceHeld = false;
+const views = new Set<TileMapView>();
+
+function typingIn(t: EventTarget | null): boolean {
+  const e = t as HTMLElement | null;
+  return !!e && (e.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(e.tagName));
+}
+
+function setSpace(v: boolean): void {
+  if (spaceHeld === v) return;
+  spaceHeld = v;
+  for (const view of views) view.refreshCursor();
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('keydown', (e) => {
+    if (e.code !== 'Space' || typingIn(e.target)) return;
+    // 地図の上にいるときは、ボタンの押下やページのスクロールにしない
+    if ([...views].some((v) => v.hovered)) e.preventDefault();
+    setSpace(true);
+  });
+  window.addEventListener('keyup', (e) => {
+    if (e.code === 'Space') setSpace(false);
+  });
+  window.addEventListener('blur', () => setSpace(false));
+}
 const CACHE_MAX = 400;
 
 export class TileMapView {
@@ -57,6 +86,10 @@ export class TileMapView {
   private pending = 0;
   private attribution: HTMLElement;
   private scheduled = false;
+  /** ポインタが地図の上にあるか */
+  hovered = false;
+  private toolCursor = '';
+  private panning = false;
 
   constructor(host: HTMLElement) {
     this.canvas = document.createElement('canvas');
@@ -69,6 +102,7 @@ export class TileMapView {
     this.root.append(this.canvas, this.attribution);
     host.append(this.root);
     this.bind();
+    views.add(this);
     new ResizeObserver(() => this.resize()).observe(this.root);
   }
 
@@ -212,12 +246,17 @@ export class TileMapView {
   }
 
   private bind(): void {
-    let drag: { mode: 'pan' | 'tool'; sx: number; sy: number; lat: number; lon: number; moved: boolean } | null = null;
+    let drag: { mode: 'pan' | 'tool'; sx: number; sy: number; lat: number; lon: number; moved: boolean; space: boolean } | null = null;
     this.canvas.addEventListener('pointerdown', (e) => {
       if (e.button !== 0 && e.button !== 2) return;
       const p = this.pointer(e);
-      const toolTakes = e.button === 0 && (this.tool?.down?.(p) ?? false);
-      drag = { mode: toolTakes ? 'tool' : 'pan', sx: e.clientX, sy: e.clientY, lat: this.lat, lon: this.lon, moved: false };
+      const space = spaceHeld;
+      const toolTakes = !space && e.button === 0 && (this.tool?.down?.(p) ?? false);
+      drag = { mode: toolTakes ? 'tool' : 'pan', sx: e.clientX, sy: e.clientY, lat: this.lat, lon: this.lon, moved: false, space };
+      if (space) {
+        this.panning = true;
+        this.refreshCursor();
+      }
       this.canvas.setPointerCapture(e.pointerId);
     });
     this.canvas.addEventListener('pointermove', (e) => {
@@ -229,15 +268,21 @@ export class TileMapView {
           const ll = tileToLonLat(c.x - (e.clientX - drag.sx) / TILE, c.y - (e.clientY - drag.sy) / TILE, this.zoom);
           this.setView(ll.lat, ll.lon);
         } else if (drag.mode === 'tool') this.tool?.move?.(p, true);
-      } else this.tool?.move?.(p, false);
+      } else if (!spaceHeld) this.tool?.move?.(p, false);
     });
+    this.canvas.addEventListener('pointerenter', () => (this.hovered = true));
+    this.canvas.addEventListener('pointerleave', () => (this.hovered = false));
     this.canvas.addEventListener('pointerup', (e) => {
       const p = this.pointer(e);
       if (drag?.mode === 'tool') this.tool?.up?.(p);
-      if (drag && !drag.moved && e.button === 0) this.tool?.click?.(p);
+      if (drag && !drag.moved && !drag.space && e.button === 0) this.tool?.click?.(p);
       drag = null;
+      if (this.panning) {
+        this.panning = false;
+        this.refreshCursor();
+      }
     });
-    this.canvas.addEventListener('dblclick', (e) => this.tool?.dblclick?.(this.pointer(e)));
+    this.canvas.addEventListener('dblclick', (e) => !spaceHeld && this.tool?.dblclick?.(this.pointer(e)));
     this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
     this.canvas.addEventListener(
       'wheel',
@@ -256,7 +301,13 @@ export class TileMapView {
     );
   }
 
+  /** 道具のカーソル（スペースを押している間は手のひら） */
   setCursor(c: string): void {
-    this.canvas.style.cursor = c;
+    this.toolCursor = c;
+    this.refreshCursor();
+  }
+
+  refreshCursor(): void {
+    this.canvas.style.cursor = this.panning ? 'grabbing' : spaceHeld ? 'grab' : this.toolCursor;
   }
 }

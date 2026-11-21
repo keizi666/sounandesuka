@@ -47,7 +47,6 @@
 .ed-dialog { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; width: min(560px, 94vw); }
 .ed-dialog.wide { width: min(860px, 96vw); }
 .area-picker { margin: 6px 0; }
-.area-picker-bar { display: flex; gap: 8px; margin-bottom: 6px; }
 .area-picker-presets { min-width: 14em; }
 .area-picker-map { position: relative; height: min(420px, 52vh); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 .area-picker-map .tilemap-root { position: absolute; inset: 0; }
@@ -101,3 +100,11 @@ textarea.mono { width: 100%; min-height: 60vh; }
 .tp-caption svg { width: 26px; height: 26px; fill: #c8a050; flex: none; }
 .tp-caption div { display: flex; flex-direction: column; gap: 2px; }
 .tp-caption small { opacity: 0.8; }
+.area-picker-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 6px; }
+.area-picker-q { flex: 1 1 14em; min-width: 10em; }
+.area-picker-msg { flex: 1 1 100%; margin: 0; }
+.area-picker-results { display: flex; flex-direction: column; max-height: 180px; overflow-y: auto; margin-bottom: 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel2); }
+.area-picker-results[hidden] { display: none; }
+.area-picker-hit { display: block; width: 100%; text-align: left; padding: 5px 9px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--fg); min-height: 0; }
+.area-picker-hit:hover, .area-picker-hit:focus { background: rgba(200, 160, 80, 0.18); }
+.area-picker-hit small { color: var(--muted); }

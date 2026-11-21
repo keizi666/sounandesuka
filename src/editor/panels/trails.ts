@@ -19,6 +19,7 @@ import { buildVertexGraph, joinSkeleton, namedPoints } from '../geo/skeleton';
 import { defaultBinding } from '../geo/skeletonBind';
 import { standardLegMin, suggestPaceAdj } from '../pace';
 import type { Panel } from './types';
+import { nextPaint, showLoading } from '../../ui/loading';
 
 type Mode = 'select' | 'box' | 'draw' | 'split' | 'route';
 let mode: Mode = 'select';
@@ -69,9 +70,9 @@ function removeEdges(ed: Ed, ids: string[]): void {
     const map = ed.p.map;
     map.edges = map.edges.filter((e) => !ids.includes(e.id));
     ed.p.editorState.draftEdgeIds = ed.p.editorState.draftEdgeIds.filter((x) => !ids.includes(x));
-    // どの道にもつながらない分岐点（junction）は消す
+    // どの道にもつながらない分岐点（junction）と境界点（boundary。範囲の外へ続く道の端）は消す
     const used = new Set(map.edges.flatMap((e) => [e.from, e.to ?? '']));
-    map.nodes = map.nodes.filter((n) => n.type !== 'junction' || used.has(n.id) || n.source === 'manual');
+    map.nodes = map.nodes.filter((n) => used.has(n.id) || (n.type === 'junction' ? n.source === 'manual' : n.type !== 'boundary'));
   }, true);
 }
 
@@ -391,19 +392,47 @@ export const trailsPanel: Panel = {
     });
     const osmBtn = button(ed.p.raw.osm ? 'OSM を変換し直す（再取得しない）' : 'OpenStreetMap から取り込む', async () => {
       if (!geo) return;
+      const ld = showLoading('OpenStreetMap から登山道を取り込んでいます');
       try {
         let json = ed.p.raw.osm as OsmJson | undefined;
         if (!json) {
-          busy = 'Overpass API に問い合わせています…（1 エリア 1 回）';
-          ed.refresh();
-          json = await fetchOsm(geo.centerLat, geo.centerLon, ed.p.map.size);
+          // Overpass は全体の大きさを返さないので、待った時間と受け取った量を出す
+          const t0 = performance.now();
+          let bytes = 0;
+          let retry = '';
+          const tick = (): void => {
+            const sec = Math.round((performance.now() - t0) / 1000);
+            ld.step(bytes > 0 ? `データを受け取っています… ${(bytes / 1048576).toFixed(1)} MB（${sec} 秒）` : `Overpass API に、範囲の中の登山道・山頂・小屋などを問い合わせています…（${sec} 秒。混んでいると 1 分ほどかかります）${retry}`, null);
+          };
+          tick();
+          const timer = setInterval(tick, 500);
+          try {
+            json = await fetchOsm(geo.centerLat, geo.centerLon, ed.p.map.size, undefined, {
+              onBytes: (b) => {
+                bytes = b;
+                tick();
+              },
+              onRetry: (n) => {
+                retry = `　サーバーが混み合っているので、少し待ってやり直しています（${n} 回目）`;
+                tick();
+              },
+            });
+          } finally {
+            clearInterval(timer);
+          }
           ed.p.raw.osm = json;
         }
+        ld.step(`道と地点に変換しています…（OSM の要素 ${json.elements.length.toLocaleString('ja-JP')} 件。標高に沿わせ、範囲の端で切ります）`, 0.6);
+        await nextPaint();
         busy = '';
         importOsm(ed, json);
+        ld.step('取り込みました', 1);
+        await nextPaint();
       } catch (e) {
         busy = String(e instanceof Error ? e.message : e);
         ed.refresh();
+      } finally {
+        ld.done();
       }
     }, 'primary');
     const e = sel.kind === 'edge' ? ed.p.map.edges.find((x) => x.id === sel.id) : undefined;

@@ -44,12 +44,44 @@ out body geom;`;
 /** 境界点から境界点へ出るだけの道は、これより短ければ取り込まない（m） */
 const BORDER_STUB_M = 500;
 
-/** headers は Node のツールから呼ぶとき用（Overpass は User-Agent のない自動クライアントを断る） */
-export async function fetchOsm(lat0: number, lon0: number, size: number, headers?: Record<string, string>): Promise<OsmJson> {
-  const res = await fetch(OVERPASS_URL, { method: 'POST', body: new URLSearchParams({ data: overpassQuery(lat0, lon0, size) }), headers });
-  if (res.status === 429) throw new Error('Overpass API が混雑しています（429）。しばらくしてからやり直してください。');
+/** 混雑（429・502・503・504）のときに待ってやり直す間隔（ミリ秒）。Overpass の案内どおり、間を広げる */
+const RETRY_MS = [5000, 15000];
+
+/**
+ * headers は Node のツールから呼ぶとき用（Overpass は User-Agent のない自動クライアントを断る）。
+ * onBytes は応答を受け取るたびに、受け取ったバイト数で呼ぶ（読み込み中の表示用。Overpass は全体の大きさを返さない）。
+ * onRetry は混雑でやり直す前に呼ぶ（何回目か、待つミリ秒）
+ */
+export async function fetchOsm(lat0: number, lon0: number, size: number, headers?: Record<string, string>, progress: { onBytes?: (bytes: number) => void; onRetry?: (attempt: number, waitMs: number) => void } = {}): Promise<OsmJson> {
+  const { onBytes, onRetry } = progress;
+  let res: Response;
+  for (let attempt = 0; ; attempt += 1) {
+    res = await fetch(OVERPASS_URL, { method: 'POST', body: new URLSearchParams({ data: overpassQuery(lat0, lon0, size) }), headers });
+    const busy = res.status === 429 || res.status === 502 || res.status === 503 || res.status === 504;
+    if (!busy) break;
+    if (attempt >= RETRY_MS.length) throw new Error(`Overpass API が混雑しています（${res.status}）。しばらくしてからやり直してください。`);
+    onRetry?.(attempt + 1, RETRY_MS[attempt]!);
+    await new Promise((r) => setTimeout(r, RETRY_MS[attempt]!));
+  }
   if (!res.ok) throw new Error(`OpenStreetMap のデータを取得できませんでした（${res.status}）`);
-  return (await res.json()) as OsmJson;
+  if (!onBytes || !res.body) return (await res.json()) as OsmJson;
+  const reader = res.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let n = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    n += value.byteLength;
+    onBytes(n);
+  }
+  const all = new Uint8Array(n);
+  let o = 0;
+  for (const c of chunks) {
+    all.set(c, o);
+    o += c.byteLength;
+  }
+  return JSON.parse(new TextDecoder().decode(all)) as OsmJson;
 }
 
 export interface GraphResult {
