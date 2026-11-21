@@ -19,6 +19,7 @@ import { sampleElevAt } from './elev';
 import { hhmm, sunTimes } from '../geo/sunrise';
 import type { Panel } from './types';
 import { draftForecast } from '../weather/forecast';
+import { weatherTemplateSection } from './templateUi';
 
 let tl: Timeline | null = null;
 let tlOwner: Ed | null = null;
@@ -417,6 +418,10 @@ export const weatherPanel: Panel = {
       ed.inspector,
       el('h2', {}, '天候'),
       kfInspector(ed),
+      weatherTemplateSection(ed, (g) => {
+        ghost = g;
+        drawTimeline(ed);
+      }),
       presetSection(ed),
       openMeteoSection(ed),
       cellsSection(ed),

@@ -16,17 +16,12 @@ import type { MapTool } from '../map/TileMapView';
 import { standardLegMin } from '../pace';
 import { defaultClimber, pickColor } from '../store/project';
 import type { Panel } from './types';
+import { GEAR_PRESETS } from '../templates/party';
+import { partyTemplateSection, seasonButton, stageSection } from './templateUi';
 
 let routeMode = false;
 let openCard = 0;
 
-const PRESETS: Record<string, (g: GearDef) => GearDef> = {
-  日帰り軽装: (g) => ({ ...g, rainwear: 'poncho', cloWorn: 0.7, cloPack: 0.2, gloves: 'none', hat: false, bivy: 'none', headlamp: { has: false, batteryH: 0, inPack: true, spareBatteryH: 0 }, foodKcal: 600, waterL: 1, map: false, compass: false, whistle: false, rescueSheet: false }),
-  日帰り標準: (g) => ({ ...g, rainwear: 'basic', cloWorn: 0.9, cloPack: 0.6, gloves: 'thin', hat: true, bivy: 'none', headlamp: { has: true, batteryH: 6, inPack: true, spareBatteryH: 0 }, foodKcal: 1200, waterL: 1.5, map: true }),
-  日帰り万全: (g) => ({ ...g, rainwear: 'goretex', cloWorn: 0.9, cloPack: 1.0, gloves: 'waterproof', hat: true, bivy: 'sack', headlamp: { has: true, batteryH: 8, inPack: false, spareBatteryH: 8 }, phone: { ...g.phone, gpsApp: true, trackRecording: true }, foodKcal: 1800, waterL: 2, map: true, compass: true, whistle: true, rescueSheet: true }),
-  小屋泊: (g) => ({ ...g, rainwear: 'goretex', cloWorn: 1.0, cloPack: 1.2, gloves: 'waterproof', hat: true, bivy: 'tarp', headlamp: { has: true, batteryH: 10, inPack: false, spareBatteryH: 6 }, foodKcal: 2500, waterL: 2, map: true, compass: true, whistle: true }),
-  冬山: (g) => ({ ...g, rainwear: 'goretex', cloWorn: 1.6, cloPack: 1.5, gloves: 'waterproof', hat: true, bivy: 'sack', headlamp: { has: true, batteryH: 10, inPack: false, spareBatteryH: 10 }, foodKcal: 2500, waterL: 1.5, stove: true, crampons: true, helmet: true, map: true, compass: true, whistle: true, rescueSheet: true }),
-};
 
 const words = {
   experience: (v: number): string => (v < 0.3 ? '数回' : v < 0.6 ? '数年・日帰り中心' : v < 0.85 ? '積雪期も行く' : 'ガイド級'),
@@ -68,8 +63,8 @@ function portraitPicker(c: ClimberDef, set: (v: string | undefined) => void): HT
 function climberCard(ed: Ed, c: ClimberDef, i: number): HTMLElement {
   const set = (label: string, f: () => void): void => ed.change(label, f);
   const g = c.gear;
-  const presetSel = el('select', {}, [el('option', { value: '' }, '装備プリセット…'), ...Object.keys(PRESETS).map((k) => el('option', { value: k }, k))]);
-  presetSel.addEventListener('change', () => presetSel.value && set('装備プリセット', () => (c.gear = PRESETS[presetSel.value]!(c.gear))));
+  const presetSel = el('select', {}, [el('option', { value: '' }, '装備プリセット…'), ...Object.keys(GEAR_PRESETS).map((k) => el('option', { value: k }, k))]);
+  presetSel.addEventListener('change', () => presetSel.value && set('装備プリセット', () => (c.gear = GEAR_PRESETS[presetSel.value]!(c.gear))));
   return el('details', { class: 'f-section', open: openCard === i, ontoggle: (e: Event) => (e.target as HTMLDetailsElement).open && (openCard = i) }, [
     el('summary', { class: 'climber-sum' }, [avatar(c, 39), `${c.name}（${c.age}歳）${c.leader ? ' リーダー' : ''}`]),
     portraitPicker(c, (v) => set('顔アイコン', () => (c.portrait = v))),
@@ -182,6 +177,7 @@ export const partyPanel: Panel = {
         select<Theme>('テーマ', s.theme, [['hypothermia', '低体温症'], ['lost', '道迷い'], ['lightning', '落雷'], ['fall', '転倒・滑落'], ['heat', '熱中症'], ['mixed', '複合']], (v) => set('テーマ', () => (s.theme = v))),
         num('難易度', s.difficulty, (v) => set('難易度', () => (s.difficulty = v as typeof s.difficulty)), { min: 1, max: 5 }),
         select<Season>('季節', s.season, [['spring', '春'], ['summer', '夏'], ['autumn', '秋'], ['winter', '冬']], (v) => set('季節', () => (s.season = v))),
+        seasonButton(ed, s.season),
         num('所要時間の目安', s.estMinutes, (v) => set('所要時間', () => (s.estMinutes = v)), { min: 1, unit: '分' }),
         num('乱数シード', s.seed, (v) => set('シード', () => (s.seed = v))),
         text('開始日', s.startDate, (v) => /^\d{4}-\d{2}-\d{2}$/.test(v) && set('開始日', () => (s.startDate = v)), { placeholder: '2026-10-17' }),
@@ -199,6 +195,7 @@ export const partyPanel: Panel = {
         el('p', { class: 'note' }, '実在の遭難事故をなぞる場合でも、登場人物は架空にし、実名や個人を特定できる記述は使わないでください。'),
         area('ブリーフィングの文', s.briefing.text, (v) => set('ブリーフィング', () => (s.briefing.text = v)), 4),
       ], false),
+      partyTemplateSection(ed, (i) => (openCard = i)),
       section(`登山者（${s.party.length} 人）`, [
         ...s.party.map((c, i) => climberCard(ed, c, i)),
         button('登山者を追加', () => set('登山者の追加', () => {
@@ -207,6 +204,7 @@ export const partyPanel: Panel = {
           openCard = s.party.length - 1;
         })),
       ]),
+      stageSection(ed),
       section('計画', [
         el('p', {}, plan.route.length ? plan.route.map(nodeName).join(' → ') : '（ルート未設定）'),
         button(routeMode ? 'ルートを引くのをやめる' : '地図でルートを引く（地点を順にクリック）', () => {

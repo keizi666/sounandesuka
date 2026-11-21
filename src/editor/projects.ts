@@ -8,6 +8,9 @@ import { createAreaPicker } from './areaPicker';
 import { gridFor } from './geo/projection';
 import { deleteProject, getProject, listProjects, putProject } from './store/idb';
 import { createFictionalProject, createRealProject, duplicateProject, fromBundle } from './store/project';
+import { portraitCounts } from '../ui/avatar';
+import { newProjectTemplateFields } from './panels/templateUi';
+import { applyNewProjectTemplates } from './templates/apply';
 
 export interface ProjectsHost {
   root: HTMLElement;
@@ -37,12 +40,19 @@ function newDialog(host: ProjectsHost): void {
     ]),
     el('p', { class: 'note' }, '一辺は 2,048〜12,288 m。後からエリアのタブでも範囲を動かせます。'),
   ]);
-  kind.addEventListener('change', () => (realBox.style.display = kind.value === 'real' ? '' : 'none'));
+  const tpl = newProjectTemplateFields();
+  const sync = (): void => {
+    realBox.style.display = kind.value === 'real' ? '' : 'none';
+    tpl.stageBox.style.display = kind.value === 'real' ? 'none' : '';
+  };
+  kind.addEventListener('change', sync);
+  sync();
   const dlg = el('dialog', { class: 'ed-dialog wide' }, [
     el('h2', {}, '新しいプロジェクト'),
     el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '名前'), name]),
     el('label', { class: 'f-row' }, [el('span', { class: 'f-label' }, '舞台'), kind]),
     realBox,
+    tpl.el,
     el('p', { class: 'note' }, '実在の遭難事故をなぞる場合でも、登場人物は架空にし、実名や個人を特定できる記述は使わないでください。'),
     el('div', { class: 'actions' }, [
       el('button', {
@@ -56,6 +66,7 @@ function newDialog(host: ProjectsHost): void {
                     return createRealProject(name.value, Number(lat.value), Number(lon.value), g.size, g.resolution);
                   })()
                 : createFictionalProject(name.value, await loadSounan());
+            applyNewProjectTemplates(p, tpl.read(), await portraitCounts());
             await putProject(p);
             dlg.close();
             host.open(p.id);
