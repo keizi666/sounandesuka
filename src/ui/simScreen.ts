@@ -445,7 +445,32 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   /** 自分たち（見守っているパーティのリーダー） */
   const ownLeader = (w: World): ClimberState => groupLeader(w, w.focusGroup ?? w.groups[0]?.id ?? null);
   // ハードでは、体調が分かるのはリーダーだけ
-  if (difficulty === 'hard') hud.knows = (id) => ownLeader(world).id === id;
+  /** まだ山にいる人（下山した・救助された・地図の外へ出た・亡くなった人は除く） */
+  const onStage = (c: ClimberState): boolean => c.body.alive && !TERMINAL_STATES.has(c.state) && !c.offMap;
+  /**
+   * いま見守っている人: 選んでいる人。その人が退場した（下山・救助・地図の外）なら、見守るパーティのリーダー、
+   * それもいなければ山にいるほかの人（ユーザーの指摘: s06 で下山した由美さんのまわりだけはっきり見えていた）
+   */
+  function watched(w: World): ClimberState {
+    const sel = w.climbers.find((c) => c.id === view.selected);
+    if (sel && onStage(sel)) return sel;
+    const lead = ownLeader(w);
+    if (onStage(lead)) return lead;
+    return w.climbers.find(onStage) ?? sel ?? lead;
+  }
+  // ハードでは、体調が分かるのは見守っているグループのリーダーだけ
+  if (difficulty === 'hard') hud.knows = (id) => groupLeader(world, watched(world).groupId).id === id;
+  /** 選んでいた人が退場したら、山にいる人へ選び直す（カメラもそちらを追う）。1 回だけ */
+  let autoSwitched: string | null = null;
+  function switchFromExited(w: World): void {
+    const sel = w.climbers.find((c) => c.id === view.selected);
+    if (!sel || sel.state === 'DEAD' || onStage(sel) || autoSwitched === sel.id) return;
+    const next = watched(w);
+    if (next.id === sel.id) return;
+    autoSwitched = sel.id;
+    view.selected = next.id;
+    view.lookAt(next.id);
+  }
   /** 現在地が分からなくなってぼかしているか（ログに出したか） */
   let lostShown = false;
   /** 見える範囲（樹林帯の出入り・天気で、なめらかに変える） */
@@ -458,7 +483,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     }
     // 中心は、いま追っている（選んでいる）人。パーティが分かれたとき、見守っているパーティのリーダーではなく、
     // 画面で追っている人のまわりと人形をぼかさない（ユーザーの指摘: s06 で一人で迷った健一さんまで全部ぼけた）
-    const l = w.climbers.find((c) => c.id === view.selected) ?? ownLeader(w);
+    const l = watched(w);
     // 道に迷ったと気づき、現在地が分からない（地図・GPS で確かめたら解く）
     const lost = l.body.alive && l.perception.awareLost && !l.perception.knowsPosition && !TERMINAL_STATES.has(l.state);
     const keepIds = w.climbers.filter((c) => c.id === l.id || (c.groupId !== null && c.groupId === l.groupId && c.body.alive)).map((c) => c.id);
@@ -497,6 +522,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       const r = canvas.getBoundingClientRect();
       // 頭の上に顔アイコン。吹き出しはアイコンの左上に出し（アイコンが吹き出しの右に来る）、アイコンより手前に重ねる
       figIcons.update(w, (id) => view.headScreen(id, r.width, r.height), { god: hud.god, time: formatDateTime(scenario, w.tMin).split(' ')[1] ?? '', hidden: cam === 'eye', knows: hud.knows });
+      // 退場した人の視点は残さない（難しさによらず）
+      switchFromExited(w);
       updateAreaBlur(w);
       bubbles.align = cam === 'eye' ? 'center' : 'left';
       bubbles.update(dt, (id) => {
