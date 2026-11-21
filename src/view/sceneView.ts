@@ -92,6 +92,9 @@ export function poseOf(world: World): Record<string, Pose> {
   return out;
 }
 
+/** 登山者を示す赤い円の不透明度（ユーザーの指定） */
+const LOCATOR_OPACITY = 0.3;
+
 /** ぼかしの距離に使う深度で、地形だけを描くための層 */
 const BLUR_DEPTH_LAYER = 7;
 
@@ -421,7 +424,8 @@ export class SceneView {
     const pulse = 1 + 0.12 * Math.sin(timeSec * 3.2);
     sp.scale.setScalar(0.085 * pulse);
     const m = sp.material;
-    m.opacity = 0.95 * fade;
+    // 不透明度は 30%（ユーザーの指定: 赤い円が目立ちすぎる）
+    m.opacity = LOCATOR_OPACITY * fade;
     m.color.setHex(alive ? 0xff2a1f : 0x9a9a9a);
   }
 
