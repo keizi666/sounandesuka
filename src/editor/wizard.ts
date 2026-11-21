@@ -21,7 +21,7 @@ const STEPS: Step[] = [
   { label: '天候', hint: 'タブ 4 で「晴れのまま」「パターンを挿入」「過去の天気を取り込む」のどれかを選びます。', tab: 'weather', done: (ed) => ed.p.scenario.weather.keyframes.length >= 2 || (ed.p.scenario.weather.presetLog?.length ?? 0) > 0 },
   { label: '推奨方針で 1 回試走', hint: 'タブ 8 で「試走する」。結末まで走ることを確かめます。', tab: 'test', done: (ed) => ed.lastRun !== null },
   { label: '分岐点を 1 つ作る', hint: 'タブ 6 のテンプレート（引き返し判断・雨具・小屋で泊まるか）から作れます。', tab: 'choices', done: (ed) => ed.p.scenario.choices.length > 0 },
-  { label: '書き出す', hint: '右上の「書き出し」でバンドル（*.sounan.json）を保存。「3D で遊ぶ」でそのまま遊べます。', tab: 'test', done: (ed) => ed.p.editorState.rightsConfirmed || localStorage.getItem(`hks.ed.exported.${ed.p.id}`) === '1' },
+  { label: '書き出す', hint: '右上の「書き出し」でバンドル（*.sounan.json）を保存。「3D でチャレンジ」でそのままチャレンジできます。', tab: 'test', done: (ed) => ed.p.editorState.rightsConfirmed || localStorage.getItem(`hks.ed.exported.${ed.p.id}`) === '1' },
 ];
 
 const key = (id: string): string => `hks.ed.wizardClosed.${id}`;

@@ -62,7 +62,7 @@ export class EditorApp implements Ed {
     const undo = el('button', { title: '元に戻す（Ctrl+Z）', onclick: () => this.undo() }, '↶');
     const redo = el('button', { title: 'やり直す（Ctrl+Y）', onclick: () => this.redo() }, '↷');
     const test = el('button', { onclick: () => this.goTab('test') }, '試走');
-    const play = el('button', { onclick: () => void playIn3d(this) }, '3D で遊ぶ');
+    const play = el('button', { onclick: () => void playIn3d(this) }, '3D でチャレンジ');
     const exp = el('button', { class: 'primary', onclick: () => void exportBundle(this) }, '書き出し');
     this.actionBtns = [test, play, exp];
     const name = el('input', { class: 'ed-name', value: p.name });
