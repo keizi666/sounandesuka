@@ -24,7 +24,7 @@ export interface AiPromptInput {
 
 const GENERIC_KEYS = ['lostAware（道迷いに気づいた）', 'darkness（暗くなった）', 'hypothermia（低体温の兆し）', 'injured（けが）', 'lightning（雷が近い）', 'waterfall（沢で滝に行き当たった）', 'straggler（遅れている人がいる）', 'rescueFailed（通報がつながらない）'];
 const ENDING_KINDS = ['SAFE_RETURN（無事下山）', 'SAFE_SHELTER（小屋で過ごした）', 'ABORTED（行かなかった）', 'SELF_RESCUE（ビバークの末に自力で）', 'RESCUED（救助）', 'RESCUED_CRITICAL（重い状態で救助）', 'MISSING（見つからない）', 'FATAL（死亡）'];
-const EFFECTS = ['log', 'forecastUpdate', 'setFlag', 'clearFlag', 'injure', 'rockfall', 'actions', 'weatherOverride', 'pin', 'triggerChoice', 'soak', 'say'];
+const EFFECTS = ['log', 'forecastUpdate', 'setFlag', 'clearFlag', 'injure', 'rockfall', 'actions', 'weatherOverride', 'pin', 'triggerChoice', 'soak', 'say', 'animal', 'animalLeave'];
 
 /** 今のプロジェクトの地図の要約（地点と道） */
 function mapSummary(p: EditorProject): string {
@@ -108,11 +108,11 @@ export function buildAiPrompt(p: EditorProject, i: AiPromptInput): string {
   out.push(`- アクション（選択肢の actions、イベントの actions。\`who\` で人を指せる）: ${ACTION_TYPES.join(', ')}`);
   out.push(`- イベントの効果: ${EFFECTS.join(', ')}`);
   out.push('- 条件: all / any / not / var（比較）/ after / before（時刻 "D0 13:00"）/ atNode（着いた瞬間）/ beenAt / onEdge / near / state / flag / chose / event / chance（1 回だけ抽選）/ elapsedSince（フラグからの経過分）');
-  out.push(`- 変数: leader.<…>・c.<登山者ID>.<…> で ${CLIMBER_FIELDS.join(', ')}、local.<${LOCAL_FIELDS.join(', ')}>、def.<${DEF_FIELDS.join(', ')}>、g.<${GLOBAL_FIELDS.join(', ')}>、sun.isDark、flags.<名前>、rec.<${REC_FIELDS.join(', ')}>（結末と教訓だけ）`);
+  out.push(`- 変数: leader.<…>・c.<登山者ID>.<…> で ${CLIMBER_FIELDS.join(', ')}、local.<${LOCAL_FIELDS.join(', ')}>、def.<${DEF_FIELDS.join(', ')}>、g.<${GLOBAL_FIELDS.join(', ')}>、sun.isDark、flags.<名前>、animal.<bear|deer|…|any>（動物までの距離 m）、rec.<${REC_FIELDS.join(', ')}>（結末と教訓だけ）`);
   out.push(`- 状態（state）: ${STATES.join(', ')}`);
   out.push(`- 汎用の分岐（genericOverrides で上書きできる）: ${GENERIC_KEYS.join('、')}`);
   out.push(`- 結末の種類: ${ENDING_KINDS.join('、')}。同じ種類を when で出し分ける（上から最初に合うもの）。`);
-  out.push(`- そのほか: 天気のキーフレームと雷雲（weather.keyframes / thunderCells）、捜索の手がかり（plan.searchLeads）、通りかかる登山者（passersby）、パーティの分割（splitParty・groups）、一人言（thoughts、who）、会話（speech、who / to / replies。返事は言葉と同じ数なら同じ番目が組になる）、急病（illness: angina / mi / dissection / arrhythmia / benign / random）、ハチ（sting・epipen。刺された人の一部がアナフィラキシー）、飲酒（drinkAlcohol）、スマホの紛失（setPhone）、家族の届け出（reportMissing）、動揺（addAnxiety）、電波の入る地点まで歩いて通報（detach + goToNode の then: "call"）、下山した人が駅・バス停などへ移る（leaveMap。3D から消える。話の筋と位置を合わせるため、下山した人を入口に立たせたままにしない）、自分のグループの集計（mates.count・mates.unwellCount など）。効果音（sound: ${SE_IDS.join(' / ')}。電話・救助・転落・急病・分岐点は自動でも鳴る）、音楽（music アクション、シナリオの music: briefing / play / night / distress / good / bad。曲: ${BGM_IDS.join(' / ')}）。休む → 進むの順に並べると、休み終えてから進む。`);
+  out.push(`- そのほか: 天気のキーフレームと雷雲（weather.keyframes / thunderCells）、捜索の手がかり（plan.searchLeads）、通りかかる登山者（passersby）、パーティの分割（splitParty・groups）、一人言（thoughts、who）、会話（speech、who / to / replies。返事は言葉と同じ数なら同じ番目が組になる）、急病（illness: angina / mi / dissection / arrhythmia / benign / random）、ハチ（sting・epipen。刺された人の一部がアナフィラキシー）、野生動物（効果 animal: species は bear / brownBear / deer / serow / boar / monkey、場所は at か x・z と aheadM・sideM、behavior は graze / watch / wander / cross / flee、durationMin。人が近づくと立ち去り、見つけるとログと不安。条件の変数 animal.bear などでリーダーからの距離 m。animalLeave で立ち去らせる。襲われることはモデル化しない）、飲酒（drinkAlcohol）、スマホの紛失（setPhone）、家族の届け出（reportMissing）、動揺（addAnxiety）、電波の入る地点まで歩いて通報（detach + goToNode の then: "call"）、下山した人が駅・バス停などへ移る（leaveMap。3D から消える。話の筋と位置を合わせるため、下山した人を入口に立たせたままにしない）、自分のグループの集計（mates.count・mates.unwellCount など）。効果音（sound: ${SE_IDS.join(' / ')}。電話・救助・転落・急病・分岐点は自動でも鳴る）、音楽（music アクション、シナリオの music: briefing / play / night / distress / good / bad。曲: ${BGM_IDS.join(' / ')}）。休む → 進むの順に並べると、休み終えてから進む。`);
   out.push('');
   out.push('## 形式');
   out.push('');

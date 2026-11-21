@@ -233,7 +233,7 @@ function paint(regions: Uint8Array, palette: THREE.Color[], target: Float32Array
 }
 
 /** 輪郭線（背面法線法）: 裏面だけを、法線の向きに少し膨らませて濃い色で描く */
-function outlineMaterial(thickness: number): THREE.MeshBasicMaterial {
+export function outlineMaterial(thickness: number): THREE.MeshBasicMaterial {
   const m = new THREE.MeshBasicMaterial({ color: 0x2a2433, side: THREE.BackSide });
   m.onBeforeCompile = (shader) => {
     shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>\n  transformed += normalize(normal) * ${thickness.toFixed(4)};`);

@@ -2,7 +2,9 @@
  * 条件・文で使える変数パスの候補（docs/09 §4.1）。sim/scenario/vars.ts の一覧から作る。
  */
 import { AGG_FIELDS, CLIMBER_FIELDS, DEF_FIELDS, GLOBAL_FIELDS, GROUP_COUNTS, LOCAL_FIELDS, REC_FIELDS } from '../../sim/scenario/vars';
+import { ANIMAL_SPECIES } from '../../sim/hazards/animals';
 import type { ScenarioDef } from '../../sim/types';
+import { JA as TEXT } from '../../i18n/ja';
 
 const JA: Record<string, string> = {
   coreC: '深部体温',
@@ -87,6 +89,7 @@ export function varGroups(s: ScenarioDef): VarGroup[] {
         ]),
       ],
     },
+    { label: '野生動物（リーダーからの距離 m。いなければ 99999）', paths: [{ path: 'animal.any', label: 'いちばん近い動物までの距離' }, ...ANIMAL_SPECIES.map((sp) => ({ path: `animal.${sp}`, label: `${TEXT.log.animal[sp] ?? sp}までの距離` }))] },
     { label: '記録（結末・教訓）', paths: REC_FIELDS.map((f) => ({ path: `rec.${f}`, label: `記録: ${JA[f] ?? f}` })) },
   ];
   for (const p of s.party) {

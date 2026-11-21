@@ -225,6 +225,7 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (typeof d['leftMap'] === 'string') return fill(L.leftMap, { who, place: d['leftMap'] });
       if (d['stung']) return fill(L.stung, { who });
       if (d['streamDrink']) return fill(L.streamDrink, { who });
+      if (typeof d['animalLeft'] === 'string') return fill(Number(d['count'] ?? 1) > 1 ? L.animalLeftMany : L.animalLeft, { name: L.animal[d['animalLeft']] ?? d['animalLeft'] });
       if (d['walkOut']) return fill(L.walkOut, { who });
       if (d['leftBehind']) return fill(L.leftBehind, { who, companion: String(d['companion'] ?? '') });
       if (d['reportedLeftBehind']) return fill(L.reportedLeftBehind, { who });
@@ -268,6 +269,14 @@ export function formatEvent(e: SimEvent, f: FormatCtx): string | null {
       if (d['passerby']) return fill(L.passerby, { who });
       if (d['unimplementedAction'] || d['unimplementedEffect']) return fill(L.unimplemented, { what: s('unimplementedAction') || s('unimplementedEffect') });
       return null;
+    case 'ANIMAL': {
+      if (d['quiet']) return null;
+      const name = L.animal[s('species')] ?? s('species');
+      const n = Number(d['count'] ?? 1);
+      const what = n > 1 ? fill(L.animalMany, { name, n, unit: L.animalUnit[s('species')] ?? L.animalUnitDefault }) : fill(L.animalOne, { name });
+      const solo = f.scenario.party.length === 1;
+      return fill(d['dark'] ? L.animalSeenDark : solo ? L.animalSeenSolo : L.animalSeen, { who, m: s('distM'), what });
+    }
     case 'PIN':
       return null;
     case 'ENDED':

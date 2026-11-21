@@ -834,6 +834,77 @@
           "text": "いたた……すみません、足が……"
         }
       ]
+    },
+    {
+      "id": "ev_deer",
+      "trigger": {
+        "atNode": "LM003"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "animal",
+          "id": "deer",
+          "species": "deer",
+          "count": 3,
+          "behavior": "graze",
+          "aheadM": 45,
+          "sideM": 18,
+          "durationMin": 15,
+          "quiet": true
+        },
+        {
+          "type": "log",
+          "text": "登山道の上の斜面で、シカが 3 頭、草を食んでいる。足音に気づいた 1 頭が顔を上げた。"
+        },
+        {
+          "type": "say",
+          "who": "c3",
+          "text": "あ、シカ……！ 近くで見るの、初めてです",
+          "tone": "whisper"
+        }
+      ]
+    },
+    {
+      "id": "ev_bear",
+      "trigger": {
+        "atNode": "LM010"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "animal",
+          "id": "bear",
+          "species": "bear",
+          "behavior": "watch",
+          "aheadM": 70,
+          "sideM": -30,
+          "durationMin": 8,
+          "quiet": true
+        },
+        {
+          "type": "log",
+          "text": "尾根の先、左の斜面の木の間に黒い姿が見えた。ツキノワグマらしい。70 m ほど先で、こちらを見ている。",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_bear_noise",
+      "trigger": {
+        "flag": "bearNoise"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "animalLeave",
+          "species": "bear"
+        },
+        {
+          "type": "log",
+          "text": "熊は向きを変え、斜面のやぶの中へ入っていった。"
+        }
+      ]
     }
   ],
   "choices": [
@@ -910,6 +981,97 @@
           ],
           "bias": {
             "base": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_bear",
+      "title": "尾根の先に熊",
+      "priority": 20,
+      "trigger": {
+        "var": "animal.bear",
+        "op": "<",
+        "value": 120
+      },
+      "situation": "岩茸石山へ向かう尾根の先、左の斜面にツキノワグマがいる。まだこちらとの間は 70 m ほど。どうする？",
+      "knowledge": [
+        "熊の多くは、人に気づくと自分から離れていく",
+        "走って逃げたり、背を向けたりすると、追われることがある",
+        "熊鈴や声で、こちらがいることを先に知らせておくと、近くで鉢合わせしにくい"
+      ],
+      "options": [
+        {
+          "id": "wait",
+          "label": "立ち止まり、熊が離れるのを待つ",
+          "detail": "走らず、熊から目を離さずに、少し様子を見る。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c1",
+              "text": "止まって。走らないで、静かに",
+              "tone": "whisper"
+            },
+            {
+              "type": "rest",
+              "minutes": 5
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "noise",
+          "label": "熊鈴を鳴らし、声を出して人がいることを知らせる",
+          "detail": "手をたたき、落ち着いた大きな声で呼びかける。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c2",
+              "text": "おーい、人が通りますよー",
+              "tone": "shout"
+            },
+            {
+              "type": "setFlag",
+              "flag": "bearNoise"
+            },
+            {
+              "type": "rest",
+              "minutes": 2
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "go",
+          "label": "気にせず、そのまま歩く",
+          "detail": "熊のいる斜面の横を、急いで通り過ぎる。",
+          "actions": [
+            {
+              "type": "addAnxiety",
+              "amount": 8
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3
           }
         }
       ]
@@ -1146,6 +1308,33 @@
       },
       "title": "暗くなってから急がない",
       "text": "暗い山道で急ぐと、明かりのない人は足元が見えないまま歩くことになる。けが人がもう一人増えれば、下りるのはさらに遅くなる。明かりを持つ人が前と後ろから照らし、ゆっくり確実に下る。"
+    },
+    {
+      "id": "l_bear",
+      "when": {
+        "any": [
+          {
+            "chose": {
+              "cp": "cp_bear",
+              "option": "wait"
+            }
+          },
+          {
+            "chose": {
+              "cp": "cp_bear",
+              "option": "noise"
+            }
+          },
+          {
+            "chose": {
+              "cp": "cp_bear",
+              "option": "go"
+            }
+          }
+        ]
+      },
+      "title": "熊に気づいたら",
+      "text": "奥多摩の山にもツキノワグマはすむ。多くは人に気づくと離れていくので、走らず、背を向けず、落ち着いて距離を取る。熊鈴や声でこちらの存在を先に知らせ、見通しの悪い所では特に気をつける。このシミュレーションは、熊に襲われることを計算していない。"
     }
   ],
   "region": {

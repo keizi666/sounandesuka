@@ -33,6 +33,8 @@ import { createSky, type Sky } from './sky';
 import { scenarioDateMs, skyState, type SkyState } from './astro';
 import { buildWaterfalls } from './waterfalls';
 import { Ghosts } from './ghosts';
+import { AnimalsView } from './animals';
+import { DT_SEC } from '../sim/core/step';
 import type { ViewPre } from './viewCache';
 
 /** この環境で使えなかった描画機能の覚え書き（localStorage）。設定の「初期化」とは別に、キーを消せば戻る */
@@ -112,6 +114,8 @@ export class SceneView {
   private figures = new Map<string, Figure>();
   /** 亡くなった人の半透明の姿が昇る演出。前のフレームで生きていたか */
   private ghosts!: Ghosts;
+  /** 野生動物（World.animals） */
+  private animals!: AnimalsView;
   private wasAlive = new Map<string, boolean>();
   /** 俯瞰で登山者の位置を示す赤い円（画面上の大きさが一定） */
   private locators = new Map<string, THREE.Sprite>();
@@ -276,6 +280,7 @@ export class SceneView {
     // 地図記号の施設（寺・神社・駅など）と送電線の鉄塔・電線
     this.scene.add(buildLandmarks(map, this.s, this.heightAt, this.env, q.shadow > 0));
     this.ghosts = new Ghosts(this.scene);
+    this.animals = new AnimalsView(this.scene, this.env, this.heightAt);
     // 沢の急な所の滝（見た目だけ）
     this.scene.add(buildWaterfalls(map, this.s, this.heightAt, this.env));
 
@@ -562,6 +567,8 @@ export class SceneView {
       this.wasAlive.set(c.id, c.body.alive);
     }
     this.ghosts.update(timeSec);
+    // 野生動物（補間した時刻で。人形と同じ拡大率）
+    this.animals.update(world, world.tMin - (1 - alpha) * (DT_SEC / 60), timeSec, this.figureHeight() / 1.7);
     this.updateCamera(world);
     this.veg.update(this.camera);
     // カメラと注目している登山者の間にある木・建物を透かす
@@ -1062,6 +1069,7 @@ export class SceneView {
     this.blurDepth?.dispose();
     this.blurDepthMat.dispose();
     this.ghosts.dispose();
+    this.animals.dispose();
     this.kishou?.dispose();
     for (const f of this.figures.values()) f.dispose();
     for (const sp of this.locators.values()) sp.material.dispose();

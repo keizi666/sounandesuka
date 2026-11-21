@@ -7,6 +7,7 @@ import { devices, era, lightning, nav, rescue, slip, thoughts } from './hazards'
 import { behavior, choices, endings } from './scenario';
 import { derive, radio, terrain, trails } from './terrain';
 import { ground, sun, weather } from './world';
+import { animals } from './animals';
 
 export const TUNING = {
   sun,
@@ -30,6 +31,7 @@ export const TUNING = {
   era,
   rescue,
   thoughts,
+  animals,
 };
 
 export type Tuning = typeof TUNING;

@@ -5,6 +5,8 @@
 import { bacPct } from '../climber/physiology';
 import { isIndoors, isMoving } from '../climber/situation';
 import { nearestIndex } from '../terrain/sample';
+import { ANIMAL_SPECIES, nearestAnimalM } from '../hazards/animals';
+import { TUNING } from '../tuning';
 import type { ClimberState, MapRuntime, ScenarioDef, World } from '../types';
 
 export type VarValue = number | string | boolean;
@@ -232,6 +234,12 @@ export function resolveVar(path: string, scope: VarScope): VarValue | undefined 
     }
     case 'flags':
       return rest.length === 1 ? w.flags[rest[0]!] !== undefined : undefined;
+    case 'animal': {
+      // animal.<種類|any>: リーダーから、いる動物までの最短距離（m。いなければ 99999）
+      const sp = rest[0];
+      if (rest.length !== 1 || (sp !== 'any' && !(ANIMAL_SPECIES as readonly string[]).includes(sp ?? ''))) return undefined;
+      return nearestAnimalM(w, TUNING, scope.leader, sp as (typeof ANIMAL_SPECIES)[number] | 'any');
+    }
     case 'rec': {
       const v = scope.rec?.[rest.join('.')];
       return v === null ? undefined : v;
@@ -272,6 +280,8 @@ export function isKnownVarPath(path: string, scenario: ScenarioDef, groupIds: re
       return rest.length >= 2 && (groupIds.length === 0 || groupIds.includes(rest[0]!)) && aggOk(rest.slice(1));
     case 'flags':
       return rest.length === 1 && rest[0]!.length > 0;
+    case 'animal':
+      return rest.length === 1 && (rest[0] === 'any' || (ANIMAL_SPECIES as readonly string[]).includes(rest[0]!));
     case 'rec':
       return rest.length === 1 && (REC_FIELDS as readonly string[]).includes(rest[0]!);
     default:

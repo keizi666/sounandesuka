@@ -4,6 +4,7 @@
  */
 import { tryParseTimeRef } from '../core/clock';
 import type { Action, Condition, MapDef, ScenarioDef, ScriptEffect } from '../types';
+import { ANIMAL_SPECIES } from '../hazards/animals';
 import { BGM_IDS, SE_IDS } from './soundCatalog';
 import { placeholderPaths } from './text';
 import { isKnownVarPath } from './vars';
@@ -213,11 +214,24 @@ function checkEffects(v: Collector, path: string, effects: readonly ScriptEffect
       case 'log':
         checkTexts(v, `${p}.text`, e.text, r);
         break;
+      case 'animal':
+        if (!ANIMAL_SPECIES.includes(e.species)) v.err(`${p}.species`, 'unknownAnimal', `未知の動物 "${e.species}"（${ANIMAL_SPECIES.join(', ')}）`);
+        if (e.at !== undefined && !r.nodes.has(e.at)) v.err(`${p}.at`, 'undefinedNode', `未定義のノード "${e.at}"`);
+        if ((e.x === undefined) !== (e.z === undefined)) v.err(`${p}.x`, 'animalXZ', 'x と z は両方書く');
+        if (e.behavior !== undefined && !ANIMAL_BEHAVIORS.includes(e.behavior)) v.err(`${p}.behavior`, 'unknownBehavior', `未知のふるまい "${e.behavior}"（${ANIMAL_BEHAVIORS.join(', ')}）`);
+        if (e.count !== undefined && !(e.count >= 1 && e.count <= 6)) v.warn(`${p}.count`, 'range', 'count は 1〜6（範囲外は切り詰める）');
+        if (e.durationMin !== undefined && !(e.durationMin >= 0)) v.err(`${p}.durationMin`, 'range', 'durationMin は 0 以上');
+        break;
+      case 'animalLeave':
+        if (e.species !== undefined && !ANIMAL_SPECIES.includes(e.species)) v.err(`${p}.species`, 'unknownAnimal', `未知の動物 "${e.species}"`);
+        break;
       default:
         break;
     }
   });
 }
+
+const ANIMAL_BEHAVIORS = ['graze', 'watch', 'wander', 'cross', 'flee'];
 
 export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
   const v = new Collector();

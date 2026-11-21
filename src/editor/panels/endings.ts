@@ -6,6 +6,7 @@ import { JA } from '../../i18n/ja';
 import { el } from '../../ui/dom';
 import type { Ed } from '../context';
 import { actionEditor } from '../forms/ActionEditor';
+import { animalEffectEditor, animalLeaveEditor } from '../forms/animalEffect';
 import { conditionBuilder, summarize } from '../forms/ConditionBuilder';
 import { area, button, check, fill, lines, num, keptDetails, section, select, text } from '../forms/fields';
 import { firstTrueTime } from '../probe';
@@ -27,6 +28,8 @@ const EFFECTS: [EffType, string][] = [
   ['soak', '濡れる'],
   ['weatherOverride', '天気を差し込む'],
   ['pin', '地図に印'],
+  ['animal', '動物が出る（熊・鹿など）'],
+  ['animalLeave', '動物が立ち去る'],
 ];
 
 function defaultEffect(t: EffType, ed: Ed): ScriptEffect {
@@ -55,6 +58,10 @@ function defaultEffect(t: EffType, ed: Ed): ScriptEffect {
       return { type: t, keyframe: structuredClone(s.weather.keyframes[0]!) };
     case 'pin':
       return { type: t, x: 0, z: 0, label: '' };
+    case 'animal':
+      return { type: t, species: 'deer', count: 2, aheadM: 50, sideM: 15 };
+    case 'animalLeave':
+      return { type: t };
   }
 }
 
@@ -88,6 +95,12 @@ function effectEditor(ed: Ed, list: ScriptEffect[], commit: (l: ScriptEffect[]) 
         break;
       case 'say':
         body = el('div', {}, [text('誰が（leader / any / ID / role:役割）', e.who, (v) => set({ who: v as typeof e.who })), text('文', e.text, (v) => set({ text: v }), { wide: true }), select('調子', e.tone ?? 'normal', [['normal', '普通'], ['shout', '叫ぶ'], ['whisper', '小声'], ['sound', '擬音']], (v) => set({ tone: v })), check('記録に残る発言（史実）', e.documented ?? false, (v) => set({ documented: v })), e.documented ? text('出典', e.source, (v) => set({ source: v })) : null].filter((x): x is HTMLElement => x !== null));
+        break;
+      case 'animal':
+        body = animalEffectEditor(e, ed.p.map, (patch) => set(patch));
+        break;
+      case 'animalLeave':
+        body = animalLeaveEditor(e, (patch) => set(patch));
         break;
       default: {
         // その他は JSON で

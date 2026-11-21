@@ -520,7 +520,56 @@ export type ScriptEffect =
   | { type: 'pin'; x: number; z: number; label: string }
   | { type: 'triggerChoice'; cp: string }
   | { type: 'soak'; who: Who; level: SoakLevel; snowmelt?: boolean }
-  | { type: 'say'; who: SpeakerRef; text: string; to?: SpeakerRef; tone?: SpeechTone; documented?: boolean; source?: string };
+  | { type: 'say'; who: SpeakerRef; text: string; to?: SpeakerRef; tone?: SpeechTone; documented?: boolean; source?: string }
+  | AnimalEffect
+  | { type: 'animalLeave'; id?: string; species?: AnimalSpecies };   // 動物が立ち去る（id か種類で指定。どちらもなければ全部）
+
+// ---------- 野生動物（src/sim/hazards/animals.ts） ----------
+/** bear: ツキノワグマ / brownBear: ヒグマ / deer: ニホンジカ / serow: カモシカ / boar: イノシシ / monkey: ニホンザル */
+export type AnimalSpecies = 'bear' | 'brownBear' | 'deer' | 'serow' | 'boar' | 'monkey';
+/** graze: 草を食む / watch: こちらを見ている / wander: うろつく / cross: 道を横切る / flee: すぐに逃げていく */
+export type AnimalBehavior = 'graze' | 'watch' | 'wander' | 'cross' | 'flee';
+/**
+ * 動物を出す。場所は at（地点 ID）か x・z（メートル）。どちらもなければリーダーの位置。
+ * そこから aheadM（リーダーの進む向きに）・sideM（右へ。負で左）ずらす。
+ * 人が近づくと（種類ごとの距離）立ち去る。durationMin を過ぎても立ち去る。見つけたときのログと不安は anxiety・quiet で変えられる
+ */
+export interface AnimalEffect {
+  type: 'animal';
+  species: AnimalSpecies;
+  id?: string;
+  count?: number;            // 頭数（既定 1。最大 6）
+  at?: NodeId;
+  x?: number;
+  z?: number;
+  aheadM?: number;
+  sideM?: number;
+  headingDeg?: number;       // 向き（北 = 0、時計回り）。省くと cross は道を横切る向き、ほかはリーダーの方を向く
+  behavior?: AnimalBehavior; // 既定は種類ごと
+  durationMin?: number;      // 立ち去るまでの分（既定は種類ごと）
+  anxiety?: number;          // 見つけたときの不安の増え方（既定は種類ごと。0 で増えない）
+  quiet?: boolean;           // 見つけたときの自動のログを出さない（シナリオの log で書くとき）
+}
+
+export interface AnimalState {
+  id: string;
+  species: AnimalSpecies;
+  behavior: AnimalBehavior;
+  count: number;
+  x: number;                 // 出た場所（群れの中心。cross は横切る道筋の中ほど）
+  z: number;
+  headingRad: number;        // 北 = 0、時計回り
+  fromMin: number;
+  untilMin: number;          // この時刻に立ち去り始める
+  leaveMin: number | null;   // 立ち去り始めた時刻
+  leaveX: number;
+  leaveZ: number;
+  leaveHeadingRad: number;
+  anxiety: number;
+  quiet: boolean;
+  /** 見つけたグループ（groupId。なしは ''） */
+  seenBy: string[];
+}
 
 export interface ScriptEventDef { id: string; trigger: Condition; once?: boolean; effects: ScriptEffect[] }
 
@@ -811,6 +860,8 @@ export interface World {
   focusGroup?: string;
   /** 見守りを切り替えた時点の、そのパーティの人（あとで分かれた組もこの人たちなら見守る側） */
   focusMembers?: ClimberId[];
+  /** 出ている野生動物（効果 animal で出る。出たことがなければない） */
+  animals?: AnimalState[];
 }
 
 // ---------- イベント（ループで回収。World に残さない） ----------
@@ -824,6 +875,7 @@ export type SimEventType =
   | 'CHOICE_FIRED' | 'CHOICE_RESOLVED' | 'SCRIPT_LOG' | 'FORECAST_UPDATE' | 'PIN' | 'THOUGHT' | 'ENDED' | 'FOCUS'
   | 'SOAK' | 'CARDIAC_ARREST' | 'LEADER_CHANGED' | 'PARTY_SPLIT' | 'STRAGGLER' | 'GUST_FALL'
   | 'SPEECH'
+  | 'ANIMAL'   // 野生動物を見つけた（data: { animal, species, count, distM, quiet }）
   | 'SOUND' | 'MUSIC';   // 効果音・音楽（data: { id, volume }）。画面だけが使う   // data: { to, tone, distortLevel(0-3), documented }。text は変形前の原文
 
 export interface SimEvent {

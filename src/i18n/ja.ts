@@ -179,6 +179,32 @@ export const JA = {
     medicated: '{who}は持っていた薬を飲んだ',
     stung: '{who}がハチに刺された',
     streamDrink: '{who}は沢の水を飲み、水筒にも汲んだ',
+    /** 野生動物を見つけた（{what} は「シカが 2 頭」など） */
+    animalSeen: '{who}が、{m} m ほど先に{what}いるのに気づいた',
+    animalSeenSolo: '{who}は、{m} m ほど先に{what}いるのに気づいた',
+    animalSeenDark: '{who}は、暗がりの {m} m ほど先に{what}いる気配に気づいた',
+    animal: {
+      bear: 'ツキノワグマ',
+      brownBear: 'ヒグマ',
+      deer: 'シカ',
+      serow: 'カモシカ',
+      boar: 'イノシシ',
+      monkey: 'サル',
+    } as Record<string, string>,
+    /** 頭数（1 頭なら「ツキノワグマが」、2 頭以上なら「シカが 3 頭」。サルは「匹」） */
+    animalLeft: '{name}は、林の奥へ離れていった',
+    animalLeftMany: '{name}の群れは、林の奥へ離れていった',
+    animalOne: '{name}が',
+    animalMany: '{name}が {n} {unit}',
+    animalUnit: { monkey: '匹' } as Record<string, string>,
+    animalUnitDefault: '頭',
+    animalBehavior: {
+      graze: '草を食む',
+      watch: 'こちらを見ている',
+      wander: 'うろつく',
+      cross: '道を横切る',
+      flee: 'すぐに逃げていく',
+    } as Record<string, string>,
     rescueHold: {
       heli: {
         night: '暗くなる時間で、ヘリは飛べない。明日の朝、明るくなってから飛ぶ',

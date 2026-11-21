@@ -4,6 +4,7 @@
 import { applyActions, soak } from '../climber/actions';
 import { chance, nextFloat } from '../core/rng';
 import { injure } from '../hazards/slip';
+import { dismissAnimals, spawnAnimal } from '../hazards/animals';
 import { groupMembers, partyLeader } from '../climber/party';
 import { nearestIndex } from '../terrain/sample';
 import type { ClimberState, ScriptEffect, StaticContext, Who, World } from '../types';
@@ -85,6 +86,12 @@ function applyEffect(world: World, ctx: StaticContext, ef: ScriptEffect, evId: s
         ctx.events.push({ tMin: world.tMin, type: 'FALL', climberId: c.id, important: true, data: { rockfall: true, injury: outcome[k]!, event: evId } });
         injure(world, ctx, c, outcome[k]!, 'trauma');
       }
+      return;
+    case 'animal':
+      spawnAnimal(world, ctx, ef, evId);
+      return;
+    case 'animalLeave':
+      dismissAnimals(world, ctx, ef.id, ef.species);
       return;
   }
 }

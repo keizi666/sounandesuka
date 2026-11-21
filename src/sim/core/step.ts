@@ -17,6 +17,7 @@ import { groupsMinute } from '../climber/groups';
 import { maybeSpeak } from '../climber/speech';
 import { maybeThink } from '../climber/thoughts';
 import { lightningCheck } from '../hazards/lightning';
+import { stepAnimals } from '../hazards/animals';
 import { injuryTimers, slipCheck, stepDebility } from '../hazards/slip';
 import { stepRescue } from '../rescue/rescue';
 import { chance } from './rng';
@@ -99,6 +100,8 @@ export function stepWorld(world: World, ctx: StaticContext): void {
   stepHelpRunners(world, ctx);
   // 8d・9. 移動（tight のグループは一緒に）
   const moves = moveParty(world, ctx, DT_SEC, hold);
+  // 野生動物（見つける・不安・立ち去る。出ていなければ何もしない）
+  stepAnimals(world, ctx);
   // 8e〜h. 危険・生理・機器・判断力
   for (const c of world.climbers) stepBody(world, ctx, c, moves[c.id]);
   // 10. 救助
