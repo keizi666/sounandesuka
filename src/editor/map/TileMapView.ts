@@ -39,9 +39,15 @@ const TILE = 256;
 let spaceHeld = false;
 const views = new Set<TileMapView>();
 
+/**
+ * 文字を打っている欄か（そこではスペースは文字）。選択欄・数値・スライダー・チェック・ボタンに焦点が残っていても、
+ * 地図の上ならスペースで地図を動かす（環境タブで塗る植生を選んだあとなど。ユーザーの指摘）
+ */
 function typingIn(t: EventTarget | null): boolean {
   const e = t as HTMLElement | null;
-  return !!e && (e.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(e.tagName));
+  if (!e) return false;
+  if (e.isContentEditable || e.tagName === 'TEXTAREA') return true;
+  return e.tagName === 'INPUT' && /^(text|search|email|url|tel|password)$/i.test((e as HTMLInputElement).type || 'text');
 }
 
 function setSpace(v: boolean): void {
@@ -50,16 +56,31 @@ function setSpace(v: boolean): void {
   for (const view of views) view.refreshCursor();
 }
 
+const overMap = (): boolean => [...views].some((v) => v.hovered);
+
 if (typeof window !== 'undefined') {
-  window.addEventListener('keydown', (e) => {
-    if (e.code !== 'Space' || typingIn(e.target)) return;
-    // 地図の上にいるときは、ボタンの押下やページのスクロールにしない
-    if ([...views].some((v) => v.hovered)) e.preventDefault();
-    setSpace(true);
-  });
-  window.addEventListener('keyup', (e) => {
-    if (e.code === 'Space') setSpace(false);
-  });
+  // 先に受け取る（capture）: 焦点のある選択欄が開いたり、ボタンが押されたりしないように
+  window.addEventListener(
+    'keydown',
+    (e) => {
+      if (e.code !== 'Space' || typingIn(e.target)) return;
+      // 地図の上にいるときだけ。ほかの所ではスペースは今までどおり（ボタンの押下・ページのスクロール）
+      if (!overMap() && !spaceHeld) return;
+      e.preventDefault();
+      setSpace(true);
+    },
+    true,
+  );
+  window.addEventListener(
+    'keyup',
+    (e) => {
+      if (e.code !== 'Space') return;
+      // スペースを離したときにボタンが押されたことにならないように
+      if (spaceHeld && !typingIn(e.target)) e.preventDefault();
+      setSpace(false);
+    },
+    true,
+  );
   window.addEventListener('blur', () => setSpace(false));
 }
 const CACHE_MAX = 400;
