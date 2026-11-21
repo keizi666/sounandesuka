@@ -66,6 +66,16 @@ export const JA = {
     via: { phone: '電話', satellite: '衛星 SOS', overdue: '未帰還の通報', script: '他の登山者', passerby: '通りかかった登山者', relay: '呼びに行った仲間' } as Record<string, string>,
   },
 
+  /** これまでのあらすじ（途中の場面から始めたとき。ユーザーの指定） */
+  synopsis: {
+    title: 'これまでのあらすじ',
+    now: 'いま {time}',
+    lead: '「{title}」のこの場面までに起きたことと、分岐で選んだこと。',
+    skipped: '（それより前の {n} 件は省いています。ログで見られます）',
+    party: 'いまの様子',
+    go: 'この場面から見る',
+  },
+
   /** 難しさ（ユーザーの指定。出発の前に選ぶ） */
   difficulty: {
     title: '難しさ',

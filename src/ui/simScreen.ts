@@ -56,6 +56,7 @@ import type { Difficulty } from '../app/settings';
 import { groupLeader } from '../sim/climber/party';
 import { isForest } from '../sim/terrain/derive';
 import { nearestIndex } from '../sim/terrain/sample';
+import { openSynopsis } from './synopsis';
 
 export { attributionLine, optionLabel, type SimResult } from './simCommon';
 
@@ -652,6 +653,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   if (resume?.log && resume.log.length > 0) for (const line of resume.log) hud.log(line);
   else if (resume) hud.log({ tMin: world.tMin, text: JA.ui.resumedNoLog, important: true });
   else hud.log({ tMin: world.tMin, text: `${scenario.title}（${nodeName(scenario.plan.route[0]!)} を出発）`, important: true });
+  /** これまでのあらすじの窓（途中の場面から始めたとき） */
+  let closeSynopsis: (() => void) | null = null;
   if (replay) {
     replaying = true;
     const r = replayTo(world, ctx, replay, (evs, tick) => {
@@ -662,6 +665,19 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     replaying = false;
     timeline.capture(world, recorder, true);
     loop.reset(world);
+    // 途中の場面から始めたので、ここまでのあらすじを出す（ユーザーの指定）。出来事が何もなければ出さない
+    if (world.tMin > (recorder.record.samples[0]?.t ?? world.tMin) + 1) {
+      closeSynopsis = openSynopsis({
+        scenario,
+        lines: hud.allLines(),
+        climbers: world.climbers,
+        time: (t) => formatDateTime(scenario, t),
+        nowMin: world.tMin,
+        onClose: () => {
+          closeSynopsis = null;
+        },
+      });
+    }
     // みんなの遭難記録の「この分岐から」（replay.cp がある）と、場面の URL とで知らせを変える
     const fromRecord = replay.cp !== undefined;
     const partial = fromRecord ? JA.ui.recordPartial : JA.ui.sharedPartial;
@@ -706,6 +722,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     sound.dispose();
     figIcons.dispose();
     closeEndConfirm?.();
+    closeSynopsis?.();
     simCap.dispose();
     closeLogDetail();
     tlBar.dispose();

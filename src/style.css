@@ -1120,3 +1120,26 @@ main.select2 .sel-card { background: #23262c; }
 .topbar .speed-sel:hover { border-color: var(--accent); }
 .topbar .speed-sel.paused { opacity: 0.6; }
 @media (max-width: 760px) { .topbar .speed-sel { min-height: 30px; padding: 1px 22px 1px 6px; font-size: 0.82rem; } }
+
+/* ---- これまでのあらすじ（途中の場面から始めたとき。ユーザーの指定） ---- */
+dialog.synopsis { width: min(620px, calc(100vw - 24px)); max-height: calc(100dvh - 40px); padding: 18px 20px 16px; border: 1px solid rgba(255, 255, 255, 0.16); border-top: 4px solid var(--accent, #c8a050); border-radius: 16px; background: #1b1e24; color: #e9ecf1; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6); display: flex; flex-direction: column; gap: 8px; }
+dialog.synopsis:not([open]) { display: none; }
+dialog.synopsis::backdrop { background: rgba(6, 8, 12, 0.5); }
+dialog.synopsis header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+dialog.synopsis h2 { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-size: 1.3rem; color: #f1d9a4; }
+dialog.synopsis h2 svg { width: 22px; height: 22px; fill: currentColor; }
+dialog.synopsis .syn-now { font-size: 0.85rem; opacity: 0.75; white-space: nowrap; }
+dialog.synopsis .syn-lead { margin: 0; font-size: 0.9rem; opacity: 0.85; }
+dialog.synopsis .syn-list { list-style: none; margin: 0; padding: 8px 10px; flex: 1 1 auto; min-height: 80px; overflow-y: auto; border-radius: 10px; background: rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; gap: 5px; font-size: 0.9rem; line-height: 1.5; }
+dialog.synopsis .syn-list li { display: flex; gap: 10px; }
+dialog.synopsis .syn-list li time { flex: 0 0 auto; font-variant-numeric: tabular-nums; opacity: 0.65; }
+dialog.synopsis .syn-list li.choice span { color: #f1d9a4; font-weight: 600; }
+dialog.synopsis .syn-list li.syn-skip { opacity: 0.6; font-size: 0.82rem; }
+dialog.synopsis h3 { margin: 4px 0 0; font-size: 0.95rem; }
+dialog.synopsis .syn-party { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.88rem; }
+dialog.synopsis .syn-who { display: inline-flex; align-items: center; gap: 6px; }
+dialog.synopsis .syn-who span { opacity: 0.8; }
+dialog.synopsis .syn-who.dead { opacity: 0.55; }
+dialog.synopsis .syn-actions { display: flex; justify-content: flex-end; margin-top: 4px; }
+dialog.synopsis .syn-actions button { display: inline-flex; align-items: center; gap: 4px; }
+dialog.synopsis .syn-actions svg { width: 20px; height: 20px; fill: currentColor; }
