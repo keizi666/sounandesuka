@@ -252,7 +252,7 @@ export function createLayers(ed: Ed, state: LayerState): MapLayer[] {
       }
       for (const n of ed.p.map.nodes) {
         const p = v.xzToPx(n.x, n.z);
-        const selected = sel.kind === 'node' && sel.id === n.id;
+        const selected = (sel.kind === 'node' && sel.id === n.id) || edgeSel.nodeIds.has(n.id);
         g.fillStyle = n.type === 'hut' || n.type === 'shelter' ? '#7c2d12' : n.type === 'peak' ? '#111' : n.type === 'trailhead' ? '#15803d' : n.type === 'boundary' ? '#94a3b8' : '#555';
         g.strokeStyle = selected ? '#ffcc00' : '#fff';
         g.lineWidth = selected ? 3 : 1.5;

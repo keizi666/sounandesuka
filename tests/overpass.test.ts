@@ -39,6 +39,19 @@ describe('Overpass の取り込み', () => {
     expect(g.edges).toHaveLength(1);
     expect(g.nodes.filter((n) => n.type === 'boundary')).toHaveLength(2);
   });
+  it('廃道（偽の道）は行き止まりになり、その先の分岐点はどの道にもつながらないまま残さない', () => {
+    const json: OsmJson = {
+      elements: [
+        { type: 'way', id: 1, nodes: [1, 2, 3], tags: { highway: 'path' }, geometry: [ll(0, 600), ll(0, 0), ll(0, -600)] },
+        { type: 'way', id: 2, nodes: [2, 4], tags: { highway: 'path', 'abandoned:highway': 'path' }, geometry: [ll(0, 0), ll(500, 0)] },
+      ],
+    };
+    const g = osmToGraph(json, lat0, lon0, size, () => 1500);
+    const fake = g.edges.find((e) => e.kind === 'false')!;
+    expect(fake.to).toBeUndefined();
+    const used = new Set(g.edges.flatMap((e) => [e.from, e.to ?? '']));
+    for (const n of g.nodes.filter((x) => x.type === 'junction' || x.type === 'boundary')) expect(used.has(n.id), n.id).toBe(true);
+  });
   it('問い合わせは 1 回分の bbox を含む', () => {
     expect(overpassQuery(lat0, lon0, size)).toMatch(/way\["highway"/);
   });

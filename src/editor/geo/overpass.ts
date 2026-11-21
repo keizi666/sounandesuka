@@ -254,7 +254,8 @@ export function osmToGraph(osm: OsmJson, lat0: number, lon0: number, size: numbe
   const used = new Set<NodeDef>();
   for (const e of edges) {
     used.add((e as unknown as { _a: NodeDef })._a);
-    used.add((e as unknown as { _b: NodeDef })._b);
+    // 偽の道（廃道）は下で行き止まり（終点なし）にするので、終点は数えない（数えると、どの道にもつながらない分岐点が残る）
+    if (e.kind !== 'false') used.add((e as unknown as { _b: NodeDef })._b);
   }
   // 道のつながらない分岐点・境界点は残さない
   const keep = nodes.filter((n) => used.has(n) || (n.type !== 'junction' && n.type !== 'boundary'));
