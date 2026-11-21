@@ -1,0 +1,1676 @@
+{
+ "id": "s23_fuji",
+ "version": 1,
+ "title": "10月の富士山、観光のついでに",
+ "subtitle": "10月下旬・20代の単独・富士山 富士宮ルート（実在の地形）",
+ "theme": "hypothermia",
+ "difficulty": 4,
+ "season": "autumn",
+ "snowpack": {
+  "lineM": 3150,
+  "depthCm": 12,
+  "fullM": 3500,
+  "trailCm": 6
+ },
+ "estMinutes": 20,
+ "mapId": "fuji",
+ "seed": 20261024,
+ "startDate": "2026-10-24",
+ "startAt": "D0 08:30",
+ "timeLimit": "D2 16:00",
+ "sun": {
+  "sunrise": "05:53",
+  "sunset": "16:55",
+  "maxElevDeg": 42
+ },
+ "moon": {
+  "illumination": 0.25,
+  "rise": "11:10",
+  "set": "20:30"
+ },
+ "region": {
+  "name": "富士山 富士宮ルート（静岡県）",
+  "real": true
+ },
+ "nodeOverrides": {
+  "ROKU": {
+   "open": false
+  },
+  "SHIN7": {
+   "open": false
+  },
+  "GEN7": {
+   "open": false
+  },
+  "HACHI": {
+   "open": false
+  },
+  "KYU": {
+   "open": false
+  },
+  "KYU5": {
+   "open": false
+  }
+ },
+ "briefing": {
+  "text": "10月下旬の土曜日。湊（24 歳）は富士山を見に、車で富士宮口五合目（標高約 2,400 m）まで来た。\n空は青く、山頂がすぐそこに見える。もともと山に登るつもりはなかったが、「行けるところまで行ってみよう」と歩きはじめる。\n富士山の登山道は 9 月で閉山し、六合目から上は冬期閉鎖中（立ち入り禁止）。山小屋はすべて閉まっている。山頂付近の 8 合目から上は、もう雪をかぶっている。\n山頂まで、ふつうは登りで 5 時間、下りで 3 時間。日の入りは 16 時 55 分。",
+  "forecast": [
+   {
+    "label": "朝",
+    "text": "晴れ。山頂付近は西の風がやや強い",
+    "icon": "sunny"
+   },
+   {
+    "label": "午後",
+    "text": "くもり。夕方から山は雪",
+    "icon": "cloudy"
+   },
+   {
+    "label": "明日",
+    "text": "山は吹雪。非常に強い北西の風",
+    "icon": "snow"
+   },
+   {
+    "label": "あさって",
+    "text": "晴れ",
+    "icon": "sunny"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "GOGOME",
+   "ROKU",
+   "SHIN7",
+   "GEN7",
+   "HACHI",
+   "KYU",
+   "KYU5",
+   "SANCHO",
+   "KYU5",
+   "KYU",
+   "HACHI",
+   "GEN7",
+   "SHIN7",
+   "ROKU",
+   "GOGOME"
+  ],
+  "goalNodes": [
+   "GOGOME"
+  ],
+  "plannedFinish": "D0 17:30",
+  "submittedPlan": false,
+  "reportIfNotBackBy": "D1 09:00",
+  "recoverDead": true,
+  "searchLeads": [
+   {
+    "id": "car",
+    "at": "D1 09:00",
+    "route": [
+     "GOGOME",
+     "ROKU",
+     "SHIN7",
+     "GEN7",
+     "HACHI",
+     "KYU",
+     "KYU5",
+     "SANCHO",
+     "KENGA"
+    ],
+    "maxRadiusM": 500,
+    "findF": 2,
+    "text": "家族の届け出から、湊の車が富士宮口五合目の駐車場で見つかった。捜索は富士宮ルートを中心に始まった"
+   }
+  ]
+ },
+ "party": [
+  {
+   "id": "A",
+   "name": "湊",
+   "role": "観光で来た会社員",
+   "age": 24,
+   "sex": "m",
+   "weightKg": 64,
+   "packKg": 1.5,
+   "experience": 0.1,
+   "fitness": 1,
+   "navSkill": 0.35,
+   "riskTolerance": 0.75,
+   "color": "#d35400",
+   "portrait": "young_m:2",
+   "leader": true,
+   "footwear": "sneakers",
+   "habits": {
+    "eatEveryMin": 240,
+    "drinkEveryMin": 70,
+    "delaysRainwear": 0.6,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "none",
+    "cloWorn": 0.8,
+    "cloPack": 0.6,
+    "gloves": "thin",
+    "hat": false,
+    "bivy": "none",
+    "rescueSheet": false,
+    "headlamp": {
+     "has": false,
+     "batteryH": 0,
+     "inPack": false,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 65,
+     "gpsApp": true,
+     "trackRecording": false,
+     "satelliteSos": false,
+     "strap": false
+    },
+    "powerBankMah": 0,
+    "map": false,
+    "compass": false,
+    "foodKcal": 350,
+    "waterL": 0.5,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false
+   },
+   "initial": {
+    "fatigue": 12,
+    "waterDeficitL": 0.2
+   },
+   "notes": "架空の人物。富士山を見に車で来て、そのまま登りはじめた。シナリオの想定の服装は綿のパーカーとジーンズに薄手のダウンジャケット（脱いで手に持てる）、ニットの手袋、スニーカー。持ち物は 500 mL のペットボトルと菓子パン・チョコレート、スマホ（モバイルバッテリーなし）。ヘッドランプ・雨具・地図はない"
+  }
+ ],
+ "passersby": [
+  {
+   "edges": [
+    "E1",
+    "E2"
+   ],
+   "perHour": 0.6,
+   "from": "08:00",
+   "to": "15:00",
+   "voiceM": 60,
+   "whistleM": 150
+  }
+ ],
+ "weather": {
+  "refElevM": 3776,
+  "lapseRateCPer100m": 0.6,
+  "cloudThicknessM": 3500,
+  "keyframes": [
+   {
+    "at": "D0 06:00",
+    "tempC": -6,
+    "windMs": 10,
+    "windDirDeg": 270,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1012,
+    "gustiness": 0.35
+   },
+   {
+    "at": "D0 09:30",
+    "tempC": -3.5,
+    "windMs": 11,
+    "windDirDeg": 265,
+    "precipMmH": 0,
+    "cloudCover": 0.15,
+    "cloudBaseM": 5000,
+    "visibilityM": 50000,
+    "pressureHpa": 1012,
+    "gustiness": 0.35
+   },
+   {
+    "at": "D0 12:00",
+    "tempC": -3,
+    "windMs": 10,
+    "windDirDeg": 255,
+    "precipMmH": 0,
+    "cloudCover": 0.45,
+    "cloudBaseM": 4300,
+    "visibilityM": 30000,
+    "pressureHpa": 1009,
+    "gustiness": 0.35
+   },
+   {
+    "at": "D0 13:30",
+    "tempC": -3.5,
+    "windMs": 12,
+    "windDirDeg": 245,
+    "precipMmH": 0,
+    "cloudCover": 0.8,
+    "cloudBaseM": 3700,
+    "visibilityM": 20000,
+    "pressureHpa": 1007,
+    "gustiness": 0.35,
+    "inCloudVisibilityM": 150
+   },
+   {
+    "at": "D0 15:00",
+    "tempC": -4.5,
+    "windMs": 16,
+    "windDirDeg": 240,
+    "precipMmH": 0.3,
+    "cloudCover": 0.95,
+    "cloudBaseM": 3300,
+    "visibilityM": 8000,
+    "pressureHpa": 1005,
+    "gustiness": 0.4,
+    "inCloudVisibilityM": 80
+   },
+   {
+    "at": "D0 16:30",
+    "tempC": -6,
+    "windMs": 18,
+    "windDirDeg": 245,
+    "precipMmH": 1.2,
+    "cloudCover": 1,
+    "cloudBaseM": 3000,
+    "visibilityM": 3000,
+    "pressureHpa": 1003,
+    "gustiness": 0.45,
+    "inCloudVisibilityM": 60
+   },
+   {
+    "at": "D0 20:00",
+    "tempC": -8.5,
+    "windMs": 20,
+    "windDirDeg": 260,
+    "precipMmH": 2,
+    "cloudCover": 1,
+    "cloudBaseM": 2700,
+    "visibilityM": 1500,
+    "pressureHpa": 1001,
+    "gustiness": 0.5,
+    "inCloudVisibilityM": 40
+   },
+   {
+    "at": "D1 01:00",
+    "tempC": -11,
+    "windMs": 24,
+    "windDirDeg": 285,
+    "precipMmH": 2.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2500,
+    "visibilityM": 1000,
+    "pressureHpa": 1002,
+    "gustiness": 0.55,
+    "inCloudVisibilityM": 30
+   },
+   {
+    "at": "D1 06:00",
+    "tempC": -13,
+    "windMs": 27,
+    "windDirDeg": 295,
+    "precipMmH": 2.2,
+    "cloudCover": 1,
+    "cloudBaseM": 2400,
+    "visibilityM": 800,
+    "pressureHpa": 1006,
+    "gustiness": 0.55,
+    "inCloudVisibilityM": 15
+   },
+   {
+    "at": "D1 12:00",
+    "tempC": -14,
+    "windMs": 27,
+    "windDirDeg": 300,
+    "precipMmH": 1.8,
+    "cloudCover": 1,
+    "cloudBaseM": 2500,
+    "visibilityM": 800,
+    "pressureHpa": 1010,
+    "gustiness": 0.55,
+    "inCloudVisibilityM": 15
+   },
+   {
+    "at": "D1 18:00",
+    "tempC": -14,
+    "windMs": 26,
+    "windDirDeg": 300,
+    "precipMmH": 1.2,
+    "cloudCover": 1,
+    "cloudBaseM": 2700,
+    "visibilityM": 1500,
+    "pressureHpa": 1014,
+    "gustiness": 0.5,
+    "inCloudVisibilityM": 20
+   },
+   {
+    "at": "D1 23:00",
+    "tempC": -13,
+    "windMs": 19,
+    "windDirDeg": 300,
+    "precipMmH": 0.6,
+    "cloudCover": 0.95,
+    "cloudBaseM": 3000,
+    "visibilityM": 4000,
+    "pressureHpa": 1018,
+    "gustiness": 0.45,
+    "inCloudVisibilityM": 60
+   },
+   {
+    "at": "D2 02:00",
+    "tempC": -12.5,
+    "windMs": 15,
+    "windDirDeg": 300,
+    "precipMmH": 0,
+    "cloudCover": 0.6,
+    "cloudBaseM": 3800,
+    "visibilityM": 15000,
+    "pressureHpa": 1019,
+    "gustiness": 0.4
+   },
+   {
+    "at": "D2 04:00",
+    "tempC": -12,
+    "windMs": 12,
+    "windDirDeg": 300,
+    "precipMmH": 0,
+    "cloudCover": 0.3,
+    "cloudBaseM": 4500,
+    "visibilityM": 30000,
+    "pressureHpa": 1020,
+    "gustiness": 0.4
+   },
+   {
+    "at": "D2 07:00",
+    "tempC": -11,
+    "windMs": 8,
+    "windDirDeg": 295,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 5500,
+    "visibilityM": 60000,
+    "pressureHpa": 1021,
+    "gustiness": 0.35
+   },
+   {
+    "at": "D2 11:00",
+    "tempC": -7.5,
+    "windMs": 6,
+    "windDirDeg": 290,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 5500,
+    "visibilityM": 60000,
+    "pressureHpa": 1020,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D2 16:00",
+    "tempC": -7,
+    "windMs": 7,
+    "windDirDeg": 290,
+    "precipMmH": 0,
+    "cloudCover": 0.15,
+    "cloudBaseM": 5500,
+    "visibilityM": 60000,
+    "pressureHpa": 1019,
+    "gustiness": 0.3
+   }
+  ]
+ },
+ "events": [
+  {
+   "id": "ev_closed",
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "ROKU"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "六合目の山小屋は雨戸を閉ざしている。登山道の入口には「冬期閉鎖中 立入禁止」の看板とロープ"
+    }
+   ]
+  },
+  {
+   "id": "ev_snowline",
+   "trigger": {
+    "all": [
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 3150
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "道の上に雪が出てきた。踏まれて固くなり、ところどころ氷のように光っている",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_clouds",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 13:30"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "西から雲が流れてきた。山頂が雲に隠れはじめた"
+    }
+   ]
+  },
+  {
+   "id": "ev_snow",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 15:00"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 0.1
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "雪が舞いはじめた。風が強まり、雪が横から吹きつける",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_dark",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 16:55"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "not": {
+       "var": "leader.state",
+       "op": "==",
+       "value": "FINISHED"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "日が沈んだ。雪雲の下で、あたりはすぐに暗くなる"
+    }
+   ]
+  },
+  {
+   "id": "ev_blizzard",
+   "trigger": {
+    "all": [
+     {
+      "after": "D1 01:00"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "山は吹雪になった。山頂付近の風は 25 m/s を超えている（推定）",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_clear",
+   "trigger": {
+    "all": [
+     {
+      "after": "D2 06:00"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "吹雪がやみ、空が晴れ上がった。山は新しい雪で真っ白になっている"
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_go",
+   "title": "富士宮口五合目",
+   "priority": 20,
+   "trigger": {
+    "after": "D0 08:30"
+   },
+   "situation": "五合目の駐車場から、山頂が近くに見える。気温は {leader.local.tempC:0}℃。登山道は閉鎖中だが、ロープの先に道は続いている。",
+   "knowledge": [
+    "山頂まで、ふつうは登りで 5 時間・下りで 3 時間",
+    "日の入りは 16 時 55 分",
+    "予報は夕方から山は雪、明日は吹雪",
+    "六合目から上は冬期閉鎖中で、山小屋はすべて閉まっている"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "行けるところまで登ってみる",
+     "detail": "疲れたら引き返せばいい。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "せっかく来たし、行けるところまで行ってみよう"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "roku",
+     "label": "六合目まで歩いて戻る",
+     "detail": "閉鎖の看板の手前、宝永山の見える所まで。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "六合目まで行って、景色を見て帰ろう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "shortWalk"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "GOGOME",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.25
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_shin7",
+   "title": "新七合目",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "SHIN7"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     },
+     {
+      "not": {
+       "flag": "shortWalk"
+      }
+     }
+    ]
+   },
+   "situation": "新七合目の閉ざされた山小屋の前。息が切れる。この先は？",
+   "knowledge": [
+    "山頂まで、ふつうはあと 3 時間半",
+    "予定より {leader.timeBehindMin:0} 分遅れている",
+    "水は残り {leader.waterL:1} L"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "もう少し登る",
+     "actions": [
+      {
+       "type": "say",
+       "text": "まだ昼だ。もう少し行ける"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "back",
+     "label": "ここで引き返す",
+     "detail": "明るいうちに五合目へ戻る。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここまでにしよう。十分きれいだった"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.2,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.timeBehindMin",
+         "op": ">",
+         "value": 60
+        },
+        "add": 0.15
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_gen7",
+   "title": "元祖七合目",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "GEN7"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "situation": "標高 3,000 m を越えた。頭が少し重い。気温は {leader.local.tempC:0}℃、風は {leader.local.windMs:0} m/s。",
+   "knowledge": [
+    "山頂まで、ふつうはあと 2 時間半",
+    "下りに 2 時間はかかる",
+    "日の入りは 16 時 55 分",
+    "水は残り {leader.waterL:1} L"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "八合目まで行く",
+     "actions": [
+      {
+       "type": "say",
+       "text": "八合目まで行けば、山頂はすぐのはずだ"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "back",
+     "label": "引き返す",
+     "detail": "日のあるうちに下りきる。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "このペースだと暗くなる。戻ろう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.2,
+      "mods": [
+       {
+        "when": {
+         "after": "D0 13:00"
+        },
+        "add": 0.15
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_hachi",
+   "title": "八合目",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "HACHI"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "situation": "八合目。ここから上は雪の斜面だ。雲が上がってきた。体感温度は {leader.local.windChillC:0}℃。",
+   "knowledge": [
+    "山頂まで、ふつうはあと 1 時間半（雪の上ではもっとかかる）",
+    "凍った雪の斜面は、滑ると止まれないことがある",
+    "五合目まで下るには 2 時間はかかる"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "山頂まで行く",
+     "detail": "ここまで来たのだから。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここまで来たんだ。山頂まで行く"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "back",
+     "label": "引き返す",
+     "detail": "雪の手前で戻る。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "雪の上はやめておこう。戻る"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.2,
+      "mods": [
+       {
+        "when": {
+         "after": "D0 14:00"
+        },
+        "add": 0.15
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_kyu",
+   "title": "九合目",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "KYU"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "situation": "九合目。雪の斜面を登ってきた。足先の感覚が鈍い。気温は {leader.local.tempC:0}℃。",
+   "knowledge": [
+    "山頂まで、ふつうはあと 1 時間",
+    "日の入りは 16 時 55 分",
+    "下りは雪の斜面を、暗くなってから下ることになるかもしれない"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "山頂まで行く",
+     "actions": [
+      {
+       "type": "say",
+       "text": "あと 1 時間。ここで帰ったら後悔する"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "back",
+     "label": "引き返す",
+     "actions": [
+      {
+       "type": "say",
+       "text": "もう十分だ。暗くなる前に下ろう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "KYU",
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.2,
+      "mods": [
+       {
+        "when": {
+         "after": "D0 15:00"
+        },
+        "add": 0.2
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_kyu5",
+   "title": "九合五勺",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "KYU5"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "situation": "九合五勺。山頂の鳥居が見えるはずだが、雲の中で見えない。体感温度は {leader.local.windChillC:0}℃。",
+   "knowledge": [
+    "山頂まで、ふつうはあと 40 分",
+    "雪が舞いはじめている",
+    "五合目まで、ふつうは 2 時間半"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "山頂まで行く",
+     "actions": [
+      {
+       "type": "say",
+       "text": "あと少しだ"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "back",
+     "label": "引き返す",
+     "actions": [
+      {
+       "type": "say",
+       "text": "山頂はまた今度だ"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "KYU5",
+        "KYU",
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.25,
+      "mods": [
+       {
+        "when": {
+         "after": "D0 15:30"
+        },
+        "add": 0.2
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_summit",
+   "title": "富士山頂",
+   "priority": 20,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "SANCHO"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "situation": "富士山の山頂（富士宮口）に着いた。浅間大社奥宮も山小屋も閉まっている。風は {leader.local.windMs:0} m/s。どうする？",
+   "knowledge": [
+    "剣ヶ峰（最高点）まで、ふつうは往復 40 分",
+    "五合目まで、ふつうは下りで 3 時間",
+    "閉山期の山頂は、電話がつながりにくいことがある"
+   ],
+   "options": [
+    {
+     "id": "down",
+     "label": "すぐに下りる",
+     "detail": "来た道を五合目へ。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "写真だけ撮って、すぐ下りよう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "summited"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "kenga",
+     "label": "剣ヶ峰まで行く",
+     "detail": "日本の最高点に立ってから下りる。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "せっかくだから剣ヶ峰まで行く"
+      },
+      {
+       "type": "setFlag",
+       "flag": "summited"
+      },
+      {
+       "type": "setFlag",
+       "flag": "kenga"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "SANCHO",
+        "KENGA",
+        "SANCHO",
+        "KYU5",
+        "KYU",
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "call",
+     "label": "電話で助けを求める",
+     "detail": "凍った雪の斜面を一人で下りるのは危ない。",
+     "available": {
+      "all": [
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "unavailableText": "スマホがないか、電池が切れている",
+     "actions": [
+      {
+       "type": "say",
+       "text": "このまま下りるのは無理だ。110 番しよう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "summited"
+      },
+      {
+       "type": "callRescue",
+       "via": "phone"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "bias": {
+      "base": 0.15
+     }
+    }
+   ]
+  }
+ ],
+ "genericOverrides": {
+  "darkness": {
+   "situation": "日が暮れた。雪が舞い、足もとがほとんど見えない。どうする？"
+  }
+ },
+ "thoughts": [
+  {
+   "key": "s23_view",
+   "when": {
+    "all": [
+     {
+      "before": "D0 12:00"
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.elevM",
+      "op": "<",
+      "value": 2900
+     }
+    ]
+   },
+   "lines": [
+    "宝永山の火口が真下に見える",
+    "空が近い。駿河湾まで見える"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s23_breath",
+   "when": {
+    "all": [
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 2900
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.fatigue",
+      "op": ">",
+      "value": 35
+     }
+    ]
+   },
+   "lines": [
+    "少し歩くと息が切れる",
+    "空気が薄い気がする"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s23_sneaker",
+   "when": {
+    "all": [
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 3150
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.gear.crampons",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "lines": [
+    "靴が雪の上で滑る",
+    "一歩ずつ、足を置く場所を探す"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s23_cold_light",
+   "when": {
+    "all": [
+     {
+      "var": "leader.local.windChillC",
+      "op": "<",
+      "value": -12
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.gear.clo",
+      "op": "<",
+      "value": 1.6
+     }
+    ]
+   },
+   "lines": [
+    "風が服を通り抜けてくる",
+    "この服では寒すぎる"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s23_cold_warm",
+   "when": {
+    "all": [
+     {
+      "var": "leader.local.windChillC",
+      "op": "<",
+      "value": -15
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.gear.clo",
+      "op": ">=",
+      "value": 1.6
+     }
+    ]
+   },
+   "lines": [
+    "顔に当たる風が痛い",
+    "着込んでいても、止まると冷えてくる"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s23_thirst",
+   "when": {
+    "all": [
+     {
+      "var": "leader.waterL",
+      "op": "<",
+      "value": 0.05
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "lines": [
+    "のどが渇いた。もう水がない",
+    "雪を口に入れても、すぐには潤わない"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s23_dark",
+   "when": {
+    "all": [
+     {
+      "var": "sun.isDark",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.headlamp.has",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "スマホのライトだけが頼りだ",
+    "電池がどんどん減っていく"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s23_late",
+   "when": {
+    "all": [
+     {
+      "var": "leader.timeBehindMin",
+      "op": ">",
+      "value": 60
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "before": "D0 15:30"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "思ったより時間がかかる",
+    "山頂がなかなか近づかない"
+   ],
+   "priority": 5
+  }
+ ],
+ "endings": [
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "shortWalk"
+   },
+   "title": "六合目からの眺め",
+   "text": "湊は六合目まで歩いて、宝永山の火口と駿河湾を眺めて五合目へ戻った。夕方から山は雪になった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "all": [
+     {
+      "flag": "summited"
+     },
+     {
+      "var": "rec.minCoreC",
+      "op": "<",
+      "value": 35.5
+     }
+    ]
+   },
+   "title": "冷え切って五合目へ",
+   "text": "湊は山頂から雪の中を下り、五合目にたどり着いた。体は芯まで冷え、低体温症の手前だった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "summited"
+   },
+   "title": "山頂から戻った",
+   "text": "湊は山頂に立ち、五合目まで戻った。翌日、山は吹雪になった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "turnedBack"
+   },
+   "title": "途中で引き返した",
+   "text": "湊は途中で引き返し、五合目へ戻った。翌日、山は吹雪になった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "title": "五合目に戻った",
+   "text": "湊は五合目に戻った。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "title": "雪の中の一夜",
+   "text": "湊は山の上で夜を越し、救助を待たずに自分の足で下った。"
+  },
+  {
+   "kind": "RESCUED_CRITICAL",
+   "title": "重い状態での収容",
+   "text": "湊は救助隊に収容された。体温が大きく下がり、意識がはっきりしなかった。"
+  },
+  {
+   "kind": "RESCUED",
+   "title": "救助された",
+   "text": "湊は救助隊に収容された。"
+  },
+  {
+   "kind": "MISSING",
+   "title": "見つからないまま",
+   "text": "捜索は続いているが、湊はまだ見つかっていない。"
+  },
+  {
+   "kind": "FATAL",
+   "when": {
+    "flag": "bodyRecovered"
+   },
+   "title": "晴れた朝の収容",
+   "text": "湊は山の上で亡くなった。吹雪がやんだあと、救助隊が遺体を収容した。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "帰らなかった登山",
+   "text": "湊は山の上で亡くなった。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_closed",
+   "when": {
+    "chose": {
+     "cp": "cp_go",
+     "option": "go"
+    }
+   },
+   "title": "閉山期の富士山",
+   "text": "9 月の閉山のあと、富士山の登山道は冬期閉鎖になり、立ち入りは禁止される。山小屋もトイレも閉まり、山頂付近は 10 月にはもう氷点下の冬山になる。五合目から見える山頂は近く見えるが、標高差は 1,400 m ある。"
+  },
+  {
+   "id": "l_turn",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_gen7",
+       "option": "go"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_hachi",
+       "option": "go"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_kyu",
+       "option": "go"
+      }
+     }
+    ]
+   },
+   "title": "引き返す時刻を先に決める",
+   "text": "「疲れたら戻る」では、疲れたときにはもう下りる力と時間が足りない。日の入りから下りにかかる時間を引いて、出発前に引き返す時刻を決めておく。"
+  },
+  {
+   "id": "l_gear",
+   "when": {
+    "all": [
+     {
+      "chose": {
+       "cp": "cp_go",
+       "option": "go"
+      }
+     },
+     {
+      "var": "leader.gear.clo",
+      "op": "<",
+      "value": 1.6
+     }
+    ]
+   },
+   "title": "観光の服で 3,000 m を越えない",
+   "text": "綿の服は汗と雪で濡れると保温力をほとんど失う。10 月下旬の富士山の山頂は平年でも氷点下で、風が強い。冬山の服装・アイゼン・ヘッドランプがなければ、雪の上へは行かない。"
+  },
+  {
+   "id": "l_snow",
+   "when": {
+    "all": [
+     {
+      "var": "rec.fallCount",
+      "op": ">",
+      "value": 0
+     },
+     {
+      "var": "leader.gear.crampons",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "title": "凍った斜面とスニーカー",
+   "text": "富士山の上のほうは、固い雪や氷の斜面が長く続く。滑ると止まれずに何百 m も滑り落ちることがある。"
+  },
+  {
+   "id": "l_dark",
+   "when": {
+    "var": "rec.darkMinutesMoving",
+    "op": ">",
+    "value": 30
+   },
+   "title": "明かりのない下り",
+   "text": "日が沈むと、雪の斜面では道の見分けがつかなくなる。スマホのライトでは電池が持たず、寒さで電池はさらに早く減る。"
+  },
+  {
+   "id": "l_water",
+   "when": {
+    "var": "rec.minCoreC",
+    "op": "<",
+    "value": 35
+   },
+   "title": "低体温症は判断を奪う",
+   "text": "体が冷えると、手が動かなくなり、考える力も落ちる。寒いと感じたら、動けるうちに引き返す。"
+  }
+ ],
+ "balanceTargets": {
+  "recommended": {
+   "goodMin": 0.95,
+   "fatalMax": 0.02
+  },
+  "bias": {
+   "fatalMin": 0.1,
+   "fatalMax": 0.6
+  },
+  "risky": {
+   "fatalMin": 0.5
+  }
+ },
+ "sources": [
+  "気象: 架空の推移。10 月下旬の富士山頂の平年気温（旬平均 −4.3℃、静岡地方気象台の旬報）と、初冠雪の平年日（10 月 2 日、甲府地方気象台）を目安にした。2 日目の吹雪・3 日目の晴れはユーザーの指定",
+  "登山道の閉鎖: 静岡県の発表（富士山静岡県側の登山道は 9 月 10 日から冬期閉鎖。富士宮ルートは六合目〜山頂が対象）",
+  "電波: 作者の想定（南斜面は麓の基地局から電波が入ることが多いとした。夏の臨時基地局は閉山期は使えない）",
+  "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+  "登山道・地点: © OpenStreetMap contributors"
+ ]
+}

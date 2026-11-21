@@ -27,6 +27,7 @@ export function eventSound(e: SimEvent): { id: string; volume: number } | null {
       return { id: 'heartbeat', volume: 1 };
     case 'SCRIPT_LOG':
       if (d['passerby']) return { id: 'footsteps', volume: 0.8 };
+      if (d['bodyRecovered'] === 'heli') return { id: 'mil-helicopter', volume: 1 };
       if (d['bearAttack']) return { id: 'bass-drop', volume: 0.9 };
       return d['illnessOnset'] || d['anaphylaxisOnset'] ? { id: 'heartbeat', volume: 0.9 } : null;
     case 'FALL':

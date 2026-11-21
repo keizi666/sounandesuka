@@ -62,6 +62,8 @@ export { attributionLine, optionLabel, type SimResult } from './simCommon';
 
 const TIMED_SEC = 30;
 const AUTOSAVE_MS = 30000;
+/** 全員が亡くなってから、収容・結末まで時間を進めるまでの待ち（ミリ秒。昇っていく姿を見せる間） */
+const DEATH_SKIP_WAIT_MS = 6000;
 /** 登山者の一覧でダブルクリックしたとき、どこまで寄るか（カメラの最短距離の何倍） */
 const ZOOM_IN_DIST_F = 4;
 /** ハードで、これより遠い所をぼかす（m。ユーザーの指定: 樹林帯の中は狭く、抜けたら広く） */
@@ -437,7 +439,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       endingTitle: resolveEnding(world, ctx, recVars(recorder, world))?.title ?? undefined,
       deaths: world.climbers.filter((c) => !c.body.alive).length,
       partySize: world.climbers.length,
-      durationMin: Math.round(world.tMin - (r.samples[0]?.t ?? world.tMin)),
+      // 全員が亡くなったときは最後の人が亡くなった時刻まで（遺体の収容までを含めない。結果の画面の行動時間と同じ）
+      durationMin: Math.round((world.climbers.every((c) => !c.body.alive) ? Math.max(...r.events.filter((ev) => ev.type === 'DEATH').map((ev) => ev.tMin), r.samples[0]?.t ?? world.tMin) : world.tMin) - (r.samples[0]?.t ?? world.tMin)),
       conditions: !!loaded.conditions,
     });
     countPlay(scenario.id);
@@ -571,6 +574,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     onUi: () => {
       refresh();
       skipHutNight();
+      skipAfterDeath();
     },
     shouldPause: (e) => {
       if (st.autoPause === 'choice') return false;
@@ -604,6 +608,37 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     timeline.capture(world, recorder, true);
     loop.reset(world);
     if (world.tMin > startMin) hud.log({ tMin: world.tMin, text: JA.ui.hutNightSkipped, important: true });
+    if (world.pendingChoice) onChoice();
+    if (world.ended) onEnded();
+    refresh(true);
+  }
+  // 全員が亡くなったあとも遺体の収容までシミュレートするシナリオ（plan.recoverDead）では、何も起きない時間が長く続く（ユーザーの指摘:
+  // 死んだのに終わらない）。最後の人が亡くなってから少し（昇っていく姿を見せる間）待って、収容・結末まで時間を進める。途中のログはそのまま出す
+  let allDeadSinceMs: number | null = null;
+  function skipAfterDeath(): void {
+    if (world.ended || world.pendingChoice) return;
+    const anyDead = world.climbers.some((c) => !c.body.alive);
+    const nobodyLeft = world.climbers.every((c) => !c.body.alive || c.state === 'FINISHED' || c.state === 'RESCUED' || c.offMap !== undefined);
+    if (!anyDead || !nobodyLeft) {
+      allDeadSinceMs = null;
+      return;
+    }
+    const now = performance.now();
+    if (allDeadSinceMs === null) allDeadSinceMs = now;
+    if (loop.paused || now - allDeadSinceMs < DEATH_SKIP_WAIT_MS) return;
+    replaying = true;
+    const startMin = world.tMin;
+    for (let n = 0; n < 4 * 8640 && !world.ended && !world.pendingChoice; n += 1) {
+      stepWorld(world, ctx);
+      const evs = ctx.events.splice(0);
+      recordTick(recorder, world, ctx, evs, DT_SEC / 60);
+      handleEvents(evs);
+      timeline.capture(world, recorder);
+    }
+    replaying = false;
+    timeline.capture(world, recorder, true);
+    loop.reset(world);
+    if (world.tMin > startMin) hud.log({ tMin: world.tMin, text: JA.ui.afterDeathSkipped, important: true });
     if (world.pendingChoice) onChoice();
     if (world.ended) onEnded();
     refresh(true);

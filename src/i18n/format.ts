@@ -209,7 +209,7 @@ function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
     case 'RESCUE_CALL_FAILED':
       return fill(L.rescueFailed, { who });
     case 'HELI_DISPATCH':
-      return L.heliDispatch;
+      return d['night'] ? L.heliDispatchNight : L.heliDispatch;
     case 'GROUND_DISPATCH':
       return L.groundDispatch;
     case 'RESCUED':
@@ -274,6 +274,7 @@ function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
       if (typeof d['groundCurrent'] === 'number') return fill(L.groundCurrent, { who, n: String(d['groundCurrent']) });
       if (typeof d['errandHutSeen'] === 'string') return fill(L.errandHutSeen, { who, node: f.nodeName(String(d['errandHutSeen'])) });
       if (d['rescueNotThere']) return L.rescueNotThere;
+      if (typeof d['bodyRecovered'] === 'string') return fill(d['bodyRecovered'] === 'heli' ? L.bodyRecoveredHeli : L.bodyRecoveredGround, { who });
       if (typeof d['rescueHold'] === 'string') {
         const t = L.rescueHold[d['by'] === 'heli' ? 'heli' : 'ground'] as Record<string, string>;
         return t[d['rescueHold']] ?? null;

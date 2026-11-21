@@ -264,6 +264,11 @@ export interface PlanDef {
    * （計画を出していない・家族が行き先を知らない場合）。後に並ぶ手がかりほど新しい。分かった時点でログに text を出す。
    */
   searchLeads?: SearchLeadDef[];
+  /**
+   * 亡くなった人の収容までシミュレートする（既定 false）。true なら、亡くなった人も救助隊の捜索・収容の対象になり、
+   * 全員が亡くなっても、救助隊が来る見込みがあれば収容されるまで（制限時刻まで）続ける。収容はログに出し、flags.bodyRecovered に時刻を残す
+   */
+  recoverDead?: boolean;
 }
 
 export interface SearchLeadDef {

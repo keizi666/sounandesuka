@@ -63,6 +63,17 @@ function incidentHappened(world: World): boolean {
   return world.climbers.some((c) => !c.body.alive || (c.body.injury !== 'none' && c.body.injury !== 'bruise') || c.body.illness?.active === true || c.memo.bivouacked);
 }
 
+/** 亡くなった人がまだ山にいて、救助隊が来る（来ている・届け出の予定がある）か */
+function bodiesAwaitRecovery(world: World, ctx: StaticContext): boolean {
+  const plan = ctx.scenario.plan;
+  if (plan.recoverDead !== true) return false;
+  if (!world.climbers.some((c) => c.state === 'DEAD' && c.offMap === undefined)) return false;
+  const r = world.rescue;
+  if (r.status === 'dispatched' || r.status === 'searching') return true;
+  if (r.status === 'contacted') return false;
+  return world.flags['reportedMissing'] !== undefined || (plan.reportIfNotBackBy !== null && world.flags['familyNotified'] === undefined);
+}
+
 export function checkEnding(world: World, ctx: StaticContext): boolean {
   if (world.ended) return true;
   const allTerminal = world.climbers.every((c) => TERMINAL.has(c.state));
@@ -73,6 +84,8 @@ export function checkEnding(world: World, ctx: StaticContext): boolean {
   const someoneDown = world.climbers.some((c) => c.state === 'FINISHED');
   const allSafe = (incidentHappened(world) || someoneDown) && world.climbers.every((c) => TERMINAL.has(c.state) || c.offMap !== undefined || (c.state === 'SHELTERED' && c.body.shelterNodeId !== null));
   if (!allTerminal && !timeUp && !allSafe) return false;
+  // 遺体の収容までシミュレートするシナリオ（plan.recoverDead）: 救助隊が来る見込みがあれば、収容されるまで続ける（制限時刻で打ち切る）
+  if (!timeUp && bodiesAwaitRecovery(world, ctx)) return false;
   const kind = worstOutcome(world.climbers, ctx);
   world.ended = { kind, atMin: world.tMin };
   ctx.events.push({ tMin: world.tMin, type: 'ENDED', important: true, data: { kind, timeUp } });

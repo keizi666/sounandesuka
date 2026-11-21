@@ -1,0 +1,25 @@
+{
+  "skeleton": "public/maps/real/fuji.skeleton.json",
+  "mapId": "fuji",
+  "center": [35.3495, 138.7340],
+  "size": 5120,
+  "resolution": 513,
+  "at": {
+    "GOGOME": [35.33685, 138.733],
+    "ROKU": [35.33918, 138.73791],
+    "SHIN7": [35.34477, 138.73699],
+    "GEN7": [35.34852, 138.73594],
+    "HACHI": [35.35175, 138.7354],
+    "KYU": [35.35458, 138.73282],
+    "KYU5": [35.35677, 138.73119],
+    "SANCHO": [35.35966, 138.73121],
+    "KENGA": [35.36068, 138.72735]
+  },
+  "snapM": 80,
+  "paceAdj": {},
+  "radio": [
+    { "id": "st_fujinomiya", "x": -9000, "z": 19000, "elevM": 300, "antennaM": 40, "rangeM": 30000 },
+    { "id": "st_gotemba", "x": 16000, "z": 6000, "elevM": 600, "antennaM": 40, "rangeM": 30000 },
+    { "id": "st_susono", "x": 12000, "z": 17000, "elevM": 500, "antennaM": 40, "rangeM": 30000 }
+  ]
+}

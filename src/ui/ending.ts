@@ -119,6 +119,9 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
   const r = result.recorder.record;
   const start = r.samples[0]?.t ?? w.tMin;
   const endMin = w.ended?.atMin ?? w.tMin;
+  // 行動時間: 全員が亡くなったときは最後の人が亡くなった時刻まで（遺体の収容まで続けるシナリオで、収容までを含めない）
+  const deathMins = r.events.filter((ev) => ev.type === 'DEATH').map((ev) => ev.tMin);
+  const actEndMin = w.climbers.every((c) => !c.body.alive) && deathMins.length > 0 ? Math.min(endMin, Math.max(...deathMins)) : endMin;
   const decisions = r.decisions.filter((d) => d.by === 'user' || d.by === 'bias');
   const tone = endingTone(e.kind);
   const minCore = (id: string): number => Math.min(37, ...r.samples.map((sm) => sm.climbers.find((q) => q.id === id)?.coreC ?? 37));
@@ -142,7 +145,7 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
     el('h2', {}, [icon('share'), JA.share.resultTitle]),
     shareButtons(
       // 場面の URL は長く、X などでカードが出ないので、短い URL にする（ユーザーの指定）
-      shortTarget({ text: fill(JA.share.resultText, { scenario: s.title, ending: endTitle, time: hm(endMin - start), core: r.stats.minCoreC.toFixed(1) }), url: resultUrl }),
+      shortTarget({ text: fill(JA.share.resultText, { scenario: s.title, ending: endTitle, time: hm(actEndMin - start), core: r.stats.minCoreC.toFixed(1) }), url: resultUrl }),
       { note: resultUrl === siteUrl() ? JA.share.note : JA.share.resultNote },
     ),
   ]);
@@ -153,7 +156,7 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
           el('h1', {}, e.title ?? def?.title ?? e.kind),
           el('p', { class: 'en-story' }, e.text ?? def?.text ?? ''),
           el('div', { class: 'bf-facts' }, [
-            fact('timer', JA.ui.duration, hm(endMin - start)),
+            fact('timer', JA.ui.duration, hm(actEndMin - start)),
             fact('route', JA.ui.distance, `${(r.stats.distanceM / 1000).toFixed(1)} km`),
             fact('thermostat', JA.ui.minCore, `${r.stats.minCoreC.toFixed(1)}℃`),
             fact('flag', '終わった時刻', formatDateTime(s, endMin)),

@@ -15,10 +15,41 @@ import { blindHeliFind, cocoheliFind, distToPlannedRoute, whereaboutsUnknown } f
 import { stepPassersby } from './passersby';
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
+/** 収容された遺体の居場所の表示（offMap。sim は i18n を import しないのでここに置く） */
+const JA_RECOVERED = { heli: 'ヘリで収容された', ground: '救助隊が収容した' } as const;
 
-/** まだ下山していない人（下山・救助・死亡済みでない）。小屋の中の人も含む */
-function missing(world: World, _ctx: StaticContext): ClimberState[] {
-  return world.climbers.filter((c) => !TERMINAL.has(c.state));
+/** 亡くなって、まだ収容されていない人（シナリオの plan.recoverDead のときだけ、救助隊が探して収容する） */
+export function bodyOnMountain(ctx: StaticContext, c: ClimberState): boolean {
+  return ctx.scenario.plan.recoverDead === true && c.state === 'DEAD' && c.offMap === undefined;
+}
+
+/** まだ下山していない人（下山・救助・死亡済みでない）。小屋の中の人も含む。plan.recoverDead のときは、収容されていない遺体も含む */
+function missing(world: World, ctx: StaticContext): ClimberState[] {
+  return world.climbers.filter((c) => !TERMINAL.has(c.state) || bodyOnMountain(ctx, c));
+}
+
+/**
+ * ヘリの準備ができる時刻。夜はヘリは飛ばないので、飛ぶための準備もしない（ユーザーの指定）。
+ * 準備は日の出から日の入りまでの間だけ進む（悪天候でも、明るければ準備はする）
+ */
+export function heliReadyAt(ctx: StaticContext, tMin: number, prepMin: number): number {
+  const rise = parseHHMM(ctx.scenario.sun.sunrise);
+  const set = parseHHMM(ctx.scenario.sun.sunset);
+  let t = tMin;
+  let left = prepMin;
+  for (let i = 0; i < 60 && left > 0; i++) {
+    const day0 = t - clockMinOf(t);
+    if (t < day0 + rise) t = day0 + rise;
+    if (t >= day0 + set) {
+      t = day0 + 1440 + rise;
+      continue;
+    }
+    const avail = day0 + set - t;
+    if (avail >= left) return t + left;
+    left -= avail;
+    t = day0 + 1440 + rise;
+  }
+  return t;
 }
 
 /** 小屋の中で元気にしている人（見つかっても収容せず、無事を確認するだけ） */
@@ -112,11 +143,15 @@ function target(world: World): { x: number; z: number } {
 function start(world: World, ctx: StaticContext): void {
   const rt = ctx.tuning.rescue;
   const r = world.rescue;
-  r.heli = { readyAtMin: world.tMin + randRange(world.rng.rescue, rt.heliPrepMinMin, rt.heliPrepMaxMin), nextCheckMin: null, state: 'preparing' };
+  const prepMin = randRange(world.rng.rescue, rt.heliPrepMinMin, rt.heliPrepMaxMin);
+  const readyAtMin = heliReadyAt(ctx, world.tMin, prepMin);
+  r.heli = { readyAtMin, nextCheckMin: null, state: 'preparing' };
   const night = world.sun.isDark ? rt.groundNightAddMin : 0;
   r.ground = { readyAtMin: world.tMin + randRange(world.rng.rescue, rt.groundMobMinMin, rt.groundMobMaxMin) + night, x: 0, z: 0, state: 'mobilizing' };
   r.searchRadiusM = rt.searchStartM;
-  ctx.events.push({ tMin: world.tMin, type: 'HELI_DISPATCH', important: true });
+  // 夜に要請を受けたときは、準備は明るくなってから（ログで分かるように）
+  const waitsForLight = readyAtMin - world.tMin > prepMin + 0.5;
+  ctx.events.push({ tMin: world.tMin, type: 'HELI_DISPATCH', important: true, ...(waitsForLight ? { data: { night: true } } : {}) });
   ctx.events.push({ tMin: world.tMin, type: 'GROUND_DISPATCH', important: true });
 }
 
@@ -188,10 +223,18 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
   delete world.rescue.blindOdds;
   if (!safeInHut(found)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, important: true, data: { rescueLoc: atReport ? 'foundAtReport' : 'foundBySearch', by, distM, ...(odds !== undefined ? { oddsPct: Math.round(odds * 1000) / 10 } : {}) } });
   for (const c of world.climbers) {
-    if (TERMINAL.has(c.state) || safeInHut(c)) continue;
+    const body = bodyOnMountain(ctx, c);
+    if ((TERMINAL.has(c.state) && !body) || safeInHut(c)) continue;
     const dx = c.x - found.x;
     const dz = c.z - found.z;
     if (dx * dx + dz * dz > rt.contactRadiusM * rt.contactRadiusM) continue;
+    if (body) {
+      // 亡くなった人を収容する（ヘリで吊り上げる・救助隊が担いで下ろす）。3D から消え、居場所を出す
+      c.offMap = by === 'heli' ? JA_RECOVERED.heli : JA_RECOVERED.ground;
+      if (world.flags['bodyRecovered'] === undefined) world.flags['bodyRecovered'] = world.tMin;
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { bodyRecovered: by } });
+      continue;
+    }
     transition(world, ctx, c, 'RESCUED', by);
     ctx.events.push({ tMin: world.tMin, type: 'RESCUED', climberId: c.id, important: true, data: { by } });
     // 収容された人は、その場に残らない（ヘリなら病院へ、地上の救助隊なら一緒に下山）。3D から消え、居場所を出す
@@ -205,7 +248,7 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
   // 通報した人がもう収容された・下山した通報は消す
   const reports = (r.reports ?? []).filter((x) => {
     const c = byId.get(x.by);
-    return c !== undefined && !TERMINAL.has(c.state) && c.offMap === undefined;
+    return c !== undefined && ((!TERMINAL.has(c.state) && c.offMap === undefined) || bodyOnMountain(ctx, c));
   });
   r.reports = reports;
   let pick = -1;

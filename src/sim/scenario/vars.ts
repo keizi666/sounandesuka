@@ -47,6 +47,9 @@ export const CLIMBER_FIELDS = [
   'phone.has',
   'headlamp.has',
   'headlamp.usable',
+  'gear.clo',
+  'gear.crampons',
+  'gear.rainwear',
   'rescueCalled',
   'illness',
   'illnessActive',
@@ -124,6 +127,13 @@ function climberField(c: ClimberState, field: string, scope: VarScope): VarValue
       return scope.world.rescue.calledAtMin !== null && (scope.world.rescue.via === 'phone' || scope.world.rescue.via === 'satellite');
     case 'headlamp.has':
       return c.inv.headlamp.has;
+    // 持って出た装備（始まりの条件で装備を変えたときに、文を出し分ける。gear.clo は着ている服と予備の服の保温力の和）
+    case 'gear.clo':
+      return c.def.gear.cloWorn + c.def.gear.cloPack;
+    case 'gear.crampons':
+      return c.def.gear.crampons;
+    case 'gear.rainwear':
+      return c.def.gear.rainwear;
     case 'illness':
       return c.body.illness?.kind ?? 'none';
     case 'illnessActive':

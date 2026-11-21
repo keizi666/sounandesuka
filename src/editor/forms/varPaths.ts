@@ -8,6 +8,9 @@ import { JA as TEXT } from '../../i18n/ja';
 
 const JA: Record<string, string> = {
   coreC: '深部体温',
+  'gear.clo': '服の保温力（着ている服と予備）',
+  'gear.crampons': 'アイゼンを持つ',
+  'gear.rainwear': '雨具',
   wetness: '濡れ',
   glycogenKcal: 'エネルギー',
   waterDeficitL: '水分不足',

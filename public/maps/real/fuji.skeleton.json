@@ -1,0 +1,42 @@
+{
+  "id": "fuji",
+  "name": "富士山 富士宮ルート（富士宮口五合目〜六合目〜新七合目〜元祖七合目〜八合目〜九合目〜九合五勺〜山頂・剣ヶ峰）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "富士宮口五合目（標高約 2,400 m）から富士宮ルートで山頂（浅間大社奥宮・約 3,710 m）と剣ヶ峰（3,776 m）へ向かう範囲。一辺 5 km 程度（513 頂点）。五合目の少し上で森林限界を抜け、その先は木も岩陰も少ない火山れきの斜面がまっすぐ続く。風を避けられる所はほとんどない。10 月下旬は山小屋がすべて閉まっていて、六合目から上の登山道は冬期閉鎖中（立ち入り禁止）。",
+    "sizeM": 5120
+  },
+  "size": 5120,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2500, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 120 },
+  "nodes": [
+    { "id": "GOGOME", "name": "富士宮口五合目（駐車場）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 2400 },
+    { "id": "ROKU", "name": "六合目（雲海荘・宝永山荘。閉鎖中）", "type": "hut", "x": 0, "z": 0, "expectedElevM": 2490, "shelter": { "kind": "staffed", "open": false } },
+    { "id": "SHIN7", "name": "新七合目（御来光山荘。閉鎖中）", "type": "hut", "x": 0, "z": 0, "expectedElevM": 2780, "shelter": { "kind": "staffed", "open": false } },
+    { "id": "GEN7", "name": "元祖七合目（山口山荘。閉鎖中）", "type": "hut", "x": 0, "z": 0, "expectedElevM": 3010, "shelter": { "kind": "staffed", "open": false } },
+    { "id": "HACHI", "name": "八合目（池田館。閉鎖中）", "type": "hut", "x": 0, "z": 0, "expectedElevM": 3220, "shelter": { "kind": "staffed", "open": false } },
+    { "id": "KYU", "name": "九合目（萬年雪山荘。閉鎖中）", "type": "hut", "x": 0, "z": 0, "expectedElevM": 3410, "shelter": { "kind": "staffed", "open": false } },
+    { "id": "KYU5", "name": "九合五勺（胸突山荘。閉鎖中）", "type": "hut", "x": 0, "z": 0, "expectedElevM": 3550, "shelter": { "kind": "staffed", "open": false } },
+    { "id": "SANCHO", "name": "富士山頂（富士宮口・浅間大社奥宮）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 3710 },
+    { "id": "KENGA", "name": "剣ヶ峰", "type": "peak", "x": 0, "z": 0, "expectedElevM": 3776 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "五合目〜六合目", "kind": "trail", "from": "GOGOME", "to": "ROKU", "class": "T1", "markers": 0.9, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "六合目〜新七合目（火山れきのジグザグ）", "kind": "trail", "from": "ROKU", "to": "SHIN7", "class": "T2", "markers": 0.8, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "新七合目〜元祖七合目", "kind": "trail", "from": "SHIN7", "to": "GEN7", "class": "T2", "markers": 0.8, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "元祖七合目〜八合目（岩まじりの登り）", "kind": "trail", "from": "GEN7", "to": "HACHI", "class": "T2", "markers": 0.7, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "八合目〜九合目", "kind": "trail", "from": "HACHI", "to": "KYU", "class": "T2", "markers": 0.6, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "九合目〜九合五勺", "kind": "trail", "from": "KYU", "to": "KYU5", "class": "T2", "markers": 0.6, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "九合五勺〜山頂（胸突八丁）", "kind": "trail", "from": "KYU5", "to": "SANCHO", "class": "T2", "markers": 0.6, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "山頂〜剣ヶ峰（お鉢の縁）", "kind": "trail", "from": "SANCHO", "to": "KENGA", "class": "T2", "markers": 0.6, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}
