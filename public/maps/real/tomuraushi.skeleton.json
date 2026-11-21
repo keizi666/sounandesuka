@@ -1,0 +1,443 @@
+{
+ "id": "tomuraushi",
+ "name": "大雪山 トムラウシ山（ヒサゴ沼避難小屋〜北沼〜南沼〜前トム平〜短縮コース登山口）",
+ "skeleton": true,
+ "areaHint": {
+  "text": "ヒサゴ沼避難小屋から主稜線（ヒサゴ沼分岐）に上がり、天沼・日本庭園・ロックガーデン・北沼を経て、トムラウシ山の西側の巻き道を南沼キャンプ指定地へ、トムラウシ分岐からトムラウシ公園・前トム平・コマドリ沢分岐・カムイ天上を経て短縮コース登山口へ下る範囲。一辺 12 km 程度（513 頂点）。稜線は森林限界の上の吹きさらしで、西風をまともに受ける。北沼付近は携帯の電波が届かず、南沼の近くと前トム平では通じた記録がある（調査報告書）。",
+  "sizeM": 12288
+ },
+ "size": 12288,
+ "resolution": 513,
+ "terrain": {
+  "type": "heightmap",
+  "encoding": "u16-base64",
+  "minElevM": 0,
+  "maxElevM": 0,
+  "baseElevation": 0,
+  "source": {
+   "dem": "DEM10B",
+   "zoom": 14,
+   "fetchedAt": ""
+  },
+  "data": ""
+ },
+ "vegetation": {
+  "forestLine": 1500,
+  "forestLineNoise": 60,
+  "broadleafLine": 1100,
+  "krummholzBandM": 500
+ },
+ "nodes": [
+  {
+   "id": "HISAGO_HUT",
+   "name": "ヒサゴ沼避難小屋",
+   "type": "shelter",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1690,
+   "shelter": {
+    "kind": "emergency",
+    "open": true
+   }
+  },
+  {
+   "id": "HISAGO_JCT",
+   "name": "ヒサゴ沼分岐（主稜線のコル）",
+   "type": "junction",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1795
+  },
+  {
+   "id": "AMANUMA",
+   "name": "天沼",
+   "type": "landmark",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1845
+  },
+  {
+   "id": "NIHON_TEIEN",
+   "name": "日本庭園",
+   "type": "landmark",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1875
+  },
+  {
+   "id": "ROCK_GARDEN",
+   "name": "ロックガーデン",
+   "type": "landmark",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1862
+  },
+  {
+   "id": "KITANUMA_FORD",
+   "name": "北沼渡渉点",
+   "type": "landmark",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 2010
+  },
+  {
+   "id": "KITANUMA_JCT",
+   "name": "北沼分岐",
+   "type": "junction",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 2019
+  },
+  {
+   "id": "BIV2",
+   "name": "北沼分岐の先の岩陰",
+   "type": "landmark",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 2015
+  },
+  {
+   "id": "SUMMIT",
+   "name": "トムラウシ山",
+   "type": "peak",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 2141
+  },
+  {
+   "id": "MINAMINUMA",
+   "name": "南沼キャンプ指定地",
+   "type": "landmark",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1955
+  },
+  {
+   "id": "TOMU_JCT",
+   "name": "トムラウシ分岐",
+   "type": "junction",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1955
+  },
+  {
+   "id": "TOMU_PARK",
+   "name": "トムラウシ公園",
+   "type": "landmark",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1780
+  },
+  {
+   "id": "MAETOMU",
+   "name": "前トム平",
+   "type": "landmark",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1735
+  },
+  {
+   "id": "KOMADORI",
+   "name": "コマドリ沢分岐",
+   "type": "junction",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1380
+  },
+  {
+   "id": "KAMUI",
+   "name": "カムイ天上",
+   "type": "landmark",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 1300
+  },
+  {
+   "id": "TANSHUKU_TH",
+   "name": "短縮コース登山口",
+   "type": "trailhead",
+   "x": 0,
+   "z": 0,
+   "expectedElevM": 965
+  }
+ ],
+ "edges": [
+  {
+   "id": "T01",
+   "name": "ヒサゴ沼から主稜線（雪渓と岩の間の道）",
+   "kind": "trail",
+   "from": "HISAGO_HUT",
+   "to": "HISAGO_JCT",
+   "class": "T2",
+   "markers": 0.7,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    25,
+    20
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T02",
+   "name": "主稜線（天沼へ）",
+   "kind": "trail",
+   "from": "HISAGO_JCT",
+   "to": "AMANUMA",
+   "class": "T2",
+   "markers": 0.7,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    20,
+    20
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T03",
+   "name": "天沼〜日本庭園（木道）",
+   "kind": "trail",
+   "from": "AMANUMA",
+   "to": "NIHON_TEIEN",
+   "class": "T2",
+   "markers": 0.7,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    15,
+    15
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T04",
+   "name": "日本庭園〜ロックガーデン",
+   "kind": "trail",
+   "from": "NIHON_TEIEN",
+   "to": "ROCK_GARDEN",
+   "class": "T2",
+   "markers": 0.7,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    20,
+    15
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T05",
+   "name": "ロックガーデン（巨岩帯の登り）",
+   "kind": "trail",
+   "from": "ROCK_GARDEN",
+   "to": "KITANUMA_FORD",
+   "class": "T3",
+   "markers": 0.6,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    60,
+    45
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T06",
+   "name": "北沼の渡渉点〜北沼分岐",
+   "kind": "trail",
+   "from": "KITANUMA_FORD",
+   "to": "KITANUMA_JCT",
+   "class": "T2",
+   "markers": 0.6,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    10,
+    10
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T07",
+   "name": "北沼分岐〜岩陰（巻き道）",
+   "kind": "trail",
+   "from": "KITANUMA_JCT",
+   "to": "BIV2",
+   "class": "T2",
+   "markers": 0.6,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    5,
+    5
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T08",
+   "name": "巻き道（雪渓と岩礫帯）",
+   "kind": "trail",
+   "from": "BIV2",
+   "to": "MINAMINUMA",
+   "class": "T2",
+   "markers": 0.6,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    25,
+    25
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T09",
+   "name": "北沼分岐〜山頂",
+   "kind": "trail",
+   "from": "KITANUMA_JCT",
+   "to": "SUMMIT",
+   "class": "T3",
+   "markers": 0.7,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    35,
+    25
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T10",
+   "name": "山頂〜南沼",
+   "kind": "trail",
+   "from": "SUMMIT",
+   "to": "MINAMINUMA",
+   "class": "T3",
+   "markers": 0.7,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    25,
+    30
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T11",
+   "name": "南沼〜トムラウシ分岐",
+   "kind": "trail",
+   "from": "MINAMINUMA",
+   "to": "TOMU_JCT",
+   "class": "T2",
+   "markers": 0.7,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    5,
+    5
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T12",
+   "name": "トムラウシ分岐〜トムラウシ公園（斜面のトラバース）",
+   "kind": "trail",
+   "from": "TOMU_JCT",
+   "to": "TOMU_PARK",
+   "class": "T2",
+   "markers": 0.7,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    40,
+    50
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T13",
+   "name": "トムラウシ公園〜前トム平（巨石の登り）",
+   "kind": "trail",
+   "from": "TOMU_PARK",
+   "to": "MAETOMU",
+   "class": "T3",
+   "markers": 0.7,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    50,
+    50
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T14",
+   "name": "前トム平〜コマドリ沢分岐",
+   "kind": "trail",
+   "from": "MAETOMU",
+   "to": "KOMADORI",
+   "class": "T2",
+   "markers": 0.8,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    60,
+    80
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T15",
+   "name": "コマドリ沢分岐〜カムイ天上",
+   "kind": "trail",
+   "from": "KOMADORI",
+   "to": "KAMUI",
+   "class": "T2",
+   "markers": 0.8,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    90,
+    100
+   ],
+   "waypoints": []
+  },
+  {
+   "id": "T16",
+   "name": "カムイ天上〜短縮コース登山口",
+   "kind": "trail",
+   "from": "KAMUI",
+   "to": "TANSHUKU_TH",
+   "class": "T1",
+   "markers": 0.9,
+   "drift": 0.02,
+   "sinuosity": 1,
+   "smooth": false,
+   "courseTimeMin": [
+    60,
+    80
+   ],
+   "waypoints": []
+  }
+ ],
+ "hazards": [],
+ "radio": {
+  "stations": []
+ },
+ "attribution": []
+}

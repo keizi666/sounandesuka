@@ -25,7 +25,7 @@
     "geo:smoke": "tsx tools/geo-smoke.ts",
     "assets:hq": "tsx tools/make-hq-assets.ts",
     "fixture:bundle": "tsx tools/make-fixture-bundle.ts",
-    "make:s04": "tsx tools/make-s04.ts",
+    "make:s04": "tsx tools/make-real.ts s04_tomuraushi_2009",
     "mc:s04": "tsx tools/mc-s04.ts",
     "make:s05": "tsx tools/make-real.ts s05_shounoiwa",
     "make:real": "tsx tools/make-real.ts",

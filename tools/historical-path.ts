@@ -6,7 +6,7 @@ import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { stepWorld } from '../src/sim/core/step';
 import { deriveSeed } from '../src/sim/core/rng';
 import { autoResolve, choiceLeader, evaluateOptions, findChoicePoint, resolveChoice } from '../src/sim/scenario/choices';
-import type { MapRuntime, ScenarioDef, World } from '../src/sim/types';
+import type { MapRuntime, ScenarioDef, ScenarioIndexEntry, World } from '../src/sim/types';
 import { loadEntryRuntime, loadIndex } from './lib/scenarios';
 
 /** 記録どおりに選び続けて、結末まで進める（画面と同じ: 記録のある分岐点は自分で選び、ないものと見守っていないパーティの分岐点はその人らしく自動で） */
@@ -34,9 +34,10 @@ export function runRecordPath(map: MapRuntime, s: ScenarioDef, seed: number): Wo
 
 if (process.argv[1]?.endsWith('historical-path.ts')) {
   const { values, positionals } = parseArgs({ allowPositionals: true, options: { search: { type: 'string' }, from: { type: 'string' } } });
-  const ids = positionals.length > 0 ? positionals : loadIndex().filter((e) => e.id.match(/^s1[6-9]_/)).map((e) => e.id);
+  const ids = positionals.length > 0 ? positionals : loadIndex().filter((e) => e.id.match(/^s(04|1[6-9])_/)).map((e) => e.id);
   for (const id of ids) {
-    const e = loadIndex().find((x) => x.id === id)!;
+    // 一覧にまだ載せていないシナリオ（ユーザーの確認待ちの s04 など）は、real/ のバンドルから読む
+    const e = loadIndex().find((x) => x.id === id) ?? ({ id, bundle: `real/${id}.sounan.json`, title: id, theme: 'hypothermia', difficulty: 5, season: 'summer', estMinutes: 0, region: { name: id, real: true } } satisfies ScenarioIndexEntry);
     const r = loadEntryRuntime(e);
     if (!r?.scenario.historical) {
       console.log(`${id}: 史実のシナリオではないか、地形のバンドルがない`);

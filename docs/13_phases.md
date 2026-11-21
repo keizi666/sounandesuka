@@ -167,7 +167,7 @@ P1〜P7 は **描画なし** で sim を完成させる（ヘッドレスで遊�
 - グループ（`groups`、`cohesion`、`splitParty`、`detach`、リーダー交代、`straggler`）、パーティ 20 人
 - `initial`、`estimated`、`historical`（方針 `historical`、記録の重ね表示、注記）
 - UI: 大人数の登山者パネル（グループごとの折りたたみ一覧、体温順の並べ替え）
-- スケルトンマップの結合（docs/16 §8）。`public/scenarios/historical/s04_tomuraushi_2009.json` を実地形で動かす
+- スケルトンマップの結合（docs/16 §8）。`public/scenarios/historical/s04_tomuraushi_2009.json` を実地形で動かす（のちに `public/scenarios/real/` へ移した）
 
 **受け入れ**:
 - C1〜C13 合格（C1〜C9 の再確認を含む）。既存 3 シナリオの balanceTargets を再確認（生理の改訂で外れたら docs/14 §6 の手順で調整）。

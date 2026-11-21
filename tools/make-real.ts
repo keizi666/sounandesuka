@@ -60,6 +60,10 @@ export interface RealBuildSpec {
   }[];
   /** OSM にない登山道・車道（作者が標高から読んだ筋）。from/to は地点 ID、points はローカル座標。頂点グラフに足してから結合する */
   trailEdges?: TrailEdgeSpec[];
+  /** OSM の誤った道を除く範囲（ローカル座標 [x0, z0, x1, z1]）。両端がこの中にある区間を道のつながりから外す */
+  cutBoxes?: [number, number, number, number][];
+  /** 途切れた OSM の道をつなぐ（ローカル座標の 2 点。それぞれいちばん近い道の点どうしを結ぶ） */
+  bridges?: [[number, number], [number, number]][];
   radio?: RadioStationDef[];
   /** 地理院の植生記号を使う（既定 true） */
   vegetation?: boolean;
@@ -154,6 +158,26 @@ for (const te of spec.trailEdges ?? []) {
   let len = 0;
   for (let i = 1; i < dense.length; i += 1) len += Math.hypot(dense[i]![0] - dense[i - 1]![0], dense[i]![1] - dense[i - 1]![1]);
   console.log(`手描きの道 ${te.id} ${te.name}: ${Math.round(len)} m（始点の接続 ${Math.round(a.d)} m、終点 ${Math.round(b.d)} m）  ${raw.filter((_, i) => i % 4 === 0).map((p) => Math.round(elevAt(p[0], p[1]))).join(' → ')} m`);
+}
+
+// ---- OSM の道の手直し（build.json の cutBoxes・bridges）: 誤った道を除き、途切れた道をつなぐ ----
+for (const [x0, z0, x1, z1] of spec.cutBoxes ?? []) {
+  const inside = (v: number): boolean => graph.xs[v]! >= x0 && graph.xs[v]! <= x1 && graph.zs[v]! >= z0 && graph.zs[v]! <= z1;
+  let cut = 0;
+  for (let v = 0; v < graph.adj.length; v += 1) {
+    if (!inside(v)) continue;
+    const before = graph.adj[v]!.length;
+    graph.adj[v] = graph.adj[v]!.filter((u) => !inside(u));
+    cut += before - graph.adj[v]!.length;
+  }
+  console.log(`道を除く範囲 (${x0}, ${z0})〜(${x1}, ${z1}): ${cut / 2} 区間`);
+}
+for (const [[ax, az], [bx, bz]] of spec.bridges ?? []) {
+  const a = nearestAny(ax, az);
+  const b = nearestAny(bx, bz);
+  graph.adj[a.v]!.push(b.v);
+  graph.adj[b.v]!.push(a.v);
+  console.log(`道をつなぐ: (${Math.round(graph.xs[a.v]!)}, ${Math.round(graph.zs[a.v]!)})〜(${Math.round(graph.xs[b.v]!)}, ${Math.round(graph.zs[b.v]!)})`);
 }
 
 function componentOf(g: VertexGraph, start: number): Set<number> {
