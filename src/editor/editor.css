@@ -13,7 +13,8 @@
 .ed-tabs button.on { background: var(--accent); color: #1d1a12; }
 .ed-main { display: grid; grid-template-rows: minmax(0, 1fr) auto; min-height: 0; }
 .ed-center { position: relative; min-height: 0; }
-.tilemap-root { position: absolute; inset: 0; overflow: hidden; }
+/* z-index: 0 で重なりの枠を作る: 地図の中の凡例などが、地図の上に重ねる画面（物語のボード）より上に出ないように（ユーザーの指摘） */
+.tilemap-root { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
 .tilemap { display: block; touch-action: none; }
 .map-attr { position: absolute; right: 4px; bottom: 2px; font-size: 11px; background: rgba(255, 255, 255, 0.8); padding: 0 4px; border-radius: 3px; }
 .map-attr a { color: #222; }

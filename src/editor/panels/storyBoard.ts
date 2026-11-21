@@ -111,7 +111,11 @@ export function storyBoard(ed: Ed, api: BoardApi): HTMLElement {
   const map = ed.p.map;
   const ctx = { scenario: s, map };
   const links = choseLinks(ed);
-  const nodeName = (id: string): string => map.nodes.find((n) => n.id === id)?.name || '';
+  // 名前が ID のままの地点（J002 など）は、名前のない地点として扱う
+  const nodeName = (id: string): string => {
+    const n = map.nodes.find((x) => x.id === id)?.name ?? '';
+    return n === id ? '' : n;
+  };
   // 置き場所ごとに分ける
   type Item = { el: (showWhen: boolean) => HTMLElement; node?: string; time?: number };
   const items: Item[] = [
