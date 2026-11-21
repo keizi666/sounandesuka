@@ -40,7 +40,7 @@ function changeFrame(ed: Ed, label: string, next: Partial<Frame>): void {
   const to: Frame = { lat: next.lat ?? from.lat, lon: next.lon ?? from.lon, size: gr.size, resolution: gr.resolution };
   if (to.lat === from.lat && to.lon === from.lon && to.size === from.size) return;
   ed.change(label, () => {
-    if (!terrain) {
+    if (!terrain && ed.p.map.skeleton) {
       recenter(ed, to.lat, to.lon);
     } else {
       const d = centerShift(from, to);
@@ -101,11 +101,12 @@ function areaTool(ed: Ed): MapTool | null {
         const prev = frameOf(ed);
         g.centerLat = start.lat + (p.lat - start.pLat);
         g.centerLon = start.lon + (p.lon - start.pLon);
-        // 標高を取ったあと: 中身（地点・道・建物など）を同じ緯度経度に保つ
-        if (terrain) {
+        // 動かしているあいだも、中身（地点・道・建物など）は同じ緯度経度のまま（ユーザーの指摘: 道がいったん枠と一緒に動き、離すと戻っていた）。
+        // 標高を取る前のスケルトンは、位置の手がかりのある地点だけ（座標のない地点は動かさない）
+        if (terrain || !ed.p.map.skeleton) {
           const d = centerShift(prev, frameOf(ed));
           shiftContents(ed.p.map, d.dx, d.dz);
-        }
+        } else keepHintsOnRecenter(ed.p.map, prev.lat, prev.lon);
         ed.view.lat0 = g.centerLat;
         ed.view.lon0 = g.centerLon;
       } else {
@@ -121,7 +122,6 @@ function areaTool(ed: Ed): MapTool | null {
       mode = null;
       if (!was) return;
       if (!terrain) {
-        if (was === 'move') keepHintsOnRecenter(ed.p.map, start.lat, start.lon);
         ed.touched(true);
         return;
       }
