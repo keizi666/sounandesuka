@@ -20,6 +20,11 @@ function canWalk(c: ClimberState): boolean {
   return b.alive && b.conscious && c.state !== 'INCAPACITATED' && c.state !== 'UNCONSCIOUS' && b.injury !== 'legFracture' && b.injury !== 'severeTrauma' && c.M >= 0.2;
 }
 
+/** 同じ列に歩けない仲間がいる（列がその人に合わせて止まる） */
+function heldBack(world: World, c: ClimberState): boolean {
+  return world.climbers.some((o) => o !== c && o.groupId === c.groupId && o.body.alive && !TERMINAL.has(o.state) && !canWalk(o));
+}
+
 type Hut = NodeDef & { elevM: number };
 /** 開いている小屋（シナリオと地図ごとに決まるので覚えておく。World には入れない） */
 const hutCache = new WeakMap<StaticContext, Hut[]>();
@@ -68,7 +73,8 @@ export function stepHutNearby(world: World, ctx: StaticContext): void {
       if (TERMINAL.has(c.state) || c.body.shelterNodeId || c.offMap || d2(c) > bt.hutNearM * bt.hutNearM || !canWalk(c)) continue;
       // もう一人で小屋へ向かっている人は飛ばす（列のまま向かおうとして止まっている人は、列から離す）
       if (c.groupId === `solo_${c.id}` && c.plan.goTo?.node === h.id) continue;
-      if (!STUCK.has(c.state) && !stalled(world, ctx, c)) continue;
+      // 歩いて止まっているのは、列が歩けない仲間に合わせて止まっているときだけ（ユーザーの指摘: 北鎌尾根で槍の穂先をゆっくり登っているだけで殺生ヒュッテへ向かった）
+      if (!STUCK.has(c.state) && !(heldBack(world, c) && stalled(world, ctx, c))) continue;
       ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { toHutInstead: h.id } });
       detach(world, ctx, c, [{ type: 'goToNode', node: h.id, then: 'stay' }], (acts, group, l) => applyActions(world, ctx, acts, group, l));
     }

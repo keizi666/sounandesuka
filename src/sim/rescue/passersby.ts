@@ -136,7 +136,11 @@ export function isBusyDay(startDate: string, dayOffset: number): boolean {
 }
 
 /** 困っていて、通りかかった人に助けを頼む状態 */
-const DISTRESS = new Set(['LOST_AWARE', 'STAYING', 'WAITING_RESCUE', 'BIVOUAC', 'INCAPACITATED', 'UNCONSCIOUS', 'SEEKING_SIGNAL']);
+const DISTRESS_STATES = new Set(['LOST_AWARE', 'STAYING', 'WAITING_RESCUE', 'BIVOUAC', 'INCAPACITATED', 'UNCONSCIOUS', 'SEEKING_SIGNAL']);
+/** 計画どおりの野営（テントを張って泊まっている）は困っているとは見ない */
+function inDistress(c: ClimberState): boolean {
+  return DISTRESS_STATES.has(c.state) && !(c.state === 'BIVOUAC' && c.plan.plannedCamp === true);
+}
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
 
 /** 道から気づける距離（見える・声・笛） */
@@ -205,7 +209,7 @@ export function stepPassersby(world: World, ctx: StaticContext, dtMin: number): 
       const f = historical || !any ? 1 : crowdF(world, ctx, any, false);
       if (!chance(world.rng.rescue, (p.perHour * f * dtMin) / 60)) continue;
       for (const c of world.climbers) {
-        if (TERMINAL.has(c.state) || !DISTRESS.has(c.state)) continue;
+        if (TERMINAL.has(c.state) || !inDistress(c)) continue;
         const near = nearestTrail(ctx, c, p.edges);
         if (!near || near.d > reachM(ctx, c, p)) continue;
         reported(world, ctx, c);
@@ -222,7 +226,7 @@ export function stepPassersby(world: World, ctx: StaticContext, dtMin: number): 
   // 同じ所にいる何人もの人のそばを通るのは、1 組の登山者が 1 回通ることなので、サイコロは場所ごとに 1 回（人数分振らない）
   const rolled: { x: number; z: number }[] = [];
   for (const c of world.climbers) {
-    if (TERMINAL.has(c.state) || !DISTRESS.has(c.state)) continue;
+    if (TERMINAL.has(c.state) || !inDistress(c)) continue;
     if (rolled.some((q) => (q.x - c.x) * (q.x - c.x) + (q.z - c.z) * (q.z - c.z) < pt.sameSpotM * pt.sameSpotM)) continue;
     const near = nearestTrail(ctx, c);
     if (!near || near.d > reachM(ctx, c)) continue;

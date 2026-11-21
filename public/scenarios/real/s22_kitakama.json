@@ -11,7 +11,7 @@
   "seed": 808,
   "startDate": "2026-08-08",
   "startAt": "D0 04:30",
-  "timeLimit": "D1 12:00",
+  "timeLimit": "D2 08:00",
   "sun": {
     "sunrise": "04:57",
     "sunset": "18:39",
@@ -21,7 +21,7 @@
     "illumination": 0.25
   },
   "briefing": {
-    "text": "鈴木さん（64）はクライミング歴40年のリーダー。南田さん（45）はジムで岩を始めたばかり、楠木さん（33）は登山を始めて2年。3人は北鎌尾根から槍ヶ岳を目指す2泊3日の計画で、きのう上高地を出て横尾から槍沢を登り、ババ平にテントを張った。今日は4時半にババ平を出て水俣乗越を越え、天上沢へ下って北鎌沢出合から北鎌沢を登り、北鎌のコルで尾根に乗る。独標・北鎌平を越えて槍ヶ岳に登り、殺生ヒュッテのテント場に泊まる。あすは槍沢を下り、横尾を経て上高地へ帰る予定。水はババ平で満タンにした。登山計画書は提出済み。",
+    "text": "鈴木さん（64）はクライミング歴40年のリーダー。南田さん（45）はジムで岩を始めたばかり、楠木さん（33）は登山を始めて2年。3人は北鎌尾根から槍ヶ岳を目指す2泊3日の計画で、きのう上高地を出て横尾から槍沢を登り、ババ平にテントを張った。今日は4時半にババ平を出て水俣乗越を越え、天上沢へ下って北鎌沢出合から北鎌沢を登り、北鎌のコルで尾根に乗る。今夜は尾根の上の天狗の腰掛にテントを張る。あすは独標・北鎌平を越えて槍ヶ岳に登り、槍沢を下って横尾・上高地へ帰る予定。尾根の上に水場はないので、今夜とあすの分の水を北鎌沢で汲んで担ぎ上げる。登山計画書は提出済み。",
     "forecast": [
       {
         "label": "朝",
@@ -58,14 +58,22 @@
       "YARI",
       "YARI_HUT",
       "J004",
-      "SESSHO"
+      "BOZU",
+      "TENGU_JCT",
+      "OMAGARI",
+      "J003",
+      "J005",
+      "J002",
+      "BABADAIRA",
+      "YARISAWA_LODGE"
     ],
     "goalNodes": [
-      "SESSHO"
+      "YARISAWA_LODGE"
     ],
-    "plannedFinish": "D0 18:00",
+    "plannedFinish": "D1 15:00",
     "submittedPlan": true,
-    "reportIfNotBackBy": "D1 19:00"
+    "reportIfNotBackBy": "D1 21:00",
+    "wakeAt": "04:00"
   },
   "party": [
     {
@@ -110,7 +118,7 @@
         "map": true,
         "compass": true,
         "foodKcal": 2000,
-        "waterL": 2.5,
+        "waterL": 3.5,
         "stove": true,
         "crampons": false,
         "helmet": true,
@@ -169,7 +177,7 @@
         "map": true,
         "compass": false,
         "foodKcal": 1800,
-        "waterL": 3,
+        "waterL": 4.0,
         "stove": false,
         "crampons": false,
         "helmet": true,
@@ -226,7 +234,7 @@
         "map": false,
         "compass": false,
         "foodKcal": 1500,
-        "waterL": 3,
+        "waterL": 3.5,
         "stove": false,
         "crampons": false,
         "helmet": true,
@@ -347,15 +355,94 @@
         "pressureHpa": 1015
       },
       {
-        "at": "D1 12:00",
+        "at": "D1 07:00",
+        "tempC": 16,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "pressureHpa": 1014,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3600,
+        "visibilityM": 30000
+      },
+      {
+        "at": "D1 10:00",
         "tempC": 22,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "pressureHpa": 1014,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3400,
+        "visibilityM": 25000
+      },
+      {
+        "at": "D1 13:00",
+        "tempC": 24,
         "windMs": 3,
         "windDirDeg": 220,
         "precipMmH": 0,
+        "pressureHpa": 1014,
         "cloudCover": 0.4,
         "cloudBaseM": 3300,
-        "visibilityM": 25000,
-        "pressureHpa": 1014
+        "visibilityM": 20000
+      },
+      {
+        "at": "D1 15:00",
+        "tempC": 22,
+        "windMs": 4,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "pressureHpa": 1014,
+        "cloudCover": 0.7,
+        "cloudBaseM": 3050,
+        "visibilityM": 12000,
+        "inCloudVisibilityM": 150,
+        "thunder": 0.1
+      },
+      {
+        "at": "D1 17:00",
+        "tempC": 18,
+        "windMs": 3,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "pressureHpa": 1014,
+        "cloudCover": 0.5,
+        "cloudBaseM": 3200,
+        "visibilityM": 20000
+      },
+      {
+        "at": "D1 20:00",
+        "tempC": 14,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "pressureHpa": 1014,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3500,
+        "visibilityM": 30000
+      },
+      {
+        "at": "D2 04:00",
+        "tempC": 11,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "pressureHpa": 1014,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3600,
+        "visibilityM": 30000
+      },
+      {
+        "at": "D2 08:00",
+        "tempC": 16,
+        "windMs": 2,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "pressureHpa": 1014,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3600,
+        "visibilityM": 30000
       }
     ]
   },
@@ -581,6 +668,62 @@
       ]
     },
     {
+      "id": "ev_camp",
+      "trigger": {
+        "all": [
+          {
+            "atNode": "TENGU_KOSHI"
+          },
+          {
+            "not": {
+              "flag": "split_two"
+            }
+          },
+          {
+            "not": {
+              "flag": "early_call"
+            }
+          },
+          {
+            "not": {
+              "chose": {
+                "cp": "cp_doku",
+                "option": "back"
+              }
+            }
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "天狗の腰掛に着いた。尾根の上の平らな所にテントを張る。今夜はここに泊まる。",
+          "important": true
+        },
+        {
+          "type": "say",
+          "who": "suzuki",
+          "text": "あしたの分の水を残しておけよ。槍の小屋まで、水はない。"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "eat",
+              "kcal": 500
+            },
+            {
+              "type": "bivouac",
+              "until": "D1 04:40",
+              "findLee": false,
+              "planned": true
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "ev_split_log",
       "trigger": {
         "flag": "split_two"
@@ -682,19 +825,19 @@
       "effects": [
         {
           "type": "log",
-          "text": "槍ヶ岳山荘に着いた。売店で水とスポーツドリンクが買える。今夜のテント場の殺生ヒュッテは、ここから下ってすぐ。"
+          "text": "槍ヶ岳山荘に着いた。売店で水とスポーツドリンクが買える。ここから槍沢を下る。"
         }
       ]
     },
     {
-      "id": "ev_sessho",
+      "id": "ev_lodge",
       "trigger": {
-        "atNode": "SESSHO"
+        "atNode": "YARISAWA_LODGE"
       },
       "effects": [
         {
           "type": "log",
-          "text": "殺生ヒュッテのテント場に着いた。"
+          "text": "槍沢ロッジに着いた。横尾・上高地へは、ここから平らな道がつづく。"
         }
       ]
     }
@@ -707,14 +850,14 @@
         "after": "D0 04:30"
       },
       "priority": 20,
-      "situation": "午前4時半、ババ平のテント場。まだ暗い。きのうは上高地から横尾を経て槍沢を登り、ここにテントを張った。楠木さんは後半、足取りが重かった。今日は水俣乗越を越えて北鎌沢出合へ下り、北鎌尾根を越えて槍ヶ岳から殺生ヒュッテまで行く予定。",
+      "situation": "午前4時半、ババ平のテント場。まだ暗い。きのうは上高地から横尾を経て槍沢を登り、ここにテントを張った。楠木さんは後半、足取りが重かった。今日は水俣乗越を越えて北鎌沢出合へ下り、北鎌沢を登って尾根の上の天狗の腰掛にテントを張る予定。",
       "knowledge": [
         "ババ平から水俣乗越まで登り約450 m、天上沢の北鎌沢出合まで下り約500 m。出合から北鎌のコルまで、また登り約600 m",
-        "水は北鎌沢の途中が最後で、尾根の上には水場がない",
-        "コルから槍ヶ岳まで、慣れた人でも6〜7時間かかる。エスケープはなく、尾根に入ったら槍ヶ岳まで抜けるしかない",
+        "水は北鎌沢の途中が最後。尾根の上には水場がなく、今夜とあすの槍ヶ岳までの分を担ぎ上げる",
+        "尾根に入ったらエスケープはなく、槍ヶ岳まで抜けるしかない。あすも、慣れた人で6時間前後かかる",
         "槍沢の一般道なら、槍ヶ岳山荘・殺生ヒュッテまで小屋がつづく",
         "予報は晴れ。昼は暑くなる",
-        "鈴木さんの水は2.5 L、南田さんと楠木さんは3 Lずつ"
+        "水筒は鈴木さん3.5 L、南田さん4 L、楠木さん3.5 L"
       ],
       "options": [
         {
@@ -822,7 +965,7 @@
       "situation": "水俣乗越を越えて天上沢へ下り、北鎌沢出合に着いた。気温は {leader.local.tempC:0} ℃。楠木さんの疲れは {c.kusunoki.fatigue:0}（100が限界）。鈴木さんの水は残り {c.suzuki.waterL:1} L。",
       "knowledge": [
         "ここから北鎌のコルまで標高差約600 m。水は北鎌沢の途中が最後で、尾根の上には水場がない",
-        "コルから槍ヶ岳まで、慣れた人でも6〜7時間かかる",
+        "今夜のテント場の天狗の腰掛は、コルから尾根を少し登った所",
         "水俣乗越へ登り返せば、槍沢の一般道に戻れる"
       ],
       "options": [
@@ -920,14 +1063,14 @@
       "knowledge": [
         "ここが、北鎌沢を下って引き返せる最後の場所",
         "計画では、コルに11時ごろ着くはずだった",
-        "コルから槍ヶ岳まで、標準で7時間前後。尾根の上に水場はない",
+        "今夜は天狗の腰掛にテントを張る。あすは独標・北鎌平を越えて槍ヶ岳まで、標準で6時間前後。尾根の上に水場はない",
         "北鎌沢の下りは登りより難しい。それでも尾根の上で行き詰まるよりは戻りやすい"
       ],
       "options": [
         {
           "id": "go",
           "label": "尾根へ進む",
-          "detail": "槍ヶ岳まで抜ければ、山荘で水も買える。",
+          "detail": "天狗の腰掛まで行けば、今夜のテント場。",
           "actions": [
             {
               "type": "continueRoute"
@@ -1068,10 +1211,17 @@
                 "YARI",
                 "YARI_HUT",
                 "J004",
-                "SESSHO"
+                "BOZU",
+                "TENGU_JCT",
+                "OMAGARI",
+                "J003",
+                "J005",
+                "J002",
+                "BABADAIRA",
+                "YARISAWA_LODGE"
               ],
               "goalNodes": [
-                "SESSHO"
+                "YARISAWA_LODGE"
               ]
             }
           ],
@@ -1952,7 +2102,20 @@
     {
       "kind": "SAFE_RETURN",
       "when": {
-        "beenAt": "YARISAWA_LODGE"
+        "any": [
+          {
+            "chose": {
+              "cp": "cp_col",
+              "option": "back"
+            }
+          },
+          {
+            "chose": {
+              "cp": "cp_doku",
+              "option": "back"
+            }
+          }
+        ]
       },
       "title": "引き返して槍沢へ",
       "text": "3人は尾根の上で行き詰まる前に引き返し、北鎌沢を下って水俣乗越を越え、槍沢ロッジにたどり着いた。長い一日だったが、3人とも自分の足で下りた。"
@@ -1977,12 +2140,12 @@
         ]
       },
       "title": "2人で歩き通した",
-      "text": "南田さんと楠木さんは、2人で北鎌尾根を抜けて槍ヶ岳に登り、殺生ヒュッテに着いた。鈴木さんはヘリで病院へ運ばれていた。"
+      "text": "南田さんと楠木さんは、2人で北鎌尾根を抜けて槍ヶ岳に登り、槍沢を下って槍沢ロッジに着いた。鈴木さんはヘリで病院へ運ばれていた。"
     },
     {
       "kind": "SAFE_RETURN",
-      "title": "殺生ヒュッテに着いた",
-      "text": "3人は北鎌尾根を抜けて槍ヶ岳に登り、殺生ヒュッテのテント場に着いた。鈴木さんは途中の槍ヶ岳山荘で水を何杯も飲んだ。"
+      "title": "北鎌尾根を抜けた",
+      "text": "3人は天狗の腰掛で一夜を過ごし、北鎌尾根を抜けて槍ヶ岳に登った。槍沢を下って槍沢ロッジに着いた。鈴木さんは槍ヶ岳山荘で水を何杯も飲んだ。"
     },
     {
       "kind": "SAFE_SHELTER",
@@ -2000,12 +2163,12 @@
         "flag": "split_two"
       },
       "title": "ビバークの末に",
-      "text": "南田さんと楠木さんは尾根の上で夜を明かし、翌朝、自分たちの足で槍ヶ岳にたどり着いた。"
+      "text": "南田さんと楠木さんは予定になかった所で夜を明かし、翌朝、自分たちの足で抜けた。"
     },
     {
       "kind": "SELF_RESCUE",
       "title": "ビバークの末に",
-      "text": "尾根の上で夜を明かし、明るくなってから自力で抜けた。"
+      "text": "予定になかった所で夜を明かし、明るくなってから自力で抜けた。"
     },
     {
       "kind": "RESCUED",
@@ -2065,7 +2228,7 @@
         ]
       },
       "title": "鈴木さんはヘリで、2人は歩いて",
-      "text": "鈴木さんはヘリで収容された。南田さんと楠木さんは2人で尾根を歩き通し、殺生ヒュッテにたどり着いた。"
+      "text": "鈴木さんはヘリで収容された。南田さんと楠木さんは2人で尾根を歩き通し、槍沢を下って槍沢ロッジにたどり着いた。"
     },
     {
       "kind": "RESCUED",

@@ -100,7 +100,7 @@ function canWalkToHut(c: ClimberState): boolean {
   return b.alive && b.conscious && c.state !== 'INCAPACITATED' && c.state !== 'UNCONSCIOUS' && b.injury !== 'legFracture' && b.injury !== 'severeTrauma' && c.M >= 0.2;
 }
 
-function startBivouac(world: World, ctx: StaticContext, c: ClimberState, until: UntilRef, findLee: boolean, state: 'BIVOUAC' | 'WAITING_RESCUE'): void {
+function startBivouac(world: World, ctx: StaticContext, c: ClimberState, until: UntilRef, findLee: boolean, state: 'BIVOUAC' | 'WAITING_RESCUE', planned = false): void {
   // すぐそこに開いている小屋があれば、外でビバークせずに小屋へ入る（ユーザーの指摘: 小屋の横でツェルトにくるまっていた）
   if (canWalkToHut(c) && !c.body.shelterNodeId) {
     const hut = nearestShelterNode(ctx, c, ctx.tuning.behavior.hutNearM);
@@ -134,9 +134,12 @@ function startBivouac(world: World, ctx: StaticContext, c: ClimberState, until: 
     }
   }
   c.plan.bivouacUntil = resolveUntil(world, ctx, until);
-  c.memo.bivouacked = true;
+  // 計画どおりの野営は遭難のビバークに数えない（ログはシナリオの文が出す）
+  if (!planned) c.memo.bivouacked = true;
+  if (planned) c.plan.plannedCamp = true;
+  else delete c.plan.plannedCamp;
   transition(world, ctx, c, state, 'action');
-  if (state === 'BIVOUAC') ctx.events.push({ tMin: world.tMin, type: 'BIVOUAC_START', climberId: c.id, important: true });
+  if (state === 'BIVOUAC' && !planned) ctx.events.push({ tMin: world.tMin, type: 'BIVOUAC_START', climberId: c.id, important: true });
 }
 
 function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState): void {
@@ -345,7 +348,7 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       return;
     }
     case 'bivouac':
-      startBivouac(world, ctx, c, a.until, a.findLee, 'BIVOUAC');
+      startBivouac(world, ctx, c, a.until, a.findLee, 'BIVOUAC', a.planned === true);
       return;
     case 'waitRescue':
       startBivouac(world, ctx, c, 'rescue', true, 'WAITING_RESCUE');

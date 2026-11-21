@@ -451,7 +451,8 @@ export type Action = { who?: Who } & (
   | { type: 'stopAndCheck' }
   | { type: 'missJunction' }                      // いまの（次の）分岐で、紛らわしい道（偽の道など）へそのまま入る
   | { type: 'checkPosition' }
-  | { type: 'bivouac'; until: UntilRef; findLee: boolean }
+  /** planned: 計画どおりの野営（尾根の上のテント泊など）。遭難のビバークに数えない（結末を「ビバークの末に」にしない） */
+  | { type: 'bivouac'; until: UntilRef; findLee: boolean; planned?: boolean }
   | { type: 'stayPut' }
   | { type: 'backtrack' }
   | { type: 'navigateToTrail' }
@@ -714,6 +715,8 @@ export interface ClimberPlanState {
   goalNodes: NodeId[];
   restUntilMin: number | null;
   bivouacUntil: UntilRef | null;
+  /** いまのビバークは計画どおりの野営（尾根の上のテント泊など）。通りかかった人は困っているとは思わない */
+  plannedCamp?: boolean;
   paceFactor: number;
   /** 運ぶために増えた（減った）荷物（kg）。けが人を背負う・荷物を分けて持つ（climber/carry.ts）。古い保存にはない */
   carryKg?: number;
