@@ -11,7 +11,8 @@ import { el } from '../../ui/dom';
 import type { Ed } from '../context';
 import { area, button, check, fill, num, section, select, slider, text, timeRef } from '../forms/fields';
 import { hhmm, sunTimes } from '../geo/sunrise';
-import { appendToRoute, hitNode, routeFailMessage } from '../map/tools';
+import { hitNode } from '../map/tools';
+import { clickRouteNode } from '../map/routeClick';
 import type { MapTool } from '../map/TileMapView';
 import { standardLegMin } from '../pace';
 import { defaultClimber, pickColor } from '../store/project';
@@ -151,12 +152,8 @@ function routeTool(ed: Ed): MapTool | null {
   return {
     cursor: 'crosshair',
     click(p) {
-      const rt = ed.runtime();
       const n = hitNode(ed.view, ed.p.map, p.px, p.py);
-      if (!rt || !n) return;
-      const r = appendToRoute(rt, ed.p.scenario.plan.route, n.id);
-      if (!r) return ed.toast(routeFailMessage(ed.p.map, n), 7000);
-      ed.change('ルート', () => (ed.p.scenario.plan.route = r));
+      if (n) clickRouteNode(ed, n);
     },
   };
 }

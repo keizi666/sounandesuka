@@ -11,7 +11,8 @@ import { toolPalette } from '../forms/toolPalette';
 import { parseGpx, trackAsTrails, trackToRoute, trackToXZ } from '../geo/gpx';
 import { fetchOsm, osmToGraph, resample, suggestConfusers, type OsmJson } from '../geo/overpass';
 import { sampleElevAt } from './elev';
-import { appendToRoute, routeFailMessage, edgePoints, hitEdge, hitNode, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
+import { clickRouteNode } from '../map/routeClick';
+import { edgePoints, hitEdge, hitNode, mergeEdges, reverseEdge, splitEdge } from '../map/tools';
 import type { MapTool } from '../map/TileMapView';
 import { nextId } from '../store/project';
 import { clearEdgeSel, edgeSel, removeSelection } from '../map/edgeSelection';
@@ -256,10 +257,7 @@ function tool(ed: Ed): MapTool {
       }
       if (mode === 'route' && rt) {
         const n = hitNode(ed.view, ed.p.map, p.px, p.py);
-        if (!n) return;
-        const r = appendToRoute(rt, ed.p.scenario.plan.route, n.id);
-        if (!r) return ed.toast(routeFailMessage(ed.p.map, n), 7000);
-        ed.change('ルート', () => (ed.p.scenario.plan.route = r));
+        if (n) clickRouteNode(ed, n);
       }
     },
     dblclick() {
