@@ -7,7 +7,7 @@ import type { AppContext } from '../app/App';
 import type { LoadedScenario } from '../app/data';
 import { newRunId } from '../app/storage';
 import { JA } from '../i18n/ja';
-import { fill, formatDateTime, TEXT_LABELS } from '../i18n/format';
+import { fill, formatDateTime, genericTexts, TEXT_LABELS } from '../i18n/format';
 import { parseTimeRef } from '../sim/core/clock';
 import { createStaticContext } from '../sim/core/world';
 import { selectLessons } from '../sim/record/lessons';
@@ -134,7 +134,7 @@ function buildDebrief(app: AppContext, loaded: LoadedScenario, result: SimResult
   const decisionsEl = rec.decisions.map((d) => {
     const snap = result.choiceSnapshots[d.cpId];
     const found = findChoicePoint(ctx, d.cpId);
-    const title = d.cpId.startsWith('generic:') ? (JA.generic[d.cpId.slice(8)]?.title ?? d.cpId) : (found?.cp.title ?? d.title);
+    const title = d.cpId.startsWith('generic:') ? (genericTexts(d.cpId.slice(8), d.tMin)?.title ?? d.cpId) : (found?.cp.title ?? d.title);
     const rows: HTMLElement[] = [];
     if (snap && found) {
       const { available } = evaluateOptions(snap.world, { ...ctx }, found.cp, found.key);

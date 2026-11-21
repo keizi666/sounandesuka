@@ -2,6 +2,7 @@
  * 野生動物の描画（World.animals を読むだけ）。位置は sim と同じ式（animalPos）で、補間した時刻から求める。
  * 群れは中心のまわりに並べ、1 頭ずつ歩く・走る・草を食む・こちらを見る・座る（サル）の簡単な動きを付ける。
  * 出るときと立ち去るときは、静かに現れて静かに消える（不透明度）。
+ * 人に付きまとう熊（stalk）が、大きく描いた人形の列より内側まで来たら、重ならないよう列のまわりを歩いて回る（見た目だけ。sim の位置は変えない）。
  */
 import * as THREE from 'three';
 import { animalGoneMin, animalPos } from '../sim/hazards/animals';
@@ -29,6 +30,15 @@ interface Herd {
   lastZ: number;
   lastT: number;
   speed: number;
+  /** 人形の列のまわりを回るときの、sim の向きからの角度のずれ（rad）と、最後に描いた時刻（ゲーム内分） */
+  orbitA: number;
+  orbitT: number | null;
+}
+
+/** 描いている人形の位置（m） */
+export interface FigurePoint {
+  x: number;
+  z: number;
 }
 
 function hash01(s: string, salt: number): number {
@@ -50,6 +60,10 @@ function angDiff(a: number, b: number): number {
   return d;
 }
 
+function speciesWalk(a: AnimalState): number {
+  return (TUNING.animals.species[a.species] ?? TUNING.animals.species['deer']!).walkMs;
+}
+
 export class AnimalsView {
   private herds = new Map<string, Herd>();
 
@@ -62,7 +76,7 @@ export class AnimalsView {
   ) {}
 
   /** tMin: 補間した時刻（ゲーム内分）。sceneScale: 実物 1 m あたりのシーン単位（人形の拡大率込み） */
-  update(world: World, tMin: number, timeSec: number, sceneScale: number): void {
+  update(world: World, tMin: number, timeSec: number, sceneScale: number, figures: readonly FigurePoint[] = []): void {
     const t = TUNING.animals;
     const alive = new Set<string>();
     for (const a of world.animals ?? []) {
@@ -74,7 +88,7 @@ export class AnimalsView {
         h = this.create(a, key);
         this.herds.set(key, h);
       }
-      this.updateHerd(h, a, world, tMin, timeSec, sceneScale);
+      this.updateHerd(h, a, world, tMin, timeSec, sceneScale, figures);
     }
     for (const [key, h] of this.herds) {
       if (alive.has(key)) continue;
@@ -101,15 +115,67 @@ export class AnimalsView {
       const r = i === 0 ? 0 : 1.2 + Math.sqrt(i) * 1.1;
       list.push({ rig, ox: Math.cos(ang) * r, oz: Math.sin(ang) * r * 1.4 - i * 0.4, phase: seed * 6.28, yaw: a.headingRad, pitch: 0, seed });
     }
-    return { key, list, lastX: a.x, lastZ: a.z, lastT: -1, speed: 0 };
+    return { key, list, lastX: a.x, lastZ: a.z, lastT: -1, speed: 0, orbitA: 0, orbitT: null };
   }
 
-  private updateHerd(h: Herd, a: AnimalState, world: World, tMin: number, timeSec: number, sc: number): void {
+  /**
+   * 付きまとう熊（stalk）の描く位置。人形と熊は大きく描くので、sim では数十 m 離れていても重なって見える。
+   * いちばん近い人形のまわりの列（近くの人形）の中心から、列の広がり＋体の大きさより内側に来たら、その半径の輪の上を歩いて回る。
+   * 向かってくる間（charge）は輪から人の方へ寄せる。それ以外は sim の位置のまま（x, z, 向き, 輪を回っているか）
+   */
+  private displayPos(h: Herd, a: AnimalState, tMin: number, figures: readonly FigurePoint[], sc: number): [number, number, number, boolean] {
     const t = TUNING.animals;
-    const [cx, cz, heading] = animalPos(a, tMin, t);
-    // 速さ（m/s）: 少し前の時刻の位置との差から
+    const [x, z, heading] = animalPos(a, tMin, t);
+    const dtG = h.orbitT === null ? 0 : tMin - h.orbitT;
+    h.orbitT = tMin;
+    if (dtG < 0 || dtG > 5) h.orbitA = 0; // 巻き戻し・大きな飛び
+    const leaving = a.leaveMin !== null && tMin >= a.leaveMin && !(a.chargeMin !== undefined && tMin < a.leaveMin);
+    if (a.behavior !== 'stalk' || leaving || figures.length === 0) {
+      h.orbitA = 0;
+      return [x, z, heading, false];
+    }
+    // 人形 1 体の大きさ（m）。列はこの間隔で並ぶ
+    const fig = (sc / this.unit) * 1.7;
+    let near: FigurePoint | null = null;
+    let nd = Infinity;
+    for (const f of figures) {
+      const d = Math.hypot(f.x - x, f.z - z);
+      if (d < nd) (nd = d), (near = f);
+    }
+    if (!near) return [x, z, heading, false];
+    const group = figures.filter((f) => Math.hypot(f.x - near!.x, f.z - near!.z) < fig * 4);
+    const cx = group.reduce((s2, f) => s2 + f.x, 0) / group.length;
+    const cz = group.reduce((s2, f) => s2 + f.z, 0) / group.length;
+    const spread = Math.max(...group.map((f) => Math.hypot(f.x - cx, f.z - cz)));
+    const R = spread + fig * 1.5;
+    const d = Math.hypot(x - cx, z - cz);
+    const base = Math.atan2(z - cz, x - cx);
+    const charging = a.chargeMin !== undefined && a.leaveMin !== null && tMin >= a.chargeMin && tMin < a.leaveMin;
+    if (charging) {
+      // 輪の上から人の方へ: 角度のずれを戻しながら、半径を sim の距離へ
+      const f = Math.min(1, (tMin - a.chargeMin!) / Math.max(1e-6, a.leaveMin! - a.chargeMin!));
+      const ang = base + h.orbitA * (1 - f);
+      const r = Math.max(d, R) * (1 - f) + d * f;
+      return [cx + Math.cos(ang) * r, cz + Math.sin(ang) * r, heading, false];
+    }
+    const inside = d < R;
+    if (inside) h.orbitA += (speciesWalk(a) / R) * dtG * 60;
+    else h.orbitA *= Math.exp(-dtG / 0.5);
+    if (!inside && Math.abs(h.orbitA) < 1e-3) return [x, z, heading, false];
+    const ang = base + h.orbitA;
+    const r = Math.max(d, R);
+    // 輪の接線の向き（角が増える向き: (−sin, cos)）。北 = 0、時計回り
+    const hd = inside ? Math.atan2(-Math.sin(ang), -Math.cos(ang)) : heading;
+    return [cx + Math.cos(ang) * r, cz + Math.sin(ang) * r, hd, inside];
+  }
+
+  private updateHerd(h: Herd, a: AnimalState, world: World, tMin: number, timeSec: number, sc: number, figures: readonly FigurePoint[]): void {
+    const t = TUNING.animals;
+    const [cx, cz, heading, orbiting] = this.displayPos(h, a, tMin, figures, sc);
+    // 速さ（m/s）: 少し前の時刻の位置との差から（輪を回っている間は歩く速さ）
     const [px, pz] = animalPos(a, tMin - 1 / 60, t);
-    const speed = Math.hypot(cx - px, cz - pz);
+    const [sx0, sz0] = animalPos(a, tMin, t);
+    const speed = orbiting ? speciesWalk(a) : Math.hypot(sx0 - px, sz0 - pz);
     h.speed += (speed - h.speed) * 0.15;
     const leaving = a.leaveMin !== null && tMin >= a.leaveMin;
     // 現れる・消える

@@ -4,7 +4,7 @@
  */
 import { icon } from './icons';
 import { JA } from '../i18n/ja';
-import { fill, formatDateTime, TEXT_LABELS } from '../i18n/format';
+import { fill, formatDateTime, genericTexts, TEXT_LABELS } from '../i18n/format';
 import { choiceLeader, evaluateOptions, findChoicePoint } from '../sim/scenario/choices';
 import { expandText } from '../sim/scenario/text';
 import { resolveVar } from '../sim/scenario/vars';
@@ -17,13 +17,14 @@ export interface ChoiceUi {
 }
 
 /** 汎用分岐点の文は i18n、シナリオの上書きがあればそちら */
-function texts(ctx: StaticContext, cpId: string): { title: string; situation: string; label: (id: string, fallback: string) => string } {
+function texts(ctx: StaticContext, cpId: string, tMin: number): { title: string; situation: string; label: (id: string, fallback: string) => string } {
   const found = findChoicePoint(ctx, cpId)!;
   if (cpId.startsWith('generic:')) {
     const g = JA.generic[cpId.slice(8)];
+    const tx = genericTexts(cpId.slice(8), tMin);
     return {
-      title: g?.title ?? cpId,
-      situation: found.cp.situation || g?.situation || '',
+      title: tx?.title ?? cpId,
+      situation: found.cp.situation || tx?.situation || '',
       label: (id, fb) => fb || g?.options[id] || id,
     };
   }
@@ -63,7 +64,7 @@ export function showChoice(
 ): ChoiceUi {
   const pending = world.pendingChoice!;
   const found = findChoicePoint(ctx, pending.cpId)!;
-  const t = texts(ctx, pending.cpId);
+  const t = texts(ctx, pending.cpId, world.tMin);
   const leader = choiceLeader(world, ctx);
   const scope = { world, map: ctx.map, scenario: ctx.scenario, leader };
   const expand = (s: string): string => expandText(s, (p) => resolveVar(p, scope), TEXT_LABELS);

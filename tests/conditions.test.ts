@@ -3,7 +3,7 @@ import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { evalCondition } from '../src/sim/scenario/conditions';
 import { expandText } from '../src/sim/scenario/text';
 import { isKnownVarPath, resolveVar, type VarScope } from '../src/sim/scenario/vars';
-import { TEXT_LABELS } from '../src/i18n/format';
+import { genericTexts, TEXT_LABELS } from '../src/i18n/format';
 import type { Condition } from '../src/sim/types';
 import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
@@ -105,5 +105,12 @@ describe('プレースホルダ（docs/09 §5）', () => {
     expect(expandText('{leader.local.windChillC:1}', r)).toBe('-3.5');
     expect(expandText('{leader.state}', r, TEXT_LABELS)).toBe('歩行中');
     expect(expandText('{leader.zzz}', r)).toBe('{leader.zzz}');
+  });
+
+  it('「暗くなった」の汎用分岐点は、夕方なら「日が暮れた」、夜明け前（午前）なら「まだ暗い」', () => {
+    expect(genericTexts('darkness', 19 * 60 + 20)?.title).toBe('日が暮れた');
+    expect(genericTexts('darkness', 1440 + 3 * 60 + 30)?.title).toBe('まだ暗い');
+    expect(genericTexts('darkness', 1440 + 3 * 60 + 30)?.situation).toContain('夜明け前');
+    expect(genericTexts('lostAware', 3 * 60)?.title).toBe('道に迷った');
   });
 });

@@ -682,6 +682,9 @@ export const JA = {
     darkness: {
       title: '日が暮れた',
       situation: 'あたりが暗くなってきた。足元が見えにくい。',
+      /** 夜のうちに休んでいて、夜明け前の暗いうちに歩き出したとき（午前 0 時〜正午に出たら、こちらの題と文） */
+      predawnTitle: 'まだ暗い',
+      predawnSituation: '夜明け前で、あたりはまだ暗い。足元が見えにくい。',
       options: { continue: 'ヘッドランプをつけて進む', grope: '明かりなしで、手探りで少しずつ進む', bivouac: 'その場でビバークする', toShelter: '近くの小屋を目指す' },
     },
     hypothermia: {

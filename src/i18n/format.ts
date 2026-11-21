@@ -17,6 +17,18 @@ export const TEXT_LABELS: TextLabels = {
   bool: JA.labels.bool,
 };
 
+/**
+ * 汎用分岐点の題と既定の文。「暗くなった」（darkness）は、夜のうちに休んでいて夜明け前に歩き出したときにも出るので、
+ * 午前（0〜12 時）に出たら「まだ暗い」の題と文にする（「日が暮れた」と出さない）
+ */
+export function genericTexts(key: string, tMin: number): { title: string; situation: string } | undefined {
+  const g = JA.generic[key] as { title: string; situation: string; predawnTitle?: string; predawnSituation?: string } | undefined;
+  if (!g) return undefined;
+  const clock = ((tMin % 1440) + 1440) % 1440;
+  if (clock < 720 && g.predawnTitle) return { title: g.predawnTitle, situation: g.predawnSituation ?? g.situation };
+  return { title: g.title, situation: g.situation };
+}
+
 export function fill(template: string, vars: Record<string, string | number>): string {
   return template.replace(/\{(\w+)\}/g, (w, k: string) => (vars[k] !== undefined ? String(vars[k]) : w));
 }
@@ -151,7 +163,7 @@ function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
       return fill(L.arrest, { who });
     case 'CHOICE_FIRED': {
       const cp = f.scenario.choices.find((c) => c.id === s('cp'));
-      const g = s('cp').startsWith('generic:') ? JA.generic[s('cp').slice(8)] : undefined;
+      const g = s('cp').startsWith('generic:') ? genericTexts(s('cp').slice(8), e.tMin) : undefined;
       return fill(L.choiceFired, { title: cp?.title ?? g?.title ?? s('cp') });
     }
     case 'CHOICE_RESOLVED': {

@@ -33,7 +33,7 @@ import { createSky, type Sky } from './sky';
 import { scenarioDateMs, skyState, type SkyState } from './astro';
 import { buildWaterfalls } from './waterfalls';
 import { Ghosts } from './ghosts';
-import { AnimalsView } from './animals';
+import { AnimalsView, type FigurePoint } from './animals';
 import { formationOrder } from './formation';
 import { DT_SEC } from '../sim/core/step';
 import type { ViewPre } from './viewCache';
@@ -570,7 +570,10 @@ export class SceneView {
     }
     this.ghosts.update(timeSec);
     // 野生動物（補間した時刻で。人形と同じ拡大率）
-    this.animals.update(world, world.tMin - (1 - alpha) * (DT_SEC / 60), timeSec, this.figureHeight() / 1.7);
+    // 付きまとう熊が人形の列と重ならないよう、描いている人形の位置（m）も渡す
+    const figPts: FigurePoint[] = [];
+    for (const f of this.figures.values()) if (f.root.visible) figPts.push({ x: f.root.position.x / UNIT, z: f.root.position.z / UNIT });
+    this.animals.update(world, world.tMin - (1 - alpha) * (DT_SEC / 60), timeSec, this.figureHeight() / 1.7, figPts);
     this.updateCamera(world);
     this.veg.update(this.camera);
     // カメラと注目している登山者の間にある木・建物を透かす
