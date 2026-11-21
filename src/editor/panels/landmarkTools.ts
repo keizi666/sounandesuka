@@ -104,5 +104,5 @@ export function landmarkSection(ed: Ed, newKind: LandmarkKind, setKind: (k: Land
           el('table', { class: 'ed-table' }, list.map((l) => el('tr', { onclick: () => ed.select('landmark', l.id) }, [el('td', {}, l.id), el('td', {}, LANDMARK_LABELS[l.kind]), el('td', {}, l.name ?? '')]))),
         ])
       : null,
-  ], list.length === 0 || placing);
+  ], list.length === 0, placing);
 }

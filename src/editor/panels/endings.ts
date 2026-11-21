@@ -7,7 +7,7 @@ import { el } from '../../ui/dom';
 import type { Ed } from '../context';
 import { actionEditor } from '../forms/ActionEditor';
 import { conditionBuilder, summarize } from '../forms/ConditionBuilder';
-import { area, button, check, fill, lines, num, section, select, text } from '../forms/fields';
+import { area, button, check, fill, lines, num, keptDetails, section, select, text } from '../forms/fields';
 import { firstTrueTime } from '../probe';
 import { nextId } from '../store/project';
 import type { Panel } from './types';
@@ -111,8 +111,7 @@ function effectEditor(ed: Ed, list: ScriptEffect[], commit: (l: ScriptEffect[]) 
 function eventEditor(ed: Ed, ev: ScriptEventDef, i: number): HTMLElement {
   const s = ed.p.scenario;
   const set = (label: string, f: () => void): void => ed.change(label, f);
-  return el('details', { class: 'f-section' }, [
-    el('summary', {}, `${ev.id}: ${summarize(ev.trigger, s, ed.p.map)}`),
+  return keptDetails(`ev:${i}`, `${ev.id}: ${summarize(ev.trigger, s, ed.p.map)}`, [
     text('ID', ev.id, (v) => set('イベントの ID', () => (ev.id = v))),
     check('一度だけ', ev.once ?? true, (v) => set('一度だけ', () => (ev.once = v))),
     el('h4', {}, '発火条件'),
@@ -140,8 +139,7 @@ export const endingsPanel: Panel = {
       ]),
       section(`思考（${s.thoughts?.length ?? 0}）`, [
         ...(s.thoughts ?? []).map((th, i) =>
-          el('details', { class: 'f-section' }, [
-            el('summary', {}, `${th.key}: ${th.lines[0] ?? ''}`),
+          keptDetails(`th:${i}`, `${th.key}: ${th.lines[0] ?? ''}`, [
             text('キー', th.key, (v) => set('思考のキー', () => (th.key = v))),
             num('優先度', th.priority ?? 0, (v) => set('優先度', () => (th.priority = v))),
             conditionBuilder(th.when, ctx, (c) => set('思考の条件', () => (th.when = c))),
@@ -154,8 +152,7 @@ export const endingsPanel: Panel = {
       section(`セリフのテンプレート（${s.speech?.length ?? 0}）`, [
         el('p', { class: 'note' }, '条件に合うと、登山者が声に出して言います（行動は変えません）。'),
         ...(s.speech ?? []).map((sp, i) =>
-          el('details', { class: 'f-section' }, [
-            el('summary', {}, `${sp.key}: ${sp.lines[0] ?? ''}`),
+          keptDetails(`sp:${i}`, `${sp.key}: ${sp.lines[0] ?? ''}`, [
             text('キー', sp.key, (v) => set('セリフのキー', () => (sp.key = v))),
             text('話し手（leader / any / ID / role:役割）', sp.who, (v) => set('話し手', () => (sp.who = v as typeof sp.who))),
             text('話しかける相手（任意）', sp.to ?? '', (v) => set('相手', () => (sp.to = (v || undefined) as typeof sp.to))),
@@ -174,8 +171,7 @@ export const endingsPanel: Panel = {
       section(`結末（${s.endings.length}）`, [
         el('p', { class: 'note' }, '同じ種類の結末は上から順に評価し、条件が合った最初の文を使います（条件なしは最後に置く）。どれも合わなければ既定の文です。'),
         ...s.endings.map((e: EndingDef, i: number) =>
-          el('details', { class: 'f-section' }, [
-            el('summary', {}, `${i + 1}. ${JA.endings[e.kind]?.title ?? e.kind}: ${e.title}${e.when ? '（条件つき）' : ''}`),
+          keptDetails(`end:${i}`, `${i + 1}. ${JA.endings[e.kind]?.title ?? e.kind}: ${e.title}${e.when ? '（条件つき）' : ''}`, [
             select('種類', e.kind, KINDS.map((k) => [k, JA.endings[k]?.title ?? k]), (v) => set('結末の種類', () => (e.kind = v))),
             text('題', e.title, (v) => set('結末の題', () => (e.title = v)), { wide: true }),
             area('文', e.text, (v) => set('結末の文', () => (e.text = v)), 3),
@@ -189,8 +185,7 @@ export const endingsPanel: Panel = {
       section(`教訓（${s.lessons.length}）`, [
         recHint,
         ...s.lessons.map((l, i) =>
-          el('details', { class: 'f-section' }, [
-            el('summary', {}, `${l.id}: ${l.title}`),
+          keptDetails(`les:${i}`, `${l.id}: ${l.title}`, [
             text('ID', l.id, (v) => set('教訓の ID', () => (l.id = v))),
             text('題', l.title, (v) => set('教訓の題', () => (l.title = v)), { wide: true }),
             area('文', l.text, (v) => set('教訓の文', () => (l.text = v)), 3),

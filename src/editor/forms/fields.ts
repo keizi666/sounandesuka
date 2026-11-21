@@ -53,8 +53,25 @@ export function check(label: string, value: boolean, set: (v: boolean) => void, 
   return el('label', { class: 'f-check', title: hint ?? '' }, [c, label]);
 }
 
-export function section(title: string, children: (HTMLElement | null)[], open = true): HTMLElement {
-  return el('details', { class: 'f-section', open }, [el('summary', {}, title), ...children]);
+/**
+ * 開いた・閉じたを覚えておく（エディターは編集のたびにタブを描き直すので、覚えておかないと開いていた欄が閉じる）。
+ * 鍵は欄の題から数の部分（「（3）」など）を除いたもの、または呼び出し側が渡す鍵
+ */
+const openState = new Map<string, boolean>();
+const sectionKey = (title: string): string => `s:${title.replace(/（[^）]*）/g, '').trim()}`;
+
+/** 開閉を覚える details。key が同じなら描き直しても同じ開閉になる（はじめは open） */
+export function keptDetails(key: string, summary: string | HTMLElement, children: (HTMLElement | null)[], open = false, cls = 'f-section'): HTMLElement {
+  const d = el('details', { class: cls, open: openState.get(key) ?? open }, [el('summary', {}, summary), ...children]);
+  d.addEventListener('toggle', () => openState.set(key, d.open));
+  return d;
+}
+
+/** 開閉できる欄。開閉は覚える（はじめは open）。force なら覚えた状態より優先して開く（道具を選んだときに設定の欄を見せるなど） */
+export function section(title: string, children: (HTMLElement | null)[], open = true, force = false): HTMLElement {
+  const key = sectionKey(title);
+  if (force) openState.set(key, true);
+  return keptDetails(key, title, children, open);
 }
 
 export function button(label: string, onclick: () => void, cls = ''): HTMLButtonElement {

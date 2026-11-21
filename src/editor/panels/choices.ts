@@ -12,7 +12,7 @@ import { el } from '../../ui/dom';
 import type { Ed } from '../context';
 import { actionEditor } from '../forms/ActionEditor';
 import { conditionBuilder, summarize } from '../forms/ConditionBuilder';
-import { area, button, check, fill, lines, num, section, text } from '../forms/fields';
+import { area, button, check, fill, lines, num, keptDetails, section, text } from '../forms/fields';
 import { varGroups } from '../forms/varPaths';
 import { firstTrueTime, worldAtChoice } from '../probe';
 import { nextId } from '../store/project';
@@ -69,8 +69,7 @@ function optionEditor(ed: Ed, cp: ChoicePointDef, o: ChoiceOptionDef, i: number)
   const s = ed.p.scenario;
   const set = (label: string, f: () => void): void => ed.change(label, f);
   const ctx = { scenario: s, map: ed.p.map };
-  return el('details', { class: 'f-section' }, [
-    el('summary', {}, `${o.id}: ${o.label || '（無題）'} ${o.tags?.includes('recommended') ? '★推奨' : ''}${o.tags?.includes('risky') ? '⚠危険' : ''}`),
+  return keptDetails(`opt:${cp.id}:${i}`, `${o.id}: ${o.label || '（無題）'} ${o.tags?.includes('recommended') ? '★推奨' : ''}${o.tags?.includes('risky') ? '⚠危険' : ''}`, [
     text('ID', o.id, (v) => set('選択肢の ID', () => (o.id = v))),
     text('ラベル', o.label, (v) => set('ラベル', () => (o.label = v)), { wide: true }),
     area('補足', o.detail, (v) => set('補足', () => (o.detail = v || undefined)), 2),
