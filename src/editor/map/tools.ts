@@ -102,6 +102,22 @@ export function renameEdge(map: MapDef, scenario: ScenarioDef, from: string, to:
  * ルートに足せなかったときの説明。どの道にもつながらない地点（道の脇の山頂の印など）なら、そばのつながった地点を示す。
  * つながっている地点なら、道が重なって見えても途中でつながっていない場合の手がかりを出す
  */
+/** ない道を指す紛らわしさ（confusers）を消す。消した数を返す */
+export function pruneConfusers(map: MapDef): number {
+  const ids = new Set(map.edges.map((e) => e.id));
+  let removed = 0;
+  for (const n of map.nodes) {
+    if (!n.confusers) continue;
+    const before = n.confusers.length;
+    n.confusers = n.confusers
+      .map((c) => ({ ...c, whenIntending: c.whenIntending.filter((w) => ids.has(w)) }))
+      .filter((c) => ids.has(c.edge) && c.whenIntending.length > 0);
+    removed += before - n.confusers.length;
+    if (n.confusers.length === 0) delete n.confusers;
+  }
+  return removed;
+}
+
 export function routeFailMessage(map: MapDef, n: NodeDef): string {
   const linked = (id: string): boolean => map.edges.some((e) => e.kind === 'trail' && (e.from === id || e.to === id));
   if (!linked(n.id)) {

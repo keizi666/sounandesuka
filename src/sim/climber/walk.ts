@@ -91,7 +91,12 @@ export function walkStep(world: World, ctx: StaticContext, c: ClimberState, dtSe
           r = edgeBetween(map, c.pos.nodeId, c.plan.route[c.plan.routeIndex]!);
         }
       }
-      if ('error' in r) throw new Error(`${c.id}: ${r.error}`);
+      if ('error' in r) {
+        // 道でつながっていない所に入り込んだ（道迷いで、予定の道とつながらない道の網へ入ったなど）:
+        // 止めずに「道に迷ったと気づいた」にして、道外の移動・分岐点に任せる
+        transition(world, ctx, c, 'LOST_AWARE', 'noTrailLink');
+        break;
+      }
       let leg = r.leg;
       if (c.state === 'WALKING') {
         // 分岐での道間違い（docs/07 §3.2）

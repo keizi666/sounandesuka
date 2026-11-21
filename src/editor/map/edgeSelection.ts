@@ -3,6 +3,7 @@
  * 選択は保存しない（編集中だけ）。1 本だけ選んだときは、これまでどおり editorState.selection も使う。
  */
 import type { Ed } from '../context';
+import { pruneConfusers } from './tools';
 
 export const edgeSel = {
   /** 選んでいる道の ID */
@@ -39,6 +40,8 @@ export function removeSelection(ed: Ed, edgeIds: string[], nodeIds: string[]): b
   ed.change(nodeSet.size > 0 ? '道と地点を削除' : '道を除外', () => {
     const map = ed.p.map;
     map.edges = map.edges.filter((e) => !ids.has(e.id));
+    // 消した道を指す紛らわしさも消す
+    pruneConfusers(map);
     ed.p.editorState.draftEdgeIds = ed.p.editorState.draftEdgeIds.filter((x) => !ids.has(x));
     // どの道にもつながらない分岐点（junction）と境界点（boundary。範囲の外へ続く道の端）は消す
     const used = new Set(map.edges.flatMap((e) => [e.from, e.to ?? '']));

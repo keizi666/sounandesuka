@@ -47,7 +47,8 @@ function rememberOnRoute(c: ClimberState, edgeId: EdgeId, s: number, x: number, 
 /** 分岐での誤りの確率（docs/07 §3.2）。ps は紛らわしい道ごと、pErr は全体 */
 export function confuserErrorP(ctx: StaticContext, c: ClimberState, node: NodeId, leg: RouteLeg, cue: number): { ps: number[]; pErr: number } {
   const nt = ctx.tuning.nav;
-  const confs = (ctx.map.nodes[node]?.confusers ?? []).filter((k) => k.whenIntending.includes(leg.edgeId));
+  // ない道を指す紛らわしさ（エディターで道を消した残り）は使わない
+  const confs = (ctx.map.nodes[node]?.confusers ?? []).filter((k) => k.whenIntending.includes(leg.edgeId) && ctx.map.trails[k.edge] !== undefined);
   const eff = navEffOf(c);
   const markers = ctx.map.trails[leg.edgeId]!.def.markers;
   const ps = confs.map((k) => {
@@ -69,7 +70,7 @@ export function confuserErrorP(ctx: StaticContext, c: ClimberState, node: NodeId
 export function chooseLegAtNode(world: World, ctx: StaticContext, c: ClimberState, node: NodeId, leg: RouteLeg): { leg: RouteLeg } | { falseEdge: EdgeId } {
   const nt = ctx.tuning.nav;
   const nd = ctx.map.nodes[node];
-  const confs = (nd?.confusers ?? []).filter((k) => k.whenIntending.includes(leg.edgeId));
+  const confs = (nd?.confusers ?? []).filter((k) => k.whenIntending.includes(leg.edgeId) && ctx.map.trails[k.edge] !== undefined);
   if (confs.length === 0) return { leg };
   const { ps, pErr } = confuserErrorP(ctx, c, node, leg, cueOf(world, ctx, c));
   if (c.plan.stopCheckedNode === node) c.plan.stopCheckedNode = null;

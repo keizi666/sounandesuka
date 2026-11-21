@@ -7,6 +7,7 @@ import { shortestPath } from '../sim/terrain/trails';
 import type { EditorProject, MapRuntime } from '../sim/types';
 import type { TabId } from './context';
 import { connectorEdge, disambiguateRoute, nearestLinked } from './map/routeClick';
+import { pruneConfusers } from './map/tools';
 import { attributionFor } from './store/project';
 
 export interface IssueHelp {
@@ -111,6 +112,12 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
         locate: node ? { tab: 'points', kind: 'node', id: node } : undefined,
       };
     }
+    case 'confuserEdge':
+      return {
+        hint: '道を消したあとに、その道を指す「紛らわしい分岐」の設定が残っています（試走が止まることがあります）。ない道を指す設定を消します。',
+        fix: { label: 'ない道を指す設定を消す', run: (pp) => `紛らわしい分岐の設定を ${pruneConfusers(pp.map)} 件消しました` },
+        locate: node ? { tab: 'points', kind: 'node', id: node } : undefined,
+      };
     case 'noTrailhead':
       return {
         hint: '種類が「登山口」の地点がありません（下山できたかの判定に使います）。ルートの最初と最後の地点を登山口にします。',
@@ -163,12 +170,12 @@ export function helpFor(p: EditorProject, i: Issue): IssueHelp {
 export function fixAll(p: EditorProject, rt: MapRuntime | null, issues: readonly Issue[]): string[] {
   const notes: string[] = [];
   const done = new Set<string>();
-  const order = ['isolated', 'routeGap', 'undefinedNode', 'drafts', 'noTrailhead', 'sources'];
+  const order = ['confuserEdge', 'isolated', 'routeGap', 'undefinedNode', 'drafts', 'noTrailhead', 'sources'];
   const list = [...issues].sort((a, b) => order.indexOf(a.code) - order.indexOf(b.code));
   for (const i of list) {
     const h = helpFor(p, i);
     if (!h.fix) continue;
-    const key = i.code === 'isolated' ? i.path : i.code === 'undefinedNode' ? 'routeGap' : i.code;
+    const key = i.code === 'isolated' ? i.path : i.code === 'confuserEdge' ? 'confuserEdge' : i.code === 'undefinedNode' ? 'routeGap' : i.code;
     if (done.has(key)) continue;
     done.add(key);
     const note = h.fix.run(p, rt);
