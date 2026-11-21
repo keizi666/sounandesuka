@@ -128,7 +128,13 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // ---- 画面 ----
   const canvas = el('canvas', { class: 'scene', 'aria-label': scenario.title });
   // スクリーンショット・録画（描いた直後に afterRender で合成する）
-  const simCap = createSimCapture({ canvas, loaded, world: () => world, settings: app.settings, onChange: () => hud.setRecording(simCap.elapsed()), situation: () => situationLines() });
+  const simCap = createSimCapture({ canvas, loaded, world: () => world, settings: app.settings, onChange: () => hud.setRecording(simCap.elapsed()), situation: () => situationLines(),
+    // カードは、見守っている人のまわりを切り抜いて拡大する（画面の画素で。ユーザーの指定）
+    focus: () => {
+      const hs = view.headScreen(watched(world).id, canvas.width, canvas.height);
+      return hs && hs.front ? { x: hs.x, y: hs.y } : null;
+    },
+  });
   const figIcons = createFigureIcons(world.climbers);
   // 一時停止中は、画面の中央に角丸のパネルで ▶ を出し、押すと再開する（ユーザーの指定）
   const pauseOverlay = el('button', { class: 'pause-overlay', type: 'button', title: `${JA.ui.resumeShort} (Space)`, 'aria-label': JA.ui.resumeShort, hidden: true }, [icon('playArrow'), el('span', {}, JA.ui.resumeShort)]);

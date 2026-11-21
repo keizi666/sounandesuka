@@ -27,7 +27,7 @@ export interface SimCapture {
   dispose(): void;
 }
 
-export function createSimCapture(o: { canvas: HTMLCanvasElement; loaded: LoadedScenario; world: () => World; settings: Settings; onChange: () => void; situation?: () => string[] }): SimCapture {
+export function createSimCapture(o: { canvas: HTMLCanvasElement; loaded: LoadedScenario; world: () => World; settings: Settings; onChange: () => void; situation?: () => string[]; focus?: () => { x: number; y: number } | null }): SimCapture {
   const s = o.loaded.scenario;
   const timeText = (): string => formatDateTime(s, o.world().tMin);
   const cap = createCapture(o.canvas, {
@@ -52,7 +52,7 @@ export function createSimCapture(o: { canvas: HTMLCanvasElement; loaded: LoadedS
     const frame = await Promise.race([cap.frame(), new Promise<null>((ok) => window.setTimeout(() => ok(null), 1500))]);
     if (!frame) return null;
     const input = { scenario: s, world: o.world(), situation: o.situation?.() ?? [] };
-    return { image: cardBase64(composeShareCard({ frame, ...input })), text: cardText(input) };
+    return { image: cardBase64(composeShareCard({ frame, ...input, focus: o.focus?.() ?? null })), text: cardText(input) };
   };
   return {
     afterRender: () => cap.afterRender(),

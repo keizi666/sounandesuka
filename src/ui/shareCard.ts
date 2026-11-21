@@ -18,7 +18,14 @@ export interface CardInput {
   world: World;
   /** いまの状況（ログのいちばん新しい大きな出来事・選んだこと） */
   situation: string[];
+  /** 自分たちの画面の上の位置（frame の画素）。あれば、そのまわりを切り抜いて拡大する（ユーザーの指定: 箱庭が小さい） */
+  focus?: { x: number; y: number } | null;
 }
+
+/** 自分たちのまわりを切り抜くときの拡大（frame の幅の何分の 1 を使うか） */
+const CARD_ZOOM = 2.2;
+/** 切り抜いた絵の中で、自分たちを置く位置（右寄り・少し下。左は文字） */
+const FOCUS_AT = { x: 0.7, y: 0.55 };
 
 /** はみ出す文を「…」で詰める */
 function fit(g: CanvasRenderingContext2D, s: string, maxW: number): string {
@@ -39,10 +46,23 @@ export function composeShareCard(o: CardInput): HTMLCanvasElement {
   const fw = o.frame.width;
   const fh = o.frame.height;
   if (fw > 0 && fh > 0) {
-    const s = Math.max(W / fw, H / fh);
-    const dw = fw * s;
-    const dh = fh * s;
-    g.drawImage(o.frame, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    // 切り抜く範囲（カードと同じ縦横比）。自分たちが分かれば、そのまわりを拡大して右寄りに置く
+    let sw = fw;
+    let sh = (fw * H) / W;
+    if (sh > fh) {
+      sh = fh;
+      sw = (fh * W) / H;
+    }
+    let sx = (fw - sw) / 2;
+    let sy = (fh - sh) / 2;
+    if (o.focus) {
+      sw /= CARD_ZOOM;
+      sh /= CARD_ZOOM;
+      sx = Math.min(Math.max(0, o.focus.x - sw * FOCUS_AT.x), fw - sw);
+      sy = Math.min(Math.max(0, o.focus.y - sh * FOCUS_AT.y), fh - sh);
+    }
+    g.imageSmoothingQuality = 'high';
+    g.drawImage(o.frame, sx, sy, sw, sh, 0, 0, W, H);
   }
   // 文字が読めるよう、左と下を暗くする
   const lg = g.createLinearGradient(0, 0, W * 0.75, 0);
