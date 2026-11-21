@@ -1,0 +1,1331 @@
+{
+  "id": "s20_takamizu",
+  "version": 1,
+  "title": "高水三山で散々",
+  "subtitle": "10月・3人・奥多摩 高水三山（実在の地形）",
+  "theme": "fall",
+  "difficulty": 2,
+  "season": "autumn",
+  "estMinutes": 15,
+  "mapId": "takamizu",
+  "seed": 1,
+  "startDate": "2026-10-17",
+  "startAt": "D0 09:20",
+  "timeLimit": "D1 14:00",
+  "sun": {
+    "sunrise": "05:51",
+    "sunset": "17:06",
+    "maxElevDeg": 42
+  },
+  "moon": {
+    "illumination": 0.5
+  },
+  "briefing": {
+    "text": "10 月の第 3 土曜日。山歴 40 年の谷口さん（76）が、孫の石井さん（22）と、近所の森田さん（59、山は初めて）を誘って、青梅線の軍畑駅から高水山・岩茸石山・惣岳山の「高水三山」を歩き、御嶽駅へ下りる。低い山の人気のコースで、コースタイムは 4 時間ほど。ところが朝、森田さんが電車に乗り遅れ、出発は 9 時 20 分になった。日の入りは 17:06。",
+    "forecast": [
+      {
+        "label": "今日",
+        "text": "晴れ。山の上は日中 13℃ 前後",
+        "icon": "sunny"
+      },
+      {
+        "label": "夜",
+        "text": "くもり",
+        "icon": "cloudy"
+      },
+      {
+        "label": "明日",
+        "text": "雨。朝から風も強まる",
+        "icon": "rain"
+      }
+    ]
+  },
+  "plan": {
+    "route": [
+      "N002",
+      "LM002",
+      "LM001",
+      "J309",
+      "J073",
+      "LM003",
+      "LM007",
+      "J036",
+      "J045",
+      "J143",
+      "J142",
+      "J141",
+      "SH004",
+      "LM008",
+      "PK001",
+      "LM009",
+      "LM010",
+      "LM019",
+      "PK002",
+      "LM011",
+      "LM012",
+      "LM013",
+      "J035",
+      "J315",
+      "J034",
+      "LM014",
+      "N003",
+      "LM015",
+      "LM016",
+      "PK003",
+      "J027",
+      "LM018",
+      "J030",
+      "J031",
+      "J032",
+      "N004",
+      "J033",
+      "LM022",
+      "J051",
+      "J057",
+      "J058",
+      "J201"
+    ],
+    "goalNodes": [
+      "J201"
+    ],
+    "plannedFinish": "D0 14:00",
+    "submittedPlan": true,
+    "reportIfNotBackBy": "D0 20:00"
+  },
+  "party": [
+    {
+      "id": "c1",
+      "name": "石井",
+      "age": 22,
+      "sex": "m",
+      "weightKg": 71,
+      "packKg": 7,
+      "experience": 0.58,
+      "fitness": 1.05,
+      "navSkill": 0.51,
+      "riskTolerance": 0.22,
+      "color": "#d9452b",
+      "leader": false,
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 70,
+        "delaysRainwear": 0.24,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "basic",
+        "cloWorn": 0.9,
+        "cloPack": 0.6,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "headlamp": {
+          "has": true,
+          "batteryH": 6,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 90,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": true,
+        "compass": false,
+        "foodKcal": 1200,
+        "waterL": 1.5,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": true,
+        "whistle": false
+      },
+      "portrait": "young_m:4",
+      "role": "リーダーの孫"
+    },
+    {
+      "id": "c2",
+      "name": "谷口",
+      "age": 76,
+      "sex": "f",
+      "weightKg": 53,
+      "packKg": 9,
+      "experience": 0.87,
+      "fitness": 0.77,
+      "navSkill": 0.8,
+      "riskTolerance": 0.55,
+      "color": "#2b7bd9",
+      "leader": true,
+      "habits": {
+        "eatEveryMin": 135,
+        "drinkEveryMin": 70,
+        "delaysRainwear": 0.2,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 0.9,
+        "cloPack": 1,
+        "gloves": "waterproof",
+        "hat": true,
+        "bivy": "sack",
+        "headlamp": {
+          "has": true,
+          "batteryH": 8,
+          "inPack": false,
+          "spareBatteryH": 8
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 90,
+          "gpsApp": true,
+          "trackRecording": true,
+          "satelliteSos": false
+        },
+        "map": true,
+        "compass": true,
+        "foodKcal": 1800,
+        "waterL": 2,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": true,
+        "whistle": true,
+        "rescueSheet": true
+      },
+      "portrait": "senior_f:5",
+      "role": "リーダー（山歴 40 年）"
+    },
+    {
+      "id": "c3",
+      "name": "森田",
+      "age": 59,
+      "sex": "m",
+      "weightKg": 76,
+      "packKg": 5,
+      "experience": 0.1,
+      "fitness": 0.9,
+      "navSkill": 0.27,
+      "riskTolerance": 0.69,
+      "color": "#2bb673",
+      "leader": false,
+      "habits": {
+        "eatEveryMin": 105,
+        "drinkEveryMin": 70,
+        "delaysRainwear": 0.53,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "poncho",
+        "cloWorn": 0.7,
+        "cloPack": 0.2,
+        "gloves": "none",
+        "hat": false,
+        "bivy": "none",
+        "headlamp": {
+          "has": false,
+          "batteryH": 0,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 90,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false
+        },
+        "map": false,
+        "compass": false,
+        "foodKcal": 600,
+        "waterL": 1,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": true,
+        "whistle": false,
+        "rescueSheet": false
+      },
+      "portrait": "mid_m:1",
+      "role": "近所の人（山は初めて）"
+    }
+  ],
+  "weather": {
+    "refElevM": 1000,
+    "lapseRateCPer100m": 0.65,
+    "cloudThicknessM": 1500,
+    "keyframes": [
+      {
+        "at": "D0 00:00",
+        "tempC": 7.8,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 02:00",
+        "tempC": 6.5,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 04:00",
+        "tempC": 5.6,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 06:00",
+        "tempC": 5.4,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 08:00",
+        "tempC": 6.9,
+        "windMs": 3.2,
+        "windDirDeg": 280,
+        "precipMmH": 0,
+        "cloudCover": 0.25,
+        "cloudBaseM": 3340,
+        "visibilityM": 35600,
+        "pressureHpa": 1020,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 10:00",
+        "tempC": 10.1,
+        "windMs": 3.4,
+        "windDirDeg": 260,
+        "precipMmH": 0,
+        "cloudCover": 0.35,
+        "cloudBaseM": 3190,
+        "visibilityM": 31100,
+        "pressureHpa": 1018,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 12:00",
+        "tempC": 13.2,
+        "windMs": 3.7,
+        "windDirDeg": 240,
+        "precipMmH": 0,
+        "cloudCover": 0.45,
+        "cloudBaseM": 3030,
+        "visibilityM": 26700,
+        "pressureHpa": 1016,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 14:00",
+        "tempC": 14.3,
+        "windMs": 3.9,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.55,
+        "cloudBaseM": 2880,
+        "visibilityM": 22200,
+        "pressureHpa": 1014,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 16:00",
+        "tempC": 13.3,
+        "windMs": 4.7,
+        "windDirDeg": 210,
+        "precipMmH": 0,
+        "cloudCover": 0.7,
+        "cloudBaseM": 2470,
+        "visibilityM": 17300,
+        "pressureHpa": 1011,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 18:00",
+        "tempC": 11,
+        "windMs": 6,
+        "windDirDeg": 210,
+        "precipMmH": 0,
+        "cloudCover": 0.9,
+        "cloudBaseM": 1800,
+        "visibilityM": 12000,
+        "pressureHpa": 1007,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D0 20:00",
+        "tempC": 7.9,
+        "windMs": 9,
+        "windDirDeg": 220,
+        "precipMmH": 4,
+        "cloudCover": 1,
+        "cloudBaseM": 1300,
+        "visibilityM": 4000,
+        "pressureHpa": 1000,
+        "inCloudVisibilityM": 60,
+        "gustiness": 0.3
+      },
+      {
+        "at": "D0 22:00",
+        "tempC": 5.8,
+        "windMs": 11.7,
+        "windDirDeg": 233,
+        "precipMmH": 6.7,
+        "cloudCover": 1,
+        "cloudBaseM": 1230,
+        "visibilityM": 3000,
+        "pressureHpa": 997,
+        "inCloudVisibilityM": 47,
+        "gustiness": 0.43
+      },
+      {
+        "at": "D1 00:00",
+        "tempC": 4.3,
+        "windMs": 13,
+        "windDirDeg": 240,
+        "precipMmH": 8,
+        "cloudCover": 1,
+        "cloudBaseM": 1200,
+        "visibilityM": 2500,
+        "pressureHpa": 996,
+        "inCloudVisibilityM": 40,
+        "gustiness": 0.5
+      },
+      {
+        "at": "D1 02:00",
+        "tempC": 3.8,
+        "windMs": 13,
+        "windDirDeg": 240,
+        "precipMmH": 8,
+        "cloudCover": 1,
+        "cloudBaseM": 1200,
+        "visibilityM": 2500,
+        "pressureHpa": 996,
+        "inCloudVisibilityM": 40,
+        "gustiness": 0.5
+      },
+      {
+        "at": "D1 04:00",
+        "tempC": 2.7,
+        "windMs": 12.7,
+        "windDirDeg": 260,
+        "precipMmH": 5.8,
+        "cloudCover": 0.97,
+        "cloudBaseM": 1300,
+        "visibilityM": 3700,
+        "pressureHpa": 999,
+        "inCloudVisibilityM": 47,
+        "gustiness": 0.5
+      },
+      {
+        "at": "D1 06:00",
+        "tempC": 1.2,
+        "windMs": 12,
+        "windDirDeg": 300,
+        "precipMmH": 1.5,
+        "cloudCover": 0.9,
+        "cloudBaseM": 1500,
+        "visibilityM": 6000,
+        "pressureHpa": 1004,
+        "inCloudVisibilityM": 60,
+        "gustiness": 0.5
+      },
+      {
+        "at": "D1 08:00",
+        "tempC": 3.1,
+        "windMs": 12,
+        "windDirDeg": 300,
+        "precipMmH": 1.5,
+        "cloudCover": 0.9,
+        "cloudBaseM": 1500,
+        "visibilityM": 6000,
+        "pressureHpa": 1004,
+        "inCloudVisibilityM": 60,
+        "gustiness": 0.5
+      },
+      {
+        "at": "D1 10:00",
+        "tempC": 6.4,
+        "windMs": 12,
+        "windDirDeg": 300,
+        "precipMmH": 1.5,
+        "cloudCover": 0.9,
+        "cloudBaseM": 1500,
+        "visibilityM": 6000,
+        "pressureHpa": 1004,
+        "inCloudVisibilityM": 60,
+        "gustiness": 0.5
+      },
+      {
+        "at": "D1 12:00",
+        "tempC": 9.3,
+        "windMs": 12,
+        "windDirDeg": 300,
+        "precipMmH": 1.5,
+        "cloudCover": 0.9,
+        "cloudBaseM": 1500,
+        "visibilityM": 6000,
+        "pressureHpa": 1004,
+        "inCloudVisibilityM": 60,
+        "gustiness": 0.5
+      },
+      {
+        "at": "D1 14:00",
+        "tempC": 10.2,
+        "windMs": 10.7,
+        "windDirDeg": 303,
+        "precipMmH": 1,
+        "cloudCover": 0.72,
+        "cloudBaseM": 1830,
+        "visibilityM": 14000,
+        "pressureHpa": 1008,
+        "inCloudVisibilityM": 60,
+        "gustiness": 0.43
+      },
+      {
+        "at": "D1 16:00",
+        "tempC": 9.6,
+        "windMs": 9.3,
+        "windDirDeg": 307,
+        "precipMmH": 0.5,
+        "cloudCover": 0.53,
+        "cloudBaseM": 2170,
+        "visibilityM": 22000,
+        "pressureHpa": 1012,
+        "inCloudVisibilityM": 60,
+        "gustiness": 0.37
+      },
+      {
+        "at": "D1 18:00",
+        "tempC": 9,
+        "windMs": 8,
+        "windDirDeg": 310,
+        "precipMmH": 0,
+        "cloudCover": 0.35,
+        "cloudBaseM": 2500,
+        "visibilityM": 30000,
+        "pressureHpa": 1016,
+        "gustiness": 0.3
+      },
+      {
+        "at": "D1 20:00",
+        "tempC": 8.1,
+        "windMs": 7.2,
+        "windDirDeg": 308,
+        "precipMmH": 0,
+        "cloudCover": 0.32,
+        "cloudBaseM": 2670,
+        "visibilityM": 31700,
+        "pressureHpa": 1017,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D1 22:00",
+        "tempC": 7.1,
+        "windMs": 6.3,
+        "windDirDeg": 307,
+        "precipMmH": 0,
+        "cloudCover": 0.28,
+        "cloudBaseM": 2830,
+        "visibilityM": 33300,
+        "pressureHpa": 1018,
+        "gustiness": 0.2
+      },
+      {
+        "at": "D2 00:00",
+        "tempC": 6.1,
+        "windMs": 5.5,
+        "windDirDeg": 305,
+        "precipMmH": 0,
+        "cloudCover": 0.25,
+        "cloudBaseM": 3000,
+        "visibilityM": 35000,
+        "pressureHpa": 1019,
+        "gustiness": 0.15
+      },
+      {
+        "at": "D2 02:00",
+        "tempC": 5.5,
+        "windMs": 4.7,
+        "windDirDeg": 303,
+        "precipMmH": 0,
+        "cloudCover": 0.22,
+        "cloudBaseM": 3170,
+        "visibilityM": 36700,
+        "pressureHpa": 1020,
+        "gustiness": 0.1
+      },
+      {
+        "at": "D2 04:00",
+        "tempC": 5.1,
+        "windMs": 3.8,
+        "windDirDeg": 302,
+        "precipMmH": 0,
+        "cloudCover": 0.18,
+        "cloudBaseM": 3330,
+        "visibilityM": 38300,
+        "pressureHpa": 1021,
+        "gustiness": 0.05
+      },
+      {
+        "at": "D2 06:00",
+        "tempC": 5.4,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D2 08:00",
+        "tempC": 6.7,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D2 10:00",
+        "tempC": 9.6,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D2 12:00",
+        "tempC": 12.5,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D2 14:00",
+        "tempC": 13.6,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D2 16:00",
+        "tempC": 13.3,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D2 18:00",
+        "tempC": 12.4,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D2 20:00",
+        "tempC": 11,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D2 22:00",
+        "tempC": 9.4,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      },
+      {
+        "at": "D3 00:00",
+        "tempC": 7.8,
+        "windMs": 3,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.15,
+        "cloudBaseM": 3500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.25
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "ev_late",
+      "trigger": {
+        "after": "D0 09:20"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "森田さんが電車に乗り遅れ、軍畑駅を出たのは予定より 1 時間遅い 9 時 20 分。",
+          "important": true
+        },
+        {
+          "type": "say",
+          "who": "c2",
+          "text": "ゆっくり行っても 2 時には御嶽駅よ。日の入りは 5 時だから大丈夫"
+        }
+      ]
+    },
+    {
+      "id": "ev_forecast",
+      "trigger": {
+        "after": "D0 15:00"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "forecastUpdate",
+          "requiresSignal": true,
+          "entries": [
+            {
+              "label": "夕方",
+              "text": "くもり",
+              "icon": "cloudy"
+            },
+            {
+              "label": "夜",
+              "text": "雨。風も強まる（前線の通過が早まった）",
+              "icon": "rain"
+            },
+            {
+              "label": "明日",
+              "text": "雨のち曇り。北西の風が冷たい",
+              "icon": "rain"
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "スマートフォンに天気の通知。前線の通過が早まり、今夜 8 時ごろから雨と強い風になるという。",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_sprain",
+      "trigger": {
+        "atNode": "LM011"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "injure",
+          "who": "leader",
+          "injury": "sprain"
+        },
+        {
+          "type": "setFlag",
+          "flag": "sprained"
+        },
+        {
+          "type": "log",
+          "text": "岩茸石山からの急な下りで、谷口さんが木の根に足を取られた。右の足首をひねった。",
+          "important": true
+        }
+      ]
+    }
+  ],
+  "choices": [],
+  "endings": [
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "var": "sun.isDark",
+        "op": "==",
+        "value": true
+      },
+      "title": "暗くなってから駅へ",
+      "text": "最後は真っ暗な杉林の中を、ランプを頼りに下りた。駅の明かりが見えたとき、3 人とも黙って座り込んだ。谷口さんの足首は、翌日の病院で「捻挫」と言われた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "日の入り前に駅へ",
+      "text": "石井さんに支えられ、テーピングした足首をかばいながら下りきった。駅のベンチで靴を脱ぐと、足首は倍ほどに腫れていた。「散々だったわね」と谷口さんは笑った。"
+    },
+    {
+      "kind": "ABORTED",
+      "title": "引き返して下山",
+      "text": "予定のコースはあきらめ、近い道を選んで下りた。足首の痛みは長引いたが、3 人とも無事だった。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "title": "夜遅く、自力で下山",
+      "text": "駅にたどり着いたのは夜遅く。帰らない 3 人を心配した家族は、すでに警察に連絡していた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "any": [
+          {
+            "chose": {
+              "cp": "generic:injured",
+              "option": "call"
+            }
+          },
+          {
+            "flag": "called"
+          },
+          {
+            "flag": "calledAtDark"
+          }
+        ]
+      },
+      "title": "救助隊に背負われて",
+      "text": "通報から数時間。救助隊が登ってきて、谷口さんは救助隊に背負われて山を下りた。待つ間に体は冷えきっていた。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助された",
+      "text": "下りきれずに夜を越し、救助隊に助けられた。3 人とも命に別状はなかった。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "低体温症で搬送",
+      "text": "夜の冷え込みと明け方の冷たい雨で、体温が下がりきっていた。救助隊に見つけられ、病院へ運ばれた。"
+    },
+    {
+      "kind": "MISSING",
+      "when": {
+        "flag": "splitForHelp"
+      },
+      "title": "助けを呼びに行った人が戻らない",
+      "text": "一人で下りた森田さんが、駅に着いていない。暗い山道のどこかで、道を外れたらしい。"
+    },
+    {
+      "kind": "MISSING",
+      "title": "行方不明",
+      "text": "仲間の一人の行方が分からないまま、捜索は翌日に持ち越された。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "帰らぬ人に",
+      "text": "冷たい雨の夜を越せず、仲間の一人が帰らぬ人になった。"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_time",
+      "title": "日の入りから逆算して歩く",
+      "text": "10 月の日の入りは 5 時すぎ。森の中はその 30 分前から暗くなる。出発が遅れたら、「何時までにどこまで」を決め直し、間に合わなければ早めに短いコースへ切り替える。"
+    },
+    {
+      "id": "l_sprain",
+      "title": "足首をひねったら",
+      "text": "冷やして、テーピングや三角巾で固定し、荷物を仲間が持つ。けがをした足ではふだんの半分ほどの速さしか出ないので、日没までに下りられるかを計算する。歩けなくなる・暗くなる前に、家族や 119 番へ早めに連絡する。"
+    },
+    {
+      "id": "l_light",
+      "title": "ヘッドランプは全員が持つ",
+      "text": "日帰りの低い山でも、ヘッドランプは一人一つ。スマートフォンのライトは片手がふさがり、電池も減る。予備の電池とともに、すぐ出せる所に入れておく。"
+    },
+    {
+      "id": "l_split",
+      "when": {
+        "flag": "splitForHelp"
+      },
+      "title": "経験の浅い人を一人で行かせない",
+      "text": "助けを呼びに行くなら、道に慣れた人が行く。山が初めての人を一人で暗い山道に出すと、遭難者がもう一人増える。電波が入るなら、まず電話で助けを呼ぶ。"
+    },
+    {
+      "id": "l_wait",
+      "when": {
+        "flag": "waitedHour"
+      },
+      "title": "休んでも捻挫は治らない",
+      "text": "ひねった足首は、休むと腫れて固まり、かえって歩けなくなる。動けるうちに固定して下り始めるか、助けを呼ぶかを決める。"
+    },
+    {
+      "id": "l_call",
+      "when": {
+        "any": [
+          {
+            "flag": "called"
+          },
+          {
+            "flag": "calledAtDark"
+          }
+        ]
+      },
+      "title": "119 番したら、居場所と体温",
+      "text": "地図アプリの現在地（緯度・経度）を伝え、動かずに待つ。救助が来るまで何時間もかかるので、ツェルトやレスキューシートで風を防ぎ、乾いた服を着て体を冷やさない。"
+    },
+    {
+      "id": "l_bivouac",
+      "when": {
+        "flag": "bivouacked"
+      },
+      "title": "夜を越す装備と天気",
+      "text": "明日が雨の予報なら、山で夜を越すのは危ない。日帰りの服装では夜の冷え込みに耐えられない。ツェルトがあっても、まず下りられる道と時間を考える。"
+    },
+    {
+      "id": "l_party",
+      "title": "体力と経験の違うパーティー",
+      "text": "経験豊富でも 76 歳の体力と、初めての人の装備。パーティーの歩く速さと装備は、いちばん弱い人に合わせて計画する。"
+    }
+  ],
+  "region": {
+    "name": "奥多摩・高水三山（青梅市）",
+    "real": true
+  },
+  "sources": [
+    "出典：国土地理院（標高タイル）を加工して作成",
+    "出典：国土地理院（ベクトルタイル）の建物・道路・鉄道を加工して作成",
+    "登山道データ © OpenStreetMap contributors（ODbL）"
+  ],
+  "genericOverrides": {
+    "injured": {
+      "situation": "岩茸石山からの急な下りで、谷口さんが右の足首をひねった。みるみる腫れてきたが、支えればなんとか歩けそうだ。日の入りは 17:06。どうする？",
+      "knowledge": [
+        "惣岳山を越えて御嶽駅まで、ふつうの足で約 1 時間 46 分。惣岳山への登り返しは短い",
+        "惣岳山の手前から軍畑へ下る道もある（約 1 時間 59 分）",
+        "来た道（岩茸石山・高水山）で軍畑駅へ戻ると約 2 時間 6 分。岩茸石山へ急な登り返しがある",
+        "ここは電波が入る。谷口さんはツェルトとヘッドランプを持つ。石井さんのヘッドランプはザックの奥。森田さんはライトを持っていない",
+        "足首をひねったら、冷やして・固定して（テーピング）、無理をしない。けがをした足では、ふだんの半分ほどの速さしか出ない"
+      ],
+      "options": [
+        {
+          "id": "soutake",
+          "label": "テーピングして、予定どおり惣岳山から御嶽駅へ",
+          "detail": "いちばん早く下りられる（ふつうの足で約 1 時間 46 分）。荷物は石井さんが持ち、家族に遅れると連絡する。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c1",
+              "text": "テーピングするね。荷物は僕が持つよ"
+            },
+            {
+              "type": "setFlag",
+              "flag": "taped"
+            },
+            {
+              "type": "setFlag",
+              "flag": "toldFamily"
+            },
+            {
+              "type": "rest",
+              "minutes": 15
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "shortcut",
+          "label": "惣岳山へは登らず、手前から軍畑へ下る",
+          "detail": "登り返しはないが、道は長い（約 1 時間 59 分）。歩く人が少ない道。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c2",
+              "text": "惣岳山は巻いて、軍畑へ下りましょう"
+            },
+            {
+              "type": "setFlag",
+              "flag": "taped"
+            },
+            {
+              "type": "rest",
+              "minutes": 15
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "LM011",
+                "LM012",
+                "LM013",
+                "J035",
+                "J315",
+                "J034",
+                "LM014",
+                "J014",
+                "J074",
+                "J070",
+                "J071",
+                "N005",
+                "J072",
+                "N006",
+                "J163",
+                "J168",
+                "N002"
+              ],
+              "goalNodes": [
+                "N002",
+                "J201"
+              ]
+            }
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "back",
+          "label": "来た道を戻り、軍畑駅へ",
+          "detail": "知っている道だが、岩茸石山へ急な登り返しがあり、長い（約 2 時間 6 分）。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c2",
+              "text": "知ってる道で帰りましょう"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "LM011",
+                "PK002",
+                "LM019",
+                "LM010",
+                "LM009",
+                "PK001",
+                "LM008",
+                "SH004",
+                "SH003",
+                "J036",
+                "LM007",
+                "LM003",
+                "J073",
+                "J309",
+                "LM001",
+                "LM002",
+                "N002"
+              ],
+              "goalNodes": [
+                "N002"
+              ]
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        },
+        {
+          "id": "call",
+          "label": "119 番して、ここで救助を待つ",
+          "detail": "電波は入る。動かなければ足は悪くならないが、救助が来るまで何時間もかかる。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c1",
+              "text": "救急に電話するね。場所は地図アプリで伝える"
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "setFlag",
+              "flag": "called"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "help",
+          "label": "誰かが先に下りて、助けを呼ぶ",
+          "detail": "谷口さんには石井さんが付き添い、山が初めての森田さんが一人で御嶽駅へ下りる。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c3",
+              "text": "私が下りて、人を呼んできます"
+            },
+            {
+              "type": "setFlag",
+              "flag": "splitForHelp"
+            },
+            {
+              "type": "sendForHelp"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        },
+        {
+          "id": "rest",
+          "label": "1 時間休んで、痛みが引くか見る",
+          "detail": "休めば歩けるようになるかもしれない。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c2",
+              "text": "少し休めば治るわ"
+            },
+            {
+              "type": "setFlag",
+              "flag": "waitedHour"
+            },
+            {
+              "type": "rest",
+              "minutes": 60
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        }
+      ]
+    },
+    "darkness": {
+      "situation": "日が暮れた。森の中はすぐに真っ暗になる。ヘッドランプは谷口さんと石井さんの 2 つ。森田さんはスマートフォンのライトしかない。どうする？",
+      "knowledge": [
+        "予報では、前線が早まり今夜 8 時ごろから雨と強い風。夜明けには 1℃ 近くまで冷える",
+        "谷口さんはツェルトを持っている。3 人とも夜を越す服装ではない",
+        "暗い山道では、足元を照らせない人が転びやすい"
+      ],
+      "options": [
+        {
+          "id": "lamps",
+          "label": "ランプの 2 人で森田さんをはさみ、ゆっくり下る",
+          "detail": "石井さんがランプを出し、先頭と最後を照らす。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c1",
+              "text": "ランプ出すね。森田さん、僕のすぐ後ろを歩いて"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "call",
+          "label": "119 番して、その場で待つ",
+          "detail": "動かずに救助を待つ。電波が入らない所では呼べない。",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "setFlag",
+              "flag": "calledAtDark"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "ツェルトをかぶって、朝を待つ",
+          "detail": "今夜は雨と強い風の予報。ツェルトは 1 つ。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c2",
+              "text": "明るくなってから下りましょう"
+            },
+            {
+              "type": "setFlag",
+              "flag": "bivouacked"
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        },
+        {
+          "id": "hurry",
+          "label": "スマホのライトで急いで下る",
+          "detail": "早く下りたい。足元はよく見えない。",
+          "actions": [
+            {
+              "type": "say",
+              "who": "c3",
+              "text": "スマホで照らせば大丈夫ですよ"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.85
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        }
+      ]
+    }
+  },
+  "speech": [
+    {
+      "key": "sp_pain",
+      "who": "c2",
+      "when": {
+        "flag": "sprained"
+      },
+      "lines": [
+        "大丈夫、ゆっくりなら歩けるわ"
+      ],
+      "once": true,
+      "priority": 30
+    },
+    {
+      "key": "sp_lamp",
+      "who": "c3",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.state",
+            "op": "==",
+            "value": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "ライト、持ってくればよかった……"
+      ],
+      "once": true,
+      "priority": 25
+    },
+    {
+      "key": "sp_cold",
+      "who": "c3",
+      "when": {
+        "var": "c.c3.coreC",
+        "op": "<",
+        "value": 36
+      },
+      "lines": [
+        "寒い……手がかじかんできた"
+      ],
+      "once": true,
+      "priority": 25
+    }
+  ],
+  "balanceTargets": {
+    "recommended": {
+      "badMax": 0.05,
+      "fatalMax": 0.01
+    },
+    "bias": {
+      "badMin": 0.03,
+      "fatalMax": 0.1
+    }
+  }
+}
