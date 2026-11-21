@@ -3,7 +3,8 @@
  * - carryInjured: 介助の 2 人がけが人を両側から支え、背負って運ぶ。けが人と介助の 2 人の荷物は、ほかの人が分けて持つ。
  *   列は運ぶ速さで進み、けが人は列について動く（自分の足では歩かない）。大人数の列でも、けが人を置いていかない
  * - sendForHelp: けが人に 1 人が付き添って残り、ほかの人は電波の入る所か、山小屋・登山口まで行って知らせる。
- *   3 人以下のパーティは 1 人が呼びに行き、2 人以下なら付き添いは残らない（けが人を 1 人で置いていく）
+ *   3 人以下のパーティは 1 人が呼びに行き、2 人以下なら付き添いは残らない（けが人を 1 人で置いていく）。
+ *   歩けない人がいなければ、けが（捻挫以上）・急病の人を残す（s20 で捻挫の人を残すはずが、何もせず全員で進んでいた）
  * 知らせた場所は、けが人を残した場所（呼びに行った人は場所を知っている）
  */
 import { nearestIndex } from '../terrain/sample';
@@ -25,6 +26,12 @@ export function needsCarry(m: ClimberState): boolean {
 /** 運べる人（意識があり、自分で歩ける） */
 function ableToHelp(m: ClimberState): boolean {
   return m.body.alive && m.body.conscious && !TERMINAL.has(m.state) && !needsCarry(m);
+}
+
+/** けが（捻挫以上）か急病の発作中の人（歩けない人がいないとき、救助を呼びに行く間に残す人） */
+function hurt(m: ClimberState): boolean {
+  const b = m.body;
+  return b.alive && !TERMINAL.has(m.state) && ((b.injury !== 'none' && b.injury !== 'bruise') || b.illness?.active === true);
 }
 
 export function isCarrying(world: World, groupId: string | null): boolean {
@@ -102,8 +109,9 @@ export function endCarry(world: World, groupId: string): void {
  */
 export function sendForHelp(world: World, ctx: StaticContext, leader: ClimberState, apply: Apply): void {
   const members = groupOf(world, leader);
-  const downs = members.filter(needsCarry);
-  const able = members.filter(ableToHelp);
+  const carry = members.filter(needsCarry);
+  const downs = carry.length > 0 ? carry : members.filter(hurt);
+  const able = members.filter((m) => ableToHelp(m) && !downs.includes(m));
   if (downs.length === 0 || able.length === 0) return;
   const companion = members.length >= 3 && able.length >= 2 ? able.reduce((a, b) => (b.def.experience > a.def.experience + 1e-9 || (Math.abs(b.def.experience - a.def.experience) <= 1e-9 && b.M > a.M) ? b : a)) : null;
   const goers = able.filter((c) => c !== companion);

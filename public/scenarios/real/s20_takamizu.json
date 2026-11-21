@@ -1704,7 +1704,21 @@
       "key": "sp_pain",
       "who": "c2",
       "when": {
-        "flag": "sprained"
+        "all": [
+          {
+            "flag": "sprained"
+          },
+          {
+            "not": {
+              "flag": "splitForHelp"
+            }
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          }
+        ]
       },
       "lines": [
         "大丈夫、ゆっくりなら歩けるわ"
@@ -3252,6 +3266,11 @@
             "var": "c.c2.state",
             "op": "==",
             "value": "BIVOUAC"
+          },
+          {
+            "not": {
+              "flag": "splitForHelp"
+            }
           }
         ]
       },
@@ -3262,6 +3281,34 @@
         "who": "c2",
         "lines": [
           "体をくっつけてね。朝になったら明るくなる"
+        ]
+      },
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "g_bivouac_two",
+      "who": "c1",
+      "to": "c2",
+      "when": {
+        "all": [
+          {
+            "var": "c.c2.state",
+            "op": "==",
+            "value": "BIVOUAC"
+          },
+          {
+            "flag": "splitForHelp"
+          }
+        ]
+      },
+      "lines": [
+        "ツェルト、かぶっておこう。足は痛む？"
+      ],
+      "replies": {
+        "who": "c2",
+        "lines": [
+          "動かさなければ平気。森田さんが知らせてくれたら、助けが来るわ"
         ]
       },
       "priority": 12,
@@ -3282,6 +3329,11 @@
             "var": "sun.isDark",
             "op": "==",
             "value": true
+          },
+          {
+            "not": {
+              "flag": "splitForHelp"
+            }
           }
         ]
       },

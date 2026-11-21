@@ -65,6 +65,16 @@ describe('救助を呼びに行く', () => {
     expect(w.climbers.filter((c) => c.groupId !== hurt.groupId)).toHaveLength(1);
   });
 
+  it('捻挫（自分で歩ける）でも、けが人を残して呼びに行く。けが人は呼びに行かない（s20）', () => {
+    const { w, hurt, act } = setup(3);
+    hurt.body.injury = 'sprain';
+    act('sendForHelp');
+    const stay = w.climbers.filter((c) => c.groupId === hurt.groupId);
+    expect(stay).toHaveLength(2);
+    expect(stay).toContain(hurt);
+    expect(w.climbers.filter((c) => c.groupId !== hurt.groupId)).toHaveLength(1);
+  });
+
   it('2 人: 1 人が呼びに行き、けが人は 1 人で残る', () => {
     const { w, hurt, act } = setup(2);
     act('sendForHelp');

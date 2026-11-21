@@ -34,6 +34,7 @@ import { scenarioDateMs, skyState, type SkyState } from './astro';
 import { buildWaterfalls } from './waterfalls';
 import { Ghosts } from './ghosts';
 import { AnimalsView } from './animals';
+import { formationOrder } from './formation';
 import { DT_SEC } from '../sim/core/step';
 import type { ViewPre } from './viewCache';
 
@@ -466,7 +467,8 @@ export class SceneView {
     const headOf = new Map<string, string>();
     {
       const seen: { x: number; z: number; g: string | null; n: number; head: string }[] = [];
-      for (const c of world.climbers) {
+      // 暗いときは、ランプのない人をランプを持つ人の間に並べる（formation.ts）
+      for (const c of formationOrder(world.climbers, world.sun.isDark)) {
         let slot = seen.find((q) => q.g === c.groupId && Math.hypot(q.x - c.x, q.z - c.z) < 4);
         if (!slot) {
           slot = { x: c.x, z: c.z, g: c.groupId, n: 0, head: c.id };
