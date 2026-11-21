@@ -10,6 +10,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:quiet": "vite --mode quiet",
     "build": "vite build",
     "build:sounan": "vite build --base=/sounandesuyo/",
     "deploy": "tsx tools/deploy.ts",

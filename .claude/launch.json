@@ -4,20 +4,45 @@
     {
       "name": "dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 5281
     },
     {
       "name": "preview-sub",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["vite", "preview", "--base", "/sounan/", "--port", "4281", "--strictPort"],
+      "runtimeArgs": [
+        "vite",
+        "preview",
+        "--base",
+        "/sounan/",
+        "--port",
+        "4281",
+        "--strictPort"
+      ],
       "port": 4281
     },
     {
       "name": "dev-alt",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["vite", "--port", "5291", "--strictPort"],
+      "runtimeArgs": [
+        "vite",
+        "--port",
+        "5291",
+        "--strictPort"
+      ],
       "port": 5291
+    },
+    {
+      "name": "dev-quiet",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev:quiet"
+      ],
+      "port": 5282
     }
   ]
 }

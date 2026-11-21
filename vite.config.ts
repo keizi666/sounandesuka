@@ -18,7 +18,11 @@ function appVersion(): string {
   }
 }
 
-export default defineConfig({
+/**
+ * 開発サーバーの起動のしかた。npm run dev:quiet（--mode quiet）は、ファイルが変わっても画面を自動で読み込み直さない
+ * （ユーザーの指定: ほかのセッションがファイルを書き換えるたびに、遊んでいる画面が読み込み直されていた）。別のポート 5282 で動く
+ */
+export default defineConfig(({ mode }) => ({
   define: {
     __APP_VERSION__: JSON.stringify(appVersion()),
     __APP_BUILT__: JSON.stringify(new Date().toISOString()),
@@ -28,7 +32,7 @@ export default defineConfig({
   // サブディレクトリに置く場合は VITE_BASE=/sounan/ のように指定する（docs/03 §10）
   base: process.env['VITE_BASE'] ?? '/',
   // 開発サーバーの番号。よく使われる 5173 / 4173 は他のサービスと重なるので避ける（使用中なら起動を止める）
-  server: { port: 5281, strictPort: true },
+  server: mode === 'quiet' ? { port: 5282, strictPort: true, hmr: false } : { port: 5281, strictPort: true },
   preview: { port: 4281, strictPort: true },
   build: {
     rolldownOptions: {
@@ -42,4 +46,4 @@ export default defineConfig({
     include: ['tests/**/*.test.ts'],
     environment: 'node',
   },
-});
+}));
