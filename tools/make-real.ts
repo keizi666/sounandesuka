@@ -21,7 +21,10 @@ import { validateScenario } from '../src/sim/scenario/validate';
 import { encodeHeights } from '../src/sim/terrain/codec';
 import { buildMapRuntime } from '../src/sim/terrain/map';
 import type { EdgeDef, SounanBundle, MapDef, NodeDef, RadioStationDef, ScenarioDef } from '../src/sim/types';
-import { fetchHeights, fetchOsmCached, fetchVegSymbolsCached } from './lib/geo-node';
+import { fetchHeights, fetchOsmCached, fetchVectorTilesCached, fetchVegSymbolsCached } from './lib/geo-node';
+import { landmarksFromTiles, withTowers } from '../src/editor/geo/landmarks';
+import { mergeUrbanOverrides, urbanCells, urbanFromTiles } from '../src/editor/geo/urban';
+import { sampleElev } from '../src/sim/terrain/sample';
 import { ROOT } from './lib/maps';
 
 type TrailEdgeSpec = { id: string; name: string; from: string; to: string; points: [number, number][]; snap?: 'ridge' | 'valley' | 'none' };
@@ -60,6 +63,8 @@ export interface RealBuildSpec {
   radio?: RadioStationDef[];
   /** 地理院の植生記号を使う（既定 true） */
   vegetation?: boolean;
+  /** 地理院地図の建物・道路・鉄道（市街地）と、地図記号の施設・送電線・鉄塔を入れるか（既定 true） */
+  urban?: boolean;
 }
 
 const id = process.argv[2];
@@ -255,13 +260,28 @@ if (spec.vegetation !== false) {
   console.log(`植生記号: タイル ${veg.tiles} 枚、記号 ${JSON.stringify(tally)}、塗ったセル ${JSON.stringify(ov.counts)}`);
   map.vegetation = { ...map.vegetation, overrides: ov.overrides };
 }
+// 市街地（建物・道路・鉄道）と地図記号の施設・送電線・鉄塔（エディターの「地理院地図から取り込む」と同じ処理）
+if (spec.urban !== false) {
+  const tiles = await fetchVectorTilesCached(LAT0, LON0, SIZE);
+  const r1 = buildMapRuntime(map, { radio: false }).map;
+  const urban = urbanFromTiles(tiles, LAT0, LON0, SIZE);
+  const m = mergeUrbanOverrides(r1.n, map.vegetation.overrides, urbanCells(r1, urban));
+  map.urban = urban;
+  map.vegetation = { ...map.vegetation, overrides: m.overrides };
+  const lm = landmarksFromTiles(tiles, LAT0, LON0, SIZE);
+  map.landmarks = withTowers(r1, lm.landmarks, lm.powerLines, (x, z) => sampleElev(r1, x, z));
+  map.powerLines = lm.powerLines;
+  map.attribution = [...(map.attribution ?? []), ATTR.gsiVector];
+  const towers = map.landmarks.filter((l) => l.kind === 'tower').length;
+  console.log(`市街地: 建物 ${urban.buildings.length} 棟・道路と鉄道 ${urban.lines.length} 本、${m.count} セル。地図記号: 施設 ${map.landmarks.length - towers}・送電線 ${lm.powerLines.length} 本・鉄塔 ${towers} 基`);
+}
 
 const s: ScenarioDef = { ...scenario, mapId: map.id };
 const issues = validateScenario(s, map);
 for (const i of issues) console.log(`${i.level === 'error' ? '✖' : '⚠'} ${i.path} ${i.message}`);
 if (issues.some((i) => i.level === 'error')) process.exit(1);
 
-const bundle: SounanBundle = { format: 'sounan-bundle', version: 1, createdAt: new Date().toISOString(), generator: `tools/make-real.ts ${id}`, map, scenario: s, attribution: [ATTR.gsi, ATTR.osm] };
+const bundle: SounanBundle = { format: 'sounan-bundle', version: 1, createdAt: new Date().toISOString(), generator: `tools/make-real.ts ${id}`, map, scenario: s, attribution: map.attribution ?? [ATTR.gsi, ATTR.osm] };
 const outDir = resolve(ROOT, 'public/scenarios/real');
 mkdirSync(outDir, { recursive: true });
 const out = resolve(outDir, `${id}.sounan.json`);

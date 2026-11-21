@@ -32,6 +32,37 @@ export function roadWidthM(rnk: unknown): number {
 
 const r1 = (v: number): number => Math.round(v * 10) / 10;
 
+/** 線の点を間引く（Douglas–Peucker、許容 tolM）して 1 m 単位に丸める。ほぼまっすぐな所の点は要らない */
+export function simplifyLine(pts: readonly { x: number; z: number }[], tolM = 1.5): [number, number][] {
+  if (pts.length <= 2) return pts.map((p) => [Math.round(p.x), Math.round(p.z)]);
+  const keep = new Uint8Array(pts.length);
+  keep[0] = 1;
+  keep[pts.length - 1] = 1;
+  const stack: [number, number][] = [[0, pts.length - 1]];
+  while (stack.length) {
+    const [a, b] = stack.pop()!;
+    const A = pts[a]!;
+    const B = pts[b]!;
+    const dx = B.x - A.x;
+    const dz = B.z - A.z;
+    const len = Math.hypot(dx, dz) || 1;
+    let far = -1;
+    let fd = tolM;
+    for (let i = a + 1; i < b; i += 1) {
+      const d = Math.abs((pts[i]!.x - A.x) * dz - (pts[i]!.z - A.z) * dx) / len;
+      if (d > fd) {
+        fd = d;
+        far = i;
+      }
+    }
+    if (far >= 0) {
+      keep[far] = 1;
+      stack.push([a, far], [far, b]);
+    }
+  }
+  return pts.filter((_, i) => keep[i]).map((p) => [Math.round(p.x), Math.round(p.z)]);
+}
+
 /** 面の外周から、向きのある長方形 [中心 x, 中心 z, 幅, 奥行き, 向き（度）] を作る */
 export function orientedRect(ring: readonly { x: number; z: number }[]): [number, number, number, number, number] | null {
   if (ring.length < 3) return null;
@@ -67,7 +98,8 @@ export function orientedRect(ring: readonly { x: number; z: number }[]): [number
   const vc = (v0 + v1) / 2;
   let deg = (ang * 180) / Math.PI;
   deg = ((deg % 180) + 180) % 180;
-  return [r1(uc * c - vc * s), r1(uc * s + vc * c), r1(w), r1(d), Math.round(deg)];
+  // 箱庭の格子（12 m 前後）に対して 1 m 単位で十分（バンドルを小さくする）
+  return [Math.round(uc * c - vc * s), Math.round(uc * s + vc * c), Math.max(1, Math.round(w)), Math.max(1, Math.round(d)), Math.round(deg)];
 }
 
 /** タイル 1 枚の建物・道路・鉄道（ワールド座標 m。範囲の外の建物は除く。線は範囲の少し外まで残す） */
@@ -92,14 +124,14 @@ export function urbanFromTile(buf: Uint8Array, z: number, tx: number, ty: number
       const major = cat === '国道' || cat === '都道府県道' || cat === '高速自動車国道等' || widthM >= 7;
       for (const part of f.parts) {
         if (part.length < 2) continue;
-        lines.push({ kind: 'road', widthM, ...(major ? { major } : {}), pts: part.map((p) => xz(p, f.extent)).map((q) => [r1(q.x), r1(q.z)] as [number, number]) });
+        lines.push({ kind: 'road', widthM, ...(major ? { major } : {}), pts: simplifyLine(part.map((p) => xz(p, f.extent))) });
       }
     } else if (f.layer === 'RailCL' && f.type === 2) {
       if (String(f.props['vt_railstate'] ?? '').includes('トンネル')) continue;
       const dbl = String(f.props['vt_sngldbl'] ?? '').includes('複');
       for (const part of f.parts) {
         if (part.length < 2) continue;
-        lines.push({ kind: 'rail', widthM: dbl ? 7 : 4, pts: part.map((p) => xz(p, f.extent)).map((q) => [r1(q.x), r1(q.z)] as [number, number]) });
+        lines.push({ kind: 'rail', widthM: dbl ? 7 : 4, pts: simplifyLine(part.map((p) => xz(p, f.extent))) });
       }
     }
   }

@@ -7,6 +7,7 @@ import { fetchOsm, type OsmJson } from '../../src/editor/geo/overpass';
 import { bboxOf } from '../../src/editor/geo/projection';
 import { tilesCovering, tileUrl } from '../../src/editor/geo/tiles';
 import { GSI_VECTOR_ZOOM, vectorTileUrl, vegSymbolsFromTile, type VegSymbol } from '../../src/editor/geo/vegsym';
+import type { VectorTile } from '../../src/editor/geo/gsiVector';
 import { ROOT } from './maps';
 import { decodePng } from './png-decode';
 
@@ -51,6 +52,36 @@ export async function fetchOsmCached(lat0: number, lon0: number, size: number): 
   const j = await fetchOsm(lat0, lon0, size, { 'User-Agent': 'sounan-sim-tools/0.1' });
   writeFileSync(file, JSON.stringify(j));
   return j;
+}
+
+/** 地理院ベクトルタイル（範囲のタイルを取り、.scratch/geo-cache/ に保存して再取得しない）。市街地・地図記号の取り込み用 */
+export async function fetchVectorTilesCached(lat0: number, lon0: number, size: number): Promise<VectorTile[]> {
+  mkdirSync(CACHE, { recursive: true });
+  const z = GSI_VECTOR_ZOOM;
+  const list = tilesCovering(bboxOf(lat0, lon0, size), z);
+  const out: VectorTile[] = [];
+  let next = 0;
+  const worker = async (): Promise<void> => {
+    while (next < list.length) {
+      const t = list[next++]!;
+      const file = resolve(CACHE, `bv_${z}_${t.x}_${t.y}.pbf`);
+      if (existsSync(file)) {
+        out.push({ x: t.x, y: t.y, buf: readFileSync(file) });
+        continue;
+      }
+      const res = await fetch(vectorTileUrl(z, t.x, t.y), { headers: { 'User-Agent': 'sounan-sim-tools/0.1' } });
+      if (res.status === 404) {
+        out.push({ x: t.x, y: t.y, buf: null });
+        continue;
+      }
+      if (!res.ok) throw new Error(`ベクトルタイルを取得できませんでした（${res.status}）`);
+      const buf = new Uint8Array(await res.arrayBuffer());
+      writeFileSync(file, buf);
+      out.push({ x: t.x, y: t.y, buf });
+    }
+  };
+  await Promise.all([worker(), worker(), worker(), worker()]);
+  return out;
 }
 
 /** 地理院ベクトルタイルの植生記号（範囲のタイルを取り、.scratch/geo-cache/ に保存して再取得しない） */

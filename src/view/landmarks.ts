@@ -154,7 +154,7 @@ function buildTowersAndWires(map: MapRuntime, s: ViewScale, heightAt: (x: number
   if (wirePos.length) {
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.Float32BufferAttribute(wirePos, 3));
-    out.push(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0x3a3d42, transparent: true, opacity: 0.85 })));
+    out.push(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0x60656c, transparent: true, opacity: 0.5 })));
   }
   return out;
 }
