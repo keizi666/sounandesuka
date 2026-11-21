@@ -66,7 +66,6 @@
 .ed-table tr.sel { background: rgba(200, 160, 80, 0.2); }
 .ed-table tr { cursor: pointer; }
 .chip { display: inline-block; padding: 1px 6px; border-radius: 10px; background: var(--panel2); font-size: 0.85em; margin: 1px; }
-.timeline { display: block; width: 100%; cursor: crosshair; background: #1a1d22; }
 .cond { border-left: 2px solid var(--line); padding-left: 8px; margin: 4px 0; }
 .cond-row { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; margin: 2px 0; }
 .cond-row select, .cond-row input { max-width: 12em; }
@@ -108,3 +107,26 @@ textarea.mono { width: 100%; min-height: 60vh; }
 .area-picker-hit { display: block; width: 100%; text-align: left; padding: 5px 9px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--fg); min-height: 0; }
 .area-picker-hit:hover, .area-picker-hit:focus { background: rgba(200, 160, 80, 0.18); }
 .area-picker-hit small { color: var(--muted); }
+/* 天候のタイムライン */
+.wtl { display: flex; flex-direction: column; }
+.wtl-bar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding: 4px 8px; background: var(--panel2); border-bottom: 1px solid var(--line); }
+.wtl-title { cursor: pointer; user-select: none; margin-right: 6px; }
+.wtl-tools { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; flex: 1 1 auto; }
+.wtl-note { flex: 1 1 auto; color: var(--muted); font-size: 0.85em; }
+.ed-bottom .wtl-btn { padding: 2px 9px; min-height: 26px; margin: 0; }
+.wtl-btn:disabled { opacity: 0.4; cursor: default; }
+.wtl-collapse { margin-right: 6px !important; }
+.wtl-sep { width: 1px; height: 18px; background: var(--line); margin: 0 4px; }
+.wtl-rows { position: relative; }
+.wtl-rows > summary { list-style: none; display: inline-block; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
+.wtl-rows > summary::-webkit-details-marker { display: none; }
+.wtl-rows-list { position: absolute; z-index: 5; top: 30px; left: 0; display: grid; grid-template-columns: repeat(2, max-content); gap: 2px 14px; padding: 8px 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); }
+.wtl-rows-list label { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.wtl-help { display: flex; flex-wrap: wrap; gap: 2px 16px; padding: 4px 10px 6px; font-size: 0.82em; color: var(--muted); background: var(--panel); border-bottom: 1px solid var(--line); }
+.wtl-help b { color: var(--fg); margin-right: 5px; font-weight: 600; }
+.wtl-body { position: relative; }
+.wtl-body canvas.wtl-canvas { display: block; outline: none; }
+.wtl-tip { position: absolute; pointer-events: none; padding: 2px 7px; border-radius: 5px; background: rgba(10, 12, 16, 0.9); color: #f1f3f5; font-size: 12px; white-space: nowrap; border: 1px solid rgba(255, 255, 255, 0.15); }
+.wtl-tip[hidden] { display: none; }
+.wtl-scroll { width: calc(100% - 114px); margin: 2px 10px 4px 104px; }
+.wtl-scroll[hidden] { display: none; }

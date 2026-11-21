@@ -1,49 +1,20 @@
 /**
  * 天候のタイムライン（docs/17 §2、Canvas2D）。変数ごとの行に、全変数共通の時刻を持つキーフレームを描く。
- * - 時刻の帯（上端）でキーフレームをドラッグすると時刻が動く。Shift＋ドラッグで範囲選択。
- * - 行の中で上下にドラッグすると、選択中のキーフレームのその変数が変わる（Shift で細かく）。
- * - ダブルクリックでその時刻の補間値からキーフレームを追加、Delete で削除。空いた所のクリックでカーソル時刻。
+ * 上の帯（timelineBar.ts）に追加・削除・拡大・行の選択・操作のしかた・たたむを置く。
+ * - 点を上下にドラッグで値を変える（選んでいなくてよい。Shift で細かく）。いちばん上の四角を左右にドラッグで時刻を動かす
+ * - 空いた所のクリックで時刻を合わせる（緑の線）、ダブルクリックで追加、Delete で削除、上の帯を Shift＋ドラッグでまとめて選ぶ
+ * - Ctrl＋ホイールで拡大・縮小、Shift＋ホイール（横スクロール）か下のつまみで左右に動かす。ふつうのホイールは下の欄のスクロール
+ * - ポインタを載せると、その時刻とその行の値を吹き出しで出す
  */
-import { formatClock, formatTimeRef, parseTimeRef } from '../../sim/core/clock';
+import { formatTimeRef, parseTimeRef } from '../../sim/core/clock';
 import type { WeatherDef, WeatherKeyframe } from '../../sim/types';
 import { interpolateKeyframes } from '../../sim/weather/global';
+import { el } from '../../ui/dom';
+import { buildBar, loadPrefs, savePrefs, type TimelinePrefs } from './timelineBar';
+import { drawTimeline } from './timelineDraw';
+import { DRAG_FULL_PX, HIT_PX, LEFT, RIGHT, ROW_H, ROWS, TOP, type RowDef, type TimelineMarks } from './timelineRows';
 
-export interface RowDef {
-  key: keyof WeatherKeyframe | 'cloud';
-  label: string;
-  min: number;
-  max: number;
-  log?: boolean;
-  fmt: (v: number) => string;
-  step: number;
-}
-
-export const ROWS: RowDef[] = [
-  { key: 'tempC', label: '気温（基準）', min: -20, max: 30, fmt: (v) => `${v.toFixed(1)}℃`, step: 0.5 },
-  { key: 'windMs', label: '風速', min: 0, max: 30, fmt: (v) => `${v.toFixed(1)} m/s`, step: 0.5 },
-  { key: 'windDirDeg', label: '風向', min: 0, max: 360, fmt: (v) => `${Math.round(v)}°`, step: 5 },
-  { key: 'precipMmH', label: '降水', min: 0, max: 20, fmt: (v) => `${v.toFixed(1)} mm/h`, step: 0.5 },
-  { key: 'cloudCover', label: '雲量', min: 0, max: 1, fmt: (v) => `${Math.round(v * 100)}%`, step: 0.05 },
-  { key: 'cloudBaseM', label: '雲底', min: 500, max: 4500, fmt: (v) => `${Math.round(v)} m`, step: 50 },
-  { key: 'visibilityM', label: '視程', min: 30, max: 40000, log: true, fmt: (v) => `${Math.round(v)} m`, step: 1 },
-  { key: 'thunder', label: '雷', min: 0, max: 1, fmt: (v) => v.toFixed(2), step: 0.05 },
-  { key: 'pressureHpa', label: '気圧', min: 960, max: 1040, fmt: (v) => `${Math.round(v)} hPa`, step: 1 },
-  { key: 'gustiness', label: '突風', min: 0, max: 1, fmt: (v) => v.toFixed(2), step: 0.05 },
-];
-
-const LEFT = 86;
-const TOP = 22;
-const ROW_H = 40;
-
-export interface TimelineMarks {
-  sunrise: number[];
-  sunset: number[];
-  choices: { tMin: number; label: string }[];
-  events: { tMin: number; label: string }[];
-  /** 雲底の行に引く地点の標高 */
-  nodeElevs: { name: string; elevM: number }[];
-  cells: { id: string; from: number; peak: number; to: number }[];
-}
+export { ROWS, type RowDef, type TimelineMarks } from './timelineRows';
 
 export interface TimelineHandlers {
   /** キーフレームの変更（Undo の単位は呼び出し側）。end=true でドラッグの終わり */
@@ -52,7 +23,11 @@ export interface TimelineHandlers {
   cursor(tMin: number): void;
 }
 
+type Drag = { kind: 'time' | 'value' | 'range' | 'pan'; idx: number; row: number; x0: number; y0: number; startT: number; v0: [number, number]; orig: WeatherKeyframe[]; moved: boolean };
+
 export class Timeline {
+  /** 上の帯・本体・つまみをまとめた要素（下の欄に置く） */
+  readonly root: HTMLElement;
   readonly canvas: HTMLCanvasElement;
   t0 = 0;
   t1 = 1440;
@@ -61,306 +36,389 @@ export class Timeline {
   cursorMin = 0;
   private w: WeatherDef | null = null;
   private marks: TimelineMarks = { sunrise: [], sunset: [], choices: [], events: [], nodeElevs: [], cells: [] };
+  /** 表示している時刻の範囲（拡大中は t0..t1 の一部） */
+  private v0 = 0;
+  private v1 = 1440;
+  private prefs: TimelinePrefs = loadPrefs();
+  private barHost = el('div');
+  private body: HTMLElement;
+  private tip = el('div', { class: 'wtl-tip', hidden: true });
+  private scroller = el('input', { type: 'range', class: 'wtl-scroll', min: 0, max: 1000, value: 0, title: '左右に動かす' });
 
   constructor(private h: TimelineHandlers) {
     this.canvas = document.createElement('canvas');
-    this.canvas.className = 'timeline';
+    this.canvas.className = 'wtl-canvas';
     this.canvas.tabIndex = 0;
+    this.body = el('div', { class: 'wtl-body' }, [this.canvas, this.tip]);
+    this.root = el('div', { class: 'wtl' }, [this.barHost, this.body, this.scroller]);
+    this.scroller.addEventListener('input', () => {
+      const span = this.v1 - this.v0;
+      const free = this.t1 - this.t0 - span;
+      this.v0 = this.t0 + (free * Number(this.scroller.value)) / 1000;
+      this.v1 = this.v0 + span;
+      this.draw();
+    });
+    new ResizeObserver(() => this.draw()).observe(this.body);
     this.bind();
   }
 
   set(w: WeatherDef, range: [number, number], marks: TimelineMarks): void {
+    const rangeChanged = range[0] !== this.t0 || range[1] !== this.t1;
     this.w = w;
     [this.t0, this.t1] = range;
+    if (rangeChanged || this.v1 <= this.v0) [this.v0, this.v1] = range;
+    this.clampView();
     this.marks = marks;
+    this.renderBar();
     this.draw();
   }
 
+  // ---- 上の帯 ----
+  private renderBar(): void {
+    const p = this.prefs;
+    const cursorLabel = formatTimeRef(Math.round(this.cursorMin));
+    this.barHost.replaceChildren(
+      buildBar(ROWS, { collapsed: p.collapsed, help: p.help, rows: p.rows, selectedCount: this.selected.length, zoomed: this.zoomed(), cursorLabel }, {
+        add: () => this.addAt(this.cursorMin),
+        remove: () => this.removeSelected(),
+        zoom: (f) => this.zoomAround((this.v0 + this.v1) / 2, f),
+        fit: () => {
+          [this.v0, this.v1] = [this.t0, this.t1];
+          this.refreshView();
+        },
+        toggleCollapse: () => this.update({ collapsed: !p.collapsed }),
+        toggleHelp: () => this.update({ help: !p.help }),
+        setRows: (rows) => this.update({ rows }),
+      }),
+    );
+    this.body.hidden = p.collapsed;
+    this.scroller.hidden = p.collapsed || !this.zoomed();
+    this.scroller.value = String(this.zoomed() ? Math.round(((this.v0 - this.t0) / (this.t1 - this.t0 - (this.v1 - this.v0))) * 1000) : 0);
+  }
+
+  private update(p: Partial<TimelinePrefs>): void {
+    this.prefs = { ...this.prefs, ...p };
+    savePrefs(this.prefs);
+    this.renderBar();
+    this.draw();
+  }
+
+  private zoomed(): boolean {
+    return this.v1 - this.v0 < this.t1 - this.t0 - 1;
+  }
+  private clampView(): void {
+    const full = this.t1 - this.t0;
+    let span = Math.min(full, Math.max(60, this.v1 - this.v0));
+    if (!Number.isFinite(span) || span <= 0) span = full;
+    this.v0 = Math.min(this.t1 - span, Math.max(this.t0, this.v0));
+    this.v1 = this.v0 + span;
+  }
+  private zoomAround(t: number, f: number): void {
+    const span = (this.v1 - this.v0) * f;
+    const k = (t - this.v0) / (this.v1 - this.v0);
+    this.v0 = t - span * k;
+    this.v1 = this.v0 + span;
+    this.refreshView();
+  }
+  private refreshView(): void {
+    this.clampView();
+    this.renderBar();
+    this.draw();
+  }
+
+  // ---- 座標 ----
+  private rows(): RowDef[] {
+    return ROWS.filter((r) => this.prefs.rows.includes(r.key as string));
+  }
   private get width(): number {
-    return this.canvas.clientWidth || 800;
+    return this.body.clientWidth || 800;
   }
   private X(t: number): number {
-    return LEFT + ((t - this.t0) / Math.max(1, this.t1 - this.t0)) * (this.width - LEFT - 8);
+    return LEFT + ((t - this.v0) / Math.max(1, this.v1 - this.v0)) * (this.width - LEFT - RIGHT);
   }
   private T(x: number): number {
-    return this.t0 + ((x - LEFT) / (this.width - LEFT - 8)) * (this.t1 - this.t0);
+    return this.v0 + ((x - LEFT) / (this.width - LEFT - RIGHT)) * (this.v1 - this.v0);
   }
   private Y(row: number, r: RowDef, v: number): number {
     const f = r.log ? Math.log(Math.max(r.min, v) / r.min) / Math.log(r.max / r.min) : (v - r.min) / (r.max - r.min);
-    return TOP + row * ROW_H + ROW_H - 4 - Math.max(0, Math.min(1, f)) * (ROW_H - 8);
+    return TOP + row * ROW_H + ROW_H - 5 - Math.max(0, Math.min(1, f)) * (ROW_H - 10);
   }
   private V(row: number, r: RowDef, y: number): number {
-    const f = Math.max(0, Math.min(1, (TOP + row * ROW_H + ROW_H - 4 - y) / (ROW_H - 8)));
+    const f = Math.max(0, Math.min(1, (TOP + row * ROW_H + ROW_H - 5 - y) / (ROW_H - 10)));
     return r.log ? r.min * (r.max / r.min) ** f : r.min + f * (r.max - r.min);
   }
-  private times(): number[] {
-    return (this.w?.keyframes ?? []).map((k) => parseTimeRef(k.at));
+  private sorted(): { t: number; kf: WeatherKeyframe; i: number }[] {
+    return (this.w?.keyframes ?? []).map((kf, i) => ({ t: parseTimeRef(kf.at), kf, i })).sort((a, b) => a.t - b.t);
+  }
+  private value(kf: WeatherKeyframe, r: RowDef): number | undefined {
+    return (kf as unknown as Record<string, number | undefined>)[r.key as string];
+  }
+  /** その点の画面の位置（風向は行の真ん中） */
+  private pointY(row: number, r: RowDef, v: number): number {
+    return r.key === 'windDirDeg' ? TOP + row * ROW_H + ROW_H / 2 : this.Y(row, r, v);
   }
 
   draw(): void {
+    if (this.prefs.collapsed) return;
     const c = this.canvas;
+    const rows = this.rows();
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const W = this.width;
-    const H = TOP + ROWS.length * ROW_H + 18;
+    const H = TOP + rows.length * ROW_H + 18;
+    c.style.width = `${W}px`;
     c.style.height = `${H}px`;
     c.width = Math.round(W * dpr);
     c.height = Math.round(H * dpr);
     const g = c.getContext('2d');
     if (!g || !this.w) return;
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
-    g.fillStyle = '#1a1d22';
-    g.fillRect(0, 0, W, H);
-    g.font = '11px system-ui';
-    // 夜の帯
-    for (let i = 0; i < this.marks.sunset.length; i += 1) {
-      const a = this.marks.sunset[i]!;
-      const b = this.marks.sunrise.find((x) => x > a) ?? this.t1;
-      g.fillStyle = 'rgba(40,50,90,0.35)';
-      g.fillRect(this.X(a), TOP, this.X(b) - this.X(a), ROWS.length * ROW_H);
-    }
-    // 時刻軸
-    g.fillStyle = '#aaa';
-    const step = this.t1 - this.t0 > 1800 ? 180 : 60;
-    for (let t = Math.ceil(this.t0 / step) * step; t <= this.t1; t += step) {
-      const x = this.X(t);
-      g.fillText(t % 1440 === 0 ? `D${t / 1440}` : formatClock(t % 1440), x - 12, 12);
-      g.strokeStyle = 'rgba(255,255,255,0.06)';
-      g.beginPath();
-      g.moveTo(x, TOP);
-      g.lineTo(x, TOP + ROWS.length * ROW_H);
-      g.stroke();
-    }
-    const kfs = [...this.w.keyframes].map((kf) => ({ t: parseTimeRef(kf.at), kf })).sort((a, b) => a.t - b.t);
-    const ghost = this.ghost ? this.ghost.map((kf) => ({ t: parseTimeRef(kf.at), kf })).sort((a, b) => a.t - b.t) : null;
-    ROWS.forEach((r, row) => {
-      const y0 = TOP + row * ROW_H;
-      g.fillStyle = row % 2 ? '#1f2329' : '#22262d';
-      g.fillRect(LEFT, y0, W - LEFT, ROW_H);
-      g.fillStyle = '#ccc';
-      g.fillText(r.label, 4, y0 + 16);
-      if (kfs.length === 0) return;
-      // 雲底の行: 主要地点の標高
-      if (r.key === 'cloudBaseM') {
-        for (const n of this.marks.nodeElevs) {
-          const y = this.Y(row, r, n.elevM);
-          g.strokeStyle = 'rgba(120,200,255,0.35)';
-          g.setLineDash([3, 3]);
-          g.beginPath();
-          g.moveTo(LEFT, y);
-          g.lineTo(W, y);
-          g.stroke();
-          g.setLineDash([]);
-          g.fillStyle = 'rgba(120,200,255,0.8)';
-          g.fillText(n.name, W - 70, y - 2);
-        }
-      }
-      // 雷の行: セルの包絡
-      if (r.key === 'thunder') {
-        for (const cl of this.marks.cells) {
-          g.fillStyle = 'rgba(168,85,247,0.35)';
-          g.beginPath();
-          g.moveTo(this.X(cl.from), y0 + ROW_H - 4);
-          g.lineTo(this.X(cl.peak), y0 + 6);
-          g.lineTo(this.X(cl.to), y0 + ROW_H - 4);
-          g.fill();
-          g.fillStyle = '#d8b4fe';
-          g.fillText(cl.id, this.X(cl.peak) + 3, y0 + 14);
-        }
-      }
-      const line = (list: { t: number; kf: WeatherKeyframe }[], color: string, dash: number[]): void => {
-        g.strokeStyle = color;
-        g.setLineDash(dash);
-        g.lineWidth = 1.5;
-        g.beginPath();
-        for (let x = LEFT; x <= W - 8; x += 3) {
-          const b = interpolateKeyframes(list, this.T(x)) as unknown as Record<string, number>;
-          const v = b[r.key as string] ?? 0;
-          const y = this.Y(row, r, v);
-          if (x === LEFT) g.moveTo(x, y);
-          else g.lineTo(x, y);
-        }
-        g.stroke();
-        g.setLineDash([]);
-        g.lineWidth = 1;
-      };
-      if (r.key === 'precipMmH') {
-        // 棒
-        for (let x = LEFT; x <= W - 8; x += 4) {
-          const v = interpolateKeyframes(kfs, this.T(x)).precipMmH;
-          const y = this.Y(row, r, v);
-          g.fillStyle = 'rgba(80,140,230,0.7)';
-          g.fillRect(x, y, 3, y0 + ROW_H - 4 - y);
-        }
-      } else line(kfs, '#e5e7eb', []);
-      if (ghost) line(ghost, 'rgba(250,204,21,0.9)', [4, 3]);
-      // 点
-      kfs.forEach((k, i) => {
-        const v = (k.kf as unknown as Record<string, number | undefined>)[r.key as string];
-        if (v === undefined) return;
-        const x = this.X(k.t);
-        const y = this.Y(row, r, v);
-        g.fillStyle = this.selected.includes(this.indexOf(k.kf)) ? '#facc15' : '#93c5fd';
-        if (r.key === 'windDirDeg') {
-          // 風が吹いてくる方向から矢印
-          const a = ((v + 180) * Math.PI) / 180;
-          g.strokeStyle = g.fillStyle;
-          g.beginPath();
-          g.moveTo(x - Math.sin(a) * 8, y0 + ROW_H / 2 + Math.cos(a) * 8);
-          g.lineTo(x + Math.sin(a) * 8, y0 + ROW_H / 2 - Math.cos(a) * 8);
-          g.stroke();
-          g.beginPath();
-          g.arc(x + Math.sin(a) * 8, y0 + ROW_H / 2 - Math.cos(a) * 8, 2.5, 0, Math.PI * 2);
-          g.fill();
-        } else {
-          g.beginPath();
-          g.arc(x, y, 3.5, 0, Math.PI * 2);
-          g.fill();
-        }
-        void i;
-      });
+    drawTimeline(g, W, H, rows, {
+      kfs: this.sorted(),
+      ghost: this.ghost,
+      marks: this.marks,
+      selected: this.selected,
+      cursorMin: this.cursorMin,
+      t1: this.t1,
+      v0: this.v0,
+      v1: this.v1,
+      X: (t) => this.X(t),
+      T: (x) => this.T(x),
+      Y: (row, r, val) => this.Y(row, r, val),
+      value: (kf, r) => this.value(kf, r),
     });
-    // キーフレームの縦線と時刻の帯
-    for (const k of kfs) {
-      const x = this.X(k.t);
-      const sel = this.selected.includes(this.indexOf(k.kf));
-      g.strokeStyle = sel ? 'rgba(250,204,21,0.9)' : 'rgba(147,197,253,0.4)';
-      g.beginPath();
-      g.moveTo(x, TOP - 6);
-      g.lineTo(x, TOP + ROWS.length * ROW_H);
-      g.stroke();
-      g.fillStyle = sel ? '#facc15' : '#93c5fd';
-      g.fillRect(x - 4, TOP - 8, 8, 8);
-    }
-    // 目印: 分岐点・イベント・カーソル
-    const by = TOP + ROWS.length * ROW_H + 12;
-    for (const m of this.marks.choices) {
-      g.fillStyle = '#c8a050';
-      g.fillText('◆', this.X(m.tMin) - 4, by);
-    }
-    for (const m of this.marks.events) {
-      g.fillStyle = '#ef4444';
-      g.fillText('●', this.X(m.tMin) - 3, by);
-    }
-    g.strokeStyle = '#22c55e';
-    g.beginPath();
-    g.moveTo(this.X(this.cursorMin), TOP);
-    g.lineTo(this.X(this.cursorMin), TOP + ROWS.length * ROW_H);
-    g.stroke();
   }
 
-  private indexOf(kf: WeatherKeyframe): number {
-    return this.w?.keyframes.indexOf(kf) ?? -1;
-  }
-
-  private hitKf(x: number): number {
-    const ts = this.times();
+  // ---- 当たり判定 ----
+  private hitSquare(x: number): number {
     let best = -1;
-    let bd = 6;
-    ts.forEach((t, i) => {
-      const d = Math.abs(this.X(t) - x);
+    let bd = 7;
+    for (const k of this.sorted()) {
+      const d = Math.abs(this.X(k.t) - x);
       if (d < bd) {
         bd = d;
-        best = i;
+        best = k.i;
       }
-    });
+    }
+    return best;
+  }
+  private hitPoint(x: number, y: number): { idx: number; row: number } | null {
+    const rows = this.rows();
+    const row = Math.floor((y - TOP) / ROW_H);
+    const r = rows[row];
+    if (!r) return null;
+    let best: { idx: number; row: number } | null = null;
+    let bd = HIT_PX;
+    for (const k of this.sorted()) {
+      const v = this.value(k.kf, r);
+      if (v === undefined) continue;
+      const d = Math.hypot(this.X(k.t) - x, this.pointY(row, r, v) - y);
+      if (d < bd) {
+        bd = d;
+        best = { idx: k.i, row };
+      }
+    }
     return best;
   }
 
+  // ---- 編集 ----
+  addAt(tMin: number): void {
+    if (!this.w) return;
+    const t = Math.max(0, Math.round(tMin / 5) * 5);
+    if (this.w.keyframes.some((k) => parseTimeRef(k.at) === t)) {
+      this.selected = [this.w.keyframes.findIndex((k) => parseTimeRef(k.at) === t)];
+      this.h.select(this.selected);
+      return;
+    }
+    const b = interpolateKeyframes(this.w.keyframes.map((kf) => ({ t: parseTimeRef(kf.at), kf })), t);
+    const kf: WeatherKeyframe = {
+      at: formatTimeRef(t),
+      tempC: Math.round(b.tempC * 10) / 10,
+      windMs: Math.round(b.windMs * 10) / 10,
+      windDirDeg: Math.round(b.windDirDeg),
+      precipMmH: Math.round(b.precipMmH * 10) / 10,
+      cloudCover: Math.round(b.cloudCover * 100) / 100,
+      cloudBaseM: Math.round(b.cloudBaseM),
+      visibilityM: Math.round(b.visibilityM),
+      pressureHpa: Math.round(b.pressureHpa),
+    };
+    if (b.thunder > 0) kf.thunder = Math.round(b.thunder * 100) / 100;
+    const kfs = [...structuredClone(this.w.keyframes), kf].sort((x, y) => parseTimeRef(x.at) - parseTimeRef(y.at));
+    this.selected = [kfs.findIndex((x) => x.at === kf.at)];
+    this.h.edit(kfs, 'キーフレームの追加', true);
+    this.h.select(this.selected);
+  }
+
+  removeSelected(): void {
+    if (!this.w || this.selected.length === 0) return;
+    const kfs = this.w.keyframes.filter((_, i) => !this.selected.includes(i));
+    if (kfs.length === 0) return;
+    this.selected = [];
+    this.h.edit(kfs, 'キーフレームの削除', true);
+    this.h.select([]);
+  }
+
+  private showTip(x: number, y: number, text: string | null): void {
+    if (!text) {
+      this.tip.hidden = true;
+      return;
+    }
+    this.tip.hidden = false;
+    this.tip.textContent = text;
+    const w = this.tip.offsetWidth;
+    this.tip.style.left = `${Math.min(this.width - w - 4, x + 14)}px`;
+    this.tip.style.top = `${Math.max(0, y - 30)}px`;
+  }
+
+  private hover(x: number, y: number): void {
+    if (!this.w) return;
+    const rows = this.rows();
+    const tLabel = formatTimeRef(Math.round(this.T(x)));
+    if (x < LEFT) {
+      this.canvas.style.cursor = 'default';
+      return this.showTip(x, y, null);
+    }
+    if (y < TOP) {
+      const i = this.hitSquare(x);
+      this.canvas.style.cursor = i >= 0 ? 'ew-resize' : this.zoomed() ? 'grab' : 'pointer';
+      return this.showTip(x, y, i >= 0 ? `キーフレーム ${this.w.keyframes[i]!.at}（左右にドラッグで時刻を動かす）` : tLabel);
+    }
+    const p = this.hitPoint(x, y);
+    if (p) {
+      const r = rows[p.row]!;
+      const v = this.value(this.w.keyframes[p.idx]!, r)!;
+      this.canvas.style.cursor = 'ns-resize';
+      return this.showTip(x, y, `${r.label} ${r.fmt(v)}（${this.w.keyframes[p.idx]!.at}）上下にドラッグで変える`);
+    }
+    const r = rows[Math.floor((y - TOP) / ROW_H)];
+    this.canvas.style.cursor = 'crosshair';
+    if (!r) return this.showTip(x, y, tLabel);
+    const v = (interpolateKeyframes(this.sorted(), this.T(x)) as unknown as Record<string, number>)[r.key as string] ?? 0;
+    this.showTip(x, y, `${tLabel}　${r.label} ${r.fmt(v)}`);
+  }
+
   private bind(): void {
-    let drag: null | { kind: 'time' | 'value' | 'range'; idx: number; row: number; x0: number; y0: number; startT: number; orig: WeatherKeyframe[]; moved: boolean } = null;
+    let drag: Drag | null = null;
     const pos = (e: MouseEvent): { x: number; y: number } => {
       const r = this.canvas.getBoundingClientRect();
       return { x: e.clientX - r.left, y: e.clientY - r.top };
     };
+    const mk = (kind: Drag['kind'], idx: number, row: number, x: number, y: number, startT: number): Drag => ({ kind, idx, row, x0: x, y0: y, startT, v0: [this.v0, this.v1], orig: structuredClone(this.w!.keyframes), moved: false });
+    const select = (idx: number): void => {
+      this.selected = [idx];
+      this.h.select(this.selected);
+    };
     this.canvas.addEventListener('pointerdown', (e) => {
-      if (!this.w) return;
+      if (!this.w || e.button !== 0) return;
+      this.canvas.focus();
       const { x, y } = pos(e);
-      const row = Math.floor((y - TOP) / ROW_H);
-      const idx = this.hitKf(x);
-      const orig = structuredClone(this.w.keyframes);
+      if (x < LEFT) return;
       if (y < TOP) {
-        if (e.shiftKey) drag = { kind: 'range', idx: -1, row: -1, x0: x, y0: y, startT: this.T(x), orig, moved: false };
+        const idx = this.hitSquare(x);
+        if (e.shiftKey) drag = mk('range', -1, -1, x, y, this.T(x));
         else if (idx >= 0) {
-          drag = { kind: 'time', idx, row: -1, x0: x, y0: y, startT: this.times()[idx]!, orig, moved: false };
-          this.selected = [idx];
-          this.h.select(this.selected);
-        }
-      } else if (row >= 0 && row < ROWS.length && this.selected.length === 1) {
-        const sel = this.selected[0]!;
-        if (idx === sel || idx < 0) drag = { kind: 'value', idx: sel, row, x0: x, y0: y, startT: 0, orig, moved: false };
-      }
-      if (drag) this.canvas.setPointerCapture(e.pointerId);
-      else if (idx >= 0) {
-        this.selected = [idx];
-        this.h.select(this.selected);
-        this.draw();
+          drag = mk('time', idx, -1, x, y, parseTimeRef(this.w.keyframes[idx]!.at));
+          select(idx);
+        } else drag = mk('pan', -1, -1, x, y, 0);
       } else {
-        this.cursorMin = Math.round(this.T(x));
-        this.h.cursor(this.cursorMin);
-        this.draw();
+        const p = this.hitPoint(x, y);
+        if (p) {
+          drag = mk('value', p.idx, p.row, x, y, 0);
+          select(p.idx);
+        } else drag = mk('pan', -1, -1, x, y, 0);
       }
+      this.canvas.setPointerCapture(e.pointerId);
     });
     this.canvas.addEventListener('pointermove', (e) => {
-      if (!drag || !this.w) return;
       const { x, y } = pos(e);
-      if (Math.abs(x - drag.x0) + Math.abs(y - drag.y0) > 2) drag.moved = true;
+      if (!drag || !this.w) return this.hover(x, y);
+      if (Math.abs(x - drag.x0) + Math.abs(y - drag.y0) > 3) drag.moved = true;
       if (!drag.moved) return;
+      if (drag.kind === 'pan') {
+        if (!this.zoomed()) return;
+        const dt = ((drag.x0 - x) / (this.width - LEFT - RIGHT)) * (drag.v0[1] - drag.v0[0]);
+        [this.v0, this.v1] = [drag.v0[0] + dt, drag.v0[1] + dt];
+        this.canvas.style.cursor = 'grabbing';
+        return this.refreshView();
+      }
       const kfs = structuredClone(drag.orig);
       if (drag.kind === 'time') {
         const t = Math.max(0, Math.round((drag.startT + (this.T(x) - this.T(drag.x0))) / 5) * 5);
         kfs[drag.idx]!.at = formatTimeRef(t);
+        this.showTip(x, y, `${formatTimeRef(t)} へ`);
         this.h.edit(kfs, 'キーフレームの時刻', false);
       } else if (drag.kind === 'value') {
-        const r = ROWS[drag.row]!;
+        const r = this.rows()[drag.row]!;
         const k = kfs[drag.idx]! as unknown as Record<string, number>;
-        const startV = k[r.key as string] ?? this.V(drag.row, r, drag.y0);
-        const target = this.V(drag.row, r, y);
-        let v = e.shiftKey ? startV + (target - startV) * 0.2 : target;
+        let v: number;
+        if (r.key === 'windDirDeg') {
+          // 風向は上下のドラッグで回す（上へ 1 px で 2°）
+          v = ((((k[r.key] ?? 0) + (drag.y0 - y) * 2) % 360) + 360) % 360;
+        } else {
+          // 動かした量で値を変える（DRAG_FULL_PX で目盛りの全幅。Shift で 5 分の 1）。行の高さに関係なく細かく合わせられる
+          const startV = k[r.key as string] ?? this.V(drag.row, r, drag.y0);
+          const f0 = r.log ? Math.log(Math.max(r.min, startV) / r.min) / Math.log(r.max / r.min) : (startV - r.min) / (r.max - r.min);
+          const f = Math.max(0, Math.min(1, f0 + ((drag.y0 - y) / DRAG_FULL_PX) * (e.shiftKey ? 0.2 : 1)));
+          v = r.log ? r.min * (r.max / r.min) ** f : r.min + f * (r.max - r.min);
+        }
         v = r.log ? Math.round(v) : Math.round(v / r.step) * r.step;
         k[r.key as string] = Math.max(r.min, Math.min(r.max, v));
-        this.h.edit(kfs, `${r.label}`, false);
+        this.showTip(x, y, `${r.label} ${r.fmt(k[r.key as string]!)}`);
+        this.h.edit(kfs, r.label, false);
       } else {
         const a = Math.min(drag.startT, this.T(x));
         const b = Math.max(drag.startT, this.T(x));
-        this.selected = this.times().flatMap((t, i) => (t >= a && t <= b ? [i] : []));
+        this.selected = this.sorted().flatMap((k) => (k.t >= a && k.t <= b ? [k.i] : []));
         this.h.select(this.selected);
         this.draw();
       }
     });
-    this.canvas.addEventListener('pointerup', () => {
-      if (drag?.moved && drag.kind !== 'range' && this.w) this.h.edit(this.w.keyframes, drag.kind === 'time' ? 'キーフレームの時刻' : '値', true);
+    this.canvas.addEventListener('pointerup', (e) => {
+      const d = drag;
       drag = null;
+      if (!d || !this.w) return;
+      if (d.moved && (d.kind === 'time' || d.kind === 'value')) this.h.edit(this.w.keyframes, d.kind === 'time' ? 'キーフレームの時刻' : '値', true);
+      if (!d.moved && d.kind === 'pan') {
+        // 空いた所のクリック: 時刻を合わせる（選択は外す）
+        this.cursorMin = Math.round(this.T(pos(e).x));
+        this.selected = [];
+        this.h.select([]);
+        this.h.cursor(this.cursorMin);
+        this.renderBar();
+        this.draw();
+      }
+      this.hover(pos(e).x, pos(e).y);
     });
+    this.canvas.addEventListener('pointerleave', () => this.showTip(0, 0, null));
     this.canvas.addEventListener('dblclick', (e) => {
-      if (!this.w) return;
-      const t = Math.round(this.T(pos(e).x) / 5) * 5;
-      const b = interpolateKeyframes(this.w.keyframes.map((kf) => ({ t: parseTimeRef(kf.at), kf })), t);
-      const kf: WeatherKeyframe = {
-        at: formatTimeRef(t),
-        tempC: Math.round(b.tempC * 10) / 10,
-        windMs: Math.round(b.windMs * 10) / 10,
-        windDirDeg: Math.round(b.windDirDeg),
-        precipMmH: Math.round(b.precipMmH * 10) / 10,
-        cloudCover: Math.round(b.cloudCover * 100) / 100,
-        cloudBaseM: Math.round(b.cloudBaseM),
-        visibilityM: Math.round(b.visibilityM),
-        pressureHpa: Math.round(b.pressureHpa),
-      };
-      if (b.thunder > 0) kf.thunder = Math.round(b.thunder * 100) / 100;
-      const kfs = [...structuredClone(this.w.keyframes), kf].sort((x, y) => parseTimeRef(x.at) - parseTimeRef(y.at));
-      this.selected = [kfs.findIndex((x) => x.at === kf.at)];
-      this.h.edit(kfs, 'キーフレームの追加', true);
-      this.h.select(this.selected);
+      const { x, y } = pos(e);
+      if (x < LEFT || this.hitPoint(x, y) || (y < TOP && this.hitSquare(x) >= 0)) return;
+      this.addAt(this.T(x));
     });
     this.canvas.addEventListener('keydown', (e) => {
-      if ((e.key === 'Delete' || e.key === 'Backspace') && this.w && this.selected.length > 0) {
-        const kfs = this.w.keyframes.filter((_, i) => !this.selected.includes(i));
-        if (kfs.length === 0) return;
-        this.selected = [];
-        this.h.edit(kfs, 'キーフレームの削除', true);
-        this.h.select([]);
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        this.removeSelected();
         e.preventDefault();
+        e.stopPropagation();
       }
     });
+    this.canvas.addEventListener(
+      'wheel',
+      (e) => {
+        const { x } = pos(e);
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          this.zoomAround(this.T(Math.max(LEFT, x)), e.deltaY > 0 ? 1.25 : 0.8);
+        } else if (this.zoomed() && (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY))) {
+          e.preventDefault();
+          const d = (e.shiftKey ? e.deltaY : e.deltaX) || e.deltaX;
+          const dt = (d / (this.width - LEFT - RIGHT)) * (this.v1 - this.v0);
+          this.v0 += dt;
+          this.v1 += dt;
+          this.refreshView();
+        }
+        // それ以外（ふつうのホイール）は下の欄のスクロール
+      },
+      { passive: false },
+    );
   }
 }

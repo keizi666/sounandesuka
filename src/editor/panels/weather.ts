@@ -104,7 +104,7 @@ function drawTimeline(ed: Ed): void {
 
 function kfInspector(ed: Ed): HTMLElement | null {
   const w = ed.p.scenario.weather;
-  if (selected.length === 0) return el('p', { class: 'note' }, 'タイムラインのキーフレーム（上端の四角）をクリックすると編集できます。ダブルクリックで追加、Delete で削除、Shift＋ドラッグで範囲選択。');
+  if (selected.length === 0) return el('p', { class: 'note' }, '下のタイムラインの点か、いちばん上の四角をクリックすると、ここで数値を打ち込んで編集できます。操作のしかたはタイムラインの「？ 操作のしかた」で出せます。');
   if (selected.length > 1) {
     let delta = 1;
     let shift = 30;
@@ -434,7 +434,7 @@ export const weatherPanel: Panel = {
       ], false),
     );
     const t = timeline(ed);
-    if (t.canvas.parentElement !== ed.bottom) ed.bottom.replaceChildren(t.canvas);
+    if (t.root.parentElement !== ed.bottom) ed.bottom.replaceChildren(t.root);
     requestAnimationFrame(() => drawTimeline(ed));
     drawTimeline(ed);
     void interpolateKeyframes;
