@@ -44,6 +44,8 @@ export interface Capture {
   afterRender(): void;
   /** いまの画面を PNG にする（UI ごと。できなければ 3D の画面に帯を重ねた合成） */
   snap(): Promise<Blob>;
+  /** 次に描いた直後の 3D の画面（UI・帯なし）の写し（共有のカードの画像に使う） */
+  frame(): Promise<HTMLCanvasElement>;
   /** 録画を始める（できなければ理由の文） */
   start(onAutoStop: (r: RecordResult) => void): Promise<string | null>;
   stop(): Promise<RecordResult | null>;
@@ -133,6 +135,7 @@ export function createCapture(canvas: HTMLCanvasElement, info: CaptureInfo): Cap
   const out = document.createElement('canvas');
   const ctx = out.getContext('2d');
   let snapWait: ((b: Blob) => void)[] = [];
+  let frameWait: ((c: HTMLCanvasElement) => void)[] = [];
   /** display: タブの画面共有（UI ごと）/ canvas: 3D の画面に帯を重ねた合成（画面共有ができないとき） */
   let rec: Rec | null = null;
 
@@ -203,6 +206,15 @@ export function createCapture(canvas: HTMLCanvasElement, info: CaptureInfo): Cap
 
   return {
     afterRender() {
+      if (frameWait.length > 0) {
+        const waiting = frameWait;
+        frameWait = [];
+        const c = document.createElement('canvas');
+        c.width = canvas.width;
+        c.height = canvas.height;
+        c.getContext('2d')?.drawImage(canvas, 0, 0);
+        for (const f of waiting) f(c);
+      }
       if (snapWait.length > 0) {
         const waiting = snapWait;
         snapWait = [];
@@ -212,6 +224,9 @@ export function createCapture(canvas: HTMLCanvasElement, info: CaptureInfo): Cap
         }, 'image/png');
       }
       if (rec?.mode === 'canvas') draw(info.quality());
+    },
+    frame() {
+      return new Promise<HTMLCanvasElement>((ok) => frameWait.push(ok));
     },
     async snap() {
       // UI ごと（タブの画面共有）。断られた・できないときは、3D の画面に帯を重ねた合成

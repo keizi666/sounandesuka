@@ -45,7 +45,7 @@ function runCard(app: AppContext, r: RunSummary): HTMLElement {
       r.mine ? el('span', { class: 'cm-mine' }, C.mine) : null,
     ]),
     el('div', { class: 'cm-card-scn' }, [icon('landscape'), el('span', {}, r.scenarioTitle)]),
-    el('div', { class: 'cm-card-end' }, [el('span', { class: 'cm-end-badge' }, r.endingTitle || (JA.endings[r.ending]?.title ?? r.ending)), r.conditions ? el('span', { class: 'cm-tag' }, C.conditionsTried) : null]),
+    el('div', { class: 'cm-card-end' }, [el('span', { class: 'cm-end-badge' }, r.endingTitle || (JA.endings[r.ending]?.title ?? r.ending)), r.difficulty ? el('span', { class: `df-tag df-${r.difficulty}` }, JA.difficulty.label[r.difficulty] ?? r.difficulty) : null, r.conditions ? el('span', { class: 'cm-tag' }, C.conditionsTried) : null]),
     el('div', { class: 'cm-card-facts' }, [
       el('span', {}, [icon('timer'), hm(r.durationMin)]),
       el('span', {}, [icon('thermostat'), `${r.minCoreC.toFixed(1)}℃`]),

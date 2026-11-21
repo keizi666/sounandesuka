@@ -35,6 +35,8 @@ export interface RunSummaryInput {
   /** 始まりの条件を変えて試したか */
   conditions: boolean;
   appVersion: string;
+  /** 遊んだ難しさ（easy・normal・hard。難しさを入れる前の記録にはない） */
+  difficulty?: 'easy' | 'normal' | 'hard';
 }
 
 export interface RunSummary extends RunSummaryInput {

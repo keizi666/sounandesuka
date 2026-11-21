@@ -71,6 +71,7 @@ export function runSummary(o: {
   deaths: number;
   conditions: boolean;
   appVersion: string;
+  difficulty?: 'easy' | 'normal' | 'hard';
   label: (cpId: string, optionId: string) => string;
   title: (cpId: string, fallback: string) => string;
 }): RunSummaryInput {
@@ -90,5 +91,6 @@ export function runSummary(o: {
       .map((d) => ({ tMin: r1(d.tMin), title: o.title(d.cpId, d.title).slice(0, 80), label: o.label(d.cpId, d.optionId).slice(0, 80), auto: d.by !== 'user' })),
     conditions: o.conditions,
     appVersion: o.appVersion.slice(0, 40),
+    ...(o.difficulty ? { difficulty: o.difficulty } : {}),
   };
 }

@@ -197,6 +197,11 @@ export function devCommunityApi(root: string): Plugin {
         shares.push(s);
         save(db);
       }
+      const img = String(b['image'] ?? '');
+      if (img) {
+        mkdirSync(resolve(root, '.scratch', 'dev-shares'), { recursive: true });
+        writeFileSync(resolve(root, '.scratch', 'dev-shares', `${s.k}.jpg`), Buffer.from(img, 'base64'));
+      }
       return [200, { k: s.k }];
     }
     throw new Fail(404, 'notFound');
@@ -208,6 +213,17 @@ export function devCommunityApi(root: string): Plugin {
     configureServer(server) {
       server.middlewares.use((req: IncomingMessage, res: ServerResponse, next: () => void) => {
         const url = new URL(req.url ?? '/', 'http://localhost');
+        if (url.pathname.endsWith('/api/s.php') && url.searchParams.has('img')) {
+          const f = resolve(root, '.scratch', 'dev-shares', `${(url.searchParams.get('img') ?? '').replace(/[^A-Za-z0-9]/g, '')}.jpg`);
+          if (!existsSync(f)) {
+            res.statusCode = 404;
+            res.end();
+            return;
+          }
+          res.setHeader('Content-Type', 'image/jpeg');
+          res.end(readFileSync(f));
+          return;
+        }
         if (url.pathname.endsWith('/api/s.php')) {
           // 共有の短い URL を開く（本番の s.php と同じく、カード用の見出しと元の URL への移動）
           const s = load().shares?.find((x) => x.k === url.searchParams.get('k'));

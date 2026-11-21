@@ -1143,3 +1143,9 @@ dialog.synopsis .syn-who.dead { opacity: 0.55; }
 dialog.synopsis .syn-actions { display: flex; justify-content: flex-end; margin-top: 4px; }
 dialog.synopsis .syn-actions button { display: inline-flex; align-items: center; gap: 4px; }
 dialog.synopsis .syn-actions svg { width: 20px; height: 20px; fill: currentColor; }
+
+/* ---- みんなの遭難記録のカードの難しさ（ユーザーの指定） ---- */
+.cm-card-end .df-tag { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(14, 17, 23, 0.4); }
+.cm-card-end .df-tag.df-easy { color: #86efac; }
+.cm-card-end .df-tag.df-normal { color: #f1d9a4; }
+.cm-card-end .df-tag.df-hard { color: #fca5a5; }

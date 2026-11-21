@@ -9,7 +9,7 @@ import { communityApi } from './communityApi';
 const made = new Map<string, Promise<string>>();
 
 /** 短い URL にする。遊ぶ画面の URL でなければそのまま */
-export function shortLink(url: string, text = ''): Promise<string> {
+export function shortLink(url: string, text = '', image?: string): Promise<string> {
   let u: URL;
   try {
     u = new URL(url, location.href);
@@ -21,10 +21,11 @@ export function shortLink(url: string, text = ''): Promise<string> {
   if (!own || !(u.searchParams.has('scenario') || u.searchParams.has('brief'))) return Promise.resolve(url);
   const target = u.search;
   const key = `${target}\n${text}`;
-  let p = made.get(key);
+  // カードの画像を送るときは、毎回送る（同じ場面でも、見ている向きが違う）
+  let p = image ? undefined : made.get(key);
   if (!p) {
     p = communityApi
-      .share(target, text)
+      .share(target, text, image)
       .then((r) => `${base.origin}${base.pathname}api/s.php?k=${encodeURIComponent(r.k)}`)
       .catch(() => {
         made.delete(key);
@@ -35,7 +36,8 @@ export function shortLink(url: string, text = ''): Promise<string> {
   return p;
 }
 
-/** 共有の宛先（本文と URL）の URL を短くしたもの */
-export function shortTarget<T extends { text: string; url: string }>(t: T): Promise<T> {
-  return shortLink(t.url, t.text).then((url) => ({ ...t, url }));
+/** 共有の宛先（本文と URL）の URL を短くしたもの。card があれば、カードの画像と説明文も送る */
+export function shortTarget<T extends { text: string; url: string }>(t: T, card?: () => Promise<{ image: string; text: string } | null>): Promise<T> {
+  const c = card ? card().catch(() => null) : Promise.resolve(null);
+  return c.then((cd) => shortLink(t.url, cd?.text ?? t.text, cd?.image)).then((url) => ({ ...t, url }));
 }

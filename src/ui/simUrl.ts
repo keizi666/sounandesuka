@@ -15,7 +15,7 @@ export interface UrlSync {
   share(): Promise<void>;
 }
 
-export function createUrlSync(o: { world: World; loaded: LoadedScenario; mode: PlayMode; skip: () => boolean; alive: () => boolean }): UrlSync {
+export function createUrlSync(o: { world: World; loaded: LoadedScenario; mode: PlayMode; skip: () => boolean; alive: () => boolean; card?: () => Promise<{ image: string; text: string } | null> }): UrlSync {
   const { world, loaded } = o;
   let seq = 0;
   let at = 0;
@@ -41,7 +41,8 @@ export function createUrlSync(o: { world: World; loaded: LoadedScenario; mode: P
       const url = stateUrl(loaded.scenario.id, await encodeState(stateOf(world, o.mode, loaded.conditions, loaded.scenario.seed)));
       setAddress(url);
       // コピーするのは短い URL（X などでカードが出る。作れなければ元の URL）
-      const link = await shortLink(url);
+      const cd = o.card ? await o.card().catch(() => null) : null;
+      const link = await shortLink(url, cd?.text ?? '', cd?.image);
       try {
         await navigator.clipboard.writeText(link);
         toast(JA.ui.shareCopied, 3500);

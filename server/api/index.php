@@ -71,6 +71,8 @@ function summary_input(array $s): array
     'deaths' => (int) num($s['deaths'] ?? null, 0, 99),
     'decisions' => $decisions,
     'conditions' => (bool) ($s['conditions'] ?? false),
+    // 遊んだ難しさ（ユーザーの指定: 記録のカードに出す）。ないとき・知らない値は入れない
+    'difficulty' => in_array($s['difficulty'] ?? null, ['easy', 'normal', 'hard'], true) ? (string) $s['difficulty'] : null,
     'appVersion' => substr(preg_replace('/[^0-9A-Za-z.+*_-]/', '', (string) ($s['appVersion'] ?? '')) ?? '', 0, 40),
   ];
 }
@@ -277,6 +279,15 @@ try {
         }
       }
       if ($k === false) fail(500, 'server');
+    } elseif ($text !== '') {
+      // 同じ場面をまた共有した: 説明文は新しいものにする
+      $pdo->prepare('UPDATE shares SET text = ? WHERE k = ?')->execute([$text, $k]);
+    }
+    // 場面リンクのカードの画像（ユーザーの指定: 題・メンバー・状況を描いたサムネイル）。置けなくても共有は止めない
+    $img = (string) ($b['image'] ?? '');
+    if ($img !== '') {
+      rate_limit('shareimg', 60, 3600);
+      if (store_share_image((string) $k, $img)) hit('shareimg');
     }
     respond(200, ['k' => (string) $k]);
   }

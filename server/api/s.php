@@ -13,6 +13,22 @@ $host = preg_replace('/[^A-Za-z0-9.:-]/', '', (string) ($_SERVER['HTTP_HOST'] ??
 $https = ($_SERVER['HTTPS'] ?? '') === 'on' || strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https' || !str_starts_with($host, 'localhost');
 $origin = ($https ? 'https://' : 'http://') . $host;
 
+// カードの画像（s.php?img=<鍵>）。データの中に置いた JPEG を出す
+$imgKey = (string) ($_GET['img'] ?? '');
+if ($imgKey !== '') {
+  $f = preg_match('/^[A-Za-z0-9]{4,16}$/', $imgKey) ? share_dir() . '/' . $imgKey . '.jpg' : '';
+  if ($f === '' || !is_file($f)) {
+    http_response_code(404);
+    exit;
+  }
+  header('Content-Type: image/jpeg');
+  header('Cache-Control: public, max-age=600');
+  header('X-Content-Type-Options: nosniff');
+  header('Content-Length: ' . (string) filesize($f));
+  readfile($f);
+  exit;
+}
+
 $k = (string) ($_GET['k'] ?? '');
 $row = null;
 if (preg_match('/^[A-Za-z0-9]{4,16}$/', $k)) {
@@ -48,6 +64,12 @@ if (is_array($e)) {
     $imgW = 960;
     $imgH = 560;
   }
+}
+// 場面リンクのカードの画像（題・メンバー・状況を描いたもの）があれば、それを使う
+if (is_file(share_dir() . '/' . $k . '.jpg')) {
+  $img = $origin . $base . 'api/s.php?img=' . $k . '&v=' . (string) filemtime(share_dir() . '/' . $k . '.jpg');
+  $imgW = 1200;
+  $imgH = 630;
 }
 $to = $base . $target;
 $self = $origin . $base . 'api/s.php?k=' . $k;

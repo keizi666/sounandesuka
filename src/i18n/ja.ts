@@ -66,6 +66,12 @@ export const JA = {
     via: { phone: '電話', satellite: '衛星 SOS', overdue: '未帰還の通報', script: '他の登山者', passerby: '通りかかった登山者', relay: '呼びに行った仲間' } as Record<string, string>,
   },
 
+  /** 場面リンクのカードの画像（ユーザーの指定） */
+  shareCard: {
+    at: 'の場面',
+    more: 'ほか {n} 人',
+  },
+
   /** これまでのあらすじ（途中の場面から始めたとき。ユーザーの指定） */
   synopsis: {
     title: 'これまでのあらすじ',

@@ -23,6 +23,8 @@ const AGE_BANDS = ['10', '20', '30', '40', '50', '60', '70', 'x'];
 const SHARE_KEY_LEN = 8;
 const SHARE_TARGET_MAX = 6000;
 const SHARE_TEXT_MAX = 140;
+/** 場面リンクのカードの画像（端末で作った 1200×630 の JPEG）の上限 */
+const SHARE_IMAGE_MAX_BYTES = 500000;
 const ENDINGS = ['SAFE_RETURN', 'SAFE_SHELTER', 'ABORTED', 'SELF_RESCUE', 'RESCUED', 'RESCUED_CRITICAL', 'MISSING', 'FATAL'];
 // 「少しねむい」のように普通の文に出る並び（しね・がいじ など）は入れない（src/net/rules.ts と同じ）
 const NG_WORDS = [
@@ -356,4 +358,37 @@ function scenario_index(): array
   $j = $raw === false ? null : json_decode($raw, true);
   if (is_array($j)) foreach ($j as $e) if (is_array($e) && isset($e['id'], $e['title'])) $idx[(string) $e['id']] = $e;
   return $idx;
+}
+
+/** 共有のカードの画像を置くフォルダー（データの中。直接は読めない。s.php?img= で出す） */
+function share_dir(): string
+{
+  $d = rtrim((string) config()['dataDir'], '/') . '/shares';
+  if (!is_dir($d)) @mkdir($d, 0700, true);
+  return $d;
+}
+
+/** 共有のカードの画像を確かめて、1200×630 の JPEG に描き直して置く（描き直すので、画像に紛れた別のデータは残らない）。置けなければ false */
+function store_share_image(string $k, string $b64): bool
+{
+  if ($b64 === '' || strlen($b64) > SHARE_IMAGE_MAX_BYTES * 2) return false;
+  $bin = base64_decode($b64, true);
+  if ($bin === false || strlen($bin) < 16 || strlen($bin) > SHARE_IMAGE_MAX_BYTES) return false;
+  if (!function_exists('imagecreatefromstring') || !function_exists('imagejpeg')) return false;
+  $info = @getimagesizefromstring($bin);
+  if ($info === false || !in_array($info[2], [IMAGETYPE_JPEG, IMAGETYPE_PNG], true)) return false;
+  [$w, $h] = [(int) $info[0], (int) $info[1]];
+  if ($w < 200 || $h < 100 || $w > 2400 || $h > 1400) return false;
+  $src = @imagecreatefromstring($bin);
+  if ($src === false) return false;
+  $dst = imagecreatetruecolor(1200, 630);
+  imagecopyresampled($dst, $src, 0, 0, 0, 0, 1200, 630, $w, $h);
+  imagedestroy($src);
+  ob_start();
+  $ok = imagejpeg($dst, null, 84);
+  $out = (string) ob_get_clean();
+  imagedestroy($dst);
+  if (!$ok || $out === '') return false;
+  $f = share_dir() . '/' . $k . '.jpg';
+  return file_put_contents($f . '.tmp', $out) !== false && rename($f . '.tmp', $f);
 }

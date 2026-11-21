@@ -211,7 +211,7 @@ function build(app: AppContext, r: RunDetail, root: HTMLElement): void {
           el('span', {}, [el('strong', {}, r.user.nickname), el('small', {}, [sexAgeText(r.user), sexAgeText(r.user) ? ' ・ ' : '', fill(C.postedAt, { date: dateText(r.createdAt) })])]),
           cIcon('chevronRight'),
         ]),
-        el('p', { class: 'en-kicker' }, [JA.ui.endingTitle, el('span', {}, r.scenarioTitle), r.conditions ? el('span', { class: 'tag' }, C.conditionsTried) : null]),
+        el('p', { class: 'en-kicker' }, [JA.ui.endingTitle, el('span', {}, r.scenarioTitle), r.difficulty ? el('span', { class: `df-tag df-${r.difficulty}` }, [icon('visibility'), JA.difficulty.label[r.difficulty] ?? r.difficulty]) : null, r.conditions ? el('span', { class: 'tag' }, C.conditionsTried) : null]),
         el('h1', {}, r.endingTitle || (JA.endings[r.ending]?.title ?? r.ending)),
         el('div', { class: 'bf-facts' }, [
           fact('timer', JA.ui.duration, hm(r.durationMin)),

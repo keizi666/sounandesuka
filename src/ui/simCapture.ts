@@ -12,6 +12,7 @@ import { download, openCaptureDialog } from './captureDialog';
 import { toast } from './dom';
 import { siteUrl } from './shareButtons';
 import { shortTarget } from '../net/shareLink';
+import { cardBase64, cardText, composeShareCard } from './shareCard';
 
 export interface SimCapture {
   afterRender(): void;
@@ -21,10 +22,12 @@ export interface SimCapture {
   finishOnEnd(): void;
   /** 録画中なら経過秒 */
   elapsed(): number | null;
+  /** 場面リンクのカード（いまの 3D の画面に題・状況・メンバーを描いた画像と説明文） */
+  card(): Promise<{ image: string; text: string } | null>;
   dispose(): void;
 }
 
-export function createSimCapture(o: { canvas: HTMLCanvasElement; loaded: LoadedScenario; world: () => World; settings: Settings; onChange: () => void }): SimCapture {
+export function createSimCapture(o: { canvas: HTMLCanvasElement; loaded: LoadedScenario; world: () => World; settings: Settings; onChange: () => void; situation?: () => string[] }): SimCapture {
   const s = o.loaded.scenario;
   const timeText = (): string => formatDateTime(s, o.world().tMin);
   const cap = createCapture(o.canvas, {
@@ -41,14 +44,23 @@ export function createSimCapture(o: { canvas: HTMLCanvasElement; loaded: LoadedS
   });
   const stamp = (): string => timeText().replace(/[^0-9A-Za-z]+/g, '');
   const showVideo = (r: RecordResult): void => {
-    openCaptureDialog({ blob: r.blob, kind: 'video', fileName: `sounandesuyo_${s.id}_${stamp()}.${r.ext}`, share: shareTarget(), shareLater: shortTarget(shareTarget()), sec: r.sec });
+    openCaptureDialog({ blob: r.blob, kind: 'video', fileName: `sounandesuyo_${s.id}_${stamp()}.${r.ext}`, share: shareTarget(), shareLater: shortTarget(shareTarget(), card), sec: r.sec });
+  };
+  /** 場面リンクのカード（一覧のシナリオで、場面の URL のときだけ） */
+  const card = async (): Promise<{ image: string; text: string } | null> => {
+    if (!o.loaded.listed) return null;
+    const frame = await Promise.race([cap.frame(), new Promise<null>((ok) => window.setTimeout(() => ok(null), 1500))]);
+    if (!frame) return null;
+    const input = { scenario: s, world: o.world(), situation: o.situation?.() ?? [] };
+    return { image: cardBase64(composeShareCard({ frame, ...input })), text: cardText(input) };
   };
   return {
     afterRender: () => cap.afterRender(),
+    card,
     snap() {
       const share = shareTarget();
       const name = `sounandesuyo_${s.id}_${stamp()}.png`;
-      const shareLater = shortTarget(share);
+      const shareLater = shortTarget(share, card);
       void cap.snap().then((blob) => openCaptureDialog({ blob, kind: 'image', fileName: name, share, shareLater }));
     },
     toggleRecord() {
