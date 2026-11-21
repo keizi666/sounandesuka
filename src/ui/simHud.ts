@@ -439,14 +439,20 @@ export class Hud {
   /** 続いている飲食の行（まとめる候補） */
   private run: { kind: 'drink' | 'eat'; lines: LogLine[]; lis: HTMLElement[]; grouped: HTMLElement | null } | null = null;
 
-  /** 飲食の行を 1 行にまとめて描く（時刻・何をしたか・顔のアイコンの並び） */
+  /** 飲食の行を 1 行にまとめて描く（時刻・何をしたか・顔のアイコンの並び）。人数は人の数（同じ人が何度か飲めば「のべ n 回」を添え、顔は 1 人 1 つ） */
   private groupLi(kind: 'drink' | 'eat', lines: LogLine[]): HTMLElement {
     const t0 = formatDateTime(this.scenario, lines[0]!.tMin).split(' ')[1] ?? '';
     const t1 = formatDateTime(this.scenario, lines[lines.length - 1]!.tMin).split(' ')[1] ?? '';
-    const faces = lines.map((l) => {
-      const who = this.party.get(l.climberId ?? '');
+    const byWho = new Map<string, string[]>();
+    for (const l of lines) {
+      const id = l.climberId ?? '';
+      if (!byWho.has(id)) byWho.set(id, []);
+      if (l.amount) byWho.get(id)!.push(l.amount);
+    }
+    const faces = [...byWho.entries()].map(([id, amounts]) => {
+      const who = this.party.get(id);
       if (!who) return null;
-      const b = el('button', { class: 'gi-face', type: 'button', title: `${who.name}${l.amount ? `（${l.amount}）` : ''}` }, avatar(who, 26));
+      const b = el('button', { class: 'gi-face', type: 'button', title: `${who.name}${amounts.length > 0 ? `（${amounts.join('・')}）` : ''}` }, avatar(who, 26));
       b.addEventListener('click', (e) => {
         e.stopPropagation();
         this.h.select(who.id);
@@ -457,7 +463,7 @@ export class Hud {
       el('span', { class: 'pill' }, [
         el('time', {}, t0 === t1 ? t0 : `${t0}–${t1}`),
         icon(kind === 'drink' ? 'waterDrop' : 'restaurant'),
-        fill(kind === 'drink' ? JA.ui.groupDrink : JA.ui.groupEat, { n: String(lines.length) }),
+        fill(kind === 'drink' ? JA.ui.groupDrink : JA.ui.groupEat, { n: String(byWho.size) }) + (lines.length > byWho.size ? fill(JA.ui.groupTimes, { n: String(lines.length) }) : ''),
         el('span', { class: 'gi-faces' }, faces),
       ]),
     ]);

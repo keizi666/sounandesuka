@@ -491,6 +491,8 @@ export const JA = {
     recordedLine: '実際の遭難では「{label}」を選んだ（記録）',
     groupDrink: '{n} 人が水を飲んだ',
     groupEat: '{n} 人が行動食を食べた',
+    /** まとめた飲食の行で、同じ人が何度か飲んだ・食べたとき（人数のあとに添える） */
+    groupTimes: '（のべ {n} 回）',
     share: 'この場面の URL をコピー（共有）',
     shareCopied: 'この場面の URL をコピーしました。開くと同じ場面から始まります',
     shareCopyManual: 'この URL をコピーしてください（開くと同じ場面から始まります）',
