@@ -1972,7 +1972,7 @@
             "recommended"
           ],
           "bias": {
-            "base": 0.15
+            "base": 0.1
           }
         },
         {
@@ -1989,7 +1989,7 @@
             }
           ],
           "bias": {
-            "base": 0.2
+            "base": 0.1
           }
         }
       ]
@@ -2048,7 +2048,7 @@
             "recommended"
           ],
           "bias": {
-            "base": 0.15
+            "base": 0.1
           }
         }
       ]
@@ -2170,7 +2170,7 @@
             "recommended"
           ],
           "bias": {
-            "base": 0.3
+            "base": 0.2
           }
         }
       ]
