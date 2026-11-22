@@ -157,7 +157,7 @@
    "health": "sleepy",
    "gear": {
     "rainwear": "basic",
-    "cloWorn": 0.95,
+    "cloWorn": 0.85,
     "cloPack": 0.5,
     "gloves": "thin",
     "hat": true,
@@ -222,7 +222,7 @@
    "health": "sleepy",
    "gear": {
     "rainwear": "basic",
-    "cloWorn": 0.95,
+    "cloWorn": 0.85,
     "cloPack": 0.5,
     "gloves": "thin",
     "hat": true,
@@ -417,7 +417,7 @@
    "gear": {
     "rainwear": "basic",
     "cloWorn": 0.75,
-    "cloPack": 0.35,
+    "cloPack": 0.25,
     "gloves": "none",
     "hat": true,
     "bivy": "none",
@@ -482,7 +482,7 @@
    "gear": {
     "rainwear": "basic",
     "cloWorn": 0.75,
-    "cloPack": 0.35,
+    "cloPack": 0.25,
     "gloves": "thin",
     "hat": true,
     "bivy": "none",
@@ -546,7 +546,7 @@
    "gear": {
     "rainwear": "basic",
     "cloWorn": 0.75,
-    "cloPack": 0.35,
+    "cloPack": 0.25,
     "gloves": "thin",
     "hat": true,
     "bivy": "none",
@@ -610,7 +610,7 @@
    "gear": {
     "rainwear": "basic",
     "cloWorn": 0.75,
-    "cloPack": 0.35,
+    "cloPack": 0.25,
     "gloves": "thin",
     "hat": false,
     "bivy": "none",
@@ -675,7 +675,7 @@
    "gear": {
     "rainwear": "basic",
     "cloWorn": 0.75,
-    "cloPack": 0.35,
+    "cloPack": 0.25,
     "gloves": "thin",
     "hat": true,
     "bivy": "none",
@@ -739,7 +739,7 @@
    "gear": {
     "rainwear": "basic",
     "cloWorn": 0.75,
-    "cloPack": 0.35,
+    "cloPack": 0.25,
     "gloves": "none",
     "hat": true,
     "bivy": "none",

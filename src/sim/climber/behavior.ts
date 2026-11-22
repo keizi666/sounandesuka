@@ -162,23 +162,25 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   const sleeping = asleep(world, ctx, c);
   // 食べる
   if (!waitForRest && !sleeping && c.inv.foodKcal > 0) {
-    const every = c.def.habits.eatEveryMin;
-    const habitDue = every !== null && c.memo.lastEatMin !== null && world.tMin - c.memo.lastEatMin >= every;
+    // お腹が減ってから食べる（ユーザーの指定。決まった間隔では食べない）。胃に残っている食べ物があれば、まだ空腹ではない
+    const fed = b.glycogenKcal + b.gutKcal * ctx.tuning.physiology.absorbEff;
+    const hungry = c.def.habits.eatEveryMin !== null && fed < bt.eatHungryKcal;
     const low = b.glycogenKcal < bt.eatLowGlycogenKcal;
-    if (habitDue || low) {
-      const p = habitDue ? bt.eatHabitP : J < bt.eatForgetBelowJ ? bt.eatForgetP : bt.eatLowP * J;
+    if (hungry || low) {
+      const p = J < bt.eatForgetBelowJ ? bt.eatForgetP : low ? bt.eatLowP * J : bt.eatHabitP;
       if (chance(rng, p)) {
         c.memo.lastEatMin = world.tMin;
         // 残りが少なければ、1 回に食べる量を控える（ユーザーの指定）
         // 二日酔いの吐き気が残っているあいだは、少ししか食べられない
         // 重い高山病の吐き気でも、少ししか食べられない（ユーザーの指定）
         const amsSick = amsLevelOf(c.body.ams, ctx.tuning);
-        const kcal = Math.round(bt.eatKcal * rationF(c, ctx.tuning, 'food') * (nauseous(world, ctx, c) ? bt.hangoverEatF : 1) * (amsSick === 'moderate' || amsSick === 'hace' ? ctx.tuning.altitude.amsEatF : 1));
+        const meal = hungry ? Math.min(bt.eatMaxKcal, Math.max(bt.eatKcal, bt.eatFullKcal - fed)) : bt.eatKcal;
+        const kcal = Math.round(meal * rationF(c, ctx.tuning, 'food') * (nauseous(world, ctx, c) ? bt.hangoverEatF : 1) * (amsSick === 'moderate' || amsSick === 'hace' ? ctx.tuning.altitude.amsEatF : 1));
         return startTask(world, c, `eat:${Math.min(kcal, c.inv.foodKcal)}`, taskMinutes(c, bt.eatMin, ctx));
       }
     }
   }
-  // 飲む（喉の渇きに応じて、ひと口〜数口。ふだん 100 mL ほど、多くても 300 mL）
+  // 飲む（喉が渇いたら、渇きが癒えるまで。150〜500 mL）
   const thirst = thirstOf(c, ctx.tuning);
   if (!waitForRest && !sleeping && thirst !== null && c.inv.waterL > 0) {
     const gap = (bt.drinkGapMaxMin + (bt.drinkGapMinMin - bt.drinkGapMaxMin) * thirst) * (resting ? bt.drinkRestGapF : 1);
@@ -186,7 +188,8 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
     if (gapOk && chance(rng, bt.drinkP * J)) {
       c.memo.lastDrinkMin = world.tMin;
       // 残りが少なければ、ひと口を小さくする（ユーザーの指定）
-      const want = Math.max(0.03, Math.round((bt.drinkSipL + (bt.drinkMaxL - bt.drinkSipL) * thirst) * rationF(c, ctx.tuning, 'water') * 100) / 100);
+      const quench = Math.min(bt.drinkMaxL, Math.max(bt.drinkSipL, b.waterDeficitL - bt.drinkQuenchL));
+      const want = Math.max(0.03, Math.round(quench * rationF(c, ctx.tuning, 'water') * 100) / 100);
       return startTask(world, c, `drink:${Math.min(want, c.inv.waterL, b.waterDeficitL)}`, bt.drinkMin);
     }
   }

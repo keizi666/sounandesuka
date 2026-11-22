@@ -55,7 +55,15 @@ export const behavior = {
   layerWindChillBelowC: 0,
   layerP: 0.3,
   layerMin: 3,
-  /** 食べる */
+  /**
+   * 食べる（ユーザーの指定: 決まった間隔で機械的に食べず、お腹が減ってから食べる）。
+   * 空腹 = グリコーゲン＋胃に残っている食べ物（吸収される分）が eatHungryKcal を切ったとき（出発時 1,500 kcal から、ふつうの登りで 2 時間ほど）。
+   * 食べる習慣のない人（habits.eatEveryMin が null）は空腹でも後回しにし、エネルギーが尽きかける（eatLowGlycogenKcal）まで食べない
+   */
+  eatHungryKcal: 1200,
+  /** 空腹で食べるときは満ちるまで: 1 回の量 = eatFullKcal −（グリコーゲン＋胃の中）を eatKcal〜eatMaxKcal に収める（エネルギーが尽きかけたときは eatKcal） */
+  eatFullKcal: 1600,
+  eatMaxKcal: 500,
   eatLowGlycogenKcal: 450,
   eatHabitP: 0.8,
   eatLowP: 0.5,
@@ -66,10 +74,12 @@ export const behavior = {
   /**
    * 飲む: 喉の渇き（ユーザーの指定）。感じる不足 = 体の水分不足 × 寒さ（寒いと渇きを感じにくい）× 暑さ（汗で口が渇く）× 年齢。
    * 感じる不足が thirstStartL を超えると渇きを感じ、渇きの強さ t（0〜1）= (感じる不足 − start) / span。
-   * 1 回に飲む量 = drinkSipL + (drinkMaxL − drinkSipL) × t（ふだん 100 mL ほど、喉がからからでも 300 mL まで）。
-   * 次に飲むまでの間隔は、渇きが強いほど短い（drinkGapMaxMin → drinkGapMinMin）。休憩中は短め
+   * ユーザーの指定: 30 分ごとに機械的に飲まず、体の水分がある程度減って喉が渇いてから飲む。
+   * 渇いたら渇きが癒えるまで飲む: 1 回に飲む量 = 体の水分不足 − drinkQuenchL（不足をそこまで戻す）を drinkSipL〜drinkMaxL に収める。
+   * 飲めば渇きは消えるので、次に飲むのはまた渇いたとき（ふつうの登りで 1 時間ほどあと）。
+   * 渇いたまま次に飲むまでの間隔は、渇きが強いほど短い（drinkGapMaxMin → drinkGapMinMin）。休憩中は短め
    */
-  thirstStartL: 0.2,
+  thirstStartL: 0.5,
   thirstSpanL: 1.0,
   thirstColdF: [
     [-5, 0.6],
@@ -84,8 +94,9 @@ export const behavior = {
   thirstOlderF: 0.85,
   drinkP: 0.3,
   drinkMin: 1,
-  drinkSipL: 0.1,
-  drinkMaxL: 0.3,
+  drinkSipL: 0.15,
+  drinkMaxL: 0.5,
+  drinkQuenchL: 0.15,
   drinkGapMaxMin: 25,
   drinkGapMinMin: 8,
   drinkRestGapF: 0.6,
