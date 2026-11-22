@@ -33,13 +33,17 @@ export function drawTimeline(canvas: HTMLCanvasElement, rec: RunRecord, s: Scena
   const topH = H * 0.5;
   const botY = topH + 18;
   const botH = H - botY - 22;
-  // 上段: 体温 30〜38
-  const Yc = (c: number): number => 8 + (1 - (c - 30) / 8) * (topH - 16);
+  // 上段: 体温。下の端は 30℃、それより下がった人がいれば 2℃ 刻みで広げる（20℃ まで。ユーザーの指摘: 立山で帯が下に突き抜けた）
+  let minCore = 30;
+  for (const p of smp) for (const c of p.climbers) minCore = Math.min(minCore, c.coreC);
+  const cLo = Math.max(20, Math.floor(minCore / 2) * 2);
+  const Yc = (c: number): number => 8 + (1 - (Math.max(cLo, Math.min(38, c)) - cLo) / (38 - cLo)) * (topH - 16);
   // 大きなキャンバスでは文字も大きく（表示の幅に合わせて縮むので）
   g.font = `${Math.round(11 * Math.max(1, W / 1000))}px system-ui, sans-serif`;
   g.fillStyle = fg;
   g.strokeStyle = grid;
-  for (const c of [32, 34, 35, 36, 37]) {
+  const coreTicks = cLo >= 30 ? [32, 34, 35, 36, 37] : [...Array.from({ length: Math.floor((34 - cLo) / 4) + 1 }, (_, i) => cLo + i * 4).filter((c) => c < 34), 35, 37];
+  for (const c of coreTicks) {
     g.beginPath();
     g.moveTo(PAD_L, Yc(c));
     g.lineTo(W - PAD_R, Yc(c));
@@ -87,8 +91,11 @@ export function drawTimeline(canvas: HTMLCanvasElement, rec: RunRecord, s: Scena
     }
     g.lineWidth = 1;
   }
-  // 下段: 気温（-15〜30）と体感、降水、風
-  const Yt = (t: number): number => botY + (1 - (t + 15) / 45) * botH;
+  // 下段: 気温（-15〜30。体感がそれより下がれば 5℃ 刻みで広げる）と体感、降水、風
+  let minT = -15;
+  for (const p of smp) minT = Math.min(minT, p.local.tempC, p.local.windChillC);
+  const tLo = Math.max(-50, Math.floor(minT / 5) * 5);
+  const Yt = (t: number): number => botY + (1 - (Math.max(tLo, Math.min(30, t)) - tLo) / (30 - tLo)) * botH;
   const Yw = (w: number): number => botY + (1 - w / 30) * botH;
   g.strokeStyle = grid;
   g.strokeRect(PAD_L, botY, W - PAD_L - PAD_R, botH);
