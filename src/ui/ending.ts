@@ -6,6 +6,7 @@ import type { LoadedScenario } from '../app/data';
 import { JA } from '../i18n/ja';
 import { fill, formatClock, formatDateTime } from '../i18n/format';
 import { createStaticContext } from '../sim/core/world';
+import { newRunId } from '../app/storage';
 import { TUNING } from '../sim/tuning';
 import { ENDING_SEVERITY, resolveEnding } from '../sim/scenario/endings';
 import { recVars } from '../sim/record/recorder';
@@ -185,7 +186,19 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
         decisions.length > 0
           ? el('section', { class: 'bf-card' }, [
               el('h2', {}, [icon('route'), JA.ui.decisions]),
-              el('ol', { class: 'en-decisions' }, decisions.map((d) => el('li', {}, [el('time', {}, formatClock(d.tMin)), el('span', { class: 'dia' }, '◆'), el('span', {}, optionLabel(loaded, d.cpId, d.optionId)), d.by !== 'user' ? el('small', {}, '（自動）') : null]))),
+              el('ol', { class: 'en-decisions' }, decisions.map((d) => {
+                const parts = [el('time', {}, formatClock(d.tMin)), el('span', { class: 'dia' }, '◆'), el('span', {}, optionLabel(loaded, d.cpId, d.optionId)), d.by !== 'user' ? el('small', {}, '（自動）') : null];
+                // その分岐点の写しがあれば、押すとその場面に戻って選び直せる（ユーザーの指定）
+                const snap = Object.values(result.choiceSnapshots).find((sn) => sn.world.pendingChoice && Math.abs(sn.world.tMin - d.tMin) < 0.05);
+                if (!snap) return el('li', {}, parts);
+                const back = (): void => {
+                  const keep: SimResult['choiceSnapshots'] = {};
+                  for (const [k, v] of Object.entries(result.choiceSnapshots)) if (v.world.tMin < snap.world.tMin) keep[k] = v;
+                  app.go({ name: 'sim', loaded, resume: { scenarioId: s.id, world: structuredClone(snap.world), recorder: structuredClone(snap.recorder), choiceSnapshots: keep, savedAt: new Date().toISOString(), runId: newRunId(), parentRunId: result.runId } });
+                };
+                return el('li', { class: 'back' }, el('button', { type: 'button', title: JA.ui.backToScene, onclick: back }, [...parts, el('span', { class: 'go' }, [JA.ui.backToScene, icon('chevronRight')])]));
+              })),
+              el('p', { class: 'hint' }, JA.ui.backToSceneNote),
             ])
           : null,
         // みんなの遭難記録に載せる（docs/20_community.md）

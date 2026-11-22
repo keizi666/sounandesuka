@@ -39,7 +39,8 @@ function weatherOf(l: LocalWeather, cloud: number): { ic: IconName; text: string
   return { ic: 'wbSunny', text: '晴れ' };
 }
 
-export function showTitleCard(host: HTMLElement, scenario: ScenarioDef, world: World, ctx: StaticContext, onDone: () => void): () => void {
+/** hiddenTitle: 題名を隠すときに代わりに出す名前（山名。まだ 1 回も結末まで遊んでいないシナリオ。ユーザーの指定） */
+export function showTitleCard(host: HTMLElement, scenario: ScenarioDef, world: World, ctx: StaticContext, onDone: () => void, hiddenTitle?: string): () => void {
   const t0 = scenarioStartMin(scenario);
   const d = dateAt(scenario.startDate, t0);
   const wd = WEEK[new Date(Date.UTC(d.year, d.month - 1, d.day)).getUTCDay()] ?? '';
@@ -49,14 +50,14 @@ export function showTitleCard(host: HTMLElement, scenario: ScenarioDef, world: W
   const lw = sw?.l ?? null;
   const wx = sw ? weatherOf(sw.l, sw.cloud) : null;
   const wind = lw && lw.windMs >= 8 ? `　風 ${Math.round(lw.windMs)} m/s` : '';
-  const card = el('div', { class: 'title-card', role: 'dialog', 'aria-label': scenario.title }, [
+  const card = el('div', { class: 'title-card', role: 'dialog', 'aria-label': hiddenTitle ?? scenario.title }, [
     el('div', { class: 'tc-in' }, [
       el('p', { class: 'tc-date' }, [
         el('span', {}, dateText),
         wx && lw ? el('span', { class: 'tc-wx' }, [icon(wx.ic), `${wx.text}　${Math.round(lw.tempC)}℃${wind}`]) : null,
       ]),
-      el('h1', { class: 'tc-title' }, scenario.title),
-      scenario.region?.name ? el('p', { class: 'tc-region' }, scenario.region.name) : null,
+      el('h1', { class: 'tc-title' }, hiddenTitle ?? scenario.title),
+      scenario.region?.name && hiddenTitle === undefined ? el('p', { class: 'tc-region' }, scenario.region.name) : null,
       el('ul', { class: 'tc-party' }, scenario.party.map((p) => el('li', { style: `--c:${p.color}` }, [avatar(p, 76), el('strong', {}, p.name), el('span', {}, `${p.age}歳`)]))),
     ]),
   ]);

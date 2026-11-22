@@ -15,7 +15,7 @@ export interface EndChoice {
   onPick: () => void;
 }
 
-export function openEndConfirm(o: { kind: string; title: string; text: string; time: string; onGo: () => void; choices?: EndChoice[] }): () => void {
+export function openEndConfirm(o: { kind: string; scenarioTitle?: string; title: string; text: string; time: string; onGo: () => void; choices?: EndChoice[] }): () => void {
   let done = false;
   const go = (): void => {
     if (done) return;
@@ -25,6 +25,8 @@ export function openEndConfirm(o: { kind: string; title: string; text: string; t
   };
   const dlg = el('dialog', { class: `end-confirm tone-${endingTone(o.kind)}`, 'aria-label': JA.ui.endConfirmTitle }, [
     el('p', { class: 'ec-kicker' }, [JA.ui.endConfirmTitle, el('time', {}, o.time)]),
+    // シナリオの題名を大きく（ユーザーの指定）。1 行に収まるように、字数に合わせて文字を小さくする
+    o.scenarioTitle ? el('div', { class: 'ec-scn' }, el('p', { style: `--n:${Math.max(4, [...o.scenarioTitle].length)}` }, o.scenarioTitle)) : null,
     el('h2', {}, o.title),
     o.text ? el('p', { class: 'ec-text' }, o.text) : null,
     o.choices && o.choices.length > 0

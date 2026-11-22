@@ -162,7 +162,7 @@ export class Hud {
   constructor(
     private scenario: ScenarioDef,
     private h: HudHandlers,
-    opts: { god: boolean; observe: boolean; timed: boolean; difficulty: Difficulty },
+    opts: { god: boolean; observe: boolean; timed: boolean; difficulty: Difficulty; title?: string },
   ) {
     this.god = opts.god;
     this.soundBtn = el('button', { class: 'icon', title: JA.ui.soundOn, 'aria-label': JA.ui.soundOn, onclick: () => h.sound() }, icon('volumeOff'));
@@ -215,7 +215,7 @@ export class Hud {
     });
     this.top = el('header', { class: 'topbar' }, [
       el('button', { class: 'icon', title: JA.ui.quit, 'aria-label': JA.ui.quit, onclick: () => h.quit() }, icon('home')),
-      el('strong', { class: 'title' }, scenario.title),
+      el('strong', { class: 'title' }, opts.title ?? scenario.title),
       // 難しさはタイトルのすぐ右（ユーザーの指定）
       this.godBtn,
       el('span', { class: 'clockbox' }, [icon('schedule'), this.clock]),

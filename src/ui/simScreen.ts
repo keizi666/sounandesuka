@@ -50,6 +50,7 @@ function freshSeed(): number {
   return Math.floor(Math.random() * 0xffffffff) >>> 0;
 }
 import { countPlay } from '../app/playStats';
+import { mountainName, unplayed } from './spoiler';
 import { resolveEnding } from '../sim/scenario/endings';
 import { recVars } from '../sim/record/recorder';
 import type { Difficulty } from '../app/settings';
@@ -112,6 +113,9 @@ export async function preloadView(app: AppContext, loaded: LoadedScenario): Prom
 
 export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: ResumeData, observe = false, replay?: SharedState, pre?: ViewPre): () => void {
   const { scenario, map } = loaded;
+  // まだ 1 回も結末まで遊んでいない（一覧の）シナリオは、プレイ中も題名を出さず、山名を出す（ユーザーの指定）。結末で題名を明かす
+  const hiddenTitle = loaded.listed === true && unplayed(scenario.id) ? mountainName(scenario.region).main : undefined;
+  const shownTitle = hiddenTitle ?? scenario.title;
   const st = app.settings;
   // URL の場面から作り直すときは、その URL の遊び方で進める（同じ場面にするため）
   if (replay) observe = replay.mode === 'o';
@@ -130,7 +134,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   const parentRunId = resume?.parentRunId ?? null;
 
   // ---- 画面 ----
-  const canvas = el('canvas', { class: 'scene', 'aria-label': scenario.title });
+  const canvas = el('canvas', { class: 'scene', 'aria-label': shownTitle });
   // スクリーンショット・録画（描いた直後に afterRender で合成する）
   const simCap = createSimCapture({ canvas, loaded, world: () => world, settings: app.settings, onChange: () => hud.setRecording(simCap.elapsed()), situation: () => situationLines(),
     // カードは、見守っている人のまわりを切り抜いて拡大する（画面の画素で。ユーザーの指定）
@@ -241,7 +245,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         void save().then(() => app.go({ name: 'title' }));
       },
     },
-    { god: view.godView, observe, timed, difficulty },
+    { god: view.godView, observe, timed, difficulty, title: shownTitle },
   );
   // ---- タイムライン（時間を戻す） ----
   const timeline = new Timeline(scenario.party.length > 6 ? 5 : 2);
@@ -450,6 +454,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       if (!simMain.isConnected) return;
       closeEndConfirm = openEndConfirm({
         kind: world.ended!.kind,
+        scenarioTitle: scenario.title,
         title: end?.title ?? JA.endings[world.ended!.kind]?.title ?? world.ended!.kind,
         text: end?.text ?? JA.endings[world.ended!.kind]?.text ?? '',
         time: formatDateTime(scenario, world.tMin),
@@ -713,7 +718,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // 再開したときは、保存してあったログを出し直す（保存にログがない古いデータでは、再開したことだけを出す）
   if (resume?.log && resume.log.length > 0) for (const line of resume.log) hud.log(line);
   else if (resume) hud.log({ tMin: world.tMin, text: JA.ui.resumedNoLog, important: true });
-  else hud.log({ tMin: world.tMin, text: `${scenario.title}（${nodeName(scenario.plan.route[0]!)} を出発）`, important: true });
+  else hud.log({ tMin: world.tMin, text: `${shownTitle}（${nodeName(scenario.plan.route[0]!)} を出発）`, important: true });
   /** これまでのあらすじの窓（途中の場面から始めたとき） */
   let closeSynopsis: (() => void) | null = null;
   if (replay) {
@@ -759,7 +764,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       titleShowing = false;
       loop.paused = false;
       refresh(true);
-    });
+    }, hiddenTitle);
   }
   loop.start();
   // 開発時のデバッグ用（ブラウザのコンソールから参照）

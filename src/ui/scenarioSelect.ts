@@ -30,7 +30,7 @@ import { openProfileDialog } from './community/profileDialog';
 import { loadProfile } from '../net/profile';
 import { refreshProfile } from '../net/communityApi';
 import { shareButtons, siteUrl } from './shareButtons';
-import { maskSpoiler } from './spoiler';
+import { maskSpoiler, mountainName } from './spoiler';
 
 /** バンドル（*.sounan.json）を読み、検証してからブリーフィングへ（FR-74、docs/18 §7） */
 async function openBundle(app: AppContext, file: File): Promise<void> {
@@ -85,10 +85,7 @@ function chip(ic: IconName, text: string, cls = ''): HTMLElement {
  * 地域名は「奥多摩・高水三山（青梅市）」のような形なので、かっこを除き、「・」の前を小さな地域、後ろを大きな山名にする
  */
 function mountainLabel(e: ScenarioIndexEntry): HTMLElement {
-  const name = (e.region?.real ? e.region.name : '箱庭岳').replace(/（[^）]*）/g, '').trim();
-  const i = name.indexOf('・');
-  const area = i > 0 ? name.slice(0, i) : '';
-  const main = i > 0 ? name.slice(i + 1) : name;
+  const { area, main } = mountainName(e.region);
   return el('div', { class: 'sel-mtn', 'aria-hidden': 'true' }, [area ? el('small', {}, area) : null, el('strong', {}, main)]);
 }
 
@@ -98,7 +95,7 @@ function stars(n: number): HTMLElement {
 
 function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumable: boolean, plays: number, onFav: () => void): HTMLElement {
   // 1 回も遊んでいないシナリオは、テーマと題名をぼかす（ユーザーの指定）。カードの色もテーマで決まるので、同じ色にする
-  const hidden = !resumable && plays === 0;
+  const hidden = plays === 0;
   const hue = hidden ? 210 : THEME_HUE[e.theme] ?? 200;
   const M = JA.myPlays;
   const veil = <T extends HTMLElement>(n: T): T => (hidden ? maskSpoiler(n, false) : n);

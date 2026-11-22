@@ -548,6 +548,8 @@ export const JA = {
     endConfirmTitle: '結末',
     endConfirmGo: '結果を見る',
     endBackToChoice: 'これまでの選択に戻る',
+    backToScene: 'この場面に戻る',
+    backToSceneNote: '選択を押すと、その分岐の場面に戻って選び直せます。',
     endBackToChoiceNote: '選ぶと、その分岐の場面に戻って選び直せます。',
     memberDead: '亡くなった',
     noHistory: 'まだ記録がありません',

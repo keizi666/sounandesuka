@@ -612,6 +612,12 @@ main.ending2.tone-bad { --tone: #ef4444; }
 .en-decisions time { font-variant-numeric: tabular-nums; font-weight: 700; color: #cfd4da; }
 .en-decisions .dia { color: var(--accent); }
 .en-decisions small { color: var(--muted); }
+/* 選択を押すと、その場面に戻る（ユーザーの指定） */
+.en-decisions li.back { padding: 0; background: none; }
+.en-decisions li.back button { width: 100%; display: flex; align-items: baseline; gap: 10px; padding: 8px 12px; border-radius: 10px; background: var(--panel2); border: 1px solid transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; min-height: 0; }
+.en-decisions li.back button:hover { border-color: var(--accent); }
+.en-decisions li.back .go { margin-left: auto; display: inline-flex; align-items: center; gap: 2px; font-size: 0.85em; color: var(--accent); white-space: nowrap; align-self: center; }
+.en-decisions li.back .go .ic { width: 1.1em; height: 1.1em; }
 .en-bar-btns { display: flex; gap: 8px; }
 /* ---- 振り返り: メンバーの状態の推移 ---- */
 .mc-card { margin: 16px 0; }
@@ -1072,6 +1078,9 @@ div.choice .rec-badge svg { width: 1em; height: 1em; fill: currentColor; }
 .end-confirm.tone-mid { --tone: #fbbf24; }
 .end-confirm.tone-bad { --tone: #a3abb8; }
 .end-confirm::backdrop { background: rgba(6, 8, 12, 0.45); }
+/* 結末のダイアログ: シナリオの題名を大きく、1 行で（ユーザーの指定）。字数 --n で幅に収める */
+.ec-scn { container-type: inline-size; margin: 2px 0 10px; }
+.ec-scn p { margin: 0; white-space: nowrap; overflow: hidden; font-weight: 800; letter-spacing: 0.04em; line-height: 1.2; color: #fff; font-size: min(2.6rem, calc(100cqi / (var(--n) * 1.06))); }
 .ec-kicker { display: flex; justify-content: space-between; gap: 12px; margin: 0 0 4px; font-size: 0.82rem; opacity: 0.7; }
 .end-confirm h2 { margin: 0 0 8px; font-size: 1.7rem; letter-spacing: 0.06em; color: var(--tone); }
 .ec-text { margin: 0 0 18px; line-height: 1.7; }
