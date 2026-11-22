@@ -2,7 +2,7 @@
  * 「みんなの遭難記録」の API を呼ぶ（docs/20_community.md §3）。
  * 通信先は同じオリジンの api/index.php だけ（CLAUDE.md 鉄則 8 の例外。DECISIONS.md）。src/sim からは使わない。
  */
-import type { ListResponse, ProfileInput, PublicUser, RunDetail, RunSummaryInput } from './communityTypes';
+import type { ListResponse, ProfileInput, PublicUser, RunDetail, RunSummaryInput, StatsResponse } from './communityTypes';
 import { loadProfile, saveProfile } from './profile';
 
 const API = `${import.meta.env.BASE_URL}api/index.php`;
@@ -53,6 +53,8 @@ export const communityApi = {
   list: (q: { scenario?: string; ending?: string; user?: number; offset?: number; limit?: number }): Promise<ListResponse> =>
     call('list', { query: { scenario: q.scenario ?? '', ending: q.ending ?? '', user: q.user ?? 0, offset: q.offset ?? 0, limit: q.limit ?? 20 } }),
   run: (id: number): Promise<{ run: RunDetail }> => call('run', { query: { id } }),
+  /** シナリオごとの集計（scenario を付けるとそのシナリオだけ） */
+  stats: (scenario = ''): Promise<StatsResponse> => call('stats', { query: { scenario }, token: null }),
   me: (token: string): Promise<{ user: PublicUser }> => call('me', { token }),
   register: (p: ProfileInput): Promise<{ user: PublicUser; token: string }> => call('register', { body: p, token: null }),
   updateProfile: (p: ProfileInput): Promise<{ user: PublicUser }> => call('profile', { body: p }),

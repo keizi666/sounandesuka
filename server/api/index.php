@@ -142,6 +142,43 @@ try {
     respond(200, ['items' => $items, 'total' => $total, 'counts' => $counts, 'scenarios' => $scenarios]);
   }
 
+  if ($method === 'GET' && $a === 'stats') {
+    // シナリオごとの集計（載せた記録だけ。隠した記録は数えない）。scenario を付けるとそのシナリオだけ
+    $scenario = (string) ($_GET['scenario'] ?? '');
+    $where = 'hidden = 0' . ($scenario !== '' ? ' AND scenario_id = ?' : '');
+    $args = $scenario !== '' ? [$scenario] : [];
+    $by = [];
+    $q = $pdo->prepare("SELECT scenario_id, ending, COUNT(*) AS n FROM runs WHERE $where GROUP BY scenario_id, ending");
+    $q->execute($args);
+    foreach ($q->fetchAll() as $r) {
+      $id = (string) $r['scenario_id'];
+      if (!isset($by[$id])) $by[$id] = ['id' => $id, 'title' => $id, 'n' => 0, 'players' => 0, 'counts' => [], 'deathsAny' => 0];
+      $by[$id]['counts'][(string) $r['ending']] = (int) $r['n'];
+      $by[$id]['n'] += (int) $r['n'];
+    }
+    $q = $pdo->prepare("SELECT scenario_id, COUNT(DISTINCT user_id) AS p FROM runs WHERE $where GROUP BY scenario_id");
+    $q->execute($args);
+    foreach ($q->fetchAll() as $r) if (isset($by[$r['scenario_id']])) $by[$r['scenario_id']]['players'] = (int) $r['p'];
+    // 亡くなった人が出た記録（要約の deaths）。SQLite に JSON の関数がなければ、PHP で要約を読む
+    try {
+      $q = $pdo->prepare("SELECT scenario_id, COUNT(*) AS d FROM runs WHERE $where AND CAST(json_extract(summary, '$.deaths') AS INTEGER) > 0 GROUP BY scenario_id");
+      $q->execute($args);
+      foreach ($q->fetchAll() as $r) if (isset($by[$r['scenario_id']])) $by[$r['scenario_id']]['deathsAny'] = (int) $r['d'];
+    } catch (PDOException $e) {
+      $q = $pdo->prepare("SELECT scenario_id, summary FROM runs WHERE $where");
+      $q->execute($args);
+      foreach ($q->fetchAll() as $r) {
+        $s = json_decode((string) $r['summary'], true);
+        if (isset($by[$r['scenario_id']]) && is_array($s) && (int) ($s['deaths'] ?? 0) > 0) $by[$r['scenario_id']]['deathsAny'] += 1;
+      }
+    }
+    $titles = scenario_titles();
+    foreach ($by as $id => $v) if (isset($titles[$id])) $by[$id]['title'] = $titles[$id];
+    $out = array_values($by);
+    usort($out, fn ($x, $y) => $y['n'] <=> $x['n']);
+    respond(200, ['scenarios' => array_slice($out, 0, 100)]);
+  }
+
   if ($method === 'GET' && $a === 'run') {
     $me = current_user();
     $q = $pdo->prepare('SELECT ' . RUN_COLS . ', runs.record, runs.hidden FROM runs JOIN users ON users.id = runs.user_id WHERE runs.id = ?');

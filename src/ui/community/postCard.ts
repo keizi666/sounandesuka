@@ -16,6 +16,7 @@ import { el, toast } from '../dom';
 import { optionLabel, type SimResult } from '../simScreen';
 import { cIcon, counted, errorText, sexAgeText, userAvatar } from './common';
 import { openProfileDialog } from './profileDialog';
+import { compareBox } from './stats';
 
 export function communityPostCard(app: AppContext, loaded: LoadedScenario, result: SimResult, ending: { kind: string; title: string }): HTMLElement {
   const C = JA.community;
@@ -72,6 +73,7 @@ export function communityPostCard(app: AppContext, loaded: LoadedScenario, resul
         markPosted(result.runId, r.id);
         toast(C.posted);
         doneView(r.id);
+        compare();
       } catch (x) {
         err.textContent = errorText(x);
         go.disabled = false;
@@ -87,13 +89,24 @@ export function communityPostCard(app: AppContext, loaded: LoadedScenario, resul
     );
   };
 
+  // みんなの結果と比べる（公開しているシナリオだけ。載せたら、自分の記録も入れて読み直す）
+  let cmp: HTMLElement | null = null;
+  const compare = (): void => {
+    const b = compareBox(s.id, ending.kind);
+    if (cmp?.isConnected) cmp.replaceWith(b);
+    else card.insertBefore(b, body);
+    cmp = b;
+  };
   const posted = postedRuns()[result.runId];
-  if (posted) doneView(posted);
-  else
+  if (posted) {
+    compare();
+    doneView(posted);
+  } else
     void loadIndex()
       .then((idx) => {
-        if (idx.some((e) => e.id === s.id)) formView();
-        else body.replaceChildren(el('p', { class: 'cm-note' }, C.notListed));
+        if (!idx.some((e) => e.id === s.id)) return void body.replaceChildren(el('p', { class: 'cm-note' }, C.notListed));
+        compare();
+        formView();
       })
       .catch(() => body.replaceChildren(el('p', { class: 'cm-note' }, C.notListed)));
   return card;

@@ -12,6 +12,7 @@ import personEdit from '@material-symbols/svg-400/rounded/person_edit.svg?raw';
 import send from '@material-symbols/svg-400/rounded/send.svg?raw';
 import chevronRight from '@material-symbols/svg-400/rounded/chevron_right.svg?raw';
 import arrowBack from '@material-symbols/svg-400/rounded/arrow_back.svg?raw';
+import barChart from '@material-symbols/svg-400/rounded/bar_chart.svg?raw';
 import { JA } from '../../i18n/ja';
 import { fill } from '../../i18n/format';
 import { ApiError, avatarImageUrl } from '../../net/communityApi';
@@ -20,7 +21,7 @@ import type { PublicUser } from '../../net/communityTypes';
 import { avatar } from '../avatar';
 import { el } from '../dom';
 
-const C_ICONS = { contentCopy, delete: deleteIc, flag2, forum, key, personEdit, send, chevronRight, arrowBack } as const;
+const C_ICONS = { contentCopy, delete: deleteIc, flag2, forum, key, personEdit, send, chevronRight, arrowBack, barChart } as const;
 export type CIconName = keyof typeof C_ICONS;
 
 /** この画面だけで使うアイコン（icons.ts と同じ作り。Material Symbols Rounded、Apache-2.0、同梱） */

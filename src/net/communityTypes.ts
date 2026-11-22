@@ -62,6 +62,25 @@ export interface ListResponse {
   scenarios: { id: string; title: string; n: number }[];
 }
 
+/** シナリオごとの集計（a=stats。載せた記録だけを数える。隠した記録は数えない） */
+export interface ScenarioStats {
+  id: string;
+  title: string;
+  /** 記録の数 */
+  n: number;
+  /** 載せた人の数 */
+  players: number;
+  /** 結末の種類ごとの件数 */
+  counts: Record<string, number>;
+  /** 亡くなった人が 1 人でも出た記録の数 */
+  deathsAny: number;
+}
+
+export interface StatsResponse {
+  /** 記録の多い順 */
+  scenarios: ScenarioStats[];
+}
+
 export interface ApiError {
   error: string;
 }

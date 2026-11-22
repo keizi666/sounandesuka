@@ -99,6 +99,21 @@ export function devCommunityApi(root: string): Plugin {
       }
       return [200, { items: hit.slice(offset, offset + limit).map((r) => out(db, r, me, false)), total: hit.length, counts, scenarios: [...sc.values()].sort((x, y) => y.n - x.n) }];
     }
+    if (req.method === 'GET' && a === 'stats') {
+      const scenario = url.searchParams.get('scenario') ?? '';
+      const by = new Map<string, { id: string; title: string; n: number; players: number; counts: Record<string, number>; deathsAny: number; users: Set<number> }>();
+      for (const r of live) {
+        if (scenario && r.summary.scenarioId !== scenario) continue;
+        const v = by.get(r.summary.scenarioId) ?? { id: r.summary.scenarioId, title: r.summary.scenarioTitle, n: 0, players: 0, counts: {}, deathsAny: 0, users: new Set<number>() };
+        v.n += 1;
+        v.counts[r.summary.ending] = (v.counts[r.summary.ending] ?? 0) + 1;
+        if (Number(r.summary.deaths) > 0) v.deathsAny += 1;
+        v.users.add(r.userId);
+        by.set(v.id, v);
+      }
+      const scenarios = [...by.values()].map(({ users, ...v }) => ({ ...v, players: users.size })).sort((x, y) => y.n - x.n);
+      return [200, { scenarios }];
+    }
     if (req.method === 'GET' && a === 'run') {
       const r = db.runs.find((x) => x.id === Number(url.searchParams.get('id')));
       if (!r || (r.hidden && me?.id !== r.userId)) throw new Fail(404, 'notFound');

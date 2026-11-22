@@ -14,6 +14,7 @@ import { icon } from '../icons';
 import { cIcon, dateText, errorText, hm, sexAgeText, userAvatar } from './common';
 import { ENDING_COLOR } from './endingColors';
 import { openProfileDialog } from './profileDialog';
+import { statsLine, statsTable } from './stats';
 
 const PAGE = 24;
 const state: { scenario: string; ending: string; user: number; userName: string; scrollY: number } = { scenario: '', ending: '', user: 0, userName: '', scrollY: 0 };
@@ -92,6 +93,30 @@ export function showCommunity(app: AppContext): () => void {
     reload();
   });
   const distBox = el('div');
+  // シナリオごとの結果（絞り込みがないときは表、シナリオで絞り込んだときは 1 行）
+  const statsBox = el('div');
+  let statsReq = 0;
+  const paintStats = (): void => {
+    const req = ++statsReq;
+    if (state.user > 0) return void statsBox.replaceChildren();
+    void communityApi
+      .stats(state.scenario)
+      .then((res) => {
+        if (gone || req !== statsReq) return;
+        if (state.scenario === '') {
+          statsBox.replaceChildren(res.scenarios.length > 1 ? statsTable(res.scenarios, (id) => {
+            state.scenario = id;
+            state.ending = '';
+            reload();
+            window.scrollTo(0, 0);
+          }) : '');
+        } else {
+          const st = res.scenarios.find((x) => x.id === state.scenario);
+          statsBox.replaceChildren(st ? statsLine(st) : '');
+        }
+      })
+      .catch(() => req === statsReq && statsBox.replaceChildren());
+  };
   const userChip = el('div', { class: 'cm-userchip' });
   const totalEl = el('span', { class: 'cm-total' });
   const grid = el('div', { class: 'cm-grid' });
@@ -122,6 +147,7 @@ export function showCommunity(app: AppContext): () => void {
       if (first) {
         grid.replaceChildren();
         paintFilters(res);
+        paintStats();
       }
       grid.append(...res.items.map((r) => runCard(app, r)));
       offset += res.items.length;
@@ -155,6 +181,7 @@ export function showCommunity(app: AppContext): () => void {
         el('p', { class: 'cm-lead' }, C.lead),
         el('div', { class: 'cm-filters' }, [select, totalEl]),
         userChip,
+        statsBox,
         distBox,
         msg,
         grid,

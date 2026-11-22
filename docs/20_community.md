@@ -8,8 +8,8 @@
 | 場所 | 内容 | ファイル |
 |---|---|---|
 | トップ（シナリオ一覧） | 見出しの帯の下・「シナリオを選ぶ」の上に、横長のバナー（水色・角丸・白い文字）。最近載せた人の顔と件数 | `src/ui/community/banner.ts` |
-| 結果の画面 | 「みんなの遭難記録に載せる」欄。プロフィール・感想（200 字まで）・「記録を載せる」。載せたら「載せた記録を見る」 | `src/ui/community/postCard.ts` |
-| 一覧（`community`） | シナリオで絞り込み、結末の割合の帯と結末での絞り込み、カード（人・シナリオ・結末・時間・最低体温・距離・選択の数・感想）、もっと見る | `src/ui/community/communityScreen.ts` |
+| 結果の画面 | 「みんなの遭難記録に載せる」欄。「みんなの結果と比べる」（そのシナリオの記録の数・結末の帯・自分と同じ結末の割合）、プロフィール・感想（200 字まで）・「記録を載せる」。載せたら「載せた記録を見る」 | `src/ui/community/postCard.ts`・`stats.ts` |
+| 一覧（`community`） | シナリオで絞り込み、「シナリオごとの結果」（絞り込みがないときは表: 記録の数と人数・結末の帯・無事の割合・亡くなった人が出た割合。行を押すと絞り込む。絞り込んだときは 1 行）、結末の割合の帯と結末での絞り込み、カード（人・シナリオ・結末・時間・最低体温・距離・選択の数・感想）、もっと見る | `src/ui/community/communityScreen.ts`・`stats.ts` |
 | 詳細（`communityRun`） | 人・結末・数字、感想（通報／自分のなら消す）、分岐での選択、地図の軌跡（拡大縮小）、体温と天気のグラフ、メンバーの状態の推移 | `src/ui/community/communityDetail.ts` |
 | プロフィール | ニックネーム（12 字）・性別・年代（どちらも「答えない」可）・アイコン（似顔絵 64 種・絵文字 67 種・アップロードした画像）・枠の色、引き継ぎコード、端末から外す、すべて消す | `src/ui/community/profileDialog.ts` |
 
@@ -53,6 +53,7 @@ POST は `Content-Type: application/json` に限る（よそのサイトのフ�
 |---|---|---|---|
 | `list` | GET | 任意 | `scenario`・`ending`・`user`・`offset`・`limit`（50 まで）。`{ items, total, counts, scenarios }` |
 | `run` | GET | 任意 | `id`。記録つきの 1 件。隠したものは本人だけ |
+| `stats` | GET | − | `scenario`（省略ですべて）。シナリオごとの集計 `{ scenarios: [{ id, title, n, players, counts, deathsAny }] }`（記録の多い順・100 件まで。隠したものは数えない。`deathsAny` は要約の `deaths` が 1 以上の記録の数で、SQLite に JSON の関数がなければ PHP で要約を読む） |
 | `me` | GET | 要 | 自分のプロフィール（引き継ぎコードの確かめ） |
 | `register` | POST | − | プロフィールを作る。`{ user, token }` |
 | `profile` | POST | 要 | プロフィールを直す |
