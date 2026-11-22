@@ -578,6 +578,7 @@
     {
       "id": "cp_phone_notice",
       "title": "スマホがない",
+      "group": "dad",
       "priority": 14,
       "trigger": { "all": [{ "elapsedSince": { "flag": "phoneDropped", "min": 18 } }, { "not": { "elapsedSince": { "flag": "phoneDropped", "min": 60 } } }, { "var": "c.kenichi.phone.has", "op": "==", "value": false }, { "var": "c.kenichi.state", "op": "==", "value": "WALKING" }] },
       "situation": "下る途中、スマホがないのに気づいた。展望台で落としたらしい。電話も地図もバス代も、全部スマホの中だ。",
