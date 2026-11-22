@@ -103,7 +103,8 @@ main > header.cm-bar { display: block; }
 .cm-card-facts { display: flex; flex-wrap: wrap; gap: 6px 14px; color: #cfd5de; font-size: 0.88em; font-variant-numeric: tabular-nums; }
 .cm-card-facts span { display: inline-flex; align-items: center; gap: 4px; }
 .cm-card-facts .ic { width: 1.1em; height: 1.1em; color: var(--muted); }
-.cm-card-comment { margin: 2px 0 0; padding: 10px 12px; border-radius: 10px; background: rgba(0, 0, 0, 0.22); color: #e2e6ec; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+/* 長い感想は 3 行の高さで止め、カードの中でスクロールして読む（ユーザーの指定。以前は 3 行で切っていて、続きが読めなかった） */
+.cm-card-comment { margin: 2px 0 0; padding: 10px 12px; border-radius: 10px; background: rgba(0, 0, 0, 0.22); color: #e2e6ec; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; flex: none; max-height: calc(1.6em * 3 + 20px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.25) transparent; }
 .cm-more { align-self: center; min-width: 200px; padding: 10px 24px; border-radius: 999px; }
 .cm-more[hidden] { display: none; }
 
