@@ -32,7 +32,9 @@ export function eventSound(e: SimEvent): { id: string; volume: number } | null {
       return d['illnessOnset'] || d['anaphylaxisOnset'] ? { id: 'heartbeat', volume: 0.9 } : null;
     case 'FALL':
     case 'GUST_FALL':
-      return d['injury'] && d['injury'] !== 'none' && d['injury'] !== 'bruise' ? { id: 'bass-drop', volume: 0.9 } : null;
+      // 転んで打撲・擦り傷を負ったときも鳴らす（小さめに。ユーザーの指定: 事故が起きたら効果音を鳴らす）。けがのない転倒は鳴らさない
+      if (!d['injury'] || d['injury'] === 'none') return null;
+      return { id: 'bass-drop', volume: d['injury'] === 'bruise' ? 0.5 : 0.9 };
     default:
       return null;
   }

@@ -1427,7 +1427,7 @@
       "knowledge": [
         "下の沢は水根沢か、その枝沢らしい。水根沢には谷沿いの登山道（水根沢林道）があるが、どちらの岸の、どの高さを通っているのか分からない",
         "水根沢は滝とゴルジュのある沢で、沢登りの人が入る所",
-        "広い尾根まで登り返すと、標高差 400 m、1 時間半はかかる",
+        "広い尾根まで登り返すと、標高差 350 m、1 時間以上はかかる",
         "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
         "日の入りは 16:29。谷はもっと早く暗くなる"
       ],
@@ -2621,6 +2621,135 @@
                 "add": 0.4
               }
             ]
+          }
+        }
+      ]
+    },
+    "bruised": {
+      "situation": "濡れた落ち葉に足を取られ、斜面を滑り落ちた。打ち身と擦り傷で痛むが、歩けそうだ。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "日の入りは 16:29。谷はもっと早く暗くなる",
+        "水 {leader.waterL:1}L・食べ物 {leader.foodKcal:0}kcal"
+      ],
+      "options": [
+        {
+          "id": "back",
+          "label": "来た所を登り返す",
+          "detail": "痛むが、通ってきた所なら様子が分かる。",
+          "available": {
+            "any": [
+              {
+                "state": "DESCENDING_DRAINAGE"
+              },
+              {
+                "state": "OFFROUTE_UNAWARE"
+              },
+              {
+                "state": "LOST_AWARE"
+              },
+              {
+                "state": "BACKTRACKING"
+              },
+              {
+                "state": "NAVIGATING_TO_TRAIL"
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "落ち着いて。上へ戻ろう",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "rest",
+          "label": "休んで、けがを確かめる",
+          "available": {
+            "state": "WALKING"
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "rest",
+              "minutes": 15
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "careful",
+          "label": "足もとに気をつけて、ゆっくり進む",
+          "detail": "いまの向きのまま、慎重に。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "ゆっくり。もう滑らないように",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.85
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.7
+          }
+        },
+        {
+          "id": "wait",
+          "label": "ツェルトをかぶって動かない",
+          "detail": "これ以上動くと、また落ちるかもしれない。",
+          "available": {
+            "not": {
+              "state": "WALKING"
+            }
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "bias": {
+            "base": 0.3
           }
         }
       ]
@@ -3991,7 +4120,7 @@
   },
   "sources": [
     "架空の人物・架空の経過（作者の設定: 2009 年 12 月中旬、40 代の単独の女性、榧ノ木尾根の下りで東の支尾根に入り、末端で滑落）。同じ時期・同じ尾根で実際に起きた遭難の記録を再現したものではない",
-    "行程: 作者が描いた GPX（女の湯バス停〜倉戸山〜榧ノ木山の先で引き返し〜標高 1,300 m 前後の広い尾根から東の支尾根〜水根沢側の末端。本来の下山路は倉戸山〜倉戸口）",
+    "行程: 作者が描いた GPX（女の湯バス停〜倉戸山〜榧ノ木山の先で引き返し〜標高 1,260 m 前後の広い尾根から東の支尾根〜水根沢側の末端。本来の下山路は倉戸山〜倉戸口）",
     "榧ノ木尾根・倉戸山のまわりで下山中の道迷いが多いこと、テープが登山用とは限らないこと: 奥多摩ビジターセンターの講習（2017 年）の参加者の記録、山行記録、金邦夫『すぐそこにある遭難事故』の事例の二次引用",
     "作者の想定: 2009 年当時の道標の少なさ、携帯電話の電波（奥多摩湖の南岸の基地局から、湖畔と倉戸山は入り、榧ノ木尾根の上部・東の支尾根・水根沢の谷は圏外）、バスの時刻、天気は架空（曇りのち雨・尾根で風速 10 m/s・翌朝に雨がやむ）、救助隊の動き、支尾根の踏み跡と末端の様子",
     "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",

@@ -222,6 +222,7 @@ JSON で表す論理式。`eval` は使わない。
 | `darkness` | 暗くなった かつ 行動中 かつ 目的地未着 | `continue`: ヘッドランプで続行→continueRoute / `bivouac`: その場でビバーク(recommended)→bivouac(dawn, findLee) / `toShelter`: 近い小屋を目指す（2 km 以内に小屋がある時）→goToNode(最寄り小屋, stay) |
 | `hypothermia` | リーダー `coreC < 35.3` かつ 屋外（1 回、以後 `< 34.0` で再度 1 回） | `bivouac`: 風下でビバーク(recommended)→addLayer, eat, bivouac(dawn, findLee) / `push_eat`: 食べて着込み続行→addLayer, eat, continueRoute / `keep_walking`: 歩き続けて体を温める(risky)→setPace 1.1, continueRoute / `call`: 救助要請(recommended, 電波時)→callRescue, waitRescue |
 | `injured` | 負傷 `sprain` 以上 | `slow_descend`: ゆっくり下山→setPace 0.6, continueRoute / `bivouac`: ビバークして待つ→bivouac(rescue) / `call`: 救助要請(recommended, 電波時)→callRescue, waitRescue / `seek_signal`: 電波を探して移動→seekSignal |
+| `bruised` | 転んで打撲・擦り傷（歩ける） | `rest`: 休んでけがを確かめる(recommended, 歩いている途中だけ)→rest 15, continueRoute / `careful`: 足もとに気をつけてゆっくり(recommended)→setPace 0.85 / `push`: そのまま進む(risky)→setPace 1 |
 | `lightning` | `leader.local.thunder > 0.5` かつ 稜線上（1 回） | `off_ridge`: 稜線を外れて下る(recommended)→moveOffRidge 80 / `rush`: 急いで通過(risky)→setPace 1.2, continueRoute / `crouch`: その場で雷しゃがみ→lightningPosture 30 / `remove_metal`: 金属を外して進む(risky)→removeMetal, continueRoute |
 | `waterfall` | 滝の手前で停止 | `climb_back`: 登り返す(recommended)→backtrack / `high_route`: 高巻きする(risky)→descendDrainage（崖の判定が厳しくなる）/ `bivouac`: ここでビバーク→bivouac(dawn, findLee) |
 | `straggler` | `loose` のグループでリーダーが遅れに気づいた | `wait`: 待って全員をそろえる(recommended)→rest 20, setCohesion tight / `go`: 先に進む(risky)→continueRoute / `back`: 遅れた人のところへ戻る→goToMember |

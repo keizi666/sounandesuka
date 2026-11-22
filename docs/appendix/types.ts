@@ -519,7 +519,7 @@ export interface ChoicePointDef {
   options: ChoiceOptionDef[];
 }
 
-export type GenericChoiceKey = 'lostAware' | 'darkness' | 'hypothermia' | 'injured' | 'lightning' | 'waterfall' | 'straggler' | 'rescueFailed';
+export type GenericChoiceKey = 'lostAware' | 'darkness' | 'hypothermia' | 'injured' | 'bruised' | 'lightning' | 'waterfall' | 'straggler' | 'rescueFailed';
 export interface GenericOverride { enabled?: boolean; situation?: string; knowledge?: string[]; options?: ChoiceOptionDef[] }
 
 // ---------- イベント ----------

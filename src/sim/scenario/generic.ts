@@ -93,6 +93,17 @@ export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options:
       opt('seek_signal', [{ type: 'seekSignal' }], 0.3, { available: HAS_PHONE, hideIfUnavailable: true }),
     ],
   },
+  // 転んで打撲・擦り傷を負った（歩ける）。ユーザーの指定: 事故が起きたら、どうするかの選択肢を出す
+  bruised: {
+    priority: 5,
+    options: [
+      // 休んでけがを確かめる（歩いている途中だけ。休んだあとは計画の道を続ける）
+      opt('rest', [{ type: 'rest', minutes: 15 }, { type: 'continueRoute' }], 0.6, { tags: ['recommended'], available: { var: 'leader.state', op: '==', value: 'WALKING' }, hideIfUnavailable: true }),
+      // 足もとに気をつけて、ゆっくり進む（いまの動きを続ける）
+      opt('careful', [{ type: 'setPace', factor: 0.85 }], 0.7, { tags: ['recommended'] }),
+      opt('push', [{ type: 'setPace', factor: 1 }], 0.6, { tags: ['risky'], bias: { base: 0.6, mods: [{ when: { var: 'leader.def.riskTolerance', op: '>', value: 0.5 }, add: 0.3 }] } }),
+    ],
+  },
   lightning: {
     priority: 4,
     options: [
@@ -203,6 +214,9 @@ export function genericTrigger(world: World, ctx: StaticContext, key: GenericCho
     }
     case 'injured':
       return rising(world, L, ['sprain', 'legFracture', 'headInjury', 'severeTrauma'].includes(leader.body.injury) && leader.body.conscious);
+    case 'bruised':
+      // 打撲・擦り傷を負った瞬間（けがなし → 打撲）。それより重いけがは injured
+      return rising(world, L, leader.body.injury === 'bruise' && leader.body.conscious);
     case 'lightning':
       return !fired && leader.local.thunder > 0.5 && lightningExposure(world, ctx, leader) >= ctx.tuning.lightning.exposureRidge;
     case 'waterfall':

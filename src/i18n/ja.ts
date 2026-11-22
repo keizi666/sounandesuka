@@ -739,6 +739,11 @@ export const JA = {
       situation: '稲妻が走り、すぐに雷鳴が響いた。稜線の上にいる。',
       options: { off_ridge: '稜線を外れて下る', rush: '急いで通過する', crouch: 'その場で雷しゃがみ', remove_metal: '金属を外して進む' },
     },
+    bruised: {
+      title: '転んでけがをした',
+      situation: '足を取られて転んだ。打ち身と擦り傷で痛むが、歩けそうだ。どうする？',
+      options: { rest: '休んで、けがを確かめる', careful: '足もとに気をつけて、ゆっくり進む', push: '気にせず、そのまま進む' },
+    },
     waterfall: {
       title: '滝',
       situation: '沢を下っていくと、行く手が切れ落ちていた。下から水の落ちる音がする。',

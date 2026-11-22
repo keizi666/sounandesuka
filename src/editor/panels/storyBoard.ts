@@ -32,7 +32,7 @@ export interface BoardApi {
   done(s: StorySel | null): void;
 }
 
-const GENERICS: GenericChoiceKey[] = ['lostAware', 'darkness', 'hypothermia', 'injured', 'lightning', 'waterfall', 'straggler', 'rescueFailed'];
+const GENERICS: GenericChoiceKey[] = ['lostAware', 'darkness', 'hypothermia', 'injured', 'bruised', 'lightning', 'waterfall', 'straggler', 'rescueFailed'];
 const GOOD: EndingKind[] = ['SAFE_RETURN', 'SAFE_SHELTER', 'ABORTED', 'SELF_RESCUE'];
 
 /** 条件から「どこで」「いつ」を取り出す（直接か、「すべて満たす」の中） */

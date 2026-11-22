@@ -24,7 +24,7 @@ export interface AiPromptInput {
   real: boolean;
 }
 
-const GENERIC_KEYS = ['lostAware（道迷いに気づいた）', 'darkness（暗くなった）', 'hypothermia（低体温の兆し）', 'injured（けが）', 'lightning（雷が近い）', 'waterfall（沢で滝に行き当たった）', 'straggler（遅れている人がいる）', 'rescueFailed（通報がつながらない）'];
+const GENERIC_KEYS = ['lostAware（道迷いに気づいた）', 'darkness（暗くなった）', 'hypothermia（低体温の兆し）', 'injured（けが）', 'bruised（転んで打撲・擦り傷）', 'lightning（雷が近い）', 'waterfall（沢で滝に行き当たった）', 'straggler（遅れている人がいる）', 'rescueFailed（通報がつながらない）'];
 const ENDING_KINDS = ['SAFE_RETURN（無事下山）', 'SAFE_SHELTER（小屋で過ごした）', 'ABORTED（行かなかった）', 'SELF_RESCUE（ビバークの末に自力で）', 'RESCUED（救助）', 'RESCUED_CRITICAL（重い状態で救助）', 'MISSING（見つからない）', 'FATAL（死亡）'];
 const EFFECTS = ['log', 'forecastUpdate', 'setFlag', 'clearFlag', 'injure', 'rockfall', 'fall', 'fillWater', 'heatIllness', 'actions', 'weatherOverride', 'pin', 'triggerChoice', 'soak', 'say', 'animal', 'animalLeave'];
 

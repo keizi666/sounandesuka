@@ -17,7 +17,7 @@ import { varGroups } from '../forms/varPaths';
 import { firstTrueTime, worldAtChoice } from '../probe';
 import { nextId } from '../store/project';
 
-const GENERICS: GenericChoiceKey[] = ['lostAware', 'darkness', 'hypothermia', 'injured', 'lightning', 'waterfall', 'straggler', 'rescueFailed'];
+const GENERICS: GenericChoiceKey[] = ['lostAware', 'darkness', 'hypothermia', 'injured', 'bruised', 'lightning', 'waterfall', 'straggler', 'rescueFailed'];
 let previewText = '';
 
 function optionEditor(ed: Ed, cp: ChoicePointDef, o: ChoiceOptionDef, i: number): HTMLElement {

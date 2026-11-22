@@ -17,7 +17,7 @@ export interface Issue {
 }
 
 const ENDING_KINDS = ['SAFE_RETURN', 'SAFE_SHELTER', 'ABORTED', 'SELF_RESCUE', 'RESCUED', 'RESCUED_CRITICAL', 'MISSING', 'FATAL'];
-const GENERIC_KEYS = ['lostAware', 'darkness', 'hypothermia', 'injured', 'lightning', 'waterfall', 'straggler', 'rescueFailed'];
+const GENERIC_KEYS = ['lostAware', 'darkness', 'hypothermia', 'injured', 'bruised', 'lightning', 'waterfall', 'straggler', 'rescueFailed'];
 export const STATES = [
   'WALKING', 'RESTING', 'SHELTERED', 'BIVOUAC', 'OFFROUTE_UNAWARE', 'LOST_AWARE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL',
   'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL', 'STAYING', 'WAITING_RESCUE', 'INCAPACITATED', 'UNCONSCIOUS', 'FINISHED', 'RESCUED', 'DEAD',
