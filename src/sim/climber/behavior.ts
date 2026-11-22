@@ -46,6 +46,17 @@ export function thirstOf(c: ClimberState, tuning: Tuning): number | null {
   return Math.min(1, (felt - bt.thirstStartL) / bt.thirstSpanL);
 }
 
+/**
+ * お腹の空き具合: bonk（力が入らない。グリコーゲンが bonkFeelKcal 未満）・hungry（グリコーゲン＋胃の中が eatHungryKcal 未満）・none。
+ * 食べる習慣のない人も空腹は感じる（食べるのを後回しにするだけ）
+ */
+export function hungerOf(c: ClimberState, tuning: Tuning): 'none' | 'hungry' | 'bonk' {
+  const bt = tuning.behavior;
+  if (c.body.glycogenKcal < bt.bonkFeelKcal) return 'bonk';
+  const fed = c.body.glycogenKcal + c.body.gutKcal * tuning.physiology.absorbEff;
+  return fed < bt.eatHungryKcal ? 'hungry' : 'none';
+}
+
 /** これから向かうルートの先、distM の中に小屋があるか（次の 2 地点まで、直線距離で見る） */
 function hutAhead(ctx: StaticContext, c: ClimberState, distM: number): boolean {
   const ahead = c.plan.route.slice(c.plan.routeIndex, c.plan.routeIndex + 2);

@@ -65,6 +65,8 @@ export const behavior = {
   eatFullKcal: 1600,
   eatMaxKcal: 500,
   eatLowGlycogenKcal: 450,
+  /** 力が入らない（シャリバテ）と感じるグリコーゲン（kcal）。考え・画面の表示だけに使う */
+  bonkFeelKcal: 300,
   eatHabitP: 0.8,
   eatLowP: 0.5,
   eatForgetBelowJ: 0.3,

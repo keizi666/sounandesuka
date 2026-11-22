@@ -10,6 +10,8 @@ import { fill } from '../i18n/format';
 import { phoneLabel } from './phoneWord';
 import type { ClimberState, ScenarioDef, World } from '../sim/types';
 import { el, LEVEL_ICON, levelOf, type Level } from './dom';
+import { hungerOf, thirstOf } from '../sim/climber/behavior';
+import { TUNING } from '../sim/tuning';
 import { activeCells } from '../sim/weather/global';
 import { interpolateKeyframes, effectiveKeyframes } from '../sim/weather/global';
 
@@ -35,6 +37,10 @@ export function bottleLevel(leftL: number, capL: number): 'ok' | 'warn' | 'dange
   return leftL < 0.05 ? 'critical' : f < 0.2 || leftL < 0.2 ? 'danger' : f < 0.45 ? 'warn' : 'ok';
 }
 
+function hungerChip(h: 'none' | 'hungry' | 'bonk', chip: (ic: IconName, text: string) => HTMLElement): HTMLElement | null {
+  return h === 'bonk' ? chip('bolt', JA.ui.bonk) : h === 'hungry' ? chip('restaurant', JA.ui.hungry) : null;
+}
+
 export function climberCard(c: ClimberState, god: boolean, selected: boolean, onSelect: () => void, collapsed = false, onToggle?: () => void, bodyKnown = true, onZoom?: () => void): HTMLElement {
   const b = c.body;
   const core = levelOf(b.coreC, 36, 35, 32);
@@ -53,6 +59,9 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
     c.inv.headlamp.on ? chip('flashlightOn', JA.ui.headlampOn) : null,
     null as HTMLElement | null,
     b.injury !== 'none' ? chip('healing', JA.labels.injury[b.injury] ?? b.injury) : null,
+    // 喉の渇き・空腹（本人の感じ方。体調が分からない難しさでは出さない）
+    bodyKnown && b.alive && b.conscious && thirstOf(c, TUNING) !== null ? chip('waterDrop', JA.ui.thirsty) : null,
+    bodyKnown && b.alive && b.conscious ? hungerChip(hungerOf(c, TUNING), chip) : null,
   ];
   // 総合の体力（HP）とスマホの電池は、小さくしたときも出す
   const hp = hpOf(b);

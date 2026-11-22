@@ -9,7 +9,7 @@ import { evalCondition } from '../scenario/conditions';
 import type { ClimberState, StaticContext, World } from '../types';
 import { isIndoors } from './situation';
 import { chargeDecision } from './devices';
-import { nauseous } from './behavior';
+import { hungerOf, nauseous, thirstOf } from './behavior';
 
 /** これより強い雨は「小降り」と考えない（mm/h） */
 const RAIN_HEAVY_MMH = 2;
@@ -54,6 +54,12 @@ const BUILTIN: Builtin[] = [
   { key: 'water_ration', priority: 5, when: (_w, _c, c) => c.def.gear.waterL > 0 && c.inv.waterL > 0 && c.inv.waterL / c.def.gear.waterL < 0.5 },
   { key: 'water_out', priority: 6, when: (_w, _c, c) => c.def.gear.waterL > 0 && c.inv.waterL <= 0.01 && c.body.waterDeficitL > 0.8 },
   { key: 'food_ration', priority: 5, when: (_w, _c, c) => c.def.gear.foodKcal > 0 && c.inv.foodKcal > 0 && c.inv.foodKcal / c.def.gear.foodKcal < 0.5 },
+  // 喉の渇き・空腹（ユーザーの指定: 渇いてから飲み、空いてから食べるので、そのときの気持ちを出す）
+  { key: 'thirsty', priority: 3, when: (_w, ctx, c) => thirstOf(c, ctx.tuning) !== null && c.inv.waterL > 0.01 },
+  { key: 'thirsty_no_water', priority: 6, when: (_w, ctx, c) => thirstOf(c, ctx.tuning) !== null && c.inv.waterL <= 0.01 && c.body.waterDeficitL <= 0.8 },
+  { key: 'hungry', priority: 3, when: (_w, ctx, c) => hungerOf(c, ctx.tuning) === 'hungry' && c.inv.foodKcal > 0 },
+  { key: 'hungry_no_food', priority: 5, when: (_w, ctx, c) => hungerOf(c, ctx.tuning) !== 'none' && c.inv.foodKcal <= 0 },
+  { key: 'bonk', priority: 6, when: (_w, ctx, c) => hungerOf(c, ctx.tuning) === 'bonk' && c.inv.foodKcal > 0 && MOVING.has(c.state) },
   // 「今夜はここで」は夕方から（昼の雨宿り・休憩では出さない）
   { key: 'sheltered', priority: 5, when: (w, _c, c) => c.state === 'SHELTERED' && (w.sun.isDark || clockOf(w) >= 15 * 60) },
   { key: 'unaware_offroute', priority: 6, when: (_w, _c, c) => c.state === 'OFFROUTE_UNAWARE' },
