@@ -662,6 +662,11 @@ export class SceneView {
     return this.fx.flash > 0 && !this.fx.strikeLit;
   }
 
+  /** いま光っている稲妻の場所（ワールド座標 m）。光っていなければ null */
+  get flashAt(): { x: number; z: number } | null {
+    return this.fx.boltAt;
+  }
+
   /** 登山者への落雷を描く（ワールド座標 m・標高 m） */
   strikeAt(x: number, z: number, elevM: number): void {
     this.fx.strike(x, z, elevM);

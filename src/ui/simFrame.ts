@@ -3,7 +3,7 @@
  */
 import { JA } from '../i18n/ja';
 import type { ScenarioDef, World } from '../sim/types';
-import type { AmbientSound } from '../view/ambientSound';
+import { thunderDelaySec, type AmbientSound } from '../view/ambientSound';
 import type { CameraMode, SceneView } from '../view/sceneView';
 import { audio } from './audio';
 import { toast } from './dom';
@@ -18,6 +18,8 @@ export function createFrameExtras(d: {
   scriptMusic(): string | undefined;
   /** 画質が「低」なら、重いときの提案を出さない */
   lowQuality: boolean;
+  /** 雷鳴を鳴らしたとき（光ってから届くまでの秒・雷までの km） */
+  onThunder?(delaySec: number, distKm: number): void;
 }): { update(w: World, now: number, sinceLastMs: number): void } {
   let wasFlash = false;
   let lastMusicAt = 0;
@@ -31,7 +33,13 @@ export function createFrameExtras(d: {
       const near = d.cam() === 'eye' ? 1 : Math.max(0.12, Math.min(1, 1.25 - d.view.focusDistance() / 1.6));
       if (fc) d.sound.update(Math.min(0.1, sinceLastMs / 1000), { windMs: fc.local.windMs * w.weather.gust, precipMmH: fc.local.precipMmH, snow: fc.local.precipType === 'snow' || fc.local.precipType === 'sleet', near });
       const fl = d.view.flashing;
-      if (fl && !wasFlash) d.sound.thunder(0.6 + (1 - Math.min(1, w.weather.thunder)) * 8);
+      if (fl && !wasFlash) {
+        // 雷鳴は、注目している登山者から稲妻までの距離だけ遅れて届く（場所が分からなければ雷の強さから見積もる）
+        const at = d.view.flashAt;
+        const distKm = at && fc ? Math.hypot(at.x - fc.x, at.z - fc.z) / 1000 : 0.6 + (1 - Math.min(1, w.weather.thunder)) * 8;
+        d.sound.thunder(distKm);
+        d.onThunder?.(thunderDelaySec(distKm), distKm);
+      }
       wasFlash = fl;
       // 曲: シナリオの指定がなければ、昼・夜・遭難のさなかで選ぶ（2 秒ごと）
       if (now - lastMusicAt > 2000) {

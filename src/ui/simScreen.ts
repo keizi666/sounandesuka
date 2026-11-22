@@ -2,7 +2,7 @@
  * シミュレーション画面（docs/11 §2〜3）。World・StaticContext・記録・描画・ループ・HUD・吹き出し・分岐点をつなぐ。
  * モード: 通常（分岐点で止まる）、判断時間制限（登山者は立ち止まって待ち、時間切れで傾向どおり）、観察のみ（傾向どおり自動）。
  */
-import { createAmbientSound } from '../view/ambientSound';
+import { createAmbientSound, thunderDelaySec } from '../view/ambientSound';
 import { createFigureIcons, ICON_LIFT_PX } from './figureIcons';
 import { closeLogDetail, snapOf } from './logDetail';
 import { Timeline } from '../app/timeline';
@@ -329,6 +329,20 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     f.addEventListener('animationend', () => f.remove());
     setTimeout(() => f.remove(), 2000);
   }
+  /** 雷鳴が届いたら「光ってから何秒・約何 km」を短く出す（30 秒に 1 回まで。1 秒未満の近い雷は出さない） */
+  let lastThunderNoteAt = -1e9;
+  function thunderNote(delaySec: number, distKm: number): void {
+    if (delaySec < 1 || replaying) return;
+    const now = performance.now();
+    if (now - lastThunderNoteAt < 30000) return;
+    lastThunderNoteAt = now;
+    setTimeout(() => {
+      const n = el('div', { class: 'thunder-note', role: 'status' }, JA.ui.thunderNote.replace('{sec}', String(Math.round(delaySec))).replace('{km}', distKm.toFixed(1)));
+      simMain.append(n);
+      n.addEventListener('animationend', () => n.remove());
+      setTimeout(() => n.remove(), 8000);
+    }, delaySec * 1000);
+  }
   function handleEvents(evs: readonly SimEvent[]): void {
     const fast = loop?.speed >= 15;
     for (const e of evs) {
@@ -343,7 +357,14 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         const z = typeof e.data?.['z'] === 'number' ? e.data['z'] : c?.z;
         if (x !== undefined && z !== undefined) view.strikeAt(x, z, c?.elevM ?? 0);
         strikeFlash();
-        audio().strike();
+        // 音: 注目している人のすぐ近く（300 m 以内）なら光と同時に裂ける音、離れていれば距離だけ遅れた雷鳴
+        const fc = world.climbers.find((m) => m.id === view.selected) ?? c;
+        const distKm = fc && x !== undefined && z !== undefined ? Math.hypot(x - fc.x, z - fc.z) / 1000 : 0;
+        if (distKm < 0.3) audio().strike();
+        else {
+          sound.thunder(distKm);
+          thunderNote(thunderDelaySec(distKm), distKm);
+        }
       }
       // 見守るパーティが変わったら、そのリーダーを選んで追う
       if (e.type === 'FOCUS') focusGroup(String(e.data?.['group'] ?? ''));
@@ -560,7 +581,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
 
   // ---- ループ ----
   let lastFrame = performance.now();
-  const frame = createFrameExtras({ view, sound, scenario, cam: () => cam, scriptMusic: () => scriptMusic, lowQuality: effectiveQuality(st) === 'low' });
+  const frame = createFrameExtras({ view, sound, scenario, cam: () => cam, scriptMusic: () => scriptMusic, lowQuality: effectiveQuality(st) === 'low', onThunder: thunderNote });
   loop = new Loop(world, ctx, {
     render: (w, prev, alpha, t) => {
       tt.applySeek();

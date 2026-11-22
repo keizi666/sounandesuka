@@ -6,6 +6,14 @@
  * 聞こえ方は、注目している登山者の場所の天気（シミュレーションの局地の値）と、カメラの近さで決める（俯瞰で遠くから見ているときは小さく）。
  * ブラウザの決まりで、最初の操作（ボタン）があるまで音は出せない。
  */
+/** 雷鳴の遅れの上限（秒）。これより遠い雷も、この遅れで鳴らす */
+export const THUNDER_MAX_DELAY_SEC = 15;
+
+/** 雷まで distKm のとき、光ってから雷鳴が届くまでの秒（音は秒速 340 m） */
+export function thunderDelaySec(distKm: number): number {
+  return Math.min(THUNDER_MAX_DELAY_SEC, distKm / 0.34);
+}
+
 export interface AmbientInput {
   windMs: number;
   precipMmH: number;
@@ -20,6 +28,7 @@ export interface AmbientSound {
   setVolume(v: number): void;
   update(dtSec: number, i: AmbientInput): void;
   /** 雷。distKm はその場所からの距離 */
+  /** 雷鳴を鳴らす。音は秒速 340 m なので、光ってから距離の分だけ遅れて届く（thunderDelaySec） */
   thunder(distKm: number): void;
   dispose(): void;
 }
@@ -183,8 +192,9 @@ export function createAmbientSound(): AmbientSound {
     thunder(distKm) {
       if (!ctx || !master || !on || !noiseBuf) return;
       const c = ctx;
-      // 音は秒速 340 m。遠いほど遅れて、低く、長く尾を引く（遅れはゲームの速さに関係なく実際の秒で）
-      const delay = Math.min(6, distKm / 0.34 / 4);
+      // 音は秒速 340 m。遠いほど遅れて、低く、長く尾を引く（遅れはゲームの速さに関係なく実際の秒で。
+      // 光ってから雷鳴までの秒数 ÷ 3 でおよその km が分かる。ユーザーの指定で、実際と同じ遅れにする。15 秒＝約 5 km まで）
+      const delay = thunderDelaySec(distKm);
       const t0 = c.currentTime + delay;
       const near = distKm < 1.2;
       const v = Math.min(1, 1.6 / (1 + distKm * 0.8));

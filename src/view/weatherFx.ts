@@ -8,6 +8,7 @@ import { groundBin, GROUND_BINS, GROUND_BIN_M } from '../sim/weather/ground';
 import type { MapRuntime, World } from '../sim/types';
 import { toSceneY, UNIT, type ViewScale } from './scale';
 import type { Quality } from './sceneView';
+import { createStrikeGlow } from './strikeGlow';
 import type { EnvUniforms } from './terrainMaterial';
 
 const COUNTS = {
@@ -52,7 +53,9 @@ export interface WeatherFx {
   readonly flash: number;
   /** いまの光が、登山者への落雷か（周りの稲妻の雷鳴を重ねて鳴らさないため） */
   readonly strikeLit: boolean;
-  /** 登山者への落雷: その場所（ワールド座標 m・標高 m）に雲から稲妻を落とし、強く光らせる */
+  /** いま光っている稲妻の場所（ワールド座標 m）。光っていなければ null（雷鳴を距離に合わせて遅らせるため） */
+  readonly boltAt: { x: number; z: number } | null;
+  /** 登山者への落雷: その場所（ワールド座標 m・標高 m）に雲から稲妻を落とし、強く光らせる。真上から見ても分かるように、着弾点の地面も光らせる */
   strike(x: number, z: number, elevM: number): void;
   update(world: World, env: EnvUniforms, camera: THREE.Camera, timeSec: number): void;
 }
@@ -244,6 +247,8 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
   let boltUntil = 0;
   let pending: { x: number; z: number; elevM: number } | null = null;
   let strikeFrom = 0;
+  let boltPos: { x: number; z: number } | null = null;
+  const glow = createStrikeGlow(scene, map.half);
 
   return {
     showClouds: true,
@@ -254,6 +259,9 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
     },
     get strikeLit() {
       return flashNow > 0 && strikeFrom > 0;
+    },
+    get boltAt() {
+      return flashNow > 0 ? boltPos : null;
     },
     strike(x, z, elevM) {
       pending = { x, z, elevM };
@@ -345,6 +353,7 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
         }
         pts.needsUpdate = true;
         boltUntil = t + 0.15;
+        boltPos = { x: bx / UNIT, z: bz / UNIT };
       }
       // 登山者への落雷: 雲底から打たれた人の所まで、ジグザグの稲妻を 0.5 秒、2 回またたかせる
       if (pending) {
@@ -361,8 +370,11 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
         pts.needsUpdate = true;
         boltUntil = t + 0.5;
         strikeFrom = t;
+        boltPos = { x: pending.x, z: pending.z };
+        glow.fire(bx, bot, bz);
         pending = null;
       }
+      glow.update();
       const on = t < boltUntil;
       // 落雷は 2 回またたく（0〜0.12 秒・0.22〜0.5 秒）
       const lit = on && (strikeFrom === 0 || t - strikeFrom < 0.12 || t - strikeFrom > 0.22);

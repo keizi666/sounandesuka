@@ -564,6 +564,8 @@ export const JA = {
     visibility: '視程',
     cloudBase: '雲底',
     thunder: '雷',
+    /** 雷鳴が届いたときの注記（{sec} 秒・{km} km） */
+    thunderNote: '光ってから {sec} 秒で雷鳴。約 {km} km 先の雷（音は 1 秒に約 340 m 進む）',
     none: 'なし',
     core: '体温',
     energy: 'エネルギー',

@@ -1261,3 +1261,16 @@ details[data-g]:not([open]) > summary .grp-mini:hover { border-color: var(--acce
   .strike-flash { animation: strike-flash-soft 0.6s ease-out forwards; }
   @keyframes strike-flash-soft { 0% { opacity: 0.35; } 100% { opacity: 0; } }
 }
+
+/* 雷鳴が届いたときの注記（光ってから何秒・約何 km。ユーザーの指定で、音の遅れから距離が分かることを伝える） */
+.thunder-note { position: absolute; left: 50%; top: 72px; transform: translateX(-50%); z-index: 41; pointer-events: none; max-width: min(92vw, 520px); padding: 6px 14px; border-radius: 999px; background: rgba(20, 26, 38, 0.78); color: #e9eef8; font-size: 13px; line-height: 1.5; text-align: center; animation: thunder-note 6s ease forwards; }
+@keyframes thunder-note {
+  0% { opacity: 0; transform: translate(-50%, -4px); }
+  8% { opacity: 1; transform: translate(-50%, 0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thunder-note { animation-name: thunder-note-soft; }
+  @keyframes thunder-note-soft { 0% { opacity: 0; } 8% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+}
