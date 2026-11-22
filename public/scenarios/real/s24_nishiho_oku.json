@@ -1,0 +1,5383 @@
+{
+ "id": "s24_nishiho_oku",
+ "version": 1,
+ "title": "西穂から奥穂へ、岩稜の滑落",
+ "subtitle": "9月上旬・経験2年の4人・西穂高岳〜奥穂高岳（実在の地形）",
+ "theme": "fall",
+ "difficulty": 5,
+ "season": "summer",
+ "estMinutes": 25,
+ "mapId": "hotaka",
+ "seed": 20260905,
+ "startDate": "2026-09-05",
+ "startAt": "D0 04:00",
+ "timeLimit": "D2 12:00",
+ "sun": {
+  "sunrise": "05:21",
+  "sunset": "18:12",
+  "maxElevDeg": 60
+ },
+ "moon": {
+  "illumination": 0.3,
+  "rise": "23:30",
+  "set": "14:00"
+ },
+ "region": {
+  "name": "北アルプス 西穂高岳〜奥穂高岳（岐阜県・長野県）",
+  "real": true
+ },
+ "briefing": {
+  "text": "健太（32）・大地（30）・美咲（31）・陽菜（28）の 4 人は、登山を始めて 2 年の仲間。一般の登山道は歩いてきたが、岩場には慣れていない。\n2 泊 3 日の計画で、きのう新穂高温泉からロープウェイで西穂高口駅（2,156 m）へ上がり、1 時間半歩いて西穂山荘（2,367 m）に泊まった。きのうは晴れだった。\n今日は西穂高岳を越え、間ノ岳・天狗のコル・ジャンダルムをへて奥穂高岳まで縦走し、穂高岳山荘からザイテングラートを下って涸沢ヒュッテに泊まる。あすは横尾をへて上高地へ下山する予定。\n西穂高岳から奥穂高岳までは、地図に破線で描かれる岩稜のルート。山小屋も水場もなく、途中で下りられるのは天狗のコルから岳沢への天狗沢だけで、そこも落石で荒れている。西穂山荘から涸沢ヒュッテまで、休みを入れずに 11 時間あまりかかる。\n登山届は提出済み。ヘルメットは 4 人ともかぶっている。ロープとツェルトは持っていない。",
+  "forecast": [
+   {
+    "label": "朝",
+    "text": "晴れ",
+    "icon": "sunny"
+   },
+   {
+    "label": "昼",
+    "text": "晴れ時々くもり。稜線に雲がかかる",
+    "icon": "cloudy"
+   },
+   {
+    "label": "午後",
+    "text": "14 時ごろから雨。南西の風が強まる",
+    "icon": "rain"
+   },
+   {
+    "label": "あす",
+    "text": "雨",
+    "icon": "rain"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "HUT",
+   "MARUYAMA",
+   "DOKUHYO",
+   "PYRAMID",
+   "NISHIHO",
+   "AINODAKE",
+   "TENGU_ATAMA",
+   "TENGU_COL",
+   "KOBU",
+   "GENS",
+   "ROBA",
+   "OKUHO",
+   "HOTAKA_HUT",
+   "KARASAWA"
+  ],
+  "goalNodes": [
+   "KARASAWA"
+  ],
+  "plannedFinish": "D0 16:30",
+  "submittedPlan": true,
+  "reportIfNotBackBy": "D1 19:00",
+  "wakeAt": "05:00"
+ },
+ "groups": [
+  {
+   "id": "main",
+   "members": "all",
+   "leader": "kenta",
+   "cohesion": "tight"
+  }
+ ],
+ "party": [
+  {
+   "id": "kenta",
+   "name": "健太",
+   "role": "計画を立てた人",
+   "age": 32,
+   "sex": "m",
+   "weightKg": 68,
+   "packKg": 10,
+   "experience": 0.3,
+   "fitness": 1,
+   "navSkill": 0.45,
+   "riskTolerance": 0.6,
+   "color": "#c0392b",
+   "leader": true,
+   "habits": {
+    "eatEveryMin": 120,
+    "drinkEveryMin": 50,
+    "delaysRainwear": 0.3,
+    "gpsCheckEveryMin": 60
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "rescueSheet": true,
+    "headlamp": {
+     "has": true,
+     "batteryH": 10,
+     "inPack": false,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 95,
+     "gpsApp": true,
+     "trackRecording": true,
+     "satelliteSos": false,
+     "strap": true
+    },
+    "powerBankMah": 10000,
+    "map": true,
+    "compass": true,
+    "foodKcal": 1400,
+    "waterL": 2,
+    "stove": false,
+    "crampons": false,
+    "helmet": true,
+    "trekkingPoles": false,
+    "whistle": false,
+    "footwear": "hikingBoots"
+   },
+   "notes": "架空の人物。登山を始めて 2 年。夏の八ヶ岳や北アルプスの一般の登山道を歩いてきた。岩場は、鎖のある所を何度か通ったことがあるくらい。今回の計画を立てた。紙の地図とコンパス、エマージェンシーシートを持つ。ツェルトとロープは持っていない"
+  },
+  {
+   "id": "daichi",
+   "name": "大地",
+   "age": 30,
+   "sex": "m",
+   "weightKg": 74,
+   "packKg": 10,
+   "experience": 0.3,
+   "fitness": 1.05,
+   "navSkill": 0.35,
+   "riskTolerance": 0.65,
+   "color": "#2471a3",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.5,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "rescueSheet": false,
+    "headlamp": {
+     "has": true,
+     "batteryH": 10,
+     "inPack": false,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 90,
+     "gpsApp": true,
+     "trackRecording": true,
+     "satelliteSos": false,
+     "strap": false
+    },
+    "powerBankMah": 5000,
+    "map": false,
+    "compass": false,
+    "foodKcal": 1600,
+    "waterL": 2,
+    "stove": false,
+    "crampons": false,
+    "helmet": true,
+    "trekkingPoles": false,
+    "whistle": false,
+    "footwear": "hikingBoots"
+   },
+   "notes": "架空の人物。登山を始めて 2 年。体力はあるが、岩場には慣れていない"
+  },
+  {
+   "id": "misaki",
+   "name": "美咲",
+   "age": 31,
+   "sex": "f",
+   "weightKg": 54,
+   "packKg": 8,
+   "experience": 0.3,
+   "fitness": 0.95,
+   "navSkill": 0.4,
+   "riskTolerance": 0.35,
+   "color": "#1e8449",
+   "habits": {
+    "eatEveryMin": 120,
+    "drinkEveryMin": 50,
+    "delaysRainwear": 0.2,
+    "gpsCheckEveryMin": 90
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.9,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "rescueSheet": true,
+    "headlamp": {
+     "has": true,
+     "batteryH": 10,
+     "inPack": false,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 90,
+     "gpsApp": true,
+     "trackRecording": true,
+     "satelliteSos": false,
+     "strap": false
+    },
+    "powerBankMah": 5000,
+    "map": false,
+    "compass": false,
+    "foodKcal": 1400,
+    "waterL": 1.5,
+    "stove": false,
+    "crampons": false,
+    "helmet": true,
+    "trekkingPoles": false,
+    "whistle": true,
+    "footwear": "hikingBoots"
+   },
+   "notes": "架空の人物。登山を始めて 2 年。慎重で、計画には少し不安があった。エマージェンシーシートと笛を持つ"
+  },
+  {
+   "id": "hina",
+   "name": "陽菜",
+   "age": 28,
+   "sex": "f",
+   "weightKg": 50,
+   "packKg": 8,
+   "experience": 0.3,
+   "fitness": 0.95,
+   "navSkill": 0.35,
+   "riskTolerance": 0.45,
+   "color": "#b7950b",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.9,
+    "cloPack": 0.9,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "rescueSheet": false,
+    "headlamp": {
+     "has": true,
+     "batteryH": 10,
+     "inPack": false,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 90,
+     "gpsApp": true,
+     "trackRecording": true,
+     "satelliteSos": false,
+     "strap": false
+    },
+    "powerBankMah": 0,
+    "map": false,
+    "compass": false,
+    "foodKcal": 1400,
+    "waterL": 1.5,
+    "stove": false,
+    "crampons": false,
+    "helmet": true,
+    "trekkingPoles": false,
+    "whistle": false,
+    "footwear": "hikingBoots"
+   },
+   "notes": "架空の人物。登山を始めて 2 年。高い所は少し苦手。モバイルバッテリーは持っていない"
+  }
+ ],
+ "weather": {
+  "refElevM": 3000,
+  "lapseRateCPer100m": 0.6,
+  "cloudThicknessM": 2500,
+  "keyframes": [
+   {
+    "at": "D0 03:00",
+    "tempC": 5,
+    "windMs": 4,
+    "windDirDeg": 270,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 5500,
+    "visibilityM": 40000,
+    "pressureHpa": 1012,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D0 06:30",
+    "tempC": 6,
+    "windMs": 4,
+    "windDirDeg": 260,
+    "precipMmH": 0,
+    "cloudCover": 0.15,
+    "cloudBaseM": 5500,
+    "visibilityM": 40000,
+    "pressureHpa": 1012,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D0 07:15",
+    "tempC": 6.5,
+    "windMs": 5,
+    "windDirDeg": 250,
+    "precipMmH": 0,
+    "cloudCover": 0.4,
+    "cloudBaseM": 3150,
+    "visibilityM": 30000,
+    "pressureHpa": 1010,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 250
+   },
+   {
+    "at": "D0 10:30",
+    "tempC": 9.5,
+    "windMs": 6,
+    "windDirDeg": 240,
+    "precipMmH": 0,
+    "cloudCover": 0.6,
+    "cloudBaseM": 3050,
+    "visibilityM": 20000,
+    "pressureHpa": 1009,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 200
+   },
+   {
+    "at": "D0 12:30",
+    "tempC": 10,
+    "windMs": 8,
+    "windDirDeg": 235,
+    "precipMmH": 0,
+    "cloudCover": 0.85,
+    "cloudBaseM": 2950,
+    "visibilityM": 12000,
+    "pressureHpa": 1007,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 120
+   },
+   {
+    "at": "D0 13:45",
+    "tempC": 9.5,
+    "windMs": 7,
+    "windDirDeg": 232,
+    "precipMmH": 0,
+    "cloudCover": 0.95,
+    "cloudBaseM": 2800,
+    "visibilityM": 8000,
+    "pressureHpa": 1006,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 100
+   },
+   {
+    "at": "D0 14:00",
+    "tempC": 9,
+    "windMs": 8,
+    "windDirDeg": 230,
+    "precipMmH": 1.2,
+    "cloudCover": 1,
+    "cloudBaseM": 2700,
+    "visibilityM": 4000,
+    "pressureHpa": 1005,
+    "gustiness": 0.35,
+    "inCloudVisibilityM": 80
+   },
+   {
+    "at": "D0 16:00",
+    "tempC": 7.5,
+    "windMs": 9.5,
+    "windDirDeg": 230,
+    "precipMmH": 2.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2500,
+    "visibilityM": 2500,
+    "pressureHpa": 1003,
+    "gustiness": 0.35,
+    "inCloudVisibilityM": 60
+   },
+   {
+    "at": "D0 20:00",
+    "tempC": 6,
+    "windMs": 10,
+    "windDirDeg": 235,
+    "precipMmH": 3,
+    "cloudCover": 1,
+    "cloudBaseM": 2400,
+    "visibilityM": 2000,
+    "pressureHpa": 1001,
+    "gustiness": 0.35,
+    "inCloudVisibilityM": 50
+   },
+   {
+    "at": "D1 02:00",
+    "tempC": 5,
+    "windMs": 9,
+    "windDirDeg": 240,
+    "precipMmH": 2.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2400,
+    "visibilityM": 2000,
+    "pressureHpa": 1000,
+    "gustiness": 0.35,
+    "inCloudVisibilityM": 50
+   },
+   {
+    "at": "D1 06:00",
+    "tempC": 4.5,
+    "windMs": 7.5,
+    "windDirDeg": 250,
+    "precipMmH": 2.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2400,
+    "visibilityM": 2500,
+    "pressureHpa": 1001,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 60
+   },
+   {
+    "at": "D1 09:00",
+    "tempC": 5,
+    "windMs": 6.5,
+    "windDirDeg": 255,
+    "precipMmH": 2.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2400,
+    "visibilityM": 3000,
+    "pressureHpa": 1002,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 70
+   },
+   {
+    "at": "D1 12:00",
+    "tempC": 6,
+    "windMs": 6,
+    "windDirDeg": 260,
+    "precipMmH": 2.5,
+    "cloudCover": 1,
+    "cloudBaseM": 2400,
+    "visibilityM": 3000,
+    "pressureHpa": 1002,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 70
+   },
+   {
+    "at": "D1 18:00",
+    "tempC": 5,
+    "windMs": 5,
+    "windDirDeg": 270,
+    "precipMmH": 2,
+    "cloudCover": 1,
+    "cloudBaseM": 2500,
+    "visibilityM": 3000,
+    "pressureHpa": 1004,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 70
+   },
+   {
+    "at": "D2 00:00",
+    "tempC": 4,
+    "windMs": 5,
+    "windDirDeg": 290,
+    "precipMmH": 1,
+    "cloudCover": 1,
+    "cloudBaseM": 2700,
+    "visibilityM": 5000,
+    "pressureHpa": 1008,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 100
+   },
+   {
+    "at": "D2 04:30",
+    "tempC": 3,
+    "windMs": 5,
+    "windDirDeg": 300,
+    "precipMmH": 0.2,
+    "cloudCover": 0.7,
+    "cloudBaseM": 3400,
+    "visibilityM": 15000,
+    "pressureHpa": 1011,
+    "gustiness": 0.3,
+    "inCloudVisibilityM": 200
+   },
+   {
+    "at": "D2 06:30",
+    "tempC": 3.5,
+    "windMs": 4,
+    "windDirDeg": 310,
+    "precipMmH": 0,
+    "cloudCover": 0.3,
+    "cloudBaseM": 4800,
+    "visibilityM": 30000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D2 12:00",
+    "tempC": 8,
+    "windMs": 4,
+    "windDirDeg": 310,
+    "precipMmH": 0,
+    "cloudCover": 0.2,
+    "cloudBaseM": 5200,
+    "visibilityM": 40000,
+    "pressureHpa": 1014,
+    "gustiness": 0.3
+   }
+  ]
+ },
+ "events": [
+  {
+   "id": "ev_start",
+   "trigger": {
+    "after": "D0 04:00"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "午前 4 時、西穂山荘。空は星でいっぱいだ。ヘッドランプをつけて歩きはじめる。小屋の弁当は朝と昼の 2 食分。水は小屋で詰めてきた。"
+    }
+   ]
+  },
+  {
+   "id": "ev_dawn",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 04:50"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "東の空が白みはじめた。笠ヶ岳の稜線が浮かび上がる。"
+    }
+   ]
+  },
+  {
+   "id": "ev_dokuhyo",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "DOKUHYO"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "西穂独標（2,701 m）。ここから先は岩の小さな峰が 11 続く。手を使って登り下りする所が増える。"
+    }
+   ]
+  },
+  {
+   "id": "ev_nishiho",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "NISHIHO"
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "西穂高岳（2,909 m）の山頂。一般の登山道はここまで。この先、奥穂高岳までは熟達者向けの岩稜で、標識も鎖も少ない。",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_beyond",
+   "trigger": {
+    "all": [
+     {
+      "onEdge": "E5"
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "山頂のすぐ先から、岩の急な下りが始まる。足もとに、白いペンキの丸印が点々と続いている。"
+    }
+   ]
+  },
+  {
+   "id": "ev_ainodake",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "AINODAKE"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "間ノ岳（2,907 m）。赤茶けたもろい岩の峰で、積み重なった岩が足を置くたびに動く。"
+    }
+   ]
+  },
+  {
+   "id": "ev_tengu",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "TENGU_ATAMA"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "天狗ノ頭（2,909 m）。逆層のスラブを登りきった。振り返ると、越えてきた間ノ岳と西穂高岳が並んでいる。"
+    }
+   ]
+  },
+  {
+   "id": "ev_col",
+   "trigger": {
+    "atNode": "TENGU_COL"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "天狗のコル（約 2,835 m）。避難小屋の跡の石積みが残っている。岳沢へ下りる天狗沢の踏み跡は、ここから分かれる。入口に、落石で通行できないとの案内がある。",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_gens",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "GENS"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "ジャンダルム（3,163 m）。ドームの形の岩峰の上。奥穂高岳は目の前だが、その間にロバの耳と馬ノ背がある。"
+    }
+   ]
+  },
+  {
+   "id": "ev_okuho",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "OKUHO"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "奥穂高岳（3,190 m）の山頂。岩稜を抜けた。穂高岳山荘まで下り 30 分。",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_hotaka_hut",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "HOTAKA_HUT"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "穂高岳山荘（白出のコル）。売店で水と温かい飲み物が買える。"
+    },
+    {
+     "type": "fillWater",
+     "who": "all",
+     "toL": 1.5
+    }
+   ]
+  },
+  {
+   "id": "ev_forecast",
+   "trigger": {
+    "after": "D0 06:00"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "forecastUpdate",
+     "requiresSignal": true,
+     "entries": [
+      {
+       "label": "今日",
+       "text": "昼まで晴れ時々くもり。14 時ごろから雨",
+       "icon": "cloudy"
+      },
+      {
+       "label": "午後",
+       "text": "稜線は南西の風 10〜15 m/s。夜にかけて雨が強まる",
+       "icon": "rain"
+      },
+      {
+       "label": "あす",
+       "text": "雨。稜線は風が強い",
+       "icon": "rain"
+      },
+      {
+       "label": "あさって",
+       "text": "朝のうち雨が残り、のち晴れ",
+       "icon": "cloudy"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_cap",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 07:15"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "奥穂高岳とジャンダルムの頭に、雲がかかりはじめた。空の青はまだ広い。"
+    }
+   ]
+  },
+  {
+   "id": "ev_gas",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 10:30"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "飛騨側からガスが上がってきた。稜線が雲に入ったり出たりする。",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_rain",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 14:00"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 0.5
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "雨が降りだした。風が強まり、岩が濡れて黒く光る。",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_night",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 18:12"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "flag": "fallen"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "日が沈んだ。雨は降りつづいている。雲の中で、ヘッドランプの光は数メートル先までしか届かない。",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_d1",
+   "trigger": {
+    "all": [
+     {
+      "after": "D1 05:21"
+     },
+     {
+      "flag": "fallen"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "夜が明けた。雨と風はつづいている。稜線は雲の中だ。"
+    }
+   ]
+  },
+  {
+   "id": "ev_d2",
+   "trigger": {
+    "all": [
+     {
+      "after": "D2 05:30"
+     },
+     {
+      "flag": "fallen"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "雨が上がり、雲が切れはじめた。"
+    }
+   ]
+  },
+  {
+   "id": "ev_fall_nat",
+   "trigger": {
+    "all": [
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "var": "party.unwellCount",
+      "op": ">",
+      "value": 0
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "fallen"
+    }
+   ]
+  },
+  {
+   "id": "ev_fall_f1",
+   "trigger": {
+    "all": [
+     {
+      "near": {
+       "x": -262,
+       "z": -968,
+       "r": 30
+      }
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.03
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "西穂高岳の山頂からの急な下り。岩の段差を後ろ向きに下りる途中で、足を置いた岩が動いた。体が岩から離れ、数メートル下の岩棚まで落ちた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "sprain": 0.26,
+      "legFracture": 0.4,
+      "headInjury": 0.17,
+      "severeTrauma": 0.17
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "fallen"
+    },
+    {
+     "type": "setFlag",
+     "flag": "scriptFall"
+    }
+   ]
+  },
+  {
+   "id": "ev_fall_f2",
+   "trigger": {
+    "all": [
+     {
+      "near": {
+       "x": -16,
+       "z": -1159,
+       "r": 30
+      }
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.08
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "間ノ岳の手前のもろいガレ場。手をかけた岩がはがれ、岩ごと斜面を滑り落ちた。数メートル下の岩の間で止まった。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "sprain": 0.26,
+      "legFracture": 0.4,
+      "headInjury": 0.17,
+      "severeTrauma": 0.17
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "fallen"
+    },
+    {
+     "type": "setFlag",
+     "flag": "scriptFall"
+    }
+   ]
+  },
+  {
+   "id": "ev_fall_f3",
+   "trigger": {
+    "all": [
+     {
+      "near": {
+       "x": 256,
+       "z": -1377,
+       "r": 30
+      }
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.2
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "天狗ノ頭へ登る逆層のスラブ。外側へ傾いた一枚岩の上で靴が滑り、鎖から手が離れた。スラブを滑り落ち、下の岩棚で止まった。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "sprain": 0.26,
+      "legFracture": 0.4,
+      "headInjury": 0.17,
+      "severeTrauma": 0.17
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "fallen"
+    },
+    {
+     "type": "setFlag",
+     "flag": "scriptFall"
+    }
+   ]
+  },
+  {
+   "id": "ev_fall_f4",
+   "trigger": {
+    "all": [
+     {
+      "near": {
+       "x": 399,
+       "z": -1494,
+       "r": 30
+      }
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.25
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "天狗ノ頭から天狗のコルへの急な下り。鎖の終わったあとの段差で足を踏み外し、岩の溝を数メートル落ちた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "sprain": 0.26,
+      "legFracture": 0.4,
+      "headInjury": 0.17,
+      "severeTrauma": 0.17
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "fallen"
+    },
+    {
+     "type": "setFlag",
+     "flag": "scriptFall"
+    }
+   ]
+  },
+  {
+   "id": "ev_fall_f5",
+   "trigger": {
+    "all": [
+     {
+      "near": {
+       "x": 592,
+       "z": -1647,
+       "r": 30
+      }
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.5
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "天狗のコルから畳岩尾根ノ頭への登り。浮き石に乗って体勢を崩し、ガレた斜面を転がり落ちた。数メートル下の岩で止まった。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "sprain": 0.26,
+      "legFracture": 0.4,
+      "headInjury": 0.17,
+      "severeTrauma": 0.17
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "fallen"
+    },
+    {
+     "type": "setFlag",
+     "flag": "scriptFall"
+    }
+   ]
+  },
+  {
+   "id": "ev_fall_f6",
+   "trigger": {
+    "all": [
+     {
+      "near": {
+       "x": 922,
+       "z": -1881,
+       "r": 30
+      }
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 1
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "コブ尾根ノ頭の先の岩場。疲れた足が岩の角に引っかかり、前へ倒れて岩の斜面を滑り落ちた。数メートル下で止まった。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "sprain": 0.26,
+      "legFracture": 0.4,
+      "headInjury": 0.17,
+      "severeTrauma": 0.17
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "fallen"
+    },
+    {
+     "type": "setFlag",
+     "flag": "scriptFall"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_kenta",
+   "trigger": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "var": "c.kenta.injury",
+      "op": "!=",
+      "value": "none"
+     },
+     {
+      "var": "c.kenta.injury",
+      "op": "!=",
+      "value": "bruise"
+     },
+     {
+      "var": "c.kenta.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "hurt_kenta"
+    },
+    {
+     "type": "say",
+     "who": "misaki",
+     "text": "健太！　動かないで。いま行く",
+     "tone": "shout"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_leg_kenta",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.kenta.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.kenta.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.kenta.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.kenta.injury",
+      "op": "==",
+      "value": "legFracture"
+     },
+     {
+      "var": "c.kenta.conscious",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "kenta",
+     "text": "足が……足が動かない。変な方を向いてる"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_sprain_kenta",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.kenta.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.kenta.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.kenta.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.kenta.injury",
+      "op": "==",
+      "value": "sprain"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "kenta",
+     "text": "足首をひねった……立てるけど、体重をかけると痛い"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_head_kenta",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.kenta.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.kenta.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.kenta.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.kenta.injury",
+      "op": "==",
+      "value": "headInjury"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "健太は頭を打っている。ヘルメットが割れ、額から血が出ている。呼びかけへの返事がはっきりしない。"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_trauma_kenta",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.kenta.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.kenta.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.kenta.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.kenta.injury",
+      "op": "==",
+      "value": "severeTrauma"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "健太は胸と腰を強く打っている。顔色が悪く、息が浅い。動かせる状態ではない。"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_daichi",
+   "trigger": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "var": "c.daichi.injury",
+      "op": "!=",
+      "value": "none"
+     },
+     {
+      "var": "c.daichi.injury",
+      "op": "!=",
+      "value": "bruise"
+     },
+     {
+      "var": "c.daichi.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "hurt_daichi"
+    },
+    {
+     "type": "say",
+     "who": "kenta",
+     "text": "大地！　動かないで。いま行く",
+     "tone": "shout"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_leg_daichi",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.daichi.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.daichi.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.daichi.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.daichi.injury",
+      "op": "==",
+      "value": "legFracture"
+     },
+     {
+      "var": "c.daichi.conscious",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "daichi",
+     "text": "足が……足が動かない。変な方を向いてる"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_sprain_daichi",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.daichi.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.daichi.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.daichi.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.daichi.injury",
+      "op": "==",
+      "value": "sprain"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "daichi",
+     "text": "足首をひねった……立てるけど、体重をかけると痛い"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_head_daichi",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.daichi.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.daichi.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.daichi.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.daichi.injury",
+      "op": "==",
+      "value": "headInjury"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "大地は頭を打っている。ヘルメットが割れ、額から血が出ている。呼びかけへの返事がはっきりしない。"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_trauma_daichi",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.daichi.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.daichi.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.daichi.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.daichi.injury",
+      "op": "==",
+      "value": "severeTrauma"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "大地は胸と腰を強く打っている。顔色が悪く、息が浅い。動かせる状態ではない。"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_misaki",
+   "trigger": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "var": "c.misaki.injury",
+      "op": "!=",
+      "value": "none"
+     },
+     {
+      "var": "c.misaki.injury",
+      "op": "!=",
+      "value": "bruise"
+     },
+     {
+      "var": "c.misaki.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "hurt_misaki"
+    },
+    {
+     "type": "say",
+     "who": "kenta",
+     "text": "美咲！　動かないで。いま行く",
+     "tone": "shout"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_leg_misaki",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.misaki.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.misaki.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.misaki.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.misaki.injury",
+      "op": "==",
+      "value": "legFracture"
+     },
+     {
+      "var": "c.misaki.conscious",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "misaki",
+     "text": "足が……足が動かない。変な方を向いてる"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_sprain_misaki",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.misaki.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.misaki.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.misaki.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.misaki.injury",
+      "op": "==",
+      "value": "sprain"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "misaki",
+     "text": "足首をひねった……立てるけど、体重をかけると痛い"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_head_misaki",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.misaki.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.misaki.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.misaki.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.misaki.injury",
+      "op": "==",
+      "value": "headInjury"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "美咲は頭を打っている。ヘルメットが割れ、額から血が出ている。呼びかけへの返事がはっきりしない。"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_trauma_misaki",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.misaki.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.misaki.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.misaki.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.misaki.injury",
+      "op": "==",
+      "value": "severeTrauma"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "美咲は胸と腰を強く打っている。顔色が悪く、息が浅い。動かせる状態ではない。"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_hina",
+   "trigger": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "var": "c.hina.injury",
+      "op": "!=",
+      "value": "none"
+     },
+     {
+      "var": "c.hina.injury",
+      "op": "!=",
+      "value": "bruise"
+     },
+     {
+      "var": "c.hina.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "hurt_hina"
+    },
+    {
+     "type": "say",
+     "who": "kenta",
+     "text": "陽菜！　動かないで。いま行く",
+     "tone": "shout"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_leg_hina",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.hina.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.hina.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.hina.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.hina.injury",
+      "op": "==",
+      "value": "legFracture"
+     },
+     {
+      "var": "c.hina.conscious",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "hina",
+     "text": "足が……足が動かない。変な方を向いてる"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_sprain_hina",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.hina.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.hina.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.hina.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.hina.injury",
+      "op": "==",
+      "value": "sprain"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "hina",
+     "text": "足首をひねった……立てるけど、体重をかけると痛い"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_head_hina",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.hina.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.hina.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.hina.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.hina.injury",
+      "op": "==",
+      "value": "headInjury"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "陽菜は頭を打っている。ヘルメットが割れ、額から血が出ている。呼びかけへの返事がはっきりしない。"
+    }
+   ]
+  },
+  {
+   "id": "ev_hurt_trauma_hina",
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "flag": "fallen"
+       },
+       {
+        "var": "c.hina.injury",
+        "op": "!=",
+        "value": "none"
+       },
+       {
+        "var": "c.hina.injury",
+        "op": "!=",
+        "value": "bruise"
+       },
+       {
+        "var": "c.hina.alive",
+        "op": "==",
+        "value": true
+       }
+      ]
+     },
+     {
+      "var": "c.hina.injury",
+      "op": "==",
+      "value": "severeTrauma"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "陽菜は胸と腰を強く打っている。顔色が悪く、息が浅い。動かせる状態ではない。"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E4",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E4"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.3
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E5",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E5"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.5
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E6",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E6"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.5
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E7",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E7"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.45
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E8",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E8"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.5
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E9",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E9"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.3
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E10",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E10"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.5
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E11",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E11"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.5
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E12",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E12"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.25
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_carry_E14",
+   "trigger": {
+    "all": [
+     {
+      "flag": "carried"
+     },
+     {
+      "not": {
+       "flag": "carryFell"
+      }
+     },
+     {
+      "onEdge": "E14"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chance": 0.6
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "けが人を両側から支えて岩の段差を越えようとしたとき、足もとの岩が動いた。支えていた人ごと、もつれるように倒れた。",
+     "important": true
+    },
+    {
+     "type": "fall",
+     "who": "any",
+     "outcomes": {
+      "bruise": 0.25,
+      "sprain": 0.3,
+      "legFracture": 0.27,
+      "headInjury": 0.1,
+      "severeTrauma": 0.08
+     }
+    },
+    {
+     "type": "setFlag",
+     "flag": "carryFell"
+    }
+   ]
+  },
+  {
+   "id": "ev_fall_music",
+   "trigger": {
+    "flag": "fallen"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "addAnxiety",
+       "amount": 25,
+       "who": "all"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_start",
+   "title": "西穂山荘の朝",
+   "priority": 20,
+   "trigger": {
+    "after": "D0 04:00"
+   },
+   "situation": "午前 4 時の西穂山荘。星が出ている。予報は、昼まで晴れ時々くもり、14 時ごろから雨と風。あすは雨。今日の行程は涸沢ヒュッテまで、休みなしで 11 時間あまり。",
+   "knowledge": [
+    "西穂山荘から西穂高岳まで、ふつうは 2 時間半〜3 時間。西穂高岳から奥穂高岳まで、慣れた人で 6 時間ほど",
+    "14 時までに奥穂高岳を越えるには、休みを入れて予定どおりに歩きつづける必要がある",
+    "西穂高岳から先は、濡れると滑る逆層の岩と浮き石がつづく。雨の日は通らないよう、地元は呼びかけている",
+    "4 人とも、岩稜の縦走は初めて",
+    "水場は穂高岳山荘までない。水は {c.kenta.waterL:1} L・{c.daichi.waterL:1} L・{c.misaki.waterL:1} L・{c.hina.waterL:1} L"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "予定どおり奥穂高岳へ縦走する",
+     "detail": "雨の前に岩稜を抜ける。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "雨は 14 時から。それまでに奥穂を越えよう。行けるところまで行って、だめなら戻る"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "peak",
+     "label": "西穂高岳まで登って引き返す",
+     "detail": "縦走はやめる。西穂高岳を往復して、ロープウェイで下山する。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "午後は雨だ。今回は西穂高岳までにして、縦走は次にしよう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "peakOnly"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HUT",
+        "MARUYAMA",
+        "DOKUHYO",
+        "PYRAMID",
+        "NISHIHO",
+        "PYRAMID",
+        "DOKUHYO",
+        "MARUYAMA",
+        "HUT",
+        "ROPE"
+       ],
+       "goalNodes": [
+        "ROPE"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    },
+    {
+     "id": "doku",
+     "label": "独標まで登って引き返す",
+     "detail": "岩場の入口まで行って、ロープウェイで下山する。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "独標まで行って、岩場がどんなものか見てこよう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "peakOnly"
+      },
+      {
+       "type": "setFlag",
+       "flag": "dokuOnly"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HUT",
+        "MARUYAMA",
+        "DOKUHYO",
+        "MARUYAMA",
+        "HUT",
+        "ROPE"
+       ],
+       "goalNodes": [
+        "ROPE"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.1
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_dokuhyo",
+   "title": "西穂独標",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "DOKUHYO"
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "situation": "独標の上。ここまでの岩場で、{c.hina.name}と{c.misaki.name}は手足の置き場に時間がかかった。予定より {leader.timeBehindMin:0} 分遅れている。",
+   "knowledge": [
+    "西穂高岳まで、ふつうはあと 1 時間半",
+    "西穂高岳まで行って戻ることもできる",
+    "14 時ごろから雨と風の予報"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "西穂高岳へ進む",
+     "actions": [
+      {
+       "type": "say",
+       "text": "西穂の山頂まで行って、そこでもう一度考えよう"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "back",
+     "label": "ここで引き返す",
+     "detail": "西穂山荘へ戻り、ロープウェイで下山する。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "この岩場で時間がかかるなら、先は無理だ。戻ろう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "DOKUHYO",
+        "MARUYAMA",
+        "HUT",
+        "ROPE"
+       ],
+       "goalNodes": [
+        "ROPE"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.12,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.timeBehindMin",
+         "op": ">",
+         "value": 40
+        },
+        "add": 0.15
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_nishiho",
+   "title": "西穂高岳",
+   "priority": 20,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "NISHIHO"
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "situation": "西穂高岳の山頂。いま {leader.local.tempC:0}℃、風 {leader.local.windMs:0} m/s。奥穂高岳までの岩稜が見えている。予定より {leader.timeBehindMin:0} 分遅れている。ここから先へ進むと、引き返すのも難しくなる。",
+   "knowledge": [
+    "奥穂高岳まで、慣れた人で 6 時間ほど。岩場に慣れていないと、もっとかかる",
+    "14 時ごろから雨と風の予報。いまのペースで、雨の前に奥穂高岳を越えられるか",
+    "途中で下りられるのは天狗のコル（ふつうは 2 時間半先）から岳沢への天狗沢だけ。そこも落石で荒れている",
+    "西穂山荘へは、ここから下りで 2 時間ほど"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "奥穂高岳へ進む",
+     "detail": "ここまで来た。雨の前に抜ける。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここまで順調だ。行こう。足もとだけ見て、ゆっくり"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.timeBehindMin",
+         "op": ">",
+         "value": 60
+        },
+        "add": -0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "back",
+     "label": "ここで引き返す",
+     "detail": "西穂山荘へ戻り、ロープウェイで下山する。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "雨までに抜けられそうにない。ここまでにしよう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "NISHIHO",
+        "PYRAMID",
+        "DOKUHYO",
+        "MARUYAMA",
+        "HUT",
+        "ROPE"
+       ],
+       "goalNodes": [
+        "ROPE"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.timeBehindMin",
+         "op": ">",
+         "value": 60
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_col",
+   "title": "天狗のコル",
+   "priority": 15,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "TENGU_COL"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "situation": "天狗のコル。岳沢へ下りる道が分かれる。予定より {leader.timeBehindMin:0} 分遅れている。雲が稜線にかかりはじめた。",
+   "knowledge": [
+    "奥穂高岳まで、ふつうはあと 3 時間あまり。ジャンダルム、ロバの耳、馬ノ背を越える",
+    "岳沢小屋まで、天狗沢を下って 2 時間ほど。上のほうは落石で崩れ、通行できないとの案内が出ている",
+    "14 時ごろから雨と風の予報",
+    "水は残り {leader.waterL:1} L"
+   ],
+   "options": [
+    {
+     "id": "go",
+     "label": "奥穂高岳へ進む",
+     "actions": [
+      {
+       "type": "say",
+       "text": "あと 3 時間。ここからが本番だ"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "back",
+     "label": "来た道を西穂山荘へ引き返す",
+     "detail": "越えてきた岩稜を戻る。西穂高岳まで 2 時間あまり。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "この先は無理だ。来た道なら分かる。戻ろう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "TENGU_COL",
+        "TENGU_ATAMA",
+        "AINODAKE",
+        "NISHIHO",
+        "PYRAMID",
+        "DOKUHYO",
+        "MARUYAMA",
+        "HUT",
+        "ROPE"
+       ],
+       "goalNodes": [
+        "ROPE"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.15,
+      "mods": [
+       {
+        "when": {
+         "after": "D0 11:30"
+        },
+        "add": 0.2
+       }
+      ]
+     }
+    },
+    {
+     "id": "escape",
+     "label": "天狗沢を岳沢小屋へ下りる",
+     "detail": "縦走をやめる。荒れたガレ場を下って、岳沢小屋に泊まる。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "雨の前に稜線を下りよう。荒れているらしいが、岳沢へ下りる"
+      },
+      {
+       "type": "setFlag",
+       "flag": "escaped"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "TENGU_COL",
+        "DAKESAWA"
+       ],
+       "goalNodes": [
+        "DAKESAWA"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "after": "D0 10:30"
+        },
+        "add": 0.3
+       },
+       {
+        "when": {
+         "after": "D0 12:00"
+        },
+        "add": 0.4
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_fall",
+   "title": "滑落",
+   "priority": 50,
+   "trigger": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "not": {
+       "flag": "fallHandled"
+      }
+     },
+     {
+      "not": {
+       "all": [
+        {
+         "var": "leader.injury",
+         "op": "!=",
+         "value": "none"
+        },
+        {
+         "var": "leader.injury",
+         "op": "!=",
+         "value": "bruise"
+        }
+       ]
+      }
+     },
+     {
+      "var": "mates.count",
+      "op": ">=",
+      "value": 2
+     }
+    ]
+   },
+   "situation": "岩稜の上で、仲間が滑落してけがをした。現在地は標高 {leader.elevM:0} m。気温 {leader.local.tempC:0}℃、風 {leader.local.windMs:0} m/s。西の空から雲が広がってきている。どうする？",
+   "knowledge": [
+    "予報は 14 時ごろから雨と風。あすも雨。雲がかかればヘリコプターは近づけない",
+    "西穂高岳から奥穂高岳の間に山小屋はない。途中で下りられるのは天狗のコルから岳沢への天狗沢だけで、そこも落石で荒れている",
+    "稜線の電波は場所によって入ったり入らなかったりする",
+    "4 人ともロープとツェルトは持っていない",
+    "救助を呼びに行く人も、雨に濡れた岩稜を歩くことになる"
+   ],
+   "options": [
+    {
+     "id": "call",
+     "label": "その場で 110 番し、全員で救助を待つ",
+     "detail": "電波が入る。場所を伝えて、動かずに待つ。",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "unavailableText": "電波が入らない",
+     "flags": [
+      "calledHere",
+      "fallHandled"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "110 番する。みんな、ここを動かないで。{leader.name}が場所を伝える"
+      },
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "wearRainwear"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1.6
+     }
+    },
+    {
+     "id": "send",
+     "label": "2 人が救助を呼びに行く",
+     "detail": "1 人がけが人に付き添い、2 人が電波の入る所か山小屋まで行く。",
+     "available": {
+      "var": "mates.count",
+      "op": ">=",
+      "value": 3
+     },
+     "hideIfUnavailable": true,
+     "flags": [
+      "fallHandled",
+      "sentHelp"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "2 人で救助を呼びに行こう。1 人はここに残って付き添う"
+      },
+      {
+       "type": "setFlag",
+       "flag": "q_send"
+      },
+      {
+       "type": "rest",
+       "minutes": 5
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "all": [
+          {
+           "var": "leader.radio",
+           "op": ">=",
+           "value": 0.3
+          },
+          {
+           "var": "leader.phone.has",
+           "op": "==",
+           "value": true
+          },
+          {
+           "var": "leader.phone.batteryPct",
+           "op": ">",
+           "value": 0
+          }
+         ]
+        },
+        "add": -0.8
+       }
+      ]
+     }
+    },
+    {
+     "id": "stay",
+     "label": "その場にとどまって待つ",
+     "detail": "岩陰で風を避け、救助か、通りかかる人を待つ。",
+     "flags": [
+      "stayedNoCall",
+      "fallHandled"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "動かない方がいい。岩陰に入って待とう"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "wearRainwear"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "all": [
+          {
+           "var": "leader.radio",
+           "op": ">=",
+           "value": 0.3
+          },
+          {
+           "var": "leader.phone.has",
+           "op": "==",
+           "value": true
+          },
+          {
+           "var": "leader.phone.batteryPct",
+           "op": ">",
+           "value": 0
+          }
+         ]
+        },
+        "add": -0.25
+       }
+      ]
+     }
+    },
+    {
+     "id": "move",
+     "label": "けが人を連れて、全員で動く",
+     "detail": "歩けるなら支えて歩き、歩けないなら 3 人で支えて運ぶ。",
+     "available": {
+      "all": [
+       {
+        "var": "mates.count",
+        "op": ">=",
+        "value": 2
+       },
+       {
+        "not": {
+         "flag": "sentHelp"
+        }
+       }
+      ]
+     },
+     "hideIfUnavailable": true,
+     "flags": [
+      "fallHandled",
+      "movedAll"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここにいたら雨に打たれる。みんなで少しでも動こう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "q_move"
+      },
+      {
+       "type": "rest",
+       "minutes": 5
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "var": "mates.unwellCount",
+         "op": "==",
+         "value": 0
+        },
+        "add": 0.6
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_carry_fail",
+   "title": "運んでいる途中の転倒",
+   "priority": 45,
+   "trigger": {
+    "all": [
+     {
+      "flag": "carryFell"
+     },
+     {
+      "var": "mates.count",
+      "op": ">=",
+      "value": 2
+     }
+    ]
+   },
+   "situation": "けが人を運んでいる途中で、支えていた人ごと倒れた。これ以上、岩の上を運ぶのは難しい。標高 {leader.elevM:0} m、気温 {leader.local.tempC:0}℃、風 {leader.local.windMs:0} m/s。どうする？",
+   "knowledge": [
+    "予報は 14 時ごろから雨と風。あすも雨。雲がかかればヘリコプターは近づけない",
+    "西穂高岳から奥穂高岳の間に山小屋はない。途中で下りられるのは天狗のコルから岳沢への天狗沢だけで、そこも落石で荒れている",
+    "稜線の電波は場所によって入ったり入らなかったりする",
+    "4 人ともロープとツェルトは持っていない",
+    "救助を呼びに行く人も、雨に濡れた岩稜を歩くことになる"
+   ],
+   "options": [
+    {
+     "id": "call",
+     "label": "その場で 110 番し、全員で救助を待つ",
+     "detail": "電波が入る。場所を伝えて、動かずに待つ。",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "unavailableText": "電波が入らない",
+     "flags": [
+      "calledHere",
+      "fallHandled"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "110 番する。みんな、ここを動かないで。{leader.name}が場所を伝える"
+      },
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "wearRainwear"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1.6
+     }
+    },
+    {
+     "id": "send",
+     "label": "2 人が救助を呼びに行く",
+     "detail": "1 人がけが人に付き添い、2 人が電波の入る所か山小屋まで行く。",
+     "available": {
+      "var": "mates.count",
+      "op": ">=",
+      "value": 2
+     },
+     "hideIfUnavailable": true,
+     "flags": [
+      "fallHandled",
+      "sentHelp"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "2 人で救助を呼びに行こう。1 人はここに残って付き添う"
+      },
+      {
+       "type": "setFlag",
+       "flag": "q_send"
+      },
+      {
+       "type": "rest",
+       "minutes": 5
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "all": [
+          {
+           "var": "leader.radio",
+           "op": ">=",
+           "value": 0.3
+          },
+          {
+           "var": "leader.phone.has",
+           "op": "==",
+           "value": true
+          },
+          {
+           "var": "leader.phone.batteryPct",
+           "op": ">",
+           "value": 0
+          }
+         ]
+        },
+        "add": -0.8
+       }
+      ]
+     }
+    },
+    {
+     "id": "stay",
+     "label": "その場にとどまって待つ",
+     "detail": "岩陰で風を避け、救助か、通りかかる人を待つ。",
+     "flags": [
+      "stayedNoCall",
+      "fallHandled"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "動かない方がいい。岩陰に入って待とう"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "wearRainwear"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "all": [
+          {
+           "var": "leader.radio",
+           "op": ">=",
+           "value": 0.3
+          },
+          {
+           "var": "leader.phone.has",
+           "op": "==",
+           "value": true
+          },
+          {
+           "var": "leader.phone.batteryPct",
+           "op": ">",
+           "value": 0
+          }
+         ]
+        },
+        "add": -0.25
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_send_where",
+   "title": "どこへ知らせに行くか",
+   "priority": 40,
+   "once": false,
+   "trigger": {
+    "flag": "q_send"
+   },
+   "situation": "1 人がけが人に付き添い、2 人が救助を呼びに行く。どこへ向かう？",
+   "knowledge": [
+    "西穂山荘まで: 来た岩稜を戻る。西穂高岳の山頂から先は一般の登山道",
+    "岳沢小屋まで: 天狗のコルから天狗沢を下って 2 時間ほど。上のほうは落石で崩れて踏み跡が消え、通行できないとの案内が出ている。雨とガスでは道が分からない",
+    "穂高岳山荘まで: ジャンダルム、ロバの耳、馬ノ背を越え、奥穂高岳から 30〜45 分下る。ロバの耳と馬ノ背は、このルートでいちばんの難所",
+    "稜線の電波は、見晴らしのよい頂で入りやすい。途中で入れば、そこから通報できる",
+    "14 時ごろから雨と風の予報。濡れた逆層の岩は滑る"
+   ],
+   "options": [
+    {
+     "id": "back",
+     "label": "西穂山荘へ戻る",
+     "detail": "来た岩稜を戻る。西穂高岳まで行けば一般の登山道になる。",
+     "flags": [
+      "dir_back"
+     ],
+     "actions": [
+      {
+       "type": "clearFlag",
+       "flag": "q_send"
+      },
+      {
+       "type": "say",
+       "text": "西穂山荘へ戻る。道は分かっている"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HUT"
+       ],
+       "goalNodes": [
+        "HUT",
+        "HUT",
+        "DAKESAWA",
+        "HOTAKA_HUT",
+        "ROPE",
+        "KAMIKOCHI",
+        "TASHIRO",
+        "KARASAWA"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "HUT",
+       "then": "stay"
+      },
+      {
+       "type": "sendForHelp"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "beenAt": "TENGU_COL"
+        },
+        "add": -0.6
+       }
+      ]
+     }
+    },
+    {
+     "id": "dake",
+     "label": "天狗のコルから岳沢小屋へ下りる",
+     "detail": "天狗沢の荒れたガレ場を下る。落石で崩れ、通行できないとの案内が出ている。",
+     "flags": [
+      "dir_dake"
+     ],
+     "actions": [
+      {
+       "type": "clearFlag",
+       "flag": "q_send"
+      },
+      {
+       "type": "say",
+       "text": "天狗のコルから岳沢へ下りる。小屋まで下りれば人がいる"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "DAKESAWA"
+       ],
+       "goalNodes": [
+        "DAKESAWA",
+        "HUT",
+        "DAKESAWA",
+        "HOTAKA_HUT",
+        "ROPE",
+        "KAMIKOCHI",
+        "TASHIRO",
+        "KARASAWA"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "DAKESAWA",
+       "then": "stay"
+      },
+      {
+       "type": "sendForHelp"
+      }
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "beenAt": "TENGU_COL"
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    },
+    {
+     "id": "fwd",
+     "label": "穂高岳山荘へ進む",
+     "detail": "ジャンダルム・ロバの耳・馬ノ背を越える。",
+     "flags": [
+      "dir_fwd"
+     ],
+     "actions": [
+      {
+       "type": "clearFlag",
+       "flag": "q_send"
+      },
+      {
+       "type": "say",
+       "text": "穂高岳山荘へ進む。奥穂まで行けば小屋はすぐだ"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HOTAKA_HUT"
+       ],
+       "goalNodes": [
+        "HOTAKA_HUT",
+        "HUT",
+        "DAKESAWA",
+        "HOTAKA_HUT",
+        "ROPE",
+        "KAMIKOCHI",
+        "TASHIRO",
+        "KARASAWA"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "HOTAKA_HUT",
+       "then": "stay"
+      },
+      {
+       "type": "sendForHelp"
+      }
+     ],
+     "bias": {
+      "base": 0.25,
+      "mods": [
+       {
+        "when": {
+         "beenAt": "TENGU_COL"
+        },
+        "add": 0.3
+       },
+       {
+        "when": {
+         "beenAt": "KOBU"
+        },
+        "add": 0.6
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_move_where",
+   "title": "どこへ向かうか",
+   "priority": 40,
+   "once": false,
+   "trigger": {
+    "all": [
+     {
+      "flag": "q_move"
+     },
+     {
+      "var": "mates.unwellCount",
+      "op": "==",
+      "value": 0
+     }
+    ]
+   },
+   "situation": "けが人は足を引きずりながら歩ける。全員で、どこへ向かう？",
+   "knowledge": [
+    "西穂山荘まで: 来た岩稜を戻る。西穂高岳の山頂から先は一般の登山道",
+    "岳沢小屋まで: 天狗のコルから天狗沢を下って 2 時間ほど。上のほうは落石で崩れて踏み跡が消え、通行できないとの案内が出ている。雨とガスでは道が分からない",
+    "穂高岳山荘まで: ジャンダルム、ロバの耳、馬ノ背を越え、奥穂高岳から 30〜45 分下る。ロバの耳と馬ノ背は、このルートでいちばんの難所",
+    "稜線の電波は、見晴らしのよい頂で入りやすい。途中で入れば、そこから通報できる",
+    "14 時ごろから雨と風の予報。濡れた逆層の岩は滑る"
+   ],
+   "options": [
+    {
+     "id": "back",
+     "label": "西穂山荘へ戻る",
+     "detail": "来た岩稜を戻る。西穂高岳まで行けば一般の登山道になる。",
+     "flags": [
+      "dir_back"
+     ],
+     "actions": [
+      {
+       "type": "clearFlag",
+       "flag": "q_move"
+      },
+      {
+       "type": "say",
+       "text": "西穂山荘へ戻る。道は分かっている"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HUT"
+       ],
+       "goalNodes": [
+        "HUT",
+        "HUT",
+        "DAKESAWA",
+        "HOTAKA_HUT",
+        "ROPE",
+        "KAMIKOCHI",
+        "TASHIRO",
+        "KARASAWA"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "HUT",
+       "then": "stay"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "beenAt": "TENGU_COL"
+        },
+        "add": -0.6
+       }
+      ]
+     }
+    },
+    {
+     "id": "dake",
+     "label": "天狗のコルから岳沢小屋へ下りる",
+     "detail": "天狗沢の荒れたガレ場を下る。落石で崩れ、通行できないとの案内が出ている。",
+     "flags": [
+      "dir_dake"
+     ],
+     "actions": [
+      {
+       "type": "clearFlag",
+       "flag": "q_move"
+      },
+      {
+       "type": "say",
+       "text": "天狗のコルから岳沢へ下りる。小屋まで下りれば人がいる"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "DAKESAWA"
+       ],
+       "goalNodes": [
+        "DAKESAWA",
+        "HUT",
+        "DAKESAWA",
+        "HOTAKA_HUT",
+        "ROPE",
+        "KAMIKOCHI",
+        "TASHIRO",
+        "KARASAWA"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "DAKESAWA",
+       "then": "stay"
+      }
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "beenAt": "TENGU_COL"
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    },
+    {
+     "id": "fwd",
+     "label": "穂高岳山荘へ進む",
+     "detail": "ジャンダルム・ロバの耳・馬ノ背を越える。",
+     "flags": [
+      "dir_fwd"
+     ],
+     "actions": [
+      {
+       "type": "clearFlag",
+       "flag": "q_move"
+      },
+      {
+       "type": "say",
+       "text": "穂高岳山荘へ進む。奥穂まで行けば小屋はすぐだ"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HOTAKA_HUT"
+       ],
+       "goalNodes": [
+        "HOTAKA_HUT",
+        "HUT",
+        "DAKESAWA",
+        "HOTAKA_HUT",
+        "ROPE",
+        "KAMIKOCHI",
+        "TASHIRO",
+        "KARASAWA"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "HOTAKA_HUT",
+       "then": "stay"
+      }
+     ],
+     "bias": {
+      "base": 0.25,
+      "mods": [
+       {
+        "when": {
+         "beenAt": "TENGU_COL"
+        },
+        "add": 0.3
+       },
+       {
+        "when": {
+         "beenAt": "KOBU"
+        },
+        "add": 0.6
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_carry_where",
+   "title": "どこへ運ぶか",
+   "priority": 40,
+   "once": false,
+   "trigger": {
+    "all": [
+     {
+      "flag": "q_move"
+     },
+     {
+      "var": "mates.unwellCount",
+      "op": ">",
+      "value": 0
+     }
+    ]
+   },
+   "situation": "歩けないけが人を 3 人で支えて運ぶ。どこへ向かう？",
+   "knowledge": [
+    "西穂山荘まで: 来た岩稜を戻る。西穂高岳の山頂から先は一般の登山道",
+    "岳沢小屋まで: 天狗のコルから天狗沢を下って 2 時間ほど。上のほうは落石で崩れて踏み跡が消え、通行できないとの案内が出ている。雨とガスでは道が分からない",
+    "穂高岳山荘まで: ジャンダルム、ロバの耳、馬ノ背を越え、奥穂高岳から 30〜45 分下る。ロバの耳と馬ノ背は、このルートでいちばんの難所",
+    "稜線の電波は、見晴らしのよい頂で入りやすい。途中で入れば、そこから通報できる",
+    "14 時ごろから雨と風の予報。濡れた逆層の岩は滑る"
+   ],
+   "options": [
+    {
+     "id": "back",
+     "label": "西穂山荘へ戻る",
+     "detail": "来た岩稜を戻る。西穂高岳まで行けば一般の登山道になる。",
+     "flags": [
+      "dir_back"
+     ],
+     "actions": [
+      {
+       "type": "clearFlag",
+       "flag": "q_move"
+      },
+      {
+       "type": "say",
+       "text": "西穂山荘へ戻る。道は分かっている"
+      },
+      {
+       "type": "setFlag",
+       "flag": "carried"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HUT"
+       ],
+       "goalNodes": [
+        "HUT",
+        "HUT",
+        "DAKESAWA",
+        "HOTAKA_HUT",
+        "ROPE",
+        "KAMIKOCHI",
+        "TASHIRO",
+        "KARASAWA"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "HUT",
+       "then": "stay"
+      },
+      {
+       "type": "carryInjured"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "beenAt": "TENGU_COL"
+        },
+        "add": -0.6
+       }
+      ]
+     }
+    },
+    {
+     "id": "dake",
+     "label": "天狗のコルから岳沢小屋へ下りる",
+     "detail": "天狗沢の荒れたガレ場を下る。落石で崩れ、通行できないとの案内が出ている。",
+     "flags": [
+      "dir_dake"
+     ],
+     "actions": [
+      {
+       "type": "clearFlag",
+       "flag": "q_move"
+      },
+      {
+       "type": "say",
+       "text": "天狗のコルから岳沢へ下りる。小屋まで下りれば人がいる"
+      },
+      {
+       "type": "setFlag",
+       "flag": "carried"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "DAKESAWA"
+       ],
+       "goalNodes": [
+        "DAKESAWA",
+        "HUT",
+        "DAKESAWA",
+        "HOTAKA_HUT",
+        "ROPE",
+        "KAMIKOCHI",
+        "TASHIRO",
+        "KARASAWA"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "DAKESAWA",
+       "then": "stay"
+      },
+      {
+       "type": "carryInjured"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "beenAt": "TENGU_COL"
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    },
+    {
+     "id": "fwd",
+     "label": "穂高岳山荘へ進む",
+     "detail": "ジャンダルム・ロバの耳・馬ノ背を越える。",
+     "flags": [
+      "dir_fwd"
+     ],
+     "actions": [
+      {
+       "type": "clearFlag",
+       "flag": "q_move"
+      },
+      {
+       "type": "say",
+       "text": "穂高岳山荘へ進む。奥穂まで行けば小屋はすぐだ"
+      },
+      {
+       "type": "setFlag",
+       "flag": "carried"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "HOTAKA_HUT"
+       ],
+       "goalNodes": [
+        "HOTAKA_HUT",
+        "HUT",
+        "DAKESAWA",
+        "HOTAKA_HUT",
+        "ROPE",
+        "KAMIKOCHI",
+        "TASHIRO",
+        "KARASAWA"
+       ]
+      },
+      {
+       "type": "goToNode",
+       "node": "HOTAKA_HUT",
+       "then": "stay"
+      },
+      {
+       "type": "carryInjured"
+      }
+     ],
+     "bias": {
+      "base": 0.25,
+      "mods": [
+       {
+        "when": {
+         "beenAt": "TENGU_COL"
+        },
+        "add": 0.3
+       },
+       {
+        "when": {
+         "beenAt": "KOBU"
+        },
+        "add": 0.6
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "genericOverrides": {
+  "injured": {
+   "situation": "岩稜の上で、仲間が滑落してけがをした。現在地は標高 {leader.elevM:0} m。気温 {leader.local.tempC:0}℃、風 {leader.local.windMs:0} m/s。西の空から雲が広がってきている。どうする？",
+   "knowledge": [
+    "予報は 14 時ごろから雨と風。あすも雨。雲がかかればヘリコプターは近づけない",
+    "西穂高岳から奥穂高岳の間に山小屋はない。途中で下りられるのは天狗のコルから岳沢への天狗沢だけで、そこも落石で荒れている",
+    "稜線の電波は場所によって入ったり入らなかったりする",
+    "4 人ともロープとツェルトは持っていない",
+    "救助を呼びに行く人も、雨に濡れた岩稜を歩くことになる"
+   ],
+   "options": [
+    {
+     "id": "call",
+     "label": "その場で 110 番し、全員で救助を待つ",
+     "detail": "電波が入る。場所を伝えて、動かずに待つ。",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "unavailableText": "電波が入らない",
+     "flags": [
+      "calledHere",
+      "fallHandled"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "110 番する。みんな、ここを動かないで。{leader.name}が場所を伝える"
+      },
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "wearRainwear"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1.6
+     }
+    },
+    {
+     "id": "send",
+     "label": "2 人が救助を呼びに行く",
+     "detail": "1 人がけが人に付き添い、2 人が電波の入る所か山小屋まで行く。",
+     "available": {
+      "var": "mates.count",
+      "op": ">=",
+      "value": 3
+     },
+     "hideIfUnavailable": true,
+     "flags": [
+      "fallHandled",
+      "sentHelp"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "2 人で救助を呼びに行こう。1 人はここに残って付き添う"
+      },
+      {
+       "type": "setFlag",
+       "flag": "q_send"
+      },
+      {
+       "type": "rest",
+       "minutes": 5
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "all": [
+          {
+           "var": "leader.radio",
+           "op": ">=",
+           "value": 0.3
+          },
+          {
+           "var": "leader.phone.has",
+           "op": "==",
+           "value": true
+          },
+          {
+           "var": "leader.phone.batteryPct",
+           "op": ">",
+           "value": 0
+          }
+         ]
+        },
+        "add": -0.8
+       }
+      ]
+     }
+    },
+    {
+     "id": "stay",
+     "label": "その場にとどまって待つ",
+     "detail": "岩陰で風を避け、救助か、通りかかる人を待つ。",
+     "flags": [
+      "stayedNoCall",
+      "fallHandled"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "動かない方がいい。岩陰に入って待とう"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "wearRainwear"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "all": [
+          {
+           "var": "leader.radio",
+           "op": ">=",
+           "value": 0.3
+          },
+          {
+           "var": "leader.phone.has",
+           "op": "==",
+           "value": true
+          },
+          {
+           "var": "leader.phone.batteryPct",
+           "op": ">",
+           "value": 0
+          }
+         ]
+        },
+        "add": -0.25
+       }
+      ]
+     }
+    },
+    {
+     "id": "move",
+     "label": "けが人を連れて、全員で動く",
+     "detail": "歩けるなら支えて歩き、歩けないなら 3 人で支えて運ぶ。",
+     "available": {
+      "all": [
+       {
+        "var": "mates.count",
+        "op": ">=",
+        "value": 2
+       },
+       {
+        "not": {
+         "flag": "sentHelp"
+        }
+       }
+      ]
+     },
+     "hideIfUnavailable": true,
+     "flags": [
+      "fallHandled",
+      "movedAll"
+     ],
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここにいたら雨に打たれる。みんなで少しでも動こう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "q_move"
+      },
+      {
+       "type": "rest",
+       "minutes": 5
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "var": "mates.unwellCount",
+         "op": "==",
+         "value": 0
+        },
+        "add": 0.6
+       }
+      ]
+     }
+    }
+   ]
+  },
+  "darkness": {
+   "situation": "日が沈んだ。雨とガスの中で、岩の上のペンキ印がヘッドランプの光に見えにくい。どうする？",
+   "options": [
+    {
+     "id": "continue",
+     "label": "ヘッドランプをつけて進む",
+     "available": {
+      "var": "leader.headlamp.usable",
+      "op": "==",
+      "value": true
+     },
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.5
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "grope",
+     "label": "明かりなしで、手探りで少しずつ進む",
+     "available": {
+      "not": {
+       "var": "leader.headlamp.usable",
+       "op": "==",
+       "value": true
+      }
+     },
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "setPace",
+       "factor": 0.6
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "bivouac",
+     "label": "その場で岩陰に入り、朝を待つ",
+     "actions": [
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "bivouac",
+       "until": "dawn",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.7,
+      "mods": [
+       {
+        "when": {
+         "not": {
+          "var": "leader.headlamp.usable",
+          "op": "==",
+          "value": true
+         }
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "thoughts": [
+  {
+   "key": "s24_stars",
+   "when": {
+    "all": [
+     {
+      "before": "D0 05:00"
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "lines": [
+    "星がきれいだ。今日は晴れる",
+    "ヘッドランプの光の輪の中だけを見て歩く"
+   ],
+   "priority": 3
+  },
+  {
+   "key": "s24_rock",
+   "when": {
+    "all": [
+     {
+      "any": [
+       {
+        "onEdge": "E3"
+       },
+       {
+        "onEdge": "E4"
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "手を使わないと登れない",
+    "下りのほうが怖い",
+    "岩にペンキの丸印。これをたどればいいのか"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s24_expo",
+   "when": {
+    "all": [
+     {
+      "any": [
+       {
+        "onEdge": "E5"
+       },
+       {
+        "onEdge": "E6"
+       },
+       {
+        "onEdge": "E7"
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "両側が切れ落ちている。下を見ない",
+    "この岩、動く",
+    "足を置く場所を一つずつ探す",
+    "写真で見たのとは、ぜんぜん違う"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s24_expo2",
+   "when": {
+    "all": [
+     {
+      "any": [
+       {
+        "onEdge": "E8"
+       },
+       {
+        "onEdge": "E9"
+       },
+       {
+        "onEdge": "E10"
+       },
+       {
+        "onEdge": "E11"
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "腕が疲れてきた",
+    "まだ先がある",
+    "引き返すにも、あの岩場をもう一度か"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s24_hina",
+   "who": "hina",
+   "when": {
+    "all": [
+     {
+      "any": [
+       {
+        "onEdge": "E5"
+       },
+       {
+        "onEdge": "E6"
+       },
+       {
+        "onEdge": "E7"
+       },
+       {
+        "onEdge": "E10"
+       },
+       {
+        "onEdge": "E11"
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "足がすくむ",
+    "来なければよかったかもしれない"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s24_misaki",
+   "who": "misaki",
+   "when": {
+    "all": [
+     {
+      "var": "leader.timeBehindMin",
+      "op": ">",
+      "value": 40
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "before": "D0 14:00"
+     },
+     {
+      "beenAt": "NISHIHO"
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "このペースで、雨までに着くだろうか",
+    "戻ると言い出すなら、いまかもしれない"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s24_gas",
+   "when": {
+    "all": [
+     {
+      "var": "leader.local.inCloud",
+      "op": "==",
+      "value": true
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "before": "D0 14:00"
+     }
+    ]
+   },
+   "lines": [
+    "ガスで先の岩峰が見えない",
+    "次の丸印はどこだ"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s24_wetrock",
+   "when": {
+    "all": [
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 0.5
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 2600
+     }
+    ]
+   },
+   "lines": [
+    "濡れた岩が滑る",
+    "靴底が岩をつかまない",
+    "手がかじかんで、岩をしっかり握れない"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s24_wait",
+   "when": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "any": [
+       {
+        "state": "BIVOUAC"
+       },
+       {
+        "state": "WAITING_RESCUE"
+       }
+      ]
+     },
+     {
+      "var": "leader.injury",
+      "op": "==",
+      "value": "none"
+     }
+    ]
+   },
+   "lines": [
+    "声をかけつづける。眠らせないように",
+    "ツェルトを持ってくればよかった",
+    "雨具の中まで濡れてきた"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s24_wait_sent",
+   "when": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "flag": "sentHelp"
+     },
+     {
+      "any": [
+       {
+        "state": "BIVOUAC"
+       },
+       {
+        "state": "WAITING_RESCUE"
+       }
+      ]
+     },
+     {
+      "var": "leader.injury",
+      "op": "==",
+      "value": "none"
+     }
+    ]
+   },
+   "lines": [
+    "呼びに行った 2 人は、いまどこだろう",
+    "2 人は無事に着いただろうか"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s24_wait_hurt",
+   "when": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "var": "leader.injury",
+      "op": "!=",
+      "value": "none"
+     },
+     {
+      "var": "leader.injury",
+      "op": "!=",
+      "value": "bruise"
+     },
+     {
+      "var": "leader.conscious",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "痛みが波のように来る",
+    "寒い。体が震えて止まらない",
+    "みんなに迷惑をかけた"
+   ],
+   "priority": 8
+  },
+  {
+   "key": "s24_runner",
+   "when": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "flag": "sentHelp"
+     },
+     {
+      "var": "leader.injury",
+      "op": "==",
+      "value": "none"
+     }
+    ]
+   },
+   "lines": [
+    "急ぎたい。でも、ここで自分が落ちたら終わりだ",
+    "残してきた 2 人のことを考える",
+    "電波は、まだ入らない"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s24_night",
+   "when": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "var": "sun.isDark",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.conscious",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "夜が長い",
+    "雨の音と風の音しか聞こえない",
+    "朝まで、あと何時間だろう"
+   ],
+   "priority": 7
+  }
+ ],
+ "speech": [
+  {
+   "key": "s24_sp_start",
+   "who": "misaki",
+   "to": "kenta",
+   "when": {
+    "all": [
+     {
+      "before": "D0 04:40"
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "lines": [
+    "岩場、ついていけるかな"
+   ],
+   "replies": {
+    "who": "kenta",
+    "lines": [
+     "三点支持でゆっくり行けば大丈夫。調べてきたから"
+    ]
+   },
+   "once": true
+  },
+  {
+   "key": "s24_sp_rock",
+   "who": "hina",
+   "to": "daichi",
+   "when": {
+    "all": [
+     {
+      "onEdge": "E3"
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "ここ、どこに足を置いたの？"
+   ],
+   "replies": {
+    "who": "daichi",
+    "lines": [
+     "右の出っ張り。そこから左手を上の角に"
+    ]
+   },
+   "once": true
+  },
+  {
+   "key": "s24_sp_beyond",
+   "who": "misaki",
+   "to": "kenta",
+   "when": {
+    "all": [
+     {
+      "onEdge": "E5"
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "ここを下りるの……？"
+   ],
+   "replies": {
+    "who": "kenta",
+    "lines": [
+     "後ろ向きで。足は見てるから、一歩ずつ"
+    ]
+   },
+   "once": true
+  },
+  {
+   "key": "s24_sp_loose",
+   "who": "daichi",
+   "when": {
+    "all": [
+     {
+      "onEdge": "E6"
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "この岩、浮いてる。踏まないで"
+   ],
+   "tone": "shout",
+   "once": true
+  },
+  {
+   "key": "s24_sp_slow",
+   "who": "daichi",
+   "to": "kenta",
+   "when": {
+    "all": [
+     {
+      "var": "leader.timeBehindMin",
+      "op": ">",
+      "value": 50
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "not": {
+       "flag": "fallen"
+      }
+     },
+     {
+      "beenAt": "NISHIHO"
+     },
+     {
+      "not": {
+       "flag": "peakOnly"
+      }
+     },
+     {
+      "not": {
+       "flag": "turnedBack"
+      }
+     },
+     {
+      "before": "D0 13:30"
+     }
+    ]
+   },
+   "lines": [
+    "だいぶ遅れてるな"
+   ],
+   "replies": {
+    "who": "kenta",
+    "lines": [
+     "急がなくていい。でも、雨の前には抜けたい"
+    ]
+   },
+   "once": true
+  },
+  {
+   "key": "s24_sp_cold",
+   "who": "any",
+   "when": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "any": [
+       {
+        "state": "BIVOUAC"
+       },
+       {
+        "state": "WAITING_RESCUE"
+       }
+      ]
+     },
+     {
+      "var": "leader.injury",
+      "op": "==",
+      "value": "none"
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 0.5
+     }
+    ]
+   },
+   "lines": [
+    "寒くない？　もう 1 枚着よう",
+    "何か食べて。少しでいいから",
+    "だいじょうぶ。必ず来てくれる"
+   ],
+   "cooldownMin": 90
+  },
+  {
+   "key": "s24_sp_dawn",
+   "who": "any",
+   "when": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "after": "D1 05:00"
+     },
+     {
+      "before": "D1 06:30"
+     },
+     {
+      "any": [
+       {
+        "state": "BIVOUAC"
+       },
+       {
+        "state": "WAITING_RESCUE"
+       }
+      ]
+     },
+     {
+      "var": "leader.injury",
+      "op": "==",
+      "value": "none"
+     }
+    ]
+   },
+   "lines": [
+    "明るくなってきた。もう少しだよ"
+   ],
+   "once": true
+  }
+ ],
+ "endings": [
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "dokuOnly"
+   },
+   "title": "独標までの朝",
+   "text": "4 人は独標まで登って引き返し、ロープウェイで下山した。午後、稜線は雨と風になった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "peakOnly"
+   },
+   "title": "西穂高岳まで",
+   "text": "4 人は西穂高岳の山頂に立ち、来た道を戻ってロープウェイで下山した。午後、稜線は雨と風になった。縦走は、岩場の経験を積んでからにする。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "turnedBack"
+   },
+   "title": "引き返した",
+   "text": "4 人は途中で縦走をやめ、西穂山荘へ戻ってロープウェイで下山した。午後、稜線は雨と風になった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "escaped"
+   },
+   "title": "天狗のコルから岳沢へ",
+   "text": "4 人は天狗のコルで縦走をやめ、天狗沢を岳沢小屋へ下りた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "not": {
+     "flag": "fallen"
+    }
+   },
+   "title": "涸沢に着いた",
+   "text": "4 人は岩稜を抜け、奥穂高岳を越えて涸沢ヒュッテに着いた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "title": "全員、小屋に着いた",
+   "text": "滑落でけが人が出たが、4 人は自分たちの足で山小屋にたどり着いた。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "title": "山小屋で",
+   "text": "4 人は山小屋に入った。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "title": "自分たちの足で",
+   "text": "滑落のあと、4 人は岩稜で一夜を過ごし、自分たちの足で山小屋にたどり着いた。"
+  },
+  {
+   "kind": "RESCUED",
+   "when": {
+    "var": "rec.rescueCalledAt",
+    "op": "<",
+    "value": 840
+   },
+   "title": "雨の前の通報",
+   "text": "滑落でけがをした仲間は、救助隊に収容された。雨と風が強まる前に通報できた。"
+  },
+  {
+   "kind": "RESCUED",
+   "title": "雨の岩稜からの救助",
+   "text": "滑落でけがをした仲間は、救助隊に収容された。ヘリコプターは飛べず、救助隊は雨の岩稜を歩いて来た。"
+  },
+  {
+   "kind": "RESCUED_CRITICAL",
+   "title": "重い状態での救助",
+   "text": "救助隊が着いたとき、仲間は重い状態だった。雨と風の岩稜で、長い時間を過ごした。"
+  },
+  {
+   "kind": "MISSING",
+   "title": "稜線に残されたまま",
+   "text": "制限の時刻になっても、稜線に残った人は収容されていない。"
+  },
+  {
+   "kind": "FATAL",
+   "when": {
+    "var": "rec.deathCount",
+    "op": ">=",
+    "value": 2
+   },
+   "title": "岩稜で 2 人以上が帰らなかった",
+   "text": "滑落と、そのあとの雨と風の岩稜で、{rec.deathCount:0} 人が亡くなった。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "岩稜から帰らなかった仲間",
+   "text": "4 人のうち 1 人が、岩稜から帰らなかった。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_level",
+   "when": {
+    "not": {
+     "flag": "peakOnly"
+    }
+   },
+   "title": "経験に合ったルートを選ぶ",
+   "text": "西穂高岳〜奥穂高岳は、国内の登山道でいちばん難しいとされる岩稜のひとつ。鎖や標識は少なく、ルートを見つける力、浮き石を見分ける力、長い時間の集中が要る。一般の登山道を 2 年歩いた経験だけでは足りない。岩場のやさしいルートで経験を重ね、経験のある人と一緒に入る。"
+  },
+  {
+   "id": "l_weather",
+   "when": {
+    "chose": {
+     "cp": "cp_start",
+     "option": "go"
+    }
+   },
+   "title": "午後から雨の日に、長い岩稜へ入らない",
+   "text": "逃げ場のない岩稜で 11 時間を超える行程は、一日じゅう天気が持つ日に組む。「雨の前に抜ける」計画は、少し遅れただけで、いちばん難しい所で雨に当たる。濡れた逆層の岩は、乾いているときとは別の難しさになる。"
+  },
+  {
+   "id": "l_turn",
+   "when": {
+    "chose": {
+     "cp": "cp_nishiho",
+     "option": "go"
+    }
+   },
+   "title": "西穂高岳が、引き返せる最後の場所",
+   "text": "西穂高岳までは一般の登山道で、戻るのも難しくない。その先は、進むほど戻るのが難しくなり、下りられるのは天狗のコルだけになる。山頂で、時刻・天気・仲間の様子を確かめて決める。"
+  },
+  {
+   "id": "l_call",
+   "when": {
+    "flag": "fallen"
+   },
+   "title": "通報は、できる所で、すぐに",
+   "text": "稜線の電波は場所によって入ったり入らなかったりする。けが人が出たら、まずその場で 110 番か 119 番を試す。つながったら、場所（山の名前、どことどこの間か、標高）、けがの様子、人数を伝え、電池を節約して待つ。天気が崩れる前の通報なら、ヘリコプターが間に合うこともある。"
+  },
+  {
+   "id": "l_heli",
+   "when": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "var": "rec.rescueCalledAt",
+      "op": ">",
+      "value": 0
+     }
+    ]
+   },
+   "title": "ヘリコプターは、雲と雨と夜には飛べない",
+   "text": "救助のヘリコプターは、地上を目で見て飛ぶ。稜線が雲に入る、雨や風が強い、日が沈む、のどれかで近づけなくなる。そのときは救助隊が歩いて登ってくるので、何時間も、ときには翌日までかかる。その間を自分たちで生きのびる装備が要る。"
+  },
+  {
+   "id": "l_bivy",
+   "when": {
+    "all": [
+     {
+      "flag": "fallen"
+     },
+     {
+      "var": "rec.minCoreC",
+      "op": "<",
+      "value": 35
+     }
+    ]
+   },
+   "title": "ツェルト 1 張りが、夜を分ける",
+   "text": "標高 3,000 m の稜線は、9 月でも雨と風の夜は体感温度が氷点下になる。けがで動けない人は、熱をつくれずに体温が下がりつづける。ツェルトをかぶるだけで風と雨をさえぎれる。小屋泊まりの山行でも、ツェルト・エマージェンシーシート・防寒着は持つ。"
+  },
+  {
+   "id": "l_split",
+   "when": {
+    "flag": "sentHelp"
+   },
+   "title": "救助を呼びに行く人も、遭難する",
+   "text": "知らせに行く人は、焦りと疲れを抱えて、雨の岩稜を歩く。二重の遭難にしないために、1 人では行かない、暗くなったら動かない、難しい方へは向かわない。けが人には必ず 1 人が付き添う。"
+  },
+  {
+   "id": "l_carry",
+   "when": {
+    "flag": "carried"
+   },
+   "title": "岩稜では、けが人を運べない",
+   "text": "両側の切れ落ちた岩稜で、歩けない人を支えて動かすのは、救助隊でもロープを張って行う作業。経験のない人が運ぼうとすると、支える人も一緒に落ちる。動かさず、保温して、救助を待つ。"
+  },
+  {
+   "id": "l_water",
+   "when": {
+    "var": "party.max.waterDeficitL",
+    "op": ">",
+    "value": 1.5
+   },
+   "title": "水場のない稜線",
+   "text": "西穂山荘から穂高岳山荘まで水場はない。夏の終わりの長い岩稜では、1 人 2〜3 L は持つ。"
+  }
+ ],
+ "balanceTargets": {
+  "recommended": {
+   "goodMin": 0.9,
+   "fatalMax": 0.03
+  },
+  "bias": {
+   "fatalMin": 0.05,
+   "fatalMax": 0.25,
+   "rescuedMin": 0.15
+  },
+  "risky": {
+   "fatalMin": 0.15,
+   "rescuedMin": 0.25
+  }
+ },
+ "sources": [
+  "架空の人物・架空の経過。天気は架空（1 日目は晴れ、2 日目は晴れ時々くもりで 14 時から雨と風、3 日目は雨はユーザーの指定。4 日目の朝の回復は作者の想定）",
+  "コースタイム: YAMAP のモデルコースの標準タイム（西穂山荘→西穂高岳 2 時間 35 分、西穂高岳→奥穂高岳 5 時間 50 分、奥穂高岳→穂高岳山荘 45 分、穂高岳山荘→涸沢 2 時間）を目安に、岩場に慣れていない 4 人として岩稜の区間を遅くした",
+  "天狗沢: 岳沢小屋・穂高岳山荘の案内（上部は落石で荒れ、通行できないとの案内が出ている）",
+  "山小屋: 西穂山荘は通年、穂高岳山荘・岳沢小屋・涸沢ヒュッテは 9 月上旬は営業中（長野県の山小屋の案内）",
+  "救助: 岐阜県警察 山岳警備隊の案内（天候が悪いと救助が翌日以降になることがある）。2022 年 8 月のジャンダルム付近の事例（悪天でヘリが飛べず、隊員が付き添って数日待った。山と溪谷オンライン）を参考にした",
+  "電波: 作者の想定（西穂高口駅・上高地・各山小屋のまわりの基地局から、稜線の見晴らしのよい所で入り、天狗のコルなどの鞍部では入らないとした）",
+  "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+  "登山道・地点: © OpenStreetMap contributors"
+ ]
+}

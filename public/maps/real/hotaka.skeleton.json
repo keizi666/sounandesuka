@@ -1,0 +1,60 @@
+{
+  "id": "hotaka",
+  "name": "北アルプス 西穂高岳〜奥穂高岳（西穂山荘〜独標〜西穂高岳〜間ノ岳〜天狗のコル〜ジャンダルム〜奥穂高岳〜穂高岳山荘〜涸沢、岳沢、上高地、新穂高ロープウェイ西穂高口）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "新穂高ロープウェイの西穂高口駅と上高地から西穂山荘へ上がり、独標・ピラミッドピーク・西穂高岳を越えて、間ノ岳・天狗ノ頭・天狗のコル・コブ尾根ノ頭・ジャンダルム・ロバの耳・馬ノ背をたどって奥穂高岳へ。白出のコルの穂高岳山荘からザイテングラートを涸沢へ下る。天狗のコルからは天狗沢を岳沢小屋へ下りられ、岳沢から上高地へ出る。一辺 7 km 程度（513 頂点）。森林限界は 2,450 m 前後。西穂高岳から奥穂高岳までは、両側が切れ落ちた岩稜で、逆層のスラブ・浮き石・鎖場がつづき、水場はない。",
+    "sizeM": 7168
+  },
+  "size": 7168,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2450, "forestLineNoise": 40, "broadleafLine": 1700, "krummholzBandM": 150 },
+  "nodes": [
+    { "id": "ROPE", "name": "新穂高ロープウェイ 西穂高口駅", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 2156 },
+    { "id": "TASHIRO", "name": "上高地（西穂高岳登山口）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 1500 },
+    { "id": "KAMIKOCHI", "name": "上高地（河童橋）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 1505 },
+    { "id": "HUT", "name": "西穂山荘", "type": "hut", "x": 0, "z": 0, "osmName": "西穂山荘", "expectedElevM": 2367, "shelter": { "kind": "staffed", "open": true } },
+    { "id": "MARUYAMA", "name": "丸山", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 2452 },
+    { "id": "DOKUHYO", "name": "西穂独標", "type": "peak", "x": 0, "z": 0, "osmName": "西穂独標", "expectedElevM": 2701 },
+    { "id": "PYRAMID", "name": "ピラミッドピーク", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2740 },
+    { "id": "NISHIHO", "name": "西穂高岳", "type": "peak", "x": 0, "z": 0, "osmName": "西穂高岳", "expectedElevM": 2909 },
+    { "id": "AINODAKE", "name": "間ノ岳", "type": "peak", "x": 0, "z": 0, "osmName": "間ノ岳", "expectedElevM": 2907 },
+    { "id": "TENGU_ATAMA", "name": "天狗ノ頭", "type": "peak", "x": 0, "z": 0, "expectedElevM": 2909 },
+    { "id": "TENGU_COL", "name": "天狗のコル", "type": "saddle", "x": 0, "z": 0, "expectedElevM": 2835 },
+    { "id": "KOBU", "name": "コブ尾根ノ頭", "type": "peak", "x": 0, "z": 0, "expectedElevM": 3130 },
+    { "id": "GENS", "name": "ジャンダルム", "type": "peak", "x": 0, "z": 0, "osmName": "ジャンダルム", "expectedElevM": 3163 },
+    { "id": "ROBA", "name": "ロバの耳", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 3120 },
+    { "id": "OKUHO", "name": "奥穂高岳", "type": "peak", "x": 0, "z": 0, "osmName": "奥穂高岳", "expectedElevM": 3190 },
+    { "id": "HOTAKA_HUT", "name": "穂高岳山荘", "type": "hut", "x": 0, "z": 0, "osmName": "穂高岳山荘", "expectedElevM": 2983, "shelter": { "kind": "staffed", "open": true } },
+    { "id": "KARASAWA", "name": "涸沢ヒュッテ", "type": "hut", "x": 0, "z": 0, "osmName": "涸沢ヒュッテ", "expectedElevM": 2310, "shelter": { "kind": "staffed", "open": true } },
+    { "id": "DAKESAWA", "name": "岳沢小屋", "type": "hut", "x": 0, "z": 0, "osmName": "岳沢小屋", "expectedElevM": 2170, "shelter": { "kind": "staffed", "open": true } }
+  ],
+  "edges": [
+    { "id": "E_ROPE", "name": "西穂高口駅〜西穂山荘（樹林の道）", "kind": "trail", "from": "ROPE", "to": "HUT", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E_KAMI", "name": "上高地〜西穂山荘（樹林の急登）", "kind": "trail", "from": "TASHIRO", "to": "HUT", "class": "T1", "markers": 0.8, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E1", "name": "西穂山荘〜丸山", "kind": "trail", "from": "HUT", "to": "MARUYAMA", "class": "T1", "markers": 0.85, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "丸山〜独標（岩の稜線・鎖場）", "kind": "trail", "from": "MARUYAMA", "to": "DOKUHYO", "class": "T2", "markers": 0.85, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "独標〜ピラミッドピーク（岩の小ピークの連続）", "kind": "trail", "from": "DOKUHYO", "to": "PYRAMID", "class": "T2", "markers": 0.85, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "ピラミッドピーク〜西穂高岳（岩の急登）", "kind": "trail", "from": "PYRAMID", "to": "NISHIHO", "class": "T2", "markers": 0.85, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "西穂高岳〜間ノ岳（急な下りと浮き石のガレ）", "kind": "trail", "from": "NISHIHO", "to": "AINODAKE", "class": "T3", "markers": 0.6, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "noRest": true, "waypoints": [] },
+    { "id": "E6", "name": "間ノ岳〜天狗ノ頭（間天のコル・逆層スラブの鎖）", "kind": "trail", "from": "AINODAKE", "to": "TENGU_ATAMA", "class": "T3", "markers": 0.6, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "noRest": true, "waypoints": [] },
+    { "id": "E7", "name": "天狗ノ頭〜天狗のコル（鎖の急な下り）", "kind": "trail", "from": "TENGU_ATAMA", "to": "TENGU_COL", "class": "T3", "markers": 0.6, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "noRest": true, "waypoints": [] },
+    { "id": "E8", "name": "天狗のコル〜コブ尾根ノ頭（畳岩尾根ノ頭を越える岩稜の登り）", "kind": "trail", "from": "TENGU_COL", "to": "KOBU", "class": "T3", "markers": 0.6, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E9", "name": "コブ尾根ノ頭〜ジャンダルム", "kind": "trail", "from": "KOBU", "to": "GENS", "class": "T3", "markers": 0.6, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E10", "name": "ジャンダルム〜ロバの耳（飛騨側の巻き道と岩壁の下り）", "kind": "trail", "from": "GENS", "to": "ROBA", "class": "T3", "markers": 0.6, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "noRest": true, "waypoints": [] },
+    { "id": "E11", "name": "ロバの耳〜奥穂高岳（馬ノ背）", "kind": "trail", "from": "ROBA", "to": "OKUHO", "class": "T3", "markers": 0.6, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "noRest": true, "waypoints": [] },
+    { "id": "E12", "name": "奥穂高岳〜穂高岳山荘（岩の斜面とハシゴ）", "kind": "trail", "from": "OKUHO", "to": "HOTAKA_HUT", "class": "T2", "markers": 0.9, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E13", "name": "穂高岳山荘〜涸沢ヒュッテ（ザイテングラート）", "kind": "trail", "from": "HOTAKA_HUT", "to": "KARASAWA", "class": "T2", "markers": 0.9, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E14", "name": "天狗のコル〜岳沢小屋（天狗沢のガレ場）", "kind": "trail", "from": "TENGU_COL", "to": "DAKESAWA", "class": "T2", "markers": 0.4, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E15", "name": "岳沢小屋〜上高地（岳沢の登山道）", "kind": "trail", "from": "DAKESAWA", "to": "KAMIKOCHI", "class": "T1", "markers": 0.9, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}
