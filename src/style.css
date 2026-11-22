@@ -1248,3 +1248,16 @@ details[data-g]:not([open]) > summary .grp-mini:hover { border-color: var(--acce
 .grp-mini .grp-hp.lv-danger { color: #fb923c; }
 .grp-mini .grp-hp.lv-critical { color: #ef4444; }
 .grp-mini.dead { opacity: 0.55; filter: grayscale(1); }
+
+/* 落雷で画面を白く光らせる（ユーザーの指定）。またたきは 2 回だけ。動きを減らす設定なら弱く 1 回 */
+.strike-flash { position: absolute; inset: 0; z-index: 40; pointer-events: none; background: #eef3ff; opacity: 0; animation: strike-flash 0.7s ease-out forwards; }
+@keyframes strike-flash {
+  0% { opacity: 0.85; }
+  14% { opacity: 0.15; }
+  26% { opacity: 0.7; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .strike-flash { animation: strike-flash-soft 0.6s ease-out forwards; }
+  @keyframes strike-flash-soft { 0% { opacity: 0.35; } 100% { opacity: 0; } }
+}

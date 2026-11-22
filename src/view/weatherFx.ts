@@ -50,6 +50,10 @@ export interface WeatherFx {
   spriteClouds: boolean;
   /** 稲妻が光っている強さ 0..1（立体の雲を照らす） */
   readonly flash: number;
+  /** いまの光が、登山者への落雷か（周りの稲妻の雷鳴を重ねて鳴らさないため） */
+  readonly strikeLit: boolean;
+  /** 登山者への落雷: その場所（ワールド座標 m・標高 m）に雲から稲妻を落とし、強く光らせる */
+  strike(x: number, z: number, elevM: number): void;
   update(world: World, env: EnvUniforms, camera: THREE.Camera, timeSec: number): void;
 }
 
@@ -238,6 +242,8 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
   let flashNow = 0;
   scene.add(flash);
   let boltUntil = 0;
+  let pending: { x: number; z: number; elevM: number } | null = null;
+  let strikeFrom = 0;
 
   return {
     showClouds: true,
@@ -245,6 +251,12 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
     baseSnowLine: Infinity,
     get flash() {
       return flashNow;
+    },
+    get strikeLit() {
+      return flashNow > 0 && strikeFrom > 0;
+    },
+    strike(x, z, elevM) {
+      pending = { x, z, elevM };
     },
     update(world, env, _camera, t) {
       const w = world.weather;
@@ -319,6 +331,7 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
         u.uScaleH!.value = window.innerHeight / 2;
       });
       const maxStrength = Math.min(1, w.cells.reduce((a, c) => Math.max(a, c.strength), w.thunder));
+      if (t >= boltUntil) strikeFrom = 0;
       // 稲妻: 強さに比例した頻度で 0.15 秒
       if (t > boltUntil && maxStrength > 0.2 && Math.random() < maxStrength * 0.02) {
         const c = w.cells[0] ?? { x: 0, z: 0, radiusM: 1000 };
@@ -333,10 +346,29 @@ export function createWeatherFx(scene: THREE.Scene, map: MapRuntime, s: ViewScal
         pts.needsUpdate = true;
         boltUntil = t + 0.15;
       }
+      // 登山者への落雷: 雲底から打たれた人の所まで、ジグザグの稲妻を 0.5 秒、2 回またたかせる
+      if (pending) {
+        const top = toSceneY(s, Math.max(w.cloudBaseM, pending.elevM + 300));
+        const bot = toSceneY(s, pending.elevM);
+        const pts = bolt.geometry.getAttribute('position') as THREE.BufferAttribute;
+        const bx = pending.x * UNIT;
+        const bz = pending.z * UNIT;
+        for (let i = 0; i < pts.count; i += 1) {
+          const f = i / (pts.count - 1);
+          const j = i === 0 || i === pts.count - 1 ? 0 : 0.04 * (1 - f * 0.7);
+          pts.setXYZ(i, bx + (Math.random() - 0.5) * j, top - f * (top - bot), bz + (Math.random() - 0.5) * j);
+        }
+        pts.needsUpdate = true;
+        boltUntil = t + 0.5;
+        strikeFrom = t;
+        pending = null;
+      }
       const on = t < boltUntil;
-      boltMat.opacity = on ? 1 : 0;
-      flash.intensity = on ? 2.5 : 0;
-      flashNow = on ? 1 : 0;
+      // 落雷は 2 回またたく（0〜0.12 秒・0.22〜0.5 秒）
+      const lit = on && (strikeFrom === 0 || t - strikeFrom < 0.12 || t - strikeFrom > 0.22);
+      boltMat.opacity = lit ? 1 : 0;
+      flash.intensity = lit ? (strikeFrom > 0 ? 4 : 2.5) : 0;
+      flashNow = lit ? 1 : 0;
       void groundBin;
     },
   };

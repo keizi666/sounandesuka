@@ -318,6 +318,17 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   let shownCp: string | null = null;
   /** シナリオの music アクションで指定された曲（なければ自動） */
   let scriptMusic: string | undefined;
+  /** 画面を白く光らせる（1 秒に 1 回まで。光に敏感な人のため、またたきは 2 回だけで、動きを減らす設定なら弱く 1 回） */
+  let lastFlashAt = 0;
+  function strikeFlash(): void {
+    const now = performance.now();
+    if (now - lastFlashAt < 1000) return;
+    lastFlashAt = now;
+    const f = el('div', { class: 'strike-flash', 'aria-hidden': 'true' });
+    simMain.append(f);
+    f.addEventListener('animationend', () => f.remove());
+    setTimeout(() => f.remove(), 2000);
+  }
   function handleEvents(evs: readonly SimEvent[]): void {
     const fast = loop?.speed >= 15;
     for (const e of evs) {
@@ -325,6 +336,15 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       if (e.type === 'MUSIC') scriptMusic = typeof e.data?.['id'] === 'string' ? (e.data['id'] as string) : undefined;
       const se = replaying ? null : eventSound(e);
       if (se) audio().play(se.id, se.volume);
+      // 落雷: 打たれた場所に稲妻、画面を白く光らせ、近くに落ちた雷の音（ユーザーの指定。見直しの再生中は出さない）
+      if (e.type === 'LIGHTNING_STRIKE' && !replaying) {
+        const c = world.climbers.find((x) => x.id === e.climberId);
+        const x = typeof e.data?.['x'] === 'number' ? e.data['x'] : c?.x;
+        const z = typeof e.data?.['z'] === 'number' ? e.data['z'] : c?.z;
+        if (x !== undefined && z !== undefined) view.strikeAt(x, z, c?.elevM ?? 0);
+        strikeFlash();
+        audio().strike();
+      }
       // 見守るパーティが変わったら、そのリーダーを選んで追う
       if (e.type === 'FOCUS') focusGroup(String(e.data?.['group'] ?? ''));
       if (e.type === 'CHOICE_FIRED') {

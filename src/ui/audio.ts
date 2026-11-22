@@ -117,6 +117,61 @@ class AudioBoard {
     });
   }
 
+  /**
+   * すぐ近くの落雷の音（ユーザーの指定: 落雷のシナリオで、落ちたときに鳴らす）。素材はないので、雑音から合成する:
+   * 裂ける高い音（0.2 秒）→ 低い衝撃（0.6 秒）→ 長く尾を引く雷鳴（4 秒）。効果音の設定（オンオフ・音量）に従う
+   */
+  strike(volume = 1): void {
+    if (!this.prefs.se || !this.unlocked) return;
+    const now = performance.now();
+    if (now - (this.lastSe.get('strike') ?? -1e9) < 1000) return;
+    this.lastSe.set('strike', now);
+    const ctx = this.ensure();
+    if (!ctx || !this.seBus) return;
+    const t0 = ctx.currentTime + 0.02;
+    const noise = (sec: number, brown: boolean): AudioBuffer => {
+      const buf = ctx.createBuffer(2, Math.floor(ctx.sampleRate * sec), ctx.sampleRate);
+      for (let ch = 0; ch < 2; ch += 1) {
+        const d = buf.getChannelData(ch);
+        let last = 0;
+        for (let i = 0; i < d.length; i += 1) {
+          const w = Math.random() * 2 - 1;
+          if (brown) {
+            last = (last + 0.02 * w) / 1.02;
+            d[i] = last * 3.5;
+          } else d[i] = w;
+        }
+      }
+      return buf;
+    };
+    const layer = (buf: AudioBuffer, filter: BiquadFilterOptions, gain: number, attack: number, dur: number, f1?: number): void => {
+      const src = new AudioBufferSourceNode(ctx, { buffer: buf });
+      const f = new BiquadFilterNode(ctx, filter);
+      if (f1 !== undefined) f.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+      const g = new GainNode(ctx, { gain: 0.0001 });
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(gain * volume, t0 + attack);
+      g.gain.exponentialRampToValueAtTime(gain * volume * 0.3, t0 + dur * 0.35);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      src.connect(f).connect(g).connect(this.seBus!);
+      src.start(t0);
+      src.stop(t0 + dur + 0.05);
+    };
+    layer(noise(0.3, false), { type: 'highpass', frequency: 1800 }, 0.9, 0.004, 0.25);
+    layer(noise(0.8, true), { type: 'lowpass', frequency: 700 }, 1.0, 0.01, 0.7, 120);
+    layer(noise(4.5, true), { type: 'lowpass', frequency: 420 }, 0.8, 0.25, 4.4, 60);
+    // 胸に響く低い一打ち
+    const osc = new OscillatorNode(ctx, { type: 'sine', frequency: 70 });
+    osc.frequency.exponentialRampToValueAtTime(32, t0 + 0.8);
+    const og = new GainNode(ctx, { gain: 0.0001 });
+    og.gain.setValueAtTime(0.0001, t0);
+    og.gain.exponentialRampToValueAtTime(0.7 * volume, t0 + 0.015);
+    og.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.9);
+    osc.connect(og).connect(this.seBus);
+    osc.start(t0);
+    osc.stop(t0 + 1);
+  }
+
   /** 曲を切り替える（null で止める）。曲の ID か、場面の指定（scene:play / scene:night / scene:distress）。同じならそのまま */
   music(id: string | null): void {
     const ok = id !== null && (id.startsWith(SCENE_PREFIX) || BGM_CATALOG.some((x) => x.id === id));

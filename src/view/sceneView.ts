@@ -657,9 +657,14 @@ export class SceneView {
     this.sun.target.updateMatrixWorld();
   }
 
-  /** 稲妻が光っているか（雷の音のきっかけに使う） */
+  /** 周りの稲妻が光っているか（雷の音のきっかけに使う。登山者への落雷は別に鳴らすので含めない） */
   get flashing(): boolean {
-    return this.fx.flash > 0;
+    return this.fx.flash > 0 && !this.fx.strikeLit;
+  }
+
+  /** 登山者への落雷を描く（ワールド座標 m・標高 m） */
+  strikeAt(x: number, z: number, elevM: number): void {
+    this.fx.strike(x, z, elevM);
   }
 
   /** カメラから注目している登山者までの距離（シーン単位 = km） */
