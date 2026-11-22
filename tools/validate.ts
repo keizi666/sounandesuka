@@ -1,8 +1,9 @@
 // npm run validate — public/maps と public/scenarios の JSON を検証する（docs/09 §13）
 //   npm run validate [-- <file.json> ...]   ファイルを指定するとそれだけを検証する（テスト用の壊れた JSON など）
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import { formatIssue, validateMap, validateScenario, type Issue } from '../src/sim/scenario/validate';
+import { checkChoosers } from '../src/sim/scenario/validateChooser';
 import type { MapDef, ScenarioDef } from '../src/sim/types';
 import { ROOT } from './lib/maps';
 
@@ -65,7 +66,12 @@ if (files.length > 0) {
   const index = readJson(resolve(dir, 'index.json'), acc) as { id: string; file?: string; bundle?: string }[] | null;
   for (const e of index ?? []) {
     if (e.file) validateScenarioFile(resolve(dir, e.file), maps, acc);
-    // バンドル（*.sounan.json）の検証は P13
+    // 実在の山（バンドル）は地形がバンドルの中にあるので、地形を使わない検査（分岐点の選ぶ人）だけをする
+    else if (e.bundle) {
+      const p = resolve(dir, e.bundle.replace(/\.sounan\.json$/, '.json'));
+      const s = existsSync(p) ? (readJson(p, acc) as ScenarioDef | null) : null;
+      if (s) report(basename(p), checkChoosers(s).map((c) => ({ level: 'warning', path: c.path, code: 'chooser', message: c.message })), acc);
+    }
   }
   // 史実シナリオ（historical/）はスケルトンマップを実地形に結合してから検証する（P19）
 }

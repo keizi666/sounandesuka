@@ -771,6 +771,7 @@
     {
       "id": "cp_stop17",
       "title": "バス停で 17 時",
+      "group": "mom",
       "priority": 8,
       "trigger": { "all": [{ "after": "D0 17:00" }, { "flag": "momWaits" }, { "not": { "flag": "dadReached" } }, { "not": { "flag": "reportedMissing" } }, { "not": { "var": "c.kenichi.state", "op": "==", "value": "FINISHED" } }] },
       "situation": "17 時。バス停で 2 時間待っても健一さんは来ない。日の入りまであと 1 時間半。どうする？",

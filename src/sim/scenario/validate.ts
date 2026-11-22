@@ -8,6 +8,7 @@ import { ANIMAL_SPECIES } from '../hazards/animals';
 import { BGM_IDS, SE_IDS } from './soundCatalog';
 import { placeholderPaths } from './text';
 import { isKnownVarPath } from './vars';
+import { checkChoosers } from './validateChooser';
 
 export interface Issue {
   level: 'error' | 'warning';
@@ -376,6 +377,7 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
     if (l.when !== undefined) checkCondition(v, `lessons[${i}].when`, l.when, r);
     checkTexts(v, `lessons[${i}].text`, l.text, r);
   });
+  for (const c of checkChoosers(s)) v.warn(c.path, 'chooser', c.message);
   if (s.region?.real && !s.sources?.length) v.warn('sources', 'sources', '実在の山のシナリオに sources（データの出どころ）がありません');
   return v.issues;
 }
