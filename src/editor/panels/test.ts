@@ -6,7 +6,7 @@ import { JA } from '../../i18n/ja';
 import { formatEvent } from '../../i18n/format';
 import { formatTimeRef } from '../../sim/core/clock';
 import type { HeadlessResult } from '../../sim/headless';
-import { checkTargets, type McSummary } from '../../sim/mc';
+import { checkTargets, type McSummary, type TargetCheck } from '../../sim/mc';
 import type { BalanceTarget, EndingKind, PolicyName } from '../../sim/types';
 import { drawTimeline } from '../../ui/charts';
 import { el } from '../../ui/dom';
@@ -103,6 +103,19 @@ function distBar(s: McSummary): HTMLElement {
   ]);
 }
 
+/** 目標の判定の 1 行（✔ 合格・△ 境目＝揺れの幅が目標をまたぐ・✖ 不合格） */
+function targetLine(checks: TargetCheck[]): HTMLElement {
+  const ng = checks.some((c) => c.verdict === 'ng');
+  const border = !ng && checks.some((c) => c.verdict === 'border');
+  const mark = { ok: '✔', border: '△', ng: '✖' } as const;
+  const v = (c: TargetCheck, x: number): string => (c.key === 'deathCountMedian' ? String(x) : `${(x * 100).toFixed(1)}%`);
+  return el(
+    'p',
+    { class: ng ? 'error' : 'note', title: '△ は揺れの幅（80%）が目標をまたぐもの。回数を増やして測り直すとはっきりする' },
+    `目標: ${ng ? '不合格' : border ? '境目（回数を増やして確かめる）' : '合格'}　${checks.map((c) => `${mark[c.verdict]} ${c.key} ${v(c, c.value)}（${v(c, c.lo)}〜${v(c, c.hi)}）`).join('　')}`,
+  );
+}
+
 function targetEditor(ed: Ed, pol: PolicyName): HTMLElement {
   const s = ed.p.scenario;
   const t: BalanceTarget = s.balanceTargets?.[pol] ?? {};
@@ -127,7 +140,7 @@ function targetEditor(ed: Ed, pol: PolicyName): HTMLElement {
           distBar(sum),
           el('small', {}, `最低体温 p10/p50/p90: ${sum.minCore.p10.toFixed(1)} / ${sum.minCore.p50.toFixed(1)} / ${sum.minCore.p90.toFixed(1)}℃　道迷い ${Math.round(sum.lostRate * 100)}%　死亡原因 ${Object.entries(sum.deathCauses).map(([c, n]) => `${c} ${n}`).join(', ') || 'なし'}`),
           el('div', {}, Object.entries(sum.choices).map(([cp, m]) => el('small', { class: 'chip' }, `${cp}: ${Object.entries(m).map(([o, n]) => `${o} ${Math.round((n / sum.n) * 100)}%`).join(' / ')}`))),
-          checks.length > 0 ? el('p', { class: checks.every((c) => c.ok) ? 'note' : 'error' }, `目標: ${checks.every((c) => c.ok) ? '合格' : '不合格'}　${checks.map((c) => `${c.ok ? '✔' : '✖'} ${c.key} ${(c.value * 100).toFixed(1)}%`).join('　')}`) : null,
+          checks.length > 0 ? targetLine(checks) : null,
           button('現在の分布から目標を提案', () => setT(suggestTarget(pol, sum))),
         ].filter((x): x is HTMLElement => x !== null))
       : el('small', { class: 'note' }, 'まだ試していません'),

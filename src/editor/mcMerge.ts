@@ -2,7 +2,7 @@
  * まとめて試す（docs/18 §6.2）の集計: Worker が返した 1 回ごとの結果を McSummary にまとめる（sim/mc.ts と同じ定義）。
  * balanceTargets の提案もここ。
  */
-import type { McSummary } from '../sim/mc';
+import { medianCi, type McSummary } from '../sim/mc';
 import type { BalanceTarget, EndingKind, PolicyName } from '../sim/types';
 import type { McRun } from '../workers/editorRun.worker';
 
@@ -29,7 +29,7 @@ export function mergeRuns(scenarioId: string, policy: PolicyName, runs: McRun[],
   const mins = runs.map((r) => r.minCoreC).sort((a, b) => a - b);
   const deaths = runs.map((r) => r.deaths).sort((a, b) => a - b);
   const n = runs.length;
-  return { scenarioId, policy, n, counts, deathCauses, minCore: { p10: pct(mins, 0.1), p50: pct(mins, 0.5), p90: pct(mins, 0.9) }, lostRate: n ? lost / n : 0, deathCountMedian: pct(deaths, 0.5), choices, msPerRun: n ? ms / n : 0 };
+  return { scenarioId, policy, n, counts, deathCauses, minCore: { p10: pct(mins, 0.1), p50: pct(mins, 0.5), p90: pct(mins, 0.9) }, lostRate: n ? lost / n : 0, deathCountMedian: pct(deaths, 0.5), deathCountCi: medianCi(deaths), choices, msPerRun: n ? ms / n : 0 };
 }
 
 const r2 = (v: number): number => Math.round(v * 100) / 100;

@@ -81,6 +81,7 @@
 | `npm run test` | vitest（ユニット・較正・決定論テスト） |
 | `npm run sim -- <scenarioId> [--policy recommended\|bias\|random\|risky] [--seed N] [--log]` | ヘッドレス1回実行 |
 | `npm run mc -- <scenarioId> --policy <p> --n 500` | モンテカルロ集計 |
+| `npm run balance [-- --n 100] [--only s04,s16] [--quick]` | 全シナリオの成績を並行で測る（✔ 合格・△ 境目・✖ 不合格。境目は回数を増やして測り直す） |
 | `npm run sim:check` | 全シナリオ×推奨方針の通し確認 |
 | `npm run validate` | `public/maps` と `public/scenarios` の JSON 検証 |
 | `npm run check:sim-purity` | `src/sim` 内の禁止 API 検査（`fetch` も禁止に含める） |

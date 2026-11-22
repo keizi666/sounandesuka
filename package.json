@@ -19,6 +19,7 @@
     "test": "vitest run",
     "sim": "tsx tools/sim.ts",
     "mc": "tsx tools/mc.ts",
+    "balance": "tsx tools/balance.ts",
     "historical": "tsx tools/historical-path.ts",
     "sim:check": "tsx tools/simcheck.ts",
     "validate": "tsx tools/validate.ts",

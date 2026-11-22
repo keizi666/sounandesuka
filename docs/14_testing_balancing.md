@@ -74,7 +74,7 @@ MISSING             12   2.4%
 FATAL               93  18.6%   (hypothermia 81, fall 12)
 minCoreC p10/p50/p90: 31.2 / 34.8 / 36.4
 choices: cp_start {go:412, early:61, abort:27} ...
-balanceTargets: OK  (FATAL 18.6% ∈ [10,35])
+balanceTargets: OK  ✔ fatalMin 18.6%（16.4%〜21.0%） ≥ 10.0%  ✔ fatalMax 18.6%（16.4%〜21.0%） ≤ 35.0%
 ```
 
 ## 5. balanceTargets の形式
@@ -91,6 +91,28 @@ balanceTargets: OK  (FATAL 18.6% ∈ [10,35])
 - `bad` = `RESCUED_CRITICAL + MISSING + FATAL`
 - 指定可能キー: `goodMin`, `goodMax`, `badMin`, `badMax`, `fatalMin`, `fatalMax`, `rescuedMin`, `rescuedMax`, `lostMin`（道迷い発生率）, `lostMax`, `deathCountMedian: [min, max]`（1 回あたりの死亡者数の中央値。大人数シナリオ用）
 
+### 5.1 判定と揺れの幅
+
+回数が 100〜300 回だと、同じ設定でも乱数の種によって率が数 % 揺れる（s04 の流されやすい方針は、60 回ずつ 4 組で 42〜67%）。
+そこで判定は点の値だけでなく、揺れの幅（80% の区間。率は Wilson の区間、死亡者数の中央値は順序統計の区間。`src/sim/mc.ts` の `BALANCE_Z`）で 3 段階にする。
+
+| 判定 | 意味 | 対応 |
+|---|---|---|
+| ✔ 合格 | 区間ごと目標の内 | なし |
+| △ 境目 | 区間が目標をまたぐ | 回数を増やして測り直す。それでも境目なら、目標の近くにいるだけなので急いで直さない |
+| ✖ 不合格 | 区間ごと目標の外 | 調整する（§6） |
+
+`npm run mc` は不合格のときだけ exit 1。エディターの試走パネルも同じ判定を出す。
+
+### 5.2 全シナリオをまとめて測る
+
+```
+npm run balance [-- --n 100] [--jobs 8] [--only s04,s16] [--policy bias] [--quick] [--out <dir>]
+```
+
+全シナリオ × balanceTargets のある方針を、別々のプロセスで並べて `npm run mc` する（直列だと 40 分以上、並べれば 10 分ほど）。
+境目のものは回数を 4 倍にして自動で測り直す（`--quick` で省く）。不合格かエラーがあれば exit 1。
+
 ## 6. 調整の手順（Claude Code 向け）
 
 1. まず生理の較正（P4）を固定する。以後むやみに生理定数を動かさない。
@@ -99,5 +121,5 @@ balanceTargets: OK  (FATAL 18.6% ∈ [10,35])
    2. 登山者の装備・性格パラメータ
    3. 分岐点の `bias` の重み
    4. ナビゲーション・危険の `tuning.ts` 定数（全シナリオに影響するので最後）
-3. 調整のたびに 3 シナリオすべての mc を回し、他を壊していないか確認。
+3. 調整のたびに `npm run balance` で全シナリオを回し、他を壊していないか確認。
 4. 変更と理由を `DECISIONS.md` に記録。

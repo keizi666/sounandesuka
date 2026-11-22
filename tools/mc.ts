@@ -1,19 +1,33 @@
 // npm run mc — モンテカルロ集計（docs/14 §4）
 //   npm run mc -- <scenarioId> --policy <p> --n 500 [--seed 1]
 //   npm run mc -- --all [--n 200]   全シナリオを balanceTargets にある方針で回し、合否を表示（失敗があれば exit 1）
+//   --json を付けると、結果を 1 行の JSON（{ summary, checks }）で出す（npm run balance が使う）
+//   判定は ✔ 合格・△ 境目（揺れの幅が目標をまたぐ。回数を増やして測り直す）・✖ 不合格。exit 1 になるのは不合格だけ
 import { parseArgs } from 'node:util';
-import { checkTargets, runMonteCarlo, type McSummary } from '../src/sim/mc';
+import { checkTargets, runMonteCarlo, type McSummary, type TargetCheck, type TargetVerdict } from '../src/sim/mc';
 import type { PolicyName } from '../src/sim/types';
 import { loadEntryRuntime, loadIndex } from './lib/scenarios';
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,
-  options: { policy: { type: 'string', default: 'bias' }, n: { type: 'string', default: '200' }, seed: { type: 'string' }, all: { type: 'boolean' } },
+  options: { policy: { type: 'string', default: 'bias' }, n: { type: 'string', default: '200' }, seed: { type: 'string' }, all: { type: 'boolean' }, json: { type: 'boolean' } },
 });
 
 const pctS = (v: number): string => `${(v * 100).toFixed(1)}%`;
 
-function print(s: McSummary, targets: ReturnType<typeof checkTargets>): boolean {
+const MARK = { ok: '✔', border: '△', ng: '✖' } as const;
+const LABEL = { ok: 'OK', border: '境目', ng: 'NG' } as const;
+
+/** 判定のまとめ: 不合格が 1 つでもあれば ng、境目があれば border */
+function overall(targets: TargetCheck[]): TargetVerdict {
+  return targets.some((t) => t.verdict === 'ng') ? 'ng' : targets.some((t) => t.verdict === 'border') ? 'border' : 'ok';
+}
+
+function print(s: McSummary, targets: TargetCheck[]): boolean {
+  if (values.json) {
+    console.log(JSON.stringify({ summary: s, checks: targets }));
+    return overall(targets) !== 'ng';
+  }
   console.log(`${s.scenarioId}  policy=${s.policy}  n=${s.n}  avg ${s.msPerRun.toFixed(0)}ms/run`);
   for (const [k, v] of Object.entries(s.counts)) {
     if (v === 0) continue;
@@ -23,10 +37,11 @@ function print(s: McSummary, targets: ReturnType<typeof checkTargets>): boolean 
   console.log(`  minCoreC p10/p50/p90: ${s.minCore.p10.toFixed(1)} / ${s.minCore.p50.toFixed(1)} / ${s.minCore.p90.toFixed(1)}   道迷い ${pctS(s.lostRate)}   死亡者数の中央値 ${s.deathCountMedian}`);
   console.log(`  choices: ${Object.entries(s.choices).map(([cp, m]) => `${cp} {${Object.entries(m).map(([o, c]) => `${o}:${c}`).join(', ')}}`).join(' ')}`);
   if (targets.length === 0) return true;
-  const ok = targets.every((t) => t.ok);
-  const detail = targets.map((t) => `${t.ok ? '✔' : '✖'} ${t.key} ${t.key === 'deathCountMedian' ? t.value : pctS(t.value)} ${Array.isArray(t.limit) ? `∈ [${t.limit.join(', ')}]` : (t.key.endsWith('Min') ? '≥ ' : '≤ ') + pctS(t.limit)}`).join('  ');
-  console.log(`  balanceTargets: ${ok ? 'OK' : 'NG'}  ${detail}`);
-  return ok;
+  const v = overall(targets);
+  const val = (t: TargetCheck, x: number): string => (t.key === 'deathCountMedian' ? String(x) : pctS(x));
+  const detail = targets.map((t) => `${MARK[t.verdict]} ${t.key} ${val(t, t.value)}（${val(t, t.lo)}〜${val(t, t.hi)}） ${Array.isArray(t.limit) ? `∈ [${t.limit.join(', ')}]` : (t.key.endsWith('Min') ? '≥ ' : '≤ ') + pctS(t.limit)}`).join('  ');
+  console.log(`  balanceTargets: ${LABEL[v]}  ${detail}`);
+  return v !== 'ng';
 }
 
 const n = Number(values.n);
