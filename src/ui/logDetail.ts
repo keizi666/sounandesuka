@@ -5,12 +5,14 @@
  * - openLogDetail: 行の「＞」を押したときの詳細のポップアップ
  */
 import { JA } from '../i18n/ja';
+import { fill } from '../i18n/format';
 import type { ClimberDef, ClimberState } from '../sim/types';
 import { avatar } from './avatar';
 import { phoneLabel } from './phoneWord';
 import { el, LEVEL_ICON, levelOf, type Level } from './dom';
 import { hpLevel, hpOf } from './hp';
 import { icon, type IconName } from './icons';
+import { bottleLevel } from './panels';
 
 /** ログの行に付ける状態の写し（JSON 互換） */
 export interface LogSnap {
@@ -30,6 +32,11 @@ export interface LogSnap {
   windMs: number;
   precipMmH: number;
   visM: number;
+  /** 水筒の残りと入れ物の量（L）。古い保存にはない */
+  bottleL?: number;
+  bottleCapL?: number;
+  /** モバイルバッテリーの残り（スマホの何 % 分）。持っていなければ null。古い保存にはない */
+  bankPct?: number | null;
 }
 
 export function snapOf(c: ClimberState): LogSnap {
@@ -51,6 +58,9 @@ export function snapOf(c: ClimberState): LogSnap {
     windMs: Math.round(c.local.windMs),
     precipMmH: r1(c.local.precipMmH),
     visM: Math.round(c.local.visibilityM),
+    bottleL: r1(c.inv.waterL),
+    bottleCapL: r1(c.def.gear.waterL),
+    bankPct: c.inv.phone.has && c.inv.powerBankPct !== undefined && (c.def.gear.powerBankMah ?? 1) > 0 ? Math.round(c.inv.powerBankPct) : null,
   };
 }
 
@@ -137,11 +147,14 @@ export function openLogDetail(d: LogDetailInput): void {
     ]),
     d.text ? el('p', { class: 'pop-text' }, d.text) : null,
     el('h4', {}, D.body),
-    ...(d.bodyHidden
+    el('div', { class: 'pop-bars' }, d.bodyHidden
       ? [el('p', { class: 'pop-text' }, JA.difficulty.bodyUnknown), s.phone !== null ? row('mobile', phoneLabel(), s.phone / 100, levelOf(s.phone, 30, 15, 5), s.phone === 0 ? '×' : `${s.phone}%`) : null]
       : [
           row('favorite', JA.ui.hp, s.hp / 100, hpLevel(s.hp), `${s.hp}`),
           s.phone !== null ? row('mobile', phoneLabel(), s.phone / 100, levelOf(s.phone, 30, 15, 5), s.phone === 0 ? '×' : `${s.phone}%`) : null,
+          // モバイルバッテリーと水筒の残り（ユーザーの指定）
+          s.bankPct !== undefined && s.bankPct !== null ? row('batteryAlert', JA.ui.powerBank, Math.min(1, s.bankPct / 100), s.bankPct <= 0 ? 'danger' : 'ok', fill(JA.ui.powerBankLeft, { n: (s.bankPct / 100).toFixed(1) })) : null,
+          s.bottleL !== undefined && (s.bottleCapL ?? 0) > 0 ? row('waterBottle', JA.ui.bottle, s.bottleL / s.bottleCapL!, bottleLevel(s.bottleL, s.bottleCapL!), `${s.bottleL.toFixed(1)}/${s.bottleCapL!.toFixed(1)}L`) : null,
           row('thermostat', JA.ui.core, (s.coreC - 30) / 8, levelOf(s.coreC, 36, 35, 32), `${s.coreC.toFixed(1)}℃`),
           row('bolt', JA.ui.energy, s.gly / 2000, levelOf(s.gly, 600, 300, 100), `${s.gly}`),
           row('waterDrop', JA.ui.water, 1 - s.waterL / 6, levelOf(s.waterL, 1, 2, 4, true), `-${s.waterL.toFixed(1)}L`),

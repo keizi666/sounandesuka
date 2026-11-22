@@ -60,6 +60,8 @@ export function symptomsOf(c: ClimberState, w: Worst): { text: string; serious: 
   }
   if (b.illness) out.push({ text: b.illness.kind === 'anaphylaxis' ? S.anaphylaxis : S.illness, serious: true });
   if (b.injury !== 'none') out.push({ text: JA.labels.injury[b.injury] ?? b.injury, serious: b.injury !== 'bruise' });
+  // ハチに刺された（ユーザーの指定: 結果が「無事下山」だけにならないように）。アナフィラキシーになった人は上の急病の欄に出る
+  if ((b.stings ?? 0) > 0 && b.illness?.kind !== 'anaphylaxis') out.push({ text: (b.stings ?? 0) > 1 ? fill(S.stungTimes, { n: b.stings ?? 0 }) : S.stung, serious: true });
   if (w.maxWaterL >= 2) out.push({ text: fill(w.maxWaterL >= 4 ? S.dehydrationSevere : S.dehydration, { l: w.maxWaterL.toFixed(1) }), serious: false });
   if (w.minKcal <= 100) out.push({ text: S.bonk, serious: false });
   if (w.maxFatigue >= 90) out.push({ text: S.exhausted, serious: false });

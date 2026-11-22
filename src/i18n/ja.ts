@@ -144,6 +144,8 @@ export const JA = {
     hypoSevere: '重度',
     illness: '急病',
     anaphylaxis: 'アナフィラキシー',
+    stung: 'ハチに刺された',
+    stungTimes: 'ハチに刺された（{n} か所）',
     dehydration: '脱水（最大 {l} L 不足）',
     dehydrationSevere: '重い脱水（最大 {l} L 不足）',
     bonk: 'エネルギー切れ（シャリバテ）',

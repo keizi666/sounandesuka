@@ -30,7 +30,7 @@ function coreWords(c: number): string {
 }
 
 /** 水筒の残りの段階（入れ物の量に対する割合と、残りの量） */
-function bottleLevel(leftL: number, capL: number): 'ok' | 'warn' | 'danger' | 'critical' {
+export function bottleLevel(leftL: number, capL: number): 'ok' | 'warn' | 'danger' | 'critical' {
   const f = leftL / capL;
   return leftL < 0.05 ? 'critical' : f < 0.2 || leftL < 0.2 ? 'danger' : f < 0.45 ? 'warn' : 'ok';
 }
