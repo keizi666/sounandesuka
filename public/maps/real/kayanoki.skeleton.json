@@ -1,0 +1,46 @@
+{
+  "id": "kayanoki",
+  "name": "奥多摩 榧ノ木尾根（女の湯〜倉戸山〜榧ノ木山〜石尾根・鷹ノ巣山、倉戸口、水根沢）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "奥多摩湖の北岸、女の湯バス停と倉戸口バス停から倉戸山（1,169 m）に上がり、榧ノ木尾根を榧ノ木山（1,485 m）へ。水根沢林道の分岐を過ぎて石尾根（水根山）に出て、西へ鷹ノ巣山（1,737 m）。東の谷が水根沢で、谷沿いの登山道（水根沢林道）が水根の集落から榧ノ木尾根の上部へ上がる。一辺 6 km 程度（513 頂点）。榧ノ木尾根は広くなだらかな広葉樹の尾根で、落ち葉の季節は踏み跡が見えにくい。標高 1,300 m 前後の広い所から、東へ水根沢に落ちる支尾根が分かれる（道はない。尾根の筋は作者が標高から読んだ概略）。支尾根の末端は急斜面で沢に落ちる。電波: 奥多摩湖に面した斜面は入ることがあるが、水根沢の谷は圏外。",
+    "sizeM": 6144
+  },
+  "size": 6144,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2600, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 100 },
+  "nodes": [
+    { "id": "TH_MENOYU", "name": "女の湯バス停", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 540 },
+    { "id": "TH_KURATO", "name": "倉戸口バス停", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 535 },
+    { "id": "KURATO_TOP", "name": "倉戸口の登山口（集落の上）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 630 },
+    { "id": "KURATO", "name": "倉戸山", "type": "peak", "x": 0, "z": 0, "expectedElevM": 1169 },
+    { "id": "WIDE", "name": "広い尾根（標高 1,300 m 付近）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1300 },
+    { "id": "KAYANOKI", "name": "榧ノ木山", "type": "peak", "x": 0, "z": 0, "expectedElevM": 1485 },
+    { "id": "MIZUNE_JCT", "name": "水根沢林道の分岐", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1445 },
+    { "id": "ISHIONE", "name": "石尾根（水根山の下）", "type": "junction", "x": 0, "z": 0, "expectedElevM": 1595 },
+    { "id": "TAKANOSU", "name": "鷹ノ巣山", "type": "peak", "x": 0, "z": 0, "osmName": "鷹巣山", "expectedElevM": 1737 },
+    { "id": "MIZU_MID", "name": "水根沢林道（支尾根の末端の対岸）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 860 },
+    { "id": "TH_MIZUNE", "name": "水根（水根沢林道の入口）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 583 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "女の湯〜倉戸山", "kind": "trail", "from": "TH_MENOYU", "to": "KURATO", "class": "T2", "markers": 0.5, "drift": 0.012, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "榧ノ木尾根（倉戸山〜広い尾根）", "kind": "trail", "from": "KURATO", "to": "WIDE", "class": "T1", "markers": 0.45, "drift": 0.015, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "榧ノ木尾根（広い尾根〜榧ノ木山）", "kind": "trail", "from": "WIDE", "to": "KAYANOKI", "class": "T1", "markers": 0.5, "drift": 0.012, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "榧ノ木尾根（榧ノ木山〜水根沢林道の分岐）", "kind": "trail", "from": "KAYANOKI", "to": "MIZUNE_JCT", "class": "T1", "markers": 0.6, "drift": 0.008, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "榧ノ木尾根（分岐〜石尾根）", "kind": "trail", "from": "MIZUNE_JCT", "to": "ISHIONE", "class": "T1", "markers": 0.7, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "石尾根（水根山〜鷹ノ巣山）", "kind": "trail", "from": "ISHIONE", "to": "TAKANOSU", "class": "T1", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "倉戸山〜倉戸口の登山口", "kind": "trail", "from": "KURATO", "to": "KURATO_TOP", "class": "T1", "markers": 0.6, "drift": 0.01, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "倉戸の集落の車道", "kind": "trail", "from": "KURATO_TOP", "to": "TH_KURATO", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E9", "name": "水根沢林道（水根〜支尾根の末端の対岸）", "kind": "trail", "from": "TH_MIZUNE", "to": "MIZU_MID", "class": "T1", "markers": 0.7, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E10", "name": "水根沢林道（上部）", "kind": "trail", "from": "MIZU_MID", "to": "MIZUNE_JCT", "class": "T1", "markers": 0.6, "drift": 0.008, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

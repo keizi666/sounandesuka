@@ -1,0 +1,4000 @@
+{
+  "id": "s25_kayanoki",
+  "version": 1,
+  "title": "落ち葉に消えた道",
+  "subtitle": "2009年12月・単独・奥多摩 榧ノ木尾根（実在の地形）",
+  "theme": "lost",
+  "difficulty": 4,
+  "season": "winter",
+  "estMinutes": 25,
+  "mapId": "kayanoki",
+  "seed": 2512,
+  "startDate": "2009-12-13",
+  "startAt": "D0 08:00",
+  "timeLimit": "D3 12:00",
+  "sun": {
+    "sunrise": "06:42",
+    "sunset": "16:29",
+    "maxElevDeg": 31
+  },
+  "moon": {
+    "illumination": 0.1
+  },
+  "region": {
+    "name": "奥多摩・榧ノ木尾根（東京都）",
+    "real": true
+  },
+  "briefing": {
+    "text": "2009 年 12 月中旬の日曜日。千葉さん（46歳）は登山歴 6 年、奥多摩の山を月に 1〜2 回、ひとりで歩いている。今日は奥多摩湖の女の湯バス停から倉戸山に登り、榧ノ木（かやのき）尾根をたどって鷹ノ巣山へ。帰りは同じ尾根を倉戸山まで戻り、倉戸口バス停に下りる。葉の落ちた広い尾根は、登山道が落ち葉に埋まっている。持ち物は雨具・防寒着・ツェルト・ヘッドランプ・登山地図とコンパス。電話は携帯電話（スマートフォンや地図アプリはまだ広まっていない）。予報は曇りのち雨。夫には「奥多摩の鷹ノ巣山に行く」と言ってある。",
+    "forecast": [
+      {
+        "label": "今日",
+        "text": "曇り。昼すぎから雨。尾根では風が強い",
+        "icon": "rain"
+      },
+      {
+        "label": "今夜",
+        "text": "雨。標高の高い所はみぞれ",
+        "icon": "rain"
+      },
+      {
+        "label": "明日",
+        "text": "朝のうちに雨がやみ、晴れてくる",
+        "icon": "sunny"
+      },
+      {
+        "label": "日の入り",
+        "text": "16:29"
+      }
+    ]
+  },
+  "plan": {
+    "route": [
+      "TH_MENOYU",
+      "KURATO",
+      "WIDE",
+      "KAYANOKI",
+      "MIZUNE_JCT",
+      "ISHIONE",
+      "TAKANOSU",
+      "ISHIONE",
+      "MIZUNE_JCT",
+      "KAYANOKI",
+      "WIDE",
+      "KURATO",
+      "KURATO_TOP",
+      "TH_KURATO"
+    ],
+    "goalNodes": [
+      "TH_KURATO",
+      "TH_MENOYU",
+      "TH_MIZUNE"
+    ],
+    "plannedFinish": "D0 16:30",
+    "submittedPlan": false,
+    "reportIfNotBackBy": "D0 21:00",
+    "searchLeads": [
+      {
+        "id": "shared",
+        "at": "D0 21:00",
+        "when": {
+          "flag": "planShared"
+        },
+        "route": [
+          "TH_MENOYU",
+          "KURATO",
+          "WIDE",
+          "KAYANOKI",
+          "MIZUNE_JCT",
+          "ISHIONE",
+          "TAKANOSU",
+          "ISHIONE",
+          "MIZUNE_JCT",
+          "KAYANOKI",
+          "WIDE",
+          "KURATO",
+          "KURATO_TOP",
+          "TH_KURATO"
+        ],
+        "text": "夫に届いていたメールのコースをもとに、青梅警察署の山岳救助隊は、夜明けから榧ノ木尾根を捜すことにした"
+      },
+      {
+        "id": "shared_spur",
+        "at": "D1 08:30",
+        "when": {
+          "flag": "planShared"
+        },
+        "route": [
+          "KURATO",
+          "WIDE",
+          "KAYANOKI",
+          "MIZUNE_JCT",
+          "MIZU_MID",
+          "TH_MIZUNE"
+        ],
+        "findF": 0.8,
+        "text": "榧ノ木尾根の登山道に姿はなかった。この尾根は下りで支尾根に入り込む道迷いが多い。救助隊は、尾根の両側の支尾根と水根沢にも人を回した"
+      },
+      {
+        "id": "takanosu",
+        "at": "D0 21:00",
+        "when": {
+          "not": {
+            "flag": "planShared"
+          }
+        },
+        "route": [
+          "ISHIONE",
+          "TAKANOSU"
+        ],
+        "maxRadiusM": 150,
+        "findF": 0.25,
+        "text": "夫が知っていたのは「奥多摩の鷹ノ巣山」だけだった。鷹ノ巣山へ登る道は、石尾根・日原・峰谷・水根・倉戸口といくつもある。救助隊は夜明けから、それぞれの道を手分けして捜すことにした"
+      },
+      {
+        "id": "bus",
+        "at": "D1 10:30",
+        "when": {
+          "not": {
+            "flag": "planShared"
+          }
+        },
+        "route": [
+          "TH_MENOYU",
+          "KURATO",
+          "WIDE",
+          "KAYANOKI",
+          "MIZUNE_JCT",
+          "ISHIONE",
+          "TAKANOSU"
+        ],
+        "maxRadiusM": 350,
+        "findF": 0.5,
+        "text": "きのうの朝のバスの運転手が、女の湯で降りたひとりの女性の登山者を覚えていた。捜索は倉戸山と榧ノ木尾根に集まった"
+      },
+      {
+        "id": "spur",
+        "at": "D2 08:00",
+        "when": {
+          "all": [
+            {
+              "not": {
+                "flag": "planShared"
+              }
+            },
+            {
+              "chance": 0.6
+            }
+          ]
+        },
+        "route": [
+          "KURATO",
+          "WIDE",
+          "KAYANOKI",
+          "MIZUNE_JCT",
+          "MIZU_MID",
+          "TH_MIZUNE"
+        ],
+        "findF": 0.4,
+        "text": "榧ノ木尾根の登山道に姿はなかった。この尾根は下りで支尾根に入り込む道迷いが多い。救助隊は、尾根の両側の支尾根と水根沢に捜索を広げた"
+      }
+    ]
+  },
+  "party": [
+    {
+      "id": "chiba",
+      "name": "千葉",
+      "age": 46,
+      "sex": "f",
+      "weightKg": 54,
+      "packKg": 7,
+      "experience": 0.5,
+      "fitness": 0.9,
+      "navSkill": 0.35,
+      "riskTolerance": 0.5,
+      "color": "#b5446e",
+      "leader": true,
+      "temperament": "normal",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.2,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 1,
+        "cloPack": 0.9,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "tarp",
+        "rescueSheet": false,
+        "headlamp": {
+          "has": true,
+          "batteryH": 8,
+          "inPack": true,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 70,
+          "gpsApp": false,
+          "trackRecording": false,
+          "satelliteSos": false,
+          "strap": true
+        },
+        "powerBankMah": 0,
+        "map": true,
+        "compass": true,
+        "foodKcal": 1300,
+        "waterL": 1.5,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": true,
+        "whistle": true,
+        "footwear": "hikingBoots"
+      },
+      "notes": "架空の人物。登山歴 6 年、奥多摩の一般の登山道をひとりで歩いてきた。登山地図（山と高原地図）とコンパスは持っているが、道標と踏み跡を頼りに歩いていて、コンパスで向きを確かめる習慣はない。携帯電話は折りたたみ式で、地図も GPS もない。"
+    }
+  ],
+  "weather": {
+    "refElevM": 1000,
+    "lapseRateCPer100m": 0.6,
+    "cloudThicknessM": 1500,
+    "keyframes": [
+      {
+        "at": "D0 08:00",
+        "tempC": 2.5,
+        "windMs": 2.5,
+        "windDirDeg": 200,
+        "precipMmH": 0,
+        "cloudCover": 0.8,
+        "cloudBaseM": 2200,
+        "visibilityM": 20000,
+        "pressureHpa": 1014
+      },
+      {
+        "at": "D0 10:30",
+        "tempC": 5,
+        "windMs": 4,
+        "windDirDeg": 190,
+        "precipMmH": 0,
+        "cloudCover": 0.95,
+        "cloudBaseM": 1900,
+        "visibilityM": 15000,
+        "pressureHpa": 1011
+      },
+      {
+        "at": "D0 11:45",
+        "tempC": 5.5,
+        "windMs": 6,
+        "windDirDeg": 180,
+        "precipMmH": 0,
+        "cloudCover": 1,
+        "cloudBaseM": 1700,
+        "visibilityM": 9000,
+        "pressureHpa": 1009,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 120
+      },
+      {
+        "at": "D0 12:15",
+        "tempC": 5.5,
+        "windMs": 6.5,
+        "windDirDeg": 170,
+        "precipMmH": 1.5,
+        "cloudCover": 1,
+        "cloudBaseM": 1500,
+        "visibilityM": 6000,
+        "pressureHpa": 1007,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 100
+      },
+      {
+        "at": "D0 14:30",
+        "tempC": 5,
+        "windMs": 6.5,
+        "windDirDeg": 160,
+        "precipMmH": 3,
+        "cloudCover": 1,
+        "cloudBaseM": 1300,
+        "visibilityM": 4000,
+        "pressureHpa": 1004,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 80
+      },
+      {
+        "at": "D0 18:00",
+        "tempC": 4.5,
+        "windMs": 6,
+        "windDirDeg": 150,
+        "precipMmH": 4,
+        "cloudCover": 1,
+        "cloudBaseM": 1100,
+        "visibilityM": 3000,
+        "pressureHpa": 1001,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 60
+      },
+      {
+        "at": "D0 23:00",
+        "tempC": 4,
+        "windMs": 5.5,
+        "windDirDeg": 140,
+        "precipMmH": 4,
+        "cloudCover": 1,
+        "cloudBaseM": 1000,
+        "visibilityM": 3000,
+        "pressureHpa": 999,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 60
+      },
+      {
+        "at": "D1 03:00",
+        "tempC": 3.5,
+        "windMs": 5,
+        "windDirDeg": 200,
+        "precipMmH": 3,
+        "cloudCover": 1,
+        "cloudBaseM": 1000,
+        "visibilityM": 3000,
+        "pressureHpa": 999,
+        "inCloudVisibilityM": 60
+      },
+      {
+        "at": "D1 05:30",
+        "tempC": 3,
+        "windMs": 4,
+        "windDirDeg": 280,
+        "precipMmH": 1.5,
+        "cloudCover": 1,
+        "cloudBaseM": 1100,
+        "visibilityM": 4000,
+        "pressureHpa": 1002,
+        "inCloudVisibilityM": 80
+      },
+      {
+        "at": "D1 07:00",
+        "tempC": 2,
+        "windMs": 4,
+        "windDirDeg": 300,
+        "precipMmH": 0.2,
+        "cloudCover": 0.9,
+        "cloudBaseM": 1400,
+        "visibilityM": 8000,
+        "pressureHpa": 1005,
+        "inCloudVisibilityM": 120
+      },
+      {
+        "at": "D1 08:00",
+        "tempC": 2.5,
+        "windMs": 4,
+        "windDirDeg": 310,
+        "precipMmH": 0,
+        "cloudCover": 0.6,
+        "cloudBaseM": 2000,
+        "visibilityM": 20000,
+        "pressureHpa": 1008
+      },
+      {
+        "at": "D1 10:00",
+        "tempC": 4,
+        "windMs": 4,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.3,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1011
+      },
+      {
+        "at": "D1 13:00",
+        "tempC": 6,
+        "windMs": 4,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1013
+      },
+      {
+        "at": "D1 17:00",
+        "tempC": 2,
+        "windMs": 3,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1016
+      },
+      {
+        "at": "D2 05:00",
+        "tempC": -3,
+        "windMs": 2,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1019
+      },
+      {
+        "at": "D2 12:00",
+        "tempC": 5,
+        "windMs": 2,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1019
+      },
+      {
+        "at": "D2 17:00",
+        "tempC": 1,
+        "windMs": 2,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1019
+      },
+      {
+        "at": "D3 05:00",
+        "tempC": -3,
+        "windMs": 2,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.3,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1017
+      },
+      {
+        "at": "D3 12:00",
+        "tempC": 5,
+        "windMs": 3,
+        "windDirDeg": 250,
+        "precipMmH": 0,
+        "cloudCover": 0.5,
+        "cloudBaseM": 2500,
+        "visibilityM": 30000,
+        "pressureHpa": 1014
+      }
+    ]
+  },
+  "passersby": [
+    {
+      "edges": [
+        "E2",
+        "E3",
+        "E7"
+      ],
+      "perHour": 0.25,
+      "from": "09:00",
+      "to": "14:00",
+      "fromDay": 0
+    },
+    {
+      "edges": [
+        "E9",
+        "E10"
+      ],
+      "perHour": 0.08,
+      "from": "09:00",
+      "to": "14:00",
+      "fromDay": 1,
+      "whistleM": 250
+    }
+  ],
+  "events": [
+    {
+      "id": "ev_wrong",
+      "trigger": {
+        "event": "OFFROUTE"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "wentOff"
+        }
+      ]
+    },
+    {
+      "id": "ev_rain",
+      "trigger": {
+        "all": [
+          {
+            "var": "leader.local.precipMmH",
+            "op": ">",
+            "value": 0.8
+          },
+          {
+            "after": "D0 11:30"
+          }
+        ]
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "log",
+          "text": "雨が本降りになってきた。落ち葉が濡れて、踏むと滑る"
+        }
+      ]
+    },
+    {
+      "id": "ev_end_fall",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "endDown"
+          },
+          {
+            "not": {
+              "flag": "fallen"
+            }
+          },
+          {
+            "any": [
+              {
+                "elapsedSince": {
+                  "flag": "endDown",
+                  "min": 4
+                }
+              },
+              {
+                "var": "leader.elevM",
+                "op": "<",
+                "value": 895
+              }
+            ]
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "fallen"
+        },
+        {
+          "type": "say",
+          "who": "leader",
+          "text": "あっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "log",
+          "text": "尾根の末端の急斜面で、濡れた落ち葉ごと足もとが流れた。{leader.name}さんは木の根をつかみそこね、沢の近くまで滑り落ちた",
+          "important": true
+        },
+        {
+          "type": "fall",
+          "who": "leader",
+          "outcomes": {
+            "bruise": 1,
+            "sprain": 2,
+            "legFracture": 4,
+            "headInjury": 1.5,
+            "severeTrauma": 1.2,
+            "death": 0.5
+          }
+        },
+        {
+          "type": "pin",
+          "x": 769,
+          "z": -257,
+          "label": "滑落"
+        }
+      ]
+    },
+    {
+      "id": "ev_gully_fall",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "state": "DESCENDING_DRAINAGE"
+          },
+          {
+            "not": {
+              "flag": "fallen"
+            }
+          },
+          {
+            "not": {
+              "flag": "endDown"
+            }
+          },
+          {
+            "flag": "wentOff"
+          },
+          {
+            "near": {
+              "x": 560,
+              "z": -130,
+              "r": 520
+            }
+          },
+          {
+            "var": "leader.elevM",
+            "op": "<",
+            "value": 1000
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "fallen"
+        },
+        {
+          "type": "setFlag",
+          "flag": "gullyFall"
+        },
+        {
+          "type": "say",
+          "who": "leader",
+          "text": "あっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "log",
+          "text": "沢へ落ち込む急な斜面で、濡れた落ち葉に足を取られた。{leader.name}さんは沢床の近くまで滑り落ちた",
+          "important": true
+        },
+        {
+          "type": "fall",
+          "who": "leader",
+          "outcomes": {
+            "bruise": 2,
+            "sprain": 3,
+            "legFracture": 3,
+            "headInjury": 1,
+            "severeTrauma": 0.6,
+            "death": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "ev_fall_nat",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "event": "FALL"
+          },
+          {
+            "flag": "wentOff"
+          },
+          {
+            "not": {
+              "flag": "fallen"
+            }
+          },
+          {
+            "var": "leader.injury",
+            "op": "!=",
+            "value": "none"
+          },
+          {
+            "var": "leader.injury",
+            "op": "!=",
+            "value": "bruise"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "fallen"
+        }
+      ]
+    },
+    {
+      "id": "ev_stream",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "crawlDown"
+          },
+          {
+            "elapsedSince": {
+              "flag": "crawlDown",
+              "min": 20
+            }
+          },
+          {
+            "state": "DESCENDING_DRAINAGE"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "沢の中は岩が濡れて滑る。{leader.name}さんは何度も水に落ち、腰まで濡れた",
+          "important": true
+        },
+        {
+          "type": "soak",
+          "who": "leader",
+          "level": "waist"
+        }
+      ]
+    },
+    {
+      "id": "ev_waterfall_fall",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "crawlDown"
+          },
+          {
+            "elapsedSince": {
+              "flag": "crawlDown",
+              "min": 50
+            }
+          },
+          {
+            "state": "DESCENDING_DRAINAGE"
+          },
+          {
+            "var": "leader.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "say",
+          "who": "leader",
+          "text": "あっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "log",
+          "text": "沢は滝になって落ちていた。けがをした足で横の斜面を巻こうとして、{leader.name}さんは濡れた岩ごと滑り落ちた",
+          "important": true
+        },
+        {
+          "type": "fall",
+          "who": "leader",
+          "outcomes": {
+            "legFracture": 3,
+            "headInjury": 2,
+            "severeTrauma": 3,
+            "death": 2
+          }
+        },
+        {
+          "type": "soak",
+          "who": "leader",
+          "level": "full"
+        }
+      ]
+    },
+    {
+      "id": "ev_stream_water",
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "flag": "fallen"
+          },
+          {
+            "near": {
+              "x": 769,
+              "z": -257,
+              "r": 260
+            }
+          },
+          {
+            "var": "leader.waterL",
+            "op": "<",
+            "value": 0.15
+          },
+          {
+            "var": "leader.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.conscious",
+            "op": "==",
+            "value": true
+          },
+          {
+            "not": {
+              "var": "sun.isDark",
+              "op": "==",
+              "value": true
+            }
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "INCAPACITATED"
+              }
+            ]
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "{leader.name}さんは這って沢の水際まで下り、水筒に水を汲んだ"
+        },
+        {
+          "type": "fillWater",
+          "who": "leader",
+          "toL": 1
+        }
+      ]
+    },
+    {
+      "id": "ev_overdue_unknown",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "after": "D0 21:00"
+          },
+          {
+            "not": {
+              "flag": "planShared"
+            }
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "夜 9 時。帰らない{leader.name}さんを心配し、夫が警察に届け出た。夫が知っているのは「奥多摩の鷹ノ巣山に行く」だけだった。携帯電話は何度かけてもつながらない",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_overdue_known",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "after": "D0 21:00"
+          },
+          {
+            "flag": "planShared"
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "夜 9 時。帰らない{leader.name}さんについて、夫が朝のメールのコースを添えて警察に届け出た。携帯電話は何度かけてもつながらない",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_search_start",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "after": "D1 06:30"
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          },
+          {
+            "not": {
+              "state": "RESCUED"
+            }
+          },
+          {
+            "var": "leader.rescueCalled",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "夜明け。雨の残る中、青梅警察署の山岳救助隊と消防の隊員が山に入った。雲が低く、ヘリはまだ飛べない"
+        }
+      ]
+    },
+    {
+      "id": "ev_heli",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "after": "D1 09:30"
+          },
+          {
+            "before": "D1 10:00"
+          },
+          {
+            "var": "leader.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          },
+          {
+            "not": {
+              "state": "RESCUED"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "雨が上がり、雲が切れた。ヘリの音が石尾根の方から聞こえてくる"
+        }
+      ]
+    },
+    {
+      "id": "ev_back_on",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "event": "BACK_ON_ROUTE"
+          },
+          {
+            "flag": "wentOff"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "backOn"
+        },
+        {
+          "type": "log",
+          "text": "{leader.name}さんは榧ノ木尾根の登山道に戻った",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_push_nav",
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "flag": "pushOn"
+          },
+          {
+            "any": [
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "LOST_AWARE"
+              },
+              {
+                "state": "RESTING"
+              }
+            ]
+          },
+          {
+            "var": "leader.knowsPosition",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "clearFlag",
+          "flag": "pushOn"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "navigateToTrail"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_push_back",
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "flag": "pushOn"
+          },
+          {
+            "any": [
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "LOST_AWARE"
+              },
+              {
+                "state": "RESTING"
+              }
+            ]
+          },
+          {
+            "var": "leader.knowsPosition",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "clearFlag",
+          "flag": "pushOn"
+        },
+        {
+          "type": "setFlag",
+          "flag": "backtracked"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "backtrack"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_push_done",
+      "once": false,
+      "trigger": {
+        "elapsedSince": {
+          "flag": "pushOn",
+          "min": 1
+        }
+      },
+      "effects": [
+        {
+          "type": "clearFlag",
+          "flag": "pushOn"
+        }
+      ]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_start",
+      "title": "女の湯バス停",
+      "priority": 20,
+      "trigger": {
+        "after": "D0 08:00"
+      },
+      "situation": "奥多摩駅から 25 分、女の湯でバスを降りたのは千葉さんひとりだった。湖の上の空は一面の雲。夫には「奥多摩の鷹ノ巣山に行く」とだけ言ってきた。このまま出発する？",
+      "knowledge": [
+        "予定: 女の湯 → 倉戸山 → 榧ノ木尾根 → 榧ノ木山 → 鷹ノ巣山。同じ尾根を戻り、倉戸山から倉戸口バス停へ（下山予定 16:30）",
+        "登りが約 4 時間半、下りが約 3 時間半。日の入りは 16:29",
+        "榧ノ木尾根は広い尾根で、道標は少ない。落ち葉で道が見えにくい季節",
+        "登山届は出していない。ここは携帯電話が通じる（電波 {leader.radio:1}）",
+        "予報は曇りのち雨。雨は昼すぎから"
+      ],
+      "options": [
+        {
+          "id": "go",
+          "label": "このまま出発する",
+          "detail": "日帰りだし、何度も来ている奥多摩だ。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1.1
+          }
+        },
+        {
+          "id": "share",
+          "label": "夫にコースをメールしてから出発",
+          "detail": "「女の湯から倉戸山、榧ノ木尾根で鷹ノ巣山。帰りは倉戸口。17 時までに連絡する」",
+          "actions": [
+            {
+              "type": "say",
+              "text": "コースを送っておこう。ひとりだから",
+              "tone": "whisper"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "planShared"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.45
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_turn",
+      "title": "榧ノ木山の先",
+      "priority": 14,
+      "trigger": {
+        "all": [
+          {
+            "beenAt": "KAYANOKI"
+          },
+          {
+            "near": {
+              "x": -536,
+              "z": -1046,
+              "r": 70
+            }
+          },
+          {
+            "onEdge": "E4"
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          },
+          {
+            "not": {
+              "beenAt": "MIZUNE_JCT"
+            }
+          }
+        ]
+      },
+      "situation": "榧ノ木山を過ぎたところで、風が強くなり、雨粒が落ちてきた。石尾根はもう雲の中だ。予定より遅れていて、鷹ノ巣山まではまだ 1 時間半かかる。どうする？",
+      "knowledge": [
+        "ここから鷹ノ巣山まで登り約 1 時間半。戻ってくると 15 時を過ぎる",
+        "倉戸口バス停まで、ここから下り約 2 時間半",
+        "この先に水根沢林道（登山道）の分岐がある。水根まで下り約 2 時間半。沢沿いの道で、雨の日は足もとが悪い",
+        "日の入りは 16:29。谷はもっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "back",
+          "label": "ここで引き返す",
+          "detail": "山頂はまた今度。明るいうちに下りる。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "今日はここまで。戻ろう",
+              "tone": "whisper"
+            },
+            {
+              "type": "setFlag",
+              "flag": "turnedBack"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "KAYANOKI",
+                "WIDE",
+                "KURATO",
+                "KURATO_TOP",
+                "TH_KURATO"
+              ],
+              "goalNodes": [
+                "TH_KURATO"
+              ]
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.2
+          }
+        },
+        {
+          "id": "summit",
+          "label": "鷹ノ巣山まで行く",
+          "detail": "ここまで来たのだから。急げば間に合う。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "あと少し。急ごう",
+              "tone": "whisper"
+            },
+            {
+              "type": "setFlag",
+              "flag": "wentSummit"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 0.15,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "mizune",
+          "label": "水根沢林道を下る",
+          "detail": "尾根の風を避けて、谷の道で水根へ。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "風の当たらない谷の道にしよう",
+              "tone": "whisper"
+            },
+            {
+              "type": "setFlag",
+              "flag": "turnedBack"
+            },
+            {
+              "type": "setFlag",
+              "flag": "viaMizune"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "MIZUNE_JCT",
+                "MIZU_MID",
+                "TH_MIZUNE"
+              ],
+              "goalNodes": [
+                "TH_MIZUNE"
+              ]
+            }
+          ],
+          "bias": {
+            "base": 0.06
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_wide",
+      "title": "広い尾根",
+      "priority": 14,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "WIDE"
+          },
+          {
+            "beenAt": "KAYANOKI"
+          }
+        ]
+      },
+      "situation": "榧ノ木山から下ってくると、尾根が広くなった。一面の落ち葉で、どこが道なのか分からない。雨で遠くは見えない。正面にはなだらかな尾根が続いていて、歩きやすそうだ。どう進む？",
+      "knowledge": [
+        "朝、ここを登ってきたはずだが、下りで見ると景色が違う",
+        "登山地図では、榧ノ木尾根はここから南へ下って倉戸山に続く",
+        "道標は見当たらない。木に巻かれたテープは、登山用とは限らない（水道局の林の管理用もある）",
+        "日の入りは 16:29。谷はもっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "check",
+          "label": "止まって、向きを確かめる",
+          "detail": "地図とコンパスを出す。雨の中で数分かかる。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "南へ下りるはず。コンパスは……",
+              "tone": "whisper"
+            },
+            {
+              "type": "stopAndCheck"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "carefulNav"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.45
+          }
+        },
+        {
+          "id": "follow",
+          "label": "正面の尾根をそのまま下る",
+          "detail": "下っていれば倉戸山に着くはず。雨だし、急ぎたい。",
+          "actions": [
+            {
+              "type": "missJunction"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.9,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.timeBehindMin",
+                  "op": ">",
+                  "value": 30
+                },
+                "add": 0.3
+              },
+              {
+                "when": {
+                  "var": "sun.isDark",
+                  "op": "==",
+                  "value": true
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_end",
+      "title": "尾根の末端",
+      "priority": 13,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              {
+                "state": "OFFROUTE_UNAWARE"
+              },
+              {
+                "state": "DESCENDING_DRAINAGE"
+              }
+            ]
+          },
+          {
+            "near": {
+              "x": 757,
+              "z": -150,
+              "r": 75
+            }
+          },
+          {
+            "var": "leader.elevM",
+            "op": "<",
+            "value": 945
+          },
+          {
+            "not": {
+              "flag": "fallen"
+            }
+          }
+        ]
+      },
+      "situation": "尾根が終わり、足もとが急に落ち込んでいる。木の間から下に沢が見え、水音が聞こえる。濡れた落ち葉の急斜面で、踏み跡はもうない。ここは倉戸山ではない。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "下の沢は水根沢か、その枝沢らしい。水根沢には谷沿いの登山道（水根沢林道）があるが、どちらの岸の、どの高さを通っているのか分からない",
+        "水根沢は滝とゴルジュのある沢で、沢登りの人が入る所",
+        "広い尾根まで登り返すと、標高差 400 m、1 時間半はかかる",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "日の入りは 16:29。谷はもっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "back",
+          "label": "来た尾根を登り返す",
+          "detail": "時間はかかるが、通ってきた尾根なら様子が分かる。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "戻ろう。ここは下りられない",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.45,
+            "mods": [
+              {
+                "when": {
+                  "flag": "carefulNav"
+                },
+                "add": 0.3
+              },
+              {
+                "when": {
+                  "var": "sun.isDark",
+                  "op": "==",
+                  "value": true
+                },
+                "add": -0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "ツェルトをかぶって朝を待つ",
+          "detail": "雨の中を登り返すのはつらい。ここで動かなければ、落ちることはない。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "ここで朝まで待とう。着られるものは全部着る",
+              "tone": "whisper"
+            },
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 200
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "endBivouac"
+          ],
+          "bias": {
+            "base": 0.25,
+            "mods": [
+              {
+                "when": {
+                  "after": "D0 15:00"
+                },
+                "add": 0.5
+              }
+            ]
+          }
+        },
+        {
+          "id": "down",
+          "label": "沢へ下りて道を探す",
+          "detail": "木につかまれば下りられそうだ。沢に下りれば道があるはず。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "下に道があるはず。ゆっくり下りれば",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "endDown"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.9,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_nopos",
+      "title": "現在地が分からない",
+      "priority": 12,
+      "trigger": {
+        "all": [
+          {
+            "flag": "triedMap"
+          },
+          {
+            "state": "STAYING"
+          },
+          {
+            "var": "leader.knowsPosition",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "none"
+          }
+        ]
+      },
+      "situation": "地図を何度見ても、今いる尾根がどれなのか決められない。雨で遠くの山は見えず、似た尾根がいくつも並んでいる。どうする？",
+      "knowledge": [
+        "高さは {leader.elevM:0} m くらい",
+        "日の入りは 16:29。谷はもっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "back",
+          "label": "来た所を登り返す",
+          "actions": [
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7
+          }
+        },
+        {
+          "id": "down",
+          "label": "このまま下る",
+          "actions": [
+            {
+              "type": "say",
+              "text": "下れば、どこかに出る",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "wait",
+          "label": "ツェルトをかぶって動かない",
+          "detail": "下手に動けば、もっと分からなくなる。",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "bias": {
+            "base": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_lost_again",
+      "title": "戻る途中で分からなくなった",
+      "priority": 12,
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "state": "LOST_AWARE"
+          },
+          {
+            "flag": "backtracked"
+          },
+          {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "none"
+          }
+        ]
+      },
+      "situation": "登り返す途中、落ち葉の斜面で、下りてきた筋が分からなくなった。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "尾根のいちばん高い所をたどって登れば、榧ノ木尾根の広い所に出るはず",
+        "日の入りは 16:29。谷はもっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "back",
+          "label": "尾根の高い所をたどって登る",
+          "actions": [
+            {
+              "type": "say",
+              "text": "上へ。尾根を外さないように",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "map",
+          "label": "地図とコンパスで確かめる",
+          "detail": "現在地が分かれば近い道へ。分からなければ動けない。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "落ち着いて。地図を出そう",
+              "tone": "whisper"
+            },
+            {
+              "type": "stayPut"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "flags": [
+            "triedMap"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "down",
+          "label": "あきらめて下る",
+          "actions": [
+            {
+              "type": "say",
+              "text": "もう下るしかない",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.2,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_dark_off",
+      "title": "道のない尾根で日が暮れた",
+      "priority": 6,
+      "trigger": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "any": [
+                  {
+                    "state": "OFFROUTE_UNAWARE"
+                  },
+                  {
+                    "state": "LOST_AWARE"
+                  },
+                  {
+                    "state": "DESCENDING_DRAINAGE"
+                  },
+                  {
+                    "state": "NAVIGATING_TO_TRAIL"
+                  },
+                  {
+                    "state": "BACKTRACKING"
+                  }
+                ]
+              },
+              {
+                "state": "STAYING"
+              }
+            ]
+          },
+          {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "none"
+          }
+        ]
+      },
+      "situation": "日が暮れた。雨の森の中は、足もとも見えない。道のない斜面で、ヘッドランプはザックの中。どうする？",
+      "knowledge": [
+        "気温は {leader.local.tempC:0}℃。雨は朝まで続く予報",
+        "ツェルトと防寒着がある。食べ物 {leader.foodKcal:0}kcal"
+      ],
+      "options": [
+        {
+          "id": "bivouac",
+          "label": "ツェルトをかぶって朝を待つ",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 200
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "keep",
+          "label": "ヘッドランプで動き続ける",
+          "detail": "止まると寒い。動いていたい。",
+          "available": {
+            "not": {
+              "state": "STAYING"
+            }
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.8
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_d1",
+      "title": "雨の夜が明けた",
+      "priority": 8,
+      "trigger": {
+        "all": [
+          {
+            "after": "D1 06:40"
+          },
+          {
+            "state": "BIVOUAC"
+          },
+          {
+            "flag": "wentOff"
+          }
+        ]
+      },
+      "situation": "ツェルトの中で、ひざを抱えて一晩を過ごした。雨は小降りになり、あたりが見えてきた。体はこわばっている。水 {leader.waterL:1}L・食べ物 {leader.foodKcal:0}kcal。どうする？",
+      "knowledge": [
+        "夫はゆうべのうちに警察に届け出ているはず",
+        "予報では、朝のうちに雨がやんで晴れてくる",
+        "きのうは尾根を下ってきた。登り返せば榧ノ木尾根の登山道がある",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）"
+      ],
+      "options": [
+        {
+          "id": "climb",
+          "label": "来た尾根を登り返す",
+          "detail": "明るくなった。尾根をたどって登山道へ戻る。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "上へ戻ろう。道は上にある",
+              "tone": "whisper"
+            },
+            {
+              "type": "eat",
+              "kcal": 200
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7
+          }
+        },
+        {
+          "id": "stay",
+          "label": "動かずに待ち、笛を吹く",
+          "actions": [
+            {
+              "type": "eat",
+              "kcal": 200
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.injury",
+                  "op": "!=",
+                  "value": "none"
+                },
+                "add": 0.5
+              }
+            ]
+          }
+        },
+        {
+          "id": "down",
+          "label": "沢へ下りて道を探す",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "legFracture"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "headInjury"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "severeTrauma"
+                  },
+                  {
+                    "not": {
+                      "state": "INCAPACITATED"
+                    }
+                  }
+                ]
+              },
+              {
+                "not": {
+                  "flag": "fallen"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "明るいうちに、下の道へ",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "endDown"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "crawl",
+          "label": "這ってでも沢を下る",
+          "detail": "ここにいても、だれも来ないかもしれない。",
+          "available": {
+            "all": [
+              {
+                "not": {
+                  "all": [
+                    {
+                      "var": "leader.injury",
+                      "op": "!=",
+                      "value": "legFracture"
+                    },
+                    {
+                      "var": "leader.injury",
+                      "op": "!=",
+                      "value": "headInjury"
+                    },
+                    {
+                      "var": "leader.injury",
+                      "op": "!=",
+                      "value": "severeTrauma"
+                    },
+                    {
+                      "not": {
+                        "state": "INCAPACITATED"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "じっとしていられない。下へ",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "crawlDown"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "lostAware": {
+      "situation": "倉戸山へ下っているはずなのに、見覚えのない尾根にいる。朝は、こんな所を通らなかった。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "下ってきた尾根を登り返せば、榧ノ木尾根の広い所に戻れるはず",
+        "携帯電話に地図は入っていない。紙の登山地図とコンパスがある",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "日の入りは 16:29。谷はもっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "backtrack",
+          "label": "下ってきた尾根を登り返す",
+          "detail": "迷ったと気づいたら、すぐ戻る。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "戻ろう。道は上にある",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [
+              {
+                "when": {
+                  "flag": "carefulNav"
+                },
+                "add": 0.3
+              },
+              {
+                "when": {
+                  "var": "leader.elevM",
+                  "op": ">",
+                  "value": 1200
+                },
+                "add": 0.5
+              }
+            ]
+          }
+        },
+        {
+          "id": "map",
+          "label": "地図とコンパスで確かめる",
+          "detail": "現在地が分かれば近い道へ。分からなければ動けない。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "落ち着いて。地図を出そう",
+              "tone": "whisper"
+            },
+            {
+              "type": "stayPut"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "flags": [
+            "triedMap"
+          ],
+          "bias": {
+            "base": 0.35
+          }
+        },
+        {
+          "id": "descend",
+          "label": "このまま下る",
+          "detail": "下っていれば、湖か谷の道に出るはず。登り返すより早い。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "下りてしまえば、どこかに出る",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "pressedOn"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.7,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              },
+              {
+                "when": {
+                  "var": "leader.elevM",
+                  "op": ">",
+                  "value": 1200
+                },
+                "add": -0.3
+              },
+              {
+                "when": {
+                  "var": "sun.isDark",
+                  "op": "==",
+                  "value": true
+                },
+                "add": -0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "call",
+          "label": "電波がある。110 番する",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.3
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "say",
+              "text": "榧ノ木尾根を下りる途中で、道が分からなくなりました",
+              "tone": "normal"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "calledSelf"
+          ],
+          "bias": {
+            "base": 0.15
+          }
+        },
+        {
+          "id": "stay",
+          "label": "ツェルトをかぶって動かない",
+          "detail": "下手に動けば、もっと分からなくなる。",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "bias": {
+            "base": 0.15,
+            "mods": [
+              {
+                "when": {
+                  "not": {
+                    "all": [
+                      {
+                        "var": "leader.injury",
+                        "op": "!=",
+                        "value": "legFracture"
+                      },
+                      {
+                        "var": "leader.injury",
+                        "op": "!=",
+                        "value": "headInjury"
+                      },
+                      {
+                        "var": "leader.injury",
+                        "op": "!=",
+                        "value": "severeTrauma"
+                      },
+                      {
+                        "not": {
+                          "state": "INCAPACITATED"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "add": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "injured": {
+      "situation": "斜面を滑り落ちた。{leader.injury}で、思うように動けない。雨が降り続いている。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "ツェルト・防寒着・笛はザックの中。水 {leader.waterL:1}L・食べ物 {leader.foodKcal:0}kcal",
+        "帰りが遅ければ、夫が警察に届け出てくれるはず",
+        "沢の水に浸かれば、体は一気に冷える"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "携帯電話で 110 番する",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.3
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "unavailableText": "圏外",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "say",
+              "text": "榧ノ木尾根から迷って、滑り落ちました。動けません",
+              "tone": "normal"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "calledSelf"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.2
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "ツェルトをかぶり、動かずに待つ",
+          "detail": "濡れた服の上に着込み、雨と風を避ける。明るいうちは笛を吹く。",
+          "actions": [
+            {
+              "type": "narrate",
+              "text": "千葉さんは木の根もとまで体をずらし、防寒着を着込んでツェルトをかぶった"
+            },
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 200
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.injury",
+                  "op": "==",
+                  "value": "legFracture"
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "climb",
+          "label": "痛みをこらえて登り返す",
+          "detail": "尾根の上なら、見つけてもらえるかもしれない。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "上に戻れば道がある",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        },
+        {
+          "id": "slide",
+          "label": "沢を下って道を探す",
+          "detail": "沢を下れば水根の集落に出るはず。じっとしていられない。",
+          "available": {
+            "not": {
+              "state": "INCAPACITATED"
+            }
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "下れば、人のいる所に出る",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "crawlDown"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.45,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "hypothermia": {
+      "situation": "{leader.name}さんは震えが止まらない。指が動かず、考えがまとまらない（体温 {leader.coreC:1}℃、推定）。どうする？",
+      "options": [
+        {
+          "id": "bivouac",
+          "label": "着込んで食べ、ツェルトで待つ",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 300
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "push_eat",
+          "label": "着込んで食べ、動いて温まる",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 300
+            },
+            {
+              "type": "setFlag",
+              "flag": "pushOn"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "call",
+          "label": "電波がある。110 番する",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.3
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "say",
+              "text": "榧ノ木尾根で道に迷って、動けなくなりました",
+              "tone": "normal"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "calledSelf"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    },
+    "waterfall": {
+      "situation": "沢の行く手が切れ落ち、下から水音がする。滝だ。両岸も急で、濡れた岩が光っている。どうする？",
+      "options": [
+        {
+          "id": "climb_back",
+          "label": "登り返す",
+          "detail": "滝は下りられない。来た所なら様子が分かる。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "ここは下りられない。戻ろう",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7
+          }
+        },
+        {
+          "id": "high_route",
+          "label": "滝の横の斜面を巻く",
+          "detail": "木につかまれば、何とか巻けそうだ。",
+          "actions": [
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "ツェルトをかぶり、ここで待つ",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
+    },
+    "darkness": {
+      "situation": "日が暮れて、足もとが見えにくい。ヘッドランプはザックの中。雨で落ち葉が光り、道の筋が分からない。どうする？"
+    }
+  },
+  "thoughts": [
+    {
+      "key": "s25_start",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "before": "D0 09:00"
+          },
+          {
+            "state": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "日曜なのに、だれもいない",
+        "湖が鉛色だ。昼までもってくれればいい"
+      ],
+      "priority": 3
+    },
+    {
+      "key": "s25_e1",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E1"
+          },
+          {
+            "not": {
+              "beenAt": "KURATO"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "いきなり急な登りだ。落ち葉で足が滑る",
+        "踏み跡が落ち葉に埋まっている。尾根を外さなければ大丈夫"
+      ],
+      "priority": 4
+    },
+    {
+      "key": "s25_kurato",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E2"
+          },
+          {
+            "not": {
+              "beenAt": "KAYANOKI"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "倉戸山の山頂は広かった。帰りは下り口をまちがえないように",
+        "葉が落ちて、尾根が明るい。落ち葉がくるぶしまである"
+      ],
+      "priority": 4
+    },
+    {
+      "key": "s25_wide_up",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E3"
+          },
+          {
+            "not": {
+              "beenAt": "KAYANOKI"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "広い尾根だ。どこを歩いても道のように見える",
+        "道標がない。テープも少ない"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s25_ridge",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "any": [
+              {
+                "onEdge": "E4"
+              },
+              {
+                "onEdge": "E5"
+              },
+              {
+                "onEdge": "E6"
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "風が出てきた。雲が下りてきている",
+        "予定より遅れている。山頂まで行けるだろうか"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s25_back",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "flag": "turnedBack"
+          },
+          {
+            "any": [
+              {
+                "onEdge": "E4"
+              },
+              {
+                "onEdge": "E3"
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "wentOff"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "引き返して正解。雨が強くなってきた",
+        "早く下りよう。倉戸口のバスは夕方まである"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s25_unaware",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "OFFROUTE_UNAWARE"
+          },
+          {
+            "not": {
+              "flag": "pressedOn"
+            }
+          },
+          {
+            "not": {
+              "flag": "backtracked"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "歩きやすい尾根。このまま倉戸山まで下りるだけ",
+        "朝はこんなに広かっただろうか。下りは景色が違って見える"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s25_pressed",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "state": "OFFROUTE_UNAWARE"
+              },
+              {
+                "state": "DESCENDING_DRAINAGE"
+              }
+            ]
+          },
+          {
+            "flag": "pressedOn"
+          },
+          {
+            "not": {
+              "flag": "fallen"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "おかしい。でも、下っているのだから",
+        "倉戸山はまだだろうか。もう着いてもいいころなのに",
+        "登り返すのは、もう無理。下りるしかない"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s25_aware",
+      "who": "leader",
+      "when": {
+        "state": "LOST_AWARE"
+      },
+      "lines": [
+        "ここは、朝の道じゃない",
+        "落ち着いて。どこでまちがえたのか"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s25_backtrack",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "BACKTRACKING"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "迷ったら戻る。来た尾根なら分かる",
+        "息が切れる。でも、上に道がある"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s25_nav",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "NAVIGATING_TO_TRAIL"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "地図どおりなら、この先で道に出る",
+        "尾根の形を見ながら、ゆっくり"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s25_again",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "flag": "backOn"
+          }
+        ]
+      },
+      "lines": [
+        "戻れた。今度は南へ下りる",
+        "あのまま下りていたら、どうなっていただろう"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s25_hurt",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "leader.injury",
+            "op": "!=",
+            "value": "none"
+          },
+          {
+            "var": "leader.injury",
+            "op": "!=",
+            "value": "bruise"
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "INCAPACITATED"
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "足が動かない。ここで待つしかない",
+        "夫は、今ごろ眠れずにいるだろう",
+        "笛を吹こう。だれかに届くかもしれない"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s25_crawl",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "legFracture"
+          },
+          {
+            "any": [
+              {
+                "state": "DESCENDING_DRAINAGE"
+              },
+              {
+                "state": "BACKTRACKING"
+              },
+              {
+                "state": "NAVIGATING_TO_TRAIL"
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "這って進むしかない",
+        "少し動くだけで、息が切れる"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s25_family",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "planShared"
+            }
+          },
+          {
+            "before": "D0 22:00"
+          }
+        ]
+      },
+      "lines": [
+        "行き先は鷹ノ巣山としか言っていない",
+        "この尾根にいるとは、だれも知らない"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s25_family2",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          },
+          {
+            "flag": "planShared"
+          },
+          {
+            "before": "D0 22:00"
+          }
+        ]
+      },
+      "lines": [
+        "朝、コースを送っておいた。榧ノ木尾根を捜してくれるはず"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s25_night",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          },
+          {
+            "before": "D0 23:59"
+          }
+        ]
+      },
+      "lines": [
+        "ツェルトを雨が叩く。濡れないように、端を体の下に巻きこむ",
+        "携帯電話のアンテナは立たないまま"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s25_night2",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          },
+          {
+            "after": "D0 23:59"
+          },
+          {
+            "before": "D1 04:00"
+          }
+        ]
+      },
+      "lines": [
+        "沢の音が大きくなった",
+        "寒い。眠ってはいけない気がする",
+        "腕時計を見た。夜明けはまだ遠い"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s25_dawn",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "after": "D1 05:45"
+          },
+          {
+            "before": "D1 07:30"
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "空が白んできた",
+        "雨の音が弱くなった"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s25_clear",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "after": "D1 08:30"
+          },
+          {
+            "before": "D1 15:30"
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          },
+          {
+            "var": "leader.conscious",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "雨がやんだ。木の間に青い空が見える",
+        "ヘリの音がしたら、ツェルトを振ろう"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s25_mizune",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "flag": "viaMizune"
+          },
+          {
+            "any": [
+              {
+                "onEdge": "E9"
+              },
+              {
+                "onEdge": "E10"
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "沢の音がずっと下から聞こえる。道が細い",
+        "濡れた桟道は一歩ずつ"
+      ],
+      "priority": 6
+    }
+  ],
+  "speech": [
+    {
+      "key": "s25_kurato_top",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "beenAt": "KURATO"
+          },
+          {
+            "not": {
+              "beenAt": "KAYANOKI"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "倉戸山。ここまでは予定どおり",
+        "広い山頂。帰りはここから東へ下りる"
+      ],
+      "tone": "whisper",
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s25_kayanoki_top",
+      "who": "leader",
+      "when": {
+        "beenAt": "KAYANOKI"
+      },
+      "lines": [
+        "榧ノ木山。展望はないのね",
+        "風が冷たい。雨具を着ておこう"
+      ],
+      "tone": "whisper",
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s25_fall_light",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "flag": "fallen"
+          },
+          {
+            "any": [
+              {
+                "var": "leader.injury",
+                "op": "==",
+                "value": "bruise"
+              },
+              {
+                "var": "leader.injury",
+                "op": "==",
+                "value": "sprain"
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "痛っ……。骨は、大丈夫……？",
+        "足首が……。でも、立てる"
+      ],
+      "tone": "whisper",
+      "priority": 30,
+      "once": true
+    },
+    {
+      "key": "s25_fall_bad",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "flag": "fallen"
+          },
+          {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "legFracture"
+          }
+        ]
+      },
+      "lines": [
+        "うっ……足が……",
+        "立てない。どうしよう"
+      ],
+      "tone": "whisper",
+      "priority": 30,
+      "once": true
+    },
+    {
+      "key": "s25_phone",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "flag": "fallen"
+          },
+          {
+            "var": "leader.conscious",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.radio",
+            "op": "<",
+            "value": 0.3
+          },
+          {
+            "var": "leader.phone.has",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "圏外……。つながらない",
+        "だめ、アンテナが立たない"
+      ],
+      "tone": "whisper",
+      "priority": 20,
+      "once": true
+    },
+    {
+      "key": "s25_whistle",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
+          },
+          {
+            "var": "leader.conscious",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "wentOff"
+          }
+        ]
+      },
+      "lines": [
+        "（笛）ピーッ、ピーッ、ピーッ",
+        "だれかー！ いませんかー！"
+      ],
+      "tone": "sound",
+      "priority": 10,
+      "cooldownMin": 90
+    },
+    {
+      "key": "s25_goal",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_KURATO"
+              },
+              {
+                "beenAt": "TH_MIZUNE"
+              }
+            ]
+          },
+          {
+            "flag": "turnedBack"
+          }
+        ]
+      },
+      "lines": [
+        "着いた。バスの時刻は……"
+      ],
+      "tone": "whisper",
+      "priority": 12,
+      "once": true
+    }
+  ],
+  "endings": [
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_KURATO"
+              },
+              {
+                "beenAt": "TH_MENOYU"
+              },
+              {
+                "beenAt": "TH_MIZUNE"
+              }
+            ]
+          },
+          {
+            "flag": "endBivouac"
+          }
+        ]
+      },
+      "title": "尾根の末端から登り返して",
+      "text": "{leader.name}さんは榧ノ木尾根の広い所で東の支尾根に入り、末端の急斜面の上で行き止まった。沢へは下りず、尾根を登り返して登山道に戻り、下山した。あの急斜面を下りていたら、戻れなかったかもしれない。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_KURATO"
+              },
+              {
+                "beenAt": "TH_MENOYU"
+              },
+              {
+                "beenAt": "TH_MIZUNE"
+              }
+            ]
+          },
+          {
+            "var": "rec.wasLost",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "triedMap"
+          }
+        ]
+      },
+      "title": "地図で道に戻って",
+      "text": "{leader.name}さんは落ち葉の広い尾根で東の支尾根に入り込んだ。おかしいと気づいて地図とコンパスで向きを確かめ、榧ノ木尾根の登山道に戻って下山した。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_KURATO"
+              },
+              {
+                "beenAt": "TH_MENOYU"
+              },
+              {
+                "beenAt": "TH_MIZUNE"
+              }
+            ]
+          },
+          {
+            "var": "rec.wasLost",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "title": "登り返して、正しい尾根へ",
+      "text": "{leader.name}さんは落ち葉の広い尾根で東の支尾根に入り込んだ。おかしいと気づいて広い所まで登り返し、南へ下る榧ノ木尾根を見つけて下山した。気づくのが遅れれば、尾根の末端で行き詰まっていた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "beenAt": "TH_MIZUNE"
+          },
+          {
+            "flag": "viaMizune"
+          }
+        ]
+      },
+      "title": "水根沢林道を下った",
+      "text": "{leader.name}さんは榧ノ木山の先で引き返し、水根沢林道を水根へ下った。雨の谷道は足もとが悪かったが、道ははっきりしていた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_KURATO"
+              },
+              {
+                "beenAt": "TH_MENOYU"
+              },
+              {
+                "beenAt": "TH_MIZUNE"
+              }
+            ]
+          },
+          {
+            "flag": "wentSummit"
+          }
+        ]
+      },
+      "title": "鷹ノ巣山から、雨の尾根を下った",
+      "text": "{leader.name}さんは雨と風の中を鷹ノ巣山まで登り、暗くなりかけた榧ノ木尾根を下った。広い尾根の分かれ目を外さずに済んだのは、運もあった。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "turnedBack"
+      },
+      "title": "引き返して、倉戸口へ",
+      "text": "{leader.name}さんは榧ノ木山の先で引き返した。落ち葉の広い尾根では立ち止まって向きを確かめ、倉戸山から倉戸口のバス停に下りた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "下山",
+      "text": "{leader.name}さんは無事に下山した。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "when": {
+        "var": "leader.injury",
+        "op": "!=",
+        "value": "none"
+      },
+      "title": "けがをしたまま自力で下山",
+      "text": "{leader.name}さんはけがをした体で山中に一晩とどまり、翌日、自力で下山した。夫は前の晩に警察へ届け出ていた。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "title": "一晩を越えて自力で下山",
+      "text": "{leader.name}さんは雨の山中でツェルトをかぶって一晩を過ごし、翌日、尾根を登り返して自力で下山した。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "calledSelf"
+      },
+      "title": "電話で通報",
+      "text": "{leader.name}さんは電波の入る所から 110 番した。現在地は言葉で伝えるしかなかったが、救助隊が見つけた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "planShared"
+      },
+      "title": "救助",
+      "text": "朝のメールのコースが手がかりになり、捜索は最初から榧ノ木尾根に向かった。{leader.name}さんは、尾根の東の支尾根の先で救助隊に見つけられた。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助",
+      "text": "{leader.name}さんは救助隊に見つけられた。行き先の山の名前しか手がかりのない中での発見だった。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重い状態で救助",
+      "text": "{leader.name}さんは体が冷えきった重い状態で見つかり、病院へ運ばれた。"
+    },
+    {
+      "kind": "MISSING",
+      "when": {
+        "flag": "planShared"
+      },
+      "title": "まだ見つかっていない",
+      "text": "4 日目の昼になっても、{leader.name}さんは見つかっていない。捜索は榧ノ木尾根の両側の支尾根と沢で続いている。"
+    },
+    {
+      "kind": "MISSING",
+      "title": "まだ見つかっていない",
+      "text": "4 日目の昼になっても、{leader.name}さんは見つかっていない。鷹ノ巣山へ登る道はいくつもあり、どの尾根で道を外れたのか、だれにも分からない。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "flag": "planShared"
+      },
+      "title": "帰らぬ人に",
+      "text": "{leader.name}さんは山から戻らなかった。コースは夫に伝えてあったが、広い尾根で東へそれた後のことは、だれにも分からなかった。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "帰らぬ人に",
+      "text": "{leader.name}さんは山から戻らなかった。夫が知っていたのは「奥多摩の鷹ノ巣山に行く」という一言だけだった。"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_wide",
+      "when": {
+        "chose": {
+          "cp": "cp_wide",
+          "option": "follow"
+        }
+      },
+      "title": "広い尾根の下りでは、止まって向きを確かめる",
+      "text": "広くなだらかな尾根は、登りでは上へ向かえば一つにまとまるが、下りでは支尾根がいくつも分かれる。歩きやすい正面の尾根が、正しい道とは限らない。落ち葉や雪で踏み跡が消える季節は、尾根の分かれ目ごとに立ち止まり、地図とコンパスで向きを確かめる。"
+    },
+    {
+      "id": "l_back",
+      "when": {
+        "var": "rec.wasLost",
+        "op": "==",
+        "value": true
+      },
+      "title": "おかしいと思ったら、すぐ登り返す",
+      "text": "「下っていれば、どこかに出る」は道迷いでいちばん危ない考え。尾根の末端は急斜面や崖で終わり、沢には滝がある。おかしいと思ったその場で、分かる所まで登り返す。進むほど、戻る体力も時間もなくなる。"
+    },
+    {
+      "id": "l_end",
+      "when": {
+        "any": [
+          {
+            "flag": "endDown"
+          },
+          {
+            "flag": "gullyFall"
+          }
+        ]
+      },
+      "title": "道のない急斜面を、沢へ下りない",
+      "text": "道迷いの死亡事故の多くは、迷ったあとに沢や急斜面へ下りて滑落したもの。下に道や沢が見えても、濡れた落ち葉の急斜面は止まれない。行き詰まったら、登り返すか、動かずに待つ。"
+    },
+    {
+      "id": "l_bivouac",
+      "when": {
+        "any": [
+          {
+            "flag": "endBivouac"
+          },
+          {
+            "flag": "waited"
+          }
+        ]
+      },
+      "title": "ツェルトと防寒着が一晩を支える",
+      "text": "雨の夜に動けなくなっても、濡れを防ぎ、風を避け、着込んで食べれば、朝まで持ちこたえられることが多い。ツェルト・防寒着・ヘッドランプ・行動食は、日帰りでも必ず持つ。"
+    },
+    {
+      "id": "l_plan",
+      "when": {
+        "not": {
+          "flag": "planShared"
+        }
+      },
+      "title": "山の名前だけでは、捜せない",
+      "text": "一つの山に登る道はいくつもある。行き先の山の名前しか分からないと、捜索はすべての道を手分けして捜すことから始まり、支尾根や沢に行き着くまで日数がかかる。登山計画書を出し、家族にコースと下山の時刻を文字で伝える。"
+    },
+    {
+      "id": "l_turn",
+      "when": {
+        "chose": {
+          "cp": "cp_turn",
+          "option": "summit"
+        }
+      },
+      "title": "引き返す時刻を決めておく",
+      "text": "日の短い 12 月は、16 時半には暗くなる。出発の前に「何時までに着かなければ引き返す」を決めておく。天気が崩れてきたら、予定より早く下りる。"
+    },
+    {
+      "id": "l_now",
+      "title": "今なら、地図アプリと予備の電池を",
+      "text": "この話は 2009 年。今はスマートフォンの登山地図アプリ（GPS）が、圏外でも現在地を示す。紙の地図・コンパスと組み合わせ、予備の電池も持つ。それでも、広い尾根の分かれ目で立ち止まって確かめる習慣が、いちばんの備えになる。"
+    }
+  ],
+  "balanceTargets": {
+    "recommended": {
+      "goodMin": 0.97,
+      "fatalMax": 0.01
+    },
+    "bias": {
+      "goodMin": 0.55,
+      "goodMax": 0.9,
+      "fatalMin": 0.01,
+      "fatalMax": 0.2,
+      "lostMin": 0.3,
+      "lostMax": 0.85
+    },
+    "risky": {
+      "goodMax": 0.12,
+      "rescuedMin": 0.05,
+      "rescuedMax": 0.18,
+      "badMin": 0.75
+    }
+  },
+  "sources": [
+    "架空の人物・架空の経過（作者の設定: 2009 年 12 月中旬、40 代の単独の女性、榧ノ木尾根の下りで東の支尾根に入り、末端で滑落）。同じ時期・同じ尾根で実際に起きた遭難の記録を再現したものではない",
+    "行程: 作者が描いた GPX（女の湯バス停〜倉戸山〜榧ノ木山の先で引き返し〜標高 1,300 m 前後の広い尾根から東の支尾根〜水根沢側の末端。本来の下山路は倉戸山〜倉戸口）",
+    "榧ノ木尾根・倉戸山のまわりで下山中の道迷いが多いこと、テープが登山用とは限らないこと: 奥多摩ビジターセンターの講習（2017 年）の参加者の記録、山行記録、金邦夫『すぐそこにある遭難事故』の事例の二次引用",
+    "作者の想定: 2009 年当時の道標の少なさ、携帯電話の電波（奥多摩湖の南岸の基地局から、湖畔と倉戸山は入り、榧ノ木尾根の上部・東の支尾根・水根沢の谷は圏外）、バスの時刻、天気は架空（曇りのち雨・尾根で風速 10 m/s・翌朝に雨がやむ）、救助隊の動き、支尾根の踏み跡と末端の様子",
+    "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+    "登山道・地点: © OpenStreetMap contributors（東の支尾根の筋と倉戸の集落の車道は、GPX と標高から描いた概略）"
+  ]
+}
