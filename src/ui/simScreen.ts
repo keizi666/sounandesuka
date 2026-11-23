@@ -237,7 +237,19 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
             hud.setSound(anySoundOn(app.settings, true));
           },
         }),
-      share: () => void url.share(),
+      // 共有のパネルを開いている間は一時停止（閉じたら、もとが動いていれば再開）
+      share: () => {
+        let was = false;
+        void url.share({
+          onOpen: () => {
+            was = !loop.paused;
+            loop.paused = true;
+          },
+          onClose: () => {
+            if (was) loop.paused = false;
+          },
+        });
+      },
       snap: () => simCap.snap(),
       record: () => simCap.toggleRecord(),
       quit: () => {

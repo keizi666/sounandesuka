@@ -226,7 +226,7 @@ export class Hud {
       this.soundBtn,
       h.snap ? el('button', { class: 'icon', title: JA.capture.snap, 'aria-label': JA.capture.snap, onclick: () => h.snap?.() }, icon('photoCamera')) : null,
       h.record ? this.recBtn : null,
-      h.share ? el('button', { class: 'icon', title: JA.ui.share, 'aria-label': JA.ui.share, onclick: () => h.share?.() }, icon('link')) : null,
+      h.share ? el('button', { class: 'icon', title: JA.ui.share, 'aria-label': JA.ui.share, onclick: () => h.share?.() }, icon('share')) : null,
       el('button', { class: 'icon', title: JA.ui.settings, 'aria-label': JA.ui.settings, onclick: () => h.settings() }, icon('settings')),
       foldBtn,
     ]);

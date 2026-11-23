@@ -23,6 +23,7 @@ import { endingMusic } from './simAudio';
 import { openDebriefPanel } from './debrief';
 import { reviewDecision, reviewLead } from './choiceReview';
 import { disposeWhatIf } from './whatIfPool';
+import { safetyCard } from './safetyCard';
 import { historicalSources } from './historicalLinks';
 import { communityPostCard } from './community/postCard';
 import { shareButtons, siteUrl } from './shareButtons';
@@ -220,6 +221,8 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
           })),
         ]),
         decisions.length > 0 ? decisionsCard() : null,
+        // 遭難対策のまとめ（ユーザーの指定: 教材になるように）
+        safetyCard(loaded, w, r),
         // みんなの遭難記録に載せる（docs/20_community.md）
         result.shared ? null : communityPostCard(app, loaded, result, { kind: e.kind, title: endTitle }),
         shareCard,

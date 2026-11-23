@@ -39,7 +39,7 @@ export function siteUrl(): string {
 }
 
 /** 共有のボタンの並び。target が Promise なら、できるまで押せない */
-export function shareButtons(target: ShareTarget | Promise<ShareTarget>, opts: { note?: string; onOpen?: (serviceId: string) => void } = {}): HTMLElement {
+export function shareButtons(target: ShareTarget | Promise<ShareTarget>, opts: { note?: string; onOpen?: (serviceId: string) => void; /** 「リンクをコピー」を出さない（ほかにコピーのボタンがあるとき） */ noCopy?: boolean } = {}): HTMLElement {
   const C = JA.share;
   const links = SERVICES.map((s) =>
     el('a', { class: `sh-btn sh-${s.id}`, target: '_blank', rel: 'noopener noreferrer', 'aria-disabled': 'true', title: fill(C.on, { name: s.label }) }, [
@@ -82,7 +82,7 @@ export function shareButtons(target: ShareTarget | Promise<ShareTarget>, opts: {
   if (target instanceof Promise) void target.then(apply).catch(() => apply({ text: C.siteText, url: siteUrl() }));
   else apply(target);
   return el('div', { class: 'share' }, [
-    el('div', { class: 'sh-row' }, [...links, device, copy]),
+    el('div', { class: 'sh-row' }, [...links, device, opts.noCopy ? null : copy]),
     el('p', { class: 'sh-note' }, opts.note ?? C.note),
   ]);
 }
