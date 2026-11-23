@@ -1300,3 +1300,11 @@ details[data-g]:not([open]) > summary .grp-mini:hover { border-color: var(--acce
 .cr-progress { margin: 0 0 8px; color: var(--muted); font-size: 0.9em; }
 .decision .cr-badge { margin-left: 6px; }
 .cr-caveat { color: #fde68a; font-size: 0.95em; }
+
+/* スマホ（ユーザーの指定）: 一覧の「状況開始」と、ブリーフィングの「出発する」を中央に */
+@media (max-width: 520px) {
+  .sel-actions { justify-content: center; }
+}
+@media (max-width: 760px) {
+  .bf-bar-in:has(.df-pick) > button.big { margin-left: auto; margin-right: auto; }
+}
