@@ -53,7 +53,7 @@ export function statsTable(list: ScenarioStats[], onPick: (id: string) => void):
       el('td', { class: 'cm-st-num cm-st-lost' }, `${Math.round((st.deathsAny / Math.max(1, st.n)) * 100)}%`),
     ]);
   });
-  return el('details', { class: 'cm-stats', open: true }, [
+  return el('details', { class: 'cm-stats' }, [
     el('summary', {}, [cIcon('barChart'), C.statsTitle]),
     el('div', { class: 'cm-stats-scroll' }, [
       el('table', { class: 'cm-st-table' }, [

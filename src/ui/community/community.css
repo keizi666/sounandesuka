@@ -250,3 +250,9 @@ dialog.cm-dialog.busy { pointer-events: none; opacity: 0.75; }
   .cm-st-table thead th { white-space: normal; }
   .cm-st-table tbody th { min-width: 0; }
 }
+/* 「シナリオごとの結果」は最初は閉じておく（ユーザーの指定）。開け閉めできることが分かるように、右に矢印 */
+.cm-stats > summary::after { content: ''; width: 8px; height: 8px; margin-left: 4px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform 0.15s; opacity: 0.7; }
+.cm-stats[open] > summary::after { transform: rotate(45deg); }
+.cm-stats:not([open]) { padding-bottom: 8px; }
+.cm-stats:not([open]) > summary { padding-bottom: 2px; }
+@media (prefers-reduced-motion: reduce) { .cm-stats > summary::after { transition: none; } }
