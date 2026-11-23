@@ -16,7 +16,6 @@ import type { WhatIfResult } from '../sim/record/whatif';
 import { evaluateOptions, findChoicePoint } from '../sim/scenario/choices';
 import { ENDING_SEVERITY } from '../sim/scenario/endings';
 import type { EndingKind } from '../sim/types';
-import type { WhatIfIn, WhatIfJob, WhatIfOut } from '../workers/whatif.worker';
 import { drawTimeline, timeAtX, type ChartMarks } from './charts';
 import { el } from './dom';
 import { icon } from './icons';
@@ -24,8 +23,10 @@ import { historicalSources } from './historicalLinks';
 import { drawMap2d } from './map2d';
 import { zoomableMap } from './mapZoom';
 import { attributionLine, optionLabel, type SimResult } from './simScreen';
+import { judgeChoice } from '../sim/record/choiceVerdict';
+import { TUNING } from '../sim/tuning';
+import { disposeWhatIf, whatIfFor, WHATIF_N } from './whatIfPool';
 
-const WHATIF_N = 30;
 const KIND_COLOR: Record<EndingKind, string> = {
   SAFE_RETURN: '#16a34a', SAFE_SHELTER: '#22c55e', ABORTED: '#65a30d', SELF_RESCUE: '#ca8a04',
   RESCUED: '#d97706', RESCUED_CRITICAL: '#ea580c', MISSING: '#6b7280', FATAL: '#374151',
@@ -129,26 +130,38 @@ function buildDebrief(app: AppContext, loaded: LoadedScenario, result: SimResult
   const mapBox = zoomableMap(mapCanvas, (view) => drawMap2d(mapCanvas, map, { ...mapLayers, view }));
 
   // ---- 分岐点と What-if ----
-  const jobs: WhatIfJob[] = [];
-  const slots = new Map<string, HTMLElement>();
+  // 試算は結果の画面と同じ Worker の組で（計算済みのものはすぐ出る）
+  const pending: Promise<unknown>[] = [];
   const decisionsEl = rec.decisions.map((d) => {
-    const snap = result.choiceSnapshots[d.cpId];
+    const snap = Object.values(result.choiceSnapshots).find((sn) => sn.world.pendingChoice && Math.abs(sn.world.tMin - d.tMin) < 0.05) ?? result.choiceSnapshots[d.cpId];
+    const badge = el('span', { class: 'cr-badge wait' }, JA.choiceReview.computing);
     const found = findChoicePoint(ctx, d.cpId);
     const title = d.cpId.startsWith('generic:') ? (genericTexts(d.cpId.slice(8), d.tMin)?.title ?? d.cpId) : (found?.cp.title ?? d.title);
     const rows: HTMLElement[] = [];
     if (snap && found) {
       const { available } = evaluateOptions(snap.world, { ...ctx }, found.cp, found.key);
+      const all: Promise<WhatIfResult>[] = [];
       for (const a of available) {
         const slot = el('div', { class: 'wslot' }, JA.ui.computing);
-        slots.set(`${d.cpId}|${a.option.id}`, slot);
-        jobs.push({ cpId: d.cpId, optionId: a.option.id, snapshot: snap.world });
+        const p = whatIfFor(loaded, result, d.cpId, a.option.id, snap.world);
+        p.then((r) => slot.replaceChildren(whatIfBar(r))).catch(() => slot.replaceChildren(JA.choiceReview.failed));
+        all.push(p);
         rows.push(el('div', { class: `wrow${a.option.id === d.optionId ? ' chosen' : ''}` }, [el('span', { class: 'opt' }, `${optionLabel(loaded, d.cpId, a.option.id)}${a.option.id === d.optionId ? `（${JA.ui.yourChoice}）` : ''}`), slot]));
       }
+      const judged = Promise.all(all).then((rs) => {
+        const j = judgeChoice(rs, d.optionId, TUNING);
+        if (!j) return void badge.remove();
+        badge.className = `cr-badge v-${j.verdict}`;
+        badge.textContent = JA.choiceReview.verdict[j.verdict] ?? j.verdict;
+      });
+      judged.catch(() => badge.remove());
+      pending.push(judged.catch(() => undefined));
     }
+    if (rows.length < 2) badge.remove();
     const recorded = s.historical?.recordedChoices[d.cpId];
     return el('section', { class: 'decision' }, [
       el('h3', {}, `◆ ${formatDateTime(s, d.tMin)} ${title}`),
-      el('p', {}, `${JA.ui.yourChoice}: ${optionLabel(loaded, d.cpId, d.optionId)}${d.by !== 'user' ? '（自動）' : ''}`),
+      el('p', {}, [`${JA.ui.yourChoice}: ${optionLabel(loaded, d.cpId, d.optionId)}${d.by !== 'user' ? '（自動）' : ''}`, ' ', badge]),
       recorded ? el('p', { class: 'note' }, `${JA.ui.actualRecord}: ${optionLabel(loaded, d.cpId, recorded)}`) : null,
       rows.length > 0 ? el('div', { class: 'whatif' }, [el('h4', {}, `${JA.ui.whatIf}（各 ${WHATIF_N} 回）`), ...rows]) : null,
       snap
@@ -166,26 +179,15 @@ function buildDebrief(app: AppContext, loaded: LoadedScenario, result: SimResult
         : null,
     ]);
   });
-  const progress = el('progress', { max: Math.max(1, jobs.length), value: 0 });
-  let worker: Worker | null = null;
-  if (jobs.length > 0) {
-    worker = new Worker(new URL('../workers/whatif.worker.ts', import.meta.url), { type: 'module' });
+  const progress = el('progress', { max: Math.max(1, pending.length), value: 0 });
+  {
     let done = 0;
     const t0 = performance.now();
-    worker.onmessage = (ev: MessageEvent<WhatIfOut>) => {
-      const m = ev.data;
-      if (m.type === 'result') {
-        done += 1;
-        progress.value = done;
-        slots.get(`${m.result.cpId}|${m.result.optionId}`)?.replaceChildren(whatIfBar(m.result));
-      } else if (m.type === 'done') {
-        progress.replaceWith(el('small', {}, `What-if: ${jobs.length} 件（${((performance.now() - t0) / 1000).toFixed(1)} 秒）`));
-      } else {
-        progress.replaceWith(el('small', { class: 'error' }, m.message));
-      }
-    };
-    worker.postMessage({ type: 'init', map: map.def, radio: map.radio, scenario: s } satisfies WhatIfIn);
-    worker.postMessage({ type: 'run', jobs, n: WHATIF_N, followPolicy: 'bias' } satisfies WhatIfIn);
+    for (const p of pending) void p.then(() => {
+      done += 1;
+      progress.value = done;
+      if (done >= pending.length && progress.isConnected) progress.replaceWith(el('small', {}, `What-if: ${pending.length} 件（${((performance.now() - t0) / 1000).toFixed(1)} 秒）`));
+    });
   }
 
   // ---- 史実: 記録との比較 ----
@@ -235,5 +237,6 @@ function buildDebrief(app: AppContext, loaded: LoadedScenario, result: SimResult
       ]),
       el('p', { class: 'note' }, fill('{n} 回の試算は傾向どおりに進めた場合の結果です。', { n: WHATIF_N })),
     ]);
-  return { el: root, dispose: () => worker?.terminate() };
+  // 単独の振り返りの画面なら、離れるときに試算を止める（結果の画面から開いたパネルは、結果の画面が止める）
+  return { el: root, dispose: () => (onClose ? undefined : disposeWhatIf(result)) };
 }

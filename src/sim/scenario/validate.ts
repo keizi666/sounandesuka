@@ -344,6 +344,7 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
       checkCondition(v, `${q}.available`, o.available, r);
       checkActions(v, `${q}.actions`, o.actions, r);
       checkTexts(v, `${q}.detail`, o.detail, r);
+      checkTexts(v, `${q}.explain`, o.explain, r);
       (o.bias.mods ?? []).forEach((m, k) => checkCondition(v, `${q}.bias.mods[${k}].when`, m.when, r));
     });
   });

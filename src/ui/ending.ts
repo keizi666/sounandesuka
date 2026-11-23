@@ -21,6 +21,8 @@ import type { LogLine } from './simHud';
 import { audio } from './audio';
 import { endingMusic } from './simAudio';
 import { openDebriefPanel } from './debrief';
+import { reviewDecision, reviewLead } from './choiceReview';
+import { disposeWhatIf } from './whatIfPool';
 import { historicalSources } from './historicalLinks';
 import { communityPostCard } from './community/postCard';
 import { shareButtons, siteUrl } from './shareButtons';
@@ -159,6 +161,40 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
       { note: resultUrl === siteUrl() ? JA.share.note : JA.share.resultNote },
     ),
   ]);
+  // 分岐での選択と、その振り返り（ユーザーの指定: どれが良かった・悪かった・意味がなかったか）
+  function decisionsCard(): HTMLElement {
+    const reviews: Promise<void>[] = [];
+    const items = decisions.map((d) => {
+      // その分岐点の写しがあれば、押すとその場面に戻って選び直せる（ユーザーの指定）。試算もその写しから
+      const snap = Object.values(result.choiceSnapshots).find((sn) => sn.world.pendingChoice && Math.abs(sn.world.tMin - d.tMin) < 0.05);
+      const rv = reviewDecision(loaded, result, ctx, d, snap?.world);
+      reviews.push(rv.done);
+      const parts = [el('time', {}, formatClock(d.tMin)), el('span', { class: 'dia' }, '◆'), el('span', { class: 'lbl' }, optionLabel(loaded, d.cpId, d.optionId)), d.by !== 'user' ? el('small', {}, '（自動）') : null, rv.badge];
+      if (!snap) return el('li', {}, [el('div', { class: 'row' }, parts), rv.body]);
+      const back = (): void => {
+        const keep: SimResult['choiceSnapshots'] = {};
+        for (const [k, v] of Object.entries(result.choiceSnapshots)) if (v.world.tMin < snap.world.tMin) keep[k] = v;
+        app.go({ name: 'sim', loaded, resume: { scenarioId: s.id, world: structuredClone(snap.world), recorder: structuredClone(snap.recorder), choiceSnapshots: keep, savedAt: new Date().toISOString(), runId: newRunId(), parentRunId: result.runId } });
+      };
+      return el('li', { class: 'back' }, [el('button', { type: 'button', title: JA.ui.backToScene, onclick: back }, [...parts, el('span', { class: 'go' }, [JA.ui.backToScene, icon('chevronRight')])]), rv.body]);
+    });
+    // 試算の進み具合
+    const progress = el('p', { class: 'cr-progress' }, fill(JA.choiceReview.progress, { done: 0, all: reviews.length }));
+    let done = 0;
+    for (const p of reviews) void p.then(() => {
+      done += 1;
+      if (done >= reviews.length) progress.remove();
+      else progress.textContent = fill(JA.choiceReview.progress, { done, all: reviews.length });
+    });
+    return el('section', { class: 'bf-card' }, [
+      el('h2', {}, [icon('route'), JA.choiceReview.title]),
+      el('p', { class: 'hint' }, reviewLead()),
+      progress,
+      el('ol', { class: 'en-decisions' }, items),
+      el('p', { class: 'hint' }, JA.ui.backToSceneNote),
+      el('p', { class: 'hint' }, JA.choiceReview.note),
+    ]);
+  }
   const main = el('main', { class: `ending2 tone-${tone}` }, [
       el('header', { class: 'en-hero' }, [
         el('div', { class: 'en-in' }, [
@@ -183,24 +219,7 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
             return memberCard(c, p.outcome, worstOf(c));
           })),
         ]),
-        decisions.length > 0
-          ? el('section', { class: 'bf-card' }, [
-              el('h2', {}, [icon('route'), JA.ui.decisions]),
-              el('ol', { class: 'en-decisions' }, decisions.map((d) => {
-                const parts = [el('time', {}, formatClock(d.tMin)), el('span', { class: 'dia' }, '◆'), el('span', {}, optionLabel(loaded, d.cpId, d.optionId)), d.by !== 'user' ? el('small', {}, '（自動）') : null];
-                // その分岐点の写しがあれば、押すとその場面に戻って選び直せる（ユーザーの指定）
-                const snap = Object.values(result.choiceSnapshots).find((sn) => sn.world.pendingChoice && Math.abs(sn.world.tMin - d.tMin) < 0.05);
-                if (!snap) return el('li', {}, parts);
-                const back = (): void => {
-                  const keep: SimResult['choiceSnapshots'] = {};
-                  for (const [k, v] of Object.entries(result.choiceSnapshots)) if (v.world.tMin < snap.world.tMin) keep[k] = v;
-                  app.go({ name: 'sim', loaded, resume: { scenarioId: s.id, world: structuredClone(snap.world), recorder: structuredClone(snap.recorder), choiceSnapshots: keep, savedAt: new Date().toISOString(), runId: newRunId(), parentRunId: result.runId } });
-                };
-                return el('li', { class: 'back' }, el('button', { type: 'button', title: JA.ui.backToScene, onclick: back }, [...parts, el('span', { class: 'go' }, [JA.ui.backToScene, icon('chevronRight')])]));
-              })),
-              el('p', { class: 'hint' }, JA.ui.backToSceneNote),
-            ])
-          : null,
+        decisions.length > 0 ? decisionsCard() : null,
         // みんなの遭難記録に載せる（docs/20_community.md）
         result.shared ? null : communityPostCard(app, loaded, result, { kind: e.kind, title: endTitle }),
         shareCard,
@@ -232,5 +251,8 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
       ]),
     ]);
   app.root.append(main);
-  return () => closeDebrief?.();
+  return () => {
+    closeDebrief?.();
+    disposeWhatIf(result);
+  };
 }

@@ -180,6 +180,19 @@ export const choices = {
   /** 汎用分岐点 hypothermia の 1 回目と 2 回目（docs/09 §7） */
   genericHypothermiaC: 35.3,
   genericHypothermia2C: 34.0,
+  /**
+   * 結果の画面の「選択の振り返り」（ユーザーの指定: どれが良かった・悪かった・意味がなかったか）。
+   * 分岐点の場面から選択肢ごとに乱数を変えて走らせ（What-if）、結末の悪さの平均で比べる。
+   * 悪さ: 結末ごとの重み（0 が最良、1 が最悪）
+   */
+  verdictWeight: { ABORTED: 0, SAFE_RETURN: 0, SAFE_SHELTER: 0.05, SELF_RESCUE: 0.3, RESCUED: 0.4, RESCUED_CRITICAL: 0.7, MISSING: 0.9, FATAL: 1 },
+  /** いちばん良い選択肢といちばん悪い選択肢の差がこれ未満なら「どれを選んでも、ほとんど変わらない」 */
+  verdictSameSpread: 0.06,
+  /** 差を「はっきりした差」とみなす z（試算の回数が少ないので、揺れの幅を見る） */
+  verdictZ: 1.5,
+  /** いちばん良い選択肢との差がこれ未満なら「良い判断」、これ以上で、はっきりした差なら「悪い判断」。間は「まずまず」 */
+  verdictGoodMargin: 0.05,
+  verdictBadMargin: 0.15,
 };
 
 /** docs/02 §5 結末 */

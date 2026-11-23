@@ -497,6 +497,8 @@ export interface ChoiceOptionDef {
   id: string;
   label: string;
   detail?: string;
+  /** 結果の画面の「選択の振り返り」に出す、この選択肢の意味（何のための判断で、なぜ良い・危ないのか）。省くと推奨・危険の札から短く出す */
+  explain?: string;
   available?: Condition;
   unavailableText?: string;
   hideIfUnavailable?: boolean;

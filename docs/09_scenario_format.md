@@ -154,6 +154,7 @@ JSON で表す論理式。`eval` は使わない。
 
 - **発火**: 毎ティック、未発火（`once`）かつ `trigger` 真のものを集め、`priority` 最大を 1 つだけ発火（同値は定義順）。発火時にスナップショット保存。
 - **available**: 選択肢ごとの条件。偽なら `unavailableText` を添えて無効表示、`hideIfUnavailable: true` なら非表示。
+- **explain**（任意）: 結果の画面の「選択の振り返り」に出す、その選択肢の意味（何のための判断で、なぜ良い・危ないのか。1〜2 文、煽らず淡々と）。省くと `tags` から「安全側に倒す判断です」「危険を取る判断です」と短く出す。汎用分岐点の選択肢の意味は `ja.ts` の `generic.<key>.explain`。
 - **bias**: 自律選択の重み `w = max(0, base + Σ add)`。`choice` ストリームで重み比例抽選。
 - **プレースホルダ**: `{path}` または `{path:小数桁}`。パスは §4.1。`{leader.name}` は名前。列挙値は日本語に変換して表示する（`precipType`: rain→雨, sleet→みぞれ, snow→雪, hail→ひょう, none→なし。`state` も `i18n` の表で変換）。
 - 選択の結果、`actions` を先頭から順に適用し、`flags` があれば立てる。
