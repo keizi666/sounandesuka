@@ -61,9 +61,16 @@ export const behavior = {
    * 食べる習慣のない人（habits.eatEveryMin が null）は空腹でも後回しにし、エネルギーが尽きかける（eatLowGlycogenKcal）まで食べない
    */
   eatHungryKcal: 1200,
-  /** 空腹で食べるときは満ちるまで: 1 回の量 = eatFullKcal −（グリコーゲン＋胃の中）を eatKcal〜eatMaxKcal に収める（エネルギーが尽きかけたときは eatKcal） */
+  /**
+   * 空腹で食べるときは満ちるまで: 1 回の量 = eatFullKcal −（グリコーゲン＋胃の中）を eatKcal〜eatMaxKcal に収める（エネルギーが尽きかけたときは eatKcal）。
+   * ユーザーの指定: 一度に食べすぎない。1 回 200 kcal まで
+   */
   eatFullKcal: 1600,
-  eatMaxKcal: 500,
+  eatMaxKcal: 200,
+  /** ユーザーの指定: 行動食の残りが持ってきた量のこの割合を切ったら節約し、空腹は我慢する（エネルギーが尽きかける eatLowGlycogenKcal まで食べない） */
+  eatEndureBelowF: 0.5,
+  /** 続けて食べるときの間隔（分。空腹でも、エネルギーが尽きかけていても）。200 kcal を食べてすぐまた食べると、一度に食べすぎるのと同じになる */
+  eatGapMin: 30,
   eatLowGlycogenKcal: 450,
   /** 力が入らない（シャリバテ）と感じるグリコーゲン（kcal）。考え・画面の表示だけに使う */
   bonkFeelKcal: 300,
@@ -72,7 +79,7 @@ export const behavior = {
   eatForgetBelowJ: 0.3,
   eatForgetP: 0.05,
   eatMin: 3,
-  eatKcal: 300,
+  eatKcal: 200,
   /**
    * 飲む: 喉の渇き（ユーザーの指定）。感じる不足 = 体の水分不足 × 寒さ（寒いと渇きを感じにくい）× 暑さ（汗で口が渇く）× 年齢。
    * 感じる不足が thirstStartL を超えると渇きを感じ、渇きの強さ t（0〜1）= (感じる不足 − start) / span。
@@ -96,8 +103,12 @@ export const behavior = {
   thirstOlderF: 0.85,
   drinkP: 0.3,
   drinkMin: 1,
-  drinkSipL: 0.15,
-  drinkMaxL: 0.5,
+  /** ユーザーの指定: 一度に飲みすぎない。1 回 150 mL まで */
+  drinkSipL: 0.1,
+  drinkMaxL: 0.15,
+  /** ユーザーの指定: 水筒の残りが持ってきた量のこの割合以下になったら、体の水分不足が体重の drinkEndureBodyF（2%）になるまでは我慢する */
+  drinkEndureBelowF: 0.5,
+  drinkEndureBodyF: 0.02,
   drinkQuenchL: 0.15,
   drinkGapMaxMin: 25,
   drinkGapMinMin: 8,

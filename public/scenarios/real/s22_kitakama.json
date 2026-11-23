@@ -1972,11 +1972,35 @@
           }
         },
         {
+          "id": "wait_known",
+          "label": "救助はもう頼んである。3人そろって救助を待つ",
+          "explain": "すでに救助を頼んであるので、これ以上動かずに3人で待つことです。風と日差しを避け、鈴木さんのそばを離れずに様子を見守ります。",
+          "detail": "南田さんがもう一度、鈴木さんの様子を伝える。",
+          "available": { "var": "leader.rescueCalled", "op": "==", "value": true },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "who": "minamida",
+              "text": "鈴木さん、もうすぐヘリが来ます。動かないで。"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
           "id": "send",
           "label": "楠木さんが付き添い、南田さんが電波の入る所まで救助を呼びに行く",
           "explain": "ここは電波が入らないので、楠木さんを鈴木さんに付き添わせ、南田さんが電波の入る所まで1人で呼びに行くことです。知らせる手立てはこれだけですが、パーティーが分かれ、経験の浅い南田さんが1人で岩稜を歩きます。",
           "detail": "ここは電波が入らない。尾根の先の、電波が入る所まで行けば知らせられる。",
-          "available": { "var": "leader.radio", "op": "<=", "value": 0 },
+          "available": { "all": [{ "var": "leader.radio", "op": "<=", "value": 0 }, { "var": "leader.rescueCalled", "op": "==", "value": false }] },
           "hideIfUnavailable": true,
           "actions": [
             {

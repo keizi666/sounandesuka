@@ -175,9 +175,13 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
   if (!waitForRest && !sleeping && c.inv.foodKcal > 0) {
     // お腹が減ってから食べる（ユーザーの指定。決まった間隔では食べない）。胃に残っている食べ物があれば、まだ空腹ではない
     const fed = b.glycogenKcal + b.gutKcal * ctx.tuning.physiology.absorbEff;
-    const hungry = c.def.habits.eatEveryMin !== null && fed < bt.eatHungryKcal;
+    // 行動食が半分を切ったら節約し、空腹は我慢する（ユーザーの指定。エネルギーが尽きかけたときだけ食べる）
+    const enduring = c.def.gear.foodKcal > 0 && c.inv.foodKcal / c.def.gear.foodKcal < bt.eatEndureBelowF;
+    const sinceEat = c.memo.lastEatMin === null ? Infinity : world.tMin - c.memo.lastEatMin;
+    const hungry = c.def.habits.eatEveryMin !== null && fed < bt.eatHungryKcal && !enduring;
     const low = b.glycogenKcal < bt.eatLowGlycogenKcal;
-    if (hungry || low) {
+    // 続けて食べるのは間をおいてから（一度に食べすぎない。ユーザーの指定）
+    if ((hungry || low) && sinceEat >= bt.eatGapMin) {
       const p = J < bt.eatForgetBelowJ ? bt.eatForgetP : low ? bt.eatLowP * J : bt.eatHabitP;
       if (chance(rng, p)) {
         c.memo.lastEatMin = world.tMin;
@@ -191,9 +195,11 @@ export function autonomous(world: World, ctx: StaticContext, c: ClimberState): v
       }
     }
   }
-  // 飲む（喉が渇いたら、渇きが癒えるまで。150〜500 mL）
+  // 飲む（喉が渇いたら、渇きが癒えるまで。1 回 100〜150 mL）
   const thirst = thirstOf(c, ctx.tuning);
-  if (!waitForRest && !sleeping && thirst !== null && c.inv.waterL > 0) {
+  // 水筒が半分以下になったら、体の水分不足が体重の 2% になるまでは我慢する（ユーザーの指定）
+  const saving = c.def.gear.waterL > 0 && c.inv.waterL / c.def.gear.waterL <= bt.drinkEndureBelowF && b.waterDeficitL < c.def.weightKg * bt.drinkEndureBodyF;
+  if (!waitForRest && !sleeping && thirst !== null && !saving && c.inv.waterL > 0) {
     const gap = (bt.drinkGapMaxMin + (bt.drinkGapMinMin - bt.drinkGapMaxMin) * thirst) * (resting ? bt.drinkRestGapF : 1);
     const gapOk = c.memo.lastDrinkMin === null || world.tMin - c.memo.lastDrinkMin >= gap;
     if (gapOk && chance(rng, bt.drinkP * J)) {
