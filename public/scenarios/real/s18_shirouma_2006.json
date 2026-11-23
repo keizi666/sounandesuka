@@ -541,6 +541,7 @@
         {
           "id": "go",
           "label": "予定どおり出発する",
+          "explain": "小雨の中、樹林のない尾根を約11時間登る行程に出る判断です。低気圧の発達が予報され、薄手の雨具の人が多いことを考えると、余裕の少ない計画です。",
           "detail": "2年前も雨の中を登った",
           "actions": [{ "type": "say", "who": "guide", "text": "大丈夫です。2年前の同じ時期にも、雨の中を登りました", "documented": true, "source": "信濃毎日新聞 2006年10月（小屋の従業員の話。発言の要旨）" }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -549,6 +550,7 @@
         {
           "id": "stay",
           "label": "出発を見合わせる",
+          "explain": "予報が悪く、装備が薄いなら、出発を見合わせるのが確実です。予備日や帰りの便の都合より、天気を優先する判断です。",
           "detail": "小屋で天気の回復を待つ",
           "actions": [{ "type": "setFlag", "flag": "stayBaba" }, { "type": "stayInShelter", "until": "D2 09:00" }],
           "tags": ["recommended"],
@@ -564,10 +566,11 @@
       "situation": "不帰岳避難小屋に着いた。雨は降り続き、服は中まで湿っている（気温 {leader.local.tempC:0}℃）。",
       "knowledge": ["白馬山荘まで、まだ6時間ほどかかる", "この先で樹林が切れる。避難小屋はもうない", "防寒着は各自のザックの中にある"],
       "options": [
-        { "id": "go", "label": "休んで先へ進む", "detail": "着替えの指示はしない", "actions": [{ "type": "rest", "minutes": 20 }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
+        { "id": "go", "label": "休んで先へ進む", "explain": "湿った服のまま、避難小屋のない吹きさらしの区間へ入ることになります。防寒着はザックに入ったままです。", "detail": "着替えの指示はしない", "actions": [{ "type": "rest", "minutes": 20 }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
         {
           "id": "layer",
           "label": "防寒着を着せて進む",
+          "explain": "着込んで食べれば、濡れた体の冷え方をゆるめられます。ただ、この先で樹林が切れ、避難小屋のない区間が続くことは変わりません。",
           "detail": "着込み、食べてから出る",
           "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 250 }, { "type": "rest", "minutes": 15 }, { "type": "continueRoute" }],
           "bias": { "base": 0.4 }
@@ -575,6 +578,7 @@
         {
           "id": "stay",
           "label": "避難小屋で待つ",
+          "explain": "最後の避難小屋で着替えて食べ、天気の回復を待つ判断です。濡れたまま吹きさらしの尾根に出ずにすみます。",
           "detail": "着替えて天気の回復を待つ",
           "actions": [{ "type": "setFlag", "flag": "backToHut" }, { "type": "changeDry" }, { "type": "eat", "kcal": 300 }, { "type": "stayInShelter", "until": "D2 09:00" }],
           "tags": ["recommended"],
@@ -583,6 +587,7 @@
         {
           "id": "down",
           "label": "祖母谷温泉へ下りる",
+          "explain": "来た道を祖母谷温泉へ下れば、稜線の悪天からは離れられます。ただ、湿った服のまま長く歩くことになります。",
           "detail": "来た道を下り、温泉の小屋に戻る",
           "actions": [{ "type": "setFlag", "flag": "downBaba" }, { "type": "setRoute", "route": ["HINAN", "HYAKKAN", "BABA"], "goalNodes": ["BABA"] }],
           "bias": { "base": 0.2 }
@@ -597,16 +602,17 @@
       "situation": "清水尾根の途中で樹林が切れた。雨にみぞれが混じり、風が強まってきた（風速 {leader.local.windMs:0} m/s）。",
       "knowledge": ["避難小屋までは下りで40分ほど。樹林が風を遮る", "白馬山荘までは、吹きさらしの尾根と巻き道を4時間ほど", "低気圧が北上すれば冬型になり、稜線は荒れる"],
       "options": [
-        { "id": "go", "label": "このまま山荘へ向かう", "actions": [{ "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
+        { "id": "go", "label": "このまま山荘へ向かう", "explain": "白馬山荘までは、吹きさらしの尾根と巻き道を約4時間です。冬型になれば稜線が荒れる中、濡れたまま風に当たり続けることになります。", "actions": [{ "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
         {
           "id": "back",
           "label": "避難小屋へ引き返す",
+          "explain": "樹林の中の避難小屋へは下りで約40分です。風雨が強まり始めた段階で、風を遮れる場所へ戻る判断です。",
           "detail": "樹林の中へ下り、風雨を避ける",
           "actions": [{ "type": "setFlag", "flag": "backToHut" }, { "type": "goToNode", "node": "HINAN", "then": "stay" }],
           "tags": ["recommended"],
           "bias": { "base": 0.35 }
         },
-        { "id": "layer", "label": "防寒着を着せて進む", "detail": "着込み、食べてから行く", "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "continueRoute" }], "bias": { "base": 0.4 } }
+        { "id": "layer", "label": "防寒着を着せて進む", "explain": "着込んで食べれば、体の熱を保ちやすくなります。ただ、吹きさらしの尾根をあと約4時間歩くことは変わりません。", "detail": "着込み、食べてから行く", "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "continueRoute" }], "bias": { "base": 0.4 } }
       ]
     },
     {
@@ -617,16 +623,17 @@
       "situation": "清水岳の山頂直下。みぞれが雪に変わり、風に体を押される（風速 {leader.local.windMs:0} m/s）。",
       "knowledge": ["白馬山荘までは、旭岳を巻いて2時間ほど", "避難小屋までは下りで1時間半ほど", "服の中まで濡れている人が多い"],
       "options": [
-        { "id": "go", "label": "白馬山荘へ急ぐ", "actions": [{ "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
+        { "id": "go", "label": "白馬山荘へ急ぐ", "explain": "白馬山荘までは約2時間ですが、服の中まで濡れた人が多いまま、雪と強風の中を歩き続けることになります。", "actions": [{ "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
         {
           "id": "back",
           "label": "避難小屋へ引き返す",
+          "explain": "着込んでから尾根を下り、約1時間半の避難小屋へ戻る判断です。風雪の稜線から離れ、屋根の下で回復を待てます。",
           "detail": "着込んでから尾根を下る",
           "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "setFlag", "flag": "backToHut" }, { "type": "goToNode", "node": "HINAN", "then": "stay" }],
           "tags": ["recommended"],
           "bias": { "base": 0.3 }
         },
-        { "id": "layer", "label": "防寒着を着せて進む", "detail": "着込み、食べてから行く", "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "continueRoute" }], "bias": { "base": 0.5 } }
+        { "id": "layer", "label": "防寒着を着せて進む", "explain": "着込んで食べれば熱を作れます。ただ、濡れた服の上に重ねても、風雪の中を約2時間歩くことは変わりません。", "detail": "着込み、食べてから行く", "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "continueRoute" }], "bias": { "base": 0.5 } }
       ]
     },
     {
@@ -649,6 +656,7 @@
         {
           "id": "split",
           "label": "ガイドがB・Cに付く",
+          "explain": "遅れた B・C にガイドが付き、残りは G が連れて先へ進む判断です。前の組は早く進めますが、パーティが二つに分かれ、互いの様子が分からなくなります。",
           "detail": "Gが残る4人を連れて先へ",
           "actions": [
             {
@@ -662,16 +670,17 @@
           "tags": ["risky"],
           "bias": { "base": 1 }
         },
-        { "id": "together", "label": "離れずに全員で進む", "detail": "B・Cの足に合わせる", "actions": [{ "type": "setPace", "factor": 0.75 }, { "type": "continueRoute" }], "bias": { "base": 0.5 } },
+        { "id": "together", "label": "離れずに全員で進む", "explain": "遅れた B・C の足に合わせ、全員で離れずに進む判断です。はぐれる人は出ませんが、遅くなるぶん吹雪にさらされる時間が延びます。", "detail": "B・Cの足に合わせる", "actions": [{ "type": "setPace", "factor": 0.75 }, { "type": "continueRoute" }], "bias": { "base": 0.5 } },
         {
           "id": "chojo",
           "label": "近い頂上宿舎へ向かう",
+          "explain": "着込んで食べ、風下側にある近い頂上宿舎へ向かう判断です。吹雪の中では、早く屋根の下に入ることを優先する考え方です。",
           "detail": "着込んで、風下側の小屋をめざす",
           "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "setFlag", "flag": "toChojo" }, { "type": "goToNode", "node": "CHOJO", "then": "stay" }],
           "tags": ["recommended"],
           "bias": { "base": 0.3 }
         },
-        { "id": "layer", "label": "着込んでから進む", "detail": "岩陰で防寒着を着て、食べる", "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "continueRoute" }], "bias": { "base": 0.4 } }
+        { "id": "layer", "label": "着込んでから進む", "explain": "岩陰で防寒着を着て食べ、熱を作ってから進む判断です。止まる間は冷えますが、着込まずに歩き続けるより体温を保ちやすくなります。", "detail": "岩陰で防寒着を着て、食べる", "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "continueRoute" }], "bias": { "base": 0.4 } }
       ]
     },
     {
@@ -685,6 +694,7 @@
         {
           "id": "walkC",
           "label": "Cを連れて山荘へ",
+          "explain": "まだ歩ける C を連れて山荘へ向かい、動けない B はくぼ地に残す判断です。歩ける人を屋根に近づけますが、B は一人で待つことになります。",
           "detail": "Bはハイマツのくぼ地に残す",
           "available": { "all": [{ "var": "c.kC.M", "op": ">=", "value": 0.5 }, { "var": "c.kB.M", "op": "<", "value": 0.5 }] },
           "hideIfUnavailable": true,
@@ -703,6 +713,7 @@
         {
           "id": "walkB",
           "label": "Bを連れて山荘へ",
+          "explain": "まだ歩ける B を連れて山荘へ向かい、動けない C はくぼ地に残す判断です。歩ける人を屋根に近づけますが、C は一人で待つことになります。",
           "detail": "Cはハイマツのくぼ地に残す",
           "available": { "all": [{ "var": "c.kB.M", "op": ">=", "value": 0.5 }, { "var": "c.kC.M", "op": "<", "value": 0.5 }] },
           "hideIfUnavailable": true,
@@ -721,6 +732,7 @@
         {
           "id": "help",
           "label": "二人を残し助けを呼ぶ",
+          "explain": "動けない二人を風を避けられるくぼ地に寝かせ、ガイドが一人で山荘へ知らせに行く判断です。助けを呼べる人を早く山荘に着かせることを優先します。",
           "detail": "くぼ地に寝かせ、ザックで覆う",
           "actions": [
             { "type": "setFlag", "flag": "sistersLeft" },
@@ -738,6 +750,7 @@
         {
           "id": "push",
           "label": "3人で山荘へ急ぐ",
+          "explain": "二人の腕を取って、3人で山荘へ向かう判断です。誰も一人にしませんが、弱った二人に合わせて吹雪の中を歩き続けることになります。",
           "detail": "二人の腕を取り、離れずに歩く",
           "available": { "all": [{ "var": "c.kB.M", "op": ">=", "value": 0.5 }, { "var": "c.kC.M", "op": ">=", "value": 0.5 }] },
           "hideIfUnavailable": true,
@@ -757,6 +770,7 @@
         {
           "id": "help",
           "label": "二人を残し助けを呼ぶ",
+          "explain": "二人をくぼ地に寝かせてザックで覆い、ガイドが山荘へ助けを呼びに行く判断です。山荘の人の手を借りることを優先します。",
           "detail": "くぼ地に寝かせ、ザックで覆う",
           "actions": [
             { "type": "setFlag", "flag": "sistersLeft" },
@@ -771,7 +785,7 @@
           "tags": ["recommended"],
           "bias": { "base": 1 }
         },
-        { "id": "stay", "label": "3人でビバークする", "detail": "風下で寄り添い、夜明けを待つ", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }], "tags": ["risky"], "bias": { "base": 0.4 } }
+        { "id": "stay", "label": "3人でビバークする", "explain": "3人で寄り添って夜明けを待つ判断です。誰も一人にしませんが、濡れた体のまま吹雪の夜を外で越し、山荘には知らせが届きません。", "detail": "風下で寄り添い、夜明けを待つ", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }], "tags": ["risky"], "bias": { "base": 0.4 } }
       ]
     },
     {
@@ -782,10 +796,11 @@
       "situation": "先を行く4人のうち、寒さで歩けなくなった人が出た。白馬山荘はすぐ上のはずだが、見えない。",
       "knowledge": ["Gがツェルトを持っている", "山荘までは、おそらく200 mもない", "歩ける人もいる"],
       "options": [
-        { "id": "huddle", "label": "ツェルトをかぶって待つ", "detail": "4人で寄り添う", "actions": [{ "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["risky"], "bias": { "base": 1 } },
+        { "id": "huddle", "label": "ツェルトをかぶって待つ", "explain": "その場でツェルトをかぶって寄り添う判断です。強風ではツェルトがあおられやすく、山荘には誰も知らせに行けません。", "detail": "4人で寄り添う", "actions": [{ "type": "bivouac", "until": "rescue", "findLee": false }], "tags": ["risky"], "bias": { "base": 1 } },
         {
           "id": "walkers",
           "label": "歩ける人は山荘へ",
+          "explain": "歩ける人は山荘へ向かい、G が倒れた人に付き添う判断です。山荘が近いと見込んでのことですが、パーティはさらに分かれます。",
           "detail": "Gが倒れた人に付き添う",
           "actions": [
             {
@@ -801,6 +816,7 @@
         {
           "id": "runG",
           "label": "Gが山荘へ知らせに行く",
+          "explain": "G が一人で山荘へ知らせに行き、ほかは風を避けて寄り添う判断です。山荘が近いなら、助けを早く呼べる人を走らせる考え方です。",
           "detail": "ほかの人は寄り添って待つ",
           "actions": [{ "type": "detach", "who": "subg", "then": [{ "type": "goToNode", "node": "SANSO", "then": "stay" }] }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
@@ -819,6 +835,7 @@
         {
           "id": "walkers",
           "label": "歩ける人は小屋へ",
+          "explain": "歩ける人を G とともに小屋へ向かわせ、ガイドが倒れた人に付き添う判断です。歩ける人を早く屋根の下へ入れ、山荘に知らせられます。",
           "detail": "ガイドが倒れた人に付き添う",
           "actions": [
             { "type": "setFlag", "flag": "downChosen" },
@@ -836,6 +853,7 @@
         {
           "id": "huddle",
           "label": "全員でビバークする",
+          "explain": "全員でツェルトをかぶり、着込んで寄り添う判断です。はぐれる人は出ませんが、濡れた体で吹雪の中に留まり、皆が冷えていきます。",
           "detail": "ツェルトをかぶって寄り添う",
           "actions": [{ "type": "setFlag", "flag": "downChosen" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["risky"],

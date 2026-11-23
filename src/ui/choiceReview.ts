@@ -81,6 +81,9 @@ export function reviewDecision(loaded: LoadedScenario, result: SimResult, ctx: S
         el('p', { class: `cr-verdict v-${j.verdict}` }, verdictText(loaded, d.cpId, j)),
         el('p', { class: 'cr-numbers' }, fill(R.numbers, { safe: pct(j.chosen.safe), lost: pct(j.chosen.lost) })),
         meaningEl,
+        // 一般の考え方と、この場面での試算が食い違うとき（危険を取る判断がたまたま良かった・安全側の判断が裏目に出た）
+        chosenOpt?.tags?.includes('risky') && j.verdict === 'good' ? el('p', { class: 'cr-caveat' }, R.riskyButGood) : null,
+        chosenOpt?.tags?.includes('recommended') && (j.verdict === 'bad' || j.verdict === 'fair') ? el('p', { class: 'cr-caveat' }, R.safeButWorse) : null,
         bestMeaning ? el('p', { class: 'cr-meaning' }, [el('strong', {}, `${fill(R.bestMeaning, { best: optionLabel(loaded, d.cpId, j.best.optionId) })}: `), bestMeaning]) : null,
       ];
       body.replaceChildren(...parts.filter((x): x is HTMLElement => x !== null));

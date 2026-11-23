@@ -918,6 +918,7 @@
         {
           "id": "go",
           "label": "散策コースを気ままに歩く",
+          "explain": "戻る時刻を決めずに歩くと、写真や休憩で時間が延びても気づきにくくなります。冬は日の入りが早く、ライトのない4人には暗くなること自体が危険です。",
           "detail": "正月休みの散歩。時間は気にしない。",
           "actions": [{ "type": "say", "text": "まずはお参りだな。そのあとロックガーデン行こうぜ", "to": "takuya" }, { "type": "continueRoute" }],
           "bias": { "base": 1.3 }
@@ -925,6 +926,7 @@
         {
           "id": "rule",
           "label": "「16 時に駅へ戻る」と決めて歩く",
+          "explain": "戻る時刻を先に決めておくと、寄り道をしても引き返す合図になります。日の入りと最終便から逆算するのは、ライトのない日の基本の備えです。",
           "detail": "日の入りと最終便を確かめ、戻る時刻を先に決める。",
           "actions": [{ "type": "say", "who": "misaki", "text": "日が暮れるの早いから、4 時には駅に戻ろうね", "to": "shota" }, { "type": "continueRoute" }],
           "flags": ["timeRule"],
@@ -949,6 +951,7 @@
         {
           "id": "otake",
           "label": "大岳山まで行ってみる",
+          "explain": "散策コースを外れ、岩場のある登山道へ入ることです。往復すると戻りは日没後になり、街の服とスニーカー、ライトなしで暗い岩場を下ることになります。",
           "detail": "山頂から富士山が見えるらしい。さっと下りればいい。",
           "actions": [{ "type": "say", "text": "行こうぜ。山頂で富士山見て、ぱっと戻ってくればいい", "to": "misaki" }, { "type": "setRoute", "route": ["AYAHIRO", "AKUTABA", "OTAKE_HUT", "OTAKE"], "goalNodes": ["CABLE_TOP"] }],
           "flags": ["goOtake"],
@@ -958,6 +961,7 @@
         {
           "id": "turn16",
           "label": "大岳山へ。16 時で引き返す",
+          "explain": "引き返す時刻を決めて少し先まで行く折衷案です。ただ16時に引き返しても、駅までの道のりを考えると、日の入りまでに戻れないおそれがあります。",
           "detail": "16 時になったら、どこにいても戻る。",
           "actions": [{ "type": "say", "who": "misaki", "text": "じゃあ 4 時になったら、どこにいても戻るからね", "to": "shota" }, { "type": "setRoute", "route": ["AYAHIRO", "AKUTABA", "OTAKE_HUT", "OTAKE"], "goalNodes": ["CABLE_TOP"] }],
           "flags": ["goOtake", "turn16"],
@@ -966,6 +970,7 @@
         {
           "id": "back",
           "label": "散策コースどおり駅へ戻る",
+          "explain": "装備と残り時間に合った範囲で歩き終える判断です。登山道には入らず、日の入りまで余裕を残して駅へ戻れます。",
           "detail": "この先は登山道。今日の装備では行かない。",
           "actions": [{ "type": "say", "who": "misaki", "text": "もう 3 時だし、戻ろうよ。足も冷えてきた", "to": "takuya" }, { "type": "continueRoute" }],
           "tags": ["recommended"],
@@ -984,6 +989,7 @@
         {
           "id": "back",
           "label": "お礼を言って引き返す",
+          "explain": "山を知る人の忠告を受け入れ、明るさの残るうちに下りへ切り替えることです。山頂を目前にしても、ライトのない下りを避ける判断です。",
           "actions": [{ "type": "say", "who": "misaki", "text": "ありがとうございます。……戻ろう。やっぱり無理だよ", "to": "shota" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
           "tags": ["recommended"],
           "bias": { "base": 0.45, "mods": [{ "when": { "flag": "turn16" }, "add": 0.4 }] }
@@ -991,6 +997,7 @@
         {
           "id": "go",
           "label": "「大丈夫です」と答えて進む",
+          "explain": "忠告を聞いたうえで登り続けることです。スマホのライトは照らせる範囲が狭く電池も減っていくので、暗い岩場を下る明かりとしては頼りになりません。",
           "detail": "スマホのライトもある。",
           "actions": [{ "type": "say", "who": "takuya", "text": "大丈夫っす！ スマホのライトもあるんで", "tone": "normal" }, { "type": "continueRoute" }],
           "flags": ["ignoredWarning"],
@@ -1014,6 +1021,7 @@
         {
           "id": "call",
           "label": "電波があるうちに 110 番する",
+          "explain": "電波の入る山頂で、明るさの残るうちに助けを求めることです。暗い岩場や鎖場をライトなしで下るより、動かずに救助を待って滑落や道迷いを避ける考え方です。",
           "detail": "暗い岩場を 4 人で下りる自信はない。",
           "actions": [
             { "type": "say", "who": "misaki", "text": "もしもし、大岳山の山頂にいます。4 人で、ライトがなくて下りられません", "tone": "normal" },
@@ -1029,6 +1037,7 @@
         {
           "id": "hut",
           "label": "山荘の陰まで下りて 110 番",
+          "explain": "休業中の山荘の陰まで下り、風を避けてから通報することです。少し歩く時間はかかりますが、冷たい風の当たらない待ち場所を確保できます。",
           "detail": "休業中だが建物の裏は風が当たらず、電波も入った。",
           "actions": [
             { "type": "say", "text": "山頂は風が強すぎる。山荘の陰で電話しよう", "tone": "normal" },
@@ -1041,6 +1050,7 @@
         {
           "id": "photo",
           "label": "富士山を撮ってから下りる",
+          "explain": "暗くなりかけた山頂で15分を写真と投稿に使い、そのあとスマホのライトで下ることです。下りに必要な明るさと電池を、両方減らしてしまいます。",
           "detail": "SNS に上げて 15 分。そのあとスマホのライトで下りる。",
           "actions": [
             { "type": "say", "who": "takuya", "text": "富士山すげー！ みんな並んで、撮るよ！", "tone": "normal" },
@@ -1054,6 +1064,7 @@
         {
           "id": "down",
           "label": "すぐスマホのライトで下りる",
+          "explain": "通報せずに、スマホの明かりだけで岩場と鎖場を下ることです。早く下りたい気持ちは自然ですが、暗い中の岩場は滑落と道迷いが起きやすい所です。",
           "actions": [
             { "type": "say", "text": "写真はいい。すぐ下りよう", "to": "takuya" },
             { "type": "setRoute", "route": ["OTAKE", "OTAKE_HUT", "AKUTABA", "AYAHIRO", "KOSHIKAKE", "NAGAO_J", "SHRINE", "CABLE_TOP"], "goalNodes": ["CABLE_TOP"] }
@@ -1089,6 +1100,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "その場で通報し、動かずに救助を待つことです。電話がかかる所なら、けが人を動かさずに居場所を伝えて待つのがいちばん確実です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1098,6 +1110,7 @@
         {
           "id": "seek",
           "label": "美咲さんが電波の所で 110 番",
+          "explain": "美咲さんが電波の入る所まで行って通報し、ほかはけが人のそばで待つことです。ここで電話がかからなくても、助けを呼ぶ手立てをつくれます。",
           "available": {
             "all": [
               {
@@ -1121,6 +1134,7 @@
         {
           "id": "support",
           "label": "肩を貸して駅へ下りる",
+          "explain": "翔太さんに肩を貸し、自分たちで駅を目指すことです。助けを呼ばずに済みますが、歩みが遅くなり、日没や二度目の転倒が重なりやすくなります。",
           "available": { "any": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "翔太、肩につかまれ。ゆっくりでいいから下りよう", "to": "shota" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
@@ -1129,6 +1143,7 @@
         {
           "id": "stay",
           "label": "動かずに寄り添って助けを待つ",
+          "explain": "動かずにけが人に寄り添い、風の当たらない所で待つことです。痛めた足を無理に動かさない判断ですが、通報できるなら合わせて行うことが大切です。",
           "actions": [{ "type": "say", "text": "無理に動かすのはやめよう。ここで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 0.5 }
@@ -1161,6 +1176,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "その場で通報し、動かずに救助を待つことです。電話がかかる所なら、けが人を動かさずに居場所を伝えて待つのがいちばん確実です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1170,6 +1186,7 @@
         {
           "id": "seek",
           "label": "美咲さんが電波の所で 110 番",
+          "explain": "美咲さんが電波の入る所まで行って通報し、ほかはけが人のそばで待つことです。ここで電話がかからなくても、助けを呼ぶ手立てをつくれます。",
           "available": {
             "all": [
               {
@@ -1193,6 +1210,7 @@
         {
           "id": "support",
           "label": "肩を貸して駅へ下りる",
+          "explain": "拓也さんに肩を貸し、自分たちで駅を目指すことです。助けを呼ばずに済みますが、歩みが遅くなり、日没や二度目の転倒が重なりやすくなります。",
           "available": { "any": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "拓也、肩につかまれ。ゆっくりでいいから下りよう", "to": "takuya" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
@@ -1201,6 +1219,7 @@
         {
           "id": "stay",
           "label": "動かずに寄り添って助けを待つ",
+          "explain": "動かずにけが人に寄り添い、風の当たらない所で待つことです。痛めた足を無理に動かさない判断ですが、通報できるなら合わせて行うことが大切です。",
           "actions": [{ "type": "say", "text": "無理に動かすのはやめよう。ここで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 0.5 }
@@ -1233,6 +1252,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "その場で通報し、動かずに救助を待つことです。電話がかかる所なら、けが人を動かさずに居場所を伝えて待つのがいちばん確実です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1242,6 +1262,7 @@
         {
           "id": "seek",
           "label": "美咲さんが電波の所で 110 番",
+          "explain": "美咲さんが電波の入る所まで行って通報し、ほかはけが人のそばで待つことです。ここで電話がかからなくても、助けを呼ぶ手立てをつくれます。",
           "available": {
             "all": [
               {
@@ -1265,6 +1286,7 @@
         {
           "id": "support",
           "label": "肩を貸して駅へ下りる",
+          "explain": "大輔さんに肩を貸し、自分たちで駅を目指すことです。助けを呼ばずに済みますが、歩みが遅くなり、日没や二度目の転倒が重なりやすくなります。",
           "available": { "any": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "大輔、肩につかまれ。ゆっくりでいいから下りよう", "to": "daisuke" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
@@ -1273,6 +1295,7 @@
         {
           "id": "stay",
           "label": "動かずに寄り添って助けを待つ",
+          "explain": "動かずにけが人に寄り添い、風の当たらない所で待つことです。痛めた足を無理に動かさない判断ですが、通報できるなら合わせて行うことが大切です。",
           "actions": [{ "type": "say", "text": "無理に動かすのはやめよう。ここで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 0.5 }
@@ -1305,6 +1328,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "その場で通報し、動かずに救助を待つことです。電話がかかる所なら、けが人を動かさずに居場所を伝えて待つのがいちばん確実です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1314,6 +1338,7 @@
         {
           "id": "seek",
           "label": "大輔さんが電波の所で 110 番",
+          "explain": "大輔さんが電波の入る所まで行って通報し、ほかはけが人のそばで待つことです。ここで電話がかからなくても、助けを呼ぶ手立てをつくれます。",
           "available": {
             "all": [
               {
@@ -1337,6 +1362,7 @@
         {
           "id": "support",
           "label": "肩を貸して駅へ下りる",
+          "explain": "美咲さんに肩を貸し、自分たちで駅を目指すことです。助けを呼ばずに済みますが、歩みが遅くなり、日没や二度目の転倒が重なりやすくなります。",
           "available": { "any": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.state", "op": "==", "value": "RESTING" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "美咲、肩につかまれ。ゆっくりでいいから下りよう", "to": "misaki" }, { "type": "setFlag", "flag": "headedDown" }, { "type": "goToNode", "node": "CABLE_TOP", "then": "continue" }],
@@ -1345,6 +1371,7 @@
         {
           "id": "stay",
           "label": "動かずに寄り添って助けを待つ",
+          "explain": "動かずにけが人に寄り添い、風の当たらない所で待つことです。痛めた足を無理に動かさない判断ですが、通報できるなら合わせて行うことが大切です。",
           "actions": [{ "type": "say", "text": "無理に動かすのはやめよう。ここで待とう", "tone": "normal" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 0.5 }
@@ -1379,6 +1406,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "明るくなって電話がかかるなら、すぐに通報して居場所を伝えることです。救助隊が動ける朝のうちに知らせられます。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1388,6 +1416,7 @@
         {
           "id": "seek",
           "label": "美咲さんが電波の所で 110 番",
+          "explain": "美咲さんが電波の入る所まで行って通報し、ほかは翔太さんのそばに残ることです。歩けない人を動かさずに、助けを呼ぶ手立てをつくれます。",
           "available": {
             "all": [
               {
@@ -1411,6 +1440,7 @@
         {
           "id": "wait",
           "label": "翔太さんのそばで助けを呼ぶ",
+          "explain": "歩けない翔太さんのそばを離れず、声を出して助けを呼び続けることです。そばにはいられますが、電話で知らせない限り、居場所は救助側に伝わりにくいままです。",
           "actions": [{ "type": "say", "text": "おーい！ けが人がいます！ 誰かいませんか！", "tone": "shout" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "bias": { "base": 0.5 }
         }
@@ -1444,6 +1474,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "明るくなって電話がかかるなら、すぐに通報して居場所を伝えることです。救助隊が動ける朝のうちに知らせられます。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1453,6 +1484,7 @@
         {
           "id": "seek",
           "label": "美咲さんが電波の所で 110 番",
+          "explain": "美咲さんが電波の入る所まで行って通報し、ほかは拓也さんのそばに残ることです。歩けない人を動かさずに、助けを呼ぶ手立てをつくれます。",
           "available": {
             "all": [
               {
@@ -1476,6 +1508,7 @@
         {
           "id": "wait",
           "label": "拓也さんのそばで助けを呼ぶ",
+          "explain": "歩けない拓也さんのそばを離れず、声を出して助けを呼び続けることです。そばにはいられますが、電話で知らせない限り、居場所は救助側に伝わりにくいままです。",
           "actions": [{ "type": "say", "text": "おーい！ けが人がいます！ 誰かいませんか！", "tone": "shout" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "bias": { "base": 0.5 }
         }
@@ -1509,6 +1542,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "明るくなって電話がかかるなら、すぐに通報して居場所を伝えることです。救助隊が動ける朝のうちに知らせられます。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1518,6 +1552,7 @@
         {
           "id": "seek",
           "label": "美咲さんが電波の所で 110 番",
+          "explain": "美咲さんが電波の入る所まで行って通報し、ほかは大輔さんのそばに残ることです。歩けない人を動かさずに、助けを呼ぶ手立てをつくれます。",
           "available": {
             "all": [
               {
@@ -1541,6 +1576,7 @@
         {
           "id": "wait",
           "label": "大輔さんのそばで助けを呼ぶ",
+          "explain": "歩けない大輔さんのそばを離れず、声を出して助けを呼び続けることです。そばにはいられますが、電話で知らせない限り、居場所は救助側に伝わりにくいままです。",
           "actions": [{ "type": "say", "text": "おーい！ けが人がいます！ 誰かいませんか！", "tone": "shout" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "bias": { "base": 0.5 }
         }
@@ -1574,6 +1610,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "明るくなって電話がかかるなら、すぐに通報して居場所を伝えることです。救助隊が動ける朝のうちに知らせられます。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、山で仲間が足をけがして歩けません", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1583,6 +1620,7 @@
         {
           "id": "seek",
           "label": "大輔さんが電波の所で 110 番",
+          "explain": "大輔さんが電波の入る所まで行って通報し、ほかは美咲さんのそばに残ることです。歩けない人を動かさずに、助けを呼ぶ手立てをつくれます。",
           "available": {
             "all": [
               {
@@ -1606,6 +1644,7 @@
         {
           "id": "wait",
           "label": "美咲さんのそばで助けを呼ぶ",
+          "explain": "歩けない美咲さんのそばを離れず、声を出して助けを呼び続けることです。そばにはいられますが、電話で知らせない限り、居場所は救助側に伝わりにくいままです。",
           "actions": [{ "type": "say", "text": "おーい！ けが人がいます！ 誰かいませんか！", "tone": "shout" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "bias": { "base": 0.5 }
         }
@@ -1639,6 +1678,7 @@
         {
           "id": "wait",
           "label": "動かずに寄り添って救助を待つ",
+          "explain": "通報が済んでいるなら、動かずに4人で体を寄せ合って待つことです。動き回ると救助隊が居場所を探しにくくなり、体力も失います。",
           "detail": "通報は済んだ。動けば見つけてもらえない。",
           "available": { "all": [{ "flag": "phoned" }] },
           "hideIfUnavailable": true,
@@ -1649,6 +1689,7 @@
         {
           "id": "bivouac",
           "label": "風の当たらない所で朝を待つ",
+          "explain": "風を避けられる所で4人で寄り添い、夜をやり過ごして明るくなってから駅へ下ることです。暗い中を歩かず、風と冷えを減らすことを優先します。",
           "detail": "4 人で寄り添い、明るくなったら駅へ下りる。",
           "available": { "all": [{ "not": { "flag": "phoned" } }] },
           "hideIfUnavailable": true,
@@ -1664,6 +1705,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "震えが強くなったこの段階で、その場で通報して救助を待つことです。指が動かなくなる前に、電話を操作できるうちに知らせることが大切です。",
           "available": {
             "all": [
               { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
@@ -1678,6 +1720,7 @@
         {
           "id": "keep_walking",
           "label": "歩いて体を温める",
+          "explain": "歩いて体を温めようとすることです。一時的に温かく感じても、街着とスニーカーで夜の山道を歩き続けると疲れと冷えが重なり、転倒や道迷いも起きやすくなります。",
           "available": { "all": [{ "var": "mates.unwellCount", "op": "==", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "setPace", "factor": 1.1 }, { "type": "continueRoute" }],
@@ -1714,6 +1757,7 @@
         {
           "id": "wait",
           "label": "動かずに寄り添って救助を待つ",
+          "explain": "通報が済んでいるなら、動かずに4人で体を寄せ合って待つことです。動き回ると救助隊が居場所を探しにくくなり、体力も失います。",
           "detail": "通報は済んだ。動けば見つけてもらえない。",
           "available": { "all": [{ "flag": "phoned" }] },
           "hideIfUnavailable": true,
@@ -1724,6 +1768,7 @@
         {
           "id": "bivouac",
           "label": "風の当たらない所で朝を待つ",
+          "explain": "風を避けられる所で4人で寄り添い、夜をやり過ごして明るくなってから駅へ下ることです。暗い中を歩かず、風と冷えを減らすことを優先します。",
           "detail": "4 人で寄り添い、明るくなったら駅へ下りる。",
           "available": { "all": [{ "not": { "flag": "phoned" } }] },
           "hideIfUnavailable": true,
@@ -1739,6 +1784,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "震えが強くなったこの段階で、その場で通報して救助を待つことです。指が動かなくなる前に、電話を操作できるうちに知らせることが大切です。",
           "available": {
             "all": [
               { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
@@ -1753,6 +1799,7 @@
         {
           "id": "keep_walking",
           "label": "歩いて体を温める",
+          "explain": "歩いて体を温めようとすることです。一時的に温かく感じても、街着とスニーカーで夜の山道を歩き続けると疲れと冷えが重なり、転倒や道迷いも起きやすくなります。",
           "available": { "all": [{ "var": "mates.unwellCount", "op": "==", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "setPace", "factor": 1.1 }, { "type": "continueRoute" }],
@@ -1790,6 +1837,7 @@
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "道が分からないまま動き回らず、通報して居場所を伝えることです。急な斜面と岩の中を歩くより、見つけてもらいやすい状態で待てます。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、大岳山の近くで道に迷って、ひと晩過ごしました。4 人です", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1799,14 +1847,15 @@
         {
           "id": "gps",
           "label": "スマホの地図で道へ登り返す",
+          "explain": "スマホの地図で自分の位置を確かめ、登山道のある斜面の上へ戻ることです。電池は使いますが、位置が分かれば方向を確かめながら動けます。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "地図だと、道はこの上だ。登り返そう", "tone": "normal" }, { "type": "checkPosition" }, { "type": "navigateToTrail" }],
           "tags": ["recommended"],
           "bias": { "base": 0.7 }
         },
-        { "id": "backtrack", "label": "来た方へ斜面を登り返す", "actions": [{ "type": "say", "text": "来た方へ戻ろう。上に道があるはずだ", "tone": "normal" }, { "type": "backtrack" }], "bias": { "base": 0.6 } },
-        { "id": "wait", "label": "動かずに交代で助けを呼ぶ", "actions": [{ "type": "say", "text": "おーい！ 誰かいませんか！", "tone": "shout" }, { "type": "stayPut" }], "bias": { "base": 0.4 } }
+        { "id": "backtrack", "label": "来た方へ斜面を登り返す", "explain": "来たと思う方向へ斜面を登り返すことです。夜のうちの道筋は記憶があいまいで、地図で位置を確かめないと、さらに道から離れるおそれがあります。", "actions": [{ "type": "say", "text": "来た方へ戻ろう。上に道があるはずだ", "tone": "normal" }, { "type": "backtrack" }], "bias": { "base": 0.6 } },
+        { "id": "wait", "label": "動かずに交代で助けを呼ぶ", "explain": "動かずに交代で声を出して助けを呼ぶことです。体力と電池は温存できますが、通報しなければ、捜索が始まるまで時間がかかりやすくなります。", "actions": [{ "type": "say", "text": "おーい！ 誰かいませんか！", "tone": "shout" }, { "type": "stayPut" }], "bias": { "base": 0.4 } }
       ]
     },
     {
@@ -1820,6 +1869,7 @@
         {
           "id": "call",
           "label": "110 番して翔太さんのことを伝える",
+          "explain": "翔太さんが戻らないことを、すぐに通報して伝えることです。言うことがおかしかったのは強い冷えの兆しとも考えられ、暗い斜面を自分たちで探すより、早く知らせることが優先です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [
@@ -1835,6 +1885,7 @@
         {
           "id": "seek_daisuke",
           "label": "大輔さんが電波の所で 110 番",
+          "explain": "大輔さんがスマホのライトで電波の入る山頂付近まで登り、通報することです。助けは呼べますが、暗い中でもう1人が離れることになり、さらにはぐれるおそれがあります。",
           "detail": "スマホのライトで、電波の入った山頂のあたりまで登る。",
           "available": {
             "all": [
@@ -1858,10 +1909,11 @@
           ],
           "bias": { "base": 0.5 }
         },
-        { "id": "shout", "label": "動かずに名前を呼び続ける", "actions": [{ "type": "say", "text": "翔太！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
+        { "id": "shout", "label": "動かずに名前を呼び続ける", "explain": "その場にとどまり、翔太さんの名前を呼び続けることです。残った人がこれ以上はぐれずに済み、声が翔太さんの戻る手がかりになります。", "actions": [{ "type": "say", "text": "翔太！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
         {
           "id": "search",
           "label": "近くの斜面を探しに下りる",
+          "explain": "スマホのライトで近くの斜面を探しに下りることです。仲間を思う自然な行動ですが、暗い急斜面では探す人も道を外れたり滑落したりしやすく、二次遭難につながります。",
           "available": {
             "any": [
               { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
@@ -1893,6 +1945,7 @@
         {
           "id": "call",
           "label": "110 番して拓也さんのことを伝える",
+          "explain": "拓也さんが戻らないことを、すぐに通報して伝えることです。言うことがおかしかったのは強い冷えの兆しとも考えられ、暗い斜面を自分たちで探すより、早く知らせることが優先です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [
@@ -1908,6 +1961,7 @@
         {
           "id": "seek_daisuke",
           "label": "大輔さんが電波の所で 110 番",
+          "explain": "大輔さんがスマホのライトで電波の入る山頂付近まで登り、通報することです。助けは呼べますが、暗い中でもう1人が離れることになり、さらにはぐれるおそれがあります。",
           "detail": "スマホのライトで、電波の入った山頂のあたりまで登る。",
           "available": {
             "all": [
@@ -1931,10 +1985,11 @@
           ],
           "bias": { "base": 0.5 }
         },
-        { "id": "shout", "label": "動かずに名前を呼び続ける", "actions": [{ "type": "say", "text": "拓也！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
+        { "id": "shout", "label": "動かずに名前を呼び続ける", "explain": "その場にとどまり、拓也さんの名前を呼び続けることです。残った人がこれ以上はぐれずに済み、声が拓也さんの戻る手がかりになります。", "actions": [{ "type": "say", "text": "拓也！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
         {
           "id": "search",
           "label": "近くの斜面を探しに下りる",
+          "explain": "スマホのライトで近くの斜面を探しに下りることです。仲間を思う自然な行動ですが、暗い急斜面では探す人も道を外れたり滑落したりしやすく、二次遭難につながります。",
           "available": {
             "any": [
               { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
@@ -1966,6 +2021,7 @@
         {
           "id": "call",
           "label": "110 番して大輔さんのことを伝える",
+          "explain": "大輔さんが戻らないことを、すぐに通報して伝えることです。言うことがおかしかったのは強い冷えの兆しとも考えられ、暗い斜面を自分たちで探すより、早く知らせることが優先です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [
@@ -1981,6 +2037,7 @@
         {
           "id": "seek_misaki",
           "label": "美咲さんが電波の所で 110 番",
+          "explain": "美咲さんがスマホのライトで電波の入る山頂付近まで登り、通報することです。助けは呼べますが、暗い中でもう1人が離れることになり、さらにはぐれるおそれがあります。",
           "detail": "スマホのライトで、電波の入った山頂のあたりまで登る。",
           "available": {
             "all": [
@@ -2004,10 +2061,11 @@
           ],
           "bias": { "base": 0.5 }
         },
-        { "id": "shout", "label": "動かずに名前を呼び続ける", "actions": [{ "type": "say", "text": "大輔！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
+        { "id": "shout", "label": "動かずに名前を呼び続ける", "explain": "その場にとどまり、大輔さんの名前を呼び続けることです。残った人がこれ以上はぐれずに済み、声が大輔さんの戻る手がかりになります。", "actions": [{ "type": "say", "text": "大輔！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
         {
           "id": "search",
           "label": "近くの斜面を探しに下りる",
+          "explain": "スマホのライトで近くの斜面を探しに下りることです。仲間を思う自然な行動ですが、暗い急斜面では探す人も道を外れたり滑落したりしやすく、二次遭難につながります。",
           "available": {
             "any": [
               { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
@@ -2039,6 +2097,7 @@
         {
           "id": "call",
           "label": "110 番して美咲さんのことを伝える",
+          "explain": "美咲さんが戻らないことを、すぐに通報して伝えることです。言うことがおかしかったのは強い冷えの兆しとも考えられ、暗い斜面を自分たちで探すより、早く知らせることが優先です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [
@@ -2054,6 +2113,7 @@
         {
           "id": "seek_daisuke",
           "label": "大輔さんが電波の所で 110 番",
+          "explain": "大輔さんがスマホのライトで電波の入る山頂付近まで登り、通報することです。助けは呼べますが、暗い中でもう1人が離れることになり、さらにはぐれるおそれがあります。",
           "detail": "スマホのライトで、電波の入った山頂のあたりまで登る。",
           "available": {
             "all": [
@@ -2077,10 +2137,11 @@
           ],
           "bias": { "base": 0.5 }
         },
-        { "id": "shout", "label": "動かずに名前を呼び続ける", "actions": [{ "type": "say", "text": "美咲！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
+        { "id": "shout", "label": "動かずに名前を呼び続ける", "explain": "その場にとどまり、美咲さんの名前を呼び続けることです。残った人がこれ以上はぐれずに済み、声が美咲さんの戻る手がかりになります。", "actions": [{ "type": "say", "text": "美咲！ こっちだ！ 声のする方に来て！", "tone": "shout" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
         {
           "id": "search",
           "label": "近くの斜面を探しに下りる",
+          "explain": "スマホのライトで近くの斜面を探しに下りることです。仲間を思う自然な行動ですが、暗い急斜面では探す人も道を外れたり滑落したりしやすく、二次遭難につながります。",
           "available": {
             "any": [
               { "all": [{ "var": "c.shota.phone.has", "op": "==", "value": true }, { "var": "c.shota.phone.batteryPct", "op": ">", "value": 0 }] },
@@ -2114,6 +2175,7 @@
         {
           "id": "village",
           "label": "そのまま駅へ向かう",
+          "explain": "宿坊街の明かりが近いなら、暗くても人のいる所へそのまま向かうことです。距離が短く道もはっきりしているので、止まるより早く安全な所に着けます。",
           "detail": "宿坊街はすぐそこ。宿坊や店の明かりがある。",
           "available": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] },
           "hideIfUnavailable": true,
@@ -2124,6 +2186,7 @@
         {
           "id": "call",
           "label": "電波があるうちに 110 番する",
+          "explain": "暗くなった時点で、電波が入るうちに通報し、その場で待つことです。夜は救助隊も入れなくても、居場所を早く知らせておくと朝の救助につながります。",
           "available": {
             "all": [
               { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
@@ -2145,6 +2208,7 @@
         {
           "id": "bivouac",
           "label": "動かずに寄り添って朝を待つ",
+          "explain": "暗い中を動かず、4人で寄り添って夜明けを待ち、明るくなってから駅へ下ることです。寒さに耐える夜になりますが、暗闇での転倒や道迷いを避けられます。",
           "detail": "4 人で寄り添い、明るくなったら駅へ下りる。",
           "available": { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } },
           "hideIfUnavailable": true,
@@ -2160,6 +2224,7 @@
         {
           "id": "phone_back",
           "label": "スマホのライトで駅へ引き返す",
+          "explain": "山頂をあきらめ、スマホの明かりを1台ずつ使って駅へ引き返すことです。電池を交代で使う工夫ですが、照らせるのは足元だけで、暗い山道では道を外れやすくなります。",
           "detail": "ライトは 1 台ずつ、電池を交代で使う。",
           "available": {
             "all": [
@@ -2190,6 +2255,7 @@
         {
           "id": "phone_up",
           "label": "スマホのライトで山頂まで行く",
+          "explain": "暗くなってからさらに山頂へ登ることです。山頂が近くても、そのぶん帰りの道のりが延び、ライトのない岩場の下りがすべて夜にずれ込みます。",
           "detail": "山頂はもうすぐだ。",
           "available": {
             "all": [
@@ -2215,6 +2281,7 @@
         {
           "id": "phone",
           "label": "スマホのライトで下り続ける",
+          "explain": "スマホの明かりを交代で使い、暗い中を下り続けることです。止まるより進みたい気持ちは自然ですが、足元しか見えないと道を外れたことに気づきにくくなります。",
           "detail": "ライトは 1 台ずつ、電池を交代で使う。",
           "available": {
             "all": [
@@ -2238,6 +2305,7 @@
         {
           "id": "climb_call",
           "label": "山荘まで登り返して 110 番",
+          "explain": "電波の入っていた大岳山荘まで登り返して通報することです。助けは呼べますが、暗い中を歩く時間が増え、駅からは離れることになります。",
           "detail": "大岳山荘の前では電波が入っていた。",
           "available": {
             "all": [
@@ -2266,6 +2334,7 @@
         {
           "id": "call",
           "label": "電波があるうちに 110 番する",
+          "explain": "道が分からなくなった時点で、電波が入るうちに通報することです。迷ったまま動き回るより、居場所を知らせて待つほうが見つけてもらいやすくなります。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もしもし、大岳山の近くで道が分からなくなりました。4 人です", "tone": "normal" }, { "type": "setFlag", "flag": "phoned" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -2275,6 +2344,7 @@
         {
           "id": "stay",
           "label": "動かずに寄り添って朝を待つ",
+          "explain": "暗い中でこれ以上動かず、寄り添って朝を待つことです。急な斜面での滑落を避ける判断で、明るくなれば道も見つけやすくなります。",
           "available": { "var": "sun.isDark", "op": "==", "value": true },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "これ以上動いたら落ちる。朝まで待とう", "tone": "normal" }, { "type": "bivouac", "until": "dawn", "findLee": true }],
@@ -2284,15 +2354,17 @@
         {
           "id": "gps",
           "label": "スマホの地図で道に戻る",
+          "explain": "スマホの地図で現在地を確かめ、登山道へ戻ることです。位置が分かれば戻る方向は見えますが、暗い斜面を歩くことになり、電池も減ります。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "checkPosition" }, { "type": "navigateToTrail" }],
           "bias": { "base": 0.6 }
         },
-        { "id": "backtrack", "label": "来た方へ戻る", "available": { "var": "sun.isDark", "op": "==", "value": false }, "hideIfUnavailable": true, "actions": [{ "type": "backtrack" }], "bias": { "base": 0.6 } },
+        { "id": "backtrack", "label": "来た方へ戻る", "explain": "来たと思う方向へ戻ることです。道迷いの基本の対処ですが、暗くて足元しか見えない中では、来た道を正確にたどるのは難しくなります。", "available": { "var": "sun.isDark", "op": "==", "value": false }, "hideIfUnavailable": true, "actions": [{ "type": "backtrack" }], "bias": { "base": 0.6 } },
         {
           "id": "descend",
           "label": "下へ下りて道を探す",
+          "explain": "下へ下りて道を探すことです。下れば沢や崖に行き当たりやすく、登り返す体力も奪われるため、道迷いでは避けるべき動きとされています。",
           "actions": [{ "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.5, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.5 }, "add": 0.6 }] }

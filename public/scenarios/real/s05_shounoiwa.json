@@ -174,6 +174,7 @@
         {
           "id": "go",
           "label": "このまま出発する",
+          "explain": "「奥多摩に行く」としか伝えず、登山届も出さずに、踏み跡の薄い尾根を単独で歩く判断です。何もなければ困りませんが、帰らなかったときに、どこを探せばよいか誰にも分かりません。",
           "detail": "日帰りだし、いつものように歩けばいい。",
           "actions": [{ "type": "continueRoute" }],
           "bias": { "base": 1.2 }
@@ -181,6 +182,7 @@
         {
           "id": "share",
           "label": "コースを送ってから出発",
+          "explain": "家族にコースと下山予定を送り、登山届も出してから歩き出す判断です。単独でバリエーションルートを歩く日ほど、帰らなかったときの捜索の手がかりが大切になります。",
           "detail": "家族にコースと下山予定を送り、登山届も出す。",
           "actions": [{ "type": "say", "text": "コースを送っておくか。念のためだ", "tone": "whisper" }, { "type": "continueRoute" }],
           "flags": ["planShared"],
@@ -203,6 +205,7 @@
         {
           "id": "beer",
           "label": "ビールでゆっくり昼食",
+          "explain": "ビールでゆっくり1時間半休む判断です。アルコールは判断力と足元の確かさを鈍らせ、出発も遅れて、初めての薄い尾根を暗くなる時刻に近づけて下ることになります。",
           "detail": "湯を沸かして1時間半。このために来たようなものだ。",
           "actions": [
             { "type": "say", "text": "くうっ、うまい。山で飲むビールは格別だ", "tone": "whisper" },
@@ -218,6 +221,7 @@
         {
           "id": "quick",
           "label": "30分で食べて出発",
+          "explain": "短めの昼食で、ビールは下山後にとっておく判断です。初めての踏み跡の薄い尾根を、頭のはっきりした状態で、明るいうちに歩く時間を残せます。",
           "detail": "ビールは下山後。初めての尾根は明るいうちに。",
           "actions": [{ "type": "eat", "kcal": 500 }, { "type": "drink", "liters": 0.3 }, { "type": "rest", "minutes": 30 }],
           "tags": ["recommended"],
@@ -235,6 +239,7 @@
         {
           "id": "write",
           "label": "コースと下山予定を書く",
+          "explain": "小屋のノートにコースと下山予定を書き残す判断です。登山届を出していない単独行では、ここを通ったという記録が、捜索の大きな手がかりになります。",
           "actions": [{ "type": "say", "text": "鳥屋戸尾根から川乗橋へ、16時半……と", "tone": "whisper" }],
           "flags": ["wroteNotebook"],
           "tags": ["recommended"],
@@ -243,6 +248,7 @@
         {
           "id": "skip",
           "label": "書かずにおく",
+          "explain": "ノートに何も書かずに出る判断です。手間は省けますが、ここから先どこへ向かったかを示す手がかりが、どこにも残りません。",
           "detail": "わざわざ書くほどでもない。",
           "actions": [{ "type": "narrate", "text": "ノートを棚に戻した" }],
           "bias": { "base": 0.8 }
@@ -263,6 +269,7 @@
         {
           "id": "go",
           "label": "鳥屋戸尾根を下る",
+          "explain": "雲が下がって尾根が隠れ始めた中で、踏み跡が薄く分岐の多い尾根へ入る判断です。視界が悪いと、尾根の分かれ目で違う尾根に入りやすくなります。",
           "detail": "前から歩いてみたかった尾根だ。",
           "actions": [{ "type": "continueRoute" }],
           "bias": { "base": 1.0, "mods": [{ "when": { "var": "leader.bac", "op": ">", "value": 0.02 }, "add": 0.3 }] }
@@ -270,6 +277,7 @@
         {
           "id": "careful",
           "label": "分岐ごとに確かめて下る",
+          "explain": "初めての尾根を下るにあたり、分かれ目ごとに必ず止まって地図とコンパスで確かめると決める判断です。時間はかかりますが、道迷いを早いうちに防げます。",
           "detail": "尾根の分かれ目で必ず止まり、地図とコンパスを見る。",
           "actions": [{ "type": "continueRoute" }],
           "flags": ["carefulNav"],
@@ -279,6 +287,7 @@
         {
           "id": "back",
           "label": "来た道を東日原へ戻る",
+          "explain": "雲が下がり、予定より遅れているのを見て、よく歩かれた来た道へ戻る判断です。歩きたかった尾根はあきらめますが、視界の悪い中で薄い踏み跡を探さずに済みます。",
           "detail": "雲が下りてきた。初めての薄い尾根には遅い。",
           "actions": [
             { "type": "say", "text": "今日はやめておこう。また来ればいい", "tone": "whisper" },
@@ -303,6 +312,7 @@
         {
           "id": "check",
           "label": "止まって地図で確かめる",
+          "explain": "尾根が広がって踏み跡がはっきりしない所で、止まって地図で向きを確かめる判断です。広い尾根は迷いやすい場所の代表で、数分の確認が大きな違いになります。",
           "detail": "数分かかる。",
           "actions": [{ "type": "say", "text": "待てよ。こっちで合ってるか", "tone": "whisper" }, { "type": "stopAndCheck" }, { "type": "continueRoute" }],
           "tags": ["recommended"],
@@ -317,6 +327,7 @@
         {
           "id": "follow",
           "label": "正面の踏み跡を下る",
+          "explain": "歩きやすそうな正面の尾根を、確かめずに下る判断です。地図では道は南へ向きを変えるはずで、「下れば道に出る」という考えは、道迷いでいちばん危ない考え方です。",
           "detail": "尾根を下れば、そのうち道に出るはずだ。",
           "actions": [{ "type": "continueRoute" }],
           "tags": ["risky"],
@@ -351,6 +362,7 @@
         {
           "id": "climb_back",
           "label": "斜面を登り返して道に戻る",
+          "explain": "きつくても、昨日下ってきた斜面を登り返して尾根の道に戻る判断です。道に戻れば現在地が分かり、捜索する人にも見つけてもらいやすくなります。",
           "detail": "きついが、尾根の道に戻れば現在地が分かる。",
           "actions": [{ "type": "say", "text": "来た方へ登り返そう。道は上にある", "tone": "whisper" }, { "type": "backtrack" }],
           "tags": ["recommended"],
@@ -359,6 +371,7 @@
         {
           "id": "descend",
           "label": "谷を下って集落を目指す",
+          "explain": "「谷を下れば集落に出る」は、道迷いでいちばん危ない考え方です。谷は滝や崖で行き詰まりやすく、雨が強まると水かさも増します。",
           "detail": "下れば川に出る。川沿いに道があるはずだ。",
           "actions": [{ "type": "say", "text": "下へ行けば集落に出るはずだ", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
@@ -367,6 +380,7 @@
         {
           "id": "stay",
           "label": "動かずに待つ",
+          "explain": "動かずに待ち、体力と水を残す判断です。家族が届け出ていれば捜索は始まりますが、行き先を詳しく伝えていなければ、ここまで来るのに時間がかかります。",
           "actions": [{ "type": "bivouac", "until": "rescue", "findLee": false }],
           "bias": { "base": 0.4 }
         }
@@ -392,6 +406,7 @@
         {
           "id": "stay",
           "label": "ツエルトで待つ",
+          "explain": "けがの体で動かず、ツエルトの中で体力と水を残し、ときどき笛で居場所を知らせる判断です。けがをして道を外れたときの、基本の待ち方です。",
           "detail": "体力と水を残し、ときどき笛を吹く。",
           "actions": [{ "type": "say", "text": "動かない方がいい。体力を残そう", "tone": "whisper" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
@@ -400,6 +415,7 @@
         {
           "id": "crawl_up",
           "label": "這って尾根の道へ登る",
+          "explain": "人が通るかもしれない尾根の道へ、けがの体で這って登る判断です。見つけてもらいやすくなる一方、体力を大きく使い、もう一度転落する恐れもあります。",
           "detail": "道に出れば誰か通るかもしれない。けがの体で登る。",
           "actions": [{ "type": "say", "text": "上に戻ろう。少しずつでいい", "tone": "whisper" }, { "type": "backtrack" }],
           "bias": { "base": 0.4 }
@@ -407,6 +423,7 @@
         {
           "id": "slide",
           "label": "斜面を滑り下りる",
+          "explain": "あるかどうか分からない林道を目指して、けがの体で斜面を下る判断です。もう一度落ちる危険が大きく、谷へ入るほど見つけてもらいにくくなります。",
           "detail": "下に林道があるかもしれない。",
           "actions": [{ "type": "say", "text": "下に道があるはずだ", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
@@ -434,6 +451,7 @@
         {
           "id": "stay",
           "label": "乾かして待つ",
+          "explain": "雨の上がった間に湿った服を替えて体を乾かし、動かずに待つ判断です。体温と体力を守り、捜索が来るまで持ちこたえることを優先します。",
           "actions": [{ "type": "say", "text": "あきらめない。誰か来る", "tone": "whisper" }, { "type": "changeDry" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
           "bias": { "base": 0.7 }
@@ -441,12 +459,14 @@
         {
           "id": "crawl_up",
           "label": "這って尾根へ登る",
+          "explain": "動ける距離がわずかな体で、尾根へ這い登る判断です。上空や尾根から見つけてもらいやすくなる見込みと、体力を使い果たす恐れとの引き換えです。",
           "actions": [{ "type": "backtrack" }],
           "bias": { "base": 0.4 }
         },
         {
           "id": "slide",
           "label": "斜面を下る",
+          "explain": "弱った体で斜面を下る判断です。「ここで終わるくらいなら」という焦りから選ばれやすい行動ですが、転落の危険が大きく、見つけてもらいにくい谷へ入ることになります。",
           "actions": [{ "type": "say", "text": "このままここで終わるくらいなら……", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.5 }
@@ -465,6 +485,7 @@
         {
           "id": "call",
           "label": "スマホで110番",
+          "explain": "電波が届くうちにスマホで救助を頼み、動かずに待つ判断です。動けないけがでは、早く救助を頼むほど助かる見込みが上がります。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.radio", "op": ">=", "value": 0.15 }] },
           "unavailableText": "電波が届いていない",
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "say", "text": "山で滑落して、けがをしました。動けません", "tone": "normal" }, { "type": "waitRescue" }],
@@ -474,6 +495,7 @@
         {
           "id": "seek_signal",
           "label": "這い上がって電波を探す",
+          "explain": "電波を探して、けがの体で斜面を這い上がる判断です。つながれば救助を呼べますが、けがを悪くしたり、もう一度転落したりする恐れがあります。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.injury", "op": "!=", "value": "severeTrauma" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "seekSignal" }],
@@ -482,6 +504,7 @@
         {
           "id": "bivouac",
           "label": "ツエルトを張って待つ",
+          "explain": "足首を固定し、少しでも平らな所にツエルトを張って、着込んで待つ判断です。けがを悪くせず、雨と冷えから身を守れます。",
           "detail": "足首を固定し、少しでも平らな所に張る。",
           "actions": [
             { "type": "narrate", "text": "ストックとテーピングで足首を固定し、木の根元にツエルトを張った" },
@@ -495,6 +518,7 @@
         {
           "id": "phone",
           "label": "なくしたスマホを探す",
+          "explain": "連絡の頼みであるスマホを、けがの体で斜面を這って探す判断です。見つかれば救助を呼べますが、落ち葉の急斜面で動き回ると、けがを悪くする恐れがあります。",
           "available": { "var": "leader.phone.has", "op": "==", "value": false },
           "hideIfUnavailable": true,
           "detail": "落ちたのはこのあたりのはずだ。",
@@ -509,6 +533,7 @@
         {
           "id": "crawl_up",
           "label": "這って尾根の道へ戻る",
+          "explain": "けがの体で、落ちた斜面を這って登り返す判断です。道に戻れば見つけてもらいやすくなる一方、体力を大きく使い、もう一度落ちる恐れもあります。",
           "detail": "けがの体で、落ちた斜面を登る。",
           "available": { "var": "leader.injury", "op": "!=", "value": "severeTrauma" },
           "hideIfUnavailable": true,
@@ -518,6 +543,7 @@
         {
           "id": "slide",
           "label": "斜面を滑り下りる",
+          "explain": "どこに出るか分からないまま、けがの体で斜面を下る判断です。谷へ入ると滝や崖で行き詰まりやすく、見つけてもらいにくくなります。",
           "detail": "下に道があるはず。どこに出るかは分からない。",
           "available": { "var": "leader.injury", "op": "!=", "value": "severeTrauma" },
           "hideIfUnavailable": true,
@@ -530,10 +556,10 @@
     "darkness": {
       "situation": "森の中が暗くなり、踏み跡が見分けにくい。ヘッドランプはザックの中。どうする？",
       "options": [
-        { "id": "continue", "label": "ヘッドランプをつけて進む", "available": { "var": "leader.state", "op": "==", "value": "WALKING" }, "hideIfUnavailable": true, "actions": [{ "type": "continueRoute" }], "bias": { "base": 1.0, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.5 }, "add": 0.4 }] } },
-        { "id": "continue_off", "label": "ライトをつけて斜面を進む", "detail": "登山道の上ではない。", "available": { "not": { "var": "leader.state", "op": "==", "value": "WALKING" } }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.8 }], "tags": ["risky"], "bias": { "base": 1.0 } },
-        { "id": "bivouac", "label": "その場でビバークする", "actions": [{ "type": "bivouac", "until": "dawn", "findLee": true }], "tags": ["recommended"], "bias": { "base": 0.4 } },
-        { "id": "toShelter", "label": "近くの小屋を目指す", "available": { "all": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.nearestShelterM", "op": "<=", "value": 2000 }] }, "hideIfUnavailable": true, "actions": [{ "type": "goToNode", "node": "$nearestShelter", "then": "stay" }], "bias": { "base": 0.6 } }
+        { "id": "continue", "label": "ヘッドランプをつけて進む", "explain": "ヘッドランプを出せば歩けますが、暗い森では踏み跡の薄い道を見失いやすくなります。道がはっきりしている所なら現実的です。", "available": { "var": "leader.state", "op": "==", "value": "WALKING" }, "hideIfUnavailable": true, "actions": [{ "type": "continueRoute" }], "bias": { "base": 1.0, "mods": [{ "when": { "var": "leader.def.riskTolerance", "op": ">", "value": 0.5 }, "add": 0.4 }] } },
+        { "id": "continue_off", "label": "ライトをつけて斜面を進む", "explain": "登山道を外れた斜面を、暗い中ライトで進む判断です。足元も方向も分かりにくく、転落と道迷いの危険が重なります。", "detail": "登山道の上ではない。", "available": { "not": { "var": "leader.state", "op": "==", "value": "WALKING" } }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.8 }], "tags": ["risky"], "bias": { "base": 1.0 } },
+        { "id": "bivouac", "label": "その場でビバークする", "explain": "暗いうちは動かず、ツエルトをかぶって着込み、朝を待つ判断です。装備がそろっていれば、暗い中を薄い踏み跡で歩くより安全なことが多いです。", "actions": [{ "type": "bivouac", "until": "dawn", "findLee": true }], "tags": ["recommended"], "bias": { "base": 0.4 } },
+        { "id": "toShelter", "label": "近くの小屋を目指す", "explain": "近くの小屋を目指せば、風雨を避けて夜を越せます。暗い中、踏み跡の薄い道で確実にたどり着けるかどうかが鍵です。", "available": { "all": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.nearestShelterM", "op": "<=", "value": 2000 }] }, "hideIfUnavailable": true, "actions": [{ "type": "goToNode", "node": "$nearestShelter", "then": "stay" }], "bias": { "base": 0.6 } }
       ]
     }
   },

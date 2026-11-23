@@ -593,6 +593,7 @@
         {
           "id": "peak",
           "label": "鷹ノ巣山の山頂へ登る",
+          "explain": "雷鳴がまだないことを理由に、開けた山頂へ向かいます。急に暗くなった空は雷雲の前触れのことがあり、鳴り始めたとき高い所にいると逃げ場がありません。",
           "detail": "雷鳴はまだない。ピークは全部踏みたい。",
           "actions": [{ "type": "say", "text": "まだ鳴ってない。さっさと登ろう", "tone": "whisper" }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -601,6 +602,7 @@
         {
           "id": "radar",
           "label": "雨雲レーダーを見る",
+          "explain": "進む前に、雨雲レーダーで雲の動きを確かめます。数分かかりますが、空模様を当て推量でなく情報で判断でき、次の一手を選びやすくなります。",
           "detail": "電波が入れば、雨雲の動きが分かる。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.radio", "op": ">=", "value": 0.1 }] },
           "unavailableText": "電波が入らない",
@@ -611,6 +613,7 @@
         {
           "id": "maki",
           "label": "山頂を巻いて避難小屋へ",
+          "explain": "山頂をあきらめ、樹林の巻き道で先へ進みます。高い所は避けられますが、避難小屋で止まらず先を急ぐので、途中で雷雲につかまる可能性は残ります。",
           "detail": "山頂は惜しいが、樹林の中を行ける。",
           "actions": [
             { "type": "say", "text": "山頂はまた今度。巻いていこう", "tone": "whisper" },
@@ -622,6 +625,7 @@
         {
           "id": "hut",
           "label": "避難小屋へ急ぎ、様子を見る",
+          "explain": "降り出す前に避難小屋へ向かい、そこで空の様子を見ます。予定は遅れますが、雷雨になっても屋根と壁のある所でやり過ごせます。",
           "detail": "降り出す前に、屋根のある所へ。",
           "actions": [{ "type": "say", "text": "嫌な空だ。避難小屋まで行こう", "tone": "whisper" }, { "type": "goToNode", "node": "HUT_TAKA", "then": "stay" }],
           "tags": ["recommended"],
@@ -640,6 +644,7 @@
         {
           "id": "hut",
           "label": "巻き道で避難小屋へ急ぐ",
+          "explain": "雷雲が近づくと分かった時点で、巻き道で避難小屋へ急ぎます。七ツ石小屋への到着は遅れますが、雷雨を屋根の下で過ごせます。",
           "detail": "雷雲が過ぎるまで待つ。七ツ石小屋は遅くなる。",
           "actions": [{ "type": "say", "text": "これはまずい。避難小屋に逃げ込もう", "tone": "whisper" }, { "type": "setFlag", "flag": "maki" }, { "type": "goToNode", "node": "HUT_TAKA", "then": "stay" }],
           "tags": ["recommended"],
@@ -648,6 +653,7 @@
         {
           "id": "maki",
           "label": "ピークを全部巻いて急ぐ",
+          "explain": "樹林の巻き道を急ぎ、雷雲より先に抜けようとします。高い所は避けられますが、30 分ほどで雷雲がかかるなか、行程の多くを外で過ごすことになります。",
           "detail": "巻き道は樹林の中。急げば 15 時台に七ツ石小屋。",
           "actions": [
             { "type": "say", "text": "全部巻いて、急いで抜けよう", "tone": "whisper" },
@@ -660,6 +666,7 @@
         {
           "id": "peak",
           "label": "急いで山頂を踏んでいく",
+          "explain": "雷雲が来ると分かっていながら、開けた山頂へ急ぎます。雷雲と競争する形になり、間に合わなければいちばん高い所で雷に遭います。",
           "detail": "山頂まで 30 分。雷雲より先に着けるかも。",
           "actions": [{ "type": "say", "text": "急げば間に合う。山頂だけ踏んでいこう", "tone": "whisper" }, { "type": "setPace", "factor": 1.15 }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -686,6 +693,7 @@
         {
           "id": "hut",
           "label": "小屋へ急ぐ",
+          "explain": "ぬれても、近くの小屋まで急ぎます。屋根と壁のある建物の中は、雷に対して安全な場所です。たどり着くまでのあいだは外にいることになります。",
           "detail": "ぬれても、屋根と壁のある所まで行く。",
           "actions": [{ "type": "say", "text": "小屋まで走るぞ", "tone": "whisper" }, { "type": "goToNode", "node": "$nearestShelter", "then": "stay" }],
           "flags": ["thunderNear", "toHut"],
@@ -695,6 +703,7 @@
         {
           "id": "safe",
           "label": "木から離れた低い所で待つ",
+          "explain": "雨具を着て、高い木から 4 m 以上離れた低い所に移り、姿勢を低くして待ちます。建物の中に入れないときの、雷に対する現実的な身の守り方です。",
           "detail": "高い木から 4 m 以上離れ、姿勢を低くして待つ。",
           "available": { "var": "leader.nearestShelterM", "op": ">=", "value": 250 },
           "hideIfUnavailable": true,
@@ -706,6 +715,7 @@
         {
           "id": "tree",
           "label": "大きな木の下で雨宿り",
+          "explain": "葉の茂った大木の下で雨をしのぎます。雨は防げますが、高い木には雷が落ちやすく、そばにいると木から人へ電気が飛び移る危険があります。",
           "detail": "葉が茂り、雨はしのげそう。やむまでここにいる。",
           "available": { "var": "leader.nearestShelterM", "op": ">=", "value": 250 },
           "hideIfUnavailable": true,
@@ -717,6 +727,7 @@
         {
           "id": "go",
           "label": "このまま予定の道を進む",
+          "explain": "雷雨のなか、予定どおりの道を歩き続けます。落雷が近いあいだも外を進むことになり、高い所を通るたびに危険にさらされます。",
           "detail": "立ち止まっても仕方がない。",
           "actions": [{ "type": "say", "text": "止まってても濡れるだけだ。行こう", "tone": "whisper" }, { "type": "continueRoute" }],
           "flags": ["thunderNear"],
@@ -743,6 +754,7 @@
         {
           "id": "safe",
           "label": "木から離れた低い所で待つ",
+          "explain": "雨具を着て、高い木から 4 m 以上離れた低い所に移り、姿勢を低くして待ちます。小屋が遠いときに取れる、雷に対する現実的な身の守り方です。",
           "detail": "高い木から 4 m 以上離れ、姿勢を低くして待つ。",
           "actions": [{ "type": "wearRainwear" }, { "type": "setFlag", "flag": "safeZone" }, { "type": "setFlag", "flag": "offTrail" }, { "type": "lightningPosture", "minutes": 40 }, { "type": "moveOffRidge", "minDropM": 30 }],
           "flags": ["thunderNear"],
@@ -752,6 +764,7 @@
         {
           "id": "tree",
           "label": "大きな木の下で雨宿り",
+          "explain": "葉の茂った大木の下で雨をしのぎます。雨は防げますが、高い木には雷が落ちやすく、そばにいると木から人へ電気が飛び移る危険があります。",
           "detail": "葉が茂り、雨はしのげそう。やむまでここにいる。",
           "actions": [{ "type": "say", "text": "とりあえずこの木の下で……", "tone": "whisper" }, { "type": "setFlag", "flag": "underTree" }, { "type": "setFlag", "flag": "offTrail" }, { "type": "moveOffRidge", "minDropM": 15 }],
           "flags": ["thunderNear"],
@@ -761,6 +774,7 @@
         {
           "id": "tent",
           "label": "テントを張って中で待つ",
+          "explain": "テントを張って中で待ちます。雨はしのげますが、テントは雷を防ぐ建物にはなりません。ぬれない安心感で、雷の危険を見落としやすくなります。",
           "detail": "中なら雨にぬれない。やむまで待つ。",
           "actions": [
             { "type": "say", "text": "テント張っちゃおう。中なら濡れない", "tone": "whisper" },
@@ -776,6 +790,7 @@
         {
           "id": "go",
           "label": "このまま予定の道を進む",
+          "explain": "雷雨のなか、予定どおりの道を歩き続けます。小屋は遠く、落雷が近いあいだも外を進むことになり、高い所を通るたびに危険にさらされます。",
           "detail": "立ち止まっても仕方がない。",
           "actions": [{ "type": "say", "text": "止まってても濡れるだけだ。行こう", "tone": "whisper" }, { "type": "continueRoute" }],
           "flags": ["thunderNear"],
@@ -802,6 +817,7 @@
         {
           "id": "wait",
           "label": "小屋で雷がやむのを待つ",
+          "explain": "小屋の中で壁から離れて座り、ぬれた服を着替えて食べ、雷がやむのを待ちます。体を温めながら、雷雨を建物の中でやり過ごせます。",
           "detail": "壁から離れて座り、ぬれた服を着替える。",
           "actions": [
             { "type": "say", "text": "雷が鳴りやむまで、ここで待とう", "tone": "whisper" },
@@ -824,6 +840,7 @@
         {
           "id": "night",
           "label": "今日はここに泊まる",
+          "explain": "七ツ石小屋へは明日向かうことにして、ここに泊まります。雷雨の中と夕方以降の行動を両方避けられます。予約先への連絡は、電波の入る所で済ませる必要があります。",
           "detail": "七ツ石小屋へは明日。予約の連絡は電波の入る所で。",
           "actions": [
             { "type": "say", "text": "今日はもう、ここに泊まろう", "tone": "whisper" },
@@ -839,6 +856,7 @@
         {
           "id": "maki",
           "label": "少し休んで巻き道で向かう",
+          "explain": "少し休んだだけで、樹林の巻き道で向かいます。高い所は避けられますが、雷がまだ続くなら外を歩くことになり、着く時間も遅くなります。",
           "detail": "ピークはあきらめ、樹林の中を行く。",
           "actions": [
             { "type": "say", "text": "ピークはあきらめて、巻き道で行こう", "tone": "whisper" },
@@ -854,6 +872,7 @@
         {
           "id": "peak",
           "label": "日蔭名栗山・高丸山を踏む",
+          "explain": "予定どおり、草地のピークを越えて進みます。雷雨がおさまらないうちに開けた高い所を歩くことになり、到着もいちばん遅くなります。",
           "detail": "予定どおり。七ツ石小屋まで約 2 時間 10 分。",
           "available": { "any": [{ "var": "leader.injury", "op": "==", "value": "none" }, { "var": "leader.injury", "op": "==", "value": "bruise" }] },
           "hideIfUnavailable": true,
@@ -889,6 +908,7 @@
         {
           "id": "wait",
           "label": "雷鳴がやむまで出ない",
+          "explain": "雷鳴が聞こえるうちは小屋を出ず、壁から離れて座り、着替えて食べます。雨がやんでも雷が残ることがあるので、鳴りやむまで待つのが基本です。",
           "detail": "壁から離れて座り、ぬれた服を着替える。",
           "actions": [{ "type": "say", "text": "雷が鳴りやむまで、ここで待とう", "tone": "whisper" }, { "type": "setFlag", "flag": "hutWait" }, { "type": "setFlag", "flag": "changed" }, { "type": "changeDry" }, { "type": "eat", "kcal": 300 }],
           "tags": ["recommended"],
@@ -904,6 +924,7 @@
         {
           "id": "night",
           "label": "今日はここに泊まる",
+          "explain": "七ツ石小屋へは明日向かうことにして、ここに泊まります。雷雨と夕方以降の行動を避けられます。予約先への連絡は、電波の入る所で済ませる必要があります。",
           "detail": "七ツ石小屋へは明日。予約の連絡は電波の入る所で。",
           "actions": [
             { "type": "say", "text": "今日はもう、ここに泊まろう", "tone": "whisper" },
@@ -918,6 +939,7 @@
         {
           "id": "maki",
           "label": "少し休んで巻き道で向かう",
+          "explain": "少し休んだだけで、樹林の巻き道で向かいます。高い所は避けられますが、雷が続いているなら外を歩くことになり、着く時間も遅くなります。",
           "detail": "ピークはあきらめ、樹林の中を行く。",
           "actions": [
             { "type": "say", "text": "ピークはあきらめて、巻き道で行こう", "tone": "whisper" },
@@ -933,6 +955,7 @@
         {
           "id": "peak",
           "label": "日蔭名栗山・高丸山を踏む",
+          "explain": "駆け込んだばかりの小屋を出て、草地のピークを越えて進みます。雷雨がおさまらないうちに開けた高い所を歩くことになります。",
           "detail": "予定どおり。七ツ石小屋まで約 2 時間 10 分。",
           "available": { "any": [{ "var": "leader.injury", "op": "==", "value": "none" }, { "var": "leader.injury", "op": "==", "value": "bruise" }] },
           "hideIfUnavailable": true,
@@ -969,6 +992,7 @@
         {
           "id": "wait",
           "label": "雷鳴がやむまで待つ",
+          "explain": "雨が上がっても、雷鳴が聞こえるうちは雷の届く範囲にいます。鳴りやむまで小屋で待てば、雷雨の終わりぎわに外で遭う危険を避けられます。",
           "detail": "雨が上がっても、雷はまだ近い。",
           "actions": [{ "type": "say", "text": "まだ鳴ってる。もう少し待とう", "tone": "whisper" }],
           "tags": ["recommended"],
@@ -977,6 +1001,7 @@
         {
           "id": "go_maki",
           "label": "今のうちに巻き道で向かう",
+          "explain": "雨がやんだ隙に、樹林の巻き道で出発します。雷鳴が残るうちは雷が再び近づくこともあり、建物の外で過ごす時間が始まります。",
           "detail": "雷は遠ざかっているようだ。",
           "actions": [
             { "type": "say", "text": "雨がやんだ。今のうちに行こう", "tone": "whisper" },
@@ -989,6 +1014,7 @@
         {
           "id": "go_peak",
           "label": "今のうちにピークを踏んで向かう",
+          "explain": "雷鳴が残るなかで、開けたピークを越えて進みます。雷が戻ってくれば、身を隠す所のない高い場所で遭うことになります。",
           "detail": "せっかくだから、ピークは踏みたい。",
           "available": { "any": [{ "var": "leader.injury", "op": "==", "value": "none" }, { "var": "leader.injury", "op": "==", "value": "bruise" }] },
           "hideIfUnavailable": true,
@@ -1024,6 +1050,7 @@
         {
           "id": "stay",
           "label": "今日はここに泊まる",
+          "explain": "ここに泊まり、明るいうちに山頂で七ツ石小屋へ連絡して、翌朝早く出ます。夕方から暗くなる時間の行動を避け、相手に心配もかけずにすみます。",
           "detail": "明るいうちに山頂で七ツ石小屋に電話し、明朝早く出る。",
           "actions": [{ "type": "say", "text": "今日はもう、ここに泊まろう", "tone": "whisper" }, { "type": "setFlag", "flag": "stayNight" }, { "type": "setFlag", "flag": "wantCallLater" }],
           "tags": ["recommended"],
@@ -1040,6 +1067,7 @@
         {
           "id": "go_call",
           "label": "電話してから巻き道で向かう",
+          "explain": "電波の入る所で遅れを伝えてから、巻き道で向かいます。着くのは夕方ですが、行き先が遅れを知っていれば、何かあっても早く気づいてもらえます。",
           "detail": "電波の入る所で遅れると伝える。着くのは夕方。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
@@ -1055,6 +1083,7 @@
         {
           "id": "go",
           "label": "すぐ巻き道で向かう",
+          "explain": "連絡せずに巻き道で急ぎます。時間は少し稼げますが、遅れていることを誰も知らないまま、夕方の山道を一人で歩くことになります。",
           "detail": "電話している時間がもったいない。",
           "actions": [
             { "type": "say", "text": "巻き道で行こう。暗くなる前に着きたい", "tone": "whisper" },
@@ -1066,6 +1095,7 @@
         {
           "id": "go_peak",
           "label": "ピークを踏んで向かう",
+          "explain": "ピークを越える長いほうの道を選びます。着くのは日の入りのころで、疲れた体で暗くなりかけた道を歩く時間が長くなります。",
           "detail": "着くのは日の入りのころになる。",
           "available": { "var": "leader.injury", "op": "==", "value": "none" },
           "hideIfUnavailable": true,
@@ -1099,6 +1129,7 @@
         {
           "id": "stay",
           "label": "今日はここに泊まる",
+          "explain": "予定より遅れたので、ここに泊まります。明るいうちに山頂で七ツ石小屋へ連絡し、翌朝早く出れば、夕方の行動を避けて相手に心配もかけずにすみます。",
           "detail": "明るいうちに山頂で七ツ石小屋に電話し、明朝早く出る。",
           "actions": [{ "type": "say", "text": "今日はもう、ここに泊まろう", "tone": "whisper" }, { "type": "setFlag", "flag": "stayNight" }, { "type": "setFlag", "flag": "wantCallLater" }, { "type": "setFlag", "flag": "needEnter" }],
           "tags": ["recommended"],
@@ -1115,6 +1146,7 @@
         {
           "id": "go_call",
           "label": "電話してから巻き道で向かう",
+          "explain": "電波の入る所で遅れを伝えてから、巻き道で向かいます。着くのは夕方ですが、行き先が遅れを知っていれば、何かあっても早く気づいてもらえます。",
           "detail": "電波の入る所で遅れると伝える。着くのは夕方。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
@@ -1130,6 +1162,7 @@
         {
           "id": "go",
           "label": "すぐ巻き道で向かう",
+          "explain": "連絡せずに巻き道で急ぎます。時間は少し稼げますが、遅れていることを誰も知らないまま、夕方の山道を一人で歩くことになります。",
           "detail": "電話している時間がもったいない。",
           "actions": [
             { "type": "say", "text": "巻き道で行こう。暗くなる前に着きたい", "tone": "whisper" },
@@ -1141,6 +1174,7 @@
         {
           "id": "go_peak",
           "label": "ピークを踏んで向かう",
+          "explain": "すでに遅れているうえに、ピークを越える長いほうの道を選びます。着くのは日の入りのころで、暗くなりかけた道を歩く時間が長くなります。",
           "detail": "着くのは日の入りのころになる。",
           "available": { "var": "leader.injury", "op": "==", "value": "none" },
           "hideIfUnavailable": true,
@@ -1165,6 +1199,7 @@
         {
           "id": "wait",
           "label": "水が引くまで待つ",
+          "explain": "沢から離れて 30 分ほど待ち、水が引くのを見ます。強い雨のあとの増水は、しばらくすると引くことが多く、待つことで危険を減らせます。",
           "detail": "沢から離れて 30 分ほど様子を見る。",
           "actions": [{ "type": "say", "text": "ちょっと待とう。この水じゃ危ない", "tone": "whisper" }, { "type": "setFlag", "flag": "bridgeWait" }, { "type": "rest", "minutes": 30 }],
           "tags": ["recommended"],
@@ -1173,6 +1208,7 @@
         {
           "id": "back",
           "label": "避難小屋に戻って泊まる",
+          "explain": "渡るのをやめて避難小屋へ戻り、泊まります。今日の到着はあきらめますが、増水した沢を避けられ、連絡は明るいうちに山頂でできます。",
           "detail": "電話は明るいうちに鷹ノ巣山の山頂でできる。",
           "actions": [
             { "type": "say", "text": "やめておこう。今日は小屋に戻って泊まる", "tone": "whisper" },
@@ -1186,6 +1222,7 @@
         {
           "id": "cross",
           "label": "気をつけて木の橋を渡る",
+          "explain": "雨でぬれた丸太の橋を、そのまま渡ります。ぬれた丸太は滑りやすく、増えた濁流に落ちると流される恐れがあります。",
           "detail": "橋は短い。",
           "actions": [{ "type": "say", "text": "そっと渡れば大丈夫……", "tone": "whisper" }, { "type": "setFlag", "flag": "crossedWet" }, { "type": "continueRoute" }],
           "bias": { "base": 1 }
@@ -1193,6 +1230,7 @@
         {
           "id": "ford",
           "label": "沢の中を歩いて渡る",
+          "explain": "橋を避けて、増水した沢の中を歩いて渡ります。濁った水は底も深さも見えず、膝まで水に入ると流れに足を取られやすくなります。",
           "detail": "滑りそうな橋は避ける。靴はどうせぬれている。",
           "actions": [{ "type": "say", "text": "橋より、沢の中のほうがましだ", "tone": "whisper" }, { "type": "setFlag", "flag": "forded" }, { "type": "soak", "level": "knees" }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -1218,6 +1256,7 @@
         {
           "id": "call",
           "label": "電波の入る所で救助を呼ぶ",
+          "explain": "痛む足で、電波の入る山頂のあたりまで登って救助を頼みます。足に負担はかかりますが、自分から確実に助けを呼べます。",
           "detail": "時間はかかっても、自分で電話しに行く。",
           "actions": [{ "type": "say", "text": "これじゃ歩けない。助けを呼ぼう", "tone": "whisper" }, { "type": "seekSignal" }],
           "tags": ["recommended"],
@@ -1228,6 +1267,7 @@
         {
           "id": "visitor",
           "label": "小屋で登山者を待つ",
+          "explain": "小屋にとどまり、通りかかる登山者に助けを頼みます。天気がよく人の多い道なら、けがを悪くせずに待てる判断です。",
           "detail": "朝になれば誰か通る。その人に助けを頼む。",
           "actions": [{ "type": "say", "text": "誰か通るまで、ここで待とう", "tone": "whisper" }, { "type": "setFlag", "flag": "waitVisitor" }, { "type": "stayInShelter", "until": "rescue" }],
           "tags": ["recommended"],
@@ -1236,6 +1276,7 @@
         {
           "id": "walk",
           "label": "ゆっくり七ツ石小屋へ向かう",
+          "explain": "足をかばいながら、七ツ石小屋まで自力で向かいます。途中で歩けなくなると、人の通らない所で動けなくなる恐れがあります。",
           "detail": "足をかばって巻き道を行く。着けるかもしれない。",
           "available": { "all": [{ "var": "leader.injury", "op": "!=", "value": "legFracture" }, { "var": "leader.injury", "op": "!=", "value": "severeTrauma" }] },
           "hideIfUnavailable": true,
@@ -1268,6 +1309,7 @@
         {
           "id": "off_ridge",
           "label": "草地を離れ、樹林の低い所へ",
+          "explain": "鷹ノ巣山の開けた草地を離れ、樹林の低い所で幹から離れてしゃがみます。雷は高い所に落ちやすいので、いちばん高い場所から離れることが第一の対策です。",
           "detail": "幹から離れてしゃがみ、雷が過ぎるのを待つ。",
           "actions": [{ "type": "setFlag", "flag": "offTrail" }, { "type": "lightningPosture", "minutes": 30 }, { "type": "moveOffRidge", "minDropM": 60 }],
           "tags": ["recommended"],
@@ -1277,6 +1319,7 @@
         {
           "id": "hut",
           "label": "小屋まで走る",
+          "explain": "近くの小屋まで走ります。たどり着ければ建物の中は安全ですが、着くまでのあいだは外を走ることになります。",
           "detail": "小屋は近い。",
           "available": { "var": "leader.nearestShelterM", "op": "<", "value": 1200 },
           "hideIfUnavailable": true,
@@ -1288,6 +1331,7 @@
         {
           "id": "rush",
           "label": "一気に駆け抜ける",
+          "explain": "草地を一気に抜けようとします。急いでも、開けた高い所にいるあいだは打たれる危険が続きます。",
           "detail": "止まるほうが危ない。草地を抜ければ樹林だ。",
           "actions": [{ "type": "setPace", "factor": 1.2 }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -1296,6 +1340,7 @@
         {
           "id": "remove_metal",
           "label": "ポールをしまって低く進む",
+          "explain": "ポールをしまって、そのまま進みます。金属を持っているかどうかは雷の落ちやすさにほとんど関係せず、高い所にいる危険は変わりません。",
           "detail": "金属は雷を呼ぶと聞いたことがある。",
           "available": { "not": { "flag": "metalRemoved" } },
           "hideIfUnavailable": true,
@@ -1325,6 +1370,7 @@
         {
           "id": "off_ridge",
           "label": "草地を離れ、樹林の低い所へ",
+          "explain": "日蔭名栗山の開けた草地を離れ、樹林の低い所で幹から離れてしゃがみます。雷は高い所に落ちやすいので、いちばん高い場所から離れることが第一の対策です。",
           "detail": "幹から離れてしゃがみ、雷が過ぎるのを待つ。",
           "actions": [{ "type": "setFlag", "flag": "offTrail" }, { "type": "lightningPosture", "minutes": 30 }, { "type": "moveOffRidge", "minDropM": 60 }],
           "tags": ["recommended"],
@@ -1334,6 +1380,7 @@
         {
           "id": "hut",
           "label": "小屋まで走る",
+          "explain": "近くの小屋まで走ります。たどり着ければ建物の中は安全ですが、着くまでのあいだは外を走ることになります。",
           "detail": "小屋は近い。",
           "available": { "var": "leader.nearestShelterM", "op": "<", "value": 1200 },
           "hideIfUnavailable": true,
@@ -1345,6 +1392,7 @@
         {
           "id": "rush",
           "label": "一気に駆け抜ける",
+          "explain": "草地を一気に抜けようとします。急いでも、開けた高い所にいるあいだは打たれる危険が続きます。",
           "detail": "止まるほうが危ない。草地を抜ければ樹林だ。",
           "actions": [{ "type": "setPace", "factor": 1.2 }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -1353,6 +1401,7 @@
         {
           "id": "remove_metal",
           "label": "ポールをしまって低く進む",
+          "explain": "ポールをしまって、そのまま進みます。金属を持っているかどうかは雷の落ちやすさにほとんど関係せず、高い所にいる危険は変わりません。",
           "detail": "金属は雷を呼ぶと聞いたことがある。",
           "available": { "not": { "flag": "metalRemoved" } },
           "hideIfUnavailable": true,
@@ -1382,6 +1431,7 @@
         {
           "id": "off_ridge",
           "label": "草地を離れ、樹林の低い所へ",
+          "explain": "高丸山の開けた草地を離れ、樹林の低い所で幹から離れてしゃがみます。雷は高い所に落ちやすいので、いちばん高い場所から離れることが第一の対策です。",
           "detail": "幹から離れてしゃがみ、雷が過ぎるのを待つ。",
           "actions": [{ "type": "setFlag", "flag": "offTrail" }, { "type": "lightningPosture", "minutes": 30 }, { "type": "moveOffRidge", "minDropM": 60 }],
           "tags": ["recommended"],
@@ -1391,6 +1441,7 @@
         {
           "id": "hut",
           "label": "小屋まで走る",
+          "explain": "近くの小屋まで走ります。たどり着ければ建物の中は安全ですが、着くまでのあいだは外を走ることになります。",
           "detail": "小屋は近い。",
           "available": { "var": "leader.nearestShelterM", "op": "<", "value": 1200 },
           "hideIfUnavailable": true,
@@ -1402,6 +1453,7 @@
         {
           "id": "rush",
           "label": "一気に駆け抜ける",
+          "explain": "草地を一気に抜けようとします。急いでも、開けた高い所にいるあいだは打たれる危険が続きます。",
           "detail": "止まるほうが危ない。草地を抜ければ樹林だ。",
           "actions": [{ "type": "setPace", "factor": 1.2 }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -1410,6 +1462,7 @@
         {
           "id": "remove_metal",
           "label": "ポールをしまって低く進む",
+          "explain": "ポールをしまって、そのまま進みます。金属を持っているかどうかは雷の落ちやすさにほとんど関係せず、高い所にいる危険は変わりません。",
           "detail": "金属は雷を呼ぶと聞いたことがある。",
           "available": { "not": { "flag": "metalRemoved" } },
           "hideIfUnavailable": true,
@@ -1429,6 +1482,7 @@
         {
           "id": "call",
           "label": "スマホで救助を要請する",
+          "explain": "スマホで救助を頼み、その場で待ちます。歩けないほどのけがなら、早く頼むほど助かる見込みが上がります。電波が入ることが前提です。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.radio", "op": ">=", "value": 0.15 }] },
           "unavailableText": "スマホがないか、電波が入らない",
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }],
@@ -1438,6 +1492,7 @@
         {
           "id": "slow",
           "label": "近い小屋までゆっくり歩く",
+          "explain": "けがをかばって、近くの小屋までゆっくり歩きます。屋根の下で休めますが、途中で痛みが増して動けなくなる恐れもあります。",
           "available": { "all": [{ "var": "leader.injury", "op": "!=", "value": "legFracture" }, { "var": "leader.injury", "op": "!=", "value": "severeTrauma" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "setFlag", "flag": "slowToHut" }, { "type": "goToNode", "node": "$nearestShelter", "then": "stay" }],
@@ -1447,12 +1502,13 @@
         {
           "id": "seek_signal",
           "label": "電波を探して救助を呼ぶ",
+          "explain": "電波の入る所を探して動きます。救助を呼べるかもしれませんが、けがをしたまま動くと、けがを悪くしたり居場所が変わったりします。",
           "actions": [{ "type": "seekSignal" }],
           "bias": { "base": 0.3 },
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.injury", "op": "!=", "value": "severeTrauma" }] },
           "hideIfUnavailable": true
         },
-        { "id": "wait", "label": "動かずに人が通るのを待つ", "actions": [{ "type": "bivouac", "until": "rescue", "findLee": true }], "bias": { "base": 0.3 } }
+        { "id": "wait", "label": "動かずに人が通るのを待つ", "explain": "風を避けて、通りかかる人を待ちます。けがを悪くしませんが、誰かが通るかどうかに頼る判断です。", "actions": [{ "type": "bivouac", "until": "rescue", "findLee": true }], "bias": { "base": 0.3 } }
       ]
     }
   },

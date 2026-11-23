@@ -1299,3 +1299,4 @@ details[data-g]:not([open]) > summary .grp-mini:hover { border-color: var(--acce
 .cr-meaning strong { color: #cfd4da; font-weight: 600; }
 .cr-progress { margin: 0 0 8px; color: var(--muted); font-size: 0.9em; }
 .decision .cr-badge { margin-left: 6px; }
+.cr-caveat { color: #fde68a; font-size: 0.95em; }

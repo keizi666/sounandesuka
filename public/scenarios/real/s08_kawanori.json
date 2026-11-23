@@ -366,10 +366,11 @@
       "situation": "平日の朝の古里駅。降りた登山者は数人だけで、よく晴れている。家族には「川苔山に行く」とだけ言ってきた。このまま出発する？",
       "knowledge": ["予定: 赤杭尾根で川苔山へ（約 4 時間）。真名井沢ノ峰から真名井北稜を大日向バス停へ下る（約 2 時間半〜3 時間、下山予定 15:00）", "真名井北稜はバリエーションルート。道標はほぼなく、送電線の巡視路の標識がところどころにある", "登山届は出していない。スマホの電池は {leader.phone.batteryPct:0}%。地図アプリは入れていない", "明日は朝から雨の予報"],
       "options": [
-        { "id": "go", "label": "このまま出発する", "detail": "日帰りだし、いつものことだ。", "actions": [{ "type": "continueRoute" }], "bias": { "base": 1.1 } },
+        { "id": "go", "label": "このまま出発する", "explain": "行き先を「川苔山」としか伝えず、登山届も出さずに単独で道標の少ない北稜へ向かいます。何かあったとき、どこを探せばよいか誰にも分からないままです。", "detail": "日帰りだし、いつものことだ。", "actions": [{ "type": "continueRoute" }], "bias": { "base": 1.1 } },
         {
           "id": "share",
           "label": "コースを家族に送ってから出発",
+          "explain": "下山ルートと下山時刻、連絡がなければ通報する時刻を家族に伝え、登山届も出します。単独で道標の少ない道を歩く日ほど、捜索の手がかりを残すことが大切です。",
           "detail": "登山届も出す。「15 時下山。19 時に連絡がなければ警察へ」",
           "actions": [{ "type": "say", "text": "北稜は初めてだ。コースを送っておこう", "tone": "whisper" }, { "type": "continueRoute" }],
           "flags": ["planShared"],
@@ -388,6 +389,7 @@
         {
           "id": "go",
           "label": "昼食後、予定どおり北稜へ",
+          "explain": "昼食をとって予定どおり北稜へ向かいます。地形図はあっても、分かれ目の位置を事前に確かめないままだと、現地で落ち葉の広い尾根に迷い込みやすくなります。",
           "detail": "地形図はある。尾根をたどれば大丈夫だ。",
           "actions": [{ "type": "eat", "kcal": 500 }, { "type": "drink", "liters": 0.3 }, { "type": "rest", "minutes": 30 }],
           "bias": { "base": 1 }
@@ -395,6 +397,7 @@
         {
           "id": "study",
           "label": "地形図で分かれ目を確かめる",
+          "explain": "迷いやすい 1002 m の分かれ目を地形図で先に確かめ、高度計を山頂の標高で合わせます。現地で高度計と地形図を照らし合わせられるようにする、読図の基本の準備です。",
           "detail": "分かれ目に印をつけ、高度計を山頂の 1363 m に合わせる。",
           "actions": [{ "type": "say", "text": "1002 m の先で右に下りる。ここは外せない", "tone": "whisper" }, { "type": "eat", "kcal": 500 }, { "type": "drink", "liters": 0.3 }, { "type": "rest", "minutes": 35 }],
           "flags": ["carefulNav"],
@@ -404,6 +407,7 @@
         {
           "id": "back",
           "label": "北稜はやめ、赤杭尾根を戻る",
+          "explain": "初めての道標のないルートを単独で下るのをやめ、歩いて状況の分かっている赤杭尾根を戻ります。予定を変えて、確実な道を選ぶ判断です。",
           "detail": "道標のない道を単独で初めて歩くのは、今日でなくていい。",
           "actions": [
             { "type": "say", "text": "北稜は誰かと一緒のときにしよう", "tone": "whisper" },
@@ -427,6 +431,7 @@
         {
           "id": "check",
           "label": "止まって尾根の向きを確かめる",
+          "explain": "尾根が分かれる所で立ち止まり、地形図とコンパスで進む向きを確かめます。数分かかりますが、道迷いの多くは分岐での思い込みから始まります。",
           "detail": "地形図とコンパスで。数分かかる。",
           "actions": [{ "type": "say", "text": "1002 m……ここだな。北稜はどっちだ", "tone": "whisper" }, { "type": "stopAndCheck" }, { "type": "continueRoute" }],
           "tags": ["recommended"],
@@ -435,6 +440,7 @@
         {
           "id": "follow",
           "label": "正面の尾根をそのまま進む",
+          "explain": "踏み跡があるのを頼りに、確かめずに正面の尾根を進みます。地形図では北稜は右へ下るので、薄い踏み跡に引かれて別の尾根に入るおそれがあります。",
           "detail": "踏み跡は続いている。尾根をたどれば大丈夫だ。",
           "actions": [{ "type": "missJunction" }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -459,6 +465,7 @@
         {
           "id": "climb",
           "label": "斜面を登り返し、1002 m へ戻る",
+          "explain": "時間と体力はかかりますが、通ってきた尾根まで戻ります。様子の分かっている所へ引き返すのは、道迷いの基本の対処です。",
           "detail": "時間はかかるが、通った所なら様子が分かる。",
           "actions": [{ "type": "say", "text": "落ち着け。来た所を戻ろう", "tone": "whisper" }, { "type": "backtrack" }],
           "flags": ["backtracked"],
@@ -468,6 +475,7 @@
         {
           "id": "ridge676",
           "label": "現在地を絞り込み、近い道へ",
+          "explain": "いったん止まって地形図で現在地を絞り込み、近い道へ向かいます。似た地形が多い所では絞り込めないこともあり、その場合は動けなくなります。",
           "detail": "北稜か、676 m 標高点の小尾根から林道へ。絞り込めなければ動けない。",
           "actions": [{ "type": "stayPut" }, { "type": "checkPosition" }, { "type": "navigateToTrail" }],
           "flags": ["triedMap"],
@@ -476,6 +484,7 @@
         {
           "id": "stream",
           "label": "このまま沢を下る",
+          "explain": "沢をそのまま下って大丹波川沿いの林道を目指します。下りは楽に感じますが、沢には滝や切り立った所があるかもしれず、道迷いでは避けるべき方向とされます。",
           "detail": "沢は大丹波川に出る。下れば道があるはずだ。",
           "actions": [{ "type": "say", "text": "沢沿いに下れば林道だ", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
@@ -484,6 +493,7 @@
         {
           "id": "signal",
           "label": "電波を探して登り、110 番",
+          "explain": "電波の入る所を探して斜面を登り、110 番で助けを求めます。自力で道を探すより確実ですが、痛む体で斜面を登るので体力と時間を使います。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "seekSignal" }],
@@ -499,9 +509,9 @@
       "situation": "地形図を何度見比べても、現在地が決められない。似た沢と尾根がいくつも並んでいる。どうする？",
       "knowledge": ["高度計は {leader.elevM:0} m", "日の入りは 18:12"],
       "options": [
-        { "id": "climb", "label": "来た道を 1002 m へ戻る", "actions": [{ "type": "backtrack" }], "flags": ["backtracked"], "tags": ["recommended"], "bias": { "base": 0.7 } },
-        { "id": "stream", "label": "沢を下って大丹波川へ", "actions": [{ "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.6 } },
-        { "id": "wait", "label": "動かずに助けを待つ", "detail": "下手に動けば、もっと分からなくなる。", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }], "bias": { "base": 0.2 } }
+        { "id": "climb", "label": "来た道を 1002 m へ戻る", "explain": "現在地が決められないので、確実に分かっている 1002 m まで来た道を戻ります。分からないまま進むより、分かる所へ戻るほうが確実です。", "actions": [{ "type": "backtrack" }], "flags": ["backtracked"], "tags": ["recommended"], "bias": { "base": 0.7 } },
+        { "id": "stream", "label": "沢を下って大丹波川へ", "explain": "現在地が分からないまま沢を下ります。沢は川に出ますが、途中に滝や両岸の切り立った所があっても、下りてからでは戻りにくくなります。", "actions": [{ "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.6 } },
+        { "id": "wait", "label": "動かずに助けを待つ", "explain": "これ以上迷わないよう、その場にとどまって助けを待ちます。ただ、登山届も詳しい行き先も残していない場合、見つけてもらうまでに時間がかかるかもしれません。", "detail": "下手に動けば、もっと分からなくなる。", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }], "bias": { "base": 0.2 } }
       ]
     },
     {
@@ -516,16 +526,18 @@
         {
           "id": "map",
           "label": "地形図で北稜の尾根を探す",
+          "explain": "立ち止まり、高度計と地形図で尾根の形と高さを読んで、道のある北稜の尾根を探します。1002 m の近くまで来ているなら、尾根を特定しやすい場面です。",
           "detail": "尾根の形と高さが分かれば、道のある尾根に出られる。",
           "actions": [{ "type": "say", "text": "落ち着け。高さは 1000 m 近い。尾根を読もう", "tone": "whisper" }, { "type": "stayPut" }, { "type": "checkPosition" }, { "type": "navigateToTrail" }],
           "flags": ["triedMap"],
           "tags": ["recommended"],
           "bias": { "base": 0.8, "mods": [{ "when": { "near": { "x": -200, "z": -1590, "r": 200 } }, "add": 0.6 }] }
         },
-        { "id": "back", "label": "踏み跡を探しながら戻り続ける", "actions": [{ "type": "backtrack" }], "bias": { "base": 0.5 } },
+        { "id": "back", "label": "踏み跡を探しながら戻り続ける", "explain": "見失った踏み跡を探しながら戻り続けます。落ち葉の斜面では踏み跡が見分けにくく、位置を確かめないまま歩き回ることになりかねません。", "actions": [{ "type": "backtrack" }], "bias": { "base": 0.5 } },
         {
           "id": "stream",
           "label": "沢へ下りて林道を目指す",
+          "explain": "尾根へ戻るのをあきらめ、沢へ下りて林道を目指します。疲れと焦りから下りを選びがちですが、沢には滝や切り立った所がある可能性があります。",
           "actions": [{ "type": "say", "text": "もう下るしかない", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": {
@@ -551,6 +563,7 @@
         {
           "id": "bivouac",
           "label": "シートにくるまり朝を待つ",
+          "explain": "暗い中を動かず、防寒着を着てエマージェンシーシートにくるまり朝を待ちます。道のない斜面を夜に歩くと、転落や道迷いが深まるおそれがあります。",
           "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "bivouac", "until": "dawn", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 1, "mods": [{ "when": { "var": "leader.injury", "op": "!=", "value": "none" }, "add": 0.3 }] }
@@ -558,6 +571,7 @@
         {
           "id": "keep",
           "label": "暗くても動き続ける",
+          "explain": "雨の前に進みたいと、暗い中を動き続けます。ヘッドランプがあっても道のない斜面は足元が分かりにくく、転落や体力の消耗につながりやすい行動です。",
           "detail": "朝まで待てば雨になる。今のうちに進みたい。",
           "available": { "not": { "state": "STAYING" } },
           "hideIfUnavailable": true,
@@ -578,6 +592,7 @@
         {
           "id": "climb",
           "label": "斜面を登り返して尾根の道へ",
+          "explain": "雨の中ですが、下ってきた斜面を登り返して尾根の道を目指します。登り返しはきついものの、尾根は沢の増水と関係がなく、道にも出やすい方向です。",
           "detail": "雨の登り返しはきついが、尾根なら増水と関係ない。",
           "available": { "var": "leader.injury", "op": "!=", "value": "legFracture" },
           "hideIfUnavailable": true,
@@ -589,12 +604,14 @@
         {
           "id": "stay",
           "label": "動かずに待ち、笛を吹く",
+          "explain": "その場で笛を吹きながら救助を待ちます。家族の届け出で捜索は始まりますが、行き先が詳しく伝わっていないと見つけてもらうまで時間がかかります。",
           "actions": [{ "type": "bivouac", "until": "rescue", "findLee": false }],
           "bias": { "base": 0.5, "mods": [{ "when": { "var": "leader.injury", "op": "!=", "value": "none" }, "add": 0.3 }] }
         },
         {
           "id": "stream",
           "label": "増水前に沢を下る",
+          "explain": "増水する前に沢を下りきろうとします。雨が強まる予報の中、沢は短い時間で水かさが増し、滝や渡れない所に行き当たるおそれもあります。",
           "available": { "var": "leader.injury", "op": "!=", "value": "legFracture" },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "水が増える前に下りてしまおう", "tone": "whisper" }, { "type": "descendDrainage" }],
@@ -604,6 +621,7 @@
         {
           "id": "call",
           "label": "電波がある。110 番する",
+          "explain": "電波が届くので 110 番して、状況を伝えて救助を待ちます。現在地の手がかりを伝えられれば、捜索の範囲を大きく絞れます。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "say", "text": "川苔山で道に迷って、斜面で一晩過ごしました", "tone": "normal" }, { "type": "waitRescue" }],
@@ -622,6 +640,7 @@
         {
           "id": "backtrack",
           "label": "1002 m まで登り返す",
+          "explain": "北稜と違うと気づいた時点で、確かに分かる 1002 m まで登り返します。間違いに気づいたらすぐ戻るのが、道迷いの基本の対処です。",
           "detail": "間違いに気づいたら、すぐ戻る。",
           "actions": [{ "type": "say", "text": "戻ろう。1002 m で確かめ直す", "tone": "whisper" }, { "type": "backtrack" }],
           "flags": ["backtracked"],
@@ -631,6 +650,7 @@
         {
           "id": "map",
           "label": "現在地を絞り込み、近い道へ",
+          "explain": "止まって地形図で現在地を絞り込み、近い道を目指します。絞り込めれば近道になりますが、GPS がなく似た地形が多い所では絞り込めないこともあります。",
           "detail": "絞り込めなければ動けない。",
           "actions": [{ "type": "stayPut" }, { "type": "checkPosition" }, { "type": "navigateToTrail" }],
           "flags": ["triedMap"],
@@ -639,6 +659,7 @@
         {
           "id": "traverse",
           "label": "斜面を横切って沢へ下りる",
+          "explain": "登り返すより早いと、斜面を横切って沢へ下ります。道迷いで沢へ下りるのは、滝や切り立った所に行き当たりやすく、避けるべきとされる行動です。",
           "detail": "沢沿いに下れば林道に出る。登り返すより早い。",
           "actions": [{ "type": "say", "text": "沢に下りれば大丹波の林道に出る", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
@@ -655,6 +676,7 @@
         {
           "id": "call",
           "label": "電波がある。110 番する",
+          "explain": "電波が届くうちに 110 番し、その場で救助を待ちます。けががなくても、迷ったと分かった段階で助けを求めることで、事態が深まる前に手を打てます。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "say", "text": "真名井北稜のあたりで道に迷いました。けがはありません", "tone": "normal" }, { "type": "waitRescue" }],
@@ -670,6 +692,7 @@
         {
           "id": "call",
           "label": "スマホで 110 番する",
+          "explain": "電波が届くので 110 番し、その場で救助を待ちます。けがをして自力で下りられないときは、早く通報するほど救助も早く始まります。",
           "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }, { "var": "leader.radio", "op": ">=", "value": 0.3 }] },
           "unavailableText": "圏外",
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "say", "text": "川苔山で転んで、けがをしました。自分では下りられません", "tone": "normal" }, { "type": "waitRescue" }],
@@ -680,6 +703,7 @@
         {
           "id": "seek_signal",
           "label": "尾根まで這い上がって通報",
+          "explain": "電波の入る尾根まで這い上がって通報します。助けを呼べる可能性は上がりますが、けがをした体で斜面を登るので体力を大きく使います。",
           "available": {
             "all": [
               { "var": "leader.phone.has", "op": "==", "value": true },
@@ -695,6 +719,7 @@
         {
           "id": "bivouac",
           "label": "手当てして、ここで待つ",
+          "explain": "救急用品で手当てをし、シートにくるまってその場で待ちます。動けば悪化するけがのとき、体を冷やさずに体力を残す選択です。",
           "actions": [{ "type": "narrate", "text": "救急用品でけがの手当てをし、木の根元でエマージェンシーシートにくるまった" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 0.7, "mods": [{ "when": { "var": "leader.injury", "op": "==", "value": "legFracture" }, "add": 0.4 }] }
@@ -702,6 +727,7 @@
         {
           "id": "to_trail",
           "label": "痛みをこらえ、近くの道へ",
+          "explain": "現在地が分かっているので、痛みをこらえて近くの道まで出ます。道に出れば見つけてもらいやすくなりますが、けがを悪化させるおそれもあります。",
           "detail": "現在地は分かる。道に出れば見つけてもらえる。",
           "available": { "all": [{ "var": "leader.knowsPosition", "op": "==", "value": true }, { "not": { "state": "INCAPACITATED" } }] },
           "hideIfUnavailable": true,
@@ -711,6 +737,7 @@
         {
           "id": "crawl_up",
           "label": "斜面を登り返して尾根へ",
+          "explain": "道のある尾根まで斜面を登り返します。尾根なら見つけてもらいやすくなりますが、けがをした体での登りは時間も体力もかかります。",
           "detail": "尾根の上なら、見つけてもらえるかもしれない。",
           "actions": [{ "type": "say", "text": "上に戻れば道がある", "tone": "whisper" }, { "type": "backtrack" }],
           "flags": ["backtracked"],
@@ -721,6 +748,7 @@
         {
           "id": "slide",
           "label": "痛みをこらえて沢を下る",
+          "explain": "痛みをこらえて沢を下ります。けがをした体で、滝や切り立った所があるかもしれない沢を進むのは、さらに転落するおそれの大きい行動です。",
           "available": { "not": { "state": "INCAPACITATED" } },
           "hideIfUnavailable": true,
           "actions": [{ "type": "descendDrainage" }],
@@ -735,6 +763,7 @@
         {
           "id": "bivouac",
           "label": "着込んで食べ、朝を待つ",
+          "explain": "防寒着を着込んで食べ、風の当たらない所で朝を待ちます。体が冷え切ったときは、熱を逃がさず熱の元を補うことが先です。",
           "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 300 }, { "type": "bivouac", "until": "dawn", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 0.6 }
@@ -742,6 +771,7 @@
         {
           "id": "push_eat",
           "label": "着込んで食べ、動いて温まる",
+          "explain": "着込んで食べたうえで、動いて体を温めようとします。歩けば熱は出ますが、震えて判断が鈍った状態で動くと、体力を使い切ったり転んだりしやすくなります。",
           "actions": [{ "type": "addLayer" }, { "type": "eat", "kcal": 300 }, { "type": "setFlag", "flag": "pushOn" }],
           "tags": ["risky"],
           "bias": { "base": 0.6, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.5 }, "add": 0.4 }] }
@@ -749,6 +779,7 @@
         {
           "id": "call",
           "label": "電波がある。110 番する",
+          "explain": "電波が届くので 110 番し、体が冷えていることを伝えて救助を待ちます。低体温症は自力で回復しにくく、早めに助けを求めることが大切です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "say", "text": "川苔山で道に迷って、動けなくなりました。体が冷えています", "tone": "normal" }, { "type": "waitRescue" }],
@@ -764,6 +795,7 @@
         {
           "id": "climb_back",
           "label": "沢を登り返す",
+          "explain": "滝の手前で引き返し、通ってきた沢を登り返します。下りられない所が出てきたら、来た所へ戻るのが確実です。",
           "detail": "滝は下りられない。来た所なら様子が分かる。",
           "actions": [{ "type": "say", "text": "ここは下りられない。戻ろう", "tone": "whisper" }, { "type": "backtrack" }],
           "flags": ["backtracked"],
@@ -773,12 +805,13 @@
         {
           "id": "high_route",
           "label": "滝の横の斜面を巻く",
+          "explain": "木につかまって滝の横の急斜面を巻こうとします。濡れた急斜面は足を滑らせやすく、沢での転落が起きやすい所です。",
           "detail": "木につかまれば、何とか巻けそうだ。",
           "actions": [{ "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.5, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.6 }, "add": 0.3 }] }
         },
-        { "id": "bivouac", "label": "ここで動かずに助けを待つ", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }], "bias": { "base": 0.2 } }
+        { "id": "bivouac", "label": "ここで動かずに助けを待つ", "explain": "これ以上動かず、着込んでその場で助けを待ちます。危ない所を避けられますが、沢の中は見つけてもらいにくく、増水にも注意が要ります。", "actions": [{ "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }], "bias": { "base": 0.2 } }
       ]
     },
     "darkness": { "situation": "日が暮れて、足元が見えにくい。ヘッドランプはザックの中。どうする？" }

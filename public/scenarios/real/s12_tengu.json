@@ -383,6 +383,7 @@
         {
           "id": "go",
           "label": "天狗岳へ。帰りは奥庭を通る",
+          "explain": "雪と強風の予報の中、予定どおり山頂へ向かい、人の少ない奥庭を通って戻ります。見通しが悪くなる午後に、迷いやすい広い窪地を歩く計画のままです。",
           "detail": "せっかく泊まったので、山頂まで行きたい。",
           "actions": [{ "type": "say", "text": "風は強いけど、行けるところまで行こう", "to": "ono" }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -391,6 +392,7 @@
         {
           "id": "same_way",
           "label": "天狗岳へ。帰りは同じ道を戻る",
+          "explain": "山頂へは向かいますが、帰りは奥庭を避け、トレースのはっきりした稜線の道を戻ります。天気が崩れる日は、迷いやすい所を通らない計画に変える判断です。",
           "detail": "奥庭を避け、トレースのある稜線だけを歩く。",
           "actions": [
             { "type": "say", "text": "帰りは同じ道を戻ろう。奥庭は天気のいい日に", "to": "ono" },
@@ -403,6 +405,7 @@
         {
           "id": "down",
           "label": "登らずに渋の湯へ下りる",
+          "explain": "雪と強風の予報を受けて山頂をあきらめ、渋の湯へ下ります。厳冬期の稜線で天気が崩れる日は、登らないことがいちばん確実な対策です。",
           "detail": "雪と強風の予報。天狗岳はまた来ればいい。",
           "actions": [{ "type": "say", "text": "今日はやめておこう。下りて温泉に入ろう", "to": "ono" }, { "type": "setRoute", "route": ["KUROYURI", "SHIBUNOYU"], "goalNodes": ["SHIBUNOYU"] }],
           "flags": ["noSummit"],
@@ -422,6 +425,7 @@
         {
           "id": "okuniwa",
           "label": "予定どおり奥庭から下る",
+          "explain": "雪が舞い始めた中、予定どおり奥庭から下ります。風下で楽に思えますが、踏み跡の薄い道で、夏に一度歩いただけの記憶に頼ることになります。",
           "detail": "奥庭は前に一度、夏に歩いた。",
           "actions": [{ "type": "say", "text": "奥庭から下りよう。風下だから稜線よりは楽なはずだ", "to": "ono" }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -430,6 +434,7 @@
         {
           "id": "ridge_back",
           "label": "登ってきた稜線の道を戻る",
+          "explain": "予定を変え、登ってきたトレースのある稜線の道を戻ります。見通しが悪くなってきたときは、知っていて人の多い道を選ぶほうが迷いにくくなります。",
           "detail": "知っている、トレースのある道を選ぶ。",
           "actions": [{ "type": "say", "text": "この天気で奥庭はやめよう。来た道を戻る", "to": "ono" }, { "type": "setRoute", "route": ["NISHI", "HIGASHI", "J_OKUNIWA", "NAKAYAMA", "KUROYURI", "SHIBUNOYU"], "goalNodes": ["SHIBUNOYU"] }],
           "flags": ["sameWay"],
@@ -449,6 +454,7 @@
         {
           "id": "check",
           "label": "地図とコンパスで北を確かめる",
+          "explain": "寒くても風を背にしゃがみ、地図とコンパスで進む向きを確かめます。踏み跡が見えない広い窪地では、見えている斜面が道の方向とは限りません。",
           "detail": "数分かかる。風を背にしゃがんで地図を広げる。",
           "actions": [{ "type": "say", "text": "待って。向きを確かめる", "to": "ono" }, { "type": "stopAndCheck" }, { "type": "continueRoute" }],
           "flags": ["checkedOkuniwa"],
@@ -458,6 +464,7 @@
         {
           "id": "follow",
           "label": "見える斜面をそのまま下る",
+          "explain": "寒さで止まりたくないと、見えている斜面をそのまま下ります。地図では道は北へ曲がるので、確かめずに下ると道のない谷へ入るおそれがあります。",
           "detail": "ヒュッテは下のはず。寒くて止まりたくない。",
           "actions": [{ "type": "say", "text": "寒い。とにかく下ろう", "to": "ono" }, { "type": "continueRoute" }],
           "tags": ["risky"],
@@ -476,6 +483,7 @@
         {
           "id": "rest",
           "label": "ツエルトで 1 時間休む",
+          "explain": "ツエルトをかぶって風をよけ、食べてお湯を飲み、1 時間落ち着いて考えます。汗で湿った体が冷え切る前に、熱と判断力を取り戻す選択です。",
           "detail": "風をよけ、食べてお湯を飲み、落ち着いて考える。",
           "actions": [
             { "type": "say", "text": "一度落ち着こう。ツエルトをかぶって、何か食べよう", "to": "ono" },
@@ -491,6 +499,7 @@
         {
           "id": "back",
           "label": "足跡をたどって登り返す",
+          "explain": "自分たちの足跡が雪に埋まる前に、たどって登山道まで登り返します。深い雪の登り返しはきついですが、通ってきた跡は確かな手がかりです。",
           "available": { "not": { "flag": "tracksGone" } },
           "unavailableText": "足跡はもう雪に埋まった",
           "detail": "自分たちの踏み跡なら戻れるかもしれない。",
@@ -501,6 +510,7 @@
         {
           "id": "biv",
           "label": "ツエルトを張って助けを待つ",
+          "explain": "動くのをやめ、風の当たらない所でツエルトを張って夜と救助に備えます。体力のあるうちに備えることで、冷えによる消耗を抑えます。",
           "detail": "体力のあるうちに、風の当たらない所で夜に備える。",
           "actions": [{ "type": "say", "text": "動くのはやめよう。ここで夜を越す準備をする", "to": "ono" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
@@ -509,6 +519,7 @@
         {
           "id": "descend",
           "label": "谷を下って渋の湯を目指す",
+          "explain": "登り返す力はないと考え、谷を下って渋の湯を目指します。谷の底は吹きだまりで雪が深く、雪崩のおそれもあり、さらに道から離れることになります。",
           "detail": "登り返す力はない。下りなら進める気がする。",
           "actions": [{ "type": "say", "text": "下へ行こう。沢沿いに下れば渋の湯だ", "to": "ono" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
@@ -527,6 +538,7 @@
         {
           "id": "lee_biv",
           "label": "ここで夜を越す準備をする",
+          "explain": "暗くなる前に、風の当たらない所にツエルトを張り直して夜を越す準備をします。日の入り前に場所を決めることで、暗い中で慌てて動かずに済みます。",
           "detail": "風の当たらない所に張り直し、助けを待つ。",
           "actions": [{ "type": "say", "text": "ここで夜を越そう。明るいうちに準備しておく" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
@@ -535,6 +547,7 @@
         {
           "id": "nav",
           "label": "地図とコンパスで位置を確かめる",
+          "explain": "手袋を外し、地図とコンパスで現在地を確かめようとします。分かれば登り返せますが、見通しの悪い中では位置を絞り込めないこともあり、指も冷えます。",
           "detail": "分かれば登り返す。見通しは {leader.local.visibilityM:0} m。",
           "actions": [{ "type": "say", "text": "地図を出そう。どこにいるか分かれば戻れる" }, { "type": "narrate", "text": "手袋を外し、風を背にして地図とコンパスを広げた" }],
           "flags": ["navTry1"],
@@ -543,6 +556,7 @@
         {
           "id": "descend",
           "label": "谷を下って道を探す",
+          "explain": "下りなら進めると、谷を下って道を探します。谷の底は吹きだまりで雪崩のおそれもあり、湿った服のまま深い雪の中で体力を使うことになります。",
           "actions": [{ "type": "say", "text": "下りなら進める。行こう" }, { "type": "continueRoute" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.4, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.6 }, "add": 0.4 }] }
@@ -560,6 +574,7 @@
         {
           "id": "biv",
           "label": "着込んでツエルトで助けを待つ",
+          "explain": "動くのをやめ、着込んで食べ、ツエルトで救助を待ちます。服が濡れて震えが止まらない今は、これ以上体力と熱を失わないことが優先です。",
           "actions": [{ "type": "say", "text": "もう動けない。ここで助けを待とう" }, { "type": "addLayer" }, { "type": "eat", "kcal": 200 }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
           "bias": { "base": 1 }
@@ -567,6 +582,7 @@
         {
           "id": "back",
           "label": "這ってでも来た跡を登り返す",
+          "explain": "雪の踏まれている来た跡を這ってでも登り返します。道へ近づけますが、濡れて震えている体で深い雪を登るのは大きな負担です。",
           "detail": "来た方なら雪は踏まれている。",
           "actions": [{ "type": "say", "text": "来た方へ戻ろう。少しずつでいい" }, { "type": "backtrack" }],
           "bias": { "base": 0.4 },
@@ -576,6 +592,7 @@
         {
           "id": "nav",
           "label": "地図とコンパスで位置を確かめる",
+          "explain": "手袋を外し、地図とコンパスで現在地を確かめようとします。分かれば戻る方向が決まりますが、震えて指が冷えた状態では、読図にも時間がかかります。",
           "available": { "all": [{ "not": { "flag": "navTry1" } }, { "not": { "flag": "navTry2" } }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "地図を出そう。どこにいるか分かれば戻れる" }, { "type": "narrate", "text": "手袋を外し、風を背にして地図とコンパスを広げた" }],
@@ -595,6 +612,7 @@
         {
           "id": "biv",
           "label": "ツエルトをかぶって助けを待つ",
+          "explain": "道からそれほど離れていない所で、ツエルトをかぶって救助を待ちます。道に近ければ、通りかかった人や捜索に気づいてもらいやすくなります。",
           "detail": "道に近い。人が通れば気づいてもらえるかも。",
           "actions": [{ "type": "say", "text": "ツエルトをかぶって待とう。ここなら道から遠くない" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": true }],
           "tags": ["recommended"],
@@ -603,13 +621,14 @@
         {
           "id": "back",
           "label": "かすかな足跡で登り返す",
+          "explain": "かすかに残る足跡をたどって、道まで登り返します。足跡が消えかけている今は、戻れる手がかりを使える最後の機会かもしれません。",
           "available": { "not": { "flag": "tracksGone" } },
           "unavailableText": "足跡はもう雪に埋まった",
           "actions": [{ "type": "say", "text": "足跡があるうちに戻ろう" }, { "type": "backtrack" }],
           "tags": ["recommended"],
           "bias": { "base": 0.6 }
         },
-        { "id": "descend", "label": "斜面を下って道を探す", "actions": [{ "type": "say", "text": "動こう。下ればどこかに出る" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.5 } }
+        { "id": "descend", "label": "斜面を下って道を探す", "explain": "動けば道に出ると考え、斜面を下ります。現在地が分からないまま下ると、道からさらに離れ、雪の深い谷へ入るおそれがあります。", "actions": [{ "type": "say", "text": "動こう。下ればどこかに出る" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.5 } }
       ]
     },
     {
@@ -623,6 +642,7 @@
         {
           "id": "biv",
           "label": "ツエルトを張って夜を越す",
+          "explain": "ツエルトを張ってザックの上に座り、着込んで行動食とお湯を分けて夜を越します。雪から体を離し、熱の元を補って朝まで体温を保つ、ビバークの基本です。",
           "detail": "ザックに座って着込み、行動食とお湯を分ける。",
           "actions": [
             { "type": "say", "text": "ザックの上に座って、着られるものは全部着よう" },
@@ -634,7 +654,7 @@
           "tags": ["recommended"],
           "bias": { "base": 1 }
         },
-        { "id": "walk", "label": "ヘッドランプで道を探し続ける", "actions": [{ "type": "say", "text": "止まったら凍える。歩こう" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } }
+        { "id": "walk", "label": "ヘッドランプで道を探し続ける", "explain": "止まると凍えると考え、ヘッドランプで道を探し続けます。暗い吹雪の中で動き回ると、汗と疲れで体温を失い、さらに迷うおそれがあります。", "actions": [{ "type": "say", "text": "止まったら凍える。歩こう" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } }
       ]
     },
     {
@@ -650,6 +670,7 @@
         {
           "id": "wait",
           "label": "動かずに待ち、笛を吹く",
+          "explain": "動かずに笛を吹き、発信機を空の見える所に出して救助を待ちます。登山計画が出してあり、発信機もあるので、見つけてもらう手がかりを生かす選択です。",
           "detail": "発信機は雪の上、空の見える所に出しておく。",
           "actions": [{ "type": "say", "text": "動かずに待とう。きっと探しに来てくれる" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
@@ -658,6 +679,7 @@
         {
           "id": "nav",
           "label": "地図とコンパスで位置を確かめる",
+          "explain": "天気の回復を見て、地図とコンパスで位置を確かめます。分かれば登り返せますが、冷え切った体で、一晩の新雪が深い斜面を登ることになります。",
           "detail": "分かれば登り返す。一晩の新雪が深い。",
           "actions": [{ "type": "say", "text": "晴れてきた。位置が分かれば戻れる" }, { "type": "narrate", "text": "手袋を外し、風を背にして地図とコンパスを広げた" }],
           "flags": ["navTry2"],
@@ -666,6 +688,7 @@
         {
           "id": "descend",
           "label": "谷を下って自力で里へ",
+          "explain": "救助を待たずに、谷を下って自力で里を目指します。冷え切った体で新雪の深い谷を進み、捜索の手がかりのある場所からも離れることになります。",
           "actions": [{ "type": "say", "text": "待っていても来ないかもしれない。下ろう" }, { "type": "continueRoute" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.3 }
@@ -681,6 +704,7 @@
         {
           "id": "backtrack",
           "label": "足跡が消える前に登り返す",
+          "explain": "風と雪で消えかけている自分たちの足跡をたどり、道まで登り返します。道を外れたと気づいたらすぐ戻るのが、道迷いの基本の対処です。",
           "available": { "not": { "flag": "tracksGone" } },
           "unavailableText": "足跡はもう雪に埋まった",
           "actions": [{ "type": "say", "text": "戻ろう。足跡があるうちに", "to": "ono" }, { "type": "backtrack" }],
@@ -690,14 +714,16 @@
         {
           "id": "descend",
           "label": "このまま下って道を探す",
+          "explain": "ここまで下りたからと、このまま下って道を探します。下の谷は吹きだまりで雪が深く、道からさらに離れていくおそれがあります。",
           "actions": [{ "type": "say", "text": "ここまで下りたんだ。このまま行こう", "to": "ono" }, { "type": "descendDrainage" }],
           "tags": ["risky"],
           "bias": { "base": 0.8, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.6 }, "add": 0.4 }] }
         },
-        { "id": "stay", "label": "止まってガスが晴れるのを待つ", "actions": [{ "type": "say", "text": "動くと余計に迷う。少し待とう", "to": "ono" }, { "type": "stayPut" }], "bias": { "base": 0.3 }, "flags": ["waitedFog"] },
+        { "id": "stay", "label": "止まってガスが晴れるのを待つ", "explain": "これ以上迷わないよう、止まってガスが晴れるのを待ちます。動かないのは妥当ですが、待つ間に足跡は消え、立っていると体も冷えていきます。", "actions": [{ "type": "say", "text": "動くと余計に迷う。少し待とう", "to": "ono" }, { "type": "stayPut" }], "bias": { "base": 0.3 }, "flags": ["waitedFog"] },
         {
           "id": "call",
           "label": "110 番して、その場で待つ",
+          "explain": "電波が入るうちに 110 番し、着込んでその場で待ちます。ここはたいてい圏外なので、つながるうちに助けを求めておく意味があります。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.15 }, { "var": "leader.phone.has", "op": "==", "value": true }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "電話してみる。まだ電波がある", "to": "ono" }, { "type": "callRescue", "via": "auto" }, { "type": "addLayer" }, { "type": "waitRescue" }],
@@ -713,6 +739,7 @@
         {
           "id": "biv_trail",
           "label": "着込んでツエルトで朝を待つ",
+          "explain": "歩くのをやめ、着込んで食べ、ツエルトで朝を待ちます。体の芯まで冷えたときは、風を避けて熱を逃がさないことが先です。",
           "available": { "state": "WALKING" },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もう歩けない。ツエルトを出そう" }, { "type": "addLayer" }, { "type": "eat", "kcal": 300 }, { "type": "bivouac", "until": "dawn", "findLee": true }],
@@ -722,6 +749,7 @@
         {
           "id": "biv_off",
           "label": "着込んでツエルトで助けを待つ",
+          "explain": "これ以上動かず、着込んで食べ、ツエルトをかぶって救助を待ちます。体の芯まで冷えたときは、風を避けて熱を逃がさないことが先です。",
           "available": { "not": { "state": "WALKING" } },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "もう動かないでおこう。ツエルトをかぶろう" }, { "type": "addLayer" }, { "type": "eat", "kcal": 300 }, { "type": "bivouac", "until": "rescue", "findLee": true }],
@@ -731,6 +759,7 @@
         {
           "id": "layer_go",
           "label": "着込んで食べ、歩き続ける",
+          "explain": "着込んで食べ、動いて体を温めようとします。歩けば熱は出ますが、震えて判断の鈍った状態で吹雪の中を動くと、体力を使い切るおそれがあります。",
           "available": { "var": "leader.moving", "op": "==", "value": true },
           "hideIfUnavailable": true,
           "actions": [{ "type": "say", "text": "止まったら凍える。食べて動こう" }, { "type": "addLayer" }, { "type": "eat", "kcal": 300 }],
@@ -740,6 +769,7 @@
         {
           "id": "call",
           "label": "電話で助けを呼び、待つ",
+          "explain": "電波が届くので電話で助けを呼び、着込んで待ちます。低体温症は自力で回復しにくく、つながるうちに助けを求めることが大切です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.15 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "addLayer" }, { "type": "waitRescue" }],
@@ -754,12 +784,13 @@
         {
           "id": "wait",
           "label": "ツエルトを張って待つ",
+          "explain": "ツエルトを張り、発信機を空の見える所に出して待ちます。登山計画も発信機もあるので、電話がつながらなくても、見つけてもらう手がかりはあります。",
           "detail": "発信機は空の見える所に出しておく。",
           "actions": [{ "type": "say", "text": "ここで待とう。登山計画は出してあるし、ココヘリもある" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
           "bias": { "base": 1 }
         },
-        { "id": "descend", "label": "谷を下って自力で道を探す", "actions": [{ "type": "say", "text": "待っていられない。下ろう" }, { "type": "continueRoute" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } }
+        { "id": "descend", "label": "谷を下って自力で道を探す", "explain": "待っていられないと、谷を下って自力で道を探します。雪の深い谷へ入ると、捜索の手がかりのある場所から離れることにもなります。", "actions": [{ "type": "say", "text": "待っていられない。下ろう" }, { "type": "continueRoute" }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } }
       ]
     },
     "injured": {
@@ -768,6 +799,7 @@
         {
           "id": "slow",
           "label": "痛みをこらえ、ゆっくり下る",
+          "explain": "足首の痛みをこらえ、ペースを落として下ります。歩ければ早く安全な所に近づけますが、雪の斜面ではけがを悪化させたり、また転んだりしやすくなります。",
           "available": { "all": [{ "state": "WALKING" }, { "var": "leader.injury", "op": "!=", "value": "legFracture" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }],
@@ -776,6 +808,7 @@
         {
           "id": "crawl",
           "label": "立てない。這ってでも下る",
+          "explain": "立てないまま、這ってでも下ろうとします。雪の中を這って進むと体が濡れて冷え、体力も大きく失います。",
           "available": { "all": [{ "state": "WALKING" }, { "var": "leader.injury", "op": "==", "value": "legFracture" }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "continueRoute" }],
@@ -785,6 +818,7 @@
         {
           "id": "biv",
           "label": "足を固定し、ツエルトで待つ",
+          "explain": "足を固定し、着込んでツエルトで救助を待ちます。動けば悪化するけがのとき、冷えを防いで体力を残す選択です。",
           "actions": [{ "type": "say", "text": "もう動けない。ここで待とう" }, { "type": "addLayer" }, { "type": "bivouac", "until": "rescue", "findLee": false }],
           "tags": ["recommended"],
           "bias": { "base": 0.6, "mods": [{ "when": { "not": { "state": "WALKING" } }, "add": 0.6 }] }
@@ -792,6 +826,7 @@
         {
           "id": "call",
           "label": "電話で助けを呼び、待つ",
+          "explain": "電波が届くので電話で助けを呼び、着込んで待ちます。けがで自力で下りられないときは、つながるうちに通報することが大切です。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.15 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "addLayer" }, { "type": "waitRescue" }],

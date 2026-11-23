@@ -502,12 +502,13 @@
       ],
       "options": [
         {
-          "id": "go", "label": "このまま出発する", "detail": "ハイキングだし、いつもどおりでいい。",
+          "id": "go", "label": "このまま出発する", "explain": "特に決めごとをせず、いつもどおり歩き出します。家族で歩く低い山でも、はぐれたときの動き方が決まっていないと、それぞれが別の判断をしがちです。", "detail": "ハイキングだし、いつもどおりでいい。",
           "actions": [{ "type": "say", "text": "よし、行こう。山頂でお昼だぞ", "to": "riku" }, { "type": "continueRoute" }],
           "bias": { "base": 1.3 }
         },
         {
           "id": "rule", "label": "はぐれたときの決まりを作る",
+          "explain": "「その場で待って電話」「下では全員そろうまで待つ」と先に決めておけば、はぐれたときに家族の動きがそろいます。行き違いを防ぐ、手間のかからない備えです。",
           "detail": "「その場で待って電話。下では全員そろうまで待つ」",
           "actions": [{ "type": "say", "text": "はぐれたら、その場で待って電話。下では全員そろうまで待つよ", "to": "riku" }, { "type": "continueRoute" }],
           "flags": ["familyRule"], "tags": ["recommended"], "bias": { "base": 0.3 }
@@ -523,11 +524,13 @@
       "options": [
         {
           "id": "long", "label": "13 時までゆっくり食べる",
+          "explain": "山頂で 50 分ゆっくり休みます。子どもたちはしっかり休めますが、そのぶん下山が遅れ、この先で何かあったときの時間の余裕が減ります。",
           "actions": [{ "type": "eat", "who": "all", "kcal": 400 }, { "type": "drink", "who": "all", "liters": 0.2 }, { "type": "rest", "minutes": 50 }],
           "bias": { "base": 1.2 }
         },
         {
           "id": "short", "label": "30 分で食べて下りる",
+          "explain": "食べて飲むことはきちんと済ませ、休憩を 30 分で切り上げます。下山予定に余裕を残しておけば、思わぬ遅れが出ても明るいうちに対処できます。",
           "actions": [{ "type": "eat", "who": "all", "kcal": 400 }, { "type": "drink", "who": "all", "liters": 0.2 }, { "type": "rest", "minutes": 30 }],
           "tags": ["recommended"], "bias": { "base": 0.5 }
         }
@@ -547,6 +550,7 @@
       "options": [
         {
           "id": "split", "label": "母子が先に、父は後から",
+          "explain": "母と子が先に下り、財布も持たない健一さんが一人で後から下ります。合流は電話頼みになり、山の中で別行動にすると、片方に何かあっても気づくのが遅れます。",
           "detail": "下でまた会えばいい。電話もある。",
           "actions": [
             { "type": "say", "text": "じゃあ先に行ってるね。すぐ来てよ", "who": "yumi", "to": "kenichi" },
@@ -563,12 +567,14 @@
         },
         {
           "id": "together", "label": "タバコはやめて 4 人で下る",
+          "explain": "一服をあきらめて 4 人一緒に下ります。トイレまでの 40 分は子どもには少しつらいですが、誰も一人にならずにすみます。",
           "detail": "トイレまで 40 分。急げばいい。",
           "actions": [{ "type": "say", "text": "タバコは下でいいか。みんなで行こう", "to": "riku" }, { "type": "continueRoute" }],
           "tags": ["recommended"], "bias": { "base": 0.4, "mods": [{ "when": { "flag": "familyRule" }, "add": 0.6 }] }
         },
         {
           "id": "wait", "label": "吸い終わるまで 4 人で待つ",
+          "explain": "10 分ほど待って、4 人そろって下ります。少し遅くなっても、ロープのある急な下りや分かれ道を家族一緒に通れます。",
           "detail": "10 分ほど待ってから一緒に下りる。",
           "actions": [{ "type": "say", "text": "ちょっとだけ待って。すぐ吸っちゃうから", "to": "yumi" }, { "type": "rest", "minutes": 10 }],
           "tags": ["recommended"], "bias": { "base": 0.3 }
@@ -586,18 +592,21 @@
       "options": [
         {
           "id": "back", "label": "展望台へ戻って探す",
+          "explain": "登り返して展望台へ戻り、スマホを探します。一人で予定にない動きをすることになり、家族は健一さんがどこにいるのか分からなくなります。",
           "detail": "30 分くらいで戻ってこられるはず。",
           "actions": [{ "type": "say", "who": "kenichi", "text": "まずい……戻って探そう", "tone": "whisper" }, { "type": "addAnxiety", "who": "kenichi", "amount": 30 }, { "type": "setFlag", "flag": "goBackPhone" }, { "type": "goToNode", "who": "kenichi", "node": "VIEWPOINT", "then": "stay" }],
           "bias": { "base": 1.0 }
         },
         {
           "id": "long", "label": "見つかるまで探す",
+          "explain": "見つかるまで探すつもりで展望台へ戻ります。物を探すうちに引き返す時刻の区切りがなくなり、一人きりの行動が長引きます。",
           "detail": "スマホがないと何もできない。",
           "actions": [{ "type": "say", "who": "kenichi", "text": "スマホがないと何もできない。見つかるまで探す", "tone": "whisper" }, { "type": "addAnxiety", "who": "kenichi", "amount": 40 }, { "type": "setFlag", "flag": "goBackPhoneLong" }, { "type": "goToNode", "who": "kenichi", "node": "VIEWPOINT", "then": "stay" }],
           "tags": ["risky"], "bias": { "base": 0.6 }
         },
         {
           "id": "down", "label": "あきらめて先に下りる",
+          "explain": "スマホはあきらめ、家族との合流を先にします。連絡は由美さんのスマホで補え、一人で山に残る時間を短くできます。",
           "detail": "家族と会ってから考える。",
           "actions": [{ "type": "say", "who": "kenichi", "text": "いや、先に下りよう。由美のスマホで探せばいい", "tone": "whisper" }, { "type": "addAnxiety", "who": "kenichi", "amount": 15 }, { "type": "continueRoute", "who": "kenichi" }],
           "tags": ["recommended"], "bias": { "base": 0.5 }
@@ -615,18 +624,21 @@
       "options": [
         {
           "id": "search", "label": "30 分だけ探す",
+          "explain": "時間を区切って探し、見つからなければ下ります。引き際ははっきりしますが、そのあいだ家族を待たせ、下山は遅くなります。",
           "detail": "だめならあきらめて下りる。",
           "actions": [{ "type": "setFlag", "flag": "searchingPhone" }, { "type": "setRoute", "who": "kenichi", "route": ["VIEWPOINT", "TH_DAIMYOJIN"], "goalNodes": ["TH_DAIMYOJIN"] }, { "type": "rest", "who": "kenichi", "minutes": 35 }],
           "bias": { "base": 0.8, "mods": [{ "when": { "flag": "goBackPhone" }, "add": 0.5 }] }
         },
         {
           "id": "searchLong", "label": "見つかるまで探す",
+          "explain": "斜面の下まで入って探し続けます。道を外れて探し回ると向きを見失いやすく、ヘッドランプもないまま日の入りが近づきます。",
           "detail": "斜面の下まで探してでも見つける。",
           "actions": [{ "type": "setFlag", "flag": "searchingLong" }, { "type": "rest", "who": "kenichi", "minutes": 40 }, { "type": "addAnxiety", "who": "kenichi", "amount": 15 }],
           "tags": ["risky"], "bias": { "base": 0.5 }
         },
         {
           "id": "giveup", "label": "あきらめてすぐ下りる",
+          "explain": "スマホより、明るいうちに家族のもとへ下りることを優先します。物はあとからでも探せますが、日暮れまでの時間は取り戻せません。",
           "actions": [{ "type": "setRoute", "who": "kenichi", "route": ["VIEWPOINT", "TH_DAIMYOJIN"], "goalNodes": ["TH_DAIMYOJIN"] }],
           "tags": ["recommended"], "bias": { "base": 0.4 }
         }
@@ -647,12 +659,14 @@
       "options": [
         {
           "id": "back", "label": "来た尾根を登り返す",
+          "explain": "分かれ目まで来た尾根を登り返します。登り返しはきついですが、踏み跡のある所へ確実に戻れる、道迷いの基本の対処です。",
           "detail": "分かれ目まで戻れば踏み跡がある。",
           "actions": [{ "type": "say", "who": "kenichi", "text": "下りすぎた。来た方へ戻ろう", "tone": "whisper" }, { "type": "backtrack" }],
           "tags": ["recommended"], "bias": { "base": 0.7 }
         },
         {
           "id": "gps", "label": "スマホの地図で道へ戻る",
+          "explain": "地図アプリで現在地を確かめ、登山道へ戻る向きを決めます。どちらへ戻ればよいかがはっきりしますが、残りの電池が頼りです。",
           "detail": "電池は減るが、場所は分かる。",
           "available": { "all": [{ "var": "leader.phone.gpsApp", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
@@ -661,6 +675,7 @@
         },
         {
           "id": "call", "label": "動かずに 110 番する",
+          "explain": "動かずに 110 番し、スマホの位置情報で居場所を伝えます。暗くなる前に動き回るのをやめれば、体力を残して見つけてもらいやすくなります。",
           "detail": "位置情報で場所が伝わる。",
           "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.15 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] },
           "hideIfUnavailable": true,
@@ -669,6 +684,7 @@
         },
         {
           "id": "descend", "label": "谷を下って車道を目指す",
+          "explain": "谷を下れば車道に出るという考えで、沢筋へ下ります。下の谷は滝や崖で行き止まりやすく、道迷いでいちばん危ない動き方です。",
           "detail": "下っていけば、いつか道に出るはずだ。",
           "actions": [{ "type": "say", "who": "kenichi", "text": "下れば車道に出るはずだ", "tone": "whisper" }, { "type": "descendDrainage" }],
           "tags": ["risky"], "bias": { "base": 0.7, "mods": [{ "when": { "var": "leader.J", "op": "<", "value": 0.5 }, "add": 0.5 }] }
@@ -686,11 +702,13 @@
       "options": [
         {
           "id": "call", "label": "110 番して動かずに待つ",
+          "explain": "家族の頼みを聞き、来た方へ少し戻ってから 110 番して待ちます。位置情報で場所が伝わり、明かりのないまま暗い山を歩かずにすみます。",
           "actions": [{ "type": "backtrack" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }, { "type": "setFlag", "flag": "dad110" }],
           "tags": ["recommended"], "bias": { "base": 1.0 }
         },
         {
           "id": "self", "label": "自分で何とかする",
+          "explain": "助けを断り、自分で下りようとします。「低い山だから」という思い込みは、明かりのないまま日暮れを迎える原因になりやすい考えです。",
           "detail": "低い山だ。そのうち道に出るはずだ。",
           "actions": [{ "type": "say", "who": "kenichi", "text": "大丈夫、自分で下りるから", "tone": "normal" }, { "type": "setFlag", "flag": "dadRefused" }],
           "tags": ["risky"], "bias": { "base": 0.5 }
@@ -708,11 +726,13 @@
       "options": [
         {
           "id": "call", "label": "110 番して動かずに待つ",
+          "explain": "二度目の頼みを受け入れて 110 番し、その場で待ちます。一度断ったあとでも、電池が残るうちに位置を伝えられれば遅すぎることはありません。",
           "actions": [{ "type": "backtrack" }, { "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }, { "type": "setFlag", "flag": "dad110" }],
           "tags": ["recommended"], "bias": { "base": 1.5 }
         },
         {
           "id": "self", "label": "それでも自分で何とかする",
+          "explain": "再び助けを断り、自分で下りようとします。電池が減り日が傾くなかで、通報できる機会そのものを手放すことになります。",
           "detail": "低い山だ。そのうち道に出るはずだ。",
           "actions": [{ "type": "say", "who": "kenichi", "text": "大丈夫だって。自分で何とかする", "tone": "normal" }, { "type": "setFlag", "flag": "dadRefused2" }],
           "tags": ["risky"], "bias": { "base": 0.5 }
@@ -729,18 +749,21 @@
       "options": [
         {
           "id": "station", "label": "バスで駅へ行って待つ",
+          "explain": "子どもを休ませるため、駅へ移って待ちます。子どもは楽になりますが、決めた合流場所を離れるので、健一さんと行き違いになりやすくなります。",
           "detail": "駅なら座れるし、トイレもある。",
           "actions": [{ "type": "say", "who": "yumi", "text": "駅で待とう。パパもすぐ来るよ", "to": "riku" }, { "type": "setFlag", "flag": "momToStation" }, { "type": "leaveMap", "who": "yumi", "place": "相模湖駅" }, { "type": "leaveMap", "who": "riku", "place": "相模湖駅" }, { "type": "leaveMap", "who": "kai", "place": "相模湖駅" }],
           "bias": { "base": 1.2 }
         },
         {
           "id": "stay", "label": "バス停で待ち続ける",
+          "explain": "合流場所のバス停で待ち続けます。行き違いは防げますが、何かあったのかもしれないと判断して知らせるのは、そのぶん遅れます。",
           "detail": "全員そろうまで、ここを動かない。",
           "actions": [{ "type": "say", "who": "yumi", "text": "もう少しここで待とう。行き違いになったら困るから", "to": "riku" }, { "type": "setFlag", "flag": "momWaits" }],
           "tags": ["recommended"], "bias": { "base": 0.4, "mods": [{ "when": { "flag": "familyRule" }, "add": 0.8 }] }
         },
         {
           "id": "call110", "label": "すぐ 110 番に相談する",
+          "explain": "下りてこず電話にも出ない時点で、警察に相談します。大げさに思えても、早く知らせるほど明るいうちに捜索を始められます。",
           "detail": "大げさかもしれないが、何かあったのかも。",
           "actions": [{ "type": "say", "who": "yumi", "text": "すみません、山で家族とはぐれて……", "tone": "normal" }, { "type": "reportMissing" }],
           "tags": ["recommended"], "bias": { "base": 0.2 }
@@ -757,11 +780,13 @@
       "options": [
         {
           "id": "koban", "label": "交番に相談する",
+          "explain": "駅前の交番に、夫が山から下りてこないと届けます。日の入りまで 1 時間半あるうちに知らせれば、明るいうちに捜索の準備を始められます。",
           "actions": [{ "type": "leaveMap", "who": "yumi", "place": "相模湖駅前の交番" }, { "type": "leaveMap", "who": "riku", "place": "相模湖駅前の交番" }, { "type": "leaveMap", "who": "kai", "place": "相模湖駅前の交番" }, { "type": "say", "who": "yumi", "text": "主人が山から下りてこないんです", "tone": "normal" }, { "type": "reportMissing" }],
           "tags": ["recommended"], "bias": { "base": 0.8 }
         },
         {
           "id": "gusto", "label": "ファミレスで待つ",
+          "explain": "子どもに夕食をとらせながら連絡を待ちます。子どもの世話は大切ですが、明かりを持たない健一さんが山にいるかもしれないまま、知らせるのが夜まで遅れます。",
           "detail": "子どもたちに夕飯を食べさせながら。",
           "actions": [{ "type": "say", "who": "yumi", "text": "ごはん食べながら待とうか", "to": "riku" }, { "type": "setFlag", "flag": "momWaitsDinner" }, { "type": "leaveMap", "who": "yumi", "place": "湖のそばのファミレス" }, { "type": "leaveMap", "who": "riku", "place": "湖のそばのファミレス" }, { "type": "leaveMap", "who": "kai", "place": "湖のそばのファミレス" }],
           "bias": { "base": 0.8 }
@@ -777,8 +802,8 @@
       "situation": "17 時。バス停で 2 時間待っても健一さんは来ない。日の入りまであと 1 時間半。どうする？",
       "knowledge": ["健一さんはヘッドランプを持っていない", "電話はつながらないまま"],
       "options": [
-        { "id": "call110", "label": "110 番する", "actions": [{ "type": "say", "who": "yumi", "text": "主人が山から下りてこないんです", "tone": "normal" }, { "type": "reportMissing" }], "tags": ["recommended"], "bias": { "base": 0.9 } },
-        { "id": "wait", "label": "もう少しだけ待つ", "actions": [{ "type": "say", "who": "yumi", "text": "もうちょっとだけ待ってみよう", "to": "riku" }], "bias": { "base": 0.6 } }
+        { "id": "call110", "label": "110 番する", "explain": "2 時間待っても来ないので、110 番で届けます。日の入り前に知らせれば、暗くなる前に捜索が動き出せます。", "actions": [{ "type": "say", "who": "yumi", "text": "主人が山から下りてこないんです", "tone": "normal" }, { "type": "reportMissing" }], "tags": ["recommended"], "bias": { "base": 0.9 } },
+        { "id": "wait", "label": "もう少しだけ待つ", "explain": "もう少し様子を見ます。来るかもしれないという期待で通報を先送りすると、明かりのない人が山で夜を迎える時間が延びます。", "actions": [{ "type": "say", "who": "yumi", "text": "もうちょっとだけ待ってみよう", "to": "riku" }], "bias": { "base": 0.6 } }
       ]
     }
   ],
@@ -789,21 +814,21 @@
     "darkness": {
       "situation": "森の中が暗くなってきた。ヘッドランプはなく、足元がほとんど見えない。どうする？",
       "options": [
-        { "id": "continue", "label": "スマホのライトで下り続ける", "detail": "照らせるのは足元だけ。", "available": { "all": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.phone.has", "op": "==", "value": true }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
-        { "id": "grope", "label": "手探りで道を下り続ける", "detail": "ライターの火は数秒しかもたない。", "available": { "all": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.phone.has", "op": "==", "value": false }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
-        { "id": "keep_off", "label": "暗い斜面を手探りで進む", "detail": "登山道の上ではない。明かりもない。", "available": { "var": "leader.state", "op": "!=", "value": "WALKING" }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }], "tags": ["risky"], "bias": { "base": 1 } },
-        { "id": "bivouac", "label": "動かずに朝を待つ", "detail": "落ち葉で体を覆い、風の当たらない所で。", "actions": [{ "type": "bivouac", "until": "dawn", "findLee": true }], "tags": ["recommended"], "bias": { "base": 0.6 } }
+        { "id": "continue", "label": "スマホのライトで下り続ける", "explain": "スマホのライトを頼りに、ゆっくり下り続けます。照らせる範囲は狭く、道を外れたりつまずいたりしやすいうえ、通報に使う電池も減っていきます。", "detail": "照らせるのは足元だけ。", "available": { "all": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.phone.has", "op": "==", "value": true }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
+        { "id": "grope", "label": "手探りで道を下り続ける", "explain": "ライターの火のほかに明かりがないまま、手探りで下ります。足元が見えない下りは、道迷いと転落の危険がとても大きい判断です。", "detail": "ライターの火は数秒しかもたない。", "available": { "all": [{ "var": "leader.state", "op": "==", "value": "WALKING" }, { "var": "leader.phone.has", "op": "==", "value": false }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 1 } },
+        { "id": "keep_off", "label": "暗い斜面を手探りで進む", "explain": "登山道を外れたまま、明かりもなく暗い斜面を進みます。どこへ向かっているかも分からず、急な所に気づけません。", "detail": "登山道の上ではない。明かりもない。", "available": { "var": "leader.state", "op": "!=", "value": "WALKING" }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }], "tags": ["risky"], "bias": { "base": 1 } },
+        { "id": "bivouac", "label": "動かずに朝を待つ", "explain": "暗いうちは動かず、落ち葉で体を覆って風を避け、朝を待ちます。雨具もない軽装ですが、暗い中を歩き回るより安全なことが多い判断です。", "detail": "落ち葉で体を覆い、風の当たらない所で。", "actions": [{ "type": "bivouac", "until": "dawn", "findLee": true }], "tags": ["recommended"], "bias": { "base": 0.6 } }
       ]
     },
     "injured": {
       "options": [
-        { "id": "slow_descend", "label": "ゆっくり下山する", "available": { "all": [{ "var": "leader.injury", "op": "!=", "value": "legFracture" }, { "var": "leader.awareLost", "op": "==", "value": false }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }], "bias": { "base": 0.8 } },
-        { "id": "slow_off", "label": "かばいながら斜面を下る", "detail": "道に迷ったまま。", "available": { "all": [{ "var": "leader.injury", "op": "!=", "value": "legFracture" }, { "var": "leader.awareLost", "op": "==", "value": true }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.6 } },
-        { "id": "crawl", "label": "這ってでも下りる", "detail": "折れた足は地面につけない。", "available": { "all": [{ "var": "leader.injury", "op": "==", "value": "legFracture" }, { "var": "leader.awareLost", "op": "==", "value": false }] }, "hideIfUnavailable": true, "actions": [{ "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 0.3 } },
-        { "id": "crawl_off", "label": "這って斜面を下る", "detail": "道に迷ったまま。足は地面につけない。", "available": { "all": [{ "var": "leader.injury", "op": "==", "value": "legFracture" }, { "var": "leader.awareLost", "op": "==", "value": true }] }, "hideIfUnavailable": true, "actions": [{ "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } },
-        { "id": "bivouac", "label": "動かずに助けを待つ", "actions": [{ "type": "bivouac", "until": "rescue", "findLee": true }], "bias": { "base": 0.3, "mods": [{ "when": { "var": "leader.injury", "op": "==", "value": "legFracture" }, "add": 0.6 }] } },
-        { "id": "call", "label": "救助を要請する", "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.15 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }, "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
-        { "id": "seek_signal", "label": "電波を探して動く", "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }, "hideIfUnavailable": true, "actions": [{ "type": "seekSignal" }], "bias": { "base": 0.3 } }
+        { "id": "slow_descend", "label": "ゆっくり下山する", "explain": "道は分かっているので、けがをかばってゆっくり下ります。自分で下りられれば早く安全な所に着けますが、けがが重いと途中で動けなくなる恐れがあります。", "available": { "all": [{ "var": "leader.injury", "op": "!=", "value": "legFracture" }, { "var": "leader.awareLost", "op": "==", "value": false }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "continueRoute" }], "bias": { "base": 0.8 } },
+        { "id": "slow_off", "label": "かばいながら斜面を下る", "explain": "道に迷ったまま、けがをかばって斜面を下ります。迷ったまま下ると沢や崖に入りやすく、けがをしていればなおさら危険です。", "detail": "道に迷ったまま。", "available": { "all": [{ "var": "leader.injury", "op": "!=", "value": "legFracture" }, { "var": "leader.awareLost", "op": "==", "value": true }] }, "hideIfUnavailable": true, "actions": [{ "type": "setPace", "factor": 0.6 }, { "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.6 } },
+        { "id": "crawl", "label": "這ってでも下りる", "explain": "足を地面につけずに、這って登山道を下ります。時間がかかり体力と体温を奪われますが、道の上にいるぶん見つけてもらいやすくはあります。", "detail": "折れた足は地面につけない。", "available": { "all": [{ "var": "leader.injury", "op": "==", "value": "legFracture" }, { "var": "leader.awareLost", "op": "==", "value": false }] }, "hideIfUnavailable": true, "actions": [{ "type": "continueRoute" }], "tags": ["risky"], "bias": { "base": 0.3 } },
+        { "id": "crawl_off", "label": "這って斜面を下る", "explain": "道に迷ったまま、這って斜面を下ります。どこへ向かうか分からないまま体力を使い、見つけてもらいにくい場所へ入る恐れがあります。", "detail": "道に迷ったまま。足は地面につけない。", "available": { "all": [{ "var": "leader.injury", "op": "==", "value": "legFracture" }, { "var": "leader.awareLost", "op": "==", "value": true }] }, "hideIfUnavailable": true, "actions": [{ "type": "descendDrainage" }], "tags": ["risky"], "bias": { "base": 0.3 } },
+        { "id": "bivouac", "label": "動かずに助けを待つ", "explain": "その場で風を避けて助けを待ちます。けがを悪くしませんが、誰かが通報していて、居場所が分かることが前提です。", "actions": [{ "type": "bivouac", "until": "rescue", "findLee": true }], "bias": { "base": 0.3, "mods": [{ "when": { "var": "leader.injury", "op": "==", "value": "legFracture" }, "add": 0.6 }] } },
+        { "id": "call", "label": "救助を要請する", "explain": "スマホで救助を頼み、その場で待ちます。歩けないほどのけがなら、早く頼むほど暗くなる前に見つけてもらえる見込みが上がります。", "available": { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.15 }, { "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }, "actions": [{ "type": "callRescue", "via": "auto" }, { "type": "waitRescue" }], "tags": ["recommended"], "bias": { "base": 0.5 } },
+        { "id": "seek_signal", "label": "電波を探して動く", "explain": "電波の入る所を探して動きます。救助を頼めるかもしれませんが、けがをしたまま動くと、けがを悪くしたり居場所が変わったりします。", "available": { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }, "hideIfUnavailable": true, "actions": [{ "type": "seekSignal" }], "bias": { "base": 0.3 } }
       ]
     }
   },
