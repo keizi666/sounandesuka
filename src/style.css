@@ -757,8 +757,9 @@ main.select2 { min-height: 100dvh; background: radial-gradient(1200px 600px at 2
 .sel-card.disabled .sel-hero { cursor: not-allowed; }
 .sel-card.resumable { border-color: rgba(212, 166, 74, 0.55); }
 .sel-badge { position: absolute; right: 10px; top: 44px; padding: 2px 10px; border-radius: 999px; font-size: 0.78em; background: rgba(212, 166, 74, 0.92); color: #1a1408; font-weight: 600; }
-.sel-actions { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
-.sel-actions .sel-go { display: inline-flex; align-items: center; gap: 6px; padding: 7px 18px 7px 12px; border-radius: 999px; }
+/* 広い画面では右寄せ（ユーザーの指定）。「状況開始」をいちばん右に、「最初から」はその左。狭い画面（520px 以下）は中央 */
+.sel-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 2px; }
+.sel-actions .sel-go { order: 2; display: inline-flex; align-items: center; gap: 6px; padding: 7px 18px 7px 12px; border-radius: 999px; }
 .sel-actions .sel-restart { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px 5px 8px; border-radius: 999px; font-size: 0.86em; background: transparent; border: 1px solid rgba(255, 255, 255, 0.16); color: #cfd5de; }
 .sel-foot { display: flex; flex-wrap: wrap; gap: 6px 18px; color: #7f8792; font-size: 0.8em; }
 .sel-foot a { color: #a9b0bb; }
