@@ -22,6 +22,8 @@ const CALL_OK: Condition = {
 };
 const HAS_PHONE: Condition = { all: [{ var: 'leader.phone.has', op: '==', value: true }, { var: 'leader.phone.batteryPct', op: '>', value: 0 }] };
 const HAS_LAMP: Condition = { var: 'leader.headlamp.usable', op: '==', value: true };
+/** 歩ける（足を骨折していたら這うしかないので「歩き続ける」は出さない） */
+const CAN_WALK: Condition = { var: 'leader.injury', op: '!=', value: 'legFracture' };
 
 /** 既定の選択肢（docs/09 §7 の表） */
 export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options: ChoiceOptionDef[] }> = {
@@ -71,10 +73,12 @@ export const GENERIC_DEFS: Record<GenericChoiceKey, { priority: number; options:
     priority: 3,
     options: [
       opt('bivouac', [{ type: 'addLayer' }, { type: 'eat', kcal: 300 }, { type: 'bivouac', until: 'dawn', findLee: true }], 0.4, { tags: ['recommended'] }),
-      opt('push_eat', [{ type: 'addLayer' }, { type: 'eat', kcal: 300 }, { type: 'continueRoute' }], 0.6),
+      opt('push_eat', [{ type: 'addLayer' }, { type: 'eat', kcal: 300 }, { type: 'continueRoute' }], 0.6, { available: CAN_WALK, hideIfUnavailable: true }),
       opt('keep_walking', [{ type: 'setPace', factor: 1.1 }, { type: 'continueRoute' }], 0.8, {
         tags: ['risky'],
         bias: { base: 0.8, mods: [{ when: { var: 'leader.J', op: '<', value: 0.5 }, add: 0.6 }] },
+        available: CAN_WALK,
+        hideIfUnavailable: true,
       }),
       opt('call', [{ type: 'callRescue', via: 'auto' }, { type: 'waitRescue' }], 0.3, { tags: ['recommended'], available: CALL_OK, hideIfUnavailable: true }),
     ],
@@ -212,8 +216,15 @@ export function genericTrigger(world: World, ctx: StaticContext, key: GenericCho
       }
       return false;
     }
-    case 'injured':
-      return rising(world, L, ['sprain', 'legFracture', 'headInjury', 'severeTrauma'].includes(leader.body.injury) && leader.body.conscious);
+    case 'injured': {
+      // けがをした瞬間（意識が戻ったときも）。そのあとより重いけが（捻挫 → 足の骨折 など）になったら、もう一度出す
+      const inj = leader.body.injury;
+      const on = ['sprain', 'legFracture', 'headInjury', 'severeTrauma'].includes(inj) && leader.body.conscious;
+      const K = `${L}:${inj}`;
+      const worse = on && world.latches[K] !== true;
+      if (on) world.latches[K] = true;
+      return rising(world, L, on) || worse;
+    }
     case 'bruised':
       // 打撲・擦り傷を負った瞬間（けがなし → 打撲）。それより重いけがは injured
       return rising(world, L, leader.body.injury === 'bruise' && leader.body.conscious);

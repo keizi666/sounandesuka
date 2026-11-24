@@ -16,7 +16,8 @@ import { footSnowCm, groundAt } from '../weather/ground';
 
 export type SlipClass = 'T1' | 'T2' | 'EXPOSED' | 'OFF' | 'OFF_STEEP' | 'STREAM' | 'CLIFF';
 
-const INJURY_ORDER: InjuryKind[] = ['none', 'bruise', 'sprain', 'legFracture', 'headInjury', 'severeTrauma'];
+// けがを重ねたときに残す順。足の骨折は歩けなくなる（這う）ので、頭のけがより重く数える（頭をけがしたあとに足を折っても歩き続けないように）
+const INJURY_ORDER: InjuryKind[] = ['none', 'bruise', 'sprain', 'headInjury', 'legFracture', 'severeTrauma'];
 
 /**
  * 地形クラス（docs/08 §1.1）。道外の傾斜は「進む方向の勾配」で判定する（沢床を下るときに谷の側壁の傾斜を使わない）。

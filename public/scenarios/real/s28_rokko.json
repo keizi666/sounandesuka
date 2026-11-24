@@ -4064,9 +4064,18 @@
           "label": "沢を下って町を目指す",
           "detail": "じっとしていられない。",
           "available": {
-            "not": {
-              "state": "INCAPACITATED"
-            }
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
           },
           "hideIfUnavailable": true,
           "actions": [
@@ -4099,6 +4108,56 @@
             ]
           },
           "explain": "けがをしたまま、沢を下って町を目指すことです。滝や濡れた岩があり、転落したり、水に浸かって体が冷えたりするおそれがあります。"
+        },
+        {
+          "id": "crawl",
+          "label": "這って沢を下る",
+          "detail": "足が折れて立てない。それでも、じっとしていられない。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "==",
+                "value": "legFracture"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "這ってでも、下へ",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "crawlDown"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.3
+              }
+            ]
+          },
+          "explain": "足を骨折したまま、手と膝で沢を這い下りることです。ほとんど進めないうえ、濡れた岩で滑り落ちたり、水に浸かって体が冷えたりするおそれがあります。"
         }
       ]
     },
