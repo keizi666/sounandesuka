@@ -111,6 +111,12 @@ export interface LoadedScenario {
   conditions?: StartConditions;
   /** 公開の一覧（index.json）から読んだシナリオ。URL で場面を共有できるのはこれだけ（エディター・ファイルのシナリオは開けないため） */
   listed?: boolean;
+  /** 決まった乱数の種で遊ぶ（週替わりのお題・挑戦状。同じ天気・同じ巡り合わせ）。なければ毎回変わる */
+  seed?: number;
+  /** 週替わりのお題の週の番号（src/app/weekly.ts）。載せる記録に入れる */
+  week?: number;
+  /** 挑戦状の鍵（結果の画面で、送った人に結果を届けられる） */
+  challenge?: string;
 }
 
 /** エディターのプロジェクト（同一オリジンの IndexedDB）をバンドルにして読む（docs/18 §6.3） */

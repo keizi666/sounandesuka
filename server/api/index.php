@@ -52,12 +52,15 @@ function summary_input(array $s): array
   $decisions = [];
   foreach (array_slice(is_array($s['decisions'] ?? null) ? $s['decisions'] : [], 0, 40) as $d) {
     if (!is_array($d)) fail(400, 'invalid');
-    $decisions[] = [
+    $one = [
       'tMin' => num($d['tMin'] ?? null, 0, 60 * 24 * 30),
       'title' => check_text((string) ($d['title'] ?? ''), 80, 1, true),
       'label' => check_text((string) ($d['label'] ?? ''), 80, 1, true),
       'auto' => (bool) ($d['auto'] ?? false),
     ];
+    // 分岐と選択肢の ID（「みんなの選択」の集計に使う。ないとき・形が違うときは入れない）
+    foreach (['cpId', 'optionId'] as $k) if (isset($d[$k]) && is_string($d[$k]) && preg_match('/^[A-Za-z0-9_:@.-]{1,80}$/', $d[$k])) $one[$k] = $d[$k];
+    $decisions[] = $one;
   }
   return [
     'scenarioId' => $id,
@@ -74,6 +77,8 @@ function summary_input(array $s): array
     // 遊んだ難しさ（ユーザーの指定: 記録のカードに出す）。ないとき・知らない値は入れない
     'difficulty' => in_array($s['difficulty'] ?? null, ['easy', 'normal', 'hard'], true) ? (string) $s['difficulty'] : null,
     'appVersion' => substr(preg_replace('/[^0-9A-Za-z.+*_-]/', '', (string) ($s['appVersion'] ?? '')) ?? '', 0, 40),
+    // 週替わりのお題の週の番号（src/app/weekly.ts）。ないときは null
+    'week' => is_int($s['week'] ?? null) && $s['week'] > 0 && $s['week'] < 100000 ? $s['week'] : null,
   ];
 }
 
@@ -88,6 +93,42 @@ function run_out(array $r, ?array $me, bool $withRecord): array
   $o['mine'] = $me !== null && (int) $me['id'] === (int) $r['user_id'];
   if ($withRecord) $o['record'] = (string) $r['record'];
   return $o;
+}
+
+/** 記録に「参考になった」の数と、自分が押したかを付ける */
+function attach_likes(array $items, ?array $me): array
+{
+  if ($items === []) return $items;
+  $ids = array_map(fn ($o) => (int) $o['id'], $items);
+  $in = implode(',', array_fill(0, count($ids), '?'));
+  $q = db()->prepare("SELECT run_id, COUNT(*) AS n FROM likes WHERE run_id IN ($in) GROUP BY run_id");
+  $q->execute($ids);
+  $n = [];
+  foreach ($q->fetchAll() as $r) $n[(int) $r['run_id']] = (int) $r['n'];
+  $mine = [];
+  if ($me !== null) {
+    $q = db()->prepare("SELECT run_id FROM likes WHERE user_id = ? AND run_id IN ($in)");
+    $q->execute(array_merge([(int) $me['id']], $ids));
+    foreach ($q->fetchAll() as $r) $mine[(int) $r['run_id']] = true;
+  }
+  foreach ($items as $i => $o) {
+    $items[$i]['likes'] = $n[(int) $o['id']] ?? 0;
+    $items[$i]['liked'] = isset($mine[(int) $o['id']]);
+  }
+  return $items;
+}
+
+/** ISO の時刻（Z 付き）なら、そのまま。違えば空 */
+function iso_or_empty(string $s): string
+{
+  return preg_match('/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/', $s) ? $s : '';
+}
+
+/** 利用者の行（別名を付けた列）から公開のプロフィール */
+function user_from_row(array $r, string $idCol): ?array
+{
+  if ($r[$idCol] === null) return null;
+  return public_user(['id' => $r[$idCol], 'nickname' => $r['nickname'], 'sex' => $r['sex'], 'age' => $r['age'], 'portrait' => $r['portrait'], 'color' => $r['color']]);
 }
 
 const RUN_COLS = 'runs.id, runs.user_id, runs.summary, runs.comment, runs.created_at, users.nickname, users.sex, users.age, users.portrait, users.color';
@@ -123,7 +164,7 @@ try {
     $w = implode(' AND ', $endWhere);
     $q = $pdo->prepare('SELECT ' . RUN_COLS . " FROM runs JOIN users ON users.id = runs.user_id WHERE $w ORDER BY runs.id DESC LIMIT $limit OFFSET $offset");
     $q->execute($args);
-    $items = array_map(fn ($r) => run_out($r, $me, false), $q->fetchAll());
+    $items = attach_likes(array_map(fn ($r) => run_out($r, $me, false), $q->fetchAll()), $me);
     $q = $pdo->prepare("SELECT COUNT(*) FROM runs WHERE $w");
     $q->execute($args);
     $total = (int) $q->fetchColumn();
@@ -140,6 +181,94 @@ try {
       $scenarios[] = ['id' => $r['scenario_id'], 'title' => $t, 'n' => (int) $r['n']];
     }
     respond(200, ['items' => $items, 'total' => $total, 'counts' => $counts, 'scenarios' => $scenarios]);
+  }
+
+  if ($method === 'GET' && $a === 'stats' && (int) ($_GET['week'] ?? 0) > 0) {
+    // 週替わりのお題の集計（その週の番号の記録だけ。要約を読んで数える）
+    $week = (int) $_GET['week'];
+    $scenario = (string) ($_GET['scenario'] ?? '');
+    $q = $pdo->prepare('SELECT scenario_id, user_id, summary FROM runs WHERE hidden = 0' . ($scenario !== '' ? ' AND scenario_id = ?' : '') . ' ORDER BY id DESC LIMIT 5000');
+    $q->execute($scenario !== '' ? [$scenario] : []);
+    $by = [];
+    $users = [];
+    foreach ($q->fetchAll() as $r) {
+      $s = json_decode((string) $r['summary'], true);
+      if (!is_array($s) || (int) ($s['week'] ?? 0) !== $week) continue;
+      $id = (string) $r['scenario_id'];
+      if (!isset($by[$id])) $by[$id] = ['id' => $id, 'title' => scenario_titles()[$id] ?? $id, 'n' => 0, 'players' => 0, 'counts' => [], 'deathsAny' => 0];
+      $e = (string) ($s['ending'] ?? '');
+      $by[$id]['counts'][$e] = ($by[$id]['counts'][$e] ?? 0) + 1;
+      $by[$id]['n'] += 1;
+      if ((int) ($s['deaths'] ?? 0) > 0) $by[$id]['deathsAny'] += 1;
+      $users[$id][(int) $r['user_id']] = true;
+    }
+    foreach ($by as $id => $v) $by[$id]['players'] = count($users[$id] ?? []);
+    respond(200, ['scenarios' => array_values($by)]);
+  }
+
+  if ($method === 'GET' && $a === 'choices') {
+    // 分岐ごとの、みんなの選択（自分で選んだものだけ。自動で決まったものは数えない）。week を付けるとその週のお題の記録だけ
+    $scenario = (string) ($_GET['scenario'] ?? '');
+    if (!preg_match('/^[a-z0-9_]{1,64}$/', $scenario)) fail(400, 'invalid');
+    $week = (int) ($_GET['week'] ?? 0);
+    $q = $pdo->prepare('SELECT summary FROM runs WHERE hidden = 0 AND scenario_id = ? ORDER BY id DESC LIMIT 3000');
+    $q->execute([$scenario]);
+    $n = 0;
+    $cps = [];
+    foreach ($q->fetchAll() as $r) {
+      $s = json_decode((string) $r['summary'], true);
+      if (!is_array($s) || ($week > 0 && (int) ($s['week'] ?? 0) !== $week)) continue;
+      $n++;
+      foreach (is_array($s['decisions'] ?? null) ? $s['decisions'] : [] as $d) {
+        if (!is_array($d) || !empty($d['auto'])) continue;
+        $ck = isset($d['cpId']) && $d['cpId'] !== '' ? (string) $d['cpId'] : 't:' . (string) ($d['title'] ?? '');
+        $ok = isset($d['optionId']) && $d['optionId'] !== '' ? (string) $d['optionId'] : 'l:' . (string) ($d['label'] ?? '');
+        if (!isset($cps[$ck])) $cps[$ck] = ['total' => 0, 'opts' => []];
+        $cps[$ck]['total'] += 1;
+        $cps[$ck]['opts'][$ok] = ($cps[$ck]['opts'][$ok] ?? 0) + 1;
+      }
+    }
+    foreach ($cps as $k => $v) $cps[$k]['opts'] = (object) $v['opts'];
+    respond(200, ['n' => $n, 'cps' => (object) $cps]);
+  }
+
+  if ($method === 'GET' && $a === 'notices') {
+    // 戻ってきたときのお知らせ: since より後に、自分の記録に付いた「参考になった」と、自分の挑戦状への答え
+    $u = require_user();
+    $since = iso_or_empty((string) ($_GET['since'] ?? ''));
+    $likes = [];
+    $answers = [];
+    if ($since !== '') {
+      $q = $pdo->prepare('SELECT likes.run_id AS run_id, COUNT(*) AS n, MAX(runs.summary) AS s FROM likes JOIN runs ON runs.id = likes.run_id WHERE runs.user_id = ? AND likes.created_at > ? GROUP BY likes.run_id ORDER BY MAX(likes.created_at) DESC LIMIT 10');
+      $q->execute([(int) $u['id'], $since]);
+      foreach ($q->fetchAll() as $r) {
+        $s = json_decode((string) $r['s'], true) ?: [];
+        $likes[] = ['runId' => (int) $r['run_id'], 'scenarioTitle' => (string) ($s['scenarioTitle'] ?? ''), 'n' => (int) $r['n']];
+      }
+      $q = $pdo->prepare('SELECT answers.k AS k, answers.ending AS ending, answers.ending_title AS ending_title, answers.created_at AS at, challenges.scenario_id AS sid, users.id AS uid, users.nickname, users.sex, users.age, users.portrait, users.color FROM answers JOIN challenges ON challenges.k = answers.k LEFT JOIN users ON users.id = answers.user_id WHERE challenges.user_id = ? AND answers.created_at > ? ORDER BY answers.id DESC LIMIT 10');
+      $q->execute([(int) $u['id'], $since]);
+      foreach ($q->fetchAll() as $r) {
+        $answers[] = [
+          'k' => (string) $r['k'], 'scenarioTitle' => scenario_titles()[(string) $r['sid']] ?? (string) $r['sid'],
+          'user' => user_from_row($r, 'uid'), 'ending' => (string) $r['ending'], 'endingTitle' => (string) $r['ending_title'], 'at' => (string) $r['at'],
+        ];
+      }
+    }
+    respond(200, ['likes' => $likes, 'answers' => $answers, 'now' => now_iso()]);
+  }
+
+  if ($method === 'GET' && $a === 'challenge') {
+    // 挑戦状（送った人・シナリオ・一言・答えの数）
+    $q = $pdo->prepare('SELECT challenges.k AS k, challenges.scenario_id AS sid, challenges.text AS text, users.id AS uid, users.nickname, users.sex, users.age, users.portrait, users.color FROM challenges JOIN users ON users.id = challenges.user_id WHERE challenges.k = ?');
+    $q->execute([(string) ($_GET['k'] ?? '')]);
+    $c = $q->fetch();
+    if ($c === false) fail(404, 'notFound');
+    $q = $pdo->prepare('SELECT COUNT(*) FROM answers WHERE k = ?');
+    $q->execute([$c['k']]);
+    respond(200, ['challenge' => [
+      'k' => (string) $c['k'], 'scenarioId' => (string) $c['sid'], 'scenarioTitle' => scenario_titles()[(string) $c['sid']] ?? (string) $c['sid'],
+      'from' => user_from_row($c, 'uid'), 'text' => (string) $c['text'], 'answers' => (int) $q->fetchColumn(),
+    ]]);
   }
 
   if ($method === 'GET' && $a === 'stats') {
@@ -185,7 +314,7 @@ try {
     $q->execute([(int) ($_GET['id'] ?? 0)]);
     $r = $q->fetch();
     if ($r === false || ((int) $r['hidden'] === 1 && ($me === null || (int) $me['id'] !== (int) $r['user_id']))) fail(404, 'notFound');
-    respond(200, ['run' => run_out($r, $me, true)]);
+    respond(200, ['run' => attach_likes([run_out($r, $me, true)], $me)[0]]);
   }
 
   if ($method === 'GET' && $a === 'me') {
@@ -327,6 +456,71 @@ try {
       if (store_share_image((string) $k, $img)) hit('shareimg');
     }
     respond(200, ['k' => (string) $k]);
+  }
+
+  if ($method === 'POST' && $a === 'like') {
+    // 「参考になった」（自分の記録には押せない）。on が false なら外す
+    $u = require_user();
+    $b = body();
+    $id = (int) ($b['id'] ?? 0);
+    $q = $pdo->prepare('SELECT user_id FROM runs WHERE id = ? AND hidden = 0');
+    $q->execute([$id]);
+    $owner = $q->fetchColumn();
+    if ($owner === false) fail(404, 'notFound');
+    if ((int) $owner === (int) $u['id']) fail(400, 'own');
+    rate_limit('like', 300, 3600);
+    if (($b['on'] ?? true) !== false) $pdo->prepare('INSERT OR IGNORE INTO likes (run_id, user_id, created_at) VALUES (?, ?, ?)')->execute([$id, $u['id'], now_iso()]);
+    else $pdo->prepare('DELETE FROM likes WHERE run_id = ? AND user_id = ?')->execute([$id, $u['id']]);
+    hit('like');
+    $q = $pdo->prepare('SELECT COUNT(*) FROM likes WHERE run_id = ?');
+    $q->execute([$id]);
+    $n = (int) $q->fetchColumn();
+    $q = $pdo->prepare('SELECT COUNT(*) FROM likes WHERE run_id = ? AND user_id = ?');
+    $q->execute([$id, $u['id']]);
+    respond(200, ['likes' => $n, 'liked' => (int) $q->fetchColumn() > 0]);
+  }
+
+  if ($method === 'POST' && $a === 'challenge') {
+    // 挑戦状を作る（送る人のプロフィールが要る。答えが届くのはその人）
+    $u = require_user();
+    $b = body();
+    $sid = (string) ($b['scenarioId'] ?? '');
+    if (!preg_match('/^[a-z0-9_]{1,64}$/', $sid)) fail(400, 'invalid');
+    $idx = scenario_index();
+    if ($idx !== [] && !isset($idx[$sid])) fail(400, 'invalid');
+    $text = share_text((string) ($b['text'] ?? ''));
+    rate_limit('chal', 30, 3600);
+    $k = false;
+    for ($i = 0; $i < 5 && $k === false; $i++) {
+      $try = share_key();
+      try {
+        $pdo->prepare('INSERT INTO challenges (k, user_id, scenario_id, text, created_at) VALUES (?, ?, ?, ?, ?)')->execute([$try, $u['id'], $sid, $text, now_iso()]);
+        $k = $try;
+      } catch (PDOException $e) {
+        $k = false;
+      }
+    }
+    if ($k === false) fail(500, 'server');
+    hit('chal');
+    respond(200, ['k' => $k]);
+  }
+
+  if ($method === 'POST' && $a === 'answer') {
+    // 挑戦状に答える（結果だけを送った人に届ける。プロフィールがあれば名前も。自分の挑戦状には答えられない）
+    $b = body();
+    $q = $pdo->prepare('SELECT * FROM challenges WHERE k = ?');
+    $q->execute([(string) ($b['k'] ?? '')]);
+    $c = $q->fetch();
+    if ($c === false) fail(404, 'notFound');
+    $s = summary_input(is_array($b['summary'] ?? null) ? $b['summary'] : []);
+    if ($s['scenarioId'] !== (string) $c['scenario_id']) fail(400, 'invalid');
+    $me = current_user();
+    if ($me !== null && (int) $me['id'] === (int) $c['user_id']) fail(400, 'own');
+    rate_limit('answer', 20, 3600);
+    $pdo->prepare('INSERT INTO answers (k, user_id, ending, ending_title, created_at, ip_hash) VALUES (?, ?, ?, ?, ?, ?)')
+      ->execute([$c['k'], $me === null ? null : (int) $me['id'], $s['ending'], $s['endingTitle'], now_iso(), ip_hash()]);
+    hit('answer');
+    respond(200, ['ok' => true]);
   }
 
   if ($method === 'POST' && $a === 'report') {

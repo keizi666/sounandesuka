@@ -72,6 +72,8 @@ export function runSummary(o: {
   conditions: boolean;
   appVersion: string;
   difficulty?: 'easy' | 'normal' | 'hard';
+  /** 週替わりのお題で遊んだときの週の番号 */
+  week?: number;
   label: (cpId: string, optionId: string) => string;
   title: (cpId: string, fallback: string) => string;
 }): RunSummaryInput {
@@ -88,9 +90,10 @@ export function runSummary(o: {
     decisions: o.rec.decisions
       .filter((d) => d.by === 'user' || d.by === 'bias')
       .slice(0, 40)
-      .map((d) => ({ tMin: r1(d.tMin), title: o.title(d.cpId, d.title).slice(0, 80), label: o.label(d.cpId, d.optionId).slice(0, 80), auto: d.by !== 'user' })),
+      .map((d) => ({ tMin: r1(d.tMin), title: o.title(d.cpId, d.title).slice(0, 80), label: o.label(d.cpId, d.optionId).slice(0, 80), auto: d.by !== 'user', cpId: d.cpId, optionId: d.optionId })),
     conditions: o.conditions,
     appVersion: o.appVersion.slice(0, 40),
     ...(o.difficulty ? { difficulty: o.difficulty } : {}),
+    ...(o.week ? { week: o.week } : {}),
   };
 }

@@ -4,6 +4,7 @@
  */
 import { createAmbientSound, thunderDelaySec } from '../view/ambientSound';
 import { createEventAlerts } from './eventAlert';
+import { announceChallenge } from './community/challenge';
 import { createFigureIcons, ICON_LIFT_PX } from './figureIcons';
 import { closeLogDetail, snapOf } from './logDetail';
 import { Timeline } from '../app/timeline';
@@ -126,7 +127,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // 途中からの再開は保存した世界の種のまま。史実のシナリオだけは、記録どおりに選べば記録どおりになるよう、シナリオの種（DECISIONS.md）
   // 種のない場面の URL（この変更の前に作ったもの）は、シナリオの種で作り直す
   setPhoneEra(scenario);
-  const seed = replay ? (replay.seed ?? scenario.seed) : scenario.historical ? scenario.seed : freshSeed();
+  const seed = replay ? (replay.seed ?? scenario.seed) : scenario.historical ? scenario.seed : (loaded.seed ?? freshSeed());
   const world = resume ? resume.world : createWorld(map, scenario, seed);
   const ctx = createStaticContext(map, scenario, { mode: timed ? 'timed' : 'interactive' });
   const recorder = resume?.recorder ?? createRecorder(world);
@@ -844,6 +845,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
   // URL の場面が結末のあとなら、結末の画面へ
   if (replay && world.ended) onEnded();
   url.write(true);
+  // 挑戦状から始めたら、誰からのものかを知らせる（community/challenge.ts）
+  if (!replay && !resume) announceChallenge(loaded);
 
   return () => {
     // 画面を離れるとき（ブラウザの戻るなど）も続きを保存する（結末に着いていれば何もしない）

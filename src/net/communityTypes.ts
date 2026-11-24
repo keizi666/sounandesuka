@@ -30,13 +30,15 @@ export interface RunSummaryInput {
   partySize: number;
   /** 亡くなった人の数 */
   deaths: number;
-  /** 分岐での選択（時刻・選んだもの・自動か） */
-  decisions: { tMin: number; title: string; label: string; auto: boolean }[];
+  /** 分岐での選択（時刻・選んだもの・自動か）。cpId・optionId は「みんなの選択」の集計に使う（入れる前の記録にはない） */
+  decisions: { tMin: number; title: string; label: string; auto: boolean; cpId?: string; optionId?: string }[];
   /** 始まりの条件を変えて試したか */
   conditions: boolean;
   appVersion: string;
   /** 遊んだ難しさ（easy・normal・hard。難しさを入れる前の記録にはない） */
   difficulty?: 'easy' | 'normal' | 'hard';
+  /** 週替わりのお題で遊んだ記録なら、その週の番号（src/app/weekly.ts） */
+  week?: number;
 }
 
 export interface RunSummary extends RunSummaryInput {
@@ -46,6 +48,9 @@ export interface RunSummary extends RunSummaryInput {
   createdAt: string;
   /** 自分の投稿か（トークンを付けて聞いたとき） */
   mine: boolean;
+  /** 「参考になった」の数と、自分が押したか */
+  likes?: number;
+  liked?: boolean;
 }
 
 export interface RunDetail extends RunSummary {
@@ -79,6 +84,43 @@ export interface ScenarioStats {
 export interface StatsResponse {
   /** 記録の多い順 */
   scenarios: ScenarioStats[];
+}
+
+/** 分岐ごとの、みんなの選択（a=choices）。分岐の鍵は cpId（古い記録は "t:" + 題）、選択肢の鍵は optionId（古い記録は "l:" + 選んだ文） */
+export interface ChoicesResponse {
+  /** 集計した記録の数 */
+  n: number;
+  cps: Record<string, { total: number; opts: Record<string, number> }>;
+}
+
+/** 戻ってきたときのお知らせ（a=notices） */
+export interface NoticesResponse {
+  /** since より後に、自分の記録に付いた「参考になった」（記録ごと） */
+  likes: { runId: number; scenarioTitle: string; n: number }[];
+  /** since より後に届いた、自分の挑戦状への答え */
+  answers: ChallengeAnswer[];
+  /** サーバーの今の時刻（次の since に使う） */
+  now: string;
+}
+
+export interface ChallengeAnswer {
+  k: string;
+  scenarioTitle: string;
+  /** 答えた人（プロフィールがなければ null） */
+  user: PublicUser | null;
+  ending: string;
+  endingTitle: string;
+  at: string;
+}
+
+/** 挑戦状（a=challenge GET） */
+export interface ChallengeInfo {
+  k: string;
+  scenarioId: string;
+  scenarioTitle: string;
+  from: PublicUser;
+  text: string;
+  answers: number;
 }
 
 export interface ApiError {

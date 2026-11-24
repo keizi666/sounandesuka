@@ -256,3 +256,55 @@ dialog.cm-dialog.busy { pointer-events: none; opacity: 0.75; }
 .cm-stats:not([open]) { padding-bottom: 8px; }
 .cm-stats:not([open]) > summary { padding-bottom: 2px; }
 @media (prefers-reduced-motion: reduce) { .cm-stats > summary::after { transition: none; } }
+
+/* ---- ユーザーどうしのやり取り（ユーザーの指定: リピーターを増やす） ---- */
+/* 今週のお題（トップ。みんなの遭難記録のバナーの下） */
+.wk-host:empty { display: none; }
+.wk-banner { display: flex; align-items: center; gap: 16px; margin: 14px 0 4px; padding: 16px 20px; border-radius: 18px; background: linear-gradient(120deg, #3b2f14, #5a4418 55%, #6e5520); border: 1px solid rgba(240, 196, 92, 0.45); color: #fff7e2; box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28); }
+.wk-icon { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: rgba(240, 196, 92, 0.22); box-shadow: inset 0 0 0 2px rgba(240, 196, 92, 0.45); color: #f6cf6b; }
+.wk-icon .ic { width: 28px; height: 28px; }
+.wk-main { flex: 1 1 auto; min-width: 0; }
+.wk-kicker { margin: 0; display: flex; gap: 10px; align-items: baseline; font-size: 0.82em; font-weight: 700; color: #f6cf6b; letter-spacing: 0.08em; }
+.wk-kicker span { font-weight: 500; color: #e7d6a8; letter-spacing: 0; }
+.wk-banner h2 { margin: 2px 0 4px; font-size: 1.3em; }
+.wk-lead, .wk-stats, .wk-last { margin: 2px 0 0; font-size: 0.86em; color: #efe3c4; }
+.wk-stats { font-weight: 700; color: #fff; }
+.wk-last { color: #cdbd93; }
+.wk-go { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 9px 20px 9px 14px; border-radius: 999px; }
+@media (max-width: 640px) {
+  .wk-banner { flex-wrap: wrap; padding: 14px; }
+  .wk-go { margin-left: auto; }
+}
+/* お知らせ（参考になった・挑戦状の答え） */
+.nt-strip { position: relative; margin: 12px 0 4px; padding: 12px 44px 12px 16px; border-radius: 14px; background: rgba(42, 143, 216, 0.14); border: 1px solid rgba(110, 185, 240, 0.45); }
+.nt-strip h2 { margin: 0 0 6px; display: flex; align-items: center; gap: 6px; font-size: 0.95em; color: #9fd0f5; }
+.nt-strip h2 .ic { width: 1.2em; height: 1.2em; }
+.nt-strip ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.nt-row { display: flex; align-items: center; gap: 8px; width: 100%; padding: 4px 6px; border-radius: 8px; background: none; border: 0; color: inherit; font: inherit; text-align: left; min-height: 0; }
+button.nt-row { cursor: pointer; }
+button.nt-row:hover { background: rgba(255, 255, 255, 0.06); }
+.nt-row .ic { flex: none; width: 1.2em; height: 1.2em; color: #f6cf6b; }
+.nt-close { position: absolute; right: 8px; top: 8px; padding: 4px; min-height: 0; background: none; border: 0; color: #a9b0bb; }
+/* みんなの選択（結果の画面の選択の振り返り） */
+.cs-line { flex: 1 1 100%; margin: 4px 12px 8px; font-size: 0.84em; color: #c5ccd6; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.cs-line strong { color: #9fd0f5; font-weight: 600; }
+.cs-bar { display: flex; flex: 0 0 120px; height: 8px; border-radius: 4px; overflow: hidden; background: rgba(255, 255, 255, 0.08); }
+.cs-bar i { display: block; height: 100%; background: #5b6b80; border-right: 1px solid rgba(0, 0, 0, 0.35); }
+.cs-bar i.me { background: var(--accent); }
+.cs-opts { display: inline-flex; flex-wrap: wrap; gap: 2px 10px; }
+.cs-opt.me { color: var(--accent); font-weight: 600; }
+.cs-opt small { color: inherit; }
+/* 参考になった */
+.lk-btn { display: inline-flex; align-items: center; gap: 4px; }
+.lk-btn.on { color: #f6cf6b; border-color: rgba(240, 196, 92, 0.6); }
+.lk-btn .lk-n { margin-left: 2px; padding: 0 7px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); font-size: 0.85em; }
+.lk-count { display: inline-flex; align-items: center; gap: 3px; }
+.lk-count.on { color: #f6cf6b; }
+/* 挑戦状 */
+.ch-card .ch-text { width: 100%; margin: 6px 0; }
+/* 一覧の札: NEW・今週のお題・いまの季節・まだ遊んでいない */
+.sel-new { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 0.74em; font-weight: 800; letter-spacing: 0.06em; background: #e0453a; color: #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); }
+.sel-chip.weekly { background: rgba(110, 85, 32, 0.85); border-color: rgba(240, 196, 92, 0.6); color: #fbe3a3; }
+.sel-chip.season .ic { color: #f6cf6b; }
+.sel-chip.unplayed-chip { color: #9fd0f5; }
+.sel-chip.unplayed-chip .ic { color: #9fd0f5; }

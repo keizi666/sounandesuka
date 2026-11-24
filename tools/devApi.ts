@@ -13,7 +13,10 @@ import { AGE_BANDS, AVATAR_MAX_BYTES, checkComment, checkNickname, parseIcon, RE
 interface DevUser { id: number; tokenHash: string; nickname: string; sex: string; age: string; portrait: string; color: string }
 interface DevRun { id: number; userId: number; summary: Record<string, unknown> & { scenarioId: string; ending: string; scenarioTitle: string }; comment: string; record: string; createdAt: string; reports: string[]; hidden: boolean }
 interface DevShare { k: string; target: string; scenarioId: string; text: string }
-interface DevDb { users: DevUser[]; runs: DevRun[]; nextUser: number; nextRun: number; shares?: DevShare[] }
+interface DevLike { runId: number; userId: number; at: string }
+interface DevChallenge { k: string; userId: number; scenarioId: string; text: string; at: string }
+interface DevAnswer { k: string; userId: number | null; ending: string; endingTitle: string; at: string }
+interface DevDb { users: DevUser[]; runs: DevRun[]; nextUser: number; nextRun: number; shares?: DevShare[]; likes?: DevLike[]; challenges?: DevChallenge[]; answers?: DevAnswer[] }
 
 const ENDINGS = ['SAFE_RETURN', 'SAFE_SHELTER', 'ABORTED', 'SELF_RESCUE', 'RESCUED', 'RESCUED_CRITICAL', 'MISSING', 'FATAL'];
 
@@ -68,8 +71,11 @@ export function devCommunityApi(root: string): Plugin {
   const pub = (u: DevUser): Record<string, unknown> => ({ id: u.id, nickname: u.nickname, sex: u.sex, age: u.age, portrait: u.portrait, color: u.color });
   const out = (db: DevDb, r: DevRun, me: DevUser | null, withRecord: boolean): Record<string, unknown> => {
     const u = db.users.find((x) => x.id === r.userId)!;
-    return { ...r.summary, id: r.id, user: pub(u), comment: r.comment, createdAt: r.createdAt, mine: me?.id === r.userId, ...(withRecord ? { record: r.record } : {}) };
+    const likes = (db.likes ?? []).filter((l) => l.runId === r.id);
+    return { ...r.summary, id: r.id, user: pub(u), comment: r.comment, createdAt: r.createdAt, mine: me?.id === r.userId, likes: likes.length, liked: me !== null && likes.some((l) => l.userId === me.id), ...(withRecord ? { record: r.record } : {}) };
   };
+  const nowIso = (): string => new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  const newKey = (): string => randomBytes(6).toString('base64url').replace(/[-_]/g, 'x').slice(0, 8);
 
   const handle = async (req: IncomingMessage, url: URL): Promise<[number, unknown]> => {
     const db = load();
@@ -99,11 +105,58 @@ export function devCommunityApi(root: string): Plugin {
       }
       return [200, { items: hit.slice(offset, offset + limit).map((r) => out(db, r, me, false)), total: hit.length, counts, scenarios: [...sc.values()].sort((x, y) => y.n - x.n) }];
     }
+    if (req.method === 'GET' && a === 'choices') {
+      // 分岐ごとの、みんなの選択（本番の choices と同じ）
+      const scenario = url.searchParams.get('scenario') ?? '';
+      const week = Number(url.searchParams.get('week') ?? 0);
+      let n = 0;
+      const cps: Record<string, { total: number; opts: Record<string, number> }> = {};
+      for (const r of live) {
+        if (r.summary.scenarioId !== scenario || (week > 0 && Number(r.summary['week'] ?? 0) !== week)) continue;
+        n += 1;
+        for (const d of (r.summary['decisions'] as { cpId?: string; optionId?: string; title?: string; label?: string; auto?: boolean }[] | undefined) ?? []) {
+          if (d.auto) continue;
+          const ck = d.cpId ? d.cpId : `t:${d.title ?? ''}`;
+          const ok = d.optionId ? d.optionId : `l:${d.label ?? ''}`;
+          const c = (cps[ck] ??= { total: 0, opts: {} });
+          c.total += 1;
+          c.opts[ok] = (c.opts[ok] ?? 0) + 1;
+        }
+      }
+      return [200, { n, cps }];
+    }
+    if (req.method === 'GET' && a === 'notices') {
+      const u = needMe();
+      const since = url.searchParams.get('since') ?? '';
+      const likes: { runId: number; scenarioTitle: string; n: number }[] = [];
+      const answers: Record<string, unknown>[] = [];
+      if (/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/.test(since)) {
+        for (const r of db.runs.filter((x) => x.userId === u.id)) {
+          const n = (db.likes ?? []).filter((l) => l.runId === r.id && l.at > since).length;
+          if (n > 0) likes.push({ runId: r.id, scenarioTitle: r.summary.scenarioTitle, n });
+        }
+        for (const an of db.answers ?? []) {
+          const c = (db.challenges ?? []).find((x) => x.k === an.k);
+          if (!c || c.userId !== u.id || an.at <= since) continue;
+          const who = an.userId === null ? null : db.users.find((x) => x.id === an.userId);
+          answers.push({ k: an.k, scenarioTitle: c.scenarioId, user: who ? pub(who) : null, ending: an.ending, endingTitle: an.endingTitle, at: an.at });
+        }
+      }
+      return [200, { likes, answers, now: nowIso() }];
+    }
+    if (req.method === 'GET' && a === 'challenge') {
+      const c = (db.challenges ?? []).find((x) => x.k === url.searchParams.get('k'));
+      const from = c ? db.users.find((x) => x.id === c.userId) : undefined;
+      if (!c || !from) throw new Fail(404, 'notFound');
+      return [200, { challenge: { k: c.k, scenarioId: c.scenarioId, scenarioTitle: c.scenarioId, from: pub(from), text: c.text, answers: (db.answers ?? []).filter((x) => x.k === c.k).length } }];
+    }
     if (req.method === 'GET' && a === 'stats') {
       const scenario = url.searchParams.get('scenario') ?? '';
+      const week = Number(url.searchParams.get('week') ?? 0);
       const by = new Map<string, { id: string; title: string; n: number; players: number; counts: Record<string, number>; deathsAny: number; users: Set<number> }>();
       for (const r of live) {
         if (scenario && r.summary.scenarioId !== scenario) continue;
+        if (week > 0 && Number(r.summary['week'] ?? 0) !== week) continue;
         const v = by.get(r.summary.scenarioId) ?? { id: r.summary.scenarioId, title: r.summary.scenarioTitle, n: 0, players: 0, counts: {}, deathsAny: 0, users: new Set<number>() };
         v.n += 1;
         v.counts[r.summary.ending] = (v.counts[r.summary.ending] ?? 0) + 1;
@@ -185,6 +238,37 @@ export function devCommunityApi(root: string): Plugin {
       const u = needMe();
       db.runs = db.runs.filter((r) => r.userId !== u.id);
       db.users = db.users.filter((x) => x.id !== u.id);
+      save(db);
+      return [200, { ok: true }];
+    }
+    if (a === 'like') {
+      const u = needMe();
+      const r = live.find((x) => x.id === Number(b['id']));
+      if (!r) throw new Fail(404, 'notFound');
+      if (r.userId === u.id) throw new Fail(400, 'own');
+      const likes = (db.likes ??= []);
+      const i = likes.findIndex((l) => l.runId === r.id && l.userId === u.id);
+      if (b['on'] !== false && i < 0) likes.push({ runId: r.id, userId: u.id, at: nowIso() });
+      if (b['on'] === false && i >= 0) likes.splice(i, 1);
+      save(db);
+      return [200, { likes: likes.filter((l) => l.runId === r.id).length, liked: b['on'] !== false }];
+    }
+    if (a === 'challenge') {
+      const u = needMe();
+      const sid = String(b['scenarioId'] ?? '');
+      if (!/^[a-z0-9_]{1,64}$/.test(sid)) throw new Fail(400, 'invalid');
+      const c: DevChallenge = { k: newKey(), userId: u.id, scenarioId: sid, text: String(b['text'] ?? '').slice(0, 140), at: nowIso() };
+      (db.challenges ??= []).push(c);
+      save(db);
+      return [200, { k: c.k }];
+    }
+    if (a === 'answer') {
+      const c = (db.challenges ?? []).find((x) => x.k === String(b['k'] ?? ''));
+      if (!c) throw new Fail(404, 'notFound');
+      const s = b['summary'] as { scenarioId?: string; ending?: string; endingTitle?: string } | undefined;
+      if (!s || s.scenarioId !== c.scenarioId || !ENDINGS.includes(String(s.ending))) throw new Fail(400, 'invalid');
+      if (me && me.id === c.userId) throw new Fail(400, 'own');
+      (db.answers ??= []).push({ k: c.k, userId: me?.id ?? null, ending: String(s.ending), endingTitle: String(s.endingTitle ?? ''), at: nowIso() });
       save(db);
       return [200, { ok: true }];
     }

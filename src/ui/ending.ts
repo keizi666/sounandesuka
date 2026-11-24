@@ -26,6 +26,8 @@ import { disposeWhatIf } from './whatIfPool';
 import { safetyCard } from './safetyCard';
 import { historicalSources } from './historicalLinks';
 import { communityPostCard } from './community/postCard';
+import { fillChoiceShares, shareSlot, type ShareSlot } from './community/choiceShare';
+import { answerCard, challengeSendCard } from './community/challenge';
 import { shareButtons, siteUrl } from './shareButtons';
 import { STATE_PARAM } from '../app/shareState';
 import { shortTarget } from '../net/shareLink';
@@ -167,20 +169,25 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
   // 分岐での選択と、その振り返り（ユーザーの指定: どれが良かった・悪かった・意味がなかったか）
   function decisionsCard(): HTMLElement {
     const reviews: Promise<void>[] = [];
+    // みんなの選択（載せた記録の割合。読めたら各分岐に入れる）
+    const slots: ShareSlot[] = [];
     const items = decisions.map((d) => {
       // その分岐点の写しがあれば、押すとその場面に戻って選び直せる（ユーザーの指定）。試算もその写しから
       const snap = Object.values(result.choiceSnapshots).find((sn) => sn.world.pendingChoice && Math.abs(sn.world.tMin - d.tMin) < 0.05);
       const rv = reviewDecision(loaded, result, ctx, d, snap?.world);
       reviews.push(rv.done);
+      const slot = shareSlot(d.cpId, d.optionId);
+      slots.push(slot);
       const parts = [el('time', {}, formatClock(d.tMin)), el('span', { class: 'dia' }, '◆'), el('span', { class: 'lbl' }, optionLabel(loaded, d.cpId, d.optionId)), d.by !== 'user' ? el('small', {}, '（自動）') : null, rv.badge];
-      if (!snap) return el('li', {}, [el('div', { class: 'row' }, parts), rv.body]);
+      if (!snap) return el('li', {}, [el('div', { class: 'row' }, parts), rv.body, slot.el]);
       const back = (): void => {
         const keep: SimResult['choiceSnapshots'] = {};
         for (const [k, v] of Object.entries(result.choiceSnapshots)) if (v.world.tMin < snap.world.tMin) keep[k] = v;
         app.go({ name: 'sim', loaded, resume: { scenarioId: s.id, world: structuredClone(snap.world), recorder: structuredClone(snap.recorder), choiceSnapshots: keep, savedAt: new Date().toISOString(), runId: newRunId(), parentRunId: result.runId } });
       };
-      return el('li', { class: 'back' }, [el('button', { type: 'button', title: JA.ui.backToScene, onclick: back }, [...parts, el('span', { class: 'go' }, [JA.ui.backToScene, icon('chevronRight')])]), rv.body]);
+      return el('li', { class: 'back' }, [el('button', { type: 'button', title: JA.ui.backToScene, onclick: back }, [...parts, el('span', { class: 'go' }, [JA.ui.backToScene, icon('chevronRight')])]), rv.body, slot.el]);
     });
+    fillChoiceShares(loaded, ctx, slots);
     // 試算の進み具合
     const progress = el('p', { class: 'cr-progress' }, fill(JA.choiceReview.progress, { done: 0, all: reviews.length }));
     let done = 0;
@@ -226,7 +233,11 @@ export function showEnding(app: AppContext, loaded: LoadedScenario, result: SimR
         // 遭難対策のまとめ（ユーザーの指定: 教材になるように）
         safetyCard(loaded, w, r),
         // みんなの遭難記録に載せる（docs/20_community.md）
+        // 挑戦状から遊んだときは、送った人に結果を届ける欄（ユーザーの指定: リピーターを増やす）
+        answerCard(loaded, result, { kind: e.kind, title: endTitle }),
         result.shared ? null : communityPostCard(app, loaded, result, { kind: e.kind, title: endTitle }),
+        // 同じ山・同じ巡り合わせで、友だちを誘う
+        challengeSendCard(loaded, result, { kind: e.kind, title: endTitle }),
         shareCard,
         // ログ（ユーザーの指定: 結果の画面でも見られる）。長いので、開いたときに並べる
         result.log && result.log.length > 0 ? logCard(result.log) : null,

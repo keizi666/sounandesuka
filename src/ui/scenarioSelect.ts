@@ -25,6 +25,10 @@ import { progressTo, showLoading } from './loading';
 import { openSettings } from './settingsDialog';
 import { anySoundOn, toggleSoundPanel } from './soundPanel';
 import { communityBanner } from './community/banner';
+import { noticesStrip } from './community/notices';
+import { weeklyBanner } from './community/weeklyBanner';
+import { currentSeason } from '../app/season';
+import { weekOf, weeklyPick } from '../app/weekly';
 import { cIcon, userAvatar } from './community/common';
 import { openProfileDialog } from './community/profileDialog';
 import { loadProfile } from '../net/profile';
@@ -93,7 +97,22 @@ function stars(n: number): HTMLElement {
   return el('span', { class: 'sel-stars', 'aria-label': `${JA.ui.difficulty} ${n}` }, Array.from({ length: 5 }, (_, i) => icon(i < n ? 'starFill' : 'star')));
 }
 
-function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumable: boolean, plays: number, onFav: () => void): HTMLElement {
+/** 一覧の札（ユーザーの指定: 新しいシナリオ・まだ遊んでいない・いまの季節・今週のお題） */
+interface CardMarks {
+  weekly: boolean;
+  inSeason: boolean;
+}
+
+/** 「NEW」を出す日数 */
+const NEW_DAYS = 30;
+
+function isNew(e: ScenarioIndexEntry): boolean {
+  if (!e.addedAt) return false;
+  const t = Date.parse(`${e.addedAt}T00:00:00+09:00`);
+  return Number.isFinite(t) && Date.now() - t < NEW_DAYS * 86400000;
+}
+
+function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumable: boolean, plays: number, onFav: () => void, marks: CardMarks = { weekly: false, inSeason: false }): HTMLElement {
   // 1 回も遊んでいないシナリオは、テーマと題名をぼかす（ユーザーの指定）。カードの色もテーマで決まるので、同じ色にする
   const hidden = plays === 0;
   const hue = hidden ? 210 : THEME_HUE[e.theme] ?? 200;
@@ -128,7 +147,12 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
   };
   if (!e.bundle) showThumbs();
   const people = el('div', { class: 'sel-people' });
-  const facts = el('div', { class: 'sel-facts' }, [chip('timer', `${e.estMinutes} 分`), plays > 0 ? chip('checkCircle', fill(M.played, { n: plays }), 'played') : null]);
+  const S = JA.social;
+  const facts = el('div', { class: 'sel-facts' }, [
+    chip('timer', `${e.estMinutes} 分`),
+    plays > 0 ? chip('checkCircle', fill(M.played, { n: plays }), 'played') : chip('hiking', S.cardUnplayed, 'unplayed-chip'),
+    marks.inSeason ? chip('wbSunny', S.cardSeason, 'season') : null,
+  ]);
   const note = e.region?.real ? el('p', { class: 'sel-note' }, [icon('warning'), JA.disclaimer.realMountainShort.replace(/^※/, '')]) : null;
   let busy = false;
   let disabled = false;
@@ -171,7 +195,7 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
     img,
     el('div', { class: 'sel-shade' }),
     hidden ? mountainLabel(e) : null,
-    el('div', { class: 'sel-top' }, [veil(chip(THEME_ICON[e.theme] ?? 'warning', JA.labels.theme[e.theme] ?? e.theme, 'theme')), e.region?.real ? chip('landscape', e.region.name, 'real') : chip('landscape', '箱庭岳'), el('span', { class: 'sel-grow' }), stars(e.difficulty), fav]),
+    el('div', { class: 'sel-top' }, [isNew(e) ? el('span', { class: 'sel-new' }, S.cardNew) : null, marks.weekly ? chip('campaign', S.weeklyTag, 'weekly') : null, veil(chip(THEME_ICON[e.theme] ?? 'warning', JA.labels.theme[e.theme] ?? e.theme, 'theme')), e.region?.real ? chip('landscape', e.region.name, 'real') : chip('landscape', '箱庭岳'), el('span', { class: 'sel-grow' }), stars(e.difficulty), fav]),
     el('div', { class: 'sel-titles' }, [veil(el('h2', {}, e.title)), e.subtitle ? veil(el('p', {}, e.subtitle)) : null]),
     mapImg,
     resumable ? el('span', { class: 'sel-badge' }, JA.ui.inProgress) : plays > 0 ? el('span', { class: 'sel-badge played' }, [icon('checkCircle'), M.playedBadge]) : null,
@@ -211,6 +235,7 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
 export function showScenarioSelect(app: AppContext): () => void {
   audio().music('wilderness');
   const list = el('div', { class: 'sel-grid' }, el('p', { class: 'note' }, JA.ui.loading));
+  const weeklyHost = el('div', { class: 'wk-host' });
   const input = el('input', { type: 'file', accept: '.json,application/json', onchange: (e: Event) => {
     const f = (e.target as HTMLInputElement).files?.[0];
     if (f) void openBundle(app, f);
@@ -282,7 +307,10 @@ export function showScenarioSelect(app: AppContext): () => void {
       el('div', { class: 'sel-wrap' }, [
         el('p', { class: 'sel-lead' }, JA.disclaimer.fictional),
         // みんなの遭難記録（docs/20_community.md）
+        // お知らせ（参考になった・挑戦状の答え）と、今週のお題（ユーザーの指定: リピーターを増やす）
+        noticesStrip(app),
         communityBanner(app),
+        weeklyHost,
         el('section', { class: 'sel-section' }, [el('div', { class: 'sel-h-row' }, [el('h2', { class: 'sel-h' }, [icon('landscape'), JA.ui.selectTitle]), favBtn]), noFav, list]),
         mine,
         drop,
@@ -317,8 +345,13 @@ export function showScenarioSelect(app: AppContext): () => void {
   void loadIndex().then((idx) => {
     count.textContent = `${idx.length} 本`;
     const saved = new Set(resumableScenarios());
-    // 途中のシナリオを先に
-    const sorted = [...idx.filter((e) => saved.has(e.id)), ...idx.filter((e) => !saved.has(e.id))];
+    // 途中のシナリオ → 今週のお題 → いまの季節のシナリオ → そのほか（ユーザーの指定: 冬なら雪崩のように、季節に合うものを上に）
+    const weekly = weeklyPick(idx, weekOf(Date.now()));
+    const season = currentSeason();
+    const rank = (e: ScenarioIndexEntry): number => (saved.has(e.id) ? 0 : e.id === weekly?.id ? 1 : e.season === season ? 2 : 3);
+    const sorted = idx.map((e, i) => ({ e, i })).sort((a, b) => rank(a.e) - rank(b.e) || a.i - b.i).map((x) => x.e);
+    const wb = weeklyBanner(app, idx);
+    if (wb) weeklyHost.replaceChildren(wb);
     const counts = playCounts();
     const applyFilter = (): void => {
       const favs = favorites();
@@ -330,7 +363,7 @@ export function showScenarioSelect(app: AppContext): () => void {
       }
       noFav.hidden = !(favOnly && shown === 0);
     };
-    list.replaceChildren(...sorted.map((e) => card(app, e, list, saved.has(e.id), counts[e.id] ?? 0, applyFilter)));
+    list.replaceChildren(...sorted.map((e) => card(app, e, list, saved.has(e.id), counts[e.id] ?? 0, applyFilter, { weekly: e.id === weekly?.id, inSeason: e.season === season })));
     favBtn.onclick = () => {
       favOnly = !favOnly;
       favBtn.classList.toggle('on', favOnly);

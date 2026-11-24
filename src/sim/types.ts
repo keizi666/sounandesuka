@@ -1077,6 +1077,10 @@ export interface ScenarioIndexEntry {
   season: ScenarioDef['season'];
   estMinutes: number;
   region?: { name: string; real: boolean };
+  /** 一覧に足した日（"YYYY-MM-DD"）。しばらく「NEW」の札を出す */
+  addedAt?: string;
+  /** 史実のシナリオ（週替わりのお題には選ばない） */
+  historical?: boolean;
 }
 
 export interface EditorProject {

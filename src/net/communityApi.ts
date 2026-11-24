@@ -2,7 +2,7 @@
  * 「みんなの遭難記録」の API を呼ぶ（docs/20_community.md §3）。
  * 通信先は同じオリジンの api/index.php だけ（CLAUDE.md 鉄則 8 の例外。DECISIONS.md）。src/sim からは使わない。
  */
-import type { ListResponse, ProfileInput, PublicUser, RunDetail, RunSummaryInput, StatsResponse } from './communityTypes';
+import type { ChallengeInfo, ChoicesResponse, ListResponse, NoticesResponse, ProfileInput, PublicUser, RunDetail, RunSummaryInput, StatsResponse } from './communityTypes';
 import { loadProfile, saveProfile } from './profile';
 
 const API = `${import.meta.env.BASE_URL}api/index.php`;
@@ -54,7 +54,18 @@ export const communityApi = {
     call('list', { query: { scenario: q.scenario ?? '', ending: q.ending ?? '', user: q.user ?? 0, offset: q.offset ?? 0, limit: q.limit ?? 20 } }),
   run: (id: number): Promise<{ run: RunDetail }> => call('run', { query: { id } }),
   /** シナリオごとの集計（scenario を付けるとそのシナリオだけ） */
-  stats: (scenario = ''): Promise<StatsResponse> => call('stats', { query: { scenario }, token: null }),
+  stats: (scenario = '', week = 0): Promise<StatsResponse> => call('stats', { query: { scenario, week }, token: null }),
+  /** 分岐ごとの、みんなの選択（week を付けるとその週のお題の記録だけ） */
+  choices: (scenario: string, week = 0): Promise<ChoicesResponse> => call('choices', { query: { scenario, week }, token: null }),
+  /** 「参考になった」を押す・外す */
+  like: (id: number, on: boolean): Promise<{ likes: number; liked: boolean }> => call('like', { body: { id, on } }),
+  /** since（ISO）より後のお知らせ（参考になった・挑戦状の答え） */
+  notices: (since: string): Promise<NoticesResponse> => call('notices', { query: { since } }),
+  /** 挑戦状を作る（プロフィールが要る）。text は一言（140 字まで） */
+  challenge: (scenarioId: string, text: string): Promise<{ k: string }> => call('challenge', { body: { scenarioId, text } }),
+  challengeInfo: (k: string): Promise<{ challenge: ChallengeInfo }> => call('challenge', { query: { k }, token: null }),
+  /** 挑戦状に答える（結果の要約を送った人に届ける。プロフィールがあれば名前も） */
+  answer: (k: string, summary: RunSummaryInput): Promise<{ ok: true }> => call('answer', { body: { k, summary } }),
   me: (token: string): Promise<{ user: PublicUser }> => call('me', { token }),
   register: (p: ProfileInput): Promise<{ user: PublicUser; token: string }> => call('register', { body: p, token: null }),
   updateProfile: (p: ProfileInput): Promise<{ user: PublicUser }> => call('profile', { body: p }),

@@ -114,6 +114,25 @@ function db(): PDO
       created_at TEXT NOT NULL, opened INTEGER NOT NULL DEFAULT 0
     );
     CREATE INDEX IF NOT EXISTS hits_key ON hits (ip_hash, kind, at);
+    CREATE TABLE IF NOT EXISTS likes (
+      run_id INTEGER NOT NULL REFERENCES runs(id) ON DELETE CASCADE,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      created_at TEXT NOT NULL,
+      PRIMARY KEY (run_id, user_id)
+    );
+    CREATE INDEX IF NOT EXISTS likes_at ON likes (created_at);
+    CREATE TABLE IF NOT EXISTS challenges (
+      k TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      scenario_id TEXT NOT NULL, text TEXT NOT NULL, created_at TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS challenges_user ON challenges (user_id);
+    CREATE TABLE IF NOT EXISTS answers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      k TEXT NOT NULL REFERENCES challenges(k) ON DELETE CASCADE,
+      user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+      ending TEXT NOT NULL, ending_title TEXT NOT NULL, created_at TEXT NOT NULL, ip_hash TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS answers_k ON answers (k, created_at);
   SQL);
   return $pdo;
 }

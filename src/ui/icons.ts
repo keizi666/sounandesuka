@@ -106,11 +106,16 @@ import forest from '@material-symbols/svg-400/rounded/forest.svg?raw';
 import cellTower from '@material-symbols/svg-400/rounded/cell_tower.svg?raw';
 import settingsInputAntenna from '@material-symbols/svg-400/rounded/settings_input_antenna.svg?raw';
 import templeBuddhist from '@material-symbols/svg-400/rounded/temple_buddhist.svg?raw';
+import thumbUp from '@material-symbols/svg-400/rounded/thumb_up.svg?raw';
+import thumbUpFill from '@material-symbols/svg-400/rounded/thumb_up-fill.svg?raw';
+import mail from '@material-symbols/svg-400/rounded/mail.svg?raw';
+import campaign from '@material-symbols/svg-400/rounded/campaign.svg?raw';
+import notifications from '@material-symbols/svg-400/rounded/notifications.svg?raw';
 
 const ICONS = {
   star, starFill, explore, cardiology, emergencyHeat, pestControl, smartToy, contentCopy, download, folderOpen, person,
   volumeOff, volumeUp, edit, replay, add, remove, fitScreen,
-  arrowSelectorTool, panTool, selectBox, draw, callSplit, addLocationAlt, openWith, waves, shield, link, share, favoriteFill, checkCircle, sort: sortIc, filterList, skipNext, photoCamera, videocam, stopCircle, landslide, flood, altitude, familyRestroom, forest, cellTower, settingsInputAntenna, templeBuddhist,
+  arrowSelectorTool, panTool, selectBox, draw, callSplit, addLocationAlt, openWith, waves, shield, link, share, favoriteFill, checkCircle, sort: sortIc, filterList, skipNext, photoCamera, videocam, stopCircle, landslide, flood, altitude, familyRestroom, forest, cellTower, settingsInputAntenna, templeBuddhist, thumbUp, thumbUpFill, mail, campaign, notifications,
   chevronRight, close,
   arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, trendingDown, waterBottle, warning, wbSunny,
   acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, favorite, flashlightOn, keyboardArrowDown, keyboardArrowUp, foggy, groups, healing, hiking, history, home,

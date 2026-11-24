@@ -155,6 +155,15 @@ export function startApp(root: HTMLElement): void {
     history.replaceState({ hk: 'top' }, '');
   });
   const params = new URLSearchParams(location.search);
+  // 挑戦状（ch）・決まった種（seed）・週替わりのお題（week）。URL から遊ぶシナリオに付ける
+  const ch = params.get('ch') ?? '';
+  const seedP = Number(params.get('seed') ?? '');
+  const weekP = Number(params.get('week') ?? '');
+  const extras: Partial<LoadedScenario> = {
+    ...(/^[A-Za-z0-9]{8}$/.test(ch) ? { challenge: ch } : {}),
+    ...(Number.isInteger(seedP) && seedP > 0 ? { seed: seedP } : {}),
+    ...(Number.isInteger(weekP) && weekP > 0 ? { week: weekP } : {}),
+  };
   const bundleRef = params.get('bundle');
   if (bundleRef?.startsWith('editor:')) {
     root.replaceChildren(el('p', { class: 'loading' }, JA.ui.loading));
@@ -178,7 +187,7 @@ export function startApp(root: HTMLElement): void {
         const ld = showLoading(JA.ui.loadingTitle);
         try {
           const loaded = await loadEntry(e, progressTo(ld, { data: JA.ui.loadingData, terrain: JA.ui.loadingTerrain }));
-          app.go({ name: 'briefing', loaded: { ...loaded, listed: true } });
+          app.go({ name: 'briefing', loaded: { ...loaded, listed: true, ...extras } });
         } finally {
           ld.done();
         }
@@ -196,7 +205,7 @@ export function startApp(root: HTMLElement): void {
       })
       .then(async (loaded0) => {
         const listed = (await loadIndex()).some((x) => x.id === direct);
-        const loaded: LoadedScenario = { ...loaded0, listed };
+        const loaded: LoadedScenario = { ...loaded0, listed, ...extras };
         // 場面の URL（リロード・共有）: 同じ条件・同じ選択で進め直して、その場面から始める
         const stText = params.get(STATE_PARAM);
         const shared = stText ? await decodeState(stText) : null;

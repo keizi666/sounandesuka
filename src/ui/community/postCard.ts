@@ -66,6 +66,7 @@ export function communityPostCard(app: AppContext, loaded: LoadedScenario, resul
           conditions: !!loaded.conditions,
           appVersion: APP_VERSION,
           difficulty: result.difficulty,
+          week: loaded.week,
           label: (cp, op) => optionLabel(loaded, cp, op),
           title: (cp, fb) => (cp.startsWith('generic:') ? (JA.generic[cp.slice(8)]?.title ?? fb) : (s.choices.find((c) => c.id === cp)?.title ?? fb)),
         });

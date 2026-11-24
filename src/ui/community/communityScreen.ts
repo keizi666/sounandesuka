@@ -12,6 +12,7 @@ import { ENDING_SEVERITY } from '../../sim/scenario/endings';
 import { el } from '../dom';
 import { icon } from '../icons';
 import { cIcon, dateText, errorText, hm, sexAgeText, userAvatar } from './common';
+import { likeCount } from './likeButton';
 import { ENDING_COLOR } from './endingColors';
 import { openProfileDialog } from './profileDialog';
 import { statsLine, statsTable } from './stats';
@@ -52,6 +53,7 @@ function runCard(app: AppContext, r: RunSummary): HTMLElement {
       el('span', {}, [icon('thermostat'), `${r.minCoreC.toFixed(1)}℃`]),
       el('span', {}, [icon('route'), `${(r.distanceM / 1000).toFixed(1)} km`]),
       el('span', {}, [icon('callSplit'), `${r.decisions.length}`]),
+      likeCount(r),
     ]),
     r.comment ? el('p', { class: 'cm-card-comment' }, r.comment) : null,
   ]);

@@ -20,6 +20,7 @@ import { memberCharts } from '../memberCharts';
 import { attributionLine } from '../simScreen';
 import { endingTone } from '../ending';
 import { cIcon, dateText, errorText, hm, sexAgeText, userAvatar } from './common';
+import { likeButton } from './likeButton';
 import { ENDING_COLOR } from './endingColors';
 import { showUserRuns } from './communityScreen';
 import { drawTrackOnly } from './trackOnly';
@@ -154,6 +155,8 @@ function build(app: AppContext, r: RunDetail, root: HTMLElement): void {
   const tone = endingTone(r.ending);
   const fact = (ic: IconName, label: string, value: string): HTMLElement => el('div', { class: 'bf-fact' }, [icon(ic), el('span', {}, [el('small', {}, label), el('strong', {}, value)])]);
   const actions = el('div', { class: 'cm-actions' }, [
+    // 参考になった（ユーザーの指定: リピーターを増やす）
+    likeButton(r),
     r.mine
       ? el('button', { class: 'small danger', onclick: async () => {
           if (!confirm(C.removeConfirm)) return;

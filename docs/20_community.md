@@ -17,6 +17,18 @@
 - 詳細のグラフと地図は振り返りと同じ部品（`drawTimeline`・`memberCharts`・`drawMap2d`・`zoomableMap`）。地形データを公開していないシナリオ（実在の山）は、軌跡だけを方眼の上に描く（`trackOnly.ts`）。
 - 結末・振り返りと同じ注記（架空のモデル、実在の山、史実の注記）を出す。
 
+### 1.1 ユーザーどうしのやり取り（ユーザーの指定: リピーターを増やす。DECISIONS 2026-11-25）
+
+| 場所 | 内容 | ファイル |
+|---|---|---|
+| トップ | 「お知らせ」（前に見たときより後に、自分の記録に付いた「参考になった」・挑戦状の答え。端末に時刻を覚える）、「今週のお題」（週替わりの 1 本。同じ乱数の種で全員が遊ぶ。参加人数と無事に終えた割合、先週の結果）、カードの札（NEW・今週のお題・いまの季節・まだ遊んでいない）。並びは 途中 → 今週のお題 → いまの季節 → そのほか | `community/notices.ts`・`weeklyBanner.ts`・`src/app/weekly.ts`・`season.ts`・`scenarioSelect.ts` |
+| 結果の画面 | 選択の振り返りの各分岐に「ほかの人の選択（n 件）」の割合（選ぶ前には見せない。3 件から）。「挑戦状を送る」（同じシナリオ・同じ種の `?brief=…&ch=…&seed=…` の短い URL）、挑戦状から遊んだときは「挑戦状に答える」 | `community/choiceShare.ts`・`challenge.ts` |
+| 詳細・一覧 | 「参考になった」のボタン（詳細）と数（カード） | `community/likeButton.ts` |
+
+- 週替わりのお題は日付だけから決める（月曜 0 時〔日本時間〕に替わる。史実のシナリオは選ばない。その週の季節のシナリオが 4 本以上あればそこから。前の週と同じにはしない）。載せた記録の要約に `week` が入る。
+- 挑戦状のリンクから遊ぶと、始まりに「〇〇さんからの挑戦状」。答えると、送った人のトップのお知らせに出る（みんなの遭難記録に載せなくても届けられる。押したときだけ送る）。
+- 載せる記録の要約の分岐に `cpId`・`optionId` を入れる（みんなの選択の集計に使う。入れる前の記録は題と選んだ文で数える）。
+
 ## 2. 本人の識別
 
 - パスワードもメールアドレスも使わない。プロフィールを作ると、サーバーが 24 文字のランダムなトークン（`0-9A-Z` から I L O U を除いた 32 種）を返し、端末の localStorage に置く。
@@ -63,6 +75,13 @@ POST は `Content-Type: application/json` に限る（よそのサイトのフ�
 | `report` | POST | − | 通報（同じ IP から 1 件に 1 回） |
 | `avatar` | POST | 要 | `{ image }`（base64）でアイコンの画像を置く。返るプロフィールのアイコンは `img:<版>` |
 | `avatar` | GET | − | `u`・`v`。アイコンの画像（`image/webp` か `image/png`） |
+| `choices` | GET | − | `scenario`・`week`（任意）。分岐ごとの、みんなの選択 `{ n, cps: { [cpId か "t:"+題]: { total, opts: { [optionId か "l:"+選んだ文]: 件数 } } } }`。自分で選んだもの（auto でない）だけ。新しい 3000 件まで |
+| `stats`（`week` 付き） | GET | − | 週替わりのお題の集計（要約の `week` が同じ記録だけ） |
+| `like` | POST | 要 | `{ id, on }`。「参考になった」を押す・外す（自分の記録には押せない: `own`）。`{ likes, liked }`。`list`・`run` の記録にも `likes`・`liked` が付く |
+| `notices` | GET | 要 | `since`（ISO）より後に、自分の記録に付いた「参考になった」と、自分の挑戦状への答え。`{ likes, answers, now }` |
+| `challenge` | POST | 要 | `{ scenarioId, text }`。挑戦状を作る（答えは作った人に届く）。`{ k }` |
+| `challenge` | GET | − | `k`。`{ challenge: { k, scenarioId, scenarioTitle, from, text, answers } }` |
+| `answer` | POST | 任意 | `{ k, summary }`。挑戦状に答える（結末と選択の要約だけを届ける。自分の挑戦状には答えられない） |
 | `share` | POST | − | `{ target, text }`。遊ぶ画面の URL の `?` から後ろ（`scenario=…` か `brief=…`）を短い鍵にする。同じ target には同じ鍵。`{ k }`。開くのは `<base>/api/s.php?k=<鍵>`（シナリオの題・説明・サムネイルのカードを返し、元の URL へ移る） |
 
 型は `src/net/communityTypes.ts`。
