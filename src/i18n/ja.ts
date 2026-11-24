@@ -875,6 +875,9 @@ export const JA = {
     rockfall: '{who}に落石が当たった！',
     slipped: '{who}が流れに足を取られて転んだ',
     lightning: '{who}に雷が落ちた！',
+    /** 転倒・落雷などを伴わないけが（シナリオの出来事の injure 効果など） */
+    injured: '{who}がけがをした',
+    injuredBad: '{who}が大けがをした！',
     lost: '道に迷った',
     lostSub: 'ここがどこなのか、はっきりしない',
   },

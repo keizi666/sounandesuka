@@ -1,7 +1,8 @@
 /**
  * 重要な出来事を画面の中央に大きく出す（ユーザーの指定: 「雪崩が発生した！！」のように、効果音つきで。そのあとに選択肢を出す。
  * ログに文が出るだけでは何が起きたのか分かりにくい）。
- * 出すのは事故（雪崩・流された・転倒や滑落のけが〔打ち身も〕・落雷・熊・急病・道迷いに気づいた・高地脳浮腫）。亡くなったことは大きく出さない（静かに表す方針）。
+ * 出すのは事故（雪崩・流された・転倒や滑落のけが〔打ち身も〕・落雷・熊・急病・道迷いに気づいた・高地脳浮腫）と、それらを伴わないけが
+ * （シナリオの出来事の injure 効果など。ユーザーの指摘: s08 の沢での骨折で出なかった）。亡くなったことは大きく出さない（静かに表す方針）。
  * 1 つずつ順に出し（2.4 秒）、出している間に分岐点が来たら、出し終えてから選択肢を開く（whenIdle）。
  */
 import { fill } from '../i18n/format';
@@ -43,6 +44,13 @@ export function alertOf(e: SimEvent, world: World): AlertSpec | null {
       const title = d['rockfall'] ? A.rockfall : d['slipped'] ? A.slipped : d['event'] ? A.fall : light ? A.fallLight : A.trip;
       return { title: fill(title, { who }), sub: injury, tone: light ? 'warn' : 'danger' };
     }
+    case 'INJURY': {
+      // 転倒・落雷・熊・流された などのけがは、その出来事の見出しで出す（同じ時刻の見出しがあれば、こちらは出さない。push で判定）
+      const k = d['injury'];
+      if (typeof k !== 'string' || k === 'none') return null;
+      const light = k === 'bruise' || k === 'sprain';
+      return { title: fill(light ? A.injured : A.injuredBad, { who }), sub: injury, tone: light ? 'warn' : 'danger' };
+    }
     case 'LIGHTNING_STRIKE':
       return { title: fill(A.lightning, { who }), tone: 'danger' };
     case 'LOST_AWARE':
@@ -67,6 +75,8 @@ export function createEventAlerts(host: HTMLElement): EventAlerts {
   let showing: HTMLElement | null = null;
   let timer = 0;
   let waiters: (() => void)[] = [];
+  // 最後に見出しにした出来事の時刻（同じ時刻のけが〔INJURY〕は、その出来事の見出しに含まれるので重ねて出さない）
+  let lastAlertMin = Number.NaN;
   const next = (): void => {
     showing?.remove();
     showing = null;
@@ -86,6 +96,8 @@ export function createEventAlerts(host: HTMLElement): EventAlerts {
     push(e, world) {
       const a = alertOf(e, world);
       if (!a) return;
+      if (e.type === 'INJURY' && e.tMin === lastAlertMin) return;
+      lastAlertMin = e.tMin;
       // 同じ見出しが続けて来たら（同じ雪崩で何人も など）1 つにまとめる
       if (queue.some((q) => q.title === a.title)) return;
       queue.push(a);
