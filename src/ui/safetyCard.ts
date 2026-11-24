@@ -30,6 +30,7 @@ export function safetyTopics(loaded: LoadedScenario, world: World, rec: RunRecor
   add('bear', (world.animals ?? []).some((a) => /bear/i.test(a.species)));
   add('illness', world.climbers.some((c) => c.body.illness !== undefined) || ev.has('CARDIAC_ARREST'));
   add('altitude', world.climbers.some((c) => (c.body.amsMax ?? c.body.ams ?? 0) >= 30));
+  add('hallucination', rec.events.some((e) => e.type === 'SCRIPT_LOG' && e.data?.['halluc'] === 'onset'));
   add('flood', (s.fords ?? []).length > 0);
   add('avalanche', rec.events.some((e) => e.type === 'SCRIPT_LOG' && typeof e.data?.['avalanche'] === 'number'));
   add('children', s.party.some((p) => p.age <= 12));

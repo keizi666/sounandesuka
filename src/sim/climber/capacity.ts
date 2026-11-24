@@ -5,6 +5,7 @@ import { chance } from '../core/rng';
 import { TUNING, type Tuning } from '../tuning';
 import type { ClimberBody, ClimberState, StaticContext, World } from '../types';
 import { amsJ, amsM } from './altitude';
+import { hallucJ } from './hallucination';
 import { illnessM } from './illness';
 import { bacPct } from './physiology';
 import { transition } from './state';
@@ -50,7 +51,7 @@ export function computeJ(c: ClimberState, tuning: Tuning = TUNING): number {
   const fHeat = b.coreC >= heatExhaustionAtC(c, tuning) ? k.heatExhaustionJ : 1;
   const fAlc = Math.max(0.5, 1 - k.alcoholJK * bacPct(c, tuning));
   const fHealth = k.healthJ[c.def.health ?? 'good'] ?? 1;
-  const j = j0 * fCore * fGly * fFat * fAnx * fDehyd * fHead * fHeat * fAlc * fHealth * amsJ(c, tuning);
+  const j = j0 * fCore * fGly * fFat * fAnx * fDehyd * fHead * fHeat * fAlc * fHealth * amsJ(c, tuning) * hallucJ(c, tuning);
   return Math.min(1, Math.max(k.jMin, j));
 }
 

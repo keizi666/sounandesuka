@@ -18,7 +18,7 @@ export interface SafetyTopic {
   sections: { title: string; points: SafetyPoint[] }[];
 }
 
-export type SafetyTopicId = 'lightning' | 'hypothermia' | 'lost' | 'fall' | 'heat' | 'night' | 'bear' | 'illness' | 'altitude' | 'group' | 'plan' | 'flood' | 'avalanche' | 'children';
+export type SafetyTopicId = 'lightning' | 'hypothermia' | 'lost' | 'fall' | 'heat' | 'night' | 'bear' | 'illness' | 'altitude' | 'group' | 'plan' | 'flood' | 'avalanche' | 'children' | 'hallucination';
 
 export const SAFETY: { title: string; lead: string; note: string; topics: Record<SafetyTopicId, SafetyTopic> } = {
   title: '遭難対策のまとめ',
@@ -206,6 +206,26 @@ export const SAFETY: { title: string; lead: string; note: string; topics: Record
           points: [
             { head: '体調が悪い日は登らない', text: '寝不足・二日酔い・かぜぎみの日は、計画を変えるかやめます。持病の薬は手の届く所に。' },
             { head: '胸の痛み・息苦しさ・ろれつが回らない', text: '心臓や脳の病気のしるしかもしれません。無理に歩かず、楽な姿勢で休ませ、すぐに救助を求めます。倒れて息をしていなければ、心肺蘇生と、あれば AED を。' },
+          ],
+        },
+      ],
+    },
+    hallucination: {
+      title: '幻覚・幻聴に気づく',
+      lead: '体が冷えきる、何晩も眠れない、水や食べ物が尽きると、ないものが見え、聞こえないはずの声が聞こえることがあります。本人には本物に見えます。',
+      sections: [
+        {
+          title: '起きること',
+          points: [
+            { head: '人の声・明かり・小屋が見える', text: '呼ぶ声、ヘリや車の音、家の明かり、すぐそこの小屋などが見え、聞こえます。だれかがそばにいる気がすることもあります。' },
+            { head: '安全な場所を離れてしまう', text: '幻の明かりや声を追って、風よけの場所やツェルトから出て歩き回り、体を冷やしたり、捜索が見ている場所から離れたりします。' },
+          ],
+        },
+        {
+          title: '防ぐ・対処する',
+          points: [
+            { head: '原因を減らす', text: '着込んで体を冷やさない、少しずつでも飲み・食べる、風を避けて横になり、短くても眠ります。' },
+            { head: '動く前に確かめる', text: '人や明かりが見えても、すぐには動かず、しばらく見て音を聞き、仲間がいれば確かめ合います。仲間の様子がおかしければ、引き止めて一緒にいます。' },
           ],
         },
       ],

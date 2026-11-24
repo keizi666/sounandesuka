@@ -115,6 +115,8 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
     if (!b.alive || c.state === 'DEAD' || c.state === 'UNCONSCIOUS' || !b.conscious) return POSES.lie;
     if (c.state === 'INCAPACITATED') return POSES.slump;
     if (c.plan.postureUntilMin !== null && tMinNow < c.plan.postureUntilMin) return POSES.crouch;
+    // 幻覚で立ち上がって歩き回っている（climber/hallucination.ts）
+    if (b.halluc?.wanderUntilMin != null && c.speedMs < 0.05) return hasPoles ? POSES.standPoles : POSES.stand;
     // 発作中・足の骨折・力が尽きかけているのに動くときは這う（這う速さは 0.02 m/s より遅いので、少しでも動いていれば。ユーザーの指摘:
     // 「這う」を選ぶと、足を動かさずに立ったまま滑っていた）
     const crawler = b.illness?.active === true || b.injury === 'legFracture' || c.M < 0.25;

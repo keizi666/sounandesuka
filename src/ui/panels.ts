@@ -59,6 +59,8 @@ export function climberCard(c: ClimberState, god: boolean, selected: boolean, on
     c.inv.headlamp.on ? chip('flashlightOn', JA.ui.headlampOn) : null,
     null as HTMLElement | null,
     b.injury !== 'none' ? chip('healing', JA.labels.injury[b.injury] ?? b.injury) : null,
+    // 幻覚・幻聴（体調が分からない難しさでは出さない）
+    bodyKnown && b.alive && b.conscious && (b.halluc?.level ?? 0) >= TUNING.hallucination.onset ? chip('psychology', JA.ui.halluc) : null,
     // 喉の渇き・空腹（本人の感じ方。体調が分からない難しさでは出さない）
     bodyKnown && b.alive && b.conscious && thirstOf(c, TUNING) !== null ? chip('waterDrop', JA.ui.thirsty) : null,
     bodyKnown && b.alive && b.conscious ? hungerChip(hungerOf(c, TUNING), chip) : null,

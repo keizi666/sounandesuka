@@ -259,6 +259,8 @@ function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
       if (d['stung']) return fill(L.stung, { who });
       if (d['streamDrink']) return fill(L.streamDrink, { who });
       if (typeof d['ams'] === 'string') return fill(L.ams[d['ams']] ?? '', { who });
+      // 幻覚・幻聴（climber/hallucination.ts）
+      if (typeof d['halluc'] === 'string') return fill(L.halluc[d['halluc']] ?? '', { who, cause: L.hallucCause[s('cause')] ?? '' });
       // 渡渉・増水（hazards/ford.ts）・雪崩（hazards/avalanche.ts）・高地脳浮腫・子ども連れ（climber/childCare.ts）
       if (typeof d['ford'] === 'string') return fill(d['rope'] ? L.fordRope : L.ford, { who, ford: d['ford'], cm: String(d['levelCm'] ?? '') });
       if (typeof d['swept'] === 'string') return fill(d['injury'] === 'death' ? L.sweptFatal : d['injury'] === 'none' ? L.sweptSafe : L.swept, { who, ford: d['swept'], injury: JA.labels.injury[s('injury')] ?? s('injury') });

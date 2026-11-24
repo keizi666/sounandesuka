@@ -75,6 +75,8 @@ export function symptomsOf(c: ClimberState, w: Worst): { text: string; serious: 
     const lv = ams >= TUNING.altitude.amsHace ? 'hace' : ams >= TUNING.altitude.amsModerate ? 'moderate' : 'mild';
     out.push({ text: fill(S.ams, { lv: S.amsLv[lv] ?? lv }), serious: lv !== 'mild' });
   }
+  // 幻覚・幻聴（ユーザーの指定）
+  if ((b.halluc?.max ?? 0) >= TUNING.hallucination.onset) out.push({ text: S.halluc, serious: true });
   return out;
 }
 

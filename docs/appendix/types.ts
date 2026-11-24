@@ -764,6 +764,13 @@ export interface ClimberBody {
   amsMax?: number;
   /** 体が慣れている高さ（m。高い所にいるあいだにゆっくり上がる） */
   acclimElevM?: number;
+  /** 眠れていない時間（分。起きているあいだ増え、夜に止まって寝ると眠りの質に応じて減る。climber/hallucination.ts）。古い保存にはない */
+  awakeMin?: number;
+  /**
+   * 幻覚・幻聴（climber/hallucination.ts）。level は症状の強さ（0〜1）、max はこれまでの最大。onsetAtMin は出はじめた時刻、
+   * nextMin は次の幻覚の一人言・セリフの時刻、wanderUntilMin は立ち上がって歩き回るのをやめる時刻（wanderSaved に元の風よけ・断熱）。古い保存にはない
+   */
+  halluc?: { level: number; max: number; onsetAtMin: number | null; nextMin: number | null; wanderUntilMin: number | null; wanderSaved: { lee: number; ground: boolean; bivy: boolean } | null; strongLogged: boolean };
 }
 
 export interface ClimberInventory {

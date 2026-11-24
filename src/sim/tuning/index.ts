@@ -9,6 +9,7 @@ import { derive, radio, terrain, trails } from './terrain';
 import { ground, sun, weather } from './world';
 import { animals } from './animals';
 import { altitude } from './altitude';
+import { hallucination } from './hallucination';
 
 export const TUNING = {
   sun,
@@ -34,6 +35,7 @@ export const TUNING = {
   thoughts,
   animals,
   altitude,
+  hallucination,
   ford,
   avalanche,
   childCare,
