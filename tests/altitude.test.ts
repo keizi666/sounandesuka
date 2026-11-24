@@ -7,6 +7,7 @@ import { usableMet } from '../src/sim/climber/movement';
 import { createStaticContext, createWorld } from '../src/sim/core/world';
 import { slipP10 } from '../src/sim/hazards/slip';
 import type { ClimberState, ScenarioDef } from '../src/sim/types';
+import { hpOf } from '../src/ui/hp';
 import { sounanMap } from './helpers/map';
 import { loadScenario } from './helpers/scenario';
 
@@ -62,6 +63,16 @@ describe('高山病', () => {
     stay(env, c, 3776, 14);
     const logs = env.ctx.events.filter((e) => e.type === 'SCRIPT_LOG' && e.climberId === c.id && typeof e.data?.['ams'] === 'string').map((e) => e.data!['ams']);
     expect(logs).toEqual(['mild', 'moderate', 'hace']);
+  });
+
+  it('重い高山病では、休んでいても疲れが抜けず、体力（HP）の表示も下がる（ユーザーの指摘: 体力 99・疲労 0 だった）', () => {
+    const env = setup(25);
+    const c = env.c;
+    expect(hpOf(c.body)).toBeGreaterThan(95);
+    stay(env, c, 3700, 8);
+    expect(amsLevelOf(c.body.ams, env.ctx.tuning)).toBe('moderate');
+    expect(c.body.fatigue).toBeGreaterThanOrEqual(40);
+    expect(hpOf(c.body)).toBeLessThan(75);
   });
 });
 

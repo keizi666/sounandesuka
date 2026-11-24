@@ -444,6 +444,9 @@ export const illness = {
   anaphylaxisSensitizedP: 0.3,
   anaphylaxisDelayMin: [5, 15] as [number, number],
   anaphylaxisResolveH: 4,
+  /** 発作が出ているあいだの疲労の下限と、発作が出てからそこまで上がる時間（分）。だるくて動けない（ユーザーの指摘: 体調が悪いときはステータスも悪く） */
+  activeFatigue: 55,
+  activeFatigueTauMin: 30,
   stingAnxiety: 20,
   /** エピペンが効いている時間（分）と、その間の心停止の率の倍率 */
   epiDurationMin: 25,

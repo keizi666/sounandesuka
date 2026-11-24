@@ -7,6 +7,7 @@
  */
 import type { ClimberState, StaticContext, World } from '../types';
 import { killWith } from '../hazards/ford';
+import { piecewise } from './capacity';
 
 export type AmsLevel = 'none' | 'mild' | 'moderate' | 'hace';
 
@@ -51,6 +52,8 @@ export function stepAltitude(world: World, ctx: StaticContext, c: ClimberState, 
   const ams = Math.min(100, Math.max(0, ams0 + (rise - fall) * dtH));
   b.ams = ams;
   if (ams > (b.amsMax ?? 0)) b.amsMax = ams;
+  // だるさで疲れが抜けない（疲労の下限。休んでも下がらない）
+  b.fatigue = Math.max(b.fatigue, piecewise(a.amsFatigue, ams));
   // 高地脳浮腫が続くと意識がなくなり、さらに続くと命にかかわる（ユーザーの指定: 富士山。下ろせば点が下がり、数え直す）
   if (ams >= a.amsHace) {
     b.haceMin = (b.haceMin ?? 0) + dtMin;

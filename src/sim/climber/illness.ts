@@ -73,6 +73,8 @@ export function stepIllness(world: World, ctx: StaticContext, c: ClimberState, d
       ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, data: { illnessEased: true } });
     }
   }
+  // 発作が出ているあいだは、だるくて疲れが抜けない（疲労の下限）
+  if (ill.active) c.body.fatigue = Math.max(c.body.fatigue, t.activeFatigue * Math.min(1, (world.tMin - ill.atMin) / t.activeFatigueTauMin));
   const sinceH = (world.tMin - ill.atMin) / 60;
   const resting = !walking;
   if (resting) ill.restSinceMin ??= world.tMin;

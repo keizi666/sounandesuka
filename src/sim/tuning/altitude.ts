@@ -37,7 +37,12 @@ export const altitude = {
   /** 段階ごとの判断力 J の係数 */
   amsJ: { none: 1, mild: 0.9, moderate: 0.75, hace: 0.4 } as Record<string, number>,
   /** 段階ごとの運動能力 M の係数 */
-  amsM: { none: 1, mild: 0.95, moderate: 0.8, hace: 0.3 } as Record<string, number>,
+  amsM: { none: 1, mild: 0.85, moderate: 0.6, hace: 0.25 } as Record<string, number>,
+  /**
+   * 高山病の点 → 疲労の下限（0〜100）。だるさ・頭痛・吐き気で、休んでも疲れが抜けない（ユーザーの指摘: 高山病で弱っているのに
+   * 疲労 0 だった）。点はゆっくり変わるので、疲労をそのまま下限で止める
+   */
+  amsFatigue: [[20, 0], [30, 15], [60, 45], [85, 75], [100, 85]] as [number, number][],
   /** 高地脳浮腫では足元がふらつく: 転倒の確率の倍率 */
   haceSlipF: 2.5,
   /** 高地脳浮腫が続くと、この時間（時間）で命にかかわる（ユーザーの指定: 富士山。最悪は脳浮腫。下ろさなければ、の目安）。点がこれより低くなれば数え直す */

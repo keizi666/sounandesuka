@@ -6,6 +6,8 @@
  *   - けが: 上限を決める（重いほど低い）。意識がなければ上限 15
  *   - 消耗（エネルギー切れ・脱水・疲労）: 最大で 4 割ほど割り引く
  *   - けがで動けないあいだの衰弱（sim の debility）: (1 - 衰弱) 倍。96 時間で 0（ユーザーの指定）
+ *   - 体調（ユーザーの指摘: 高山病で弱っているのに体力 99 だった）: 高山病（軽い 0.9・重い 0.7・高地脳浮腫 0.45 倍）・急病の発作（0.55 倍）・
+ *     幻覚・幻聴（強いほど 0.7 倍まで）。いちばん悪いものを掛ける
  */
 import type { ClimberBody, InjuryKind } from '../sim/types';
 
@@ -22,7 +24,7 @@ function ramp(x: number, pts: readonly (readonly [number, number])[]): number {
   return pts[pts.length - 1]![1];
 }
 
-export type HpInput = Pick<ClimberBody, 'coreC' | 'glycogenKcal' | 'waterDeficitL' | 'fatigue' | 'injury' | 'conscious' | 'alive' | 'debility'>;
+export type HpInput = Pick<ClimberBody, 'coreC' | 'glycogenKcal' | 'waterDeficitL' | 'fatigue' | 'injury' | 'conscious' | 'alive' | 'debility' | 'ams' | 'illness' | 'halluc'>;
 
 export function hpOf(b: HpInput): number {
   if (!b.alive) return 0;
@@ -33,7 +35,12 @@ export function hpOf(b: HpInput): number {
   const water = ramp(b.waterDeficitL, [[1, 1], [3, 0.92], [5, 0.8]]);
   const tired = ramp(b.fatigue, [[70, 1], [100, 0.88]]);
   const weak = 1 - Math.min(1, Math.max(0, b.debility ?? 0));
-  return Math.max(1, Math.round(100 * Math.min(cold, heat, cap) * energy * water * tired * weak));
+  const sick = Math.min(
+    ramp(b.ams ?? 0, [[0, 1], [30, 0.9], [60, 0.7], [85, 0.45], [100, 0.35]]),
+    b.illness?.active === true ? 0.55 : 1,
+    ramp(b.halluc?.level ?? 0, [[0.35, 1], [1, 0.7]]),
+  );
+  return Math.max(1, Math.round(100 * Math.min(cold, heat, cap) * energy * water * tired * weak * sick));
 }
 
 /** HP の段階（色と記号の区別に使う） */
