@@ -7,8 +7,11 @@ import type { EndingKind } from '../types';
 import type { Tuning } from '../tuning';
 import type { WhatIfResult } from './whatif';
 
-/** good 良い判断・fair まずまず・bad 悪い判断・same どれを選んでもほとんど変わらない */
-export type ChoiceVerdict = 'good' | 'fair' | 'bad' | 'same';
+/**
+ * good 良い判断・fair まずまず・bad 悪い判断・same どれを選んでもほとんど変わらない・
+ * late 手遅れ（どれを選んでも変わらず、いちばん良い選択肢でも結末が悪い。それより前の判断で決まっていた。ユーザーの指定）
+ */
+export type ChoiceVerdict = 'good' | 'fair' | 'bad' | 'same' | 'late';
 
 export interface OptionScore {
   optionId: string;
@@ -67,7 +70,7 @@ export function judgeChoice(results: readonly WhatIfResult[], chosenId: string, 
   const worst = scores.reduce((a, b) => (b.mean > a.mean ? b : a));
   const clearly = (a: OptionScore, b: OptionScore, margin: number): boolean => a.mean - b.mean >= margin && a.mean - b.mean > t.verdictZ * Math.sqrt(a.se * a.se + b.se * b.se);
   let verdict: ChoiceVerdict;
-  if (worst.mean - best.mean < t.verdictSameSpread || !clearly(worst, best, t.verdictSameSpread)) verdict = 'same';
+  if (worst.mean - best.mean < t.verdictSameSpread || !clearly(worst, best, t.verdictSameSpread)) verdict = best.mean >= t.verdictLateMean ? 'late' : 'same';
   else if (chosen.mean - best.mean < t.verdictGoodMargin || !clearly(chosen, best, t.verdictGoodMargin)) verdict = 'good';
   else if (clearly(chosen, best, t.verdictBadMargin)) verdict = 'bad';
   else verdict = 'fair';

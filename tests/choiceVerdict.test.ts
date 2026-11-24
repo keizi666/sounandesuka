@@ -32,3 +32,16 @@ describe('judgeChoice', () => {
     expect(judgeChoice([stay], 'stay', TUNING)).toBeNull();
   });
 });
+
+describe('手遅れ', () => {
+  it('どれを選んでも変わらず、どれも結末が悪いなら「手遅れ」', () => {
+    const a = r('a', { MISSING: 6, FATAL: 12, RESCUED: 2 });
+    const b = r('b', { MISSING: 5, FATAL: 13, RESCUED: 2 });
+    expect(judgeChoice([a, b], 'a', TUNING)?.verdict).toBe('late');
+  });
+  it('どれを選んでも変わらず、どれも無事なら「ほとんど変わらない」のまま', () => {
+    const a = r('a', { SAFE_RETURN: 19, RESCUED: 1 });
+    const b = r('b', { SAFE_RETURN: 18, RESCUED: 2 });
+    expect(judgeChoice([a, b], 'a', TUNING)?.verdict).toBe('same');
+  });
+});

@@ -1375,3 +1375,6 @@ details[data-g]:not([open]) > summary .grp-mini:hover { border-color: var(--acce
   .ev-alert { animation-name: ev-alert-soft; }
   @keyframes ev-alert-soft { 0% { opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
 }
+/* 手遅れ（どれを選んでも状況がよくならない。ユーザーの指定） */
+.cr-badge.v-late { color: #fff; background: #7f1d1d; border: 1px solid #b91c1c; }
+.cr-verdict.v-late { color: #fca5a5; }

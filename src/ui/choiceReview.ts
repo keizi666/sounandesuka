@@ -83,7 +83,8 @@ function verdictText(loaded: LoadedScenario, cpId: string, j: ChoiceJudgement): 
   const safes = j.scores.map((s) => pct(s.safe));
   const lo = Math.min(...safes);
   const hi = Math.max(...safes);
-  return fill(R.same, { range: lo === hi ? `${lo}%` : `${lo}〜${hi}%` });
+  const range = lo === hi ? `${lo}%` : `${lo}〜${hi}%`;
+  return fill(j.verdict === 'late' ? R.late : R.same, { range });
 }
 
 export interface ReviewItem {
