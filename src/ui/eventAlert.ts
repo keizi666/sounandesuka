@@ -1,7 +1,7 @@
 /**
  * 重要な出来事を画面の中央に大きく出す（ユーザーの指定: 「雪崩が発生した！！」のように、効果音つきで。そのあとに選択肢を出す。
  * ログに文が出るだけでは何が起きたのか分かりにくい）。
- * 出すのは事故（雪崩・流された・転倒や転落のけが・落雷・熊・急病・道迷いに気づいた・高地脳浮腫）。亡くなったことは大きく出さない（静かに表す方針）。
+ * 出すのは事故（雪崩・流された・転倒や滑落のけが〔打ち身も〕・落雷・熊・急病・道迷いに気づいた・高地脳浮腫）。亡くなったことは大きく出さない（静かに表す方針）。
  * 1 つずつ順に出し（2.4 秒）、出している間に分岐点が来たら、出し終えてから選択肢を開く（whenIdle）。
  */
 import { fill } from '../i18n/format';
@@ -36,11 +36,12 @@ export function alertOf(e: SimEvent, world: World): AlertSpec | null {
     case 'FALL':
     case 'GUST_FALL': {
       const k = d['injury'];
-      // けがのない転倒・打ち身は大きく出さない
-      if (!k || k === 'none' || k === 'bruise') return null;
+      // けがのない転倒は出さない。打ち身・擦り傷でも、そのあと選択肢が出るので、何が起きたかを先に見せる（ユーザーの指摘）
+      if (!k || k === 'none') return null;
+      const light = k === 'bruise' || k === 'sprain';
       // シナリオの滑落（効果 fall）・落石・渡渉で足を取られた・ふつうの転倒で見出しを分ける
-      const title = d['rockfall'] ? A.rockfall : d['slipped'] ? A.slipped : d['event'] ? A.fall : k === 'sprain' ? A.fallLight : A.trip;
-      return { title: fill(title, { who }), sub: injury, tone: k === 'sprain' ? 'warn' : 'danger' };
+      const title = d['rockfall'] ? A.rockfall : d['slipped'] ? A.slipped : d['event'] ? A.fall : light ? A.fallLight : A.trip;
+      return { title: fill(title, { who }), sub: injury, tone: light ? 'warn' : 'danger' };
     }
     case 'LIGHTNING_STRIKE':
       return { title: fill(A.lightning, { who }), tone: 'danger' };
