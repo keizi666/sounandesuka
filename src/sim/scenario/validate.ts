@@ -314,6 +314,14 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
     const edgeIds = new Set((map.edges ?? []).map((e) => e.id));
     for (const [k, id] of Object.entries(s.music ?? {})) if (typeof id === 'string' && !BGM_IDS.includes(id)) v.err(`music.${k}`, 'unknownMusic', `未知の曲 "${id}"（${BGM_IDS.join(', ')}）`);
     (s.passersby ?? []).forEach((p, pi) => p.edges.forEach((e, i) => edgeIds.has(e) || v.err(`passersby[${pi}].edges[${i}]`, 'undefinedEdge', `未定義のエッジ "${e}"`)));
+    // 列をなす登山者（見た目だけ。src/view/crowds.ts）
+    (s.crowds ?? []).forEach((c, ci) => {
+      const p = `crowds[${ci}]`;
+      if (!nodes.has(c.from)) v.err(`${p}.from`, 'undefinedNode', `未定義のノード "${c.from}"`);
+      if (!nodes.has(c.to)) v.err(`${p}.to`, 'undefinedNode', `未定義のノード "${c.to}"`);
+      for (const k of ['start', 'end'] as const) if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(c[k])) v.err(`${p}.${k}`, 'badTime', `時刻は "HH:MM"（"${c[k]}"）`);
+      if (!(c.perHour > 0)) v.err(`${p}.perHour`, 'range', '1 時間の人数は 0 より大きく');
+    });
     (s.plan.searchLeads ?? []).forEach((l, li) => {
       const p = `plan.searchLeads[${li}]`;
       checkTime(v, `${p}.at`, l.at);

@@ -229,10 +229,30 @@ export interface ScenarioDef {
   sources?: string[];                                   // 例: "気象の下書き: Open-Meteo ERA5 2025-10-12 36.40,137.71"
   /** 通りかかる登山者（人の少ない道では少ない）。困っている人に気づけば下山して通報してくれる */
   passersby?: PasserbyDef[];
+  /**
+   * 列をなして歩くほかの登山者（見た目だけ。ユーザーの指定: 夏の富士山のご来光の列）。シミュレーションには影響しない
+   * （通報してくれる人は passersby）。src/view/crowds.ts
+   */
+  crowds?: CrowdDef[];
   /** 渡渉点（ユーザーの指定: ゲリラ豪雨での沢の増水）。上流の雨で水位が上がり、渡る行動 ford で危険が決まる（src/sim/hazards/ford.ts） */
   fords?: FordDef[];
   /** 音楽（soundCatalog.ts の BGM の ID）。briefing: 出発前、play: ふだん、night: 夜、distress: 道迷い・けが・急病・救助待ちの間、good / bad: 結末。省くと既定の曲、null で無音 */
   music?: { briefing?: string; play?: string | null; night?: string | null; distress?: string | null; good?: string; bad?: string };
+}
+
+/** 列をなして歩くほかの登山者（見た目だけ）。毎日 start〜end に from の地点を出発し、登山道をたどって to へ向かう */
+export interface CrowdDef {
+  from: NodeId;
+  to: NodeId;
+  /** 出発する時間帯（毎日。"HH:MM"。end が start より前なら翌日の end まで） */
+  start: string;
+  end: string;
+  /** 1 時間に出発する人数 */
+  perHour: number;
+  /** 歩く速さ（km/h。道に沿った距離で。省くと登り 1.0・下り 2.5） */
+  speedKmh?: number;
+  /** 終わりに近いほど詰まって遅くなる度合い（0〜0.9。山頂の手前の渋滞。省くと 0） */
+  jam?: number;
 }
 
 export interface PasserbyDef {

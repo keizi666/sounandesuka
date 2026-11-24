@@ -34,6 +34,7 @@ import { scenarioDateMs, skyState, type SkyState } from './astro';
 import { buildWaterfalls } from './waterfalls';
 import { Ghosts } from './ghosts';
 import { AnimalsView, type FigurePoint } from './animals';
+import { CrowdsView } from './crowds';
 import { formationOrder } from './formation';
 import { DT_SEC } from '../sim/core/step';
 import type { ViewPre } from './viewCache';
@@ -117,6 +118,8 @@ export class SceneView {
   private ghosts!: Ghosts;
   /** 野生動物（World.animals） */
   private animals!: AnimalsView;
+  /** 列をなして歩くほかの登山者（見た目だけ。scenario.crowds） */
+  private crowds!: CrowdsView;
   private wasAlive = new Map<string, boolean>();
   /** 俯瞰で登山者の位置を示す赤い円（画面上の大きさが一定） */
   private locators = new Map<string, THREE.Sprite>();
@@ -282,6 +285,8 @@ export class SceneView {
     this.scene.add(buildLandmarks(map, this.s, this.heightAt, this.env, q.shadow > 0));
     this.ghosts = new Ghosts(this.scene);
     this.animals = new AnimalsView(this.scene, this.env, this.heightAt);
+    this.crowds = new CrowdsView(map, scenario, this.heightAt, this.env);
+    this.scene.add(this.crowds.group);
     // 沢の急な所の滝（見た目だけ）
     this.scene.add(buildWaterfalls(map, this.s, this.heightAt, this.env));
 
@@ -585,6 +590,8 @@ export class SceneView {
     const figPts: FigurePoint[] = [];
     for (const [id, f] of this.figures) if (f.root.visible) figPts.push({ id, x: f.root.position.x / UNIT, z: f.root.position.z / UNIT });
     this.animals.update(world, world.tMin - (1 - alpha) * (DT_SEC / 60), timeSec, this.figureHeight() / 1.7, figPts);
+    // ほかの登山者の列（夏の富士山のご来光の列など。補間した時刻で）
+    this.crowds.update(world.tMin - (1 - alpha) * (DT_SEC / 60), this.figureHeight(), this.env.uNight.value);
     this.updateCamera(world);
     this.veg.update(this.camera);
     // カメラと注目している登山者の間にある木・建物を透かす
@@ -1096,6 +1103,7 @@ export class SceneView {
     this.blurDepthMat.dispose();
     this.ghosts.dispose();
     this.animals.dispose();
+    this.crowds.dispose();
     this.kishou?.dispose();
     for (const f of this.figures.values()) f.dispose();
     for (const sp of this.locators.values()) sp.material.dispose();

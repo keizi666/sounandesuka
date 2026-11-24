@@ -238,6 +238,42 @@
    "whistleM": 150
   }
  ],
+ "crowds": [
+  {
+   "from": "GOGOME",
+   "to": "SANCHO",
+   "start": "20:00",
+   "end": "01:00",
+   "perHour": 50,
+   "speedKmh": 0.9,
+   "jam": 0.7
+  },
+  {
+   "from": "HACHI",
+   "to": "SANCHO",
+   "start": "00:30",
+   "end": "03:00",
+   "perHour": 120,
+   "speedKmh": 0.8,
+   "jam": 0.8
+  },
+  {
+   "from": "SANCHO",
+   "to": "GOGOME",
+   "start": "05:30",
+   "end": "09:30",
+   "perHour": 100,
+   "speedKmh": 2.5
+  },
+  {
+   "from": "GOGOME",
+   "to": "HACHI",
+   "start": "07:00",
+   "end": "14:00",
+   "perHour": 40,
+   "speedKmh": 1
+  }
+ ],
  "weather": {
   "refElevM": 3776,
   "lapseRateCPer100m": 0.6,
