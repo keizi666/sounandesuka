@@ -6,6 +6,7 @@ import { heatExhaustionAtC } from '../climber/capacity';
 import { chance, nextFloat } from '../core/rng';
 import { injure } from '../hazards/slip';
 import { dismissAnimals, spawnAnimal } from '../hazards/animals';
+import { triggerAvalanche } from '../hazards/avalanche';
 import { groupMembers, partyLeader } from '../climber/party';
 import { nearestIndex } from '../terrain/sample';
 import type { ClimberState, ScriptEffect, StaticContext, Who, World } from '../types';
@@ -115,6 +116,10 @@ function applyEffect(world: World, ctx: StaticContext, ef: ScriptEffect, evId: s
       return;
     case 'animal':
       spawnAnimal(world, ctx, ef, evId);
+      return;
+    case 'avalanche':
+      // 雪崩: 範囲の中の人を埋める（hazards/avalanche.ts）
+      triggerAvalanche(world, ctx, ef, leader);
       return;
     case 'animalLeave':
       dismissAnimals(world, ctx, ef.id, ef.species);

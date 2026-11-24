@@ -20,6 +20,8 @@ const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
 export function needsCarry(m: ClimberState): boolean {
   const b = m.body;
   if (!b.alive || TERMINAL.has(m.state)) return false;
+  // 背負われている人（piggyback。childCare.ts）も、自分の足では歩かない
+  if (m.plan.ridingUntilMin !== undefined && m.plan.ridingUntilMin !== null) return true;
   return m.state === 'INCAPACITATED' || m.state === 'UNCONSCIOUS' || !b.conscious || b.injury === 'legFracture' || b.injury === 'severeTrauma' || b.injury === 'headInjury' || m.M < 0.1;
 }
 

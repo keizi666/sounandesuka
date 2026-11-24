@@ -259,6 +259,18 @@ function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
       if (d['stung']) return fill(L.stung, { who });
       if (d['streamDrink']) return fill(L.streamDrink, { who });
       if (typeof d['ams'] === 'string') return fill(L.ams[d['ams']] ?? '', { who });
+      // 渡渉・増水（hazards/ford.ts）・雪崩（hazards/avalanche.ts）・高地脳浮腫・子ども連れ（climber/childCare.ts）
+      if (typeof d['ford'] === 'string') return fill(d['rope'] ? L.fordRope : L.ford, { who, ford: d['ford'], cm: String(d['levelCm'] ?? '') });
+      if (typeof d['swept'] === 'string') return fill(d['injury'] === 'death' ? L.sweptFatal : d['injury'] === 'none' ? L.sweptSafe : L.swept, { who, ford: d['swept'], injury: JA.labels.injury[s('injury')] ?? s('injury') });
+      if (typeof d['avalanche'] === 'number') return d['avalanche'] > 0 ? fill(L.avalanche, { names: String(d['names'] ?? ''), n: String(d['avalanche']) }) : L.avalancheMissed;
+      if (typeof d['avalancheSearch'] === 'string') return fill(L.avalancheSearch[d['avalancheSearch']] ?? '', { n: String(d['helpers'] ?? 0) }) + (Number(d['helpers'] ?? 0) > 0 ? fill(L.avalancheHelpers, { n: String(d['helpers']) }) : '');
+      if (typeof d['dugOut'] === 'number') return fill(L.dugOut, { who, min: String(d['dugOut']) });
+      if (typeof d['dugOutDead'] === 'number') return fill(L.dugOutDead, { who, min: String(d['dugOutDead']) });
+      if (typeof d['buriedDead'] === 'number') return null;
+      if (d['haceComa']) return fill(L.haceComa, { who });
+      if (typeof d['takePack'] === 'string') return fill(L.takePack, { who, by: d['takePack'], kg: String(d['kg'] ?? '') });
+      if (typeof d['piggyback'] === 'string') return fill(L.piggyback, { who, by: d['piggyback'], min: String(d['minutes'] ?? '') });
+      if (d['piggybackEnd']) return fill(L.piggybackEnd, { who });
       if (typeof d['bearAttack'] === 'string') {
         const name = L.animal[d['bearAttack']] ?? d['bearAttack'];
         if (d['injury'] === 'death') return fill(L.bearAttackFatal, { who, name });

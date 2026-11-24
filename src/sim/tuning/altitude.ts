@@ -40,6 +40,10 @@ export const altitude = {
   amsM: { none: 1, mild: 0.95, moderate: 0.8, hace: 0.3 } as Record<string, number>,
   /** 高地脳浮腫では足元がふらつく: 転倒の確率の倍率 */
   haceSlipF: 2.5,
+  /** 高地脳浮腫が続くと、この時間（時間）で命にかかわる（ユーザーの指定: 富士山。最悪は脳浮腫。下ろさなければ、の目安）。点がこれより低くなれば数え直す */
+  haceDeathH: 14,
+  /** 高地脳浮腫で意識がなくなる時間（時間） */
+  haceUnconsciousH: 6,
   /** 吐き気で食べられる量の割合（重い高山病から） */
   amsEatF: 0.4,
 };

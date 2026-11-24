@@ -41,6 +41,9 @@ export const CLIMBER_FIELDS = [
   'alive',
   'stage',
   'radio',
+  'ams',
+  'buried',
+  'riding',
   'timeBehindMin',
   'phone.batteryPct',
   'phone.gpsApp',
@@ -69,7 +72,7 @@ export const DEF_FIELDS = ['experience', 'fitness', 'navSkill', 'riskTolerance',
 export const GLOBAL_FIELDS = ['tempC', 'windMs', 'windDirDeg', 'precipMmH', 'cloudCover', 'cloudBaseM', 'visibilityM', 'inCloudVisibilityM', 'thunder', 'pressureHpa', 'gust'] as const;
 /** 集計（party.* と group.<id>.*）で使える数値フィールド */
 export const AGG_FIELDS = ['coreC', 'wetness', 'glycogenKcal', 'waterDeficitL', 'fatigue', 'anxiety', 'J', 'M', 'elevM', 'timeBehindMin'] as const;
-export const GROUP_COUNTS = ['count', 'incapacitatedCount', 'below35Count', 'unwellCount'] as const;
+export const GROUP_COUNTS = ['count', 'incapacitatedCount', 'below35Count', 'unwellCount', 'buriedCount'] as const;
 export const REC_FIELDS = [
   'deathCount',
   'minCoreC',
@@ -113,6 +116,12 @@ function climberField(c: ClimberState, field: string, scope: VarScope): VarValue
       return c.perception.knowsPosition;
     case 'timeBehindMin':
       return c.perception.timeBehindMin;
+    case 'ams':
+      return c.body.ams ?? 0;
+    case 'buried':
+      return c.body.buried !== undefined;
+    case 'riding':
+      return c.plan.ridingUntilMin !== undefined && c.plan.ridingUntilMin !== null;
     case 'radio':
       return scope.map.radio[nearestIndex(scope.map, c.x, c.z)] ?? 0;
     case 'phone.batteryPct':
@@ -192,6 +201,8 @@ function aggregate(cs: ClimberState[], rest: string[], scope: VarScope): VarValu
   const [head, field] = rest;
   if (head === 'count') return cs.filter((c) => c.body.alive).length;
   if (head === 'incapacitatedCount') return cs.filter((c) => c.body.alive && (c.M <= 0 || !c.body.conscious)).length;
+  // 雪崩に埋まっている人の数（hazards/avalanche.ts）
+  if (head === 'buriedCount') return cs.filter((c) => c.body.alive && c.body.buried !== undefined).length;
   if (head === 'below35Count') return cs.filter((c) => c.body.alive && c.body.coreC < 35).length;
   // 急病の発作中・重いけが・動けない人の数（沢を下るなどの判断に使う）
   if (head === 'unwellCount') return cs.filter((c) => c.body.alive && (c.body.illness?.active === true || SERIOUS_INJURY.has(c.body.injury) || c.M <= 0 || !c.body.conscious)).length;
@@ -244,6 +255,11 @@ export function resolveVar(path: string, scope: VarScope): VarValue | undefined 
     }
     case 'flags':
       return rest.length === 1 ? w.flags[rest[0]!] !== undefined : undefined;
+    case 'ford': {
+      // ford.<渡渉点 ID>: いまの水位（cm。hazards/ford.ts）
+      const f = scope.scenario.fords?.find((x) => x.id === rest[0]);
+      return rest.length === 1 && f ? (w.fords?.[f.id] ?? f.baseCm) : undefined;
+    }
     case 'animal': {
       // animal.<種類|any>: リーダーから、いる動物までの最短距離（m。いなければ 99999）
       const sp = rest[0];
@@ -290,6 +306,8 @@ export function isKnownVarPath(path: string, scenario: ScenarioDef, groupIds: re
       return rest.length >= 2 && (groupIds.length === 0 || groupIds.includes(rest[0]!)) && aggOk(rest.slice(1));
     case 'flags':
       return rest.length === 1 && rest[0]!.length > 0;
+    case 'ford':
+      return rest.length === 1 && (scenario.fords ?? []).some((f) => f.id === rest[0]);
     case 'animal':
       return rest.length === 1 && (rest[0] === 'any' || (ANIMAL_SPECIES as readonly string[]).includes(rest[0]!));
     case 'rec':

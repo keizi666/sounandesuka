@@ -163,7 +163,8 @@ export function usableMet(c: ClimberState, tuning: Tuning = TUNING): number {
  */
 export function extraLoadKg(c: ClimberState): number {
   const start = Math.min(c.def.gear.waterL, c.def.initial?.waterL ?? c.def.gear.waterL);
-  return (c.plan.carryKg ?? 0) + Math.max(0, c.inv.waterL - start);
+  // 荷物を持ってもらった・代わりに持った分（takePack。childCare.ts）
+  return (c.plan.carryKg ?? 0) + (c.plan.packDeltaKg ?? 0) + Math.max(0, c.inv.waterL - start);
 }
 
 /** 候補速度の MET が持続上限を超えるなら、二分探索で速度を下げる */

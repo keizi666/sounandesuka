@@ -96,7 +96,7 @@ export const JA = {
       heatExhaustion: '熱疲労',
       heatStroke: '熱中症',
     } as Record<string, string>,
-    deathCause: { hypothermia: '低体温症', fall: '滑落', lightning: '落雷', trauma: '外傷', heat: '熱中症', illness: '急病', anaphylaxis: 'アナフィラキシー' } as Record<string, string>,
+    deathCause: { hypothermia: '低体温症', fall: '滑落', lightning: '落雷', trauma: '外傷', heat: '熱中症', illness: '急病', anaphylaxis: 'アナフィラキシー', drowning: '溺水', asphyxia: '雪崩による窒息', hace: '高地脳浮腫' } as Record<string, string>,
     theme: { hypothermia: '低体温症', lost: '道迷い', lightning: '落雷', fall: '滑落', heat: '熱中症', mixed: '複合' } as Record<string, string>,
     season: { spring: '春', summer: '夏', autumn: '秋', winter: '冬' } as Record<string, string>,
     bool: { true: 'はい', false: 'いいえ' },
@@ -221,6 +221,25 @@ export const JA = {
     medicated: '{who}は持っていた薬を飲んだ',
     stung: '{who}がハチに刺された',
     streamDrink: '{who}は沢の水を飲み、水筒にも汲んだ',
+    /** 渡渉・増水（ユーザーの指定: 屋久島） */
+    ford: '{who}たちは{ford}を渡る（水位 {cm} cm）',
+    fordRope: '{who}たちは{ford}で、ロープを張って 1 人ずつ確保しながら渡る（水位 {cm} cm）',
+    swept: '{who}が{ford}で流れに足をすくわれて流された。下流の岩にしがみついて岸に上がったが、{injury}を負った',
+    sweptSafe: '{who}が{ford}で流れに足をすくわれて流された。少し下流で岸に打ち上げられ、ずぶ濡れになった',
+    sweptFatal: '{who}が{ford}で濁流に流された',
+    /** 雪崩（ユーザーの指定: 残雪期の立山） */
+    avalanche: '上の斜面で雪崩が起きた。{names}が雪に埋まった',
+    avalancheMissed: '上の斜面で雪崩が起きた。デブリはすぐ脇を流れていった',
+    avalancheSearch: { beacon: 'ビーコンを受信に切り替えて捜索を始める。', probe: 'ビーコンがない。プローブを並べて、流れた跡を順に刺していく。', none: 'ビーコンもプローブもない。流れた跡を見て回り、手と板で雪を掘る。' } as Record<string, string>,
+    avalancheHelpers: '近くにいた登山者 {n} 人も駆けつけて手伝う',
+    dugOut: '{who}を掘り出した（埋まってから {min} 分）。息がある',
+    dugOutDead: '{who}を掘り出した（埋まってから {min} 分）。息をしていない',
+    /** 高地脳浮腫が続いた（ユーザーの指定: 富士山） */
+    haceComa: '{who}は呼びかけに答えなくなった（高地脳浮腫）',
+    /** 子どもを連れた山行（ユーザーの指定: 陣馬山） */
+    takePack: '{by}が{who}の荷物を代わりに持った（{kg} kg）',
+    piggyback: '{by}が{who}を背負って歩く（{min} 分ほど）',
+    piggybackEnd: '{who}を背中から下ろした',
     /** 高山病の段階が上がった（ユーザーの指定） */
     ams: {
       mild: '{who}は頭が痛く、少し吐き気がする（高山病）',

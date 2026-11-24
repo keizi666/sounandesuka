@@ -351,3 +351,67 @@ export const thoughts = {
   noRepeatMin: 240,
   scenarioPriorityBonus: 10,
 };
+
+/**
+ * 渡渉（ユーザーの指定: ゲリラ豪雨での沢の増水。src/sim/hazards/ford.ts）。水位は渡渉点の FordDef で決まり、ここは渡るときの危険。
+ * 水位 < wadeCm: 足を濡らして渡れる / wadeCm〜sweepCm: 足を取られて転ぶ・まれに流される / sweepCm 以上: 流される危険が大きい
+ */
+export const ford = {
+  /** 渡るのにかかる時間（分）。ロープで 1 人ずつ確保するとこの倍 */
+  crossMin: 6,
+  ropeTimeF: 3,
+  /** 子ども（この年齢以下）は水の深さを、この倍で感じる（背が低い） */
+  childAge: 12,
+  childDepthF: 1.5,
+  /** wadeCm〜sweepCm で足を取られる確率と、そのとき流される確率 */
+  slipP: 0.18,
+  slipSweptP: 0.12,
+  /** sweepCm で流される確率と、超えた 10 cm ごとに足す確率（上限 sweptMaxP） */
+  sweptP: 0.35,
+  sweptPer10Cm: 0.12,
+  sweptMaxP: 0.92,
+  /** ロープで確保すると、足を取られる・流される確率にこの倍率 */
+  ropeF: 0.3,
+  /** 流されたときの結果（重み）: 岸に打ち上げられる・けが・亡くなる */
+  sweptOutcomes: { none: 0.2, sprain: 0.12, legFracture: 0.1, headInjury: 0.08, severeTrauma: 0.1, death: 0.4 } as Record<string, number>,
+  /** 足を取られて転んだときの結果（流されなかったとき） */
+  slipOutcomes: { none: 0.55, bruise: 0.3, sprain: 0.12, legFracture: 0.03 } as Record<string, number>,
+};
+
+/**
+ * 雪崩（ユーザーの指定: 残雪期の立山。src/sim/hazards/avalanche.ts）。
+ * 埋まった人が生きていられる時間は、埋没時間と生存率のよく知られた曲線（15 分ほどは高く、35 分までに急に下がり、その後は空気のすき間があればしばらく保つ）から引く。
+ */
+export const avalanche = {
+  /** 生存率の曲線 [分, 生きている割合] の昇順（0 分で 1） */
+  survivalCurve: [
+    [0, 1],
+    [15, 0.92],
+    [35, 0.32],
+    [90, 0.25],
+    [130, 0.05],
+    [180, 0.01],
+  ] as [number, number][],
+  /** 埋まらずに流された人が打ち身・捻挫を負う確率 */
+  sweptInjuryP: 0.35,
+  /** 埋まったときに外傷を負う確率（重いけが） */
+  buriedTraumaP: 0.15,
+  /** 場所を見つけるまでの時間（分）: ビーコンどうし（1 人目、2 人目からは足す）・ビーコンなしでプローブで列を組む・どちらもない */
+  beaconLocateMin: 4,
+  beaconNextMin: 3,
+  probeLocateMin: 35,
+  noGearLocateMin: 90,
+  /** 手伝う人が多いと、プローブでの捜索が速くなる（人数の平方根で割る） */
+  probeCrewRef: 3,
+  /** 掘る時間（分）: 深さ 1 m を 1 人で（シャベルあり）。人数の平方根で割る。シャベルなし（手と板で）はこの倍 */
+  digMinPerM: 16,
+  noShovelF: 3,
+  /** 掘り出したときの体（雪の中で冷える） */
+  dugCoreDropC: 0.8,
+};
+
+/** 子どもを連れた山行（ユーザーの指定: 陣馬山。おんぶ・荷物を持つ） */
+export const childCare = {
+  /** 背負って歩くとき、背負う人の歩く速さの倍率 */
+  piggybackPaceF: 0.8,
+};

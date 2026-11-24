@@ -6,6 +6,7 @@
  *   30 で頭痛・吐き気（判断力が少し落ち、食べにくい）、60 で重い高山病、85 で高地脳浮腫（まっすぐ歩けない・ぼんやりする。転びやすく、ほとんど動けない）
  */
 import type { ClimberState, StaticContext, World } from '../types';
+import { killWith } from '../hazards/ford';
 
 export type AmsLevel = 'none' | 'mild' | 'moderate' | 'hace';
 
@@ -50,6 +51,17 @@ export function stepAltitude(world: World, ctx: StaticContext, c: ClimberState, 
   const ams = Math.min(100, Math.max(0, ams0 + (rise - fall) * dtH));
   b.ams = ams;
   if (ams > (b.amsMax ?? 0)) b.amsMax = ams;
+  // 高地脳浮腫が続くと意識がなくなり、さらに続くと命にかかわる（ユーザーの指定: 富士山。下ろせば点が下がり、数え直す）
+  if (ams >= a.amsHace) {
+    b.haceMin = (b.haceMin ?? 0) + dtMin;
+    if (b.haceMin >= a.haceDeathH * 60) {
+      killWith(world, ctx, c, 'hace');
+      return;
+    }
+    if (b.haceMin >= a.haceUnconsciousH * 60 && b.haceMin - dtMin < a.haceUnconsciousH * 60) {
+      ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { haceComa: true } });
+    }
+  } else if ((b.haceMin ?? 0) > 0) b.haceMin = Math.max(0, (b.haceMin ?? 0) - dtMin * 2);
   // 段階が上がったときだけ、ログに 1 行（下がったときは出さない）
   const lv0 = amsLevelOf(ams0, ctx.tuning);
   const lv = amsLevelOf(ams, ctx.tuning);

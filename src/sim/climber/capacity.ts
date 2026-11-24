@@ -138,6 +138,8 @@ export function updateCapacity(world: World, ctx: StaticContext, c: ClimberState
     // 熱中症: 一度失った意識は体温が下がるまで戻らない
     conscious = b.conscious && !(checkTick && chance(world.rng.hazard, p.heatStrokeUnconsciousP));
   }
+  // 高地脳浮腫が続くと意識がなくなる（altitude.ts。下ろして点が下がるまで）
+  if ((b.haceMin ?? 0) >= ctx.tuning.altitude.haceUnconsciousH * 60) conscious = false;
   b.conscious = conscious;
 
   c.J = b.conscious ? computeJ(c, ctx.tuning) : 0;

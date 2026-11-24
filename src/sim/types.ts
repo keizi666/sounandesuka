@@ -229,6 +229,8 @@ export interface ScenarioDef {
   sources?: string[];                                   // 例: "気象の下書き: Open-Meteo ERA5 2025-10-12 36.40,137.71"
   /** 通りかかる登山者（人の少ない道では少ない）。困っている人に気づけば下山して通報してくれる */
   passersby?: PasserbyDef[];
+  /** 渡渉点（ユーザーの指定: ゲリラ豪雨での沢の増水）。上流の雨で水位が上がり、渡る行動 ford で危険が決まる（src/sim/hazards/ford.ts） */
+  fords?: FordDef[];
   /** 音楽（soundCatalog.ts の BGM の ID）。briefing: 出発前、play: ふだん、night: 夜、distress: 道迷い・けが・急病・救助待ちの間、good / bad: 結末。省くと既定の曲、null で無音 */
   music?: { briefing?: string; play?: string | null; night?: string | null; distress?: string | null; good?: string; bad?: string };
 }
@@ -366,6 +368,11 @@ export interface GearDef {
   meds?: boolean;              // 持病の薬（ニトログリセリンなど）
   epipen?: boolean;            // アドレナリン自己注射薬（エピペン。処方された人だけ）
   rescueSheet?: boolean;       // エマージェンシーシート
+  /** 雪崩ビーコン（発信・受信）。埋まった人と捜す人の両方が持っていれば、短い時間で場所が分かる */
+  beacon?: boolean;
+  /** プローブ（ゾンデ棒）とスノーシャベル。なければ捜す・掘るのに長くかかる */
+  probe?: boolean;
+  shovel?: boolean;
   cocoheli?: boolean;          // ココヘリ（会員制の捜索用の発信機）。ヘリの受信機が電波をとらえ、短い時間で見つかる
   powerBankMah?: number;       // モバイルバッテリーの容量（mAh。0 は持たない。省略はスマホを持つ人なら tuning の既定 5000）
   footwear?: FootwearType;     // 靴（省略は登山靴）
@@ -486,6 +493,10 @@ export type Action = { who?: Who } & (
   | { type: 'goToMember'; member: ClimberId }
   | { type: 'joinGroup'; group: string }   // 対象（who）を別のグループに入れる（同じ所に着いた仲間と合流する）。そのグループのリーダーの計画と状態にそろえる
   | { type: 'carryInjured' }   // 歩けない仲間を、介助の 2 人が支えて（背負って）運ぶ。荷物はほかの人が分けて持つ
+  | { type: 'ford'; ford: string; rope?: boolean }   // 渡渉点 ford を渡る（rope: ロープで確保して 1 人ずつ）。水位で、足を取られる・流される危険が決まる
+  | { type: 'avalancheRescue'; helpers?: number; helpersAfterMin?: number }   // 雪崩に埋まった人を捜して掘り出す（ビーコン・プローブ・シャベルの有無で時間が決まる）。helpers: 手伝う人の数、helpersAfterMin 分後に着く
+  | { type: 'takePack'; from: ClimberId }   // from の荷物を、対象（who）が持つ（子どもや疲れた人の荷物を代わりに持つ）
+  | { type: 'piggyback'; rider: ClimberId; minutes: number }   // 対象（who。1 人）が rider を背負って minutes 分歩く（その間 rider は歩かない）
   | { type: 'sendForHelp' }    // けが人に 1 人が付き添って残り、ほかの人は救助を呼びに行く（2 人以下のパーティは付き添いなし）
   | { type: 'say'; text: string; to?: SpeakerRef; tone?: SpeechTone; documented?: boolean; source?: string }
 );
@@ -545,6 +556,11 @@ export type ScriptEffect =
   | { type: 'soak'; who: Who; level: SoakLevel; snowmelt?: boolean }
   | { type: 'say'; who: SpeakerRef; text: string; to?: SpeakerRef; tone?: SpeechTone; documented?: boolean; source?: string }
   | AnimalEffect
+  /**
+   * 雪崩（src/sim/hazards/avalanche.ts）: x・z（m）を中心に半径 radiusM の中にいる人のうち、近い順に maxBuried 人までを埋める（who で人を決めてもよい）。
+   * 埋まる深さは depthM の範囲。埋まらなかった人は、流されて打ち身を負うことがある
+   */
+  | { type: 'avalanche'; x?: number; z?: number; radiusM: number; maxBuried?: number; depthM?: [number, number]; who?: ClimberId[] }
   | { type: 'animalLeave'; id?: string; species?: AnimalSpecies };   // 動物が立ち去る（id か種類で指定。どちらもなければ全部）
 
 // ---------- 野生動物（src/sim/hazards/animals.ts） ----------
@@ -661,7 +677,31 @@ export type BehaviorState =
 
 export type InjuryKind = 'none' | 'bruise' | 'sprain' | 'legFracture' | 'headInjury' | 'severeTrauma';
 export type PrecipType = 'none' | 'rain' | 'sleet' | 'snow' | 'hail';
-export type DeathCause = 'hypothermia' | 'fall' | 'lightning' | 'trauma' | 'heat' | 'illness' | 'anaphylaxis';
+export type DeathCause = 'hypothermia' | 'fall' | 'lightning' | 'trauma' | 'heat' | 'illness' | 'anaphylaxis' | 'drowning' | 'asphyxia' | 'hace';
+
+/**
+ * 渡渉点（src/sim/hazards/ford.ts）。水位（cm）は、上流の地点（catchX・catchZ。省けば渡渉点）の雨の強さに向かって、
+ * 増えるときは riseMin、引くときは fallMin の時定数で近づく: 目標 = baseCm + gainCmPerMmH × 雨（mm/h）
+ */
+export interface FordDef {
+  id: string;
+  name: string;
+  x: number;
+  z: number;
+  catchX?: number;
+  catchZ?: number;
+  /** ふだんの水位（cm） */
+  baseCm: number;
+  /** 雨 1 mm/h が続いたときに上がる水位（cm） */
+  gainCmPerMmH: number;
+  /** 増える・引く速さの時定数（分） */
+  riseMin: number;
+  fallMin: number;
+  /** これを超えると、渡るのが危ない（流れに足を取られる） */
+  wadeCm: number;
+  /** これを超えると、流される危険が大きい */
+  sweepCm: number;
+}
 
 /** 急病の原因（本人には分からない。src/sim/climber/illness.ts） */
 export type IllnessKind = 'angina' | 'mi' | 'dissection' | 'arrhythmia' | 'benign' | 'anaphylaxis';
@@ -715,6 +755,10 @@ export interface ClimberBody {
   stage: 'normal' | 'cold' | 'mild' | 'moderate' | 'severe' | 'heatExhaustion' | 'heatStroke';
   /** けがで動けないあいだの衰弱（0〜1。1 で亡くなる）。体力（HP）を (1 - 衰弱) 倍にする。古い保存にはない */
   debility?: number;
+  /** 雪崩に埋まっている（src/sim/hazards/avalanche.ts）。deathAtMin までに掘り出されなければ窒息する */
+  buried?: { atMin: number; depthM: number; deathAtMin: number; beacon: boolean };
+  /** 高地脳浮腫が続いている時間（分。高山病の点が amsHace 以上のあいだ）。古い保存にはない */
+  haceMin?: number;
   /** 高山病の点（0〜100。30 軽い・60 重い・85 高地脳浮腫）と、これまでの最大 */
   ams?: number;
   amsMax?: number;
@@ -746,6 +790,10 @@ export interface ClimberPlanState {
   paceFactor: number;
   /** 運ぶために増えた（減った）荷物（kg）。けが人を背負う・荷物を分けて持つ（climber/carry.ts）。古い保存にはない */
   carryKg?: number;
+  /** 背負われている（piggyback）。この時刻まで。古い保存にはない */
+  ridingUntilMin?: number | null;
+  /** 荷物を持ってもらった（−）・代わりに持った（＋）重さ（kg。takePack）。古い保存にはない */
+  packDeltaKg?: number;
   hurry: boolean;
   stopCheckedNode: NodeId | null;
   /** この分岐では紛らわしい道へ入る（選択肢「そのまま進む」など。missJunction）。古い保存にはない */
@@ -915,6 +963,10 @@ export interface World {
   focusMembers?: ClimberId[];
   /** 出ている野生動物（効果 animal で出る。出たことがなければない） */
   animals?: AnimalState[];
+  /** 渡渉点の水位（cm。渡渉点 ID → 水位）。渡渉点がなければない */
+  fords?: Record<string, number>;
+  /** 雪崩に埋まった人を掘り出す予定（埋まった人 → 掘り出せる時刻）。捜索を始めていなければない */
+  avalancheDig?: { victim: ClimberId; atMin: number }[];
 }
 
 // ---------- イベント（ループで回収。World に残さない） ----------

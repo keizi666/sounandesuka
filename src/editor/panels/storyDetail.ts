@@ -31,6 +31,7 @@ const EFFECTS: [EffType, string][] = [
   ['pin', '地図に印'],
   ['animal', '動物が出る（熊・鹿など）'],
   ['animalLeave', '動物が立ち去る'],
+  ['avalanche', '雪崩が起きる（範囲の人が埋まる）'],
 ];
 
 /** 起きることを 1 行ずつの言葉にする（カードに出す） */
@@ -101,6 +102,8 @@ function defaultEffect(t: EffType, ed: Ed): ScriptEffect {
       return { type: t, species: 'deer', count: 2, aheadM: 50, sideM: 15 };
     case 'animalLeave':
       return { type: t };
+    case 'avalanche':
+      return { type: t, radiusM: 60, maxBuried: 2, depthM: [0.6, 1.5] };
   }
 }
 

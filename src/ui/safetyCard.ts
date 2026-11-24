@@ -29,7 +29,10 @@ export function safetyTopics(loaded: LoadedScenario, world: World, rec: RunRecor
   add('heat', stages.has('heatExhaustion') || stages.has('heatStroke') || world.climbers.some((c) => c.body.deathCause === 'heat'));
   add('bear', (world.animals ?? []).some((a) => /bear/i.test(a.species)));
   add('illness', world.climbers.some((c) => c.body.illness !== undefined) || ev.has('CARDIAC_ARREST'));
-  add('altitude', world.climbers.some((c) => (c.body.ams ?? 0) > 0.3));
+  add('altitude', world.climbers.some((c) => (c.body.amsMax ?? c.body.ams ?? 0) >= 30));
+  add('flood', (s.fords ?? []).length > 0);
+  add('avalanche', rec.events.some((e) => e.type === 'SCRIPT_LOG' && typeof e.data?.['avalanche'] === 'number'));
+  add('children', s.party.some((p) => p.age <= 12));
   add('night', ev.has('DARK') || ev.has('BIVOUAC_START'));
   add('group', s.party.length >= 3 && world.groups.length > 1);
   // 長くなりすぎないよう、計画と連絡のほかに 4 つまで

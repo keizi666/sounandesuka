@@ -6,6 +6,9 @@ import { epipen, medicate, onsetIllness, sting } from './illness';
 import { reportMissing } from '../rescue/rescue';
 import { dispatchReport } from '../rescue/dispatch';
 import { sendForHelp, startCarry } from './carry';
+import { piggyback, takePack } from './childCare';
+import { crossFord } from '../hazards/ford';
+import { startAvalancheRescue } from '../hazards/avalanche';
 import { parseTimeRef } from '../core/clock';
 import { chance } from '../core/rng';
 import { nearestIndex } from '../terrain/sample';
@@ -459,6 +462,27 @@ export function applyActions(
         if (world.climbers.some((o) => o !== c && o.groupId === c.groupId && o.body.alive)) soloErrand(world, c, a.returnAfter ?? false);
         applyOne(world, ctx, a, c);
       }
+      continue;
+    }
+    // 渡渉（グループ全員で。hazards/ford.ts）・雪崩に埋まった人の捜索（hazards/avalanche.ts）
+    if (a.type === 'ford') {
+      crossFord(world, ctx, group, a.ford, a.rope ?? false);
+      continue;
+    }
+    if (a.type === 'avalancheRescue') {
+      startAvalancheRescue(world, ctx, group, a.helpers ?? 0, a.helpersAfterMin ?? 0);
+      continue;
+    }
+    // 子どもを連れた山行: 荷物を代わりに持つ・背負う（climber/childCare.ts）
+    if (a.type === 'takePack') {
+      const from = world.climbers.find((x) => x.id === a.from);
+      if (from) takePack(world, ctx, targetsOf(world, a.who ?? 'leader', group, leader), from);
+      continue;
+    }
+    if (a.type === 'piggyback') {
+      const rider = world.climbers.find((x) => x.id === a.rider);
+      const carrier = targetsOf(world, a.who ?? 'leader', group, leader)[0];
+      if (rider && carrier) piggyback(world, ctx, carrier, rider, a.minutes);
       continue;
     }
     // say は既定でリーダーが言う

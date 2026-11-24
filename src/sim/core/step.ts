@@ -18,6 +18,9 @@ import { maybeSpeak } from '../climber/speech';
 import { maybeThink } from '../climber/thoughts';
 import { lightningCheck } from '../hazards/lightning';
 import { stepAnimals } from '../hazards/animals';
+import { updateFords } from '../hazards/ford';
+import { stepAvalanche } from '../hazards/avalanche';
+import { stepChildCare } from '../climber/childCare';
 import { injuryTimers, slipCheck, stepDebility } from '../hazards/slip';
 import { stepRescue } from '../rescue/rescue';
 import { chance } from './rng';
@@ -58,6 +61,8 @@ export function stepWorld(world: World, ctx: StaticContext): void {
   if (world.pendingChoice && ctx.mode === 'interactive') return;
   const evStart = ctx.events.length;
   const minuteTick = stepEnvironment(world, ctx);
+  // 渡渉点の水位（上流の雨で増え、やめば引く。hazards/ford.ts）
+  if (minuteTick) updateFords(world, ctx);
   // 5. 気象・暗さの変化（リーダーの前のティックの局地気象）
   weatherEvents(world, ctx);
   // 6〜7. スクリプトイベントと分岐点（回答待ちの間は評価しない）
@@ -76,6 +81,8 @@ export function stepWorld(world: World, ctx: StaticContext): void {
   if (world.ended) return finish(world, ctx, evStart);
   // 8a〜c. 局地気象・認知・自律行動・状態の終了判定
   updateClimberLocal(world, ctx);
+  // 雪崩に埋まった人（雪の中の局地気象・窒息・掘り出し。hazards/avalanche.ts）
+  stepAvalanche(world, ctx);
   for (const c of world.climbers) {
     if (!c.body.alive) continue;
     updateWeatherImpression(c);
@@ -94,6 +101,8 @@ export function stepWorld(world: World, ctx: StaticContext): void {
   }
   // グループ: loose の人数確認、リーダー交代の通知
   if (minuteTick) groupsMinute(world, ctx);
+  // 背負う時間が過ぎたら下ろす（climber/childCare.ts）
+  if (minuteTick) stepChildCare(world, ctx);
   // セリフ（thoughts ストリームのみ。結果に影響しない）
   if (minuteTick) maybeSpeak(world, ctx);
   // すぐそこに小屋があれば、歩ける人は小屋へ。小屋に仲間がいれば、小屋の人が動けない人を運び込む

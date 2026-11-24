@@ -9,6 +9,7 @@ import { BGM_IDS, SE_IDS } from './soundCatalog';
 import { placeholderPaths } from './text';
 import { isKnownVarPath } from './vars';
 import { checkChoosers } from './validateChooser';
+import { checkFords } from './validateHazards';
 
 export interface Issue {
   level: 'error' | 'warning';
@@ -27,7 +28,7 @@ export const ACTION_TYPES = [
   'continueRoute', 'setRoute', 'turnBack', 'goToNode', 'stayInShelter', 'rest', 'eat', 'drink', 'drinkAlcohol', 'reportMissing', 'focus', 'leaveMap', 'sound', 'music', 'setPhone', 'addAnxiety', 'illness', 'medicate', 'sting', 'epipen', 'wearRainwear', 'addLayer', 'changeDry',
   'stopAndCheck', 'missJunction', 'checkPosition', 'bivouac', 'stayPut', 'backtrack', 'navigateToTrail', 'descendDrainage', 'seekSignal', 'callRescue',
   'waitRescue', 'setPace', 'lightningPosture', 'moveOffRidge', 'removeMetal', 'setFlag', 'clearFlag', 'narrate', 'abortTrip', 'splitParty',
-  'setCohesion', 'soak', 'detach', 'goToMember', 'joinGroup', 'say', 'carryInjured', 'sendForHelp',
+  'setCohesion', 'soak', 'detach', 'goToMember', 'joinGroup', 'say', 'carryInjured', 'sendForHelp', 'ford', 'avalancheRescue', 'takePack', 'piggyback',
 ];
 
 class Collector {
@@ -184,6 +185,16 @@ function checkActions(v: Collector, path: string, actions: readonly Action[] | u
       case 'music':
         if (a.id !== null && !BGM_IDS.includes(a.id)) v.err(`${p}.id`, 'unknownMusic', `未知の曲 "${a.id}"（${BGM_IDS.join(', ')}）`);
         break;
+      case 'ford':
+        if (!(r.scenario.fords ?? []).some((x) => x.id === a.ford)) v.err(`${p}.ford`, 'undefinedFord', `未定義の渡渉点 "${a.ford}"（scenario.fords）`);
+        break;
+      case 'takePack':
+        checkWho(v, `${p}.from`, a.from, r);
+        break;
+      case 'piggyback':
+        checkWho(v, `${p}.rider`, a.rider, r);
+        if (!(a.minutes > 0)) v.err(`${p}.minutes`, 'range', 'minutes は 0 より大きい');
+        break;
       case 'setPace':
         if (!(a.factor >= 0.6 && a.factor <= 1.2)) v.warn(`${p}.factor`, 'range', 'setPace の factor は 0.6〜1.2（範囲外は切り詰める）');
         break;
@@ -235,6 +246,10 @@ function checkEffects(v: Collector, path: string, effects: readonly ScriptEffect
         if (e.attackInjury !== undefined && !(Array.isArray(e.attackInjury) && e.attackInjury.length === 6 && e.attackInjury.every((x) => x >= 0)))
           v.err(`${p}.attackInjury`, 'range', 'attackInjury は 0 以上の数 6 つ（打撲・ねんざ・脚の骨折・頭のけが・重い外傷・死亡の割合）');
         if (e.behavior === 'stalk' && e.species !== 'bear' && e.species !== 'brownBear') v.warn(`${p}.behavior`, 'stalkSpecies', 'stalk（付きまとう）は熊のためのふるまい');
+        break;
+      case 'avalanche':
+        if (!(e.radiusM > 0)) v.err(`${p}.radiusM`, 'range', 'radiusM は 0 より大きい');
+        for (const w of e.who ?? []) checkWho(v, `${p}.who`, w, r);
         break;
       case 'animalLeave':
         if (e.species !== undefined && !ANIMAL_SPECIES.includes(e.species)) v.err(`${p}.species`, 'unknownAnimal', `未知の動物 "${e.species}"`);
@@ -379,6 +394,7 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
     checkTexts(v, `lessons[${i}].text`, l.text, r);
   });
   for (const c of checkChoosers(s)) v.warn(c.path, 'chooser', c.message);
+  for (const c of checkFords(s)) v.err(c.path, 'ford', c.message);
   if (s.region?.real && !s.sources?.length) v.warn('sources', 'sources', '実在の山のシナリオに sources（データの出どころ）がありません');
   return v.issues;
 }

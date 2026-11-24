@@ -561,7 +561,8 @@ export class SceneView {
       // 道に迷って現在地が分からなくなっても、人形は出したまま（まわりをぼかす: setAreaBlur。ユーザーの指定）
       // 地図の外（駅など）へ移った人は描かない。小屋・茶屋の中（泊まる・休む）にいる人も描かない（ユーザーの指定: 複数人で休むときは全員いったん中へ）
       const inside = c.body.alive && ((c.state === 'SHELTERED' && c.body.shelterNodeId !== null) || (c.state === 'RESTING' && hutHere(this.map, c)));
-      fig.root.visible = !c.offMap && !inside;
+      // 雪崩に埋まっている人も描かない（雪の下。場所の印だけ出る）
+      fig.root.visible = !c.offMap && !inside && !c.body.buried;
       fig.update(c, timeSec, this.selected === c.id);
       this.updateLocator(c.id, fig, timeSec, c.body.alive, k === 0);
       // 亡くなった瞬間（前のフレームでは生きていた）に、半透明の姿が昇っていく。読み込み・巻き戻しで最初から亡くなっていれば出さない
