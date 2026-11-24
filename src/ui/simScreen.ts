@@ -461,6 +461,9 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     }
     shownCp = p.cpId;
     void save();
+    // 途中から始めた（共有の場面・記録の「この分岐から」・ログの「この場面へ」）ときは、一時停止したまま選択肢が開く。
+    // 選んだら再開する（ユーザーの指定: 選んだあとに再開を押すのが面倒）。ふつうに進んでいて開いたときは、これまでどおり
+    const resumeAfterPick = loop.paused;
     choiceUi = showChoice(modalHost, world, ctx, {
       god: hud.god,
       recommend: difficulty === 'easy',
@@ -473,6 +476,11 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
         else autoResolve(world, ctx, 'bias');
         shownCp = null;
         flush();
+        if (resumeAfterPick && loop.paused && !world.ended) {
+          tt.beforePlay();
+          loop.paused = false;
+          refresh();
+        }
       },
     });
   }
