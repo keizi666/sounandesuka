@@ -4,6 +4,7 @@
 import { parseTimeRef } from '../core/clock';
 import { partyLeader } from '../climber/party';
 import type { ClimberState, DeathCause, EndingKind, StaticContext, World } from '../types';
+import type { Tuning } from '../tuning';
 import { evalCondition } from './conditions';
 import { scopeFor } from './choices';
 import { expandText } from './text';
@@ -23,12 +24,23 @@ export const ENDING_SEVERITY: Record<EndingKind, number> = {
 
 const TERMINAL = new Set(['FINISHED', 'RESCUED', 'DEAD']);
 
+/**
+ * 小屋の中にいても「無事」とはいえない人（重い高山病・急病の発作中・意識がない）。救助隊はこの人も収容し、
+ * 全員が小屋にいても結末にしない（s26 の指摘: 高地脳浮腫の人が小屋にいると無事として終わっていた）
+ */
+export function seriouslyIll(c: ClimberState, t: Tuning): boolean {
+  const b = c.body;
+  return b.alive && ((b.ams ?? 0) >= t.altitude.amsModerate || b.illness?.active === true || !b.conscious);
+}
+
 /** 一人ひとりの結末 */
 export function climberOutcome(c: ClimberState, ctx: StaticContext): EndingKind {
   const b = c.body;
   if (!b.alive || c.state === 'DEAD') return 'FATAL';
   if (c.state === 'RESCUED') {
-    return b.coreC < ctx.tuning.endings.rescuedCriticalCoreC || b.injury === 'severeTrauma' ? 'RESCUED_CRITICAL' : 'RESCUED';
+    // 重い状態での救助: 重度の低体温症・重い外傷・高地脳浮腫・意識がない
+    const critical = b.coreC < ctx.tuning.endings.rescuedCriticalCoreC || b.injury === 'severeTrauma' || (b.ams ?? 0) >= ctx.tuning.altitude.amsHace || !b.conscious;
+    return critical ? 'RESCUED_CRITICAL' : 'RESCUED';
   }
   if (c.state === 'FINISHED') {
     if (c.memo.bivouacked) return 'SELF_RESCUE';
@@ -36,7 +48,7 @@ export function climberOutcome(c: ClimberState, ctx: StaticContext): EndingKind 
     return 'SAFE_RETURN';
   }
   // 制限時刻に山中にいる
-  if (c.state === 'SHELTERED' && b.shelterNodeId) return 'SAFE_SHELTER';
+  if (c.state === 'SHELTERED' && b.shelterNodeId && !seriouslyIll(c, ctx.tuning)) return 'SAFE_SHELTER';
   // 小屋泊・ビバークの後、元気に下山している途中なら「翌朝以降に安全に下山」と同じ扱い
   // 打撲は元気なうちに数える
   const healthy = b.coreC >= 35 && (b.injury === 'none' || b.injury === 'bruise') && !c.perception.awareLost && c.pos.mode !== 'free';
@@ -60,7 +72,7 @@ export function worstOutcome(climbers: readonly ClimberState[], ctx: StaticConte
 /** 遭難が起きたか（道迷い・ビバーク・救助待ち・動けない・死亡の状態に入った、重いけが・急病、救助の要請） */
 function incidentHappened(world: World): boolean {
   if (world.latches['incident'] || world.rescue.calledAtMin !== null) return true;
-  return world.climbers.some((c) => !c.body.alive || (c.body.injury !== 'none' && c.body.injury !== 'bruise') || c.body.illness?.active === true || c.memo.bivouacked);
+  return world.climbers.some((c) => !c.body.alive || (c.body.injury !== 'none' && c.body.injury !== 'bruise') || c.body.illness?.active === true || c.memo.bivouacked || c.body.buried !== undefined);
 }
 
 /** 亡くなった人がまだ山にいて、救助隊が来る（来ている・届け出の予定がある）か */
@@ -82,7 +94,7 @@ export function checkEnding(world: World, ctx: StaticContext): boolean {
   // 遭難の前の予定の小屋泊まりでは終わらない（翌朝のつづきがある）
   // 遭難がなくても、誰かが下山していて、ほかが全員小屋の中なら終わる（予定の小屋泊まりで全員が小屋の中のときは、翌朝につづく）
   const someoneDown = world.climbers.some((c) => c.state === 'FINISHED');
-  const allSafe = (incidentHappened(world) || someoneDown) && world.climbers.every((c) => TERMINAL.has(c.state) || c.offMap !== undefined || (c.state === 'SHELTERED' && c.body.shelterNodeId !== null));
+  const allSafe = (incidentHappened(world) || someoneDown) && world.climbers.every((c) => TERMINAL.has(c.state) || c.offMap !== undefined || (c.state === 'SHELTERED' && c.body.shelterNodeId !== null && !seriouslyIll(c, ctx.tuning)));
   if (!allTerminal && !timeUp && !allSafe) return false;
   // 遺体の収容までシミュレートするシナリオ（plan.recoverDead）: 救助隊が来る見込みがあれば、収容されるまで続ける（制限時刻で打ち切る）
   if (!timeUp && bodiesAwaitRecovery(world, ctx)) return false;

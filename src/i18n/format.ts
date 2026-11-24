@@ -263,7 +263,7 @@ function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
       if (typeof d['ford'] === 'string') return fill(d['rope'] ? L.fordRope : L.ford, { who, ford: d['ford'], cm: String(d['levelCm'] ?? '') });
       if (typeof d['swept'] === 'string') return fill(d['injury'] === 'death' ? L.sweptFatal : d['injury'] === 'none' ? L.sweptSafe : L.swept, { who, ford: d['swept'], injury: JA.labels.injury[s('injury')] ?? s('injury') });
       if (typeof d['avalanche'] === 'number') return d['avalanche'] > 0 ? fill(L.avalanche, { names: String(d['names'] ?? ''), n: String(d['avalanche']) }) : L.avalancheMissed;
-      if (typeof d['avalancheSearch'] === 'string') return fill(L.avalancheSearch[d['avalancheSearch']] ?? '', { n: String(d['helpers'] ?? 0) }) + (Number(d['helpers'] ?? 0) > 0 ? fill(L.avalancheHelpers, { n: String(d['helpers']) }) : '');
+      if (typeof d['avalancheSearch'] === 'string') return fill(L.avalancheSearch[d['avalancheSearch']] ?? '', { n: String(d['helpers'] ?? 0) }) + (Number(d['helpers'] ?? 0) > 0 ? fill(Number(d['helpersAfterMin'] ?? 0) > 0 ? L.avalancheHelpersLater : L.avalancheHelpers, { n: String(d['helpers']), min: String(Math.round(Number(d['helpersAfterMin'] ?? 0))) }) : '');
       if (typeof d['dugOut'] === 'number') return fill(L.dugOut, { who, min: String(d['dugOut']) });
       if (typeof d['dugOutDead'] === 'number') return fill(L.dugOutDead, { who, min: String(d['dugOutDead']) });
       if (typeof d['buriedDead'] === 'number') return null;

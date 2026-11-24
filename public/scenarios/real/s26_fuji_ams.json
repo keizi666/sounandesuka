@@ -1,0 +1,3536 @@
+{
+ "id": "s26_fuji_ams",
+ "version": 1,
+ "title": "八合目の夜、ご来光の前に",
+ "subtitle": "8月・20代の2人・富士山 富士宮ルート・高山病（実在の地形）",
+ "theme": "altitude",
+ "difficulty": 3,
+ "season": "summer",
+ "estMinutes": 20,
+ "mapId": "fuji_summer",
+ "seed": 20260808,
+ "startDate": "2026-08-08",
+ "startAt": "D0 10:30",
+ "timeLimit": "D2 06:00",
+ "sun": {
+  "sunrise": "04:52",
+  "sunset": "18:40",
+  "maxElevDeg": 70
+ },
+ "moon": {
+  "illumination": 0.2,
+  "rise": "00:40",
+  "set": "15:10"
+ },
+ "region": {
+  "name": "富士山 富士宮ルート（静岡県）",
+  "real": true
+ },
+ "nodeOverrides": {
+  "ROKU": {
+   "open": true
+  },
+  "SHIN7": {
+   "open": true
+  },
+  "GEN7": {
+   "open": true
+  },
+  "HACHI": {
+   "open": true
+  },
+  "KYU": {
+   "open": true
+  },
+  "KYU5": {
+   "open": true
+  }
+ },
+ "groups": [
+  {
+   "id": "main",
+   "members": "all",
+   "leader": "yuto",
+   "cohesion": "tight"
+  }
+ ],
+ "briefing": {
+  "text": "8 月上旬の土曜日。悠斗（27 歳）と彩花（25 歳）は、一泊二日で富士山に登る。富士宮口五合目（標高約 2,400 m）から登り、今日は八合目（約 3,250 m）の山小屋・池田館に泊まる。あすは未明に小屋を出て、山頂でご来光を見るつもりだ。\n朝 6 時に東京を車で出て、水ヶ塚駐車場からシャトルバスで五合目に着いた。彩花はゆうべ遅くまで仕事で、3 時間ほどしか眠れていない。悠斗は先月、北アルプスの 3,000 m を越える山に登ったばかり。彩花は 3,000 m を越えるのは初めてだ。\n天気は 2 日とも快晴の予報。山小屋はどこも営業していて、八合目の池田館の隣には、夏のあいだ医師が詰める救護所（富士山衛生センター）がある。\n八合目まで、ふつうは登りで 4 時間ほど。日の入りは 18 時 40 分、あすの日の出は 4 時 52 分。",
+  "forecast": [
+   {
+    "label": "今日",
+    "text": "快晴。山頂付近は昼 9℃ ほど、西の風 5〜7 m/s",
+    "icon": "sunny"
+   },
+   {
+    "label": "今夜",
+    "text": "晴れ。山頂付近は 2〜3℃",
+    "icon": "sunny"
+   },
+   {
+    "label": "あす",
+    "text": "快晴",
+    "icon": "sunny"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "GOGOME",
+   "ROKU",
+   "SHIN7",
+   "GEN7",
+   "HACHI",
+   "KYU",
+   "KYU5",
+   "SANCHO",
+   "KYU5",
+   "KYU",
+   "HACHI",
+   "GEN7",
+   "SHIN7",
+   "ROKU",
+   "GOGOME"
+  ],
+  "goalNodes": [
+   "GOGOME"
+  ],
+  "plannedFinish": "D1 10:00",
+  "submittedPlan": true,
+  "reportIfNotBackBy": "D1 20:00",
+  "wakeAt": "01:30"
+ },
+ "party": [
+  {
+   "id": "yuto",
+   "name": "悠斗",
+   "role": "会社員",
+   "age": 27,
+   "sex": "m",
+   "weightKg": 68,
+   "packKg": 7,
+   "experience": 0.4,
+   "fitness": 1.1,
+   "navSkill": 0.5,
+   "riskTolerance": 0.6,
+   "amsSusceptibility": 0.2,
+   "color": "#2e6fb5",
+   "portrait": "young_m:3",
+   "leader": true,
+   "habits": {
+    "eatEveryMin": 120,
+    "drinkEveryMin": 50,
+    "delaysRainwear": 0.3,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.7,
+    "cloPack": 1.2,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "rescueSheet": true,
+    "headlamp": {
+     "has": true,
+     "batteryH": 10,
+     "inPack": true,
+     "spareBatteryH": 6
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 90,
+     "gpsApp": true,
+     "trackRecording": true,
+     "satelliteSos": false
+    },
+    "powerBankMah": 10000,
+    "map": true,
+    "compass": false,
+    "foodKcal": 1600,
+    "waterL": 1.5,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": true,
+    "footwear": "hikingBoots"
+   },
+   "notes": "架空の人物。大学時代から年に数回、丹沢や八ヶ岳を日帰りで歩く。先月は北アルプスで 3,000 m を越える山に登ったが、高山病らしい症状は出なかった。富士山は初めて。"
+  },
+  {
+   "id": "ayaka",
+   "name": "彩花",
+   "role": "会社員",
+   "age": 25,
+   "sex": "f",
+   "weightKg": 52,
+   "packKg": 5.5,
+   "experience": 0.15,
+   "fitness": 0.95,
+   "navSkill": 0.3,
+   "riskTolerance": 0.45,
+   "amsSusceptibility": 1.15,
+   "health": "sleepy",
+   "color": "#d0477a",
+   "portrait": "young_f:2",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.6,
+    "cloPack": 1.1,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "rescueSheet": false,
+    "headlamp": {
+     "has": true,
+     "batteryH": 8,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 80,
+     "gpsApp": true,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "powerBankMah": 5000,
+    "map": false,
+    "compass": false,
+    "foodKcal": 1000,
+    "waterL": 1,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "footwear": "hikingBoots"
+   },
+   "estimated": [
+    "amsSusceptibility"
+   ],
+   "notes": "架空の人物。登山は高尾山や御岳山の日帰りが数回。3,000 m を越えるのは初めて。前の晩は仕事が遅くまでかかり、早朝の出発までに 3 時間ほどしか眠れなかった。登山靴と雨具は今回のために買った。"
+  }
+ ],
+ "passersby": [
+  {
+   "edges": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8"
+   ],
+   "perHour": 20,
+   "from": "00:00",
+   "to": "23:59",
+   "voiceM": 60,
+   "whistleM": 150
+  }
+ ],
+ "weather": {
+  "refElevM": 3776,
+  "lapseRateCPer100m": 0.6,
+  "cloudThicknessM": 1500,
+  "keyframes": [
+   {
+    "at": "D0 06:00",
+    "tempC": 4,
+    "windMs": 7,
+    "windDirDeg": 250,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D0 10:00",
+    "tempC": 7,
+    "windMs": 6,
+    "windDirDeg": 240,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D0 13:00",
+    "tempC": 9,
+    "windMs": 6,
+    "windDirDeg": 220,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D0 17:00",
+    "tempC": 7,
+    "windMs": 6,
+    "windDirDeg": 230,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D0 20:00",
+    "tempC": 4.5,
+    "windMs": 7,
+    "windDirDeg": 250,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 00:00",
+    "tempC": 3,
+    "windMs": 8,
+    "windDirDeg": 260,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 04:30",
+    "tempC": 2,
+    "windMs": 7,
+    "windDirDeg": 260,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 07:00",
+    "tempC": 4.5,
+    "windMs": 6,
+    "windDirDeg": 250,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 10:00",
+    "tempC": 7.5,
+    "windMs": 6,
+    "windDirDeg": 240,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 14:00",
+    "tempC": 9,
+    "windMs": 6,
+    "windDirDeg": 220,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D1 18:00",
+    "tempC": 6.5,
+    "windMs": 7,
+    "windDirDeg": 240,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D2 00:00",
+    "tempC": 3.5,
+    "windMs": 8,
+    "windDirDeg": 260,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   },
+   {
+    "at": "D2 06:00",
+    "tempC": 3,
+    "windMs": 7,
+    "windDirDeg": 260,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 5200,
+    "visibilityM": 60000,
+    "pressureHpa": 1013,
+    "gustiness": 0.3
+   }
+  ]
+ },
+ "events": [
+  {
+   "id": "ev_start",
+   "trigger": {
+    "after": "D0 10:30"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "富士宮口五合目。駐車場はシャトルバスとタクシーで混み合い、登山口には登山者の列ができている。空は青く、山頂の鳥居まで見えそうだ。"
+    }
+   ]
+  },
+  {
+   "id": "ev_treeline",
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "ROKU"
+     },
+     {
+      "before": "D0 18:00"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "六合目を過ぎると木がなくなった。赤茶色の火山れきの斜面が、上へまっすぐ続いている。左手に宝永山の大きな火口が見える。"
+    }
+   ]
+  },
+  {
+   "id": "ev_gen7",
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "GEN7"
+     },
+     {
+      "before": "D0 20:00"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "元祖七合目（約 3,010 m）。少し歩くだけで息が切れる。休むたびに座り込む登山者が増えてきた。"
+    }
+   ]
+  },
+  {
+   "id": "ev_hut",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "HACHI"
+     },
+     {
+      "before": "D1 00:00"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "checkedIn"
+    },
+    {
+     "type": "log",
+     "text": "八合目の池田館（約 3,250 m）に着いた。受付をすませ、2 段の寝床に荷物を置く。小屋の隣には「富士山衛生センター」の看板が出ている。",
+     "important": true
+    },
+    {
+     "type": "fillWater",
+     "who": "all",
+     "toL": 1
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "stayInShelter",
+       "who": "all",
+       "until": "D1 01:45"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_dinner",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 17:15"
+     },
+     {
+      "flag": "checkedIn"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "小屋の夕食。カレーライスと漬物。"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "eat",
+       "who": "yuto",
+       "kcal": 700
+      },
+      {
+       "type": "eat",
+       "who": "ayaka",
+       "kcal": 350
+      },
+      {
+       "type": "drink",
+       "who": "all",
+       "liters": 0.3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_dinner_ayaka",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 17:20"
+     },
+     {
+      "flag": "checkedIn"
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">",
+      "value": 18
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "彩花はカレーを半分ほど残した。「なんだか食欲がなくて」"
+    }
+   ]
+  },
+  {
+   "id": "ev_lights",
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 19:30"
+     },
+     {
+      "flag": "checkedIn"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "午後 7 時半、消灯。寝床は隣の人と肩が触れるほど狭い。外では、夜通し登る人のヘッドランプが列になって動いている。"
+    }
+   ]
+  },
+  {
+   "id": "ev_night1",
+   "trigger": {
+    "all": [
+     {
+      "flag": "checkedIn"
+     },
+     {
+      "after": "D0 21:00"
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 38
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "彩花は何度も寝返りを打っている。頭が締めつけられるように痛く、息が苦しくて眠れない。"
+    }
+   ]
+  },
+  {
+   "id": "ev_night2",
+   "trigger": {
+    "all": [
+     {
+      "flag": "checkedIn"
+     },
+     {
+      "after": "D0 22:00"
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 50
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "夜中、彩花は寝床を抜け出し、小屋のトイレで吐いた。戻ってきても、寝つけない。",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_wake",
+   "trigger": {
+    "all": [
+     {
+      "after": "D1 01:30"
+     },
+     {
+      "flag": "checkedIn"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "午前 1 時半。まわりの人たちが、ご来光に向けて支度を始めた。外に出ると、山頂へ向かうヘッドランプの光が細い列になって続いている。"
+    }
+   ]
+  },
+  {
+   "id": "ev_msg1",
+   "trigger": {
+    "all": [
+     {
+      "flag": "apart"
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "after": "D1 03:30"
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 65
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "彩花から悠斗にメッセージ。「頭がずっと痛い。水を飲んでも吐いちゃう」",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_hace_flag",
+   "trigger": {
+    "var": "c.ayaka.ams",
+    "op": ">=",
+    "value": 85
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "hace"
+    }
+   ]
+  },
+  {
+   "id": "ev_severe_flag",
+   "trigger": {
+    "var": "c.ayaka.ams",
+    "op": ">=",
+    "value": 70
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "severe"
+    }
+   ]
+  },
+  {
+   "id": "ev_staff",
+   "trigger": {
+    "all": [
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 85
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "all": [
+       {
+        "var": "c.ayaka.elevM",
+        "op": ">",
+        "value": 3200
+       },
+       {
+        "var": "c.ayaka.elevM",
+        "op": "<",
+        "value": 3260
+       }
+      ]
+     },
+     {
+      "var": "c.ayaka.rescueCalled",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.yuto.rescueCalled",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.ayaka.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "小屋の人が、まっすぐ歩けない彩花に気づいて救護所の医師を呼んだ。医師は高地脳浮腫を疑い、酸素を吸わせながら、五合目へ下ろす手配と救助の要請をした。",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "staffCalled"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "callRescue",
+       "who": "ayaka",
+       "via": "phone"
+      },
+      {
+       "type": "setRoute",
+       "who": "ayaka",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "rest",
+       "who": "ayaka",
+       "minutes": 900
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_staff_other",
+   "trigger": {
+    "all": [
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 85
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "not": {
+       "all": [
+        {
+         "var": "c.ayaka.elevM",
+         "op": ">",
+         "value": 3200
+        },
+        {
+         "var": "c.ayaka.elevM",
+         "op": "<",
+         "value": 3260
+        }
+       ]
+      }
+     },
+     {
+      "var": "c.ayaka.rescueCalled",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.yuto.rescueCalled",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.ayaka.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "山小屋の人が、まっすぐ歩けない彩花に気づいた。高地脳浮腫のおそれがあるとして、小屋から救助を要請した。",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "staffCalled"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "callRescue",
+       "who": "ayaka",
+       "via": "phone"
+      },
+      {
+       "type": "continueRoute",
+       "who": "ayaka"
+      },
+      {
+       "type": "rest",
+       "who": "ayaka",
+       "minutes": 900
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_uncon",
+   "trigger": {
+    "all": [
+     {
+      "var": "c.ayaka.conscious",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.ayaka.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "c.ayaka.rescueCalled",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.yuto.rescueCalled",
+      "op": "==",
+      "value": false
+     },
+     {
+      "not": {
+       "flag": "apart"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "彩花が呼びかけに答えなくなった。悠斗は 110 番に電話した。",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "callRescue",
+       "who": "yuto",
+       "via": "phone"
+      },
+      {
+       "type": "rest",
+       "who": "yuto",
+       "minutes": 900
+      },
+      {
+       "type": "rest",
+       "who": "ayaka",
+       "minutes": 900
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_water_am",
+   "trigger": {
+    "all": [
+     {
+      "after": "D1 01:30"
+     },
+     {
+      "flag": "checkedIn"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "fillWater",
+     "who": "all",
+     "toL": 1
+    }
+   ]
+  },
+  {
+   "id": "ev_water_top",
+   "trigger": {
+    "all": [
+     {
+      "beenAt": "SANCHO"
+     },
+     {
+      "after": "D1 00:00"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "山頂の小屋で水を買い足した。"
+    },
+    {
+     "type": "fillWater",
+     "who": "all",
+     "toL": 1
+    }
+   ]
+  },
+  {
+   "id": "ev_hut_timeout",
+   "trigger": {
+    "all": [
+     {
+      "flag": "apart"
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "c.ayaka.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "after": "D1 13:00"
+     },
+     {
+      "var": "c.ayaka.rescueCalled",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "昼をすぎても悠斗は戻らない。小屋の人に促され、彩花は 1 人で五合目へ下りはじめた。",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "setRoute",
+       "who": "ayaka",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "setPace",
+       "who": "ayaka",
+       "factor": 0.8
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_clinic_alone",
+   "trigger": {
+    "flag": "clinicAlone"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "小屋の人に付き添われて、彩花は隣の救護所へ行った。医師は酸素を吸わせ、悠斗に電話をかけて「すぐ戻って、付き添って下りてください」と伝えた。",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_call_alone",
+   "trigger": {
+    "all": [
+     {
+      "flag": "callBack"
+     },
+     {
+      "not": {
+       "flag": "clinicAlone"
+      }
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "彩花は悠斗に電話をかけた。「ごめん、やっぱりつらい。戻ってきて」",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_asked",
+   "trigger": {
+    "flag": "askedRescue"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "救護所の医師が彩花を診た。歩いて下りるのは難しいとして、物資を運ぶブルドーザーか救助隊で五合目へ下ろす手配を頼んだ。彩花は救護所で酸素を吸いながら待つ。",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_sunrise",
+   "trigger": {
+    "after": "D1 04:52"
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "日の出。東の雲海のふちが赤く光り、山の斜面が朝日に染まった。"
+    }
+   ]
+  },
+  {
+   "id": "ev_low",
+   "trigger": {
+    "all": [
+     {
+      "flag": "descendTogether"
+     },
+     {
+      "var": "c.ayaka.elevM",
+      "op": "<",
+      "value": 2800
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.ayaka.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "say",
+     "who": "ayaka",
+     "text": "さっきより、頭が少し軽くなった気がする",
+     "to": "yuto"
+    }
+   ]
+  },
+  {
+   "id": "ev_callback_down",
+   "trigger": {
+    "all": [
+     {
+      "flag": "apart"
+     },
+     {
+      "flag": "callBack"
+     },
+     {
+      "flag": "summitDone"
+     }
+    ]
+   },
+   "once": true,
+   "effects": [
+    {
+     "type": "log",
+     "text": "悠斗は電話を切ると、足を速めて八合目へ下りはじめた。"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "setPace",
+       "who": "yuto",
+       "factor": 1.1
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_start",
+   "title": "富士宮口五合目",
+   "priority": 20,
+   "trigger": {
+    "after": "D0 10:30"
+   },
+   "situation": "富士宮口五合目（標高約 2,400 m）。予定では、今日は八合目の池田館まで登って泊まる。彩花は「早く小屋で横になりたいな」と言う。",
+   "knowledge": [
+    "八合目まで、ふつうは登りで 4 時間ほど",
+    "五合目でしばらく過ごして体を高さに慣らし、ゆっくり登るとよいと、ガイドブックにある",
+    "彩花はゆうべ 3 時間ほどしか眠れていない",
+    "日の入りは 18 時 40 分"
+   ],
+   "options": [
+    {
+     "id": "acclim",
+     "label": "1 時間休んで体を慣らし、ゆっくり登る",
+     "detail": "五合目で昼ごはんを食べてから出る。小屋に着くのは夕方。",
+     "explain": "高い所に体を慣らす時間をとり、息が上がらないペースで登る判断です。高山病は、高さを上げる速さが速いほど起きやすくなります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "お昼を食べて、1 時間くらいここで体を慣らしてから行こう",
+       "to": "ayaka"
+      },
+      {
+       "type": "eat",
+       "who": "all",
+       "kcal": 400
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 60
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.85
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.35,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.experience",
+         "op": ">",
+         "value": 0.5
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "go",
+     "label": "少し休んで、ふつうのペースで出発する",
+     "detail": "早めに小屋に着けば、ゆっくり休める。",
+     "explain": "体を慣らす時間をとらずに登りはじめる判断です。早く小屋に着くぶん、高い所で過ごす時間が長くなります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "少し休んだら行こうか。小屋に早く着いたほうが休めるし",
+       "to": "ayaka"
+      },
+      {
+       "type": "eat",
+       "who": "all",
+       "kcal": 300
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 10
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "fast",
+     "label": "ペースを上げて、早く小屋に着こう",
+     "detail": "彩花も早く横になりたがっている。",
+     "explain": "息が上がるペースで一気に高さを上げる判断です。速く登るほど体が慣れる間がなく、高山病が起きやすくなります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "さくっと登って、小屋で昼寝しよう",
+       "to": "ayaka"
+      },
+      {
+       "type": "eat",
+       "who": "all",
+       "kcal": 300
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1.15
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.4,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.55
+        },
+        "add": 0.2
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_night",
+   "title": "八合目の未明",
+   "priority": 20,
+   "trigger": {
+    "all": [
+     {
+      "after": "D1 01:40"
+     },
+     {
+      "flag": "checkedIn"
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "situation": "午前 1 時 40 分、八合目の池田館。出発の時刻だが、彩花は寝床で体を丸めている。夜中から頭痛と吐き気が続き、ほとんど眠れていない。「ごめん、頭が痛い……でも、せっかく来たし」。悠斗は息が少し切れるくらいで、体は何ともない。",
+   "knowledge": [
+    "山頂まで、ふつうは 2 時間あまり。日の出は 4 時 52 分",
+    "高山病には、高さを下げるのがいちばん確かな手当てだと聞いたことがある",
+    "小屋の隣の救護所（富士山衛生センター）には、夏のあいだ医師がいて、夜中でも診てくれる",
+    "明るくなるのは 4 時半ごろ。五合目まで、ふつうは下りで 2 時間ほど"
+   ],
+   "options": [
+    {
+     "id": "down5",
+     "label": "ご来光はあきらめ、明るくなる 5 時に 2 人で下りる",
+     "detail": "悠斗が彩花の荷物を持つ。",
+     "explain": "山頂をあきらめ、具合の悪い人と一緒に高さを下げる判断です。高山病は下りれば良くなることが多く、付き添いがいれば途中で悪くなっても対応できます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ご来光はまた来ればいい。明るくなったら一緒に下りよう",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "descendTogether"
+      },
+      {
+       "type": "setRoute",
+       "who": "all",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "takePack",
+       "who": "yuto",
+       "from": "ayaka"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.85
+      },
+      {
+       "type": "stayInShelter",
+       "who": "all",
+       "until": "D1 05:00"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "var": "c.ayaka.ams",
+         "op": ">=",
+         "value": 60
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "clinic",
+     "label": "隣の救護所で診てもらってから決める",
+     "detail": "医師の話を聞いてから考える。",
+     "explain": "自分たちで決める前に、医師に診てもらう判断です。症状の重さが分かり、無理をしないきっかけになりますが、決めるのは自分たちです。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "救護所で診てもらおう。それから決めよう",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "clinic1"
+      },
+      {
+       "type": "stayInShelter",
+       "who": "all",
+       "until": "D1 03:30"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "solo",
+     "label": "悠斗だけ山頂へ行く。彩花は小屋で寝て待つ",
+     "detail": "寝ていれば良くなるかもしれない。ご来光を見たら、すぐ戻る。",
+     "explain": "具合の悪い人を高い所に残して、1 人で山頂へ向かう判断です。待っているあいだも高さは変わらず、高山病は進むことがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "じゃあ、ご来光だけ見てすぐ戻ってくる。寝てて",
+       "to": "ayaka"
+      },
+      {
+       "type": "say",
+       "text": "うん……写真撮ってきてね",
+       "who": "ayaka",
+       "to": "yuto"
+      },
+      {
+       "type": "setFlag",
+       "flag": "solo"
+      },
+      {
+       "type": "setFlag",
+       "flag": "apart"
+      },
+      {
+       "type": "splitParty",
+       "groups": [
+        {
+         "id": "main",
+         "members": [
+          "yuto"
+         ],
+         "leader": "yuto",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "setRoute",
+           "route": [
+            "HACHI",
+            "KYU",
+            "KYU5",
+            "SANCHO",
+            "KYU5",
+            "KYU",
+            "HACHI",
+            "GEN7",
+            "SHIN7",
+            "ROKU",
+            "GOGOME"
+           ],
+           "goalNodes": [
+            "GOGOME"
+           ]
+          },
+          {
+           "type": "setPace",
+           "factor": 1
+          }
+         ]
+        },
+        {
+         "id": "hut",
+         "members": [
+          "ayaka"
+         ],
+         "leader": "ayaka",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "stayInShelter",
+           "until": "D1 14:00"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.9,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.55
+        },
+        "add": 0.2
+       }
+      ]
+     }
+    },
+    {
+     "id": "both",
+     "label": "2 人でゆっくり山頂を目指す",
+     "detail": "彩花は「ゆっくりなら行ける」と言う。荷物は悠斗が持つ。",
+     "explain": "症状があるまま、さらに高い所へ登る判断です。高山病は高く登るほど進みやすく、山頂付近で悪くなると下りるのにも時間がかかります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ゆっくりなら行けると思う。ここまで来たんだし",
+       "who": "ayaka",
+       "to": "yuto"
+      },
+      {
+       "type": "say",
+       "text": "じゃあ、荷物は全部持つよ。つらくなったらすぐ言って",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "bothUp"
+      },
+      {
+       "type": "takePack",
+       "who": "yuto",
+       "from": "ayaka"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.8
+      },
+      {
+       "type": "continueRoute",
+       "who": "all"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.35
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_clinic",
+   "title": "救護所の診察",
+   "priority": 20,
+   "trigger": {
+    "all": [
+     {
+      "elapsedSince": {
+       "flag": "clinic1",
+       "min": 30
+      }
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "situation": "救護所（富士山衛生センター）の医師が彩花を診た。血液の中の酸素が少ない。酸素を吸うと頭痛は少し和らいだが、外すとまた痛みだす。医師は「高山病です。この先へ登るのはおすすめしません。明るくなったら下りてください」と言った。",
+   "knowledge": [
+    "救護所でできるのは、酸素を吸うこと・薬・安静まで",
+    "酸素で楽になっても、高さが変わらなければまた悪くなる",
+    "日の出は 4 時 52 分。五合目まで、ふつうは下りで 2 時間ほど"
+   ],
+   "options": [
+    {
+     "id": "down5",
+     "label": "医師の言うとおり、明るくなる 5 時に 2 人で下りる",
+     "detail": "悠斗が彩花の荷物を持つ。",
+     "explain": "医師の勧めに従い、明るくなってから付き添って下りる判断です。足もとが見える時間に、高さを下げて体を楽にします。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "分かりました。明るくなったら下ります",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "descendTogether"
+      },
+      {
+       "type": "setRoute",
+       "who": "all",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "takePack",
+       "who": "yuto",
+       "from": "ayaka"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.85
+      },
+      {
+       "type": "stayInShelter",
+       "who": "all",
+       "until": "D1 05:00"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1.2
+     }
+    },
+    {
+     "id": "now",
+     "label": "すぐに 2 人で下りはじめる（ヘッドランプで）",
+     "detail": "一刻も早く高さを下げる。",
+     "explain": "暗いうちに付き添って下りはじめ、少しでも早く高さを下げる判断です。足もとは見えにくいものの、登ってくる人の多い広い道を、ゆっくり下ります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "今から下りよう。ゆっくりでいいから",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "descendTogether"
+      },
+      {
+       "type": "setRoute",
+       "who": "all",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "takePack",
+       "who": "yuto",
+       "from": "ayaka"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.75
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "solo",
+     "label": "それでも悠斗だけ山頂へ。彩花は小屋で寝て待つ",
+     "detail": "酸素で少し楽になった。ご来光を見たら、すぐ戻る。",
+     "explain": "医師の勧めを聞いたうえで、具合の悪い人を高い所に残して山頂へ向かう判断です。酸素で楽になっても、小屋にいるあいだに高山病は進むことがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "すぐ戻るから、ここで休んでて",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "solo"
+      },
+      {
+       "type": "setFlag",
+       "flag": "apart"
+      },
+      {
+       "type": "splitParty",
+       "groups": [
+        {
+         "id": "main",
+         "members": [
+          "yuto"
+         ],
+         "leader": "yuto",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "setRoute",
+           "route": [
+            "HACHI",
+            "KYU",
+            "KYU5",
+            "SANCHO",
+            "KYU5",
+            "KYU",
+            "HACHI",
+            "GEN7",
+            "SHIN7",
+            "ROKU",
+            "GOGOME"
+           ],
+           "goalNodes": [
+            "GOGOME"
+           ]
+          },
+          {
+           "type": "setPace",
+           "factor": 1
+          }
+         ]
+        },
+        {
+         "id": "hut",
+         "members": [
+          "ayaka"
+         ],
+         "leader": "ayaka",
+         "cohesion": "tight",
+         "actions": [
+          {
+           "type": "stayInShelter",
+           "until": "D1 14:00"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_kyu_both",
+   "title": "九合目",
+   "group": "main",
+   "trigger": {
+    "all": [
+     {
+      "atNode": "KYU"
+     },
+     {
+      "flag": "bothUp"
+     },
+     {
+      "not": {
+       "flag": "apart"
+      }
+     },
+     {
+      "not": {
+       "flag": "descendTogether"
+      }
+     }
+    ]
+   },
+   "situation": "九合目（約 3,460 m）。彩花は数歩ごとに立ち止まり、膝に手をついて息をしている。頭痛は強くなる一方で、さっき道の脇で吐いた。山頂の鳥居は、ヘッドランプの列のずっと先だ。",
+   "knowledge": [
+    "山頂まで、ふつうはあと 1 時間 20 分",
+    "日の出は 4 時 52 分",
+    "八合目まで、下りで 30 分ほど"
+   ],
+   "options": [
+    {
+     "id": "back",
+     "label": "ここで引き返し、2 人で下りる",
+     "detail": "八合目を過ぎ、そのまま五合目へ。",
+     "explain": "症状が強くなった所で登るのをやめ、高さを下げる判断です。高山病は、悪くなりはじめたら一度下りるのが基本です。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここまでにしよう。下りよう",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "turnedBack"
+      },
+      {
+       "type": "setFlag",
+       "flag": "descendTogether"
+      },
+      {
+       "type": "setRoute",
+       "who": "all",
+       "route": [
+        "KYU",
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.8
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6,
+      "mods": [
+       {
+        "when": {
+         "var": "c.ayaka.ams",
+         "op": ">=",
+         "value": 70
+        },
+        "add": 0.4
+       }
+      ]
+     }
+    },
+    {
+     "id": "go",
+     "label": "休み休み、山頂まで行く",
+     "detail": "「あと少しだから」と彩花も言う。",
+     "explain": "強くなる症状をおして、さらに高い所へ登る判断です。山頂は九合目より 250 m 高く、高山病が一気に進むおそれがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "大丈夫……あと少しだから",
+       "who": "ayaka",
+       "to": "yuto"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 10
+      },
+      {
+       "type": "continueRoute",
+       "who": "all"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_summit_both",
+   "title": "富士山頂",
+   "group": "main",
+   "priority": 15,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "SANCHO"
+     },
+     {
+      "flag": "bothUp"
+     },
+     {
+      "not": {
+       "flag": "apart"
+      }
+     }
+    ]
+   },
+   "situation": "2 人は富士山の山頂（富士宮口）に着いた。浅間大社奥宮の前は、ご来光を待つ人でいっぱいだ。彩花は座り込んだまま、顔を上げない。",
+   "knowledge": [
+    "五合目まで、ふつうは下りで 3 時間",
+    "八合目まで、下りで 1 時間半ほど",
+    "剣ヶ峰（3,776 m）まで往復 40 分"
+   ],
+   "options": [
+    {
+     "id": "down",
+     "label": "すぐに下りはじめる",
+     "detail": "ご来光は下りながら見る。",
+     "explain": "山頂に長くとどまらず、すぐに高さを下げる判断です。山頂は空気がいちばん薄く、いるだけで高山病が進みます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "すぐ下りよう。ご来光は途中で見られる",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "summitDone"
+      },
+      {
+       "type": "setFlag",
+       "flag": "descendTogether"
+      },
+      {
+       "type": "setRoute",
+       "who": "all",
+       "route": [
+        "SANCHO",
+        "KYU5",
+        "KYU",
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.8
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "wait",
+     "label": "ご来光を見てから、少し休んで下りる",
+     "detail": "ここまで来たのだから。",
+     "explain": "空気のいちばん薄い山頂で、しばらく過ごしてから下りる判断です。休んでも高さは変わらず、高山病は進むことがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "せっかくだから、ご来光を見てから下りよう",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "summitDone"
+      },
+      {
+       "type": "setFlag",
+       "flag": "descendTogether"
+      },
+      {
+       "type": "setRoute",
+       "who": "all",
+       "route": [
+        "SANCHO",
+        "KYU5",
+        "KYU",
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 50
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_alone",
+   "title": "小屋で待つ彩花",
+   "group": "hut",
+   "trigger": {
+    "all": [
+     {
+      "flag": "apart"
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "c.ayaka.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "any": [
+       {
+        "var": "c.ayaka.ams",
+        "op": ">=",
+        "value": 72
+       },
+       {
+        "all": [
+         {
+          "after": "D1 05:30"
+         },
+         {
+          "var": "c.ayaka.ams",
+          "op": ">=",
+          "value": 62
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "situation": "彩花は 1 人で寝床に横になっている。まわりの人はみな出発して、小屋は静かだ。頭痛はさっきより強く、水を飲むと吐いてしまう。",
+   "knowledge": [
+    "悠斗は山頂へ向かっていて、まだ戻っていない",
+    "隣の救護所には医師がいる",
+    "スマホの電波は入っている"
+   ],
+   "options": [
+    {
+     "id": "clinic",
+     "label": "小屋の人に伝えて、救護所で診てもらう",
+     "detail": "医師に悠斗へ電話してもらう。",
+     "explain": "1 人で我慢せず、近くにいる医師と小屋の人に助けを求める判断です。悪くなっていく様子を見てもらえ、連れ戻す連絡もつきます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "すみません……頭がすごく痛くて",
+       "who": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "clinicAlone"
+      },
+      {
+       "type": "setFlag",
+       "flag": "callBack"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "var": "c.ayaka.ams",
+         "op": ">=",
+         "value": 72
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "call",
+     "label": "悠斗に電話して、すぐ戻ってもらう",
+     "detail": "",
+     "explain": "離れている仲間を呼び戻す判断です。戻ってくるまでの時間を縮め、早く 2 人で下りられるようにします。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ごめん、やっぱりつらい。戻ってきて",
+       "who": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "callBack"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "wait",
+     "label": "横になったまま、悠斗が戻るのを待つ",
+     "detail": "心配をかけたくない。寝ていれば治るかもしれない。",
+     "explain": "誰にも伝えずに、高い所で横になって待つ判断です。寝ていても高さは変わらず、高山病は進むことがあります。",
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "waitedAlone"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_callback",
+   "title": "彩花からの電話",
+   "group": "main",
+   "priority": 15,
+   "trigger": {
+    "all": [
+     {
+      "flag": "apart"
+     },
+     {
+      "flag": "callBack"
+     },
+     {
+      "not": {
+       "flag": "summitDone"
+      }
+     },
+     {
+      "var": "c.yuto.state",
+      "op": "==",
+      "value": "WALKING"
+     }
+    ]
+   },
+   "situation": "{leader.name}のスマホが鳴った。小屋で待っている彩花の具合が悪くなっていて、すぐに戻ってきてほしいという。山頂の鳥居は、もう見えている。",
+   "knowledge": [
+    "八合目までは下りで 1 時間たらず",
+    "山頂までは、あと少し"
+   ],
+   "options": [
+    {
+     "id": "back",
+     "label": "すぐに八合目へ引き返す",
+     "detail": "",
+     "explain": "山頂をあきらめて、具合の悪い仲間のもとへ急いで戻る判断です。早く戻るほど、早く 2 人で高さを下げられます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "すぐ戻ります",
+       "tone": "normal"
+      },
+      {
+       "type": "setFlag",
+       "flag": "goingBack"
+      },
+      {
+       "type": "setPace",
+       "who": "yuto",
+       "factor": 1.1
+      },
+      {
+       "type": "goToNode",
+       "who": "yuto",
+       "node": "HACHI",
+       "then": "stay"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "summit",
+     "label": "山頂だけ踏んで、急いで戻る",
+     "detail": "ここまで来たのだから。",
+     "explain": "仲間の悪化を知りながら、先に山頂へ向かう判断です。そのぶん戻るのが遅れ、待っている人は高い所に長くいることになります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "山頂まであと少しだから、着いたらすぐ戻る",
+       "tone": "normal"
+      },
+      {
+       "type": "setFlag",
+       "flag": "promised"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_summit_solo",
+   "title": "富士山頂（1 人）",
+   "group": "main",
+   "priority": 15,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "SANCHO"
+     },
+     {
+      "flag": "apart"
+     }
+    ]
+   },
+   "situation": "{leader.name}は 1 人で富士山の山頂（富士宮口）に着いた。浅間大社奥宮の前は、ご来光を待つ人でいっぱいだ。彩花からの返事は、しばらく来ていない。",
+   "knowledge": [
+    "八合目まで、下りで 1 時間半ほど",
+    "剣ヶ峰（3,776 m）まで往復 40 分",
+    "日の出は 4 時 52 分"
+   ],
+   "options": [
+    {
+     "id": "down",
+     "label": "日が昇ったら、すぐに八合目へ下りる",
+     "detail": "",
+     "explain": "山頂での時間を短くして、待っている仲間のもとへ早く戻る判断です。戻るのが早いほど、2 人で早く下りはじめられます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "写真を撮ったら、すぐ戻ろう",
+       "tone": "whisper"
+      },
+      {
+       "type": "setFlag",
+       "flag": "summitDone"
+      },
+      {
+       "type": "rest",
+       "who": "yuto",
+       "minutes": 25
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.7,
+      "mods": [
+       {
+        "when": {
+         "flag": "callBack"
+        },
+        "add": 0.6
+       }
+      ]
+     }
+    },
+    {
+     "id": "kenga",
+     "label": "せっかくなので剣ヶ峰まで行ってから下りる",
+     "detail": "日本の最高点に立ちたい。",
+     "explain": "仲間を待たせたまま、山頂での行動を広げる判断です。戻るのが 1 時間近く遅れ、そのあいだも待っている人の高山病は進むことがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "剣ヶ峰まで行ってこよう。40 分くらいだし",
+       "tone": "whisper"
+      },
+      {
+       "type": "setFlag",
+       "flag": "summitDone"
+      },
+      {
+       "type": "setFlag",
+       "flag": "kenga"
+      },
+      {
+       "type": "setRoute",
+       "who": "yuto",
+       "route": [
+        "SANCHO",
+        "KENGA",
+        "SANCHO",
+        "KYU5",
+        "KYU",
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "rest",
+       "who": "yuto",
+       "minutes": 25
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.7,
+      "mods": [
+       {
+        "when": {
+         "flag": "callBack"
+        },
+        "add": -0.5
+       }
+      ]
+     }
+    },
+    {
+     "id": "breakfast",
+     "label": "山頂の小屋で朝ごはんを食べてから下りる",
+     "detail": "寒くて手がかじかむ。温かいものを食べたい。",
+     "explain": "山頂でゆっくり休んでから戻る判断です。体は温まりますが、戻るのが遅れるぶん、待っている人が高い所にいる時間が延びます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "豚汁でも食べて温まってから下りよう",
+       "tone": "whisper"
+      },
+      {
+       "type": "setFlag",
+       "flag": "summitDone"
+      },
+      {
+       "type": "eat",
+       "who": "yuto",
+       "kcal": 400
+      },
+      {
+       "type": "rest",
+       "who": "yuto",
+       "minutes": 60
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.6,
+      "mods": [
+       {
+        "when": {
+         "flag": "callBack"
+        },
+        "add": -0.4
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_reunite",
+   "title": "八合目に戻って",
+   "group": "main",
+   "priority": 18,
+   "trigger": {
+    "all": [
+     {
+      "flag": "apart"
+     },
+     {
+      "atNode": "HACHI"
+     },
+     {
+      "any": [
+       {
+        "flag": "summitDone"
+       },
+       {
+        "flag": "goingBack"
+       }
+      ]
+     },
+     {
+      "var": "c.ayaka.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "all": [
+       {
+        "var": "c.ayaka.state",
+        "op": "!=",
+        "value": "RESCUED"
+       },
+       {
+        "var": "c.ayaka.state",
+        "op": "!=",
+        "value": "FINISHED"
+       }
+      ]
+     }
+    ]
+   },
+   "situation": "{leader.name}は八合目の池田館に戻った。彩花は寝床でぐったりしている。呼びかけると目を開けるが、返事はゆっくりだ。",
+   "knowledge": [
+    "五合目まで、ふつうは下りで 2 時間ほど。彩花の足ではもっとかかる",
+    "隣の救護所には医師がいる",
+    "高山病は、高さを下げるのがいちばん確かな手当て"
+   ],
+   "options": [
+    {
+     "id": "down",
+     "label": "すぐ 2 人で下りる。荷物は悠斗が持つ",
+     "detail": "彩花の手を引いて、ゆっくり。",
+     "explain": "戻ったらすぐに付き添って高さを下げる判断です。歩けるうちに下りはじめれば、下るにつれて症状が和らぐことが多くあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "下りよう。ゆっくりでいいから",
+       "to": "ayaka"
+      },
+      {
+       "type": "clearFlag",
+       "flag": "apart"
+      },
+      {
+       "type": "setFlag",
+       "flag": "reunited"
+      },
+      {
+       "type": "setRoute",
+       "who": "yuto",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "setRoute",
+       "who": "ayaka",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "joinGroup",
+       "who": "ayaka",
+       "group": "main"
+      },
+      {
+       "type": "setFlag",
+       "flag": "descendTogether"
+      },
+      {
+       "type": "takePack",
+       "who": "yuto",
+       "from": "ayaka"
+      },
+      {
+       "type": "setPace",
+       "who": "yuto",
+       "factor": 0.8
+      },
+      {
+       "type": "setPace",
+       "who": "ayaka",
+       "factor": 0.8
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "rescue",
+     "label": "救護所に相談して、下ろしてもらう手配を頼む",
+     "detail": "自分で歩かせるのは無理かもしれない。",
+     "available": {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 60
+     },
+     "unavailableText": "彩花はまだ自分で歩けそうだ",
+     "explain": "歩いて下りるのが難しいと考え、医師を通して救助を頼む判断です。手配がつくまで待つことになりますが、途中で動けなくなる心配はなくなります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "救護所の先生に相談してくる",
+       "to": "ayaka"
+      },
+      {
+       "type": "clearFlag",
+       "flag": "apart"
+      },
+      {
+       "type": "setFlag",
+       "flag": "reunited"
+      },
+      {
+       "type": "setRoute",
+       "who": "yuto",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "setRoute",
+       "who": "ayaka",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "joinGroup",
+       "who": "ayaka",
+       "group": "main"
+      },
+      {
+       "type": "setFlag",
+       "flag": "askedRescue"
+      },
+      {
+       "type": "callRescue",
+       "who": "yuto",
+       "via": "phone"
+      },
+      {
+       "type": "setRoute",
+       "who": "yuto",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "rest",
+       "who": "yuto",
+       "minutes": 900
+      },
+      {
+       "type": "setRoute",
+       "who": "ayaka",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "rest",
+       "who": "ayaka",
+       "minutes": 900
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "var": "c.ayaka.ams",
+         "op": ">=",
+         "value": 75
+        },
+        "add": 0.4
+       }
+      ]
+     }
+    },
+    {
+     "id": "rest",
+     "label": "もう少し寝かせて、良くなってから下りる",
+     "detail": "悠斗も疲れた。2 人で昼まで休もう。",
+     "explain": "高い所で休んで、症状が引くのを待つ判断です。寝ていても高さは変わらないため、高山病は良くならず、進むことがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "少し寝よう。昼まで休めば良くなるよ",
+       "to": "ayaka"
+      },
+      {
+       "type": "clearFlag",
+       "flag": "apart"
+      },
+      {
+       "type": "setFlag",
+       "flag": "reunited"
+      },
+      {
+       "type": "setRoute",
+       "who": "yuto",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "setRoute",
+       "who": "ayaka",
+       "route": [
+        "HACHI",
+        "GEN7",
+        "SHIN7",
+        "ROKU",
+        "GOGOME"
+       ],
+       "goalNodes": [
+        "GOGOME"
+       ]
+      },
+      {
+       "type": "joinGroup",
+       "who": "ayaka",
+       "group": "main"
+      },
+      {
+       "type": "setFlag",
+       "flag": "restMore"
+      },
+      {
+       "type": "stayInShelter",
+       "who": "yuto",
+       "until": "D1 11:30"
+      },
+      {
+       "type": "stayInShelter",
+       "who": "ayaka",
+       "until": "D1 11:30"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.7
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_hace",
+   "title": "彩花がまっすぐ歩けない",
+   "group": "main",
+   "priority": 25,
+   "trigger": {
+    "all": [
+     {
+      "not": {
+       "flag": "apart"
+      }
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 85
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.ayaka.alive",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "c.ayaka.rescueCalled",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.yuto.rescueCalled",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.ayaka.conscious",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "situation": "彩花の足がもつれ、まっすぐ歩けない。話しかけても返事がずれる。標高は {c.ayaka.elevM:0} m。",
+   "knowledge": [
+    "まっすぐ歩けない・ぼんやりするのは、高地脳浮腫の兆しといわれる",
+    "スマホの電波は入っている",
+    "登山道には人が多く、山小屋も近い"
+   ],
+   "options": [
+    {
+     "id": "call",
+     "label": "すぐに 110 番して、救助を待つ",
+     "detail": "近くの山小屋にも知らせる。",
+     "explain": "自分たちで動かすのをやめ、すぐに救助を呼ぶ判断です。高地脳浮腫は命にかかわるため、早く下ろしてもらうことがいちばん大切です。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "もしもし、富士山の富士宮ルートです。連れが高山病で歩けません",
+       "tone": "normal"
+      },
+      {
+       "type": "callRescue",
+       "who": "yuto",
+       "via": "phone"
+      },
+      {
+       "type": "rest",
+       "who": "yuto",
+       "minutes": 900
+      },
+      {
+       "type": "rest",
+       "who": "ayaka",
+       "minutes": 900
+      },
+      {
+       "type": "setFlag",
+       "flag": "called110"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.7
+     }
+    },
+    {
+     "id": "support",
+     "label": "肩を貸して、少しずつでも下ろす",
+     "detail": "下りれば良くなるはずだ。",
+     "explain": "助けを呼ばずに、2 人だけで高さを下げようとする判断です。下りること自体は手当てになりますが、足がもつれて転びやすく、時間もかかります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "つかまって。一歩ずつ下りよう",
+       "to": "ayaka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "supported"
+      },
+      {
+       "type": "takePack",
+       "who": "yuto",
+       "from": "ayaka"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.6
+      },
+      {
+       "type": "goToNode",
+       "who": "all",
+       "node": "GOGOME",
+       "then": "continue"
+      }
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "rest",
+     "label": "少し座って休ませる",
+     "detail": "休めば落ち着くかもしれない。",
+     "explain": "高い所で休んで様子を見る判断です。高地脳浮腫は休んでも良くならず、時間がたつほど重くなります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ちょっと座ろう。水、飲める？",
+       "to": "ayaka"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 60
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  }
+ ],
+ "genericOverrides": {
+  "darkness": {
+   "enabled": false
+  }
+ },
+ "thoughts": [
+  {
+   "key": "s26_hut_y",
+   "who": "yuto",
+   "when": {
+    "all": [
+     {
+      "flag": "checkedIn"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "before": "D1 01:30"
+     }
+    ]
+   },
+   "lines": [
+    "あすのご来光が楽しみだ",
+    "小屋は満員だ。あちこちから寝息といびきが聞こえる",
+    "1 時半に起きれば間に合う"
+   ],
+   "priority": 3
+  },
+  {
+   "key": "s26_hut_y2",
+   "who": "yuto",
+   "when": {
+    "all": [
+     {
+      "flag": "checkedIn"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "before": "D1 01:30"
+     }
+    ]
+   },
+   "lines": [
+    "彩花、顔色がよくないな",
+    "疲れただけならいいけど"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s26_hut_a",
+   "who": "ayaka",
+   "when": {
+    "all": [
+     {
+      "flag": "checkedIn"
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": "<",
+      "value": 30
+     }
+    ]
+   },
+   "lines": [
+    "足がぱんぱん。よく登ったな",
+    "早く横になりたい"
+   ],
+   "priority": 3
+  },
+  {
+   "key": "s26_view",
+   "when": {
+    "all": [
+     {
+      "before": "D0 18:00"
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "leader.elevM",
+      "op": "<",
+      "value": 2900
+     }
+    ]
+   },
+   "lines": [
+    "駿河湾まで見える。雲がずっと下にある",
+    "宝永山の火口って、こんなに大きいんだ"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s26_breath",
+   "when": {
+    "all": [
+     {
+      "var": "leader.elevM",
+      "op": ">",
+      "value": 2900
+     },
+     {
+      "var": "leader.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "leader.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "lines": [
+    "少し歩くと息が切れる",
+    "空気が薄い。ゆっくり行こう"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s26_ay_mild",
+   "who": "ayaka",
+   "when": {
+    "all": [
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": "<",
+      "value": 60
+     }
+    ]
+   },
+   "lines": [
+    "頭が重い。寝不足のせいかな",
+    "こめかみがずきずきする",
+    "なんだか胸がむかむかする"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s26_ay_mod",
+   "who": "ayaka",
+   "when": {
+    "all": [
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 60
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": "<",
+      "value": 85
+     }
+    ]
+   },
+   "lines": [
+    "頭が割れそう",
+    "吐き気がおさまらない",
+    "迷惑をかけたくない……"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s26_ay_alone",
+   "who": "ayaka",
+   "when": {
+    "all": [
+     {
+      "flag": "apart"
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 50
+     }
+    ]
+   },
+   "lines": [
+    "悠斗、まだかな",
+    "寝ていれば治ると思ったのに",
+    "体を起こすだけで頭が痛い"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s26_yu_worry",
+   "who": "yuto",
+   "when": {
+    "all": [
+     {
+      "flag": "apart"
+     },
+     {
+      "var": "c.yuto.moving",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "彩花、大丈夫かな",
+    "ご来光を見たら、すぐ戻ろう"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s26_yu_better",
+   "who": "yuto",
+   "when": {
+    "all": [
+     {
+      "flag": "descendTogether"
+     },
+     {
+      "var": "c.ayaka.elevM",
+      "op": "<",
+      "value": 2800
+     },
+     {
+      "not": {
+       "flag": "apart"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "彩花の顔色が、少し戻ってきた",
+    "下りてよかった"
+   ],
+   "priority": 5
+  }
+ ],
+ "speech": [
+  {
+   "key": "s26_ok",
+   "who": "yuto",
+   "to": "ayaka",
+   "when": {
+    "all": [
+     {
+      "not": {
+       "flag": "apart"
+      }
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": "<",
+      "value": 70
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.ayaka.moving",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "大丈夫？ 頭痛い？",
+    "無理しないで。ゆっくりでいいよ"
+   ],
+   "replies": {
+    "who": "ayaka",
+    "lines": [
+     "うん……ちょっと痛いだけ",
+     "大丈夫。ゆっくり行こう"
+    ]
+   },
+   "cooldownMin": 80,
+   "priority": 15
+  },
+  {
+   "key": "s26_bad",
+   "who": "yuto",
+   "to": "ayaka",
+   "when": {
+    "all": [
+     {
+      "not": {
+       "flag": "apart"
+      }
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 70
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": "<",
+      "value": 85
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.ayaka.moving",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "つかまって。足もと、石が浮いてる",
+    "少し止まろうか。水、飲める？"
+   ],
+   "replies": {
+    "who": "ayaka",
+    "lines": [
+     "……うん",
+     "ごめん、頭が痛くて"
+    ]
+   },
+   "cooldownMin": 60,
+   "priority": 16
+  },
+  {
+   "key": "s26_hace",
+   "who": "yuto",
+   "to": "ayaka",
+   "when": {
+    "all": [
+     {
+      "not": {
+       "flag": "apart"
+      }
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 85
+     },
+     {
+      "var": "c.ayaka.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "彩花、聞こえる？",
+    "しっかり。ここにいるよ"
+   ],
+   "cooldownMin": 30,
+   "priority": 20
+  }
+ ],
+ "endings": [
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "flag": "hace"
+   },
+   "title": "危ういところで五合目へ",
+   "text": "彩花は高地脳浮腫の兆しが出たまま、悠斗に支えられて五合目まで下りた。高さが下がると、受け答えは少しずつはっきりしてきた。2 人はそのまま麓の病院へ向かった。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "all": [
+     {
+      "flag": "bothUp"
+     },
+     {
+      "flag": "turnedBack"
+     }
+    ]
+   },
+   "title": "九合目から引き返して",
+   "text": "2 人は九合目で引き返し、五合目へ下りた。彩花の頭痛と吐き気は、高さが下がるにつれて少しずつ和らいだ。ご来光は、下りの途中で振り返って見た。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "flag": "bothUp"
+   },
+   "title": "山頂から下りて",
+   "text": "2 人は山頂まで登り、そこから五合目へ下りた。彩花は下りのあいだずっと頭痛と吐き気に苦しんだが、高さが下がるにつれて少しずつ楽になった。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "all": [
+     {
+      "flag": "solo"
+     },
+     {
+      "flag": "severe"
+     }
+    ]
+   },
+   "title": "待っていた朝",
+   "text": "悠斗は山頂から戻り、2 人で五合目へ下りた。待っているあいだに彩花の高山病は重くなっていて、下りはじめは手を引かれてやっと歩けるほどだった。高さが下がると、少しずつ楽になった。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "flag": "solo"
+   },
+   "title": "ご来光を見てから",
+   "text": "悠斗は山頂でご来光を見て八合目へ戻り、2 人で五合目へ下りた。彩花は待っているあいだも頭痛と吐き気が続いたが、高さが下がるにつれて和らいだ。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "flag": "descendTogether"
+   },
+   "title": "一緒に下りた朝",
+   "text": "2 人は八合目から下りた。悠斗が荷物を持ち、彩花はゆっくり歩いた。高さが下がるにつれて頭痛は少しずつ和らぎ、五合目に着くころには、自分で水を飲めるようになっていた。ご来光は、下りの途中で振り返って見た。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "title": "五合目に戻った",
+   "text": "2 人は五合目に下りた。彩花の頭痛は、高さが下がるにつれて和らいでいった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "title": "五合目に戻った",
+   "text": "2 人は五合目に下りた。"
+  },
+  {
+   "kind": "RESCUED",
+   "when": {
+    "flag": "hace"
+   },
+   "title": "高地脳浮腫の疑いで搬送",
+   "text": "彩花は高地脳浮腫の疑いで救助隊に収容され、五合目から病院へ運ばれた。高さが下がると、意識は少しずつはっきりしてきた。"
+  },
+  {
+   "kind": "RESCUED",
+   "when": {
+    "flag": "askedRescue"
+   },
+   "title": "救護所に頼んで",
+   "text": "救護所の医師を通して救助を頼み、彩花は救助隊に収容されて五合目へ下ろされた。重い高山病だった。高さが下がると、症状は少しずつ和らいだ。"
+  },
+  {
+   "kind": "RESCUED",
+   "title": "救助されて下りた",
+   "text": "彩花は救助隊に収容され、五合目へ下ろされた。重い高山病だった。高さが下がると、症状は少しずつ和らいだ。"
+  },
+  {
+   "kind": "RESCUED_CRITICAL",
+   "title": "重い状態での収容",
+   "text": "彩花は救助隊に収容されたが、意識がはっきりしないまま病院へ運ばれた。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "title": "自分たちの足で",
+   "text": "2 人は救助を待たずに、自分たちの足で五合目へ下りた。"
+  },
+  {
+   "kind": "MISSING",
+   "title": "山の上で",
+   "text": "制限時刻になっても、2 人はまだ山の上にいる。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "帰らなかった朝",
+   "text": "彩花は高地脳浮腫で亡くなった。高い所にいた時間が長すぎた。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_descend",
+   "title": "高山病は、下りるのがいちばんの手当て",
+   "text": "高山病は、体が慣れないうちに高い所へ上がると起きる。頭痛・吐き気・眠れないのが始まりで、富士山では八合目の山小屋で泊まった夜に出ることが多い。高さを下げれば良くなることが多く、数百 m 下りるだけでも違う。"
+  },
+  {
+   "id": "l_acclim",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_start",
+       "option": "go"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_start",
+       "option": "fast"
+      }
+     }
+    ]
+   },
+   "title": "五合目で体を慣らし、ゆっくり登る",
+   "text": "五合目で 1 時間ほど過ごしてから、息が上がらないペースで登ると、高山病は起きにくくなる。寝不足や疲れも高山病を起こしやすくする。早く小屋に着いても、高い所で過ごす時間が長くなるだけで、体が慣れるわけではない。"
+  },
+  {
+   "id": "l_alone",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_night",
+       "option": "solo"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_clinic",
+       "option": "solo"
+      }
+     }
+    ]
+   },
+   "title": "具合の悪い仲間を高い所に残さない",
+   "text": "小屋で寝て待っていても、高さが変わらなければ高山病は良くならない。待っているあいだに悪くなり、戻ったときには自分で歩くのがやっと、ということがある。ご来光はまた見られる。"
+  },
+  {
+   "id": "l_both",
+   "when": {
+    "chose": {
+     "cp": "cp_night",
+     "option": "both"
+    }
+   },
+   "title": "症状があるうちは、それ以上登らない",
+   "text": "頭痛や吐き気があるまま高く登ると、高山病は一気に進むことがある。山頂付近で動けなくなると、下ろすのにも時間がかかる。「ゆっくりなら行ける」は、本人の判断力も落ちているときの言葉かもしれない。"
+  },
+  {
+   "id": "l_rest",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_reunite",
+       "option": "rest"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_hace",
+       "option": "rest"
+      }
+     }
+    ]
+   },
+   "title": "寝ても休んでも、高さは変わらない",
+   "text": "疲れなら休めば回復するが、高山病は高い所にいるかぎり進む。休んで様子を見るより、歩けるうちに下りはじめるほうがよい。"
+  },
+  {
+   "id": "l_clinic",
+   "when": {
+    "any": [
+     {
+      "flag": "clinic1"
+     },
+     {
+      "flag": "clinicAlone"
+     },
+     {
+      "flag": "askedRescue"
+     },
+     {
+      "flag": "staffCalled"
+     }
+    ]
+   },
+   "title": "八合目の救護所",
+   "text": "富士宮ルートの八合目には、夏のあいだ医師が詰める救護所（富士山衛生センター）があり、夜中でも診てくれる。酸素で一時的に楽になっても、高さを下げなければまた悪くなる。重い人は、物資を運ぶブルドーザーや救助隊で下ろすことになる。"
+  },
+  {
+   "id": "l_hace",
+   "when": {
+    "flag": "hace"
+   },
+   "title": "高地脳浮腫の兆し",
+   "text": "まっすぐ歩けない・ふらつく・ぼんやりして返事がずれるのは、高地脳浮腫の兆しといわれる。命にかかわるため、すぐに下ろし、ためらわずに助けを呼ぶ。"
+  }
+ ],
+ "balanceTargets": {
+  "recommended": {
+   "goodMin": 0.95,
+   "fatalMax": 0.01
+  },
+  "bias": {
+   "goodMin": 0.5,
+   "goodMax": 0.8,
+   "rescuedMin": 0.2,
+   "rescuedMax": 0.5,
+   "fatalMax": 0.03
+  },
+  "risky": {
+   "goodMax": 0.2,
+   "rescuedMin": 0.7,
+   "fatalMax": 0.05
+  }
+ },
+ "sources": [
+  "気象: 架空の推移（快晴はユーザーの指定）。8 月上旬の富士山頂の平年の気温（日平均 6℃ 前後、朝の最低 2〜3℃）を目安にした",
+  "八合目の救護所: 「高山病患者を助ける雲の上の診療所 富士山衛生センターのお仕事」看護roo!（https://www.kango-roo.com/work/847/ ）。富士宮ルート八合目（池田館に併設、標高 3,250 m）、7 月下旬から約 1 か月、医師と医学生が交代で常駐し、24 時間無料で診療。酸素を吸わせる・薬・安静が主で、重い人は物資運搬のブルドーザーで下ろすしかない。来院は日付の変わるころ（ご来光に出る前）と朝 7〜8 時が多い",
+  "高山病の進み方・起きやすさ（彩花を高く、悠斗を低く）・夜のあいだに悪くなること・高地脳浮腫に至るまでの時間: 作者の想定（ゲームのモデル。ユーザーの指定: 女性が八合目の小屋で寝ているあいだに高山病になり、男性は問題ない。最悪は脳浮腫）",
+  "コースタイム（五合目→八合目 4 時間ほど、八合目→山頂 2 時間あまり、山頂→五合目 3 時間）・夏のマイカー規制とシャトルバス・山小屋の営業・夜通し登る人の多さ・夏の山頂の電波（臨時の基地局）: 作者の想定（静岡県の富士登山の案内などを目安にした）",
+  "救助（110 番のあと、晴れていればヘリ、地上は五合目から）: シミュレーションのモデル。実際の富士山の救助の手順とは異なることがある",
+  "人物・日付・行程・装備・会話は架空",
+  "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+  "登山道・地点: © OpenStreetMap contributors"
+ ]
+}

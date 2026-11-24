@@ -232,7 +232,9 @@ export function buildLandmarks(map: MapRuntime, s: ViewScale, heightAt: (x: numb
   group.name = 'landmarks';
   const list = map.def.landmarks ?? [];
   if (list.length === 0) return group;
-  group.add(...buildTowersAndWires(map, s, heightAt, env, shadows));
+  // 鉄塔がない地図では空の並び（group.add() を引数なしで呼ぶと three が誤りを出す）
+  const towers = buildTowersAndWires(map, s, heightAt, env, shadows);
+  if (towers.length > 0) group.add(...towers);
   const color = (hex: number, rough = 0.85): THREE.MeshStandardMaterial => {
     const m = new THREE.MeshStandardMaterial({ color: hex, roughness: rough });
     injectEnv(m, env);

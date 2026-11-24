@@ -1,0 +1,4817 @@
+{
+ "id": "s27_yakushima",
+ "version": 1,
+ "title": "白谷川が渡れない",
+ "subtitle": "7月・3人パーティー・屋久島 白谷雲水峡〜縄文杉（実在の地形）",
+ "theme": "flood",
+ "difficulty": 3,
+ "season": "summer",
+ "estMinutes": 20,
+ "mapId": "yakushima",
+ "seed": 2707,
+ "startDate": "2026-07-23",
+ "startAt": "D0 05:40",
+ "timeLimit": "D1 14:00",
+ "sun": {
+  "sunrise": "05:31",
+  "sunset": "19:17",
+  "maxElevDeg": 79
+ },
+ "moon": {
+  "illumination": 0.6
+ },
+ "region": {
+  "name": "屋久島・白谷雲水峡〜縄文杉（鹿児島県）",
+  "real": true
+ },
+ "briefing": {
+  "text": "7 月下旬の木曜日。森下さん（41）は、学生時代の山仲間の北川さん（44）と、北川さんの職場の後輩の浅野さん（27）と、3 人で屋久島に来た。今日は白谷雲水峡から辻峠を越え、トロッコ道と大株歩道で縄文杉まで歩いて、同じ道を白谷へ戻る。10 時間あまりの長い一日になる。宿のご主人が朝 5 時半に車で送ってくれ、夕方 18 時に白谷広場へ迎えに来てくれる約束だ。白谷雲水峡の楠川歩道には橋のない沢があり、行きと帰りに白谷川を飛び石で渡る。北川さんは沢登りの経験があり、補助ロープとツェルトを持っている。浅野さんの登山靴と雨具は島のレンタル店で借りた。梅雨は明けたが、予報では午後は大気の状態が非常に不安定になる。",
+  "forecast": [
+   {
+    "label": "朝",
+    "text": "晴れ",
+    "icon": "sunny"
+   },
+   {
+    "label": "午後",
+    "text": "曇り。所により雷雨（雷注意報）",
+    "icon": "thunder"
+   },
+   {
+    "label": "夜",
+    "text": "曇り",
+    "icon": "cloudy"
+   },
+   {
+    "label": "日の入り",
+    "text": "19:17"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "TH_SHIRATANI",
+   "FORD_B",
+   "HUT_SHIRATANI",
+   "FORD_A",
+   "KOKE",
+   "TSUJI",
+   "KUSU_WAKARE",
+   "OKABU",
+   "WILSON",
+   "JOMON",
+   "WILSON",
+   "OKABU",
+   "KUSU_WAKARE",
+   "TSUJI",
+   "KOKE",
+   "FORD_A",
+   "HUT_SHIRATANI",
+   "FORD_B",
+   "TH_SHIRATANI"
+  ],
+  "goalNodes": [
+   "TH_SHIRATANI",
+   "TH_ARAKAWA"
+  ],
+  "plannedFinish": "D0 17:30",
+  "submittedPlan": true,
+  "reportIfNotBackBy": "D0 20:30",
+  "wakeAt": "05:00"
+ },
+ "party": [
+  {
+   "id": "morishita",
+   "name": "森下",
+   "age": 41,
+   "sex": "m",
+   "weightKg": 72,
+   "packKg": 7,
+   "experience": 0.6,
+   "fitness": 1,
+   "navSkill": 0.6,
+   "riskTolerance": 0.65,
+   "color": "#d9452b",
+   "leader": true,
+   "temperament": "normal",
+   "role": "計画を立てた人",
+   "habits": {
+    "eatEveryMin": 120,
+    "drinkEveryMin": 50,
+    "delaysRainwear": 0.4,
+    "gpsCheckEveryMin": 90
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.45,
+    "cloPack": 0.6,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "none",
+    "rescueSheet": true,
+    "headlamp": {
+     "has": true,
+     "batteryH": 8,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 85,
+     "gpsApp": true,
+     "trackRecording": false,
+     "satelliteSos": false,
+     "strap": true
+    },
+    "powerBankMah": 5000,
+    "map": true,
+    "compass": false,
+    "foodKcal": 1700,
+    "waterL": 1.5,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": true,
+    "footwear": "hikingBoots"
+   },
+   "notes": "架空の人物。会社員、登山歴 12 年。夏の北アルプスの縦走や八ヶ岳に通ってきたが、沢登りの経験はない。屋久島は初めてで、この山行を計画した。体力に自信があり、予定どおりに歩き切りたい気持ちが強い。"
+  },
+  {
+   "id": "kitagawa",
+   "name": "北川",
+   "age": 44,
+   "sex": "f",
+   "weightKg": 55,
+   "packKg": 8,
+   "experience": 0.8,
+   "fitness": 0.95,
+   "navSkill": 0.7,
+   "riskTolerance": 0.3,
+   "color": "#2f7fb8",
+   "temperament": "calm",
+   "role": "沢登りの経験がある",
+   "habits": {
+    "eatEveryMin": 100,
+    "drinkEveryMin": 45,
+    "delaysRainwear": 0.1,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "goretex",
+    "cloWorn": 0.45,
+    "cloPack": 0.8,
+    "gloves": "thin",
+    "hat": true,
+    "bivy": "tarp",
+    "rescueSheet": true,
+    "headlamp": {
+     "has": true,
+     "batteryH": 8,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 85,
+     "gpsApp": true,
+     "trackRecording": false,
+     "satelliteSos": false,
+     "strap": true
+    },
+    "powerBankMah": 5000,
+    "map": true,
+    "compass": true,
+    "foodKcal": 1900,
+    "waterL": 1.5,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": true,
+    "whistle": true,
+    "footwear": "hikingBoots"
+   },
+   "notes": "架空の人物。森下さんの学生時代の山仲間。社会人の山岳会で沢登りを 10 年続けていて、補助ロープ（8 mm・20 m）とスリング、ツェルトをいつも持ち歩く。増水した沢の怖さを知っている。"
+  },
+  {
+   "id": "asano",
+   "name": "浅野",
+   "age": 27,
+   "sex": "m",
+   "weightKg": 68,
+   "packKg": 6,
+   "experience": 0.2,
+   "fitness": 1.05,
+   "navSkill": 0.2,
+   "riskTolerance": 0.55,
+   "color": "#3a9a5b",
+   "temperament": "emotional",
+   "role": "山を始めて 1 年",
+   "habits": {
+    "eatEveryMin": 150,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.6,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.45,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "rescueSheet": false,
+    "headlamp": {
+     "has": true,
+     "batteryH": 5,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 85,
+     "gpsApp": true,
+     "trackRecording": false,
+     "satelliteSos": false,
+     "strap": true
+    },
+    "powerBankMah": 0,
+    "map": false,
+    "compass": false,
+    "foodKcal": 1500,
+    "waterL": 1.5,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "footwear": "hikingBoots"
+   },
+   "notes": "架空の人物。北川さんの職場の後輩。山を始めて 1 年で、日帰りの低山を十数回歩いた。登山靴と雨具は屋久島のレンタル店で借りた。体力はあるが、沢を渡ったことはほとんどない。"
+  }
+ ],
+ "weather": {
+  "refElevM": 600,
+  "lapseRateCPer100m": 0.6,
+  "cloudThicknessM": 6000,
+  "keyframes": [
+   {
+    "at": "D0 05:00",
+    "tempC": 22,
+    "windMs": 1.5,
+    "windDirDeg": 200,
+    "precipMmH": 0,
+    "cloudCover": 0.2,
+    "cloudBaseM": 1800,
+    "visibilityM": 30000,
+    "pressureHpa": 1008
+   },
+   {
+    "at": "D0 09:00",
+    "tempC": 25.5,
+    "windMs": 2.5,
+    "windDirDeg": 220,
+    "precipMmH": 0,
+    "cloudCover": 0.3,
+    "cloudBaseM": 1600,
+    "visibilityM": 30000,
+    "pressureHpa": 1008
+   },
+   {
+    "at": "D0 11:00",
+    "tempC": 27,
+    "windMs": 3,
+    "windDirDeg": 230,
+    "precipMmH": 0,
+    "cloudCover": 0.5,
+    "cloudBaseM": 1400,
+    "visibilityM": 25000,
+    "pressureHpa": 1007
+   },
+   {
+    "at": "D0 12:30",
+    "tempC": 27,
+    "windMs": 3,
+    "windDirDeg": 230,
+    "precipMmH": 0.3,
+    "cloudCover": 0.75,
+    "cloudBaseM": 1300,
+    "visibilityM": 20000,
+    "pressureHpa": 1006,
+    "thunder": 0.05
+   },
+   {
+    "at": "D0 13:30",
+    "tempC": 24,
+    "windMs": 5,
+    "windDirDeg": 240,
+    "precipMmH": 4,
+    "cloudCover": 0.95,
+    "cloudBaseM": 1000,
+    "visibilityM": 8000,
+    "pressureHpa": 1006,
+    "thunder": 0.15,
+    "gustiness": 0.4,
+    "inCloudVisibilityM": 100
+   },
+   {
+    "at": "D0 14:30",
+    "tempC": 22,
+    "windMs": 6,
+    "windDirDeg": 250,
+    "precipMmH": 12,
+    "cloudCover": 1,
+    "cloudBaseM": 800,
+    "visibilityM": 3000,
+    "pressureHpa": 1007,
+    "thunder": 0.2,
+    "gustiness": 0.5,
+    "inCloudVisibilityM": 80
+   },
+   {
+    "at": "D0 16:00",
+    "tempC": 21.5,
+    "windMs": 5,
+    "windDirDeg": 250,
+    "precipMmH": 10,
+    "cloudCover": 1,
+    "cloudBaseM": 800,
+    "visibilityM": 3000,
+    "pressureHpa": 1007,
+    "thunder": 0.15,
+    "gustiness": 0.4,
+    "inCloudVisibilityM": 80
+   },
+   {
+    "at": "D0 17:00",
+    "tempC": 21.5,
+    "windMs": 4,
+    "windDirDeg": 260,
+    "precipMmH": 5,
+    "cloudCover": 1,
+    "cloudBaseM": 900,
+    "visibilityM": 5000,
+    "pressureHpa": 1008,
+    "thunder": 0.05,
+    "inCloudVisibilityM": 100
+   },
+   {
+    "at": "D0 18:00",
+    "tempC": 21.5,
+    "windMs": 3,
+    "windDirDeg": 270,
+    "precipMmH": 2,
+    "cloudCover": 1,
+    "cloudBaseM": 1000,
+    "visibilityM": 8000,
+    "pressureHpa": 1008,
+    "inCloudVisibilityM": 120
+   },
+   {
+    "at": "D0 19:00",
+    "tempC": 21,
+    "windMs": 2,
+    "windDirDeg": 270,
+    "precipMmH": 0.5,
+    "cloudCover": 0.9,
+    "cloudBaseM": 1100,
+    "visibilityM": 12000,
+    "pressureHpa": 1009
+   },
+   {
+    "at": "D0 20:00",
+    "tempC": 21,
+    "windMs": 2,
+    "windDirDeg": 270,
+    "precipMmH": 0,
+    "cloudCover": 0.7,
+    "cloudBaseM": 1300,
+    "visibilityM": 20000,
+    "pressureHpa": 1009
+   },
+   {
+    "at": "D1 05:00",
+    "tempC": 20,
+    "windMs": 2,
+    "windDirDeg": 250,
+    "precipMmH": 0,
+    "cloudCover": 0.4,
+    "cloudBaseM": 1500,
+    "visibilityM": 25000,
+    "pressureHpa": 1010
+   },
+   {
+    "at": "D1 09:00",
+    "tempC": 24,
+    "windMs": 2.5,
+    "windDirDeg": 230,
+    "precipMmH": 0,
+    "cloudCover": 0.3,
+    "cloudBaseM": 1600,
+    "visibilityM": 30000,
+    "pressureHpa": 1010
+   },
+   {
+    "at": "D1 18:00",
+    "tempC": 24,
+    "windMs": 2,
+    "windDirDeg": 230,
+    "precipMmH": 0,
+    "cloudCover": 0.4,
+    "cloudBaseM": 1600,
+    "visibilityM": 30000,
+    "pressureHpa": 1009
+   }
+  ],
+  "thunderCells": [
+   {
+    "id": "c1",
+    "from": "D0 12:20",
+    "peakAt": "D0 13:20",
+    "to": "D0 14:30",
+    "path": [
+     [
+      -5000,
+      -1200
+     ],
+     [
+      -3200,
+      -2400
+     ],
+     [
+      -800,
+      -3200
+     ]
+    ],
+    "radiusM": 1600,
+    "peak": 0.8,
+    "heavyRainMmH": 30
+   },
+   {
+    "id": "c2",
+    "from": "D0 13:40",
+    "peakAt": "D0 14:50",
+    "to": "D0 16:20",
+    "path": [
+     [
+      -600,
+      -200
+     ],
+     [
+      800,
+      -900
+     ],
+     [
+      2600,
+      -1900
+     ]
+    ],
+    "radiusM": 1500,
+    "peak": 1,
+    "heavyRainMmH": 45
+   },
+   {
+    "id": "c3",
+    "from": "D0 15:10",
+    "peakAt": "D0 15:50",
+    "to": "D0 16:50",
+    "path": [
+     [
+      0,
+      -600
+     ],
+     [
+      1400,
+      -1100
+     ]
+    ],
+    "radiusM": 1300,
+    "peak": 0.7,
+    "heavyRainMmH": 25
+   }
+  ]
+ },
+ "fords": [
+  {
+   "id": "fordA",
+   "name": "白谷小屋の上の渡渉点",
+   "x": 683,
+   "z": -955,
+   "catchX": 1300,
+   "catchZ": -800,
+   "baseCm": 15,
+   "gainCmPerMmH": 2,
+   "riseMin": 25,
+   "fallMin": 100,
+   "wadeCm": 40,
+   "sweepCm": 65
+  },
+  {
+   "id": "fordB",
+   "name": "楠川歩道の渡渉点",
+   "x": 699,
+   "z": -1463,
+   "catchX": 1000,
+   "catchZ": -1000,
+   "baseCm": 20,
+   "gainCmPerMmH": 2.6,
+   "riseMin": 35,
+   "fallMin": 130,
+   "wadeCm": 45,
+   "sweepCm": 70
+  }
+ ],
+ "passersby": [
+  {
+   "edges": [
+    "E8",
+    "E9",
+    "E10"
+   ],
+   "perHour": 4,
+   "from": "08:00",
+   "to": "15:00",
+   "fromDay": 0
+  },
+  {
+   "edges": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "perHour": 2,
+   "from": "08:00",
+   "to": "15:30",
+   "fromDay": 0
+  },
+  {
+   "edges": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "perHour": 1,
+   "from": "07:30",
+   "to": "12:00",
+   "fromDay": 1
+  }
+ ],
+ "events": [
+  {
+   "id": "ev_start",
+   "once": true,
+   "trigger": {
+    "after": "D0 05:40"
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "宿のご主人の車で、白谷雲水峡の入口まで送ってもらった。登山届を入口のポストに入れ、協力金を払って歩き出す"
+    }
+   ]
+  },
+  {
+   "id": "ev_out_fordB",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "FORD_B"
+     },
+     {
+      "not": {
+       "flag": "homeward"
+      }
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "楠川歩道の渡渉点。白谷川の水は澄んでいて少なく、飛び石を伝って濡れずに渡れた"
+    }
+   ]
+  },
+  {
+   "id": "ev_out_fordA",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "FORD_A"
+     },
+     {
+      "not": {
+       "flag": "homeward"
+      }
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "白谷小屋の先の渡渉点。白い花崗岩の河原に、飛び石が並んでいる。水は足首にも届かない"
+    },
+    {
+     "type": "say",
+     "who": "kitagawa",
+     "to": "asano",
+     "text": "ここ、帰りにまた渡るからね。雨が降ったら、こことさっきの所が増える"
+    }
+   ]
+  },
+  {
+   "id": "ev_home_jomon",
+   "once": true,
+   "trigger": {
+    "atNode": "JOMON"
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "homeward"
+    }
+   ]
+  },
+  {
+   "id": "ev_home_taiko",
+   "once": true,
+   "trigger": {
+    "atNode": "TAIKO"
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "homeward"
+    },
+    {
+     "type": "log",
+     "text": "太鼓岩の上に出た。目の前に奥岳の山並みが広がる。南の空はまだ青い"
+    }
+   ]
+  },
+  {
+   "id": "ev_cumulus",
+   "once": true,
+   "trigger": {
+    "after": "D0 11:15"
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "南西の山の上に、積乱雲がもくもくと盛り上がってきた。雲の頭が白く輝いている",
+     "important": true
+    },
+    {
+     "type": "say",
+     "who": "kitagawa",
+     "text": "あの雲、夕立になるね。思ったより早いかも"
+    }
+   ]
+  },
+  {
+   "id": "ev_forecast",
+   "once": true,
+   "trigger": {
+    "after": "D0 12:00"
+   },
+   "effects": [
+    {
+     "type": "forecastUpdate",
+     "entries": [
+      {
+       "label": "午後",
+       "text": "雷雨。1 時間に 50 ミリの非常に激しい雨のおそれ（大雨注意報）",
+       "icon": "thunder"
+      },
+      {
+       "label": "夕方",
+       "text": "雨がしだいに弱まる",
+       "icon": "rain"
+      },
+      {
+       "label": "夜",
+       "text": "曇り",
+       "icon": "cloudy"
+      }
+     ]
+    },
+    {
+     "type": "log",
+     "text": "電話に、屋久島町に大雨注意報が出たという知らせが届いた"
+    }
+   ]
+  },
+  {
+   "id": "ev_thunder",
+   "once": true,
+   "trigger": {
+    "var": "leader.local.thunder",
+    "op": ">",
+    "value": 0.12
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "ゴロゴロと、遠くで雷が鳴った",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_heavy",
+   "once": true,
+   "trigger": {
+    "var": "leader.local.precipMmH",
+    "op": ">",
+    "value": 25
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "バケツをひっくり返したような雨になった。登山道が川のようになり、斜面のあちこちから水が噴き出している",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_river_roar",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "homeward"
+     },
+     {
+      "any": [
+       {
+        "onEdge": "E5"
+       },
+       {
+        "onEdge": "E4"
+       }
+      ]
+     },
+     {
+      "var": "ford.fordA",
+      "op": ">",
+      "value": 55
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "下のほうから、ゴウゴウと低い音が響いてくる。朝の白谷川とはまるで違う音だ",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_ret_fordA_low",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "FORD_A"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "var": "ford.fordA",
+      "op": "<",
+      "value": 25
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "crossedA"
+    },
+    {
+     "type": "log",
+     "text": "白谷小屋の上の渡渉点。水はまだ少なく、飛び石を伝って渡れた"
+    }
+   ]
+  },
+  {
+   "id": "ev_ret_fordA_rope",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "FORD_A"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "var": "ford.fordA",
+      "op": ">=",
+      "value": 25
+     },
+     {
+      "flag": "ropeA"
+     },
+     {
+      "var": "c.kitagawa.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "crossedA"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "ford",
+       "ford": "fordA",
+       "rope": true
+      }
+     ]
+    },
+    {
+     "type": "pin",
+     "x": 683,
+     "z": -955,
+     "label": "渡渉"
+    }
+   ]
+  },
+  {
+   "id": "ev_ret_fordA",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "FORD_A"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "var": "ford.fordA",
+      "op": ">=",
+      "value": 25
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "crossedA"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "ford",
+       "ford": "fordA",
+       "rope": false
+      }
+     ]
+    },
+    {
+     "type": "pin",
+     "x": 683,
+     "z": -955,
+     "label": "渡渉"
+    }
+   ]
+  },
+  {
+   "id": "ev_ret_fordB_low",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "FORD_B"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "not": {
+       "flag": "crossedB"
+      }
+     },
+     {
+      "var": "ford.fordB",
+      "op": "<",
+      "value": 28
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "crossedB"
+    },
+    {
+     "type": "log",
+     "text": "楠川歩道の渡渉点。水は引いていて、飛び石を伝って渡れた"
+    }
+   ]
+  },
+  {
+   "id": "ev_ret_fordB_rope",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "FORD_B"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "not": {
+       "flag": "crossedB"
+      }
+     },
+     {
+      "var": "ford.fordB",
+      "op": ">=",
+      "value": 28
+     },
+     {
+      "flag": "ropeB"
+     },
+     {
+      "var": "c.kitagawa.alive",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "crossedB"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "ford",
+       "ford": "fordB",
+       "rope": true
+      }
+     ]
+    },
+    {
+     "type": "pin",
+     "x": 699,
+     "z": -1463,
+     "label": "渡渉"
+    }
+   ]
+  },
+  {
+   "id": "ev_ret_fordB",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "FORD_B"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "not": {
+       "flag": "crossedB"
+      }
+     },
+     {
+      "var": "ford.fordB",
+      "op": ">=",
+      "value": 28
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "crossedB"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "ford",
+       "ford": "fordB",
+       "rope": false
+      }
+     ]
+    },
+    {
+     "type": "pin",
+     "x": 699,
+     "z": -1463,
+     "label": "渡渉"
+    }
+   ]
+  },
+  {
+   "id": "ev_pickup",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 18:00"
+     },
+     {
+      "not": {
+       "flag": "viaArakawa"
+      }
+     },
+     {
+      "not": {
+       "flag": "planArakawa"
+      }
+     },
+     {
+      "not": {
+       "flag": "takatsuka"
+      }
+     },
+     {
+      "not": {
+       "beenAt": "TH_SHIRATANI"
+      }
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "白谷広場の駐車場に、宿のご主人の車が着いた。入口の先の沢は濁って、ゴウゴウと鳴っている"
+    }
+   ]
+  },
+  {
+   "id": "ev_wait_dusk",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "waitedA"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "after": "D0 19:00"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "森の中が暗くなってきた。濡れたシャツが肌に張りつき、じっとしていると肩が冷える"
+    }
+   ]
+  },
+  {
+   "id": "ev_morning_hutB",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "hutB"
+     },
+     {
+      "not": {
+       "flag": "crossedB"
+      }
+     },
+     {
+      "after": "D1 06:00"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "夜のうちに雨はやみ、沢の音も静かになった。3 人は白谷小屋を出て、楠川歩道の渡渉点へ下りる"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "setRoute",
+       "route": [
+        "HUT_SHIRATANI",
+        "FORD_B",
+        "TH_SHIRATANI"
+       ],
+       "goalNodes": [
+        "TH_SHIRATANI"
+       ]
+      },
+      {
+       "type": "continueRoute"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_morning_bivA",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "bivA"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "after": "D1 06:05"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "空が白んできた。沢の水は朝のうちにすっかり引いている。3 人はツェルトをたたみ、渡渉点へ下りる"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "setRoute",
+       "route": [
+        "TSUJI",
+        "KOKE",
+        "FORD_A",
+        "HUT_SHIRATANI",
+        "FORD_B",
+        "TH_SHIRATANI"
+       ],
+       "goalNodes": [
+        "TH_SHIRATANI"
+       ]
+      },
+      {
+       "type": "continueRoute"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_morning_takatsuka",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "takatsuka"
+     },
+     {
+      "after": "D1 06:00"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "高塚小屋で朝を迎えた。雨は夜のうちにやみ、梢から雫が落ちている。3 人は白谷へ向けて歩き出す"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "setRoute",
+       "route": [
+        "HUT_TAKATSUKA",
+        "JOMON",
+        "WILSON",
+        "OKABU",
+        "KUSU_WAKARE",
+        "TSUJI",
+        "KOKE",
+        "FORD_A",
+        "HUT_SHIRATANI",
+        "FORD_B",
+        "TH_SHIRATANI"
+       ],
+       "goalNodes": [
+        "TH_SHIRATANI",
+        "TH_ARAKAWA"
+       ]
+      },
+      {
+       "type": "continueRoute"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arakawa",
+   "once": true,
+   "trigger": {
+    "atNode": "TH_ARAKAWA"
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "荒川登山口に着いた。屋根のある待合所で、3 人は雨具を脱いだ"
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_start",
+   "title": "白谷雲水峡の入口",
+   "priority": 20,
+   "trigger": {
+    "after": "D0 05:40"
+   },
+   "situation": "朝 5 時 40 分、白谷雲水峡の入口。宿のご主人の車を降りると、空は晴れて風もない。けさの予報では、午後は大気の状態が非常に不安定で、雷を伴った非常に激しい雨の降る所がある。屋久島には雷注意報が出ている。白谷から縄文杉を往復すると 10 時間あまり。帰りは辻峠を越えて、白谷川を 2 回渡る。どうする？",
+   "knowledge": [
+    "予報: 晴れのち曇り。午後は所により雷雨。1 時間に 50 ミリの非常に激しい雨の所も",
+    "入口の案内板: 「園内には橋のない沢があります。上流で雨が降ると急に増水します。増水時は渡らないでください」",
+    "縄文杉から荒川登山口へ下りるトロッコ道は、川を橋で渡る。荒川登山口からは登山バスで屋久杉自然館へ下りられる",
+    "宿のご主人は 18 時に白谷広場へ迎えに来る約束。白谷広場では電話がつながる"
+   ],
+   "options": [
+    {
+     "id": "arakawa",
+     "label": "縄文杉へ。帰りはトロッコ道で荒川登山口へ下りる",
+     "detail": "帰りに沢を渡らない道にしておく。迎えは荒川側に頼み直す。",
+     "explain": "午後の雷雨の予報を見て、帰り道を橋のあるトロッコ道に変えておくことです。上流の雨で渡れなくなる沢を、雨の時間帯に渡らずにすみます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "帰りは荒川に下りよう。トロッコ道なら、沢は橋で渡れる"
+      },
+      {
+       "type": "say",
+       "text": "宿には電話しておくね。迎えは屋久杉自然館に来てもらおう",
+       "who": "kitagawa",
+       "to": "morishita"
+      },
+      {
+       "type": "setFlag",
+       "flag": "planArakawa"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "TH_SHIRATANI",
+        "FORD_B",
+        "HUT_SHIRATANI",
+        "FORD_A",
+        "KOKE",
+        "TSUJI",
+        "KUSU_WAKARE",
+        "OKABU",
+        "WILSON",
+        "JOMON",
+        "WILSON",
+        "OKABU",
+        "KUSU_WAKARE",
+        "KOSUGI",
+        "TH_ARAKAWA"
+       ],
+       "goalNodes": [
+        "TH_ARAKAWA",
+        "TH_SHIRATANI"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.45
+     }
+    },
+    {
+     "id": "plan",
+     "label": "予定どおり白谷から縄文杉を往復する",
+     "detail": "雷雨は午後から。早めに歩けば、雨の前に白谷へ戻れる。",
+     "explain": "予報の雷雨が来る時間帯に、橋のない沢のある道を帰ることを前提に出発することです。雨が早まれば、帰りの渡渉点で水が増えているおそれがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "予定どおり行こう。午後の雷雨は、降っても夕立くらいだろう"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.6
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "taiko",
+     "label": "縄文杉はやめて、太鼓岩までにする",
+     "detail": "雷雨の前に、白谷雲水峡だけを歩いて昼前に下りる。",
+     "explain": "天気の崩れる前に歩き終える短い計画に変えることです。縄文杉は見られませんが、雷雨と増水の時間帯には山を下りています。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "縄文杉はまたにしよう。太鼓岩まで行って、昼前に下りる"
+      },
+      {
+       "type": "setFlag",
+       "flag": "planTaiko"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "TH_SHIRATANI",
+        "FORD_B",
+        "HUT_SHIRATANI",
+        "FORD_A",
+        "KOKE",
+        "TSUJI",
+        "TAIKO",
+        "TSUJI",
+        "KOKE",
+        "FORD_A",
+        "HUT_SHIRATANI",
+        "FORD_B",
+        "TH_SHIRATANI"
+       ],
+       "goalNodes": [
+        "TH_SHIRATANI"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_jomon",
+   "title": "縄文杉の展望デッキ",
+   "priority": 15,
+   "trigger": {
+    "atNode": "JOMON"
+   },
+   "situation": "縄文杉の展望デッキに着いた。苔をまとった太い幹の向こう、南西の空に積乱雲が高く盛り上がっている。ときどき遠くで雷が鳴る。ここで帰り道を決める。白谷へ戻るなら、辻峠を越えて白谷川を 2 回渡る。",
+   "knowledge": [
+    "白谷広場までは約 4 時間半。白谷川の渡渉点に着くのは 16 時ごろ",
+    "荒川登山口まではトロッコ道で約 3 時間半。沢は橋で渡る",
+    "高塚小屋（無人の避難小屋）はここから 10 分。このあたりでは電話がつながることがある",
+    "日の入りは 19:17"
+   ],
+   "options": [
+    {
+     "id": "arakawa",
+     "label": "トロッコ道で荒川登山口へ下りる",
+     "detail": "沢を橋で渡る道で帰る。宿には電話で迎えを頼み直す。",
+     "explain": "雷雨が近づくのを見て、増水しやすい沢を渡らない帰り道を選ぶことです。歩く距離はほぼ同じで、雨が強まっても沢で足止めされません。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "白谷はやめて、荒川に下りよう。雨が来たら沢が怖い"
+      },
+      {
+       "type": "setFlag",
+       "flag": "viaArakawa"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "JOMON",
+        "WILSON",
+        "OKABU",
+        "KUSU_WAKARE",
+        "KOSUGI",
+        "TH_ARAKAWA"
+       ],
+       "goalNodes": [
+        "TH_ARAKAWA"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "flag": "planArakawa"
+        },
+        "add": 2
+       }
+      ]
+     }
+    },
+    {
+     "id": "shiratani",
+     "label": "予定どおり白谷へ戻る",
+     "detail": "雷雨は夕立くらいかもしれない。迎えも白谷に来る。",
+     "explain": "雷雨の時間帯に、橋のない沢のある道へ戻ることです。上流で強い雨が降れば、渡渉点に着くころには水が増えているおそれがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "予定どおり白谷に戻ろう。迎えも白谷に来るし"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "JOMON",
+        "WILSON",
+        "OKABU",
+        "KUSU_WAKARE",
+        "TSUJI",
+        "KOKE",
+        "FORD_A",
+        "HUT_SHIRATANI",
+        "FORD_B",
+        "TH_SHIRATANI"
+       ],
+       "goalNodes": [
+        "TH_SHIRATANI"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.6
+        },
+        "add": 0.3
+       },
+       {
+        "when": {
+         "flag": "planArakawa"
+        },
+        "add": -0.8
+       }
+      ]
+     }
+    },
+    {
+     "id": "hurry",
+     "label": "急いで白谷へ戻り、雨の前に沢を渡りきる",
+     "detail": "休みを減らして急げば、水が増える前に白谷川を越えられる。",
+     "explain": "雨と競争するように、急いで沢のある道へ戻ることです。急いでも雷雨の速さには勝てないことが多く、疲れた足で濡れた岩を急ぐと転びやすくなります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "急ごう。雨が来る前に白谷川を渡ってしまえば大丈夫だ"
+      },
+      {
+       "type": "setFlag",
+       "flag": "hurried"
+      },
+      {
+       "type": "setPace",
+       "factor": 1.15
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "JOMON",
+        "WILSON",
+        "OKABU",
+        "KUSU_WAKARE",
+        "TSUJI",
+        "KOKE",
+        "FORD_A",
+        "HUT_SHIRATANI",
+        "FORD_B",
+        "TH_SHIRATANI"
+       ],
+       "goalNodes": [
+        "TH_SHIRATANI"
+       ]
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.35,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.6
+        },
+        "add": 0.3
+       },
+       {
+        "when": {
+         "flag": "planArakawa"
+        },
+        "add": -0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "takatsuka",
+     "label": "高塚小屋に入り、雷雨をやり過ごす",
+     "detail": "今夜は小屋に泊まり、あす水が引いてから戻る。宿に電話しておく。",
+     "explain": "雷雨の時間帯は屋根の下で過ごし、沢の水が引く翌朝に下りる判断です。寝袋はなく夜は寒いですが、雷と増水の両方を避けられます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "高塚小屋で雷雨をやり過ごそう。今夜は小屋泊まりだ"
+      },
+      {
+       "type": "say",
+       "text": "宿に電話しました。今夜は高塚小屋に泊まって、あした下りますって",
+       "who": "kitagawa",
+       "to": "morishita"
+      },
+      {
+       "type": "setFlag",
+       "flag": "takatsuka"
+      },
+      {
+       "type": "setFlag",
+       "flag": "familyNotified"
+      },
+      {
+       "type": "goToNode",
+       "node": "HUT_TAKATSUKA",
+       "then": "stay"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.15
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_kusu",
+   "title": "楠川分れ",
+   "priority": 15,
+   "trigger": {
+    "all": [
+     {
+      "atNode": "KUSU_WAKARE"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "not": {
+       "flag": "viaArakawa"
+      }
+     },
+     {
+      "not": {
+       "flag": "planTaiko"
+      }
+     },
+     {
+      "not": {
+       "flag": "takatsuka"
+      }
+     }
+    ]
+   },
+   "situation": "楠川分れに着いた。雨が激しく、トロッコ道の枕木の上を水が流れている。安房川の水音が大きい。ここから白谷へは辻峠を越え、白谷川を 2 回渡る。トロッコ道をそのまま下れば荒川登山口に出る。いまの雨は {leader.local.precipMmH:0} mm/h くらい。",
+   "knowledge": [
+    "辻峠を越えて白谷広場まで約 2 時間。最初の渡渉点までは 1 時間ほど",
+    "トロッコ道を荒川登山口まで約 1 時間半。沢は橋で渡る",
+    "宿のご主人は 18 時に白谷広場へ迎えに来る。荒川に下りたら、電話がつながる所で連絡する",
+    "日の入りは 19:17"
+   ],
+   "options": [
+    {
+     "id": "arakawa",
+     "label": "トロッコ道で荒川登山口へ下りる",
+     "detail": "白谷川は渡らない。迎えは電話がつながったら頼み直す。",
+     "explain": "強い雨の中で、橋のない沢のある道を避け、橋のある道に切り替えることです。迎えの段取りは崩れますが、増水した沢の前で行き詰まらずにすみます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "白谷はやめよう。トロッコ道で荒川に下りる"
+      },
+      {
+       "type": "setFlag",
+       "flag": "viaArakawa"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "KUSU_WAKARE",
+        "KOSUGI",
+        "TH_ARAKAWA"
+       ],
+       "goalNodes": [
+        "TH_ARAKAWA"
+       ]
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.local.precipMmH",
+         "op": ">",
+         "value": 15
+        },
+        "add": 0.4
+       }
+      ]
+     }
+    },
+    {
+     "id": "tsuji",
+     "label": "辻峠を越えて白谷へ戻る",
+     "detail": "迎えは白谷に来る。渡渉点で様子を見て決めればいい。",
+     "explain": "強い雨が続く中で、橋のない沢のある道へ向かうことです。渡渉点に着いてから引き返すと、峠をもう一度越えることになり、時間と体力を失います。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "白谷に戻ろう。沢は着いてから様子を見ればいい"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.6
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_fordA",
+   "title": "白谷小屋の上の渡渉点",
+   "priority": 18,
+   "trigger": {
+    "all": [
+     {
+      "flag": "homeward"
+     },
+     {
+      "onEdge": "E4"
+     },
+     {
+      "near": {
+       "x": 683,
+       "z": -955,
+       "r": 70
+      }
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "not": {
+       "flag": "crossA"
+      }
+     },
+     {
+      "var": "ford.fordA",
+      "op": ">=",
+      "value": 28
+     }
+    ]
+   },
+   "situation": "白谷小屋の上の渡渉点に着いた。朝は飛び石を伝って渡った白谷川が、茶色く濁って音を立てている。水位は {ford.fordA:0} cm ほどで、飛び石は見えない。向こう岸の森の先に、白谷小屋の屋根が見える。",
+   "knowledge": [
+    "ふだんの水位は 15 cm ほど。膝（40 cm）を超えると流れに足を取られ、腰（65 cm）を超えると流される危険が大きい",
+    "北川さんが補助ロープ（8 mm・20 m）を持っている。1 人ずつ確保すれば時間はかかるが、流される危険は下がる",
+    "上流で雨がやめば、水は数時間で引く。日の入りは 19:17",
+    "辻峠へ戻ってトロッコ道を荒川登山口まで約 2 時間半"
+   ],
+   "options": [
+    {
+     "id": "wait",
+     "label": "辻峠の岩屋まで戻って、水が引くのを待つ",
+     "detail": "辻峠の下の大岩（辻の岩屋）の陰で雨をしのぎ、水が引くのを待つ。",
+     "explain": "増水した沢を渡らず、水が引くのを待つことです。上流の雨がやめば水は数時間で引きますが、待つあいだに夕方になり、濡れた体が冷えます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここは渡らない。峠の岩屋まで戻って、水が引くのを待とう",
+       "who": "kitagawa",
+       "to": "morishita"
+      },
+      {
+       "type": "setFlag",
+       "flag": "waitA"
+      },
+      {
+       "type": "setFlag",
+       "flag": "waitedA"
+      },
+      {
+       "type": "goToNode",
+       "node": "TSUJI",
+       "then": "stay"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6,
+      "mods": [
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": ">",
+         "value": 65
+        },
+        "add": 0.8
+       },
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": ">",
+         "value": 90
+        },
+        "add": 0.8
+       }
+      ]
+     }
+    },
+    {
+     "id": "rope",
+     "label": "ロープで確保して、1 人ずつ渡る",
+     "detail": "北川さんが先に渡ってロープを張り、ほかの 2 人を確保する。",
+     "explain": "流れに足を取られても流されにくいよう、ロープで確保して渡ることです。危険は下がりますが、水位が高いと確保していても流されることがあり、時間もかかります。",
+     "available": {
+      "var": "c.kitagawa.alive",
+      "op": "==",
+      "value": true
+     },
+     "unavailableText": "ロープを扱える北川さんがいない",
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "say",
+       "text": "ロープを出す。私が先に渡って張るから、一人ずつ来て",
+       "who": "kitagawa",
+       "to": "morishita"
+      },
+      {
+       "type": "setFlag",
+       "flag": "crossA"
+      },
+      {
+       "type": "setFlag",
+       "flag": "ropeA"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.45,
+      "mods": [
+       {
+        "when": {
+         "all": [
+          {
+           "var": "ford.fordA",
+           "op": ">=",
+           "value": 40
+          },
+          {
+           "var": "ford.fordA",
+           "op": "<",
+           "value": 80
+          }
+         ]
+        },
+        "add": 0.4
+       },
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": ">",
+         "value": 95
+        },
+        "add": -0.15
+       }
+      ]
+     }
+    },
+    {
+     "id": "cross",
+     "label": "このまま渡る（手をつないで一気に）",
+     "detail": "小屋はすぐそこ。待っていたら暗くなる。",
+     "explain": "濁って底の見えない増水した沢を、確保なしで渡ることです。膝を超える流れは足を取り、腰を超えると立っていられずに流されます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "小屋はすぐそこだ。手をつないで一気に渡ろう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "crossA"
+      },
+      {
+       "type": "setFlag",
+       "flag": "forcedA"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.6,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.6
+        },
+        "add": 0.35
+       },
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": "<",
+         "value": 45
+        },
+        "add": 0.8
+       },
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": ">",
+         "value": 70
+        },
+        "add": -0.3
+       },
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": ">",
+         "value": 95
+        },
+        "add": -0.1
+       }
+      ]
+     }
+    },
+    {
+     "id": "arakawa",
+     "label": "辻峠へ戻り、トロッコ道で荒川登山口へ下りる",
+     "detail": "沢を渡らずに下りられるが、着くのは日暮れごろ。",
+     "explain": "増水した沢を避けて、橋のある遠回りの道で下りることです。沢を渡る危険はありませんが、疲れた体で長い道を歩き、途中で暗くなります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "峠に戻って、トロッコ道で荒川に下りよう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "viaArakawa"
+      },
+      {
+       "type": "setFlag",
+       "flag": "lateArakawa"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "KOKE",
+        "TSUJI",
+        "KUSU_WAKARE",
+        "KOSUGI",
+        "TH_ARAKAWA"
+       ],
+       "goalNodes": [
+        "TH_ARAKAWA"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.25
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_waitA",
+   "title": "辻の岩屋で待つ",
+   "priority": 16,
+   "once": false,
+   "trigger": {
+    "all": [
+     {
+      "flag": "waitA"
+     },
+     {
+      "elapsedSince": {
+       "flag": "waitA",
+       "min": 50
+      }
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "not": {
+       "flag": "crossA"
+      }
+     },
+     {
+      "not": {
+       "flag": "bivA"
+      }
+     }
+    ]
+   },
+   "situation": "辻峠の下の大岩（辻の岩屋）の陰で、3 人はザックを下ろして待っている。雨は {leader.local.precipMmH:0} mm/h。{leader.name}さんが沢を見に行くと、水位は {ford.fordA:0} cm ほどだった。",
+   "knowledge": [
+    "ふだんの水位は 15 cm。膝（40 cm）を超えると足を取られ、腰（65 cm）を超えると流される危険が大きい",
+    "白谷小屋（無人の避難小屋）は渡渉点のすぐ先",
+    "渡ったあと、白谷広場までのあいだにもう 1 か所、楠川歩道の渡渉点がある",
+    "日の入りは 19:17。暗くなると、水の深さも流れの速さも見えない"
+   ],
+   "options": [
+    {
+     "id": "wait_more",
+     "label": "もう少し待つ",
+     "detail": "まだ水は多い。1 時間ほど様子を見る。",
+     "explain": "水位が下がりきらないうちは渡らず、もう少し様子を見ることです。時間はかかりますが、水は雨がやめば確実に引いていきます。",
+     "available": {
+      "all": [
+       {
+        "var": "ford.fordA",
+        "op": ">=",
+        "value": 38
+       },
+       {
+        "var": "sun.isDark",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     "unavailableText": "水が引いた、または暗くなった",
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "say",
+       "text": "もう少し待とう。水はまだ引いていない",
+       "who": "kitagawa"
+      },
+      {
+       "type": "clearFlag",
+       "flag": "waitA"
+      },
+      {
+       "type": "setFlag",
+       "flag": "waitA"
+      },
+      {
+       "type": "stayPut"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.8,
+      "mods": [
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": ">",
+         "value": 60
+        },
+        "add": 0.6
+       }
+      ]
+     }
+    },
+    {
+     "id": "bivouac",
+     "label": "ここで夜を明かし、朝を待つ",
+     "detail": "暗い中で増水した沢を渡るより、朝を待つ。ツェルトは北川さんの 1 張りだけ。",
+     "explain": "水が引かないまま暗くなるときに、沢を渡らずに朝を待つことです。濡れたまま一晩を過ごすので冷えますが、夜に増水した沢を渡るよりも危険は小さくなります。",
+     "available": {
+      "all": [
+       {
+        "var": "ford.fordA",
+        "op": ">=",
+        "value": 38
+       },
+       {
+        "after": "D0 18:00"
+       }
+      ]
+     },
+     "unavailableText": "水はもう引いている、またはまだ明るい",
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "say",
+       "text": "今夜はここで明かそう。ツェルトに 3 人で入れば、なんとかなる",
+       "who": "kitagawa",
+       "to": "morishita"
+      },
+      {
+       "type": "clearFlag",
+       "flag": "waitA"
+      },
+      {
+       "type": "setFlag",
+       "flag": "bivA"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "bivouac",
+       "until": "dawn",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "var": "sun.isDark",
+         "op": "==",
+         "value": true
+        },
+        "add": 0.6
+       }
+      ]
+     }
+    },
+    {
+     "id": "cross",
+     "label": "沢を渡る（手をつないで）",
+     "detail": "小屋まで行けば屋根がある。",
+     "explain": "水が引くのを待ちきらずに沢を渡ることです。水位が膝より下まで下がっていれば濡れるだけですが、膝を超えていれば足を取られ、流されることがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "渡ろう。小屋まで行けば屋根がある"
+      },
+      {
+       "type": "clearFlag",
+       "flag": "waitA"
+      },
+      {
+       "type": "setFlag",
+       "flag": "crossA"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "TSUJI",
+        "KOKE",
+        "FORD_A",
+        "HUT_SHIRATANI",
+        "FORD_B",
+        "TH_SHIRATANI"
+       ],
+       "goalNodes": [
+        "TH_SHIRATANI"
+       ]
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.2,
+      "mods": [
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": "<",
+         "value": 38
+        },
+        "add": 1.6
+       },
+       {
+        "when": {
+         "var": "sun.isDark",
+         "op": "==",
+         "value": true
+        },
+        "add": 0.4
+       },
+       {
+        "when": {
+         "after": "D0 18:00"
+        },
+        "add": 0.4
+       },
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.6
+        },
+        "add": 0.3
+       },
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": ">",
+         "value": 75
+        },
+        "add": -0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "rope",
+     "label": "ロープで確保して、1 人ずつ渡る",
+     "detail": "北川さんがロープを張り、ひとりずつ確保して渡る。",
+     "explain": "ロープで確保して、1 人ずつ沢を渡ることです。水がまだ多いときに危険を下げられますが、時間がかかり、確保していても流されることはあります。",
+     "available": {
+      "var": "c.kitagawa.alive",
+      "op": "==",
+      "value": true
+     },
+     "unavailableText": "ロープを扱える北川さんがいない",
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "say",
+       "text": "ロープを張る。一人ずつ、流れに向かって斜めに来て",
+       "who": "kitagawa"
+      },
+      {
+       "type": "clearFlag",
+       "flag": "waitA"
+      },
+      {
+       "type": "setFlag",
+       "flag": "crossA"
+      },
+      {
+       "type": "setFlag",
+       "flag": "ropeA"
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "TSUJI",
+        "KOKE",
+        "FORD_A",
+        "HUT_SHIRATANI",
+        "FORD_B",
+        "TH_SHIRATANI"
+       ],
+       "goalNodes": [
+        "TH_SHIRATANI"
+       ]
+      }
+     ],
+     "bias": {
+      "base": 0.25,
+      "mods": [
+       {
+        "when": {
+         "var": "ford.fordA",
+         "op": "<",
+         "value": 38
+        },
+        "add": 0.5
+       },
+       {
+        "when": {
+         "all": [
+          {
+           "var": "ford.fordA",
+           "op": ">=",
+           "value": 38
+          },
+          {
+           "var": "ford.fordA",
+           "op": "<",
+           "value": 75
+          }
+         ]
+        },
+        "add": 0.5
+       },
+       {
+        "when": {
+         "after": "D0 18:00"
+        },
+        "add": 0.2
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_fordB",
+   "title": "楠川歩道の渡渉点",
+   "priority": 18,
+   "trigger": {
+    "all": [
+     {
+      "flag": "homeward"
+     },
+     {
+      "onEdge": "E2"
+     },
+     {
+      "near": {
+       "x": 699,
+       "z": -1463,
+       "r": 70
+      }
+     },
+     {
+      "not": {
+       "flag": "crossedB"
+      }
+     },
+     {
+      "not": {
+       "flag": "crossB"
+      }
+     },
+     {
+      "not": {
+       "flag": "hutB"
+      }
+     },
+     {
+      "var": "ford.fordB",
+      "op": ">=",
+      "value": 30
+     }
+    ]
+   },
+   "situation": "楠川歩道の渡渉点まで下りてきた。ここの白谷川は上の渡渉点より川幅が広く、水位は {ford.fordB:0} cm ほど。濁った水が岩を越えて流れている。白谷広場まではあと 40 分ほど。",
+   "knowledge": [
+    "ふだんは 20 cm ほど。膝（45 cm）を超えると足を取られ、腰（70 cm）を超えると流される危険が大きい",
+    "白谷小屋（無人の避難小屋）まで登り返して 10 分。屋根と床がある",
+    "宿のご主人は白谷広場で待っているはず。小屋に泊まれば、帰らない 3 人を心配して通報するかもしれない",
+    "日の入りは 19:17"
+   ],
+   "options": [
+    {
+     "id": "hut",
+     "label": "白谷小屋に戻り、今夜は小屋で水が引くのを待つ",
+     "detail": "屋根の下で濡れた体を休め、あすの朝に渡る。",
+     "explain": "増水した沢を渡らず、屋根のある避難小屋に戻って水が引くのを待つことです。帰りは翌朝になりますが、体を休められ、暗い中で沢を渡らずにすみます。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "小屋に戻ろう。あしたの朝なら水は引いている",
+       "who": "kitagawa",
+       "to": "morishita"
+      },
+      {
+       "type": "setFlag",
+       "flag": "hutB"
+      },
+      {
+       "type": "goToNode",
+       "node": "HUT_SHIRATANI",
+       "then": "stay"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6,
+      "mods": [
+       {
+        "when": {
+         "var": "ford.fordB",
+         "op": ">",
+         "value": 70
+        },
+        "add": 0.9
+       },
+       {
+        "when": {
+         "var": "sun.isDark",
+         "op": "==",
+         "value": true
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "rope",
+     "label": "ロープで確保して、1 人ずつ渡る",
+     "detail": "北川さんが先に渡ってロープを張る。",
+     "explain": "ロープで確保して増水した沢を渡ることです。流される危険は下がりますが、川幅が広く流れの強い所では、確保していても足をすくわれることがあります。",
+     "available": {
+      "var": "c.kitagawa.alive",
+      "op": "==",
+      "value": true
+     },
+     "unavailableText": "ロープを扱える北川さんがいない",
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここもロープで行く。私が先に渡る",
+       "who": "kitagawa"
+      },
+      {
+       "type": "setFlag",
+       "flag": "crossB"
+      },
+      {
+       "type": "setFlag",
+       "flag": "ropeB"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.45,
+      "mods": [
+       {
+        "when": {
+         "all": [
+          {
+           "var": "ford.fordB",
+           "op": ">=",
+           "value": 45
+          },
+          {
+           "var": "ford.fordB",
+           "op": "<",
+           "value": 85
+          }
+         ]
+        },
+        "add": 0.4
+       }
+      ]
+     }
+    },
+    {
+     "id": "cross",
+     "label": "このまま渡る（迎えの車が待っている）",
+     "detail": "ここを越えれば、あとは下るだけ。",
+     "explain": "下山口を目の前にして、増水した沢を確保なしで渡ることです。待っている人のことを思うと渡りたくなりますが、膝を超える流れでは足を取られ、流されることがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "text": "ここを渡れば終わりだ。行こう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "crossB"
+      },
+      {
+       "type": "setFlag",
+       "flag": "forcedB"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.6,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.6
+        },
+        "add": 0.35
+       },
+       {
+        "when": {
+         "var": "ford.fordB",
+         "op": "<",
+         "value": 50
+        },
+        "add": 0.8
+       },
+       {
+        "when": {
+         "var": "ford.fordB",
+         "op": ">",
+         "value": 75
+        },
+        "add": -0.4
+       },
+       {
+        "when": {
+         "var": "ford.fordB",
+         "op": ">",
+         "value": 100
+        },
+        "add": -0.25
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_lost",
+   "title": "仲間が流された",
+   "priority": 19,
+   "trigger": {
+    "all": [
+     {
+      "flag": "homeward"
+     },
+     {
+      "any": [
+       {
+        "flag": "crossedA"
+       },
+       {
+        "flag": "crossedB"
+       }
+      ]
+     },
+     {
+      "any": [
+       {
+        "near": {
+         "x": 683,
+         "z": -955,
+         "r": 250
+        }
+       },
+       {
+        "near": {
+         "x": 699,
+         "z": -1463,
+         "r": 250
+        }
+       }
+      ]
+     },
+     {
+      "any": [
+       {
+        "var": "c.morishita.alive",
+        "op": "==",
+        "value": false
+       },
+       {
+        "var": "c.kitagawa.alive",
+        "op": "==",
+        "value": false
+       },
+       {
+        "var": "c.asano.alive",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "not": {
+       "flag": "lostHandled"
+      }
+     }
+    ]
+   },
+   "situation": "濁流に流された仲間は、岩の向こうに見えなくなった。名前を呼んでも、沢の音で何も聞こえない。ここは電話がつながらない。雨は {leader.local.precipMmH:0} mm/h。残った{leader.name}さんは、どうする？",
+   "knowledge": [
+    "白谷小屋（無人の避難小屋）が近くにある",
+    "白谷広場まで下りれば電話がつながる。宿のご主人も待っている",
+    "楠川歩道の渡渉点を渡らなければ、白谷広場へは下りられない",
+    "日の入りは 19:17"
+   ],
+   "options": [
+    {
+     "id": "hut",
+     "label": "白谷小屋に入り、助けを待つ",
+     "detail": "これ以上だれも沢に入らない。帰らなければ、宿のご主人が通報してくれる。",
+     "explain": "仲間を失った直後に、残った人がもう一度増水した沢に入らないようにすることです。知らせは遅れますが、小屋で体を守りながら救助を待てます。",
+     "available": {
+      "not": {
+       "flag": "crossedB"
+      }
+     },
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "lostHandled"
+      },
+      {
+       "type": "setFlag",
+       "flag": "lostHut"
+      },
+      {
+       "type": "goToNode",
+       "node": "HUT_SHIRATANI",
+       "then": "stay"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "down",
+     "label": "白谷広場まで下りて、通報する",
+     "detail": "もう沢は渡らずに下りられる。電話のつながる所まで急ぐ。",
+     "explain": "渡渉点をすでに越えているので、電話のつながる所まで下りて、流された仲間のことを早く知らせることです。",
+     "available": {
+      "flag": "crossedB"
+     },
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "lostHandled"
+      },
+      {
+       "type": "setFlag",
+       "flag": "lostDown"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1.2
+     }
+    },
+    {
+     "id": "cross_down",
+     "label": "沢を渡って白谷広場へ下り、知らせる",
+     "detail": "一刻も早く知らせたい。下の渡渉点を渡れば電話がつながる。",
+     "explain": "仲間を助けたい一心で、増水した沢にもう一度入ることです。早く知らせられるかもしれませんが、同じ流れで自分も流されるおそれがあります。",
+     "available": {
+      "not": {
+       "flag": "crossedB"
+      }
+     },
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "lostHandled"
+      },
+      {
+       "type": "setFlag",
+       "flag": "lostCross"
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.6
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "stay",
+     "label": "ここにとどまり、助けを待つ",
+     "detail": "流された仲間が戻ってくるかもしれない。ここを離れたくない。",
+     "explain": "仲間を見失った場所を離れずに、助けを待つことです。救助隊に場所を伝えやすい一方、雨の中で濡れたまま長い時間を過ごすことになります。",
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "lostHandled"
+      },
+      {
+       "type": "setFlag",
+       "flag": "lostStay"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_hurt",
+   "title": "仲間がけがをした",
+   "priority": 14,
+   "trigger": {
+    "all": [
+     {
+      "any": [
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "sprain"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "legFracture"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "headInjury"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "severeTrauma"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "sprain"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "legFracture"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "headInjury"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "severeTrauma"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "sprain"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "legFracture"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "headInjury"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "severeTrauma"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "not": {
+       "flag": "hurtHandled"
+      }
+     }
+    ]
+   },
+   "situation": "仲間がけがをして、思うように歩けない。雨は {leader.local.precipMmH:0} mm/h。ここは電話がつながらない。白谷広場まで下りれば電話がつながり、宿のご主人も待っている。どうする？",
+   "knowledge": [
+    "森下さん: {c.morishita.injury}／北川さん: {c.kitagawa.injury}／浅野さん: {c.asano.injury}",
+    "白谷小屋（無人の避難小屋）が近くにある。白谷広場では電話がつながる",
+    "帰らなければ、宿のご主人が警察に相談してくれるはず",
+    "日の入りは 19:17"
+   ],
+   "options": [
+    {
+     "id": "walk",
+     "label": "支え合って、ゆっくり下りる",
+     "detail": "歩けるなら、荷物を分けて少しずつ下りる。",
+     "explain": "歩けるけがのうちに、荷物を分けて支え合いながら下りることです。無理のない速さなら、暗くなる前に安全な所へ近づけます。",
+     "available": {
+      "not": {
+       "any": [
+        {
+         "all": [
+          {
+           "var": "c.morishita.injury",
+           "op": "==",
+           "value": "legFracture"
+          },
+          {
+           "var": "c.morishita.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        },
+        {
+         "all": [
+          {
+           "var": "c.morishita.injury",
+           "op": "==",
+           "value": "headInjury"
+          },
+          {
+           "var": "c.morishita.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        },
+        {
+         "all": [
+          {
+           "var": "c.morishita.injury",
+           "op": "==",
+           "value": "severeTrauma"
+          },
+          {
+           "var": "c.morishita.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        },
+        {
+         "all": [
+          {
+           "var": "c.kitagawa.injury",
+           "op": "==",
+           "value": "legFracture"
+          },
+          {
+           "var": "c.kitagawa.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        },
+        {
+         "all": [
+          {
+           "var": "c.kitagawa.injury",
+           "op": "==",
+           "value": "headInjury"
+          },
+          {
+           "var": "c.kitagawa.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        },
+        {
+         "all": [
+          {
+           "var": "c.kitagawa.injury",
+           "op": "==",
+           "value": "severeTrauma"
+          },
+          {
+           "var": "c.kitagawa.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        },
+        {
+         "all": [
+          {
+           "var": "c.asano.injury",
+           "op": "==",
+           "value": "legFracture"
+          },
+          {
+           "var": "c.asano.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        },
+        {
+         "all": [
+          {
+           "var": "c.asano.injury",
+           "op": "==",
+           "value": "headInjury"
+          },
+          {
+           "var": "c.asano.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        },
+        {
+         "all": [
+          {
+           "var": "c.asano.injury",
+           "op": "==",
+           "value": "severeTrauma"
+          },
+          {
+           "var": "c.asano.alive",
+           "op": "==",
+           "value": true
+          }
+         ]
+        }
+       ]
+      }
+     },
+     "unavailableText": "歩けない人がいる",
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "say",
+       "text": "荷物はこっちで持つ。ゆっくりでいいから下りよう"
+      },
+      {
+       "type": "setFlag",
+       "flag": "hurtHandled"
+      },
+      {
+       "type": "setPace",
+       "factor": 0.6
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "carry",
+     "label": "二人で支えて、運んで下りる",
+     "detail": "歩けない仲間を二人で支え、荷物を分けて少しずつ下ろす。",
+     "explain": "歩けない仲間を二人で支えて運ぶことです。救助を待つより早く下りられることもありますが、濡れた岩の道では運ぶ人も転びやすく、とても遅くなります。",
+     "available": {
+      "any": [
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "legFracture"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "headInjury"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "severeTrauma"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "legFracture"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "headInjury"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "severeTrauma"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "legFracture"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "headInjury"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "severeTrauma"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       }
+      ]
+     },
+     "unavailableText": "みんな歩ける",
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "say",
+       "text": "二人で支えて下ろそう。ゆっくりでいい"
+      },
+      {
+       "type": "setFlag",
+       "flag": "hurtHandled"
+      },
+      {
+       "type": "setFlag",
+       "flag": "carried"
+      },
+      {
+       "type": "carryInjured"
+      }
+     ],
+     "bias": {
+      "base": 0.5
+     }
+    },
+    {
+     "id": "send",
+     "label": "動ける人が白谷広場まで下りて、救助を呼ぶ",
+     "detail": "一人がけが人に付き添い、ほかの人は電話のつながる所まで下りる。",
+     "explain": "電話のつながる所まで人を走らせ、けが人のいる場所を早く伝えることです。残る人とけが人は濡れたまま待つことになり、下る人は増水した沢をもう一度渡ることがあります。",
+     "available": {
+      "any": [
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "legFracture"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "headInjury"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.morishita.injury",
+          "op": "==",
+          "value": "severeTrauma"
+         },
+         {
+          "var": "c.morishita.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "legFracture"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "headInjury"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.kitagawa.injury",
+          "op": "==",
+          "value": "severeTrauma"
+         },
+         {
+          "var": "c.kitagawa.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "legFracture"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "headInjury"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "var": "c.asano.injury",
+          "op": "==",
+          "value": "severeTrauma"
+         },
+         {
+          "var": "c.asano.alive",
+          "op": "==",
+          "value": true
+         }
+        ]
+       }
+      ]
+     },
+     "unavailableText": "みんな歩ける",
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "hurtHandled"
+      },
+      {
+       "type": "setFlag",
+       "flag": "sentHelp"
+      },
+      {
+       "type": "sendForHelp"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "wait",
+     "label": "全員でここにとどまり、助けを待つ",
+     "detail": "ツェルトをかぶって雨を避け、宿のご主人の通報を待つ。",
+     "explain": "全員がその場にとどまり、帰らないことを心配した人の通報を待つことです。離ればなれにはなりませんが、救助が来るまでに長い時間がかかります。",
+     "actions": [
+      {
+       "type": "setFlag",
+       "flag": "hurtHandled"
+      },
+      {
+       "type": "setFlag",
+       "flag": "waitedHelp"
+      },
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "bias": {
+      "base": 0.4,
+      "mods": [
+       {
+        "when": {
+         "any": [
+          {
+           "all": [
+            {
+             "var": "c.morishita.injury",
+             "op": "==",
+             "value": "legFracture"
+            },
+            {
+             "var": "c.morishita.alive",
+             "op": "==",
+             "value": true
+            }
+           ]
+          },
+          {
+           "all": [
+            {
+             "var": "c.morishita.injury",
+             "op": "==",
+             "value": "headInjury"
+            },
+            {
+             "var": "c.morishita.alive",
+             "op": "==",
+             "value": true
+            }
+           ]
+          },
+          {
+           "all": [
+            {
+             "var": "c.morishita.injury",
+             "op": "==",
+             "value": "severeTrauma"
+            },
+            {
+             "var": "c.morishita.alive",
+             "op": "==",
+             "value": true
+            }
+           ]
+          },
+          {
+           "all": [
+            {
+             "var": "c.kitagawa.injury",
+             "op": "==",
+             "value": "legFracture"
+            },
+            {
+             "var": "c.kitagawa.alive",
+             "op": "==",
+             "value": true
+            }
+           ]
+          },
+          {
+           "all": [
+            {
+             "var": "c.kitagawa.injury",
+             "op": "==",
+             "value": "headInjury"
+            },
+            {
+             "var": "c.kitagawa.alive",
+             "op": "==",
+             "value": true
+            }
+           ]
+          },
+          {
+           "all": [
+            {
+             "var": "c.kitagawa.injury",
+             "op": "==",
+             "value": "severeTrauma"
+            },
+            {
+             "var": "c.kitagawa.alive",
+             "op": "==",
+             "value": true
+            }
+           ]
+          },
+          {
+           "all": [
+            {
+             "var": "c.asano.injury",
+             "op": "==",
+             "value": "legFracture"
+            },
+            {
+             "var": "c.asano.alive",
+             "op": "==",
+             "value": true
+            }
+           ]
+          },
+          {
+           "all": [
+            {
+             "var": "c.asano.injury",
+             "op": "==",
+             "value": "headInjury"
+            },
+            {
+             "var": "c.asano.alive",
+             "op": "==",
+             "value": true
+            }
+           ]
+          },
+          {
+           "all": [
+            {
+             "var": "c.asano.injury",
+             "op": "==",
+             "value": "severeTrauma"
+            },
+            {
+             "var": "c.asano.alive",
+             "op": "==",
+             "value": true
+            }
+           ]
+          }
+         ]
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "genericOverrides": {
+  "darkness": {
+   "situation": "日が暮れた。森の中はもう足もとが見えない。濡れた木の根と岩が、ヘッドランプの光を返して光る。どうする？",
+   "knowledge": [
+    "白谷小屋（無人の避難小屋）は、2 つの渡渉点のあいだにある",
+    "暗い中では、沢の水の深さも流れの速さも見えない"
+   ],
+   "options": [
+    {
+     "id": "hut",
+     "label": "白谷小屋へ向かい、小屋で夜を明かす",
+     "detail": "小屋は近い。沢を渡らずに行ける。",
+     "explain": "沢を渡らずに行ける避難小屋で夜を明かすことです。暗い中を下山口まで歩き続けるより、転ぶ・道を外す・沢に入る危険を避けられます。",
+     "available": {
+      "all": [
+       {
+        "flag": "crossedA"
+       },
+       {
+        "not": {
+         "flag": "crossedB"
+        }
+       }
+      ]
+     },
+     "hideIfUnavailable": true,
+     "actions": [
+      {
+       "type": "goToNode",
+       "node": "HUT_SHIRATANI",
+       "then": "stay"
+      }
+     ],
+     "flags": [
+      "nightHut"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "bivouac",
+     "label": "その場でビバークし、明るくなるのを待つ",
+     "detail": "雨具と防寒着を着て、朝を待つ。",
+     "explain": "暗い森を歩かず、その場で朝を待つことです。濡れたまま夜を過ごすのはつらいですが、夏の屋久島の低い所なら、雨具と防寒着で体を守れます。",
+     "actions": [
+      {
+       "type": "addLayer"
+      },
+      {
+       "type": "bivouac",
+       "until": "dawn",
+       "findLee": true
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "continue",
+     "label": "ヘッドランプをつけて歩き続ける",
+     "detail": "道ははっきりしている。下山口まであと少し。",
+     "explain": "暗い中を、濡れた岩と木の根の道で歩き続けることです。道ははっきりしていても、足もとが見えにくく、転びやすくなります。",
+     "actions": [
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.9,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.6
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "thoughts": [
+  {
+   "key": "s27_start",
+   "who": "morishita",
+   "when": {
+    "all": [
+     {
+      "before": "D0 07:00"
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "lines": [
+    "空が青い。雷雨なんて嘘みたいだ",
+    "縄文杉まで 5 時間半。昼前には着ける"
+   ],
+   "priority": 3
+  },
+  {
+   "key": "s27_moss",
+   "who": "asano",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "any": [
+       {
+        "onEdge": "E4"
+       },
+       {
+        "onEdge": "E5"
+       }
+      ]
+     },
+     {
+      "not": {
+       "flag": "homeward"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "苔がすごい。森全体が緑色だ",
+    "写真で見た森だ。本当にあるんだな"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s27_kita_sky",
+   "who": "kitagawa",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "after": "D0 10:30"
+     },
+     {
+      "before": "D0 12:30"
+     }
+    ]
+   },
+   "lines": [
+    "雲の湧き方が早い。帰りの沢のことを考えておかないと",
+    "朝の白谷川は細かったけど、あの沢は雨で一気に増える"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s27_trolley",
+   "who": "asano",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "onEdge": "E8"
+     },
+     {
+      "not": {
+       "flag": "homeward"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "線路の上を歩くのは不思議な感じ",
+    "枕木の間隔が微妙で、歩幅が合わない"
+   ],
+   "priority": 3
+  },
+  {
+   "key": "s27_okabu",
+   "who": "morishita",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "any": [
+       {
+        "onEdge": "E9"
+       },
+       {
+        "onEdge": "E10"
+       }
+      ]
+     },
+     {
+      "not": {
+       "flag": "homeward"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "ここからが登りの本番だ",
+    "人が多い。縄文杉まではみんな同じ道だ"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s27_rain_lead",
+   "who": "morishita",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 8
+     },
+     {
+      "not": {
+       "flag": "viaArakawa"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "この雨、夕立にしては長い",
+    "迎えは 18 時。間に合うだろうか"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s27_rain_kita",
+   "who": "kitagawa",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 8
+     },
+     {
+      "not": {
+       "flag": "viaArakawa"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "上流でこれだけ降れば、白谷川はもう渡れないかもしれない",
+    "沢に着いたら、私が止めないと"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s27_rain_asano",
+   "who": "asano",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 8
+     }
+    ]
+   },
+   "lines": [
+    "借りた雨具の中まで濡れてきた",
+    "雷、近くないかな……"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s27_trolley_rain",
+   "who": "morishita",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "flag": "viaArakawa"
+     },
+     {
+      "any": [
+       {
+        "onEdge": "E12"
+       },
+       {
+        "onEdge": "E13"
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "橋の下の川が茶色い。こっちにしてよかった",
+    "遠回りだが、沢で立ち往生するよりいい"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s27_fordA_lead",
+   "who": "morishita",
+   "when": {
+    "all": [
+     {
+      "flag": "homeward"
+     },
+     {
+      "var": "ford.fordA",
+      "op": ">",
+      "value": 40
+     },
+     {
+      "near": {
+       "x": 683,
+       "z": -955,
+       "r": 120
+      }
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "あそこを渡れば小屋だ。たった 10 m なのに",
+    "流れが速い。底が見えない"
+   ],
+   "priority": 9
+  },
+  {
+   "key": "s27_fordA_asano",
+   "who": "asano",
+   "when": {
+    "all": [
+     {
+      "flag": "homeward"
+     },
+     {
+      "var": "ford.fordA",
+      "op": ">",
+      "value": 40
+     },
+     {
+      "near": {
+       "x": 683,
+       "z": -955,
+       "r": 150
+      }
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "朝はここ、ただの石の河原だったのに",
+    "こんなの渡れるのか……"
+   ],
+   "priority": 9
+  },
+  {
+   "key": "s27_wait_lead",
+   "who": "morishita",
+   "when": {
+    "all": [
+     {
+      "flag": "waitedA"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "not": {
+       "flag": "bivA"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "宿のご主人、心配しているだろうな",
+    "待つのはつらい。でも、あの水は無理だ"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s27_wait_asano",
+   "who": "asano",
+   "when": {
+    "all": [
+     {
+      "flag": "waitedA"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "濡れた服が冷たい。じっとしていると寒くなってきた",
+    "足もとにヒルがいないか、つい見てしまう"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s27_wait_kita",
+   "who": "kitagawa",
+   "when": {
+    "all": [
+     {
+      "flag": "waitedA"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "not": {
+       "flag": "bivA"
+      }
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": "<",
+      "value": 6
+     }
+    ]
+   },
+   "lines": [
+    "雨が弱くなった。水はあと 1〜2 時間で引くはず",
+    "暗くなったら無理に渡らない。それだけは決めておく"
+   ],
+   "priority": 8
+  },
+  {
+   "key": "s27_biv",
+   "who": "morishita",
+   "when": {
+    "all": [
+     {
+      "flag": "bivA"
+     },
+     {
+      "state": "BIVOUAC"
+     }
+    ]
+   },
+   "lines": [
+    "3 人でツェルト 1 枚。寒くはないが、眠れない",
+    "宿のご主人が通報してくれているはずだ"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s27_hut",
+   "who": "asano",
+   "when": {
+    "all": [
+     {
+      "flag": "hutB"
+     },
+     {
+      "state": "SHELTERED"
+     }
+    ]
+   },
+   "lines": [
+    "屋根があるだけで、こんなに安心するなんて",
+    "床が固い。でも、外よりずっといい"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s27_takatsuka",
+   "who": "morishita",
+   "when": {
+    "all": [
+     {
+      "flag": "takatsuka"
+     },
+     {
+      "state": "SHELTERED"
+     }
+    ]
+   },
+   "lines": [
+    "小屋の屋根を雨が叩いている。ここにいてよかった",
+    "あしたの朝、沢の水が引いていればいい"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s27_fordB_lead",
+   "who": "morishita",
+   "when": {
+    "all": [
+     {
+      "flag": "homeward"
+     },
+     {
+      "var": "ford.fordB",
+      "op": ">",
+      "value": 45
+     },
+     {
+      "near": {
+       "x": 699,
+       "z": -1463,
+       "r": 120
+      }
+     },
+     {
+      "not": {
+       "flag": "crossedB"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "ここを越えれば、あとは下るだけなのに",
+    "迎えの車は、もう着いているはずだ"
+   ],
+   "priority": 9
+  }
+ ],
+ "speech": [
+  {
+   "key": "s27_sp_moss",
+   "who": "asano",
+   "to": "kitagawa",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "onEdge": "E4"
+     },
+     {
+      "not": {
+       "flag": "homeward"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "北川さん、この森、すごいですね！"
+   ],
+   "replies": {
+    "who": "kitagawa",
+    "lines": [
+     "でしょう。帰りはゆっくり見られるといいね"
+    ]
+   },
+   "priority": 8,
+   "once": true
+  },
+  {
+   "key": "s27_sp_bridge",
+   "who": "morishita",
+   "to": "asano",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "onEdge": "E8"
+     },
+     {
+      "not": {
+       "flag": "homeward"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "トロッコ道の橋は手すりがないから、足もとに気をつけて"
+   ],
+   "replies": {
+    "who": "asano",
+    "lines": [
+     "下、けっこう高いですね……"
+    ]
+   },
+   "priority": 6,
+   "once": true
+  },
+  {
+   "key": "s27_sp_cloud",
+   "who": "kitagawa",
+   "to": "morishita",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "after": "D0 11:30"
+     },
+     {
+      "before": "D0 13:30"
+     },
+     {
+      "not": {
+       "flag": "viaArakawa"
+      }
+     },
+     {
+      "not": {
+       "flag": "planArakawa"
+      }
+     },
+     {
+      "not": {
+       "flag": "planTaiko"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "森下くん、帰りは荒川に下りたほうがいいんじゃない？ 白谷川、雨で渡れなくなるよ"
+   ],
+   "replies": {
+    "who": "morishita",
+    "lines": [
+     "夕立だったら、すぐやむよ。迎えも白谷に来るし"
+    ]
+   },
+   "priority": 12,
+   "once": true
+  },
+  {
+   "key": "s27_sp_thunder",
+   "who": "asano",
+   "to": "morishita",
+   "when": {
+    "all": [
+     {
+      "var": "leader.local.thunder",
+      "op": ">",
+      "value": 0.3
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "lines": [
+    "いまの雷、近くなかったですか？"
+   ],
+   "replies": {
+    "who": "morishita",
+    "lines": [
+     "森の中なら大丈夫だ。尾根に出ないようにしよう"
+    ]
+   },
+   "priority": 10,
+   "cooldownMin": 60
+  },
+  {
+   "key": "s27_sp_rain",
+   "who": "kitagawa",
+   "to": "morishita",
+   "when": {
+    "all": [
+     {
+      "state": "WALKING"
+     },
+     {
+      "flag": "homeward"
+     },
+     {
+      "var": "leader.local.precipMmH",
+      "op": ">",
+      "value": 15
+     },
+     {
+      "not": {
+       "flag": "viaArakawa"
+      }
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "この雨だと、白谷川はもう増えてる。渡渉点に着いたら、無理はしないで"
+   ],
+   "replies": {
+    "who": "morishita",
+    "lines": [
+     "分かってる。着いてから見て決めよう"
+    ]
+   },
+   "priority": 12,
+   "once": true
+  },
+  {
+   "key": "s27_sp_fordA",
+   "who": "kitagawa",
+   "to": "asano",
+   "when": {
+    "all": [
+     {
+      "flag": "homeward"
+     },
+     {
+      "var": "ford.fordA",
+      "op": ">",
+      "value": 40
+     },
+     {
+      "near": {
+       "x": 683,
+       "z": -955,
+       "r": 120
+      }
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "膝より上の流れは、人を倒すの。絶対に一人で入らないで"
+   ],
+   "replies": {
+    "who": "asano",
+    "lines": [
+     "は、はい……"
+    ]
+   },
+   "priority": 14,
+   "once": true
+  },
+  {
+   "key": "s27_sp_wait",
+   "who": "asano",
+   "to": "kitagawa",
+   "when": {
+    "all": [
+     {
+      "flag": "waitedA"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "not": {
+       "flag": "bivA"
+      }
+     },
+     {
+      "elapsedSince": {
+       "flag": "waitedA",
+       "min": 30
+      }
+     }
+    ]
+   },
+   "lines": [
+    "水、引いてますかね……"
+   ],
+   "replies": {
+    "who": "kitagawa",
+    "lines": [
+     "雨が弱くなれば、引くのは早いよ。もう少し"
+    ]
+   },
+   "priority": 10,
+   "cooldownMin": 60
+  },
+  {
+   "key": "s27_sp_wait_lead",
+   "who": "morishita",
+   "to": "kitagawa",
+   "when": {
+    "all": [
+     {
+      "flag": "waitedA"
+     },
+     {
+      "not": {
+       "flag": "crossedA"
+      }
+     },
+     {
+      "after": "D0 18:00"
+     }
+    ]
+   },
+   "lines": [
+    "宿のご主人、白谷で待ってるよな……"
+   ],
+   "replies": {
+    "who": "kitagawa",
+    "lines": [
+     "連絡がつかないのは申し訳ないけど、流されたら元も子もないよ"
+    ]
+   },
+   "priority": 10,
+   "once": true
+  },
+  {
+   "key": "s27_sp_biv",
+   "who": "kitagawa",
+   "to": "asano",
+   "when": {
+    "all": [
+     {
+      "flag": "bivA"
+     },
+     {
+      "state": "BIVOUAC"
+     }
+    ]
+   },
+   "lines": [
+    "眠れなくても、目をつぶって体を休めて。朝になれば水は引くから"
+   ],
+   "replies": {
+    "who": "asano",
+    "lines": [
+     "はい。……ヘッドランプ、消しておきます"
+    ]
+   },
+   "priority": 8,
+   "once": true
+  },
+  {
+   "key": "s27_sp_hut",
+   "who": "morishita",
+   "to": "asano",
+   "when": {
+    "all": [
+     {
+      "flag": "hutB"
+     },
+     {
+      "state": "SHELTERED"
+     }
+    ]
+   },
+   "lines": [
+    "濡れた服は脱いで、乾いたものがあれば着て。夜は意外と冷える"
+   ],
+   "replies": {
+    "who": "asano",
+    "lines": [
+     "はい。小屋があってよかったです"
+    ]
+   },
+   "priority": 8,
+   "once": true
+  }
+ ],
+ "endings": [
+  {
+   "kind": "FATAL",
+   "when": {
+    "any": [
+     {
+      "flag": "forcedA"
+     },
+     {
+      "flag": "forcedB"
+     }
+    ]
+   },
+   "title": "増水した白谷川で",
+   "text": "帰りの白谷川は、上流の雷雨で茶色い濁流になっていた。3 人は確保をせずに渡ろうとし、流れに足をすくわれた仲間が下流へ流された。朝は飛び石で渡れた沢だった。"
+  },
+  {
+   "kind": "FATAL",
+   "when": {
+    "any": [
+     {
+      "flag": "ropeA"
+     },
+     {
+      "flag": "ropeB"
+     }
+    ]
+   },
+   "title": "ロープを張っても",
+   "text": "増水した白谷川を、北川さんの補助ロープで確保しながら渡った。それでも濁流は仲間の足をすくい、流された仲間を岸に引き戻せなかった。確保は危険を下げるが、なくしはしない。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "雷雨の日の白谷川",
+   "text": "午後の雷雨のあと、3 人は白谷雲水峡の沢で行き詰まり、仲間を失った。朝には晴れていた空と、足首ほどだった沢の水が、数時間で変わった。"
+  },
+  {
+   "kind": "RESCUED_CRITICAL",
+   "title": "重いけがで救助された",
+   "text": "増水した沢で流された仲間は、重いけがを負って救助された。電話のつながらない谷で、知らせが届くまでに長い時間がかかった。"
+  },
+  {
+   "kind": "RESCUED",
+   "title": "救助隊に助けられて",
+   "text": "帰らない 3 人を心配した宿のご主人の届け出で、救助隊が白谷雲水峡に入った。3 人は救助隊に付き添われて下山した。"
+  },
+  {
+   "kind": "MISSING",
+   "title": "雨の白谷雲水峡で",
+   "text": "時間までに 3 人は見つからなかった。電話のつながらない谷で、居場所を伝える手立てがなかった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "planTaiko"
+   },
+   "title": "太鼓岩まで",
+   "text": "3 人は縄文杉をあきらめ、太鼓岩で奥岳の山並みを眺めて、昼前に白谷広場へ下りた。午後、白谷雲水峡は激しい雷雨に包まれ、白谷川は濁流になった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "all": [
+     {
+      "beenAt": "TH_ARAKAWA"
+     },
+     {
+      "flag": "lateArakawa"
+     }
+    ]
+   },
+   "title": "峠を越え直して荒川へ",
+   "text": "増水した白谷川を前に、3 人は辻峠へ登り返し、トロッコ道を荒川登山口まで歩いた。着いたのは日暮れごろだった。遠回りで足は棒のようだったが、沢は一度も渡らずにすんだ。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "all": [
+     {
+      "beenAt": "TH_ARAKAWA"
+     },
+     {
+      "flag": "planArakawa"
+     }
+    ]
+   },
+   "title": "帰り道を決めておいた",
+   "text": "朝のうちに、帰りはトロッコ道で荒川登山口へ下りると決めていた。午後の雷雨の中、3 人は安房川と支流を橋で渡って下山した。そのころ白谷川は、渡れない濁流になっていた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "beenAt": "TH_ARAKAWA"
+   },
+   "title": "トロッコ道を荒川へ",
+   "text": "雷雨が近づくのを見て、3 人は帰り道を荒川登山口へのトロッコ道に変えた。迎えの段取りは崩れたが、増水した沢を渡らずに下山できた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "takatsuka"
+   },
+   "title": "高塚小屋の一夜",
+   "text": "雷雨を高塚小屋でやり過ごし、翌朝、水の引いた白谷川を飛び石で渡って下山した。寝袋のない夜は長かったが、宿には電話で知らせてあった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "hutB"
+   },
+   "title": "白谷小屋の一夜",
+   "text": "楠川歩道の渡渉点で引き返し、白谷小屋で一晩を過ごした。翌朝、水の引いた白谷川を渡って下山した。白谷広場では、宿のご主人が待っていた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "all": [
+     {
+      "flag": "waitedA"
+     },
+     {
+      "any": [
+       {
+        "flag": "forcedA"
+       },
+       {
+        "flag": "forcedB"
+       },
+       {
+        "flag": "ropeA"
+       },
+       {
+        "flag": "ropeB"
+       }
+      ]
+     }
+    ]
+   },
+   "title": "水が引くのを待って",
+   "text": "白谷川の渡渉点で水が引くのを待ち、日暮れ前に沢を越えた。それでも水はまだ多く、足を取られかけながらの渡渉だった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "waitedA"
+   },
+   "title": "水が引くのを待って",
+   "text": "白谷川の渡渉点で、3 人は高い所に上がって水が引くのを待った。雨がやむと、濁流は数時間で落ち着き、飛び石が顔を出した。宿のご主人を長く待たせたが、全員で下山した。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "any": [
+     {
+      "flag": "forcedA"
+     },
+     {
+      "flag": "forcedB"
+     },
+     {
+      "flag": "ropeA"
+     },
+     {
+      "flag": "ropeB"
+     }
+    ]
+   },
+   "title": "渡りきったけれど",
+   "text": "3 人は増水した白谷川を渡りきり、白谷広場に下りた。全員が無事だったのは、運がよかったからでもある。膝を超える濁流では、だれが流されてもおかしくなかった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "flag": "hurried"
+   },
+   "title": "雨と競争して",
+   "text": "3 人は急いで白谷へ戻り、白谷川の水が増えきる前に沢を越えた。間に合ったのは、雷雨がわずかに遅れたからだった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "title": "白谷広場へ",
+   "text": "3 人は白谷雲水峡の入口に下りた。午後の雷雨と白谷川の増水の中、全員が無事に下山した。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "when": {
+    "flag": "bivA"
+   },
+   "title": "沢のそばで朝を待って",
+   "text": "水が引かないまま暗くなり、3 人は北川さんのツェルト 1 張りで夜を明かした。翌朝、水の引いた白谷川を渡って下山した。宿のご主人の届け出で、警察も動き始めていた。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "title": "一夜を越えて",
+   "text": "思わぬ夜を山で過ごし、翌朝、自分たちの足で下山した。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "flag": "takatsuka"
+   },
+   "title": "高塚小屋の一夜",
+   "text": "雷雨を高塚小屋でやり過ごし、寝袋のない長い夜を越えた。翌朝、水の引いた白谷川を飛び石で渡って下山した。宿には縄文杉から電話で知らせてあった。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "flag": "hutB"
+   },
+   "title": "白谷小屋の一夜",
+   "text": "楠川歩道の渡渉点で引き返し、白谷小屋で夜を過ごした。帰らない 3 人を心配した宿のご主人は警察に相談したが、3 人は屋根の下で、水が引くのを待っていた。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "when": {
+    "flag": "waitedA"
+   },
+   "title": "白谷小屋にたどり着いて",
+   "text": "白谷川の渡渉点で水が引くのを待ち、日暮れに白谷小屋へたどり着いた。宿のご主人の届け出で警察も動いたが、3 人は小屋で無事に夜を過ごした。"
+  },
+  {
+   "kind": "SAFE_SHELTER",
+   "title": "避難小屋で",
+   "text": "3 人は避難小屋で時間を迎えた。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_upstream",
+   "title": "沢の水は、上流の雨で増える",
+   "text": "白谷川は、自分のいる所で降っていなくても、上流で強い雨が降れば 1 時間ほどで一気に増える。行きに飛び石で渡れた沢が、帰りには渡れないことがある。橋のない沢のある道では、雷雨の予報が出ている日は「帰りに渡れるか」を考えておく。"
+  },
+  {
+   "id": "l_plan_b",
+   "when": {
+    "any": [
+     {
+      "chose": {
+       "cp": "cp_start",
+       "option": "plan"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_jomon",
+       "option": "shiratani"
+      }
+     },
+     {
+      "chose": {
+       "cp": "cp_jomon",
+       "option": "hurry"
+      }
+     }
+    ]
+   },
+   "title": "沢を渡らない帰り道を用意しておく",
+   "text": "屋久島の縄文杉へは、白谷雲水峡からも荒川登山口からも歩ける。荒川へ下りるトロッコ道は、川を橋で渡る。雷雨の予報の日は、帰りを沢のない道にしておくか、雲が湧いた時点で切り替える。迎えの段取りより、帰り道の安全を先に決める。"
+  },
+  {
+   "id": "l_knee",
+   "when": {
+    "any": [
+     {
+      "flag": "forcedA"
+     },
+     {
+      "flag": "forcedB"
+     }
+    ]
+   },
+   "title": "膝を超える流れには入らない",
+   "text": "流れの力は、水の深さと速さで急に大きくなる。濁って底が見えず、膝を超える流れでは、大人でも足を取られて立っていられない。手をつないでも、一人が倒れれば全員が引き込まれる。渡れるかどうか迷う沢は、渡らない。"
+  },
+  {
+   "id": "l_rope",
+   "when": {
+    "any": [
+     {
+      "flag": "ropeA"
+     },
+     {
+      "flag": "ropeB"
+     }
+    ]
+   },
+   "title": "ロープは危険を下げるが、なくしはしない",
+   "text": "ロープで確保すれば流されにくくなるが、張り方・確保のしかたを知っている人が必要で、時間もかかる。腰を超える濁流では、確保していても足をすくわれ、引き戻せないことがある。ロープは「渡るための道具」ではなく「どうしても渡るときの保険」と考える。"
+  },
+  {
+   "id": "l_wait",
+   "when": {
+    "flag": "waitedA"
+   },
+   "title": "待てば水は引く",
+   "text": "夕立のような雷雨の増水は、雨がやめば数時間で引くことが多い。高い所で待つあいだは、雨具と防寒着で体を冷やさないようにし、暗くなるなら無理に渡らず朝を待つ。待つ判断を支えるのは、ツェルト・ヘッドランプ・予備の食べ物だ。"
+  },
+  {
+   "id": "l_hut",
+   "when": {
+    "any": [
+     {
+      "flag": "hutB"
+     },
+     {
+      "flag": "takatsuka"
+     }
+    ]
+   },
+   "title": "避難小屋の場所を覚えておく",
+   "text": "白谷小屋や高塚小屋のような避難小屋は、天気が崩れたときの逃げ場になる。どこに小屋があり、どの沢の手前か向こうかを、出発前に地図で確かめておく。"
+  },
+  {
+   "id": "l_tell",
+   "when": {
+    "any": [
+     {
+      "flag": "waitedA"
+     },
+     {
+      "flag": "hutB"
+     },
+     {
+      "flag": "bivA"
+     }
+    ]
+   },
+   "title": "遅れても大丈夫な約束にしておく",
+   "text": "迎えの時刻が決まっていると、それに間に合わせようとして無理をしやすい。「沢が増えていたら待つ。○時までに連絡がなければ、小屋で待っていると思って」と、遅れたときの約束も伝えておく。"
+  }
+ ],
+ "balanceTargets": {
+  "recommended": {
+   "goodMin": 0.95,
+   "fatalMax": 0.01
+  },
+  "bias": {
+   "goodMin": 0.6,
+   "goodMax": 0.92,
+   "fatalMin": 0.03,
+   "fatalMax": 0.15,
+   "rescuedMin": 0.03
+  },
+  "risky": {
+   "goodMax": 0.3,
+   "fatalMin": 0.5,
+   "badMin": 0.6
+  }
+ },
+ "sources": [
+  "架空の人物・架空の経過（ユーザーの指定: 屋久島、7 月、3 人パーティー、晴れのち雷雨。ゲリラ豪雨で沢が増水して渡渉が難しくなり、無理に渡ろうとして流されると亡くなる）。実際に起きた遭難を再現したものではない",
+  "コース: 白谷雲水峡（白谷広場）〜楠川歩道〜白谷山荘（白谷小屋）〜苔むす森〜辻峠〜楠川分れ〜トロッコ道〜大株歩道入口〜ウィルソン株〜縄文杉の往復。逃げ道はトロッコ道を小杉谷〜荒川登山口へ下る道と、高塚小屋・白谷小屋（いずれも無人の避難小屋）",
+  "渡渉点: OpenStreetMap で白谷川の楠川歩道に渡渉（ford）の印が複数あることから、白谷小屋の上と、楠川歩道の中ほどの 2 か所を選んだ。白谷雲水峡に橋のない沢があり、上流の雨で水位が急に変わること、往路で渡れても帰路は渡れないことがあること: 白谷雲水峡の案内記事（JEEPE https://www.jeepe.jp/ja/articles/shiratani-unsuikyo-2535 ）",
+  "作者の想定: 渡渉点の水位（ふだん 15〜20 cm、雨 1 mm/h あたり 2〜2.6 cm 上がり、増えるのに 25〜35 分・引くのに 100〜130 分の時定数）と上流の集水点、天気（雷雲の通り道・強さ・時刻、雨のやむ時刻）、携帯電話の電波（白谷広場の周り・縄文杉の周り・荒川登山口でかすかに入り、白谷川の谷・トロッコ道の大部分は圏外）、宿のご主人の送迎と通報の時刻、荒川登山口の登山バス",
+  "日の出・日の入り: 2026 年 7 月 23 日、北緯 30.36 度・東経 130.56 度で計算した概算（05:31・19:17）",
+  "コースタイム: 一般的な案内の目安（白谷広場〜白谷小屋 約 1 時間 10 分、白谷小屋〜辻峠 約 35 分、辻峠〜楠川分れ 約 35 分、楠川分れ〜大株歩道入口 約 1 時間 20 分、大株歩道入口〜縄文杉 約 2 時間 30 分）を目安に、道ごとの速さの係数で合わせた",
+  "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+  "登山道・地点: © OpenStreetMap contributors"
+ ]
+}

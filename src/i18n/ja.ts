@@ -230,8 +230,9 @@ export const JA = {
     /** 雪崩（ユーザーの指定: 残雪期の立山） */
     avalanche: '上の斜面で雪崩が起きた。{names}が雪に埋まった',
     avalancheMissed: '上の斜面で雪崩が起きた。デブリはすぐ脇を流れていった',
-    avalancheSearch: { beacon: 'ビーコンを受信に切り替えて捜索を始める。', probe: 'ビーコンがない。プローブを並べて、流れた跡を順に刺していく。', none: 'ビーコンもプローブもない。流れた跡を見て回り、手と板で雪を掘る。' } as Record<string, string>,
+    avalancheSearch: { beacon: 'ビーコンを受信に切り替えて捜索を始める。', beaconPartial: 'ビーコンを受信に切り替えて捜すが、送信していない人がいる。その人はプローブを並べて刺していく。', probe: 'ビーコンがない。プローブを並べて、流れた跡を順に刺していく。', none: 'ビーコンもプローブもない。流れた跡を見て回り、手と板で雪を掘る。' } as Record<string, string>,
     avalancheHelpers: '近くにいた登山者 {n} 人も駆けつけて手伝う',
+    avalancheHelpersLater: '近くにいた登山者 {n} 人に助けを呼んだ（{min} 分ほどで着く）',
     dugOut: '{who}を掘り出した（埋まってから {min} 分）。息がある',
     dugOutDead: '{who}を掘り出した（埋まってから {min} 分）。息をしていない',
     /** 高地脳浮腫が続いた（ユーザーの指定: 富士山） */

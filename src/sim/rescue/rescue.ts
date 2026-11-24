@@ -7,6 +7,7 @@ import { chance, randRange } from '../core/rng';
 import { partyLeader } from '../climber/party';
 import { transition } from '../climber/state';
 import { evalCondition } from '../scenario/conditions';
+import { seriouslyIll } from '../scenario/endings';
 import { isForest } from '../terrain/derive';
 import { nearestIndex } from '../terrain/sample';
 import type { ClimberState, NodeId, SearchLeadDef, StaticContext, World } from '../types';
@@ -53,8 +54,9 @@ export function heliReadyAt(ctx: StaticContext, tMin: number, prepMin: number): 
 }
 
 /** 小屋の中で元気にしている人（見つかっても収容せず、無事を確認するだけ） */
-function safeInHut(c: ClimberState): boolean {
-  return c.body.shelterNodeId !== null && c.body.injury === 'none' && c.body.coreC >= 35;
+function safeInHut(c: ClimberState, ctx: StaticContext): boolean {
+  // 重い高山病・急病・意識がない人は、小屋の中でも収容する（scenario/endings.ts の seriouslyIll）
+  return c.body.shelterNodeId !== null && c.body.injury === 'none' && c.body.coreC >= 35 && !seriouslyIll(c, ctx.tuning);
 }
 
 export type HeliNoGo = 'night' | 'cloud' | 'visibility' | 'precip' | 'wind' | 'thunder';
@@ -221,10 +223,10 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
   const distM = atReport ? 0 : Math.round(distToPlannedRoute(ctx, found.x, found.z, lead0?.route ?? ctx.scenario.plan.route));
   const odds = world.rescue.blindOdds;
   delete world.rescue.blindOdds;
-  if (!safeInHut(found)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, important: true, data: { rescueLoc: atReport ? 'foundAtReport' : 'foundBySearch', by, distM, ...(odds !== undefined ? { oddsPct: Math.round(odds * 1000) / 10 } : {}) } });
+  if (!safeInHut(found, ctx)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, important: true, data: { rescueLoc: atReport ? 'foundAtReport' : 'foundBySearch', by, distM, ...(odds !== undefined ? { oddsPct: Math.round(odds * 1000) / 10 } : {}) } });
   for (const c of world.climbers) {
     const body = bodyOnMountain(ctx, c);
-    if ((TERMINAL.has(c.state) && !body) || safeInHut(c)) continue;
+    if ((TERMINAL.has(c.state) && !body) || safeInHut(c, ctx)) continue;
     const dx = c.x - found.x;
     const dz = c.z - found.z;
     if (dx * dx + dz * dz > rt.contactRadiusM * rt.contactRadiusM) continue;
@@ -240,7 +242,7 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
     // 収容された人は、その場に残らない（ヘリなら病院へ、地上の救助隊なら一緒に下山）。3D から消え、居場所を出す
     if (!c.offMap) c.offMap = by === 'heli' ? 'ヘリで病院' : '救助隊と下山';
   }
-  if (safeInHut(found)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, data: { foundSafe: true } });
+  if (safeInHut(found, ctx)) ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: found.id, data: { foundSafe: true } });
   // 別の場所からも通報があれば（要救助者が複数いて、それぞれ通報した）、覚えていた通報の場所へ近い順に向かう（ユーザーの指定）。
   // 地上隊は今の場所から登山道の速さで歩き、ヘリは吊り上げの後に次の場所が飛べるかを見る（飛べるか・入れるかは天気と時刻しだい）
   const r = world.rescue;
@@ -270,7 +272,7 @@ function contact(world: World, ctx: StaticContext, found: ClimberState, by: 'hel
     return;
   }
   // 通報のない人がまだ山に残っていれば、居場所は分からないので探す（収容した人の話から、本当の位置へまっすぐ向かうことはしない）
-  if (missing(world, ctx).some((c) => !safeInHut(c))) {
+  if (missing(world, ctx).some((c) => !safeInHut(c, ctx))) {
     ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', important: true, data: { rescueLoc: 'restUnknown' } });
     r.status = 'searching';
     r.locationEstimate = null;

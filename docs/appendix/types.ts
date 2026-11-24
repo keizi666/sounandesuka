@@ -865,6 +865,8 @@ export interface ClimberMemo {
   /** until: "weatherClears" の判定用。条件を満たし始めた時刻 */
   clearSinceMin: number | null;
   bivouacked: boolean;
+  /** 道を外れたことに気づかないまま休んだ（休み終えたら、また気づかないまま歩く。s29 の指摘）。古い保存にはない */
+  offrouteRest?: boolean;
   sheltered: boolean;
   /** 重度外傷で死亡する時刻（負傷時に抽選。生き延びるなら null） */
   traumaDeathAtMin: number | null;

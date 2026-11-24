@@ -149,6 +149,8 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
   const bt = ctx.tuning.behavior;
   switch (a.type) {
     case 'continueRoute':
+      // 道を外れたことに気づかないまま歩いている人は、そのまま歩く（計画の道に戻したつもりで、偽の道の先で止まらないように。s29 の指摘）
+      if (c.state === 'OFFROUTE_UNAWARE') return;
       // 同じアクション列で「休む → 進む」と並べたときは、休み終えてから進む（休みを打ち消さない）
       if (c.state === 'RESTING' && c.stateSinceMin === world.tMin && c.plan.restUntilMin !== null && c.plan.restUntilMin > world.tMin) {
         ensureRouteAhead(ctx, c);
@@ -256,6 +258,7 @@ function applyOne(world: World, ctx: StaticContext, a: Action, c: ClimberState):
       return;
     }
     case 'rest':
+      if (c.state === 'OFFROUTE_UNAWARE') c.memo.offrouteRest = true;
       c.plan.restUntilMin = world.tMin + a.minutes;
       transition(world, ctx, c, 'RESTING', 'action');
       return;

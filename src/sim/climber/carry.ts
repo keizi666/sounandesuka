@@ -160,8 +160,14 @@ export function stepHelpRunners(world: World, ctx: StaticContext): void {
     const ph = l.inv.phone;
     const radio = ctx.map.radio[nearestIndex(ctx.map, l.x, l.z)] ?? 0;
     const byPhone = ph.has && !ph.dead && ph.batteryPct > 0 && radio >= ctx.tuning.radio.callableMin;
-    const atHut = l.pos.mode === 'node' && ctx.map.nodes[l.pos.nodeId]?.shelter !== undefined;
-    if (!byPhone && !atHut && !l.body.shelterNodeId && l.state !== 'FINISHED') continue;
+    // 知らせられるのは、人のいる（営業している）小屋だけ。無人の避難小屋には知らせる人がいない（s27 の指摘）
+    const staffed = (id: string | null | undefined): boolean => {
+      if (!id) return false;
+      const sh = ctx.map.nodes[id]?.shelter;
+      return sh?.kind === 'staffed' && (ctx.scenario.nodeOverrides?.[id]?.open ?? sh.open);
+    };
+    const atHut = l.pos.mode === 'node' && staffed(l.pos.nodeId);
+    if (!byPhone && !atHut && !staffed(l.body.shelterNodeId) && l.state !== 'FINISHED') continue;
     delete world.flags[`help:${g.id}:x`];
     delete world.flags[`help:${g.id}:z`];
     dispatchReport(world, ctx, l, { x, z, radiusM: ctx.tuning.behavior.helpReportRadiusM, by: l.id }, byPhone ? 'phone' : 'relay');

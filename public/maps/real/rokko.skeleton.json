@@ -1,0 +1,372 @@
+{
+  "id": "rokko",
+  "name": "六甲山（高座の滝〜ロックガーデン〜風吹岩〜雨ヶ峠〜本庄橋跡〜七曲り〜一軒茶屋〜六甲山最高峰〜魚屋道〜有馬温泉、白石谷・紅葉谷・炭屋道）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "兵庫県の六甲山。南の芦屋側、高座の滝（ロックガーデンの登山口）から芦屋ロックガーデンの岩尾根を風吹岩へ。横池を過ぎて雨ヶ峠、住吉川の本庄橋跡に下り、七曲りを一軒茶屋へ登る。一軒茶屋から六甲山最高峰（931 m）。北へ魚屋道（ととやみち）を有馬温泉へ下る。魚屋道の上部の西側に白石谷（有馬四十八滝の一つ、白石滝のある沢）の源頭があり、沢は西へ下って紅葉谷に合わさる。白石谷へ下る踏み跡と、白石谷の沢筋の踏み跡（沢登りの人が通る）の筋は作者が標高から読んだ概略で、登山道ではない。一辺 6.4 km 程度（513 頂点）。",
+    "sizeM": 6400
+  },
+  "size": 6400,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap",
+    "encoding": "u16-base64",
+    "minElevM": 0,
+    "maxElevM": 0,
+    "baseElevation": 0,
+    "source": {
+      "dem": "DEM10B",
+      "zoom": 14,
+      "fetchedAt": ""
+    },
+    "data": ""
+  },
+  "vegetation": {
+    "forestLine": 2600,
+    "forestLineNoise": 60,
+    "broadleafLine": 1700,
+    "krummholzBandM": 100
+  },
+  "nodes": [
+    {
+      "id": "TH_KOZA",
+      "name": "高座の滝（ロックガーデンの登山口）",
+      "type": "trailhead",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 195
+    },
+    {
+      "id": "FUKI",
+      "name": "風吹岩",
+      "type": "peak",
+      "x": 0,
+      "z": 0,
+      "osmName": "風吹岩",
+      "expectedElevM": 448
+    },
+    {
+      "id": "AMA",
+      "name": "雨ヶ峠",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 600
+    },
+    {
+      "id": "HONJO",
+      "name": "本庄橋跡",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 565
+    },
+    {
+      "id": "ICHIKEN",
+      "name": "一軒茶屋",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 865
+    },
+    {
+      "id": "SUMMIT",
+      "name": "六甲山最高峰",
+      "type": "peak",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 931
+    },
+    {
+      "id": "J_UOYA",
+      "name": "魚屋道の分岐（最高峰の北）",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 870
+    },
+    {
+      "id": "J_SHIRA",
+      "name": "魚屋道の曲がり角（白石谷の源頭の上）",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 838
+    },
+    {
+      "id": "J_SUMIYA",
+      "name": "炭屋道の分岐",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 614
+    },
+    {
+      "id": "TH_ARIMA",
+      "name": "魚屋道の有馬側の入口（有馬温泉の上）",
+      "type": "trailhead",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 478
+    },
+    {
+      "id": "J_MOMIJI",
+      "name": "白石谷の出合（紅葉谷）",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 530
+    },
+    {
+      "id": "J_SUMIYA_LOW",
+      "name": "炭屋道と紅葉谷道の出合",
+      "type": "junction",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 480
+    },
+    {
+      "id": "TH_MOMIJI",
+      "name": "紅葉谷道の有馬側の入口",
+      "type": "trailhead",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 435
+    },
+    {
+      "id": "SHIRA_HEAD",
+      "name": "白石谷の源頭（沢筋の踏み跡の始まり）",
+      "type": "landmark",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 735
+    },
+    {
+      "id": "SHIRA_FALL",
+      "name": "白石滝の下",
+      "type": "landmark",
+      "x": 0,
+      "z": 0,
+      "expectedElevM": 550
+    }
+  ],
+  "edges": [
+    {
+      "id": "E1",
+      "name": "芦屋ロックガーデン（高座の滝〜風吹岩）",
+      "kind": "trail",
+      "from": "TH_KOZA",
+      "to": "FUKI",
+      "class": "T2",
+      "markers": 0.7,
+      "drift": 0.01,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E2",
+      "name": "風吹岩〜横池〜雨ヶ峠",
+      "kind": "trail",
+      "from": "FUKI",
+      "to": "AMA",
+      "class": "T1",
+      "markers": 0.8,
+      "drift": 0.006,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E3",
+      "name": "雨ヶ峠〜本庄橋跡",
+      "kind": "trail",
+      "from": "AMA",
+      "to": "HONJO",
+      "class": "T1",
+      "markers": 0.85,
+      "drift": 0.005,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E4",
+      "name": "七曲り（本庄橋跡〜一軒茶屋）",
+      "kind": "trail",
+      "from": "HONJO",
+      "to": "ICHIKEN",
+      "class": "T1",
+      "markers": 0.85,
+      "drift": 0.005,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E5",
+      "name": "一軒茶屋〜六甲山最高峰",
+      "kind": "trail",
+      "from": "ICHIKEN",
+      "to": "SUMMIT",
+      "class": "T1",
+      "markers": 1,
+      "drift": 0,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E6",
+      "name": "最高峰〜魚屋道の分岐",
+      "kind": "trail",
+      "from": "SUMMIT",
+      "to": "J_UOYA",
+      "class": "T1",
+      "markers": 0.9,
+      "drift": 0.003,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E7",
+      "name": "魚屋道（最高峰の北〜白石谷の源頭の上）",
+      "kind": "trail",
+      "from": "J_UOYA",
+      "to": "J_SHIRA",
+      "class": "T1",
+      "markers": 0.8,
+      "drift": 0.005,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E8",
+      "name": "魚屋道（白石谷の源頭の上〜炭屋道の分岐）",
+      "kind": "trail",
+      "from": "J_SHIRA",
+      "to": "J_SUMIYA",
+      "class": "T1",
+      "markers": 0.75,
+      "drift": 0.006,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E9",
+      "name": "魚屋道（炭屋道の分岐〜有馬温泉）",
+      "kind": "trail",
+      "from": "J_SUMIYA",
+      "to": "TH_ARIMA",
+      "class": "T1",
+      "markers": 0.8,
+      "drift": 0.005,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E10",
+      "name": "一軒茶屋〜魚屋道の分岐（最高峰を通らない道）",
+      "kind": "trail",
+      "from": "ICHIKEN",
+      "to": "J_UOYA",
+      "class": "T1",
+      "markers": 0.9,
+      "drift": 0.003,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E11",
+      "name": "紅葉谷道（白石谷の出合〜炭屋道の出合。崩落で通行止め）",
+      "kind": "trail",
+      "from": "J_MOMIJI",
+      "to": "J_SUMIYA_LOW",
+      "class": "T2",
+      "markers": 0.3,
+      "drift": 0.02,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E12",
+      "name": "紅葉谷道（炭屋道の出合〜有馬温泉）",
+      "kind": "trail",
+      "from": "J_SUMIYA_LOW",
+      "to": "TH_MOMIJI",
+      "class": "T1",
+      "markers": 0.6,
+      "drift": 0.008,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E13",
+      "name": "炭屋道",
+      "kind": "trail",
+      "from": "J_SUMIYA",
+      "to": "J_SUMIYA_LOW",
+      "class": "T1",
+      "markers": 0.6,
+      "drift": 0.008,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E14",
+      "name": "白石谷の沢筋（白石滝の下〜紅葉谷の出合。沢登りの踏み跡）",
+      "kind": "trail",
+      "from": "SHIRA_FALL",
+      "to": "J_MOMIJI",
+      "class": "T3",
+      "markers": 0.15,
+      "drift": 0.03,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    },
+    {
+      "id": "E15",
+      "name": "白石谷の沢筋（源頭〜白石滝。沢登りの踏み跡）",
+      "kind": "trail",
+      "from": "SHIRA_HEAD",
+      "to": "SHIRA_FALL",
+      "class": "T3",
+      "markers": 0.1,
+      "drift": 0.04,
+      "sinuosity": 1,
+      "smooth": false,
+      "waypoints": []
+    }
+  ],
+  "hazards": [
+    {
+      "id": "WF_SHIRAISHI",
+      "type": "waterfall",
+      "name": "白石滝",
+      "x": -1340,
+      "z": -1017,
+      "radius": 40
+    },
+    {
+      "id": "WF_UPPER",
+      "type": "waterfall",
+      "name": "白石谷の上の小滝（作者の想定）",
+      "x": -998,
+      "z": -963,
+      "radius": 30
+    }
+  ],
+  "radio": {
+    "stations": []
+  },
+  "attribution": []
+}

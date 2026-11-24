@@ -1,0 +1,5480 @@
+{
+  "id": "s28_rokko",
+  "version": 1,
+  "title": "電池が切れた日",
+  "subtitle": "11月末・60代の単独・六甲山 ロックガーデン〜魚屋道（実在の地形）",
+  "theme": "lost",
+  "difficulty": 4,
+  "season": "autumn",
+  "estMinutes": 25,
+  "mapId": "rokko",
+  "seed": 2811,
+  "startDate": "2024-11-30",
+  "startAt": "D0 10:00",
+  "timeLimit": "D3 12:00",
+  "sun": {
+    "sunrise": "06:47",
+    "sunset": "16:50",
+    "maxElevDeg": 34
+  },
+  "moon": {
+    "illumination": 0.02
+  },
+  "region": {
+    "name": "六甲山（兵庫県 芦屋市・神戸市）",
+    "real": true
+  },
+  "briefing": {
+    "text": "2024 年 11 月 30 日、土曜日。大西さん（67 歳）は会社を退職してから山歩きを始めて 3 年になる。いつもスマートフォンの登山地図アプリを見ながら歩き、道を外れると鳴る警告を頼りにしてきた。紙の地図とコンパスは持っていない。今日は阪急の芦屋川駅から高座の滝へ歩き、芦屋ロックガーデンを登って風吹岩・雨ヶ峠・本庄橋跡から七曲りを一軒茶屋へ。六甲山最高峰に立ってから、魚屋道（ととやみち）を有馬温泉へ下り、温泉に入って電車で帰るつもりでいる。ゆうべはスマートフォンを充電し忘れ、電車の中で気づいたときには電池が 4 割を切っていた。何年も使っている電話で、電池の減りが早い。モバイルバッテリーは持っていない。ライトもスマートフォンのライトで足りると思っている。妻には「六甲山に行ってくる」とだけ言って家を出た。予報は晴れ、夜から雨。",
+    "forecast": [
+      {
+        "label": "今日",
+        "text": "晴れ。夕方から雲が広がる",
+        "icon": "sunny"
+      },
+      {
+        "label": "今夜",
+        "text": "雨。夜遅くから本降り",
+        "icon": "rain"
+      },
+      {
+        "label": "あす・あさって",
+        "text": "雨。山は霧",
+        "icon": "rain"
+      },
+      {
+        "label": "日の入り",
+        "text": "16:50"
+      }
+    ]
+  },
+  "plan": {
+    "route": [
+      "TH_KOZA",
+      "FUKI",
+      "AMA",
+      "HONJO",
+      "ICHIKEN",
+      "SUMMIT",
+      "J_UOYA",
+      "J_SHIRA",
+      "J_SUMIYA",
+      "TH_ARIMA"
+    ],
+    "goalNodes": [
+      "TH_ARIMA",
+      "TH_KOZA",
+      "TH_MOMIJI"
+    ],
+    "plannedFinish": "D0 15:30",
+    "submittedPlan": false,
+    "reportIfNotBackBy": "D0 20:00",
+    "searchLeads": [
+      {
+        "id": "shared",
+        "at": "D0 20:00",
+        "when": {
+          "flag": "planShared"
+        },
+        "route": [
+          "ICHIKEN",
+          "SUMMIT",
+          "J_UOYA",
+          "J_SHIRA",
+          "J_SUMIYA",
+          "TH_ARIMA"
+        ],
+        "findF": 1,
+        "text": "妻が聞いていたコース（ロックガーデンから最高峰、魚屋道で有馬温泉へ）をもとに、警察と消防は夜明けから魚屋道を捜すことにした"
+      },
+      {
+        "id": "shared_valley",
+        "at": "D1 09:00",
+        "when": {
+          "flag": "planShared"
+        },
+        "route": [
+          "J_SUMIYA",
+          "J_SUMIYA_LOW",
+          "J_MOMIJI",
+          "SHIRA_FALL",
+          "SHIRA_HEAD"
+        ],
+        "findF": 1,
+        "text": "魚屋道に姿はなかった。魚屋道の上部では、西の白石谷へ下る踏み跡に迷い込む人がいる。救助隊は白石谷と紅葉谷にも人を回した"
+      },
+      {
+        "id": "rokko",
+        "at": "D0 20:00",
+        "when": {
+          "not": {
+            "flag": "planShared"
+          }
+        },
+        "route": [
+          "TH_KOZA",
+          "FUKI",
+          "AMA",
+          "HONJO",
+          "ICHIKEN",
+          "SUMMIT"
+        ],
+        "maxRadiusM": 120,
+        "findF": 0.2,
+        "text": "妻が知っていたのは「六甲山に行く」だけだった。六甲山には何十もの登山道がある。警察は、夜明けから人の多い道を手分けして捜すことにした"
+      },
+      {
+        "id": "carrier",
+        "at": "D1 10:00",
+        "when": {
+          "not": {
+            "flag": "planShared"
+          }
+        },
+        "route": [
+          "ICHIKEN",
+          "SUMMIT",
+          "J_UOYA",
+          "J_SHIRA",
+          "J_SUMIYA",
+          "TH_ARIMA"
+        ],
+        "maxRadiusM": 300,
+        "findF": 0.45,
+        "text": "携帯電話会社の記録から、大西さんの電話が最後に電波をつかんだのは六甲山の山上の基地局と分かった。捜索は、山上から下る道に集まった"
+      },
+      {
+        "id": "valley",
+        "at": "D2 08:00",
+        "when": {
+          "all": [
+            {
+              "not": {
+                "flag": "planShared"
+              }
+            },
+            {
+              "chance": 0.6
+            }
+          ]
+        },
+        "route": [
+          "J_SUMIYA",
+          "J_SUMIYA_LOW",
+          "J_MOMIJI",
+          "SHIRA_FALL",
+          "SHIRA_HEAD"
+        ],
+        "findF": 0.45,
+        "text": "山頂から下る道に姿はなかった。救助隊は、魚屋道の上部から西へ落ちる白石谷と、その下の紅葉谷に捜索を広げた"
+      }
+    ]
+  },
+  "party": [
+    {
+      "id": "onishi",
+      "name": "大西",
+      "age": 67,
+      "sex": "m",
+      "weightKg": 66,
+      "packKg": 5,
+      "experience": 0.35,
+      "fitness": 0.8,
+      "navSkill": 0.25,
+      "riskTolerance": 0.55,
+      "color": "#3d6fb4",
+      "leader": true,
+      "temperament": "normal",
+      "habits": {
+        "eatEveryMin": 150,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0.5,
+        "gpsCheckEveryMin": 10
+      },
+      "gear": {
+        "rainwear": "basic",
+        "cloWorn": 0.95,
+        "cloPack": 0.7,
+        "gloves": "thin",
+        "hat": true,
+        "bivy": "none",
+        "rescueSheet": false,
+        "headlamp": {
+          "has": false,
+          "batteryH": 0,
+          "inPack": false,
+          "spareBatteryH": 0
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 33,
+          "gpsApp": true,
+          "trackRecording": true,
+          "satelliteSos": false,
+          "strap": false
+        },
+        "powerBankMah": 0,
+        "map": false,
+        "compass": false,
+        "foodKcal": 1300,
+        "waterL": 1,
+        "stove": false,
+        "crampons": false,
+        "helmet": false,
+        "trekkingPoles": false,
+        "whistle": false,
+        "footwear": "hikingBoots"
+      },
+      "notes": "架空の人物。退職後に山歩きを始めて 3 年。六甲山は住吉道や有馬からの道を何度か歩いたが、ロックガーデンから魚屋道への縦走は初めて。道はいつも地図アプリのルート案内に頼り、紙の地図・コンパス・ヘッドランプ・笛は持たない。雨具は安いもの。"
+    }
+  ],
+  "weather": {
+    "refElevM": 900,
+    "lapseRateCPer100m": 0.6,
+    "cloudThicknessM": 2000,
+    "keyframes": [
+      {
+        "at": "D0 07:00",
+        "tempC": 2.5,
+        "windMs": 3,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1022
+      },
+      {
+        "at": "D0 10:00",
+        "tempC": 5,
+        "windMs": 3,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1021
+      },
+      {
+        "at": "D0 13:00",
+        "tempC": 7,
+        "windMs": 3,
+        "windDirDeg": 290,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1019
+      },
+      {
+        "at": "D0 15:00",
+        "tempC": 6,
+        "windMs": 3,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.5,
+        "cloudBaseM": 2400,
+        "visibilityM": 25000,
+        "pressureHpa": 1017
+      },
+      {
+        "at": "D0 17:00",
+        "tempC": 4.5,
+        "windMs": 4,
+        "windDirDeg": 190,
+        "precipMmH": 0,
+        "cloudCover": 0.85,
+        "cloudBaseM": 1600,
+        "visibilityM": 20000,
+        "pressureHpa": 1014
+      },
+      {
+        "at": "D0 19:00",
+        "tempC": 4.5,
+        "windMs": 5,
+        "windDirDeg": 170,
+        "precipMmH": 0.4,
+        "cloudCover": 1,
+        "cloudBaseM": 1100,
+        "visibilityM": 12000,
+        "pressureHpa": 1011,
+        "inCloudVisibilityM": 150
+      },
+      {
+        "at": "D0 21:00",
+        "tempC": 5,
+        "windMs": 6,
+        "windDirDeg": 160,
+        "precipMmH": 2,
+        "cloudCover": 1,
+        "cloudBaseM": 850,
+        "visibilityM": 6000,
+        "pressureHpa": 1008,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 80
+      },
+      {
+        "at": "D1 00:00",
+        "tempC": 5.5,
+        "windMs": 6.5,
+        "windDirDeg": 160,
+        "precipMmH": 3,
+        "cloudCover": 1,
+        "cloudBaseM": 750,
+        "visibilityM": 4000,
+        "pressureHpa": 1005,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 60
+      },
+      {
+        "at": "D1 06:00",
+        "tempC": 5.5,
+        "windMs": 6.5,
+        "windDirDeg": 180,
+        "precipMmH": 3,
+        "cloudCover": 1,
+        "cloudBaseM": 700,
+        "visibilityM": 3000,
+        "pressureHpa": 1003,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 60
+      },
+      {
+        "at": "D1 12:00",
+        "tempC": 6,
+        "windMs": 6,
+        "windDirDeg": 200,
+        "precipMmH": 2.5,
+        "cloudCover": 1,
+        "cloudBaseM": 700,
+        "visibilityM": 3000,
+        "pressureHpa": 1002,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 60
+      },
+      {
+        "at": "D1 18:00",
+        "tempC": 5,
+        "windMs": 6,
+        "windDirDeg": 220,
+        "precipMmH": 2.5,
+        "cloudCover": 1,
+        "cloudBaseM": 700,
+        "visibilityM": 3000,
+        "pressureHpa": 1002,
+        "gustiness": 0.3,
+        "inCloudVisibilityM": 60
+      },
+      {
+        "at": "D2 00:00",
+        "tempC": 4.5,
+        "windMs": 5.5,
+        "windDirDeg": 240,
+        "precipMmH": 2,
+        "cloudCover": 1,
+        "cloudBaseM": 750,
+        "visibilityM": 3000,
+        "pressureHpa": 1003,
+        "inCloudVisibilityM": 60
+      },
+      {
+        "at": "D2 06:00",
+        "tempC": 4,
+        "windMs": 5.5,
+        "windDirDeg": 270,
+        "precipMmH": 2,
+        "cloudCover": 1,
+        "cloudBaseM": 750,
+        "visibilityM": 3000,
+        "pressureHpa": 1005,
+        "inCloudVisibilityM": 70
+      },
+      {
+        "at": "D2 12:00",
+        "tempC": 3.5,
+        "windMs": 6,
+        "windDirDeg": 300,
+        "precipMmH": 1.5,
+        "cloudCover": 1,
+        "cloudBaseM": 800,
+        "visibilityM": 4000,
+        "pressureHpa": 1007,
+        "inCloudVisibilityM": 80
+      },
+      {
+        "at": "D2 18:00",
+        "tempC": 2.5,
+        "windMs": 6,
+        "windDirDeg": 310,
+        "precipMmH": 1,
+        "cloudCover": 1,
+        "cloudBaseM": 900,
+        "visibilityM": 5000,
+        "pressureHpa": 1010,
+        "inCloudVisibilityM": 100
+      },
+      {
+        "at": "D2 23:00",
+        "tempC": 2,
+        "windMs": 5,
+        "windDirDeg": 320,
+        "precipMmH": 0.3,
+        "cloudCover": 0.95,
+        "cloudBaseM": 1000,
+        "visibilityM": 8000,
+        "pressureHpa": 1013,
+        "inCloudVisibilityM": 120
+      },
+      {
+        "at": "D3 03:00",
+        "tempC": 1.5,
+        "windMs": 4,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.6,
+        "cloudBaseM": 1600,
+        "visibilityM": 20000,
+        "pressureHpa": 1016
+      },
+      {
+        "at": "D3 07:00",
+        "tempC": 1,
+        "windMs": 3,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.3,
+        "cloudBaseM": 2500,
+        "visibilityM": 30000,
+        "pressureHpa": 1019
+      },
+      {
+        "at": "D3 12:00",
+        "tempC": 5,
+        "windMs": 3,
+        "windDirDeg": 320,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 3000,
+        "visibilityM": 30000,
+        "pressureHpa": 1020
+      }
+    ]
+  },
+  "passersby": [
+    {
+      "edges": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10"
+      ],
+      "perHour": 4,
+      "from": "09:00",
+      "to": "15:30",
+      "fromDay": 0
+    },
+    {
+      "edges": [
+        "E7",
+        "E8",
+        "E9",
+        "E12",
+        "E13"
+      ],
+      "perHour": 0.3,
+      "from": "09:00",
+      "to": "15:00",
+      "fromDay": 1
+    }
+  ],
+  "events": [
+    {
+      "id": "ev_app_FUKI",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "FUKI"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "phoneOff"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "checkPosition"
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "風吹岩で、地図アプリを開いて現在地と次の道を確かめた（電池 {leader.phone.batteryPct:0}%）"
+        }
+      ]
+    },
+    {
+      "id": "ev_app_AMA",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "AMA"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "phoneOff"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "checkPosition"
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "雨ヶ峠で、地図アプリのルート案内を確かめた（電池 {leader.phone.batteryPct:0}%）"
+        }
+      ]
+    },
+    {
+      "id": "ev_app_HONJO",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "HONJO"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "phoneOff"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "checkPosition"
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "本庄橋跡で、地図アプリを見て七曲りの登り口を確かめた（電池 {leader.phone.batteryPct:0}%）"
+        }
+      ]
+    },
+    {
+      "id": "ev_app_ICHIKEN",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "ICHIKEN"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "phoneOff"
+            }
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "checkPosition"
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "一軒茶屋で、地図アプリで最高峰への道を確かめた（電池 {leader.phone.batteryPct:0}%）"
+        }
+      ]
+    },
+    {
+      "id": "ev_summit_photo",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "SUMMIT"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "phoneOff"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "checkPosition"
+            }
+          ]
+        },
+        {
+          "type": "log",
+          "text": "最高峰で、スマートフォンで写真を何枚も撮り、有馬への下り道を地図アプリで拡大して見た（電池 {leader.phone.batteryPct:0}%）"
+        }
+      ]
+    },
+    {
+      "id": "ev_lunch",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "ICHIKEN"
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "一軒茶屋でうどんを食べ、自動販売機で水を買った"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "eat",
+              "kcal": 500
+            },
+            {
+              "type": "rest",
+              "minutes": 25
+            }
+          ]
+        },
+        {
+          "type": "fillWater",
+          "who": "leader",
+          "toL": 1
+        }
+      ]
+    },
+    {
+      "id": "ev_dead",
+      "once": true,
+      "trigger": {
+        "event": "PHONE_DEAD"
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "phoneDead"
+        }
+      ]
+    },
+    {
+      "id": "ev_wrong",
+      "trigger": {
+        "event": "OFFROUTE"
+      },
+      "once": true,
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "wentOff"
+        }
+      ]
+    },
+    {
+      "id": "ev_valley",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "wentOff"
+          },
+          {
+            "near": {
+              "x": -898,
+              "z": -955,
+              "r": 480
+            }
+          },
+          {
+            "var": "leader.elevM",
+            "op": "<",
+            "value": 770
+          },
+          {
+            "not": {
+              "flag": "backOn"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "inValley"
+        },
+        {
+          "type": "log",
+          "text": "踏み跡が消えた。両側から斜面が迫り、足もとを細い流れが下っている。{leader.name}さんは、沢の中にいた",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_soak",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "inValley"
+          },
+          {
+            "state": "DESCENDING_DRAINAGE"
+          },
+          {
+            "var": "leader.elevM",
+            "op": "<",
+            "value": 690
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "沢の中の岩は、苔と落ち葉で滑る。{leader.name}さんは何度も足を水に落とし、ひざまで濡れた",
+          "important": true
+        },
+        {
+          "type": "soak",
+          "who": "leader",
+          "level": "knees"
+        }
+      ]
+    },
+    {
+      "id": "ev_valley_fall",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "inValley"
+          },
+          {
+            "any": [
+              {
+                "state": "DESCENDING_DRAINAGE"
+              },
+              {
+                "state": "OFFROUTE_UNAWARE"
+              }
+            ]
+          },
+          {
+            "var": "leader.elevM",
+            "op": "<",
+            "value": 700
+          },
+          {
+            "not": {
+              "flag": "fallen"
+            }
+          },
+          {
+            "chance": 0.35
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "fallen"
+        },
+        {
+          "type": "say",
+          "who": "leader",
+          "text": "あっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "log",
+          "text": "濡れた岩で足が滑った。{leader.name}さんは沢床の岩の間に落ちた",
+          "important": true
+        },
+        {
+          "type": "fall",
+          "who": "leader",
+          "outcomes": {
+            "bruise": 4,
+            "sprain": 3,
+            "legFracture": 1.6,
+            "headInjury": 0.4,
+            "severeTrauma": 0.2,
+            "death": 0.05
+          }
+        }
+      ]
+    },
+    {
+      "id": "ev_waterfall_fall",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "highRoute"
+          },
+          {
+            "elapsedSince": {
+              "flag": "highRoute",
+              "min": 6
+            }
+          },
+          {
+            "state": "DESCENDING_DRAINAGE"
+          },
+          {
+            "var": "leader.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "chance": 0.5
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "fallen"
+        },
+        {
+          "type": "say",
+          "who": "leader",
+          "text": "あっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "log",
+          "text": "滝の横の斜面を巻こうとして、濡れた土ごと足もとが崩れた。{leader.name}さんは滝の下まで滑り落ちた",
+          "important": true
+        },
+        {
+          "type": "fall",
+          "who": "leader",
+          "outcomes": {
+            "bruise": 1,
+            "sprain": 2,
+            "legFracture": 3,
+            "headInjury": 1.5,
+            "severeTrauma": 1.5,
+            "death": 0.8
+          }
+        },
+        {
+          "type": "soak",
+          "who": "leader",
+          "level": "waist"
+        }
+      ]
+    },
+    {
+      "id": "ev_fall_nat",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "event": "FALL"
+          },
+          {
+            "flag": "wentOff"
+          },
+          {
+            "not": {
+              "flag": "fallen"
+            }
+          },
+          {
+            "var": "leader.injury",
+            "op": "!=",
+            "value": "none"
+          },
+          {
+            "var": "leader.injury",
+            "op": "!=",
+            "value": "bruise"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "fallen"
+        }
+      ]
+    },
+    {
+      "id": "ev_stream_water",
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "flag": "inValley"
+          },
+          {
+            "var": "leader.waterL",
+            "op": "<",
+            "value": 0.15
+          },
+          {
+            "var": "leader.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "leader.conscious",
+            "op": "==",
+            "value": true
+          },
+          {
+            "not": {
+              "var": "sun.isDark",
+              "op": "==",
+              "value": true
+            }
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "INCAPACITATED"
+              }
+            ]
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "{leader.name}さんは沢の水際まで這って下り、ペットボトルに水を汲んだ"
+        },
+        {
+          "type": "fillWater",
+          "who": "leader",
+          "toL": 1
+        }
+      ]
+    },
+    {
+      "id": "ev_call_home",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "after": "D0 18:30"
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "夕方 6 時半。夕食の時刻になっても帰らない夫に、妻が電話をかけた。「電波の届かない所にあるか、電源が入っていない」という案内が流れるだけだった"
+        }
+      ]
+    },
+    {
+      "id": "ev_overdue_unknown",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "after": "D0 20:00"
+          },
+          {
+            "not": {
+              "flag": "planShared"
+            }
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "夜 8 時。妻が警察に届け出た。夫の行き先は「六甲山」としか分からない。どこから登り、どこへ下りるつもりだったのかも",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_overdue_known",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "after": "D0 20:00"
+          },
+          {
+            "flag": "planShared"
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "夜 8 時。妻が、聞いていたコースを伝えて警察に届け出た。「最高峰から魚屋道で有馬温泉へ下りる」",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_search_start",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "after": "D1 06:45"
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          },
+          {
+            "not": {
+              "state": "RESCUED"
+            }
+          },
+          {
+            "var": "leader.rescueCalled",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "夜明け。雨の中、兵庫県警と神戸市消防の隊員が山に入った。山は雲の中で、ヘリは飛べない"
+        }
+      ]
+    },
+    {
+      "id": "ev_d2",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "after": "D2 06:45"
+          },
+          {
+            "not": {
+              "state": "FINISHED"
+            }
+          },
+          {
+            "not": {
+              "state": "RESCUED"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "二日目の朝も雨は続いている。捜索の人数が増やされた"
+        }
+      ]
+    },
+    {
+      "id": "ev_back_on",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "event": "BACK_ON_ROUTE"
+          },
+          {
+            "flag": "wentOff"
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "onEdge": "E14"
+                },
+                {
+                  "onEdge": "E15"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "backOn"
+        },
+        {
+          "type": "log",
+          "text": "{leader.name}さんは登山道に戻った",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_sawa",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "event": "BACK_ON_ROUTE"
+          },
+          {
+            "any": [
+              {
+                "onEdge": "E14"
+              },
+              {
+                "onEdge": "E15"
+              }
+            ]
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "onSawa"
+        },
+        {
+          "type": "setFlag",
+          "flag": "inValley"
+        },
+        {
+          "type": "log",
+          "text": "沢の中に、人が歩いたような筋が続いている。{leader.name}さんは、これが有馬への道だと思って沢を下りはじめた",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_kotaki_fall",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "aroundKotaki"
+          },
+          {
+            "elapsedSince": {
+              "flag": "aroundKotaki",
+              "min": 4
+            }
+          },
+          {
+            "var": "leader.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "chance": 0.3
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "fallen"
+        },
+        {
+          "type": "say",
+          "who": "leader",
+          "text": "あっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "log",
+          "text": "滝の横の濡れた岩で足が滑った。{leader.name}さんは滝つぼの脇まで落ちた",
+          "important": true
+        },
+        {
+          "type": "fall",
+          "who": "leader",
+          "outcomes": {
+            "bruise": 4,
+            "sprain": 3,
+            "legFracture": 1.6,
+            "headInjury": 0.4,
+            "severeTrauma": 0.2,
+            "death": 0.05
+          }
+        },
+        {
+          "type": "soak",
+          "who": "leader",
+          "level": "knees"
+        }
+      ]
+    },
+    {
+      "id": "ev_shirataki_fall",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "aroundShirataki"
+          },
+          {
+            "elapsedSince": {
+              "flag": "aroundShirataki",
+              "min": 4
+            }
+          },
+          {
+            "var": "leader.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "chance": 0.4
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "fallen"
+        },
+        {
+          "type": "say",
+          "who": "leader",
+          "text": "あっ……！",
+          "tone": "shout"
+        },
+        {
+          "type": "log",
+          "text": "白石滝の横の急な斜面で、濡れた土ごと足もとが崩れた。{leader.name}さんは滝の下まで滑り落ちた",
+          "important": true
+        },
+        {
+          "type": "fall",
+          "who": "leader",
+          "outcomes": {
+            "bruise": 1,
+            "sprain": 2,
+            "legFracture": 3,
+            "headInjury": 1.5,
+            "severeTrauma": 1.5,
+            "death": 0.8
+          }
+        },
+        {
+          "type": "soak",
+          "who": "leader",
+          "level": "waist"
+        }
+      ]
+    },
+    {
+      "id": "ev_push_nav",
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "flag": "pushOn"
+          },
+          {
+            "any": [
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "LOST_AWARE"
+              },
+              {
+                "state": "RESTING"
+              }
+            ]
+          },
+          {
+            "var": "leader.knowsPosition",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "clearFlag",
+          "flag": "pushOn"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "navigateToTrail"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_push_back",
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "flag": "pushOn"
+          },
+          {
+            "any": [
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "LOST_AWARE"
+              },
+              {
+                "state": "RESTING"
+              }
+            ]
+          },
+          {
+            "var": "leader.knowsPosition",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "clearFlag",
+          "flag": "pushOn"
+        },
+        {
+          "type": "setFlag",
+          "flag": "backtracked"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "backtrack"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_push_done",
+      "once": false,
+      "trigger": {
+        "elapsedSince": {
+          "flag": "pushOn",
+          "min": 1
+        }
+      },
+      "effects": [
+        {
+          "type": "clearFlag",
+          "flag": "pushOn"
+        }
+      ]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_start",
+      "title": "高座の滝",
+      "priority": 20,
+      "trigger": {
+        "after": "D0 10:00"
+      },
+      "situation": "芦屋川駅から住宅街を 25 分歩いて、高座の滝に着いた。ここから芦屋ロックガーデンの岩場が始まる。スマートフォンの電池は {leader.phone.batteryPct:0}%。妻には「六甲山に行く」としか言っていない。どうする？",
+      "knowledge": [
+        "予定: 高座の滝 → ロックガーデン → 風吹岩 → 雨ヶ峠 → 本庄橋跡 → 七曲り → 一軒茶屋 → 六甲山最高峰 → 魚屋道 → 有馬温泉（着 15:30 ごろ）",
+        "有馬温泉まで、歩くだけで約 4 時間半。日の入りは 16:50",
+        "地図はスマートフォンの地図アプリだけ。軌跡を記録しながらルート案内を使うと、電池は 1 時間に 1 割近く減る",
+        "モバイルバッテリー・紙の地図・ヘッドランプは持っていない",
+        "予報は晴れ、夜から雨"
+      ],
+      "options": [
+        {
+          "id": "share",
+          "label": "妻にコースと帰りの時刻を送ってから出発",
+          "detail": "「ロックガーデンから最高峰、魚屋道で有馬温泉へ下りる。6 時までに連絡する」とメッセージを送る。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "コースを送っておこう。ひとりだから",
+              "tone": "whisper"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "planShared"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.35
+          },
+          "explain": "単独行で、コースと連絡の期限を家族に文字で伝えておくことです。戻らないときに早く届け出てもらえ、探す道もしぼれます。"
+        },
+        {
+          "id": "go",
+          "label": "このまま出発する",
+          "detail": "日帰りの六甲山だ。電池も、夕方まではもつだろう。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1
+          },
+          "explain": "行き先を「六甲山」としか伝えずに歩き出すことです。電話が通じなくなったとき、どの道を探せばよいかがだれにも分かりません。"
+        }
+      ]
+    },
+    {
+      "id": "cp_battery",
+      "title": "電池の残りが 2 割を切った",
+      "priority": 15,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              {
+                "atNode": "AMA"
+              },
+              {
+                "atNode": "HONJO"
+              },
+              {
+                "atNode": "ICHIKEN"
+              }
+            ]
+          },
+          {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "var": "leader.phone.batteryPct",
+            "op": "<=",
+            "value": 22
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          },
+          {
+            "not": {
+              "beenAt": "SUMMIT"
+            }
+          }
+        ]
+      },
+      "situation": "{leader.name}さんがスマートフォンを見ると、「電池残量が少なくなっています」と出た。残りは {leader.phone.batteryPct:0}%。まだ一軒茶屋への登りと、有馬への長い下りが残っている。どうする？",
+      "knowledge": [
+        "スマートフォンの電池: {leader.phone.batteryPct:0}%。地図アプリを開いたままだと、あと 2 時間ほどで切れる",
+        "紙の地図はない。電池が切れたら、現在地も道も分からず、電話もかけられない",
+        "有馬温泉まで、ここから約 3 時間（一軒茶屋で昼食の予定）",
+        "来た道を高座の滝まで戻るなら約 2 時間",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "日の入りは 16:50。森の中と谷は、もっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "save",
+          "label": "電源を切ってしまい、いざという時のために残す",
+          "detail": "道標を頼りに歩き、迷ったときと連絡のときだけ電源を入れる。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "電源を切っておこう。いざという時のために",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPhone",
+              "has": false
+            }
+          ],
+          "flags": [
+            "phoneOff"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.3
+          },
+          "explain": "地図アプリを使い続けず、電源を切って電池を残すことです。道標を頼りに歩く分、迷ったときに現在地を確かめる手段と、助けを呼ぶ手段が残ります。"
+        },
+        {
+          "id": "tell",
+          "label": "妻に電話して、コースと帰りの時刻を伝える",
+          "detail": "「最高峰から魚屋道で有馬へ下りる。電池が切れそうだから、6 時を過ぎて連絡がなければ」",
+          "available": {
+            "var": "leader.radio",
+            "op": ">=",
+            "value": 0.3
+          },
+          "unavailableText": "圏外",
+          "actions": [
+            {
+              "type": "say",
+              "text": "もしもし、いま六甲山。最高峰から魚屋道で有馬に下りる。電池が切れそうだから、6 時を過ぎて連絡がなかったら……",
+              "tone": "normal"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "setFlag",
+              "flag": "planShared"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "toldWife"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.25
+          },
+          "explain": "電池が切れる前に、行き先と帰りの時刻を家族に伝えておくことです。電話が通じなくなっても、戻らないときに探す道が伝わります。"
+        },
+        {
+          "id": "back",
+          "label": "来た道を高座の滝へ引き返す",
+          "detail": "通ってきた道なら、地図がなくても分かる。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "今日はここまで。来た道を戻ろう",
+              "tone": "whisper"
+            },
+            {
+              "type": "setFlag",
+              "flag": "turnedBack"
+            },
+            {
+              "type": "turnBack"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.15
+          },
+          "explain": "電池が切れて道が分からなくなる前に、通ってきた道を戻ることです。知らない下り道を、地図なしで歩かずに済みます。"
+        },
+        {
+          "id": "keep",
+          "label": "地図アプリを見ながら、このまま進む",
+          "detail": "有馬までは 3 時間。たぶん、もつ。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1
+          },
+          "explain": "残りの電池で、地図アプリに頼ったまま知らない下り道へ向かうことです。途中で電池が切れると、現在地も道も分からず、助けも呼べなくなります。"
+        }
+      ]
+    },
+    {
+      "id": "cp_dead",
+      "title": "画面が消えた",
+      "priority": 16,
+      "trigger": {
+        "all": [
+          {
+            "event": "PHONE_DEAD"
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          },
+          {
+            "not": {
+              "beenAt": "J_SHIRA"
+            }
+          },
+          {
+            "any": [
+              {
+                "state": "WALKING"
+              },
+              {
+                "state": "RESTING"
+              }
+            ]
+          }
+        ]
+      },
+      "situation": "{leader.name}さんがスマートフォンで有馬への道を確かめようとすると、画面が消えた。電源ボタンを長く押しても、何も映らない。地図も、ルート案内も、電話も使えない。どうする？",
+      "knowledge": [
+        "紙の地図・コンパスはない。有馬への道は「魚屋道」という名前しか知らない",
+        "最高峰から有馬温泉までは、魚屋道を下って約 1 時間 20 分",
+        "山頂と一軒茶屋には、まだ登山者が何人もいる",
+        "日の入りは 16:50。森の中と谷は、もっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "ask",
+          "label": "近くの登山者に有馬への道を聞き、道標を一つずつ確かめて下る",
+          "detail": "紙の地図を見せてもらい、分かれ道の名前と向きを書き留める。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "すみません、有馬へ下りる魚屋道は……",
+              "tone": "whisper"
+            },
+            {
+              "type": "rest",
+              "minutes": 6
+            }
+          ],
+          "flags": [
+            "askedWay"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.35
+          },
+          "explain": "地図を失ったところで、人のいる所で道を聞き、分かれ道の向きを確かめてから下ることです。迷いやすい所を前もって知っておけます。"
+        },
+        {
+          "id": "signs",
+          "label": "道標を頼りに、このまま下る",
+          "detail": "魚屋道は有名な道だ。道標に「有馬」と書いてあるはず。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 1
+          },
+          "explain": "道標と踏み跡だけを頼りに、初めての下り道を歩き続けることです。落ち葉の季節は踏み跡が見えにくく、分かれ道で正しい道を選べないことがあります。"
+        },
+        {
+          "id": "hurry",
+          "label": "暗くなる前にと、急いで下る",
+          "detail": "日の入りまで 3 時間。急げば明るいうちに有馬に着く。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "急ごう。暗くなる前に",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPace",
+              "factor": 1.15
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          },
+          "explain": "地図のないまま、急いで下ることです。急ぐと道標や分かれ道を見落としやすく、踏み跡に引き込まれても気づくのが遅れます。"
+        }
+      ]
+    },
+    {
+      "id": "cp_fork",
+      "title": "魚屋道の曲がり角",
+      "priority": 14,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "J_SHIRA"
+          },
+          {
+            "not": {
+              "flag": "turnedBack"
+            }
+          },
+          {
+            "any": [
+              {
+                "var": "leader.phone.batteryPct",
+                "op": "<=",
+                "value": 0
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": false
+              }
+            ]
+          }
+        ]
+      },
+      "situation": "最高峰から下ってきた道が、右へ曲がっている。正面には、落ち葉の積もった踏み跡が、ゆるやかに沢の方へ下っている。正面の方が広く、歩きやすそうに見える。どちらが魚屋道なのか、すぐには分からない。どう進む？",
+      "knowledge": [
+        "有馬温泉は北西の方角（いま歩いている向き）",
+        "右へ曲がる道は少し登り返している。正面の踏み跡は下っている",
+        "木に結ばれたテープはあるが、何の印かは分からない",
+        "日の入りは 16:50。森の中と谷は、もっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "phone",
+          "label": "スマートフォンの電源を入れて、地図で確かめる",
+          "detail": "残しておいた電池で、ここだけ地図を見る。",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "var": "leader.phone.has",
+                    "op": "==",
+                    "value": false
+                  },
+                  {
+                    "var": "leader.phone.batteryPct",
+                    "op": ">",
+                    "value": 0
+                  },
+                  {
+                    "flag": "phoneOff"
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "legFracture"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "headInjury"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "severeTrauma"
+                  },
+                  {
+                    "not": {
+                      "state": "INCAPACITATED"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "電源を入れよう。地図を見れば分かる",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPhone",
+              "has": true
+            },
+            {
+              "type": "stopAndCheck"
+            },
+            {
+              "type": "setPhone",
+              "has": false
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "phoneUsed"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9
+          },
+          "explain": "とっておいた電池を、迷いやすい分かれ道で使うことです。地図で正しい道を確かめてから進めます。"
+        },
+        {
+          "id": "look",
+          "label": "立ち止まって、道標と踏み跡を確かめる",
+          "detail": "数分かけて、まわりの道標と、踏み跡の続き方を見る。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "落ち着いて。道標はどこだ",
+              "tone": "whisper"
+            },
+            {
+              "type": "stopAndCheck"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "forkChecked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4,
+            "mods": [
+              {
+                "when": {
+                  "flag": "askedWay"
+                },
+                "add": 0.8
+              }
+            ]
+          },
+          "explain": "分かれ道で立ち止まり、道標と踏み跡を確かめることです。歩きやすい方が正しい道とは限らず、数分の確認が道迷いを防ぎます。"
+        },
+        {
+          "id": "follow",
+          "label": "正面の踏み跡を下る",
+          "detail": "下っていれば、有馬に着くはずだ。",
+          "actions": [
+            {
+              "type": "missJunction"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1,
+            "mods": [
+              {
+                "when": {
+                  "flag": "askedWay"
+                },
+                "add": -0.6
+              },
+              {
+                "when": {
+                  "var": "leader.timeBehindMin",
+                  "op": ">",
+                  "value": 30
+                },
+                "add": 0.3
+              }
+            ]
+          },
+          "explain": "確かめずに、下りていて歩きやすそうな踏み跡へ進むことです。落ち葉の踏み跡は登山道とは限らず、沢の源頭へ引き込まれやすくなります。"
+        }
+      ]
+    },
+    {
+      "id": "cp_end",
+      "title": "沢の中",
+      "priority": 13,
+      "trigger": {
+        "all": [
+          {
+            "flag": "inValley"
+          },
+          {
+            "any": [
+              {
+                "state": "OFFROUTE_UNAWARE"
+              },
+              {
+                "state": "LOST_AWARE"
+              }
+            ]
+          },
+          {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "none"
+          }
+        ]
+      },
+      "situation": "踏み跡は、いつの間にか消えていた。両側から斜面が迫り、足もとには細い流れがある。ここは魚屋道ではない。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "下ってきた所を登り返せば、魚屋道に戻れるはず",
+        "この沢を下れば、どこかで有馬の方へ出るかもしれない。ただ、六甲の北側の沢には滝がいくつもある",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "日の入りは 16:50。森の中と谷は、もっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "phone",
+          "label": "スマートフォンの電源を入れて、現在地を確かめる",
+          "detail": "残しておいた電池で、地図を見る。分かれば近い道へ。",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "var": "leader.phone.has",
+                    "op": "==",
+                    "value": false
+                  },
+                  {
+                    "var": "leader.phone.batteryPct",
+                    "op": ">",
+                    "value": 0
+                  },
+                  {
+                    "flag": "phoneOff"
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "legFracture"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "headInjury"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "severeTrauma"
+                  },
+                  {
+                    "not": {
+                      "state": "INCAPACITATED"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "電源を入れよう。地図を見れば分かる",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPhone",
+              "has": true
+            },
+            {
+              "type": "stayPut"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "flags": [
+            "phoneUsed"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9
+          },
+          "explain": "とっておいた電池で現在地を確かめ、近い道へ戻ることです。迷ったと気づいてすぐ使えば、遠くへ迷い込まずに済みます。"
+        },
+        {
+          "id": "back",
+          "label": "来た所を登り返す",
+          "detail": "迷ったら戻る。通ってきた踏み跡なら分かる。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "戻ろう。道は上にある",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "var": "sun.isDark",
+                  "op": "==",
+                  "value": true
+                },
+                "add": -0.3
+              }
+            ]
+          },
+          "explain": "迷ったと気づいた所から、下ってきた踏み跡を登り返すことです。道迷いの基本の対処で、様子の分かる所へ戻れます。"
+        },
+        {
+          "id": "down",
+          "label": "沢を下って有馬を目指す",
+          "detail": "下っていけば、温泉街に出るはずだ。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "この沢を下れば、有馬に出るはずだ",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "endDown"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.9,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          },
+          "explain": "道のない沢を下って、町に出ようとすることです。沢には滝や滑りやすい岩があり、下りるほど戻るのが難しくなります。"
+        },
+        {
+          "id": "stay",
+          "label": "動かずに、人の声を待つ",
+          "detail": "下手に動けば、もっと分からなくなる。",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "stayPut"
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "bias": {
+            "base": 0.2
+          },
+          "explain": "これ以上迷わないよう、その場で動かずに待つことです。ただ、行き先を伝えていなければ、見つけてもらうまで長くかかります。"
+        }
+      ]
+    },
+    {
+      "id": "cp_kotaki",
+      "title": "沢の中の滝",
+      "priority": 13,
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              {
+                "onEdge": "E14"
+              },
+              {
+                "onEdge": "E15"
+              }
+            ]
+          },
+          {
+            "near": {
+              "x": -998,
+              "z": -963,
+              "r": 70
+            }
+          },
+          {
+            "state": "WALKING"
+          },
+          {
+            "not": {
+              "flag": "aroundKotaki"
+            }
+          }
+        ]
+      },
+      "situation": "沢の中の筋をたどって下りてくると、足もとが切れ落ちた。高さ 5 m ほどの滝だ。筋は、滝の横の濡れた岩の斜面へ続いている。ここは登山道ではない。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "下りてきた沢を登り返せば、魚屋道の曲がり角に戻れるはず（標高差 100 m あまり）",
+        "滝の下も、沢がどこまで続くのか分からない。六甲の北側の沢には、ほかにも滝がある",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "日の入りは 16:50。森の中と谷は、もっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "phone",
+          "label": "スマートフォンの電源を入れて、現在地を確かめる",
+          "detail": "残しておいた電池で、地図を見る。分かれば近い道へ。",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "var": "leader.phone.has",
+                    "op": "==",
+                    "value": false
+                  },
+                  {
+                    "var": "leader.phone.batteryPct",
+                    "op": ">",
+                    "value": 0
+                  },
+                  {
+                    "flag": "phoneOff"
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "legFracture"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "headInjury"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "severeTrauma"
+                  },
+                  {
+                    "not": {
+                      "state": "INCAPACITATED"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "電源を入れよう。地図を見れば分かる",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPhone",
+              "has": true
+            },
+            {
+              "type": "stayPut"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "flags": [
+            "phoneUsed"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9
+          },
+          "explain": "とっておいた電池で現在地を確かめ、近い道へ戻ることです。滝の横を下りずに済み、遠くへ迷い込む前に戻れます。"
+        },
+        {
+          "id": "back",
+          "label": "沢を登り返して、魚屋道へ戻る",
+          "detail": "迷ったら戻る。上に道がある。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "ここは道じゃない。戻ろう",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [
+              {
+                "when": {
+                  "var": "sun.isDark",
+                  "op": "==",
+                  "value": true
+                },
+                "add": -0.3
+              }
+            ]
+          },
+          "explain": "滝に行き当たって道ではないと分かったところで、下りてきた沢を登り返すことです。通ってきた所なら様子が分かり、道のある尾根へ戻れます。"
+        },
+        {
+          "id": "around",
+          "label": "滝の横を巻いて、沢を下る",
+          "detail": "人が通った筋がある。下れば有馬に出るはずだ。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "木につかまれば、下りられる",
+              "tone": "whisper"
+            },
+            {
+              "type": "setFlag",
+              "flag": "aroundKotaki"
+            },
+            {
+              "type": "setFlag",
+              "flag": "endDown"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.8,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          },
+          "explain": "道ではない沢の筋を、滝の横の濡れた岩を巻いて下り続けることです。滑り落ちれば大けがにつながり、下りるほど戻るのも難しくなります。"
+        },
+        {
+          "id": "wait",
+          "label": "ここで動かずに待つ",
+          "detail": "下手に動けば、もっと危ない。",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "bias": {
+            "base": 0.25
+          },
+          "explain": "滝の上で動くのをやめ、捜索を待つことです。転落は避けられますが、行き先を伝えていなければ、沢の中まで探しに来てもらうのに時間がかかります。"
+        }
+      ]
+    },
+    {
+      "id": "cp_shirataki",
+      "title": "白石滝",
+      "priority": 13,
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "any": [
+              {
+                "onEdge": "E14"
+              },
+              {
+                "onEdge": "E15"
+              }
+            ]
+          },
+          {
+            "near": {
+              "x": -1340,
+              "z": -1017,
+              "r": 80
+            }
+          },
+          {
+            "state": "WALKING"
+          },
+          {
+            "not": {
+              "flag": "aroundShirataki"
+            }
+          }
+        ]
+      },
+      "situation": "沢は、高さ 10 m ほどの滝になって落ちている。下からは、もっと大きな水音が聞こえる。筋は滝の横の急な土の斜面を下りている。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "この下で沢は紅葉谷に出合い、紅葉谷を下れば有馬温泉のはず。ただ、紅葉谷の道は崩れて通行止めになっている",
+        "登り返せば魚屋道まで標高差 250 m、1 時間以上",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "日の入りは 16:50。森の中と谷は、もっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "phone",
+          "label": "スマートフォンの電源を入れて、現在地を確かめる",
+          "detail": "残しておいた電池で、地図を見る。分かれば近い道へ。",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "var": "leader.phone.has",
+                    "op": "==",
+                    "value": false
+                  },
+                  {
+                    "var": "leader.phone.batteryPct",
+                    "op": ">",
+                    "value": 0
+                  },
+                  {
+                    "flag": "phoneOff"
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "legFracture"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "headInjury"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "severeTrauma"
+                  },
+                  {
+                    "not": {
+                      "state": "INCAPACITATED"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "電源を入れよう。地図を見れば分かる",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPhone",
+              "has": true
+            },
+            {
+              "type": "stayPut"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "flags": [
+            "phoneUsed"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9
+          },
+          "explain": "とっておいた電池で現在地を確かめ、近い道へ向かうことです。滝の横の急斜面を下りずに済みます。"
+        },
+        {
+          "id": "wait",
+          "label": "ここで動かずに待つ",
+          "detail": "人の通る筋なら、だれかが来るかもしれない。",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.35
+          },
+          "explain": "大きな滝の上で動くのをやめ、捜索を待つことです。転落は避けられますが、雨の沢の中で冷えに耐えながら待つことになります。"
+        },
+        {
+          "id": "back",
+          "label": "沢を登り返す",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "戻ろう。上に道がある",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "bias": {
+            "base": 0.35,
+            "mods": [
+              {
+                "when": {
+                  "var": "sun.isDark",
+                  "op": "==",
+                  "value": true
+                },
+                "add": -0.3
+              }
+            ]
+          },
+          "explain": "来た沢を、時間をかけて登り返すことです。道のある尾根へ戻れますが、標高差が大きく、途中で暗くなれば動けなくなります。"
+        },
+        {
+          "id": "around",
+          "label": "滝の横の斜面を下る",
+          "detail": "この下は紅葉谷だ。もう少しで有馬に出る。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "あと少し。ゆっくり下りれば",
+              "tone": "whisper"
+            },
+            {
+              "type": "setFlag",
+              "flag": "aroundShirataki"
+            },
+            {
+              "type": "setFlag",
+              "flag": "endDown"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.8
+          },
+          "explain": "道のない滝の横の急な土の斜面を下りることです。濡れた土は崩れやすく、滑り落ちれば大けがや命にかかわります。"
+        }
+      ]
+    },
+    {
+      "id": "cp_lost_again",
+      "title": "戻る途中で分からなくなった",
+      "priority": 12,
+      "once": false,
+      "trigger": {
+        "all": [
+          {
+            "state": "LOST_AWARE"
+          },
+          {
+            "flag": "backtracked"
+          },
+          {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "none"
+          }
+        ]
+      },
+      "situation": "登り返す途中で、下りてきた筋が分からなくなった。落ち葉の斜面は、どこも同じに見える。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "上へ登れば、魚屋道のある尾根に出るはず",
+        "日の入りは 16:50。森の中と谷は、もっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "up",
+          "label": "斜面を上へ登る",
+          "detail": "尾根に出れば道がある。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "上へ。尾根に出れば道がある",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          },
+          "explain": "下りてきた筋が分からなくても、上へ向かえば道のある尾根に近づけるという手がかりに従うことです。"
+        },
+        {
+          "id": "down",
+          "label": "あきらめて沢を下る",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "もう下るしかない",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          },
+          "explain": "登り返しをあきらめて沢を下ることです。下りは楽でも、滝や滑りやすい岩に行き当たり、上へ戻る手がかりも失います。"
+        },
+        {
+          "id": "stay",
+          "label": "動かずに待つ",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "stayPut"
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "bias": {
+            "base": 0.2
+          },
+          "explain": "これ以上迷わないよう、その場で動かずに待つことです。体力は残せますが、冷えながら見つけてもらうのを待つことになります。"
+        }
+      ]
+    },
+    {
+      "id": "cp_dark_off",
+      "title": "道のない所で日が暮れた",
+      "priority": 6,
+      "trigger": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "any": [
+                  {
+                    "state": "OFFROUTE_UNAWARE"
+                  },
+                  {
+                    "state": "LOST_AWARE"
+                  },
+                  {
+                    "state": "DESCENDING_DRAINAGE"
+                  },
+                  {
+                    "state": "NAVIGATING_TO_TRAIL"
+                  },
+                  {
+                    "state": "BACKTRACKING"
+                  }
+                ]
+              },
+              {
+                "state": "STAYING"
+              }
+            ]
+          },
+          {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "none"
+          }
+        ]
+      },
+      "situation": "日が暮れた。ライトは、スマートフォンのライトのつもりだった。木の間から空の明るさが消えると、足もとは何も見えない。どうする？",
+      "knowledge": [
+        "気温は {leader.local.tempC:0}℃。夜から雨の予報",
+        "ツェルトもヘッドランプもない。食べ物 {leader.foodKcal:0}kcal・水 {leader.waterL:1}L",
+        "スマートフォンの電池: {leader.phone.batteryPct:0}%",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "スマートフォンの電源を入れて、110 番する",
+          "available": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "var": "leader.radio",
+                    "op": ">=",
+                    "value": 0.3
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "leader.phone.has",
+                        "op": "==",
+                        "value": true
+                      },
+                      {
+                        "var": "leader.phone.batteryPct",
+                        "op": ">",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "all": [
+                      {
+                        "var": "leader.phone.has",
+                        "op": "==",
+                        "value": false
+                      },
+                      {
+                        "var": "leader.phone.batteryPct",
+                        "op": ">",
+                        "value": 0
+                      },
+                      {
+                        "flag": "phoneOff"
+                      }
+                    ]
+                  },
+                  {
+                    "var": "leader.radio",
+                    "op": ">=",
+                    "value": 0.3
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "setPhone",
+              "has": true
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "say",
+              "text": "六甲山の最高峰から魚屋道を下っていて、道に迷いました",
+              "tone": "normal"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "calledSelf"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          },
+          "explain": "電波と電池が残っているうちに、迷ったことを伝えて救助を頼むことです。電話の位置情報で、探す範囲をしぼってもらえます。"
+        },
+        {
+          "id": "bivouac",
+          "label": "木の根もとで、着られるものを全部着て朝を待つ",
+          "actions": [
+            {
+              "type": "say",
+              "text": "動くのは危ない。朝まで待とう",
+              "tone": "whisper"
+            },
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 150
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "nightBivouac"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          },
+          "explain": "明かりのない夜の斜面で動くのをやめ、着込んで朝を待つことです。転落とさらなる道迷いを避けられますが、雨の中で冷えに耐える長い夜になります。"
+        },
+        {
+          "id": "keep",
+          "label": "手探りで動き続ける",
+          "detail": "止まると寒い。下へ行けば、町の明かりが見えるかもしれない。",
+          "available": {
+            "not": {
+              "state": "STAYING"
+            }
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.7
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          },
+          "explain": "寒さと不安から、明かりのない中で道のない斜面を動き続けることです。足もとが見えず、滑り落ちたり、さらに迷い込んだりしやすくなります。"
+        }
+      ]
+    },
+    {
+      "id": "cp_d1",
+      "title": "雨の夜が明けた",
+      "priority": 8,
+      "trigger": {
+        "all": [
+          {
+            "after": "D1 07:00"
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "STAYING"
+              }
+            ]
+          },
+          {
+            "flag": "wentOff"
+          }
+        ]
+      },
+      "situation": "冷たい雨の中で、ひざを抱えて一晩を過ごした。あたりが白んできたが、雨はやまず、谷は霧の中だ。体はこわばっている。水 {leader.waterL:1}L・食べ物 {leader.foodKcal:0}kcal。どうする？",
+      "knowledge": [
+        "妻はゆうべのうちに警察に届け出ているはず",
+        "予報では、雨はあしたまで続く",
+        "きのうは尾根から沢へ下ってきた。登り返せば魚屋道がある",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）"
+      ],
+      "options": [
+        {
+          "id": "climb",
+          "label": "来た斜面を登り返す",
+          "detail": "明るくなった。上へ戻れば道がある。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "上へ戻ろう。道は上にある",
+              "tone": "whisper"
+            },
+            {
+              "type": "eat",
+              "kcal": 150
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7
+          },
+          "explain": "明るくなってから、下ってきた斜面を登り返すことです。見通しが利くうちに、道のある尾根へ戻る確かな方法です。"
+        },
+        {
+          "id": "stay",
+          "label": "動かずに待ち、ときどき大声を出す",
+          "actions": [
+            {
+              "type": "eat",
+              "kcal": 150
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": false
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.injury",
+                  "op": "!=",
+                  "value": "none"
+                },
+                "add": 0.5
+              }
+            ]
+          },
+          "explain": "届け出を受けた捜索を待ち、声で居場所を知らせることです。体力は残せますが、雨の中で冷えに耐えながら見つけてもらうのを待つことになります。"
+        },
+        {
+          "id": "down",
+          "label": "沢を下って有馬を目指す",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "legFracture"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "headInjury"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "severeTrauma"
+                  },
+                  {
+                    "not": {
+                      "state": "INCAPACITATED"
+                    }
+                  }
+                ]
+              },
+              {
+                "not": {
+                  "flag": "fallen"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "明るいうちに、下へ",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "endDown"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4
+          },
+          "explain": "雨で水かさの増えた沢を下って、町に出ようとすることです。滝や濡れた岩があり、下りるほど戻るのが難しくなります。"
+        },
+        {
+          "id": "crawl",
+          "label": "這ってでも沢を下る",
+          "detail": "ここにいても、だれも来ないかもしれない。",
+          "available": {
+            "all": [
+              {
+                "not": {
+                  "all": [
+                    {
+                      "var": "leader.injury",
+                      "op": "!=",
+                      "value": "legFracture"
+                    },
+                    {
+                      "var": "leader.injury",
+                      "op": "!=",
+                      "value": "headInjury"
+                    },
+                    {
+                      "var": "leader.injury",
+                      "op": "!=",
+                      "value": "severeTrauma"
+                    },
+                    {
+                      "not": {
+                        "state": "INCAPACITATED"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "じっとしていられない。下へ",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "crawlDown"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.3
+              }
+            ]
+          },
+          "explain": "けがをしたまま、沢を下ろうとすることです。動けない体で沢に入ると、転落や水で体が冷えるおそれがあります。"
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "lostAware": {
+      "situation": "有馬へ下っているはずなのに、道が見当たらない。まわりは落ち葉の斜面ばかりだ。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "下ってきた所を登り返せば、魚屋道に戻れるはず",
+        "紙の地図はない。スマートフォンの電池: {leader.phone.batteryPct:0}%",
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "日の入りは 16:50。森の中と谷は、もっと早く暗くなる"
+      ],
+      "options": [
+        {
+          "id": "gps",
+          "label": "地図アプリで現在地を確かめる",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "var": "leader.phone.has",
+                    "op": "==",
+                    "value": true
+                  },
+                  {
+                    "var": "leader.phone.batteryPct",
+                    "op": ">",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "var": "leader.phone.gpsApp",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "stayPut"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          },
+          "explain": "電池が残っているうちに、地図アプリで現在地を確かめて近い道へ戻ることです。"
+        },
+        {
+          "id": "phone",
+          "label": "スマートフォンの電源を入れて、現在地を確かめる",
+          "detail": "残しておいた電池で、地図を見る。分かれば近い道へ。",
+          "available": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "var": "leader.phone.has",
+                    "op": "==",
+                    "value": false
+                  },
+                  {
+                    "var": "leader.phone.batteryPct",
+                    "op": ">",
+                    "value": 0
+                  },
+                  {
+                    "flag": "phoneOff"
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "legFracture"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "headInjury"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "severeTrauma"
+                  },
+                  {
+                    "not": {
+                      "state": "INCAPACITATED"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "電源を入れよう。地図を見れば分かる",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPhone",
+              "has": true
+            },
+            {
+              "type": "stayPut"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "flags": [
+            "phoneUsed"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.9
+          },
+          "explain": "とっておいた電池で現在地を確かめ、近い道へ戻ることです。迷ったと気づいてすぐ使えば、遠くへ迷い込まずに済みます。"
+        },
+        {
+          "id": "backtrack",
+          "label": "下ってきた所を登り返す",
+          "detail": "迷ったと気づいたら、すぐ戻る。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "戻ろう。道は上にある",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.elevM",
+                  "op": ">",
+                  "value": 760
+                },
+                "add": 0.4
+              }
+            ]
+          },
+          "explain": "迷ったと気づいた時点で、下ってきた所を登り返すことです。早く戻るほど、分かる所までの距離が短くて済みます。"
+        },
+        {
+          "id": "descend",
+          "label": "このまま下る",
+          "detail": "下っていれば、有馬の温泉街に出るはず。登り返すより早い。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "下りてしまえば、どこかに出る",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "pressedOn"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.7,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              },
+              {
+                "when": {
+                  "var": "sun.isDark",
+                  "op": "==",
+                  "value": true
+                },
+                "add": -0.3
+              }
+            ]
+          },
+          "explain": "登り返すより早そうに見える下りを選ぶことです。六甲の北側の沢には滝が多く、下っても町に出るとは限りません。"
+        },
+        {
+          "id": "stay",
+          "label": "動かずに待つ",
+          "detail": "下手に動けば、もっと分からなくなる。",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "stayPut"
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "bias": {
+            "base": 0.15,
+            "mods": [
+              {
+                "when": {
+                  "not": {
+                    "all": [
+                      {
+                        "var": "leader.injury",
+                        "op": "!=",
+                        "value": "legFracture"
+                      },
+                      {
+                        "var": "leader.injury",
+                        "op": "!=",
+                        "value": "headInjury"
+                      },
+                      {
+                        "var": "leader.injury",
+                        "op": "!=",
+                        "value": "severeTrauma"
+                      },
+                      {
+                        "not": {
+                          "state": "INCAPACITATED"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "add": 1
+              }
+            ]
+          },
+          "explain": "これ以上迷わないよう、その場で動かずに待つことです。ただ、行き先を伝えていなければ、見つけてもらうまで長くかかります。"
+        }
+      ]
+    },
+    "injured": {
+      "situation": "沢の中で滑り落ちた。{leader.injury}で、思うように動けない。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "携帯電話の電波: {leader.radio:1}（0.3 以上で通話できる）",
+        "スマートフォンの電池: {leader.phone.batteryPct:0}%",
+        "ツェルトもヘッドランプもない。水 {leader.waterL:1}L・食べ物 {leader.foodKcal:0}kcal",
+        "帰りが遅ければ、妻が警察に届け出てくれるはず"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "スマートフォンで 110 番する",
+          "available": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "var": "leader.radio",
+                    "op": ">=",
+                    "value": 0.3
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "leader.phone.has",
+                        "op": "==",
+                        "value": true
+                      },
+                      {
+                        "var": "leader.phone.batteryPct",
+                        "op": ">",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "all": [
+                      {
+                        "var": "leader.phone.has",
+                        "op": "==",
+                        "value": false
+                      },
+                      {
+                        "var": "leader.phone.batteryPct",
+                        "op": ">",
+                        "value": 0
+                      },
+                      {
+                        "flag": "phoneOff"
+                      }
+                    ]
+                  },
+                  {
+                    "var": "leader.radio",
+                    "op": ">=",
+                    "value": 0.3
+                  }
+                ]
+              }
+            ]
+          },
+          "unavailableText": "電池切れか圏外",
+          "actions": [
+            {
+              "type": "setPhone",
+              "has": true
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "say",
+              "text": "六甲山の魚屋道から沢に迷い込んで、滑り落ちました。動けません",
+              "tone": "normal"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "calledSelf"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1.2
+          },
+          "explain": "電波と電池があるうちに、けがと居場所を伝えて救助を頼むことです。動けない体で沢を動き回るより、早く確実に助けが来ます。"
+        },
+        {
+          "id": "wait",
+          "label": "岩かげで着込み、動かずに待つ",
+          "detail": "雨と風を避け、明るいうちは大声を出す。",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 150
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.injury",
+                  "op": "==",
+                  "value": "legFracture"
+                },
+                "add": 0.3
+              }
+            ]
+          },
+          "explain": "けがをした体で無理に動かず、雨と風を避けて捜索を待つことです。体温と体力を守ることが、見つけてもらうまで持ちこたえる力になります。"
+        },
+        {
+          "id": "seek",
+          "label": "スマートフォンの電源を入れ、電波の入る所まで斜面を上がる",
+          "detail": "沢の底は圏外。尾根の近くなら電話が通じるかもしれない。",
+          "available": {
+            "all": [
+              {
+                "any": [
+                  {
+                    "all": [
+                      {
+                        "var": "leader.phone.has",
+                        "op": "==",
+                        "value": true
+                      },
+                      {
+                        "var": "leader.phone.batteryPct",
+                        "op": ">",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "leader.phone.has",
+                        "op": "==",
+                        "value": false
+                      },
+                      {
+                        "var": "leader.phone.batteryPct",
+                        "op": ">",
+                        "value": 0
+                      },
+                      {
+                        "flag": "phoneOff"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "var": "leader.radio",
+                "op": "<",
+                "value": 0.3
+              },
+              {
+                "all": [
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "legFracture"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "headInjury"
+                  },
+                  {
+                    "var": "leader.injury",
+                    "op": "!=",
+                    "value": "severeTrauma"
+                  },
+                  {
+                    "not": {
+                      "state": "INCAPACITATED"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "上なら電波が入るかもしれない",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPhone",
+              "has": true
+            },
+            {
+              "type": "seekSignal"
+            }
+          ],
+          "flags": [
+            "soughtSignal"
+          ],
+          "bias": {
+            "base": 0.5
+          },
+          "explain": "残っている電池を生かすため、けがを押して電波の入る所まで動くことです。通報できれば早く助けが来ますが、動くほど痛みと疲れが増します。"
+        },
+        {
+          "id": "climb",
+          "label": "痛みをこらえて登り返す",
+          "detail": "尾根の道まで戻れば、人が通る。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "上に戻れば道がある",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "bias": {
+            "base": 0.4
+          },
+          "explain": "けがをしたまま、道のある上へ戻ろうとすることです。人の通る道に出られれば見つけてもらいやすい一方、動くほど痛みと疲れが増します。"
+        },
+        {
+          "id": "slide",
+          "label": "沢を下って町を目指す",
+          "detail": "じっとしていられない。",
+          "available": {
+            "not": {
+              "state": "INCAPACITATED"
+            }
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "下れば、人のいる所に出る",
+              "tone": "whisper"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "flags": [
+            "crawlDown"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.45,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          },
+          "explain": "けがをしたまま、沢を下って町を目指すことです。滝や濡れた岩があり、転落したり、水に浸かって体が冷えたりするおそれがあります。"
+        }
+      ]
+    },
+    "bruised": {
+      "situation": "足を滑らせて転んだ。打ち身と擦り傷で痛むが、歩けそうだ。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "日の入りは 16:50。森の中と谷は、もっと早く暗くなる",
+        "水 {leader.waterL:1}L・食べ物 {leader.foodKcal:0}kcal"
+      ],
+      "options": [
+        {
+          "id": "back",
+          "label": "来た所を登り返す",
+          "detail": "痛むが、通ってきた所なら様子が分かる。",
+          "available": {
+            "any": [
+              {
+                "state": "DESCENDING_DRAINAGE"
+              },
+              {
+                "state": "OFFROUTE_UNAWARE"
+              },
+              {
+                "state": "LOST_AWARE"
+              },
+              {
+                "state": "BACKTRACKING"
+              },
+              {
+                "state": "NAVIGATING_TO_TRAIL"
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "落ち着いて。上へ戻ろう",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          },
+          "explain": "転んだのをきっかけに、沢を下るのをやめて登り返すことです。通ってきた所なら様子が分かり、道に戻れます。"
+        },
+        {
+          "id": "rest",
+          "label": "休んで、けがを確かめる",
+          "available": {
+            "state": "WALKING"
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "rest",
+              "minutes": 15
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          },
+          "explain": "歩き続ける前に、少し休んでけがの具合を確かめることです。痛みを押して進むと、次に転んだとき重いけがになりやすくなります。"
+        },
+        {
+          "id": "careful",
+          "label": "足もとに気をつけて、ゆっくり進む",
+          "detail": "いまの向きのまま、慎重に。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "ゆっくり。もう滑らないように",
+              "tone": "whisper"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.85
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.7
+          },
+          "explain": "向きを変えずに、慎重に進み続けることです。道のない沢では、気をつけていても濡れた岩でまた転びやすくなります。"
+        },
+        {
+          "id": "wait",
+          "label": "動かずに待つ",
+          "detail": "これ以上動くと、また落ちるかもしれない。",
+          "available": {
+            "not": {
+              "state": "WALKING"
+            }
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "bias": {
+            "base": 0.3
+          },
+          "explain": "これ以上転ばないよう、その場で動かずに待つことです。転落は避けられますが、冷えながら見つけてもらうのを待つことになります。"
+        }
+      ]
+    },
+    "hypothermia": {
+      "situation": "{leader.name}さんは震えが止まらない。指が動かず、考えがまとまらない（体温 {leader.coreC:1}℃、推定）。どうする？",
+      "options": [
+        {
+          "id": "call",
+          "label": "スマートフォンで 110 番する",
+          "available": {
+            "any": [
+              {
+                "all": [
+                  {
+                    "var": "leader.radio",
+                    "op": ">=",
+                    "value": 0.3
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "leader.phone.has",
+                        "op": "==",
+                        "value": true
+                      },
+                      {
+                        "var": "leader.phone.batteryPct",
+                        "op": ">",
+                        "value": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "all": [
+                      {
+                        "var": "leader.phone.has",
+                        "op": "==",
+                        "value": false
+                      },
+                      {
+                        "var": "leader.phone.batteryPct",
+                        "op": ">",
+                        "value": 0
+                      },
+                      {
+                        "flag": "phoneOff"
+                      }
+                    ]
+                  },
+                  {
+                    "var": "leader.radio",
+                    "op": ">=",
+                    "value": 0.3
+                  }
+                ]
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "setPhone",
+              "has": true
+            },
+            {
+              "type": "callRescue",
+              "via": "auto"
+            },
+            {
+              "type": "say",
+              "text": "六甲山で道に迷って、動けなくなりました",
+              "tone": "normal"
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "calledSelf"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5
+          },
+          "explain": "体が冷えきる前に、電話で救助を頼むことです。低体温症は自分で気づきにくく、早く頼むほど助かる見込みが高くなります。"
+        },
+        {
+          "id": "bivouac",
+          "label": "着込んで食べ、風の当たらない所でうずくまる",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 250
+            },
+            {
+              "type": "bivouac",
+              "until": "dawn",
+              "findLee": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          },
+          "explain": "体温が下がりはじめたところで、着込んで食べ、風と雨を避けて体を守ることです。エネルギーを補い、熱を逃がさないことが先です。"
+        },
+        {
+          "id": "push_eat",
+          "label": "着込んで食べ、動いて温まる",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "eat",
+              "kcal": 250
+            },
+            {
+              "type": "setFlag",
+              "flag": "pushOn"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.5
+                },
+                "add": 0.4
+              }
+            ]
+          },
+          "explain": "食べて着込んだうえで、動いて体を温めようとすることです。一時は温まっても、疲れと濡れで、かえって体温を失うことがあります。"
+        }
+      ]
+    },
+    "waterfall": {
+      "situation": "沢の行く手が切れ落ち、下から水音がする。滝だ。両岸も急で、濡れた岩と土が光っている。どうする？",
+      "options": [
+        {
+          "id": "climb_back",
+          "label": "登り返す",
+          "detail": "滝は下りられない。来た所なら様子が分かる。",
+          "available": {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "ここは下りられない。戻ろう",
+              "tone": "whisper"
+            },
+            {
+              "type": "backtrack"
+            }
+          ],
+          "flags": [
+            "backtracked"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7
+          },
+          "explain": "滝に行き当たったところで下るのをやめ、来た所を登り返すことです。滝の横の急斜面は、道迷いの転落事故がいちばん多い所です。"
+        },
+        {
+          "id": "high_route",
+          "label": "滝の横の斜面を巻く",
+          "detail": "木につかまれば、何とか巻けそうだ。",
+          "actions": [
+            {
+              "type": "setFlag",
+              "flag": "highRoute"
+            },
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.J",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          },
+          "explain": "道のない滝の横の急斜面を、木につかまって下りようとすることです。濡れた土や岩は崩れやすく、滑り落ちれば大けがにつながります。"
+        },
+        {
+          "id": "bivouac",
+          "label": "ここで動かずに待つ",
+          "actions": [
+            {
+              "type": "wearRainwear"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "flags": [
+            "waited"
+          ],
+          "bias": {
+            "base": 0.3
+          },
+          "explain": "滝の上で動くのをやめ、捜索を待つことです。転落は避けられますが、沢の中は冷えやすく、見つけてもらうまで時間がかかります。"
+        }
+      ]
+    },
+    "darkness": {
+      "situation": "日が暮れて、足もとが見えにくい。ヘッドランプはない。スマートフォンのライトを使えば、電池はすぐに尽きる。どうする？"
+    }
+  },
+  "thoughts": [
+    {
+      "key": "s28_start",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "before": "D0 11:00"
+          },
+          {
+            "state": "WALKING"
+          }
+        ]
+      },
+      "lines": [
+        "岩場は楽しい。手を使って登るのは久しぶりだ",
+        "海が光っている。いい天気だ"
+      ],
+      "priority": 3
+    },
+    {
+      "key": "s28_app",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "phoneOff"
+            }
+          },
+          {
+            "not": {
+              "beenAt": "SUMMIT"
+            }
+          },
+          {
+            "var": "leader.phone.batteryPct",
+            "op": ">=",
+            "value": 15
+          }
+        ]
+      },
+      "lines": [
+        "アプリの青い点が、ちゃんと線の上にある",
+        "分かれ道は、アプリが教えてくれる"
+      ],
+      "priority": 4
+    },
+    {
+      "key": "s28_low",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "var": "leader.phone.batteryPct",
+            "op": "<",
+            "value": 15
+          },
+          {
+            "not": {
+              "flag": "phoneOff"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "電池の減りが早い。ゆうべ充電しておけば",
+        "画面を見る回数を減らさないと"
+      ],
+      "priority": 6
+    },
+    {
+      "key": "s28_off",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "flag": "phoneOff"
+          },
+          {
+            "not": {
+              "flag": "wentOff"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "道標を見落とさないように",
+        "電話は切ってある。いざという時はこれがある"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s28_dead",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "flag": "phoneDead"
+          },
+          {
+            "not": {
+              "flag": "wentOff"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "地図がないと、こんなに心細いのか",
+        "道標を見落とさないように。魚屋道、魚屋道"
+      ],
+      "priority": 6
+    },
+    {
+      "key": "s28_unaware",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "OFFROUTE_UNAWARE"
+          },
+          {
+            "not": {
+              "flag": "pressedOn"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "落ち葉がふかふかだ。下りやすい",
+        "踏み跡が薄くなってきた。有名な道なのに"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s28_aware",
+      "who": "leader",
+      "when": {
+        "state": "LOST_AWARE"
+      },
+      "lines": [
+        "ここは、どこだ",
+        "アプリがあれば、すぐ分かるのに"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s28_valley",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "flag": "inValley"
+          },
+          {
+            "state": "DESCENDING_DRAINAGE"
+          }
+        ]
+      },
+      "lines": [
+        "水の音が大きくなった。沢を下れば有馬に出るはず",
+        "岩が滑る。手をついて下りる"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s28_backtrack",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "BACKTRACKING"
+          },
+          {
+            "all": [
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              },
+              {
+                "not": {
+                  "state": "INCAPACITATED"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "迷ったら戻る。上に道がある",
+        "息が切れる。でも、上だ"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s28_again",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "flag": "backOn"
+          }
+        ]
+      },
+      "lines": [
+        "戻れた。今度は道標を見落とさない",
+        "あのまま沢を下っていたら"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s28_hurt",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "leader.injury",
+            "op": "!=",
+            "value": "none"
+          },
+          {
+            "var": "leader.injury",
+            "op": "!=",
+            "value": "bruise"
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "INCAPACITATED"
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "足が動かない。ここで待つしかない",
+        "妻は、今ごろ心配しているだろう"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s28_family",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "planShared"
+            }
+          },
+          {
+            "before": "D0 23:00"
+          }
+        ]
+      },
+      "lines": [
+        "「六甲山」としか言っていない",
+        "この沢にいるとは、だれも知らない"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s28_family2",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              }
+            ]
+          },
+          {
+            "flag": "planShared"
+          },
+          {
+            "before": "D0 23:00"
+          }
+        ]
+      },
+      "lines": [
+        "妻には魚屋道と伝えてある。魚屋道を捜してくれるはず"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s28_night",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": true
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              }
+            ]
+          },
+          {
+            "after": "D0 19:30"
+          },
+          {
+            "before": "D1 04:00"
+          }
+        ]
+      },
+      "lines": [
+        "雨が服に染みてくる",
+        "寒い。手の感覚がない",
+        "朝まで、あと何時間だろう"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s28_d1",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "after": "D1 09:00"
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              }
+            ]
+          },
+          {
+            "var": "leader.conscious",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "雨がやまない",
+        "人の声がしたら、大きな声で返事をしよう"
+      ],
+      "priority": 9
+    }
+  ],
+  "speech": [
+    {
+      "key": "s28_fuki",
+      "who": "leader",
+      "when": {
+        "beenAt": "FUKI"
+      },
+      "lines": [
+        "風吹岩。海がよく見える",
+        "岩場を抜けた。ひと休みしよう"
+      ],
+      "tone": "whisper",
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s28_summit",
+      "who": "leader",
+      "when": {
+        "beenAt": "SUMMIT"
+      },
+      "lines": [
+        "最高峰。931 m",
+        "大阪湾が一望だ"
+      ],
+      "tone": "whisper",
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s28_dead_say",
+      "who": "leader",
+      "when": {
+        "flag": "phoneDead"
+      },
+      "lines": [
+        "……消えた。うそだろう",
+        "電源が入らない"
+      ],
+      "tone": "whisper",
+      "priority": 25,
+      "once": true
+    },
+    {
+      "key": "s28_fall_light",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "flag": "fallen"
+          },
+          {
+            "any": [
+              {
+                "var": "leader.injury",
+                "op": "==",
+                "value": "bruise"
+              },
+              {
+                "var": "leader.injury",
+                "op": "==",
+                "value": "sprain"
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "痛っ……。足首が",
+        "だいじょうぶ、立てる"
+      ],
+      "tone": "whisper",
+      "priority": 30,
+      "once": true
+    },
+    {
+      "key": "s28_fall_bad",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "flag": "fallen"
+          },
+          {
+            "var": "leader.injury",
+            "op": "==",
+            "value": "legFracture"
+          }
+        ]
+      },
+      "lines": [
+        "うっ……足が……",
+        "立てない"
+      ],
+      "tone": "whisper",
+      "priority": 30,
+      "once": true
+    },
+    {
+      "key": "s28_shout",
+      "who": "leader",
+      "when": {
+        "all": [
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              }
+            ]
+          },
+          {
+            "var": "leader.conscious",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "wentOff"
+          }
+        ]
+      },
+      "lines": [
+        "おーい！ だれかー！",
+        "おーい！ ここだー！"
+      ],
+      "tone": "shout",
+      "priority": 10,
+      "cooldownMin": 90
+    },
+    {
+      "key": "s28_goal",
+      "who": "leader",
+      "when": {
+        "any": [
+          {
+            "beenAt": "TH_ARIMA"
+          },
+          {
+            "beenAt": "TH_MOMIJI"
+          }
+        ]
+      },
+      "lines": [
+        "有馬だ。温泉街の屋根が見える"
+      ],
+      "tone": "whisper",
+      "priority": 12,
+      "once": true
+    }
+  ],
+  "endings": [
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_ARIMA"
+              },
+              {
+                "beenAt": "TH_KOZA"
+              },
+              {
+                "beenAt": "TH_MOMIJI"
+              }
+            ]
+          },
+          {
+            "flag": "turnedBack"
+          }
+        ]
+      },
+      "title": "電池が減って、引き返した",
+      "text": "{leader.name}さんは電池の警告を見て、来た道を高座の滝へ戻った。地図がなくても、通ってきた道は分かった。最高峰と有馬温泉へは、充電した電話と紙の地図を持って、また来ればいい。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_ARIMA"
+              },
+              {
+                "beenAt": "TH_KOZA"
+              },
+              {
+                "beenAt": "TH_MOMIJI"
+              }
+            ]
+          },
+          {
+            "flag": "aroundShirataki"
+          }
+        ]
+      },
+      "title": "沢を下りきって紅葉谷へ",
+      "text": "{leader.name}さんは魚屋道の曲がり角で白石谷へ迷い込み、沢の筋を道だと思って下った。滝の横を巻いて紅葉谷に出て、崩れた紅葉谷の道をたどって有馬温泉に下りた。無事だったのは、滝の横で足を滑らせなかったからにすぎない。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_ARIMA"
+              },
+              {
+                "beenAt": "TH_KOZA"
+              },
+              {
+                "beenAt": "TH_MOMIJI"
+              }
+            ]
+          },
+          {
+            "var": "rec.wasLost",
+            "op": "==",
+            "value": true
+          },
+          {
+            "flag": "phoneUsed"
+          }
+        ]
+      },
+      "title": "残しておいた電池で道に戻った",
+      "text": "{leader.name}さんは魚屋道の曲がり角で白石谷への踏み跡に入り込んだ。とっておいた電池で地図を見て現在地を確かめ、魚屋道に戻って有馬温泉に下りた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_ARIMA"
+              },
+              {
+                "beenAt": "TH_KOZA"
+              },
+              {
+                "beenAt": "TH_MOMIJI"
+              }
+            ]
+          },
+          {
+            "var": "rec.wasLost",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "title": "登り返して、魚屋道へ",
+      "text": "{leader.name}さんは地図を失ったまま、魚屋道の曲がり角で白石谷へ下る踏み跡に入り込んだ。おかしいと気づいて登り返し、魚屋道に戻って下山した。気づくのが遅れれば、沢の中で日が暮れていた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_ARIMA"
+              },
+              {
+                "beenAt": "TH_KOZA"
+              },
+              {
+                "beenAt": "TH_MOMIJI"
+              }
+            ]
+          },
+          {
+            "flag": "phoneOff"
+          }
+        ]
+      },
+      "title": "電池を残して、有馬へ",
+      "text": "{leader.name}さんは電池が 2 割を切ったところで電源を切り、道標を頼りに魚屋道を下った。電話は、いざという時のために残したまま、有馬温泉に着いた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "beenAt": "TH_ARIMA"
+              },
+              {
+                "beenAt": "TH_KOZA"
+              },
+              {
+                "beenAt": "TH_MOMIJI"
+              }
+            ]
+          },
+          {
+            "flag": "phoneDead"
+          }
+        ]
+      },
+      "title": "電池が切れても、道標を頼りに",
+      "text": "{leader.name}さんのスマートフォンは山の上で切れた。分かれ道ごとに立ち止まって道標を確かめ、魚屋道を有馬温泉まで下った。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "有馬温泉に下山",
+      "text": "{leader.name}さんは魚屋道を下り、有馬温泉に着いた。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "when": {
+        "var": "leader.injury",
+        "op": "!=",
+        "value": "none"
+      },
+      "title": "けがをしたまま自力で下山",
+      "text": "{leader.name}さんはけがをした体で雨の山中にとどまり、明るくなってから自力で道に出て下山した。妻は前の晩に警察へ届け出ていた。"
+    },
+    {
+      "kind": "SELF_RESCUE",
+      "title": "雨の夜を越えて自力で下山",
+      "text": "{leader.name}さんは雨の沢の中で夜を過ごし、明るくなってから斜面を登り返して道に出た。ずぶ濡れのまま有馬温泉に下りると、捜索が始まっていた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "calledSelf"
+      },
+      "title": "電話で通報",
+      "text": "{leader.name}さんは、残っていた電池で 110 番した。電話の位置情報が手がかりになり、救助隊が見つけた。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "flag": "planShared"
+      },
+      "title": "救助",
+      "text": "妻が聞いていたコースが手がかりになり、捜索は最初から魚屋道に向かった。{leader.name}さんは、魚屋道から外れた所で救助隊に見つけられた。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助",
+      "text": "{leader.name}さんは救助隊に見つけられた。「六甲山」という行き先と、電話が最後につかんだ基地局のほかに、手がかりのない中での発見だった。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重い状態で救助",
+      "text": "{leader.name}さんは体が冷えきった重い状態で見つかり、病院へ運ばれた。"
+    },
+    {
+      "kind": "MISSING",
+      "when": {
+        "flag": "planShared"
+      },
+      "title": "まだ見つかっていない",
+      "text": "4 日目の昼になっても、{leader.name}さんは見つかっていない。捜索は魚屋道の両側の沢で続いている。"
+    },
+    {
+      "kind": "MISSING",
+      "title": "まだ見つかっていない",
+      "text": "4 日目の昼になっても、{leader.name}さんは見つかっていない。六甲山には登山道が何十もあり、どの道から外れたのか、だれにも分からない。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "flag": "planShared"
+      },
+      "title": "帰らぬ人に",
+      "text": "{leader.name}さんは山から戻らなかった。コースは妻に伝えてあったが、魚屋道から外れて沢に入った後のことは、だれにも分からなかった。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "帰らぬ人に",
+      "text": "{leader.name}さんは山から戻らなかった。妻が知っていたのは「六甲山に行く」という一言だけだった。"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_battery",
+      "when": {
+        "any": [
+          {
+            "flag": "phoneDead"
+          },
+          {
+            "chose": {
+              "cp": "cp_battery",
+              "option": "keep"
+            }
+          }
+        ]
+      },
+      "title": "スマートフォンは、地図とライトと電話を兼ねている",
+      "text": "地図アプリに頼る登山では、電池が切れると、現在地・道・明かり・連絡の手段を一度に失う。前の晩に充電し、モバイルバッテリーとケーブルを持つ。電池が減ってきたら、画面を消して残し、迷ったときと連絡のために使う。"
+    },
+    {
+      "id": "l_paper",
+      "when": {
+        "var": "rec.wasLost",
+        "op": "==",
+        "value": true
+      },
+      "title": "紙の地図とコンパスを予備に持つ",
+      "text": "電子機器は、電池切れ・故障・寒さ・水濡れで突然使えなくなる。紙の地図とコンパスを持ち、出発前にコースの分かれ道と、迷いやすい所を地図で確かめておく。"
+    },
+    {
+      "id": "l_fork",
+      "when": {
+        "chose": {
+          "cp": "cp_fork",
+          "option": "follow"
+        }
+      },
+      "title": "歩きやすい踏み跡が、正しい道とは限らない",
+      "text": "登山道が曲がる所で、まっすぐ続く踏み跡は、沢や支尾根へ引き込む。六甲山の道迷いの多くは晴れた日に起きている。道標を確かめ、知らない道に入ったと思ったら、すぐ引き返す。"
+    },
+    {
+      "id": "l_valley",
+      "when": {
+        "any": [
+          {
+            "flag": "endDown"
+          },
+          {
+            "flag": "highRoute"
+          },
+          {
+            "flag": "pressedOn"
+          },
+          {
+            "flag": "onSawa"
+          }
+        ]
+      },
+      "title": "迷ったら、沢を下らない",
+      "text": "「沢を下れば町に出る」は道迷いで最も危ない考え。六甲の北側の沢には滝がいくつもあり、濡れた岩と落ち葉で滑りやすい。迷ったら、分かる所まで登り返すか、動かずに助けを待つ。"
+    },
+    {
+      "id": "l_plan",
+      "when": {
+        "not": {
+          "flag": "planShared"
+        }
+      },
+      "title": "「六甲山」だけでは、捜せない",
+      "text": "六甲山には何十もの登山道があり、行き先の山の名前しか分からないと、捜索は道を一つずつ当たることから始まる。登山計画書を出し、家族にコースと下山の時刻を文字で伝える。"
+    },
+    {
+      "id": "l_light",
+      "when": {
+        "flag": "wentOff"
+      },
+      "title": "ヘッドランプは日帰りでも持つ",
+      "text": "11 月末の日の入りは 16 時台。迷って時間を失うと、すぐに暗くなる。スマートフォンのライトは電池を早く減らし、電池が切れれば明かりもなくなる。ヘッドランプと予備の電池、雨具・防寒着を日帰りでも持つ。"
+    }
+  ],
+  "balanceTargets": {
+    "recommended": {
+      "goodMin": 0.95,
+      "fatalMax": 0.02
+    },
+    "bias": {
+      "goodMin": 0.5,
+      "goodMax": 0.85,
+      "fatalMin": 0.03,
+      "fatalMax": 0.18,
+      "rescuedMin": 0.05,
+      "lostMin": 0.35
+    },
+    "risky": {
+      "goodMax": 0.15,
+      "fatalMin": 0.5
+    }
+  },
+  "sources": [
+    "架空の人物・架空の経過（作者の設定: 2024 年 11 月 30 日（土）、60 代の単独の男性、スマートフォンの地図アプリだけに頼り、電池切れで地図・ナビゲーション・連絡の手段を失い、魚屋道の上部から白石谷へ迷い込む）。実際に起きた遭難の記録を再現したものではない",
+    "六甲山の遭難の傾向: 兵庫県内の山岳遭難のおよそ半数が六甲山系で起き、その約半数が道迷い。六甲山の道迷いの約 8 割は晴れの日に起きている（神戸大学の論文、兵庫県警の発表、神戸新聞 2021 年 12 月の報道）",
+    "県の呼びかけ: 携帯電話は山では不感地帯も多く過信は禁物、予備のバッテリーを持つ（兵庫県の冬山・夏山の遭難防止の呼びかけ）",
+    "登山道の状況: 魚屋道（七曲り）本庄堰堤〜一軒茶屋に崩落の迂回路があり、紅葉谷道は百間滝の付近で全面崩落（神戸市の登山道の通行状況）。紅葉谷道は通行止めの道として、踏み跡の薄い道にした",
+    "季節: 日の入りが一年でいちばん早いころ（神戸の 11 月末の日の入り 16:50 ごろ）で、雨の冷たい時期として 11 月末を選んだ。新月に近い日（月明かりなし）",
+    "コースタイムの目安: 高座の滝〜風吹岩 1:00、風吹岩〜雨ヶ峠 0:40、雨ヶ峠〜本庄橋跡 0:20、本庄橋跡〜一軒茶屋 0:50、一軒茶屋〜最高峰 0:10、最高峰〜有馬温泉 1:20（一般のガイドの値）",
+    "作者の想定: 白石谷の源頭へ下る踏み跡（魚屋道の上部の曲がり角から）と白石谷の上の小滝の位置、一軒茶屋で昼食がとれること、携帯電話の電波（山上の基地局と有馬・芦屋・岡本の基地局。白石谷の谷底は圏外になりやすい）、スマートフォンの電池の減り方（古い電池・軌跡の記録とルート案内・写真）、天気（晴れ、夜から雨、雨は 2 日続く）、捜索の手がかり（携帯電話会社の基地局の記録）と時刻",
+    "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+    "登山道・地点: © OpenStreetMap contributors（白石谷へ下る踏み跡の筋は、標高から描いた概略）"
+  ]
+}

@@ -125,6 +125,9 @@ JSON で表す論理式。`eval` は使わない。
 | `party.min.coreC` / `party.max.fatigue` 等 | 集計 |
 | `rec.minCoreC`, `rec.maxAnxiety`, `rec.fallCount` | 記録（教訓の条件用） |
 | `flags.<name>` | 真偽値 |
+| `ford.<渡渉点 ID>` | 渡渉点のいまの水位（cm） |
+| `c.<id>.ams` / `c.<id>.buried` / `c.<id>.riding` | 高山病の点（0〜100）、雪崩に埋まっているか、背負われているか |
+| `party.buriedCount` / `mates.buriedCount` | 雪崩に埋まっている人の数 |
 | `animal.<species>` / `animal.any` | リーダーから、いる（立ち去り始めていない）野生動物までの最短距離 m。いなければ 99999。`species` は下の §8 の表 |
 
 存在しないパスは `validate` でエラー。
@@ -199,6 +202,10 @@ JSON で表す論理式。`eval` は使わない。
 | `soak` | `level: "feet" \| "knees" \| "waist" \| "full"`, `snowmelt?: boolean` | 冷水に浸かる（docs/06 §4.1）。`who` で対象を指定 |
 | `detach` | `then: Action[]` | 対象をパーティから外し、個別に行動させる（例: 途中で引き返すシェルパ） |
 | `joinGroup` | `group` | 対象（`who`）を別のグループに入れる（分かれていた仲間と同じ所で合流する）。そのグループのリーダーの計画・状態にそろえ、30 m 以内ならリーダーの位置に並ぶ。離れていれば歩いて追いつく |
+| `ford` | `ford`（渡渉点 ID）, `rope?: boolean` | グループ全員で渡渉点を渡る（`hazards/ford.ts`）。水位 < `wadeCm` は濡れるだけ、`wadeCm`〜`sweepCm` は足を取られる（まれに流される）、`sweepCm` 以上は流される危険が大きい（流されると 4 割ほど溺れて亡くなる。死因 `drowning`）。`rope` で 1 人ずつ確保すると危険は 0.3 倍、時間は 3 倍。12 歳以下は 1.5 倍深く感じる |
+| `avalancheRescue` | `helpers?`, `helpersAfterMin?` | 雪崩に埋まった人を、埋まっていない人で 1 人ずつ捜して掘り出す（`hazards/avalanche.ts`）。場所を見つける時間はビーコン（捜す人と埋まった人の両方）4 分・プローブ 35 分 ÷ √(人数/3)・何もなし 90 分、掘る時間は深さ m × 16 分 ÷ √人数（シャベルなしは 3 倍）。`helpers` 人が `helpersAfterMin` 分後に着いて加わる（周りの登山者） |
+| `takePack` | `from` | 対象（`who`）が `from` の荷物を代わりに持つ（何人かなら分けて） |
+| `piggyback` | `rider`, `minutes` | 対象（`who`。1 人）が `rider` を `minutes` 分背負って歩く。背負われる人は歩かずに体を休め、背負う人は体重と荷物の分重くなり、列は 0.8 倍の速さ |
 
 **until の意味**
 - `TimeRef`: その時刻まで。
@@ -252,6 +259,7 @@ JSON で表す論理式。`eval` は使わない。
 | `triggerChoice` | `cp`（分岐点 ID を即発火） |
 | `animal` | 野生動物を出す。`species`（`bear` ツキノワグマ / `brownBear` ヒグマ / `deer` シカ / `serow` カモシカ / `boar` イノシシ / `monkey` サル）、`count?`（1〜6）、場所は `at?`（地点 ID）か `x?`・`z?`、なければリーダーの位置。そこから `aheadM?`（進む向きへ）・`sideM?`（右へ。負で左）ずらす。`behavior?`（`graze` 草を食む / `watch` こちらを見る / `wander` うろつく / `cross` 道を横切る / `flee` すぐ逃げる / `stalk` 人に付きまとう。熊のみ: いちばん近い人へ歩いて近づき、近づくたびに襲うかを引く。襲わなければ 20 分止まって見ていて、また近づく。人が近づいても立ち去らず、いちばん近い人が 800 m より離れるか時間が来ると立ち去る。見えなくなったグループは、次に見えたときにまた「見つけた」になり、暗さや霧で気づかないうちに近づかれると鉢合わせの確率で引く）、`durationMin?`、`anxiety?`（見つけたときの不安。既定は種類ごと）、`quiet?`（自動のログを出さない）、`id?`、`headingDeg?`。人が種類ごとの距離まで近づくか、時間が来ると立ち去る。見つけると出来事 `ANIMAL`（条件 `event` で使える）とログ。熊（`bear`・`brownBear`）は、人が近づいた出会いごとに低い確率で向かってきて、いちばん近い人にけがをさせてから立ち去る（気づかずに近づいた鉢合わせのほうが高い。止まっている人・人数の多いグループでは下がる。`aggression?` で倍率、0 で襲わない。`attackInjury?` で襲われたときのけがの割合を上書き: 打撲・ねんざ・脚の骨折・頭のけが・重い外傷・死亡の 6 つ）。襲われるとフラグ `bearAttack` が立つ |
 | `animalLeave` | `id?`・`species?`（動物を立ち去らせる。どちらもなければ全部） |
+| `avalanche` | 雪崩（`hazards/avalanche.ts`）。`x?`・`z?`（なければリーダーの位置）から半径 `radiusM` の中の人を、近い順に `maxBuried?` 人まで埋める（`who?` で人を決めてもよい）。深さは `depthM?`（[最小, 最大] m）。埋まった人は動けず、埋没時間と生存率の曲線（15 分 92%・35 分 32%・90 分 25%・130 分 5%）から引いた時刻に窒息する（死因 `asphyxia`）。15% で重いけがも負う。埋まらなかった人は 35% で打ち身・捻挫 |
 
 ### 8.1 セリフのテンプレート（`speech`）
 

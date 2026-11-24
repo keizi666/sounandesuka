@@ -1,0 +1,236 @@
+{
+  "skeleton": "public/maps/real/rokko.skeleton.json",
+  "mapId": "rokko",
+  "center": [
+    34.7707,
+    135.2676
+  ],
+  "size": 6400,
+  "resolution": 513,
+  "atXZ": {
+    "TH_KOZA": [
+      1912,
+      2787
+    ],
+    "FUKI": [
+      1105,
+      2514
+    ],
+    "AMA": [
+      314,
+      929
+    ],
+    "HONJO": [
+      209,
+      389
+    ],
+    "ICHIKEN": [
+      -120,
+      -722
+    ],
+    "SUMMIT": [
+      -353,
+      -812
+    ],
+    "J_UOYA": [
+      -231,
+      -916
+    ],
+    "J_SHIRA": [
+      -469,
+      -1108
+    ],
+    "J_SUMIYA": [
+      -1406,
+      -1932
+    ],
+    "TH_ARIMA": [
+      -1741,
+      -2405
+    ],
+    "J_MOMIJI": [
+      -1581,
+      -1295
+    ],
+    "J_SUMIYA_LOW": [
+      -1592,
+      -1682
+    ],
+    "TH_MOMIJI": [
+      -1982,
+      -2244
+    ],
+    "SHIRA_HEAD": [
+      -735,
+      -971
+    ],
+    "SHIRA_FALL": [
+      -1420,
+      -1035
+    ]
+  },
+  "snapM": 120,
+  "bridges": [
+    [
+      [
+        269,
+        134
+      ],
+      [
+        244,
+        225
+      ]
+    ]
+  ],
+  "falseEdges": [
+    {
+      "id": "F_SHIRA",
+      "name": "白石谷の源頭へ下る踏み跡（登山道ではない）",
+      "from": "J_SHIRA",
+      "snap": "valley",
+      "points": [
+        [
+          -503,
+          -1100
+        ],
+        [
+          -538,
+          -1075
+        ],
+        [
+          -573,
+          -1055
+        ],
+        [
+          -613,
+          -1040
+        ],
+        [
+          -651,
+          -1022
+        ],
+        [
+          -693,
+          -997
+        ]
+      ],
+      "fadeFrac": 0.5,
+      "markers": 0.1,
+      "drift": 0.03,
+      "attractiveness": 0.85,
+      "confuser": {
+        "whenIntending": [
+          "E8"
+        ],
+        "ambiguity": 1.4
+      }
+    }
+  ],
+  "radio": [
+    {
+      "id": "st_rokko_summit",
+      "x": -150,
+      "z": -800,
+      "elevM": 876,
+      "antennaM": 30,
+      "rangeM": 4500
+    },
+    {
+      "id": "st_rokko_east",
+      "x": -50,
+      "z": -525,
+      "elevM": 832,
+      "antennaM": 30,
+      "rangeM": 4500
+    },
+    {
+      "id": "st_arima",
+      "x": -1950,
+      "z": -2750,
+      "elevM": 388,
+      "antennaM": 30,
+      "rangeM": 3000
+    },
+    {
+      "id": "st_ashiya",
+      "x": 1700,
+      "z": 3100,
+      "elevM": 270,
+      "antennaM": 40,
+      "rangeM": 3000
+    },
+    {
+      "id": "st_okamoto",
+      "x": -1100,
+      "z": 3100,
+      "elevM": 278,
+      "antennaM": 40,
+      "rangeM": 6000
+    }
+  ],
+  "trailEdges": [
+    {
+      "id": "T_E15",
+      "name": "白石谷の沢筋（源頭〜白石滝）",
+      "from": "SHIRA_HEAD",
+      "to": "SHIRA_FALL",
+      "snap": "valley",
+      "points": [
+        [
+          -807,
+          -909
+        ],
+        [
+          -903,
+          -917
+        ],
+        [
+          -988,
+          -960
+        ],
+        [
+          -1078,
+          -982
+        ],
+        [
+          -1167,
+          -1019
+        ],
+        [
+          -1266,
+          -1027
+        ],
+        [
+          -1363,
+          -1011
+        ]
+      ]
+    },
+    {
+      "id": "T_E14",
+      "name": "白石谷の沢筋（白石滝〜紅葉谷の出合）",
+      "from": "SHIRA_FALL",
+      "to": "J_MOMIJI",
+      "snap": "valley",
+      "points": [
+        [
+          -1457,
+          -1042
+        ],
+        [
+          -1501,
+          -1130
+        ],
+        [
+          -1540,
+          -1222
+        ]
+      ]
+    }
+  ],
+  "paceAdj": {
+    "E2": 1.35,
+    "E4": 1.25,
+    "E9": 1.15
+  }
+}

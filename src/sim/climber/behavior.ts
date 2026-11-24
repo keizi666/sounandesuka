@@ -263,6 +263,12 @@ export function stepState(world: World, ctx: StaticContext, c: ClimberState): vo
           transition(world, ctx, c, 'NAVIGATING_TO_TRAIL', 'restEnd');
           return;
         }
+        // 道を外れたことに気づかないまま休んでいた人は、また気づかないまま歩く
+        if (c.memo.offrouteRest) {
+          c.memo.offrouteRest = false;
+          transition(world, ctx, c, 'OFFROUTE_UNAWARE', 'restEnd');
+          return;
+        }
         ensureRouteAhead(ctx, c);
         transition(world, ctx, c, 'WALKING', 'restEnd');
       }

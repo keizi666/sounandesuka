@@ -72,6 +72,8 @@ export function startAvalancheRescue(world: World, ctx: StaticContext, members: 
   if (crew.length === 0 && helpers === 0) return;
   if (victims.length === 0) return;
   const beacons = crew.some((c) => c.def.gear.beacon === true);
+  // ログの捜し方: 埋まった人の全員がビーコンを送信していればビーコン、送信していない人がいればビーコンとプローブ
+  const allBeacon = beacons && victims.every((v) => v.body.buried?.beacon === true);
   const probes = crew.some((c) => c.def.gear.probe === true);
   const shovels = crew.filter((c) => c.def.gear.shovel === true).length;
   const helpAt = world.tMin + helpersAfterMin;
@@ -97,7 +99,7 @@ export function startAvalancheRescue(world: World, ctx: StaticContext, members: 
     c.plan.busyUntilMin = now;
     c.plan.busyWith = 'avalancheRescue';
   }
-  ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: lead.id, important: true, data: { avalancheSearch: beacons ? 'beacon' : probes ? 'probe' : 'none', helpers } });
+  ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: lead.id, important: true, data: { avalancheSearch: allBeacon ? 'beacon' : beacons ? 'beaconPartial' : probes ? 'probe' : 'none', helpers, helpersAfterMin } });
 }
 
 /** 毎ティック: 埋まった人の窒息と、掘り出し */
@@ -113,6 +115,9 @@ export function stepAvalanche(world: World, ctx: StaticContext): void {
       // 掘り出せた（まだ生きていれば）
       c.body.buried = undefined;
       c.body.coreC -= ctx.tuning.avalanche.dugCoreDropC;
+      // 重いけががなければ、雪から出て動ける（その場にとどまる。手当て・下山はシナリオの選択肢で）
+      const bad = c.body.injury === 'legFracture' || c.body.injury === 'severeTrauma' || c.body.injury === 'headInjury';
+      if (!bad) transition(world, ctx, c, 'STAYING', 'dugOut');
       ctx.events.push({ tMin: world.tMin, type: 'SCRIPT_LOG', climberId: c.id, important: true, data: { dugOut: Math.round(world.tMin - b.atMin) } });
       continue;
     }

@@ -1,0 +1,5966 @@
+{
+ "id": "s29_jinba",
+ "version": 1,
+ "title": "高尾山まで、あと何キロ",
+ "subtitle": "4月・父と7歳の息子・奥高尾 陣馬山〜高尾山（実在の地形）",
+ "theme": "family",
+ "difficulty": 2,
+ "season": "spring",
+ "estMinutes": 20,
+ "mapId": "jinba",
+ "seed": 2904,
+ "startDate": "2026-04-18",
+ "startAt": "D0 08:30",
+ "timeLimit": "D1 12:00",
+ "sun": {
+  "sunrise": "05:01",
+  "sunset": "18:16",
+  "maxElevDeg": 65
+ },
+ "moon": {
+  "illumination": 0.02
+ },
+ "region": {
+  "name": "奥高尾・陣馬山〜高尾山（東京都・神奈川県）",
+  "real": true
+ },
+ "briefing": {
+  "text": "4 月中旬の土曜日、晴れ。会社員の拓也さん（39）は、小学 2 年の息子・蒼太くん（7）と二人で、陣馬山から高尾山まで奥高尾の縦走路を歩くことにした。蒼太くんは去年の遠足で高尾山に登ってから「もっと長い山に行きたい」と言い続けていた。高尾駅北口からバスで陣馬高原下へ。陣馬山・明王峠・景信山・小仏城山を経て高尾山まで、標準のコースタイムで約 6 時間。お昼は景信山の茶屋のベンチで食べ、高尾山からケーブルカーで下りて、15 時半には下山する計画だ。拓也さんのザックには水 1.5 L と自分の弁当、行動食、雨具、フリース、キャンプ用のヘッドランプ（電池は去年のまま）。蒼太くんのリュックには水筒（0.8 L）、おにぎり 2 つ、パン、お菓子、薄い上着、笛。蒼太くんの明かりはない。",
+  "forecast": [
+   {
+    "label": "今日",
+    "text": "晴れ。麓の最高気温は 20℃ くらい。尾根の上は風が少しある",
+    "icon": "sunny"
+   },
+   {
+    "label": "夕方から夜",
+    "text": "晴れて冷え込む。尾根の上は 10℃ を下回る",
+    "icon": "clear_night"
+   },
+   {
+    "label": "日の入り",
+    "text": "18:16"
+   }
+  ]
+ },
+ "plan": {
+  "route": [
+   "TH_JINBA",
+   "NH_ENT",
+   "JINBA",
+   "MYOO",
+   "SOKOZAWA",
+   "DODOKORO",
+   "KAGENOBU",
+   "KOBO_PASS",
+   "SHIROYAMA",
+   "ICHOUDAIRA",
+   "TAKAO",
+   "TH_CABLE"
+  ],
+  "goalNodes": [
+   "TH_CABLE",
+   "TH_KIYOTAKI",
+   "TH_SAGAMIKO",
+   "TH_KOBOTOKE",
+   "TH_HIKAGE",
+   "TH_JINBA"
+  ],
+  "plannedFinish": "D0 15:30",
+  "submittedPlan": false,
+  "reportIfNotBackBy": "D0 20:30",
+  "searchLeads": [
+   {
+    "id": "shared",
+    "at": "D0 20:30",
+    "when": {
+     "flag": "planShared"
+    },
+    "route": [
+     "TH_JINBA",
+     "NH_ENT",
+     "JINBA",
+     "MYOO",
+     "SOKOZAWA",
+     "DODOKORO",
+     "KAGENOBU",
+     "KOBO_PASS",
+     "SHIROYAMA",
+     "ICHOUDAIRA",
+     "TAKAO",
+     "TH_CABLE"
+    ],
+    "text": "真由美さんが警察に、拓也さんから届いた行程と「疲れたら小仏か日影に下りる」という連絡を見せた。捜索は奥高尾の縦走路と、そこから下りる道を中心に始まった"
+   },
+   {
+    "id": "unshared",
+    "at": "D0 20:30",
+    "when": {
+     "not": {
+      "flag": "planShared"
+     }
+    },
+    "route": [
+     "JINBA",
+     "MYOO",
+     "SOKOZAWA",
+     "DODOKORO",
+     "KAGENOBU",
+     "KOBO_PASS",
+     "SHIROYAMA",
+     "ICHOUDAIRA",
+     "TAKAO"
+    ],
+    "findF": 0.6,
+    "text": "真由美さんが知っていたのは「陣馬山から高尾山まで歩く」ということだけだった。どの道から登り、どこで下りるつもりだったのかは分からない。捜索は縦走路の上から、少しずつ広げることになった"
+   }
+  ]
+ },
+ "groups": [
+  {
+   "id": "family",
+   "members": "all",
+   "leader": "takuya",
+   "cohesion": "tight"
+  }
+ ],
+ "party": [
+  {
+   "id": "takuya",
+   "name": "拓也",
+   "age": 39,
+   "sex": "m",
+   "weightKg": 70,
+   "packKg": 7,
+   "experience": 0.4,
+   "fitness": 0.95,
+   "navSkill": 0.45,
+   "riskTolerance": 0.55,
+   "color": "#2563eb",
+   "portrait": "mid_m:2",
+   "leader": true,
+   "role": "父",
+   "habits": {
+    "eatEveryMin": 120,
+    "drinkEveryMin": 60,
+    "delaysRainwear": 0.5,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "basic",
+    "cloWorn": 0.55,
+    "cloPack": 0.35,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": true,
+     "batteryH": 2.5,
+     "inPack": true,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": true,
+     "batteryPct": 85,
+     "gpsApp": true,
+     "trackRecording": false,
+     "satelliteSos": false,
+     "strap": false
+    },
+    "map": true,
+    "compass": false,
+    "foodKcal": 1300,
+    "waterL": 1.5,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": false,
+    "rescueSheet": false,
+    "footwear": "trailRunners"
+   },
+   "notes": "架空の人物。学生のころに少し山を歩いた。息子とは高尾山の 1 号路・稲荷山コースを 2 回歩いた。ヘッドランプはキャンプ用のものを入れてきたが、電池は去年のまま。"
+  },
+  {
+   "id": "sota",
+   "name": "蒼太",
+   "age": 7,
+   "sex": "m",
+   "weightKg": 24,
+   "packKg": 1.5,
+   "experience": 0.15,
+   "fitness": 0.8,
+   "navSkill": 0.05,
+   "riskTolerance": 0.7,
+   "color": "#f97316",
+   "portrait": "child_m:1",
+   "role": "息子（小学 2 年）",
+   "habits": {
+    "eatEveryMin": null,
+    "drinkEveryMin": 45,
+    "delaysRainwear": 0.8,
+    "gpsCheckEveryMin": null
+   },
+   "gear": {
+    "rainwear": "none",
+    "cloWorn": 0.45,
+    "cloPack": 0.3,
+    "gloves": "none",
+    "hat": true,
+    "bivy": "none",
+    "headlamp": {
+     "has": false,
+     "batteryH": 0,
+     "inPack": false,
+     "spareBatteryH": 0
+    },
+    "phone": {
+     "has": false,
+     "batteryPct": 0,
+     "gpsApp": false,
+     "trackRecording": false,
+     "satelliteSos": false
+    },
+    "map": false,
+    "compass": false,
+    "foodKcal": 900,
+    "waterL": 0.8,
+    "stove": false,
+    "crampons": false,
+    "helmet": false,
+    "trekkingPoles": false,
+    "whistle": true,
+    "footwear": "sneakers"
+   },
+   "initial": {
+    "glycogenKcal": 700
+   },
+   "estimated": [
+    "fitness",
+    "initial"
+   ],
+   "notes": "架空の人物。小学 2 年生。サッカー教室に通っていて、走るのは速い。リュックには水筒（0.8 L）・おにぎり 2 つ・パン・お菓子・薄い上着・笛（父が付けた）。子どもの体は小さく、ためておけるエネルギーも少ない（出発時のエネルギーは大人より少なくした）。"
+  }
+ ],
+ "weather": {
+  "refElevM": 400,
+  "lapseRateCPer100m": 0.6,
+  "cloudThicknessM": 600,
+  "keyframes": [
+   {
+    "at": "D0 06:00",
+    "tempC": 9,
+    "windMs": 1,
+    "windDirDeg": 0,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   },
+   {
+    "at": "D0 09:00",
+    "tempC": 14,
+    "windMs": 2,
+    "windDirDeg": 160,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   },
+   {
+    "at": "D0 12:00",
+    "tempC": 19,
+    "windMs": 3,
+    "windDirDeg": 170,
+    "precipMmH": 0,
+    "cloudCover": 0.2,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   },
+   {
+    "at": "D0 15:00",
+    "tempC": 19,
+    "windMs": 3,
+    "windDirDeg": 180,
+    "precipMmH": 0,
+    "cloudCover": 0.2,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   },
+   {
+    "at": "D0 17:00",
+    "tempC": 16,
+    "windMs": 3,
+    "windDirDeg": 180,
+    "precipMmH": 0,
+    "cloudCover": 0.15,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   },
+   {
+    "at": "D0 19:00",
+    "tempC": 12,
+    "windMs": 2,
+    "windDirDeg": 270,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   },
+   {
+    "at": "D0 22:00",
+    "tempC": 9,
+    "windMs": 2,
+    "windDirDeg": 300,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   },
+   {
+    "at": "D1 04:30",
+    "tempC": 6,
+    "windMs": 1,
+    "windDirDeg": 300,
+    "precipMmH": 0,
+    "cloudCover": 0.05,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   },
+   {
+    "at": "D1 08:00",
+    "tempC": 11,
+    "windMs": 2,
+    "windDirDeg": 160,
+    "precipMmH": 0,
+    "cloudCover": 0.1,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   },
+   {
+    "at": "D1 12:00",
+    "tempC": 18,
+    "windMs": 3,
+    "windDirDeg": 170,
+    "precipMmH": 0,
+    "cloudCover": 0.2,
+    "cloudBaseM": 3000,
+    "visibilityM": 40000,
+    "pressureHpa": 1020
+   }
+  ]
+ },
+ "passersby": [
+  {
+   "edges": [
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+   ],
+   "perHour": 8,
+   "from": "08:30",
+   "to": "16:00",
+   "fromDay": 0
+  },
+  {
+   "edges": [
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "perHour": 2,
+   "from": "16:00",
+   "to": "18:30",
+   "fromDay": 0
+  },
+  {
+   "edges": [
+    "E13",
+    "E14",
+    "E15"
+   ],
+   "perHour": 2,
+   "from": "09:00",
+   "to": "16:30",
+   "fromDay": 0
+  },
+  {
+   "edges": [
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11"
+   ],
+   "perHour": 6,
+   "from": "08:30",
+   "to": "16:00",
+   "fromDay": 1
+  }
+ ],
+ "events": [
+  {
+   "id": "ev_nh_ent",
+   "once": true,
+   "trigger": {
+    "atNode": "NH_ENT"
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "新ハイキングコースの入口。ここから山道の登りになる"
+    }
+   ]
+  },
+  {
+   "id": "ev_sokozawa",
+   "once": true,
+   "trigger": {
+    "atNode": "SOKOZAWA"
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "底沢峠。南へ美女谷へ下る道が分かれる。縦走路は堂所山へ登り返す"
+    }
+   ]
+  },
+  {
+   "id": "ev_dodokoro",
+   "once": true,
+   "trigger": {
+    "atNode": "DODOKORO"
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "堂所山。北へ北高尾山稜が分かれる。景信山へは東へ下る"
+    }
+   ]
+  },
+  {
+   "id": "ev_snack_1",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "snackRule"
+     },
+     {
+      "after": "D0 09:40"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 5
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 100
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.1
+      },
+      {
+       "type": "say",
+       "who": "sota",
+       "text": "グミ食べていい？",
+       "to": "takuya"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_snack_2",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "snackRule"
+     },
+     {
+      "after": "D0 11:10"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 5
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 100
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.1
+      },
+      {
+       "type": "say",
+       "who": "sota",
+       "text": "お茶、おいしい！",
+       "to": "takuya"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_snack_3",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "snackRule"
+     },
+     {
+      "after": "D0 12:40"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 5
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 100
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.1
+      },
+      {
+       "type": "say",
+       "who": "sota",
+       "text": "チョコ、もう 1 個だけ",
+       "to": "takuya"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_snack_4",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "snackRule"
+     },
+     {
+      "after": "D0 13:50"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 5
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 100
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.1
+      },
+      {
+       "type": "say",
+       "who": "sota",
+       "text": "またおやつ？ やった",
+       "to": "takuya"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_snack_5",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "snackRule"
+     },
+     {
+      "after": "D0 15:00"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 5
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 100
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.1
+      },
+      {
+       "type": "say",
+       "who": "sota",
+       "text": "ラムネ食べる",
+       "to": "takuya"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_snack_6",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "snackRule"
+     },
+     {
+      "after": "D0 16:10"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 5
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 100
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.1
+      },
+      {
+       "type": "say",
+       "who": "sota",
+       "text": "ビスケット、半分パパにあげる",
+       "to": "takuya"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_tired1",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "any": [
+       {
+        "all": [
+         {
+          "flag": "fastStart"
+         },
+         {
+          "after": "D0 10:50"
+         },
+         {
+          "chance": 0.5
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "flag": "fastStart"
+         },
+         {
+          "after": "D0 11:30"
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "flag": "skippedRest"
+         },
+         {
+          "after": "D0 11:40"
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "not": {
+           "flag": "slowStart"
+          }
+         },
+         {
+          "after": "D0 12:00"
+         },
+         {
+          "chance": 0.5
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "not": {
+           "flag": "slowStart"
+          }
+         },
+         {
+          "after": "D0 12:40"
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "after": "D0 13:10"
+         },
+         {
+          "chance": 0.5
+         }
+        ]
+       },
+       {
+        "after": "D0 13:40"
+       }
+      ]
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "kidTired1"
+    },
+    {
+     "type": "log",
+     "text": "蒼太の足取りが重くなってきた。口数も減った"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "say",
+       "who": "sota",
+       "text": "ねえ、あとどれくらい？",
+       "to": "takuya"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.85
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_tired2",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "kidTired1"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "any": [
+       {
+        "all": [
+         {
+          "elapsedSince": {
+           "flag": "kidTired1",
+           "min": 35
+          }
+         },
+         {
+          "any": [
+           {
+            "flag": "skippedLunch"
+           },
+           {
+            "flag": "fastStart"
+           }
+          ]
+         },
+         {
+          "chance": 0.6
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "elapsedSince": {
+           "flag": "kidTired1",
+           "min": 60
+          }
+         },
+         {
+          "chance": 0.4
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "elapsedSince": {
+           "flag": "kidTired1",
+           "min": 80
+          }
+         },
+         {
+          "not": {
+           "flag": "lunchMyoo"
+          }
+         },
+         {
+          "not": {
+           "flag": "lunchEarly"
+          }
+         }
+        ]
+       },
+       {
+        "elapsedSince": {
+         "flag": "kidTired1",
+         "min": 110
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "kidTired2"
+    },
+    {
+     "type": "log",
+     "text": "蒼太が道にしゃがみ込んだ",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_tired3",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "kidTired2"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "OFFROUTE_UNAWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "LOST_AWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "BACKTRACKING"
+        }
+       },
+       {
+        "not": {
+         "state": "NAVIGATING_TO_TRAIL"
+        }
+       },
+       {
+        "not": {
+         "state": "DESCENDING_DRAINAGE"
+        }
+       }
+      ]
+     },
+     {
+      "any": [
+       {
+        "all": [
+         {
+          "flag": "pushed"
+         },
+         {
+          "elapsedSince": {
+           "flag": "kidTired2",
+           "min": 40
+          }
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "flag": "hurried"
+         },
+         {
+          "elapsedSince": {
+           "flag": "kidTired2",
+           "min": 55
+          }
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "elapsedSince": {
+           "flag": "kidTired2",
+           "min": 90
+          }
+         },
+         {
+          "not": {
+           "flag": "longRest"
+          }
+         },
+         {
+          "chance": 0.5
+         }
+        ]
+       },
+       {
+        "all": [
+         {
+          "elapsedSince": {
+           "flag": "kidTired2",
+           "min": 125
+          }
+         },
+         {
+          "not": {
+           "flag": "longRest"
+          }
+         }
+        ]
+       },
+       {
+        "elapsedSince": {
+         "flag": "kidTired2",
+         "min": 170
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "kidTired3"
+    },
+    {
+     "type": "log",
+     "text": "蒼太が泣き出して、歩かなくなった",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "say",
+       "who": "sota",
+       "text": "もうやだ！ 歩かない！",
+       "to": "takuya",
+       "tone": "shout"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 10
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.7
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_kid_fall_tired",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "any": [
+       {
+        "onEdge": "E7"
+       },
+       {
+        "onEdge": "E14"
+       },
+       {
+        "onEdge": "E11"
+       },
+       {
+        "onEdge": "E12"
+       },
+       {
+        "onEdge": "E13"
+       }
+      ]
+     },
+     {
+      "flag": "kidTired2"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "chance": 0.12
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "injure",
+     "who": "sota",
+     "injury": "sprain"
+    },
+    {
+     "type": "setFlag",
+     "flag": "kidSprain"
+    },
+    {
+     "type": "log",
+     "text": "蒼太が下りで転び、足首をひねった",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_kid_fall_hurry",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "any": [
+       {
+        "flag": "hurried"
+       },
+       {
+        "flag": "pushed"
+       }
+      ]
+     },
+     {
+      "any": [
+       {
+        "onEdge": "E7"
+       },
+       {
+        "onEdge": "E9"
+       },
+       {
+        "onEdge": "E11"
+       },
+       {
+        "onEdge": "E14"
+       }
+      ]
+     },
+     {
+      "flag": "kidTired1"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "not": {
+       "flag": "kidSprain"
+      }
+     },
+     {
+      "chance": 0.2
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "injure",
+     "who": "sota",
+     "injury": "sprain"
+    },
+    {
+     "type": "setFlag",
+     "flag": "kidSprain"
+    },
+    {
+     "type": "log",
+     "text": "急ぐ下りで蒼太が転び、足首をひねった",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_dad_fall_carry",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "var": "c.sota.riding",
+      "op": "==",
+      "value": true
+     },
+     {
+      "any": [
+       {
+        "onEdge": "E3"
+       },
+       {
+        "onEdge": "E7"
+       },
+       {
+        "onEdge": "E11"
+       },
+       {
+        "onEdge": "E12"
+       },
+       {
+        "onEdge": "E13"
+       },
+       {
+        "onEdge": "E14"
+       },
+       {
+        "onEdge": "E15"
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "chance": 0.12
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "injure",
+     "who": "takuya",
+     "injury": "bruise"
+    },
+    {
+     "type": "setFlag",
+     "flag": "dadFell"
+    },
+    {
+     "type": "log",
+     "text": "蒼太を背負って下る途中、拓也さんが足元の石に足を取られて転んだ。蒼太は背中にしがみついていて無事だった",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_dad_sprain_carry",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "var": "c.sota.riding",
+      "op": "==",
+      "value": true
+     },
+     {
+      "flag": "hurried"
+     },
+     {
+      "any": [
+       {
+        "onEdge": "E3"
+       },
+       {
+        "onEdge": "E7"
+       },
+       {
+        "onEdge": "E11"
+       },
+       {
+        "onEdge": "E12"
+       },
+       {
+        "onEdge": "E13"
+       },
+       {
+        "onEdge": "E14"
+       },
+       {
+        "onEdge": "E15"
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "chance": 0.1
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "injure",
+     "who": "takuya",
+     "injury": "sprain"
+    },
+    {
+     "type": "setFlag",
+     "flag": "dadSprain"
+    },
+    {
+     "type": "log",
+     "text": "蒼太を背負って急いで下る途中、拓也さんが段差を踏み外して足首をひねった",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_dark_fall",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "var": "sun.isDark",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chose": {
+       "cp": "generic:darkness",
+       "option": "hurry"
+      }
+     },
+     {
+      "any": [
+       {
+        "onEdge": "E3"
+       },
+       {
+        "onEdge": "E7"
+       },
+       {
+        "onEdge": "E11"
+       },
+       {
+        "onEdge": "E12"
+       },
+       {
+        "onEdge": "E13"
+       },
+       {
+        "onEdge": "E14"
+       },
+       {
+        "onEdge": "E15"
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "not": {
+       "flag": "kidSprain"
+      }
+     },
+     {
+      "chance": 0.35
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "injure",
+     "who": "sota",
+     "injury": "sprain"
+    },
+    {
+     "type": "setFlag",
+     "flag": "kidSprain"
+    },
+    {
+     "type": "log",
+     "text": "暗い下りで、明かりの外を歩いていた蒼太が段差を踏み外し、足首をひねった",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_dad_spent",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "piggy"
+     },
+     {
+      "beenAt": "KAGENOBU"
+     },
+     {
+      "elapsedSince": {
+       "flag": "piggy",
+       "min": 55
+      }
+     },
+     {
+      "var": "c.sota.riding",
+      "op": "==",
+      "value": false
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "OFFROUTE_UNAWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "LOST_AWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "BACKTRACKING"
+        }
+       },
+       {
+        "not": {
+         "state": "NAVIGATING_TO_TRAIL"
+        }
+       },
+       {
+        "not": {
+         "state": "DESCENDING_DRAINAGE"
+        }
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     },
+     {
+      "any": [
+       {
+        "flag": "hurried"
+       },
+       {
+        "chance": 0.5
+       }
+      ]
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "setFlag",
+     "flag": "dadSpent"
+    },
+    {
+     "type": "log",
+     "text": "蒼太を背負って歩き続けた拓也さんの足が上がらなくなってきた。腰と肩も痛む",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "ちょっと……パパも休ませて",
+       "to": "sota"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 10
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.75
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_dad_spent2",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "dadSpent"
+     },
+     {
+      "flag": "hurried"
+     },
+     {
+      "elapsedSince": {
+       "flag": "dadSpent",
+       "min": 45
+      }
+     },
+     {
+      "var": "c.sota.riding",
+      "op": "==",
+      "value": false
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "OFFROUTE_UNAWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "LOST_AWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "BACKTRACKING"
+        }
+       },
+       {
+        "not": {
+         "state": "NAVIGATING_TO_TRAIL"
+        }
+       },
+       {
+        "not": {
+         "state": "DESCENDING_DRAINAGE"
+        }
+       }
+      ]
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "急ぎ続けた拓也さんの太ももがつりかけて、道ばたに座り込んだ。もう急げない",
+     "important": true
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "足が……。少しだけ待って",
+       "to": "sota"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 15
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.6
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_dark_fall_dad",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "var": "sun.isDark",
+      "op": "==",
+      "value": true
+     },
+     {
+      "chose": {
+       "cp": "generic:darkness",
+       "option": "hurry"
+      }
+     },
+     {
+      "any": [
+       {
+        "onEdge": "E3"
+       },
+       {
+        "onEdge": "E7"
+       },
+       {
+        "onEdge": "E11"
+       },
+       {
+        "onEdge": "E12"
+       },
+       {
+        "onEdge": "E13"
+       },
+       {
+        "onEdge": "E14"
+       },
+       {
+        "onEdge": "E15"
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "OFFROUTE_UNAWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "LOST_AWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "BACKTRACKING"
+        }
+       },
+       {
+        "not": {
+         "state": "NAVIGATING_TO_TRAIL"
+        }
+       },
+       {
+        "not": {
+         "state": "DESCENDING_DRAINAGE"
+        }
+       }
+      ]
+     },
+     {
+      "var": "c.takuya.injury",
+      "op": "==",
+      "value": "none"
+     },
+     {
+      "chance": 0.25
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "injure",
+     "who": "takuya",
+     "injury": "sprain"
+    },
+    {
+     "type": "setFlag",
+     "flag": "dadSprain"
+    },
+    {
+     "type": "log",
+     "text": "暗い下りを急いでいた拓也さんが、濡れた木の根に足を取られて転び、足首をひねった",
+     "important": true
+    }
+   ]
+  },
+  {
+   "id": "ev_cable_last",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 17:45"
+     },
+     {
+      "before": "D1 07:00"
+     },
+     {
+      "not": {
+       "beenAt": "TH_CABLE"
+      }
+     },
+     {
+      "not": {
+       "flag": "escaping"
+      }
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "17:45。ケーブルカーの最終が出た。高尾山駅からは、1 号路を歩いて清滝まで下りるしかない（約 40 分）",
+     "important": true
+    },
+    {
+     "type": "setFlag",
+     "flag": "cableMissed"
+    },
+    {
+     "type": "actions",
+     "actions": [
+      {
+       "type": "setRoute",
+       "route": [
+        "TH_CABLE",
+        "TH_KIYOTAKI"
+       ],
+       "goalNodes": [
+        "TH_KIYOTAKI",
+        "TH_KOBOTOKE",
+        "TH_HIKAGE",
+        "TH_SAGAMIKO"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_sunset",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "after": "D0 18:16"
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "日が沈んだ。森の中から暗くなっていく"
+    }
+   ]
+  },
+  {
+   "id": "ev_wife_call",
+   "once": true,
+   "trigger": {
+    "all": [
+     {
+      "flag": "planShared"
+     },
+     {
+      "after": "D0 18:00"
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "var": "c.takuya.radio",
+      "op": ">=",
+      "value": 0.3
+     }
+    ]
+   },
+   "effects": [
+    {
+     "type": "log",
+     "text": "18 時。約束の連絡の時刻になった。拓也さんは真由美さんに「まだ山の中。下りている」と送った"
+    }
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "id": "cp_message",
+   "title": "陣馬高原下バス停",
+   "priority": 30,
+   "trigger": {
+    "after": "D0 08:30"
+   },
+   "situation": "高尾駅北口からのバスを、終点の陣馬高原下で降りた。家を出るとき、妻の真由美さんには「陣馬山から高尾山まで歩く。夕方には帰る」とだけ言ってきた。出発の前に、スマホで何か送っておく？",
+   "knowledge": [
+    "計画: 陣馬山・明王峠・景信山・小仏城山を経て高尾山へ。ケーブルカーで清滝へ下りる（標準のコースタイムで約 6 時間。下山予定 15:30）",
+    "途中で下りられる道: 明王峠から相模湖駅、景信山から小仏バス停、小仏城山から日影バス停",
+    "日の入りは 18:16。ケーブルカーの最終は 17:45（作者の想定）",
+    "スマホの電池 {c.takuya.phone.batteryPct:0}%"
+   ],
+   "options": [
+    {
+     "id": "share",
+     "label": "行程と下りられる道、帰りの目安を送る",
+     "detail": "「陣馬→景信→城山→高尾。疲れたら小仏か日影に下りる。18 時に連絡する」",
+     "explain": "どの道を歩き、どこで下りられ、何時までに連絡がなければ心配してよいかを家族に伝えることです。もしものとき、捜す範囲がすぐに決まります。",
+     "actions": [
+      {
+       "type": "narrate",
+       "text": "拓也さんは真由美さんに、行程と下りられる道、18 時に連絡することを送った"
+      }
+     ],
+     "flags": [
+      "planShared"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "none",
+     "label": "言ってあるので、送らない",
+     "detail": "高尾山なんて、何度も行っている。",
+     "explain": "行き先をおおまかにしか伝えないことです。低い山の縦走でも、帰らないときに家族が伝えられることが少ないと、捜索の始まりが遅れます。",
+     "actions": [
+      {
+       "type": "narrate",
+       "text": "拓也さんはスマホをポケットにしまった"
+      }
+     ],
+     "bias": {
+      "base": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_start",
+   "title": "出発",
+   "priority": 20,
+   "trigger": {
+    "after": "D0 08:31"
+   },
+   "situation": "車道の先に、陣馬山への新ハイキングコースの入口がある。蒼太は「よーい、ドン！」と言うなり走り出した。",
+   "knowledge": [
+    "蒼太は小学 2 年。遠足で高尾山の 1 号路を歩いたことはあるが、こんなに長い道は初めて",
+    "子どもは疲れを先に感じない。疲れたと言い出したときには、もうかなり疲れていることが多い",
+    "子どもは体が小さく、ためておけるエネルギーも少ない"
+   ],
+   "options": [
+    {
+     "id": "free",
+     "label": "蒼太の好きなペースで歩かせる",
+     "detail": "元気なうちに距離を稼いでおけば、後が楽になる。",
+     "explain": "子どもが走りたがるままに、速いペースで歩くことです。最初に飛ばすと、子どもは後半に力が残らず、ばてやすくなります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "よし、行け行け！ 転ぶなよ",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1.15
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "fastStart"
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 1,
+      "mods": [
+       {
+        "when": {
+         "var": "leader.def.riskTolerance",
+         "op": ">",
+         "value": 0.5
+        },
+        "add": 0.2
+       }
+      ]
+     }
+    },
+    {
+     "id": "slow",
+     "label": "蒼太を前にして、ゆっくり歩く。休むたびに食べて飲む約束をする",
+     "detail": "「先頭は蒼太。でも走らない。休むたびにおやつと水」",
+     "explain": "子どもを前に歩かせ、大人が後ろからペースを見て、休むたびに食べて飲む約束をすることです。後半に力を残す、子ども連れの基本の歩き方です。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "先頭は蒼太。でも走らないこと。休むたびにおやつと水な",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.85
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "slowStart",
+      "snackRule"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.45
+     }
+    },
+    {
+     "id": "normal",
+     "label": "いつもどおり、父が前を歩く",
+     "detail": "ついてこられるだろう。",
+     "explain": "大人のふだんの歩き方で進むことです。子どもは遅れまいと無理をしがちで、疲れや空腹に大人が気づくのが遅れることがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "パパの後ろをついてきな",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_jinba",
+   "title": "陣馬山",
+   "priority": 12,
+   "trigger": {
+    "atNode": "JINBA"
+   },
+   "situation": "陣馬山の山頂に着いた。白い馬の像の向こうに富士山が見える。茶屋が開いていて、ベンチは家族連れでいっぱいだ。蒼太は「1 番！」と像の前へ走っていった。",
+   "knowledge": [
+    "ここまで標準のコースタイムで 1 時間 40 分。高尾山までは、まだ 4 時間以上ある",
+    "お昼は景信山の茶屋で食べる予定（ここから約 2 時間 20 分）",
+    "下りられる道は、明王峠（相模湖駅）・景信山（小仏バス停）・小仏城山（日影バス停）"
+   ],
+   "options": [
+    {
+     "id": "snack",
+     "label": "おやつと水で 20 分休んでから進む",
+     "explain": "元気に見えても、早めに休んで食べさせることです。子どもは大人より早くエネルギーが減るので、足りなくなる前に足しておくことが後半の力になります。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 20
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 150
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "eat",
+       "who": "takuya",
+       "kcal": 150
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.9
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6,
+      "mods": [
+       {
+        "when": {
+         "flag": "snackRule"
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    },
+    {
+     "id": "lunch",
+     "label": "少し早いけれど、ここでお昼にする",
+     "explain": "見晴らしのよい山頂で早めにお昼を食べることです。休む時間は長くなりますが、子どもの体にエネルギーを入れておけます。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 40
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 350
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "eat",
+       "who": "takuya",
+       "kcal": 450
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.9
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "lunchEarly"
+     ],
+     "bias": {
+      "base": 0.35
+     }
+    },
+    {
+     "id": "quick",
+     "label": "写真を撮って、すぐ先へ進む",
+     "explain": "子どもが元気なうちに先を急ぐことです。休みと食べ物を後回しにすると、子どもは急にばてて、遅れを取り戻せなくなることがあります。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 5
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1.05
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "skippedRest"
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.8,
+      "mods": [
+       {
+        "when": {
+         "flag": "fastStart"
+        },
+        "add": 0.4
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_myoo",
+   "title": "明王峠",
+   "priority": 12,
+   "trigger": {
+    "atNode": "MYOO"
+   },
+   "situation": "明王峠に着いた。茶屋は閉まっていて、ベンチがいくつかあるだけだ。蒼太が「おなかすいた。まだ？」と父の袖を引いた。",
+   "knowledge": [
+    "お昼は景信山の予定。ここから堂所山を越えて、景信山まで約 1 時間半",
+    "南へ下る道で相模湖駅へ下りられる（約 1 時間半）",
+    "蒼太の水筒の残り {c.sota.waterL:1} L、お父さんの水 {c.takuya.waterL:1} L"
+   ],
+   "options": [
+    {
+     "id": "lunch",
+     "label": "ここでお昼にする",
+     "available": {
+      "not": {
+       "flag": "lunchEarly"
+      }
+     },
+     "hideIfUnavailable": true,
+     "explain": "空腹を訴えたときに、予定を変えてすぐ食べさせることです。子どもの「おなかすいた」は、エネルギーが減ってきた合図です。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 30
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 350
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "eat",
+       "who": "takuya",
+       "kcal": 400
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "lunchMyoo"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "snack",
+     "label": "おやつを食べて 15 分休む",
+     "available": {
+      "flag": "lunchEarly"
+     },
+     "hideIfUnavailable": true,
+     "explain": "お昼を早めに食べたあとも、2 時間おきくらいに少しずつ食べさせることです。歩き続ける子どもは、思ったより早くお腹がすきます。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 15
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 150
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.7
+     }
+    },
+    {
+     "id": "go",
+     "label": "景信山までがまんさせて進む",
+     "detail": "景信山の茶屋で食べたほうが、楽しい。",
+     "explain": "予定どおり景信山でお昼にするため、空腹をがまんさせて歩くことです。子どもはエネルギーが切れると急に歩けなくなり、機嫌も崩れます。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "景信山でお昼にしよう。あと少し",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "skippedLunch"
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.9
+     }
+    },
+    {
+     "id": "sagamiko",
+     "label": "ここから相模湖駅へ下りる",
+     "explain": "縦走をここでやめ、南の道で相模湖駅へ下りることです。高尾山までの長い後半を歩かずに済み、明るいうちに確実に下山できます。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "今日はここから相模湖に下りよう。湖でボートが見られるぞ",
+       "to": "sota"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 15
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 200
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "MYOO",
+        "TH_SAGAMIKO"
+       ],
+       "goalNodes": [
+        "TH_SAGAMIKO"
+       ]
+      }
+     ],
+     "flags": [
+      "escapeSagamiko",
+      "escaping"
+     ],
+     "bias": {
+      "base": 0.12,
+      "mods": [
+       {
+        "when": {
+         "flag": "kidTired1"
+        },
+        "add": 0.5
+       },
+       {
+        "when": {
+         "after": "D0 12:45"
+        },
+        "add": 0.4
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_tired",
+   "title": "座り込んだ息子",
+   "priority": 15,
+   "trigger": {
+    "all": [
+     {
+      "flag": "kidTired2"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "OFFROUTE_UNAWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "LOST_AWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "BACKTRACKING"
+        }
+       },
+       {
+        "not": {
+         "state": "NAVIGATING_TO_TRAIL"
+        }
+       },
+       {
+        "not": {
+         "state": "DESCENDING_DRAINAGE"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "situation": "蒼太が道の真ん中で立ち止まり、しゃがみ込んだ。「もう歩けない。足が痛い。おうち帰りたい」。目に涙がたまっている。",
+   "knowledge": [
+    "高尾山まで、まだ先は長い",
+    "日の入りは 18:16。ケーブルカーの最終は 17:45（作者の想定）",
+    "蒼太の水筒の残り {c.sota.waterL:1} L、食べ物 {c.sota.foodKcal:0} kcal",
+    "おんぶすれば早く進めるが、お父さんの足と背中はそれだけ重くなる"
+   ],
+   "options": [
+    {
+     "id": "care",
+     "label": "座らせて、食べさせ、飲ませる。荷物も持ってやる",
+     "explain": "子どもが座り込んだら、まず休ませて食べさせ、飲ませ、荷物を持ってやることです。疲れの多くは空腹とのどの渇きで、手当てをすれば歩く力が戻ることがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "よくがんばったな。ちょっと休もう。リュックはパパが持つよ",
+       "to": "sota"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 15
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 150
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "takePack",
+       "who": "takuya",
+       "from": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.85
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "cared"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.7
+     }
+    },
+    {
+     "id": "piggy",
+     "label": "おんぶして進む",
+     "explain": "子どもを背負って先へ進むことです。子どもは休めますが、大人は急に重くなって疲れ、背中で動かない子どもの体は冷えやすくなります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "ほら、おんぶ。ちょっとだけだぞ",
+       "to": "sota"
+      },
+      {
+       "type": "takePack",
+       "who": "takuya",
+       "from": "sota"
+      },
+      {
+       "type": "piggyback",
+       "who": "takuya",
+       "rider": "sota",
+       "minutes": 30
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "piggy"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "push",
+     "label": "「もう少しだから」と励まして歩かせる",
+     "explain": "休ませずに励まして歩かせ続けることです。子どもの疲れは見た目より深いことが多く、無理をさせるとさらに遅くなり、転びやすくもなります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "もう少しだから。がんばれ、蒼太",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "pushed"
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.8,
+      "mods": [
+       {
+        "when": {
+         "flag": "fastStart"
+        },
+        "add": 0.2
+       }
+      ]
+     }
+    },
+    {
+     "id": "longrest",
+     "label": "30 分しっかり休み、上着を着せる",
+     "explain": "時間を取ってしっかり休ませることです。疲れは取れますが、その分だけ下山は遅くなり、日没までの余裕が減ります。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 30
+      },
+      {
+       "type": "addLayer",
+       "who": "sota"
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 200
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.9
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "longRest"
+     ],
+     "bias": {
+      "base": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_tired2",
+   "title": "泣いて歩かない息子",
+   "priority": 16,
+   "trigger": {
+    "all": [
+     {
+      "flag": "kidTired3"
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "OFFROUTE_UNAWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "LOST_AWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "BACKTRACKING"
+        }
+       },
+       {
+        "not": {
+         "state": "NAVIGATING_TO_TRAIL"
+        }
+       },
+       {
+        "not": {
+         "state": "DESCENDING_DRAINAGE"
+        }
+       }
+      ]
+     },
+     {
+      "var": "c.sota.riding",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "situation": "蒼太が地面に座り込んで、声を上げて泣いている。「もう歩かない！ おんぶ！」。手を引いても立ち上がらない。",
+   "knowledge": [
+    "日の入りは 18:16。ケーブルカーの最終は 17:45（作者の想定）",
+    "お父さんの足も、だいぶ重くなってきた",
+    "蒼太の水筒の残り {c.sota.waterL:1} L、食べ物 {c.sota.foodKcal:0} kcal",
+    "電波 {leader.radio:1}（0.3 以上で通話できる）。スマホの電池 {c.takuya.phone.batteryPct:0}%"
+   ],
+   "options": [
+    {
+     "id": "piggy_rest",
+     "label": "少し休ませてから、おんぶと歩きを交互にして進む",
+     "explain": "子どもを休ませて食べさせ、背負う区間と歩かせる区間を交互にして進むことです。大人も子どもも限界まで使い切らず、少しずつ距離を稼げます。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "よし、あの木まではおんぶ。そこからは手をつないで歩こう",
+       "to": "sota"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 10
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 150
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "takePack",
+       "who": "takuya",
+       "from": "sota"
+      },
+      {
+       "type": "piggyback",
+       "who": "takuya",
+       "rider": "sota",
+       "minutes": 25
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.8
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "piggy"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "piggy_long",
+     "label": "ずっとおんぶして、急いで下りる",
+     "explain": "子どもを背負ったまま急ぐことです。早く進めるように見えますが、大人が先にばてると二人とも動けなくなり、背中で動かない子どもは冷えていきます。",
+     "actions": [
+      {
+       "type": "takePack",
+       "who": "takuya",
+       "from": "sota"
+      },
+      {
+       "type": "piggyback",
+       "who": "takuya",
+       "rider": "sota",
+       "minutes": 80
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "piggy",
+      "hurried"
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "scold",
+     "label": "「置いていくぞ」と言って歩かせる",
+     "explain": "強い言葉で子どもを立たせて歩かせることです。ばてた子どもは気持ちで動かせても長くは続かず、泣きながらの下りは転びやすくなります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "いいかげんにしろ。置いていくぞ",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.85
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "pushed"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "call",
+     "label": "110 番して救助を頼む",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "unavailableText": "電波が弱い",
+     "explain": "子どもが動けないと判断して通報し、その場で待つことです。助けは確実に来ますが、夜になると救助隊は朝を待つことがあり、止まっている親子は冷えていきます。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "all"
+      },
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "7 歳の息子が疲れて動けなくなりました。奥高尾の縦走路にいます"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "flags": [
+      "calledSelf"
+     ],
+     "bias": {
+      "base": 0.15,
+      "mods": [
+       {
+        "when": {
+         "var": "sun.isDark",
+         "op": "==",
+         "value": true
+        },
+        "add": 0.5
+       },
+       {
+        "when": {
+         "var": "c.takuya.fatigue",
+         "op": ">",
+         "value": 60
+        },
+        "add": 0.4
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_kagenobu",
+   "title": "景信山",
+   "priority": 12,
+   "trigger": {
+    "atNode": "KAGENOBU"
+   },
+   "situation": "景信山の山頂に着いた。茶屋の前のベンチから、相模湖と丹沢の山並みがよく見える。ここから東へ、小仏バス停へ下りる道が分かれている。",
+   "knowledge": [
+    "高尾山まで、小仏峠・小仏城山を経て約 2 時間（標準のコースタイムは 1 時間 40 分）。そこからケーブルカーの高尾山駅まで 20 分",
+    "小仏バス停までは約 50 分。バスで高尾駅へ戻れる",
+    "日の入りは 18:16。ケーブルカーの最終は 17:45（作者の想定）",
+    "蒼太の水筒の残り {c.sota.waterL:1} L"
+   ],
+   "options": [
+    {
+     "id": "onward",
+     "label": "休んでから、予定どおり高尾山へ",
+     "available": {
+      "all": [
+       {
+        "before": "D0 13:45"
+       },
+       {
+        "not": {
+         "flag": "kidTired2"
+        }
+       }
+      ]
+     },
+     "hideIfUnavailable": true,
+     "explain": "時間に余裕があり、子どもにまだ力が残っているうちに、休んでから予定どおり進むことです。この先にも小仏城山から下りる道があります。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 20
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 250
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "eat",
+       "who": "takuya",
+       "kcal": 300
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "toTakao"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "kobotoke",
+     "label": "小仏バス停へ下りる",
+     "explain": "縦走をここで切り上げ、小仏バス停へ下りることです。子どもが疲れてきたら、後半を残してでも明るいうちに下山するのが確実です。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "今日はここまで。バスで帰ろう",
+       "to": "sota"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 15
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 200
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "KAGENOBU",
+        "TH_KOBOTOKE"
+       ],
+       "goalNodes": [
+        "TH_KOBOTOKE"
+       ]
+      }
+     ],
+     "flags": [
+      "escapeKobotoke",
+      "escaping"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.35,
+      "mods": [
+       {
+        "when": {
+         "flag": "kidTired2"
+        },
+        "add": 0.5
+       },
+       {
+        "when": {
+         "after": "D0 14:15"
+        },
+        "add": 0.5
+       },
+       {
+        "when": {
+         "flag": "planShared"
+        },
+        "add": 0.1
+       }
+      ]
+     }
+    },
+    {
+     "id": "rest_go",
+     "label": "茶屋で長めに休み、なめこ汁を飲んでから高尾山へ",
+     "explain": "しっかり食べて休み、元気を取り戻してから先へ進むことです。子どもは回復しますが、休んだ分だけ高尾山に着くのが遅れ、日没が近づきます。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 40
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 350
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "eat",
+       "who": "takuya",
+       "kcal": 450
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "toTakao",
+      "longRest"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "hurry",
+     "label": "ケーブルカーに間に合うよう、すぐ高尾山へ急ぐ",
+     "explain": "時刻に間に合わせるため、休まずに急ぐことです。疲れた子どもを急がせると、下りで転んだり途中で動けなくなったりして、かえって遅れることがあります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "ケーブルカーに乗り遅れるぞ。急ごう",
+       "to": "sota"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 5
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1.1
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "toTakao",
+      "hurried"
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.6,
+      "mods": [
+       {
+        "when": {
+         "after": "D0 14:30"
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_shiroyama",
+   "title": "小仏城山",
+   "priority": 12,
+   "trigger": {
+    "atNode": "SHIROYAMA"
+   },
+   "situation": "小仏城山の山頂に着いた。茶屋の前の広場は、高尾山から歩いてきた人たちでにぎわっている。ここから北東へ、日影沢林道で日影バス停へ下りられる。",
+   "knowledge": [
+    "高尾山まで一丁平を経て約 1 時間。そこから 1 号路でケーブルカーの高尾山駅まで 20 分",
+    "日影バス停までは林道を約 1 時間。谷の中は早く暗くなる",
+    "日の入りは 18:16。ケーブルカーの最終は 17:45（作者の想定）",
+    "ヘッドランプはお父さんのザックに 1 つ（電池は去年のまま）"
+   ],
+   "options": [
+    {
+     "id": "onward",
+     "label": "予定どおり高尾山へ",
+     "available": {
+      "all": [
+       {
+        "before": "D0 15:15"
+       },
+       {
+        "not": {
+         "flag": "kidTired3"
+        }
+       }
+      ]
+     },
+     "hideIfUnavailable": true,
+     "explain": "まだ明るく、子どもも歩けるうちに、予定どおり高尾山へ向かうことです。高尾山からはケーブルカーで下りられ、道もよく整っています。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 10
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 100
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.1
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "toTakao"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "hikage",
+     "label": "日影沢林道で日影バス停へ下りる",
+     "explain": "高尾山をあきらめ、ゆるやかな林道で日影バス停へ下りることです。時間が遅くなったときや子どもが疲れているときに、日没前に下山を終えられます。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "高尾山はまた今度。林道でバス停まで下りよう",
+       "to": "sota"
+      },
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 10
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 150
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "setRoute",
+       "route": [
+        "SHIROYAMA",
+        "TH_HIKAGE"
+       ],
+       "goalNodes": [
+        "TH_HIKAGE"
+       ]
+      }
+     ],
+     "flags": [
+      "escapeHikage",
+      "escaping"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.35,
+      "mods": [
+       {
+        "when": {
+         "after": "D0 15:30"
+        },
+        "add": 0.5
+       },
+       {
+        "when": {
+         "flag": "kidTired2"
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    },
+    {
+     "id": "piggy",
+     "label": "蒼太をおんぶして、高尾山へ急ぐ",
+     "explain": "子どもを背負って時刻に間に合わせようとすることです。大人がばてると二人とも動けなくなり、背負われて動かない子どもは夕方の風で冷えていきます。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "おんぶしてやる。ケーブルカーに乗ろう",
+       "to": "sota"
+      },
+      {
+       "type": "takePack",
+       "who": "takuya",
+       "from": "sota"
+      },
+      {
+       "type": "piggyback",
+       "who": "takuya",
+       "rider": "sota",
+       "minutes": 45
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "toTakao",
+      "piggy",
+      "hurried"
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "flag": "kidTired2"
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "teahouse",
+     "label": "茶屋で休んでから高尾山へ",
+     "explain": "ここで休んで子どもを回復させてから、高尾山へ向かうことです。休んだ分、ケーブルカーの最終や日没に間に合わなくなることがあります。",
+     "actions": [
+      {
+       "type": "rest",
+       "who": "all",
+       "minutes": 30
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 200
+      },
+      {
+       "type": "drink",
+       "who": "sota",
+       "liters": 0.15
+      },
+      {
+       "type": "eat",
+       "who": "takuya",
+       "kcal": 200
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "toTakao",
+      "longRest"
+     ],
+     "bias": {
+      "base": 0.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_kidcold",
+   "title": "冷えてきた息子",
+   "priority": 18,
+   "trigger": {
+    "all": [
+     {
+      "var": "c.sota.coreC",
+      "op": "<",
+      "value": 35.6
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "OFFROUTE_UNAWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "LOST_AWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "BACKTRACKING"
+        }
+       },
+       {
+        "not": {
+         "state": "NAVIGATING_TO_TRAIL"
+        }
+       },
+       {
+        "not": {
+         "state": "DESCENDING_DRAINAGE"
+        }
+       }
+      ]
+     },
+     {
+      "var": "c.sota.indoors",
+      "op": "==",
+      "value": false
+     }
+    ]
+   },
+   "situation": "蒼太の唇の色が悪い。小さく震えていて、話しかけても返事が短い。汗で濡れたシャツが冷たくなっている。",
+   "knowledge": [
+    "子どもは体が小さく、大人より早く冷える。止まっているとき・背負われているときは、なおさら",
+    "蒼太のリュックに薄い上着がある",
+    "電波 {leader.radio:1}（0.3 以上で通話できる）。スマホの電池 {c.takuya.phone.batteryPct:0}%"
+   ],
+   "options": [
+    {
+     "id": "warm",
+     "label": "上着を着せ、甘いものを食べさせて、手を引いて歩く",
+     "explain": "冷えた子どもに上着を着せて甘いものを食べさせ、自分の足で歩かせて体を温めることです。まだ歩けるうちは、ゆっくりでも動いたほうが体は温まります。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "sota"
+      },
+      {
+       "type": "eat",
+       "who": "sota",
+       "kcal": 150
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.8
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "kidCold"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "call",
+     "label": "110 番して救助を頼む",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "unavailableText": "電波が弱い",
+     "explain": "子どもの冷えを重く見て、通報して救助を待つことです。待つあいだは止まっているので、着込んで体を寄せ合い、冷えを防ぐ必要があります。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "all"
+      },
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "子どもが冷えて震えています。奥高尾の縦走路にいます"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "flags": [
+      "kidCold",
+      "calledSelf"
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "var": "sun.isDark",
+         "op": "==",
+         "value": true
+        },
+        "add": 0.3
+       }
+      ]
+     }
+    },
+    {
+     "id": "piggy",
+     "label": "おんぶして、急いで下りる",
+     "explain": "冷えた子どもを背負って急ぐことです。背中で動かない子どもは自分では熱を作れず、風に当たってさらに冷えることがあります。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "sota"
+      },
+      {
+       "type": "piggyback",
+       "who": "takuya",
+       "rider": "sota",
+       "minutes": 45
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "kidCold",
+      "piggy"
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_lampout",
+   "title": "消えたヘッドランプ",
+   "priority": 17,
+   "trigger": {
+    "all": [
+     {
+      "var": "sun.isDark",
+      "op": "==",
+      "value": true
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "OFFROUTE_UNAWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "LOST_AWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "BACKTRACKING"
+        }
+       },
+       {
+        "not": {
+         "state": "NAVIGATING_TO_TRAIL"
+        }
+       },
+       {
+        "not": {
+         "state": "DESCENDING_DRAINAGE"
+        }
+       }
+      ]
+     },
+     {
+      "var": "c.takuya.headlamp.usable",
+      "op": "==",
+      "value": false
+     },
+     {
+      "var": "c.takuya.headlamp.has",
+      "op": "==",
+      "value": true
+     },
+     {
+      "state": "WALKING"
+     }
+    ]
+   },
+   "situation": "ヘッドランプの明かりが急に暗くなり、消えた。電池が切れたらしい。森の中は真っ暗で、足元の木の根も見えない。蒼太が父の腕にしがみついた。",
+   "knowledge": [
+    "予備の電池はない。スマホのライトは使えるが、電池が減っていく",
+    "スマホの電池 {c.takuya.phone.batteryPct:0}%、電波 {leader.radio:1}（0.3 以上で通話できる）",
+    "月はほとんど出ていない"
+   ],
+   "options": [
+    {
+     "id": "call",
+     "label": "110 番して、その場で待つ",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "unavailableText": "電波が弱い",
+     "explain": "明かりがなくなった時点で歩くのをやめ、通報して待つことです。暗闇で子どもを連れて歩くと、転んだり道を外れたりするおそれが大きくなります。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "all"
+      },
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "ライトが切れて動けません。7 歳の子どもと一緒です"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "flags": [
+      "calledSelf"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "phone",
+     "label": "スマホのライトで、少しずつ進む",
+     "explain": "スマホの小さな明かりを頼りに歩き続けることです。足元がよく見えず進みは遅く、スマホの電池が減ると通報もできなくなります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "スマホで照らすから、パパのすぐ後ろを歩いて",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.7
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.7
+     }
+    },
+    {
+     "id": "wait",
+     "label": "通報せずに、その場で朝を待つ",
+     "explain": "動かずに夜明けを待つことです。道に迷う心配はありませんが、通報しなければ家族の届け出まで誰も居場所を知らず、親子は朝まで冷えに耐えることになります。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "all"
+      },
+      {
+       "type": "bivouac",
+       "until": "dawn",
+       "findLee": true
+      }
+     ],
+     "bias": {
+      "base": 0.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "cp_kidinjury",
+   "title": "足をひねった息子",
+   "priority": 19,
+   "trigger": {
+    "all": [
+     {
+      "flag": "kidSprain"
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "OFFROUTE_UNAWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "LOST_AWARE"
+        }
+       },
+       {
+        "not": {
+         "state": "BACKTRACKING"
+        }
+       },
+       {
+        "not": {
+         "state": "NAVIGATING_TO_TRAIL"
+        }
+       },
+       {
+        "not": {
+         "state": "DESCENDING_DRAINAGE"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "situation": "下りで蒼太が木の根につまずいて転び、右の足首をひねった。泣きながら足を押さえている。少しは歩けるが、足をつくたびに顔をゆがめる。",
+   "knowledge": [
+    "日の入りは 18:16。ケーブルカーの最終は 17:45（作者の想定）",
+    "電波 {leader.radio:1}（0.3 以上で通話できる）",
+    "奥高尾の縦走路は人が多い。明るいうちなら、通りかかる人に手伝いを頼める"
+   ],
+   "options": [
+    {
+     "id": "piggy",
+     "label": "おんぶして、ゆっくり進む",
+     "explain": "けがをした子どもを無理に歩かせず、背負って進むことです。大人は疲れますが、ひねった足をかばい、悪くするのを防げます。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "痛かったな。おんぶするから、つかまって",
+       "to": "sota"
+      },
+      {
+       "type": "takePack",
+       "who": "takuya",
+       "from": "sota"
+      },
+      {
+       "type": "piggyback",
+       "who": "takuya",
+       "rider": "sota",
+       "minutes": 60
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.9
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "flags": [
+      "piggy"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "slow",
+     "label": "肩を貸して、ゆっくり歩かせる",
+     "explain": "子どもを支えながら自分の足でゆっくり歩かせることです。背負うより大人は楽ですが、時間がかかり、日没までに下りられないことがあります。",
+     "actions": [
+      {
+       "type": "takePack",
+       "who": "takuya",
+       "from": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.7
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "call",
+     "label": "110 番して救助を頼む",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "unavailableText": "電波が弱い",
+     "explain": "けがを理由に通報し、その場で救助を待つことです。明るいうちなら救助隊が早く来られますが、待つあいだに日が傾くこともあります。",
+     "actions": [
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "7 歳の息子が足をひねって歩けません。奥高尾の縦走路です"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "flags": [
+      "calledSelf"
+     ],
+     "bias": {
+      "base": 0.3,
+      "mods": [
+       {
+        "when": {
+         "var": "sun.isDark",
+         "op": "==",
+         "value": true
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "genericOverrides": {
+  "darkness": {
+   "situation": "日が沈み、森の中はもう暗い。蒼太が父の手をぎゅっと握った。「暗いよ。こわい」",
+   "knowledge": [
+    "ヘッドランプはお父さんのザックに 1 つ（電池は去年のまま）。蒼太は明かりを持っていない",
+    "スマホの電池 {c.takuya.phone.batteryPct:0}%、電波 {leader.radio:1}（0.3 以上で通話できる）",
+    "整った登山道だが、夜は人が通らない"
+   ],
+   "options": [
+    {
+     "id": "lamp",
+     "label": "ヘッドランプをつけ、手をつないでゆっくり下る",
+     "explain": "明かりをつけ、子どもと手をつないで足元を照らしながらゆっくり進むことです。整った道なら、慌てずに歩けば暗くても下りられます。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "手をつなごう。足元を照らすから、ゆっくりな",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.8
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 1
+     }
+    },
+    {
+     "id": "call",
+     "label": "110 番して、迎えに来てもらう",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "hideIfUnavailable": true,
+     "explain": "暗い中を歩かず、通報してその場で救助を待つことです。夜は救助隊が山に入るのを朝まで待つことがあり、そのあいだ親子は冷えに耐えることになります。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "all"
+      },
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "7 歳の息子と奥高尾を縦走していて、暗くなって動けなくなりました"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "flags": [
+      "calledSelf"
+     ],
+     "bias": {
+      "base": 0.25,
+      "mods": [
+       {
+        "when": {
+         "flag": "kidTired3"
+        },
+        "add": 0.6
+       },
+       {
+        "when": {
+         "var": "c.sota.coreC",
+         "op": "<",
+         "value": 35.8
+        },
+        "add": 0.8
+       },
+       {
+        "when": {
+         "var": "c.sota.injury",
+         "op": "!=",
+         "value": "none"
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    },
+    {
+     "id": "hurry",
+     "label": "急いで下る",
+     "explain": "暗くなったのを焦って、足早に下ることです。明かりが一つでは子どもの足元まで照らせず、転んだり道を外れたりしやすくなります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "急ごう。早く下りるぞ",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 1.1
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "tags": [
+      "risky"
+     ],
+     "bias": {
+      "base": 0.4
+     }
+    },
+    {
+     "id": "bivouac",
+     "label": "その場で朝を待つ",
+     "explain": "暗い中を動かず、その場で朝まで待つことです。道迷いは防げますが、ツェルトも十分な防寒着もない親子には、春の夜の冷え込みがこたえます。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "all"
+      },
+      {
+       "type": "bivouac",
+       "until": "dawn",
+       "findLee": true
+      }
+     ],
+     "bias": {
+      "base": 0.08
+     }
+    }
+   ]
+  },
+  "injured": {
+   "situation": "拓也さんが足首をひねった。歩けないことはないが、一歩ごとに痛む。蒼太が心配そうに父の顔をのぞき込んでいる。",
+   "knowledge": [
+    "日の入りは 18:16。ケーブルカーの最終は 17:45（作者の想定）",
+    "電波 {leader.radio:1}（0.3 以上で通話できる）。スマホの電池 {c.takuya.phone.batteryPct:0}%",
+    "もう蒼太を背負うことはできない"
+   ],
+   "options": [
+    {
+     "id": "slow_descend",
+     "label": "蒼太の手を引いて、ゆっくり下る",
+     "available": {
+      "all": [
+       {
+        "var": "leader.injury",
+        "op": "!=",
+        "value": "legFracture"
+       },
+       {
+        "var": "leader.injury",
+        "op": "!=",
+        "value": "headInjury"
+       },
+       {
+        "var": "leader.injury",
+        "op": "!=",
+        "value": "severeTrauma"
+       }
+      ]
+     },
+     "hideIfUnavailable": true,
+     "explain": "痛む足をかばいながら、子どもと一緒に自分たちで下ることです。明るいうちに下りられる距離なら現実的ですが、遅くなると暗さと冷えが重なります。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "大丈夫。ゆっくり行こう。手をつないで",
+       "to": "sota"
+      },
+      {
+       "type": "setPace",
+       "who": "all",
+       "factor": 0.6
+      },
+      {
+       "type": "continueRoute"
+      }
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "call",
+     "label": "110 番して救助を頼む",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "unavailableText": "電波が弱い",
+     "explain": "大人がけがをして子どもを連れて下りるのが難しいと判断し、通報して待つことです。子どもを守れる大人が一人しかいないときは、早めに助けを呼ぶのが確実です。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "all"
+      },
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "足をけがして、7 歳の子どもを連れて下りられません。奥高尾の縦走路です"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "flags": [
+      "calledSelf"
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.5,
+      "mods": [
+       {
+        "when": {
+         "var": "sun.isDark",
+         "op": "==",
+         "value": true
+        },
+        "add": 0.5
+       }
+      ]
+     }
+    },
+    {
+     "id": "bivouac",
+     "label": "動かずに、その場で待つ",
+     "explain": "通報せずにその場にとどまることです。家族の届け出を待つことになり、そのあいだ親子は動かずに冷えていきます。",
+     "actions": [
+      {
+       "type": "addLayer",
+       "who": "all"
+      },
+      {
+       "type": "bivouac",
+       "until": "rescue",
+       "findLee": true
+      }
+     ],
+     "bias": {
+      "base": 0.15
+     }
+    }
+   ]
+  },
+  "lostAware": {
+   "situation": "見覚えのない道を歩いている。人とすれ違わなくなり、道標も見当たらない。どこかの分かれ道で、違う尾根に入ったようだ。蒼太が「ねえ、こっちで合ってるの？」と聞いた。",
+   "knowledge": [
+    "さっきまでは、人の多い縦走路を歩いていた",
+    "スマホに地図アプリが入っている。電池 {c.takuya.phone.batteryPct:0}%、電波 {leader.radio:1}（0.3 以上で通話できる）",
+    "日の入りは 18:16。ケーブルカーの最終は 17:45（作者の想定）"
+   ],
+   "options": [
+    {
+     "id": "backtrack",
+     "label": "来た道を戻る",
+     "explain": "迷ったと気づいたら、分かる所まで来た道を戻ることです。子どもを連れていても、知っている道へ戻るのがいちばん確実です。",
+     "actions": [
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "ごめん、道をまちがえた。さっきの所まで戻ろう",
+       "to": "sota"
+      },
+      {
+       "type": "backtrack"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.8
+     }
+    },
+    {
+     "id": "gps",
+     "label": "スマホの地図で現在地を確かめる",
+     "available": {
+      "all": [
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.gpsApp",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "hideIfUnavailable": true,
+     "explain": "立ち止まって地図アプリで現在地を確かめ、近い登山道へ戻ることです。分かれ道の間違いなら、すぐに戻る向きが分かります。",
+     "actions": [
+      {
+       "type": "stayPut"
+      },
+      {
+       "type": "checkPosition"
+      },
+      {
+       "type": "navigateToTrail"
+      }
+     ],
+     "tags": [
+      "recommended"
+     ],
+     "bias": {
+      "base": 0.6
+     }
+    },
+    {
+     "id": "call",
+     "label": "110 番する",
+     "available": {
+      "all": [
+       {
+        "var": "leader.radio",
+        "op": ">=",
+        "value": 0.3
+       },
+       {
+        "var": "leader.phone.has",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "leader.phone.batteryPct",
+        "op": ">",
+        "value": 0
+       }
+      ]
+     },
+     "hideIfUnavailable": true,
+     "explain": "自分たちで戻るのをあきらめ、通報してその場で待つことです。動かなければ見つけてもらいやすい一方、明るいうちに自分で戻れた機会を手放すこともあります。",
+     "actions": [
+      {
+       "type": "callRescue",
+       "via": "auto"
+      },
+      {
+       "type": "say",
+       "who": "takuya",
+       "text": "奥高尾の縦走路から道を外れました。7 歳の子どもと一緒です"
+      },
+      {
+       "type": "waitRescue"
+      }
+     ],
+     "flags": [
+      "calledSelf"
+     ],
+     "bias": {
+      "base": 0.15
+     }
+    },
+    {
+     "id": "descend",
+     "label": "下に見える沢へ下りてみる",
+     "explain": "下れば麓に出るだろうと、道のない斜面を沢へ下ることです。沢は滝や崖で行き詰まりやすく、子どもを連れて下るのはとくに危険です。",
+     "actions": [
+      {
+       "type": "descendDrainage"
+      }
+     ],
+     "flags": [
+      "descended"
+     ],
+     "bias": {
+      "base": 0.1
+     }
+    }
+   ]
+  }
+ },
+ "thoughts": [
+  {
+   "key": "s29_kid_go",
+   "who": "sota",
+   "when": {
+    "all": [
+     {
+      "before": "D0 10:15"
+     },
+     {
+      "not": {
+       "flag": "kidTired1"
+      }
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "ぼくがいちばん！",
+    "山って、たのしい。もっと速く行ける",
+    "高尾山まで、ぜんぶ歩くんだ"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s29_kid_heavy",
+   "who": "sota",
+   "when": {
+    "all": [
+     {
+      "flag": "kidTired1"
+     },
+     {
+      "not": {
+       "flag": "kidTired2"
+      }
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "足がちょっと重くなってきた",
+    "まだかなあ",
+    "登りばっかり"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s29_kid_hungry",
+   "who": "sota",
+   "when": {
+    "all": [
+     {
+      "var": "c.sota.glycogenKcal",
+      "op": "<",
+      "value": 380
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "おなかすいた……",
+    "からあげ食べたい",
+    "おにぎり、まだ食べちゃだめかな"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s29_kid_thirst",
+   "who": "sota",
+   "when": {
+    "all": [
+     {
+      "var": "c.sota.waterDeficitL",
+      "op": ">",
+      "value": 0.6
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "のどかわいた",
+    "水筒、もうちょっとしかない"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s29_kid_tired",
+   "who": "sota",
+   "when": {
+    "all": [
+     {
+      "flag": "kidTired2"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "もう歩きたくない",
+    "なんでこんなに遠いの",
+    "パパはずるい。足が長いもん"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s29_kid_ride",
+   "who": "sota",
+   "when": {
+    "var": "c.sota.riding",
+    "op": "==",
+    "value": true
+   },
+   "lines": [
+    "パパの背中、あったかい",
+    "ねむくなってきた",
+    "高い。遠くまで見える"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s29_kid_dark",
+   "who": "sota",
+   "when": {
+    "all": [
+     {
+      "var": "sun.isDark",
+      "op": "==",
+      "value": true
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "暗いの、こわい",
+    "おばけ、出ないよね",
+    "パパの手、はなさない"
+   ],
+   "priority": 8
+  },
+  {
+   "key": "s29_kid_cold",
+   "who": "sota",
+   "when": {
+    "all": [
+     {
+      "var": "c.sota.coreC",
+      "op": "<",
+      "value": 36
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "さむい……",
+    "手が冷たい",
+    "歯がカチカチする"
+   ],
+   "priority": 9
+  },
+  {
+   "key": "s29_kid_hurt",
+   "who": "sota",
+   "when": {
+    "all": [
+     {
+      "var": "c.sota.injury",
+      "op": "!=",
+      "value": "none"
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "足がいたい",
+    "ころばなければよかった"
+   ],
+   "priority": 9
+  },
+  {
+   "key": "s29_kid_cared",
+   "who": "sota",
+   "when": {
+    "all": [
+     {
+      "flag": "cared"
+     },
+     {
+      "not": {
+       "elapsedSince": {
+        "flag": "cared",
+        "min": 40
+       }
+      }
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "おにぎり食べたら、ちょっと元気になった",
+    "リュックがないと、からだが軽い"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s29_kid_wait",
+   "who": "sota",
+   "when": {
+    "state": "WAITING_RESCUE"
+   },
+   "lines": [
+    "ママに会いたい",
+    "おなかすいた。おうちのごはん食べたい"
+   ],
+   "priority": 8
+  },
+  {
+   "key": "s29_dad_good",
+   "who": "takuya",
+   "when": {
+    "all": [
+     {
+      "before": "D0 10:30"
+     },
+     {
+      "not": {
+       "flag": "kidTired1"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "この調子なら、思ったより早く着きそうだ",
+    "蒼太、うれしそうだな"
+   ],
+   "priority": 3
+  },
+  {
+   "key": "s29_dad_fast",
+   "who": "takuya",
+   "when": {
+    "all": [
+     {
+      "flag": "fastStart"
+     },
+     {
+      "before": "D0 10:45"
+     }
+    ]
+   },
+   "lines": [
+    "あんなに飛ばして、最後までもつかな",
+    "まあ、疲れたら休めばいい"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s29_dad_quiet",
+   "who": "takuya",
+   "when": {
+    "all": [
+     {
+      "flag": "kidTired1"
+     },
+     {
+      "not": {
+       "beenAt": "TAKAO"
+      }
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "蒼太、口数が減ってきたな",
+    "まだ半分か……",
+    "子どもの足だと、コースタイムの 1.5 倍はかかるのか"
+   ],
+   "priority": 5
+  },
+  {
+   "key": "s29_dad_clock",
+   "who": "takuya",
+   "when": {
+    "all": [
+     {
+      "after": "D0 15:30"
+     },
+     {
+      "not": {
+       "beenAt": "TAKAO"
+      }
+     },
+     {
+      "not": {
+       "flag": "escaping"
+      }
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "ケーブルカーの最終に間に合うか",
+    "日が傾いてきた。思ったよりずっと遅い",
+    "下山予定はとっくに過ぎた"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s29_dad_piggy",
+   "who": "takuya",
+   "when": {
+    "var": "c.sota.riding",
+    "op": "==",
+    "value": true
+   },
+   "lines": [
+    "重い……。7 歳って、こんなに重かったか",
+    "下りで背負うと、足元が見えない",
+    "腰が……。でも下ろしたら、もう歩かないだろう"
+   ],
+   "priority": 6
+  },
+  {
+   "key": "s29_dad_dark",
+   "who": "takuya",
+   "when": {
+    "all": [
+     {
+      "var": "sun.isDark",
+      "op": "==",
+      "value": true
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "ヘッドランプの電池、もつだろうか",
+    "蒼太の分の明かりも持ってくるんだった",
+    "落ち着け。道はある"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s29_dad_lost",
+   "who": "takuya",
+   "when": {
+    "state": "LOST_AWARE"
+   },
+   "lines": [
+    "道標がない。どこで間違えた？",
+    "堂所山の分かれ道か……"
+   ],
+   "priority": 8
+  },
+  {
+   "key": "s29_dad_escape",
+   "who": "takuya",
+   "when": {
+    "all": [
+     {
+      "flag": "escaping"
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "高尾山はまた今度でいい",
+    "ちゃんと下りられれば、それでいい"
+   ],
+   "priority": 4
+  },
+  {
+   "key": "s29_dad_cold",
+   "who": "takuya",
+   "when": {
+    "all": [
+     {
+      "flag": "kidCold"
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "子どもは、こんなに早く冷えるのか",
+    "汗をかいたまま止まったのがいけなかった"
+   ],
+   "priority": 7
+  },
+  {
+   "key": "s29_dad_wait",
+   "who": "takuya",
+   "when": {
+    "state": "WAITING_RESCUE"
+   },
+   "lines": [
+    "蒼太を抱えて、体を寄せ合う",
+    "早く来てくれ",
+    "真由美に、なんて言えばいいんだ"
+   ],
+   "priority": 8
+  }
+ ],
+ "speech": [
+  {
+   "key": "s29_run",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "all": [
+     {
+      "after": "D0 08:32"
+     },
+     {
+      "before": "D0 09:15"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "パパ遅い！ 早く早く！",
+    "ぼく、先に行ってるね！"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "走ると疲れるぞー",
+     "見えるところにいろよ"
+    ]
+   },
+   "priority": 12,
+   "once": true
+  },
+  {
+   "key": "s29_horse",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "beenAt": "JINBA"
+   },
+   "lines": [
+    "白い馬だ！ 写真とって！"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "富士山も見えるぞ。ほら、あそこ"
+    ]
+   },
+   "priority": 11,
+   "once": true
+  },
+  {
+   "key": "s29_howfar_down",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "all": [
+     {
+      "flag": "kidTired1"
+     },
+     {
+      "flag": "escaping"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "まだ着かないの？",
+    "バス、まだ？"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "もう少し。あとは下りだけだよ",
+     "下に着いたら、ジュース買おう"
+    ]
+   },
+   "priority": 9,
+   "cooldownMin": 25
+  },
+  {
+   "key": "s29_howfar",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "all": [
+     {
+      "flag": "kidTired1"
+     },
+     {
+      "not": {
+       "flag": "escaping"
+      }
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "まだ？",
+    "あとどれくらい？",
+    "高尾山まで、あと何キロ？"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "もう少し",
+     "あと半分くらいかな",
+     "次の山を越えたらね"
+    ]
+   },
+   "priority": 9,
+   "cooldownMin": 25
+  },
+  {
+   "key": "s29_whine",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "all": [
+     {
+      "flag": "kidTired2"
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "もうやだ。歩けない",
+    "足がいたい",
+    "おんぶして",
+    "おうち帰りたい"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "がんばれ、あと少し",
+     "次のベンチで休もう",
+     "もうちょっとだけ、がんばろう"
+    ]
+   },
+   "priority": 10,
+   "cooldownMin": 18
+  },
+  {
+   "key": "s29_hungry",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "all": [
+     {
+      "var": "c.sota.glycogenKcal",
+      "op": "<",
+      "value": 380
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "おなかすいた",
+    "おにぎり食べたい"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "次の休みで食べよう",
+     "お昼まで、がまんな"
+    ]
+   },
+   "priority": 9,
+   "cooldownMin": 30
+  },
+  {
+   "key": "s29_thirst",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "all": [
+     {
+      "var": "c.sota.waterDeficitL",
+      "op": ">",
+      "value": 0.6
+     },
+     {
+      "all": [
+       {
+        "var": "c.sota.moving",
+        "op": "==",
+        "value": true
+       },
+       {
+        "var": "c.sota.riding",
+        "op": "==",
+        "value": false
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "のどかわいた",
+    "お茶、もうない"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "水筒の、少しずつ飲みな"
+    ]
+   },
+   "priority": 9,
+   "cooldownMin": 30
+  },
+  {
+   "key": "s29_kagenobu",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "beenAt": "KAGENOBU"
+   },
+   "lines": [
+    "湖が見える！"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "相模湖だよ。朝、バスの窓から見えたかな"
+    ]
+   },
+   "priority": 11,
+   "once": true
+  },
+  {
+   "key": "s29_shiroyama",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "beenAt": "SHIROYAMA"
+   },
+   "lines": [
+    "かき氷ある？"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "まだ 4 月だぞ。なめこ汁ならある"
+    ]
+   },
+   "priority": 11,
+   "once": true
+  },
+  {
+   "key": "s29_ride",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "var": "c.sota.riding",
+    "op": "==",
+    "value": true
+   },
+   "lines": [
+    "高い！",
+    "パパ、汗くさい"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "落ちるなよ。しっかりつかまって"
+    ]
+   },
+   "priority": 10,
+   "cooldownMin": 60
+  },
+  {
+   "key": "s29_dark",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "all": [
+     {
+      "var": "sun.isDark",
+      "op": "==",
+      "value": true
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "パパ、こわい",
+    "真っ暗だね",
+    "足もと、見えない"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "大丈夫。手をはなさないで",
+     "パパの明かりの中を歩いてごらん"
+    ]
+   },
+   "tone": "whisper",
+   "priority": 11,
+   "cooldownMin": 20
+  },
+  {
+   "key": "s29_cold",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "all": [
+     {
+      "var": "c.sota.coreC",
+      "op": "<",
+      "value": 36
+     },
+     {
+      "all": [
+       {
+        "not": {
+         "state": "FINISHED"
+        }
+       },
+       {
+        "not": {
+         "state": "RESCUED"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "lines": [
+    "さむい",
+    "からだがふるえる"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "上着、着よう",
+     "パパにくっついてな"
+    ]
+   },
+   "tone": "whisper",
+   "priority": 12,
+   "cooldownMin": 25
+  },
+  {
+   "key": "s29_lost",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "state": "LOST_AWARE"
+   },
+   "lines": [
+    "道、まちがえたの？"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "ちょっと戻ってみよう"
+    ]
+   },
+   "priority": 12,
+   "once": true
+  },
+  {
+   "key": "s29_cable",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "beenAt": "TH_CABLE"
+   },
+   "lines": [
+    "ケーブルカーだ！ いちばん前に乗りたい"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "よくがんばったな"
+    ]
+   },
+   "priority": 12,
+   "once": true
+  },
+  {
+   "key": "s29_bus",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "any": [
+     {
+      "beenAt": "TH_KOBOTOKE"
+     },
+     {
+      "beenAt": "TH_HIKAGE"
+     }
+    ]
+   },
+   "lines": [
+    "バスだー！ すわれるかな"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "よく歩いたな。高尾山は、また今度来よう"
+    ]
+   },
+   "priority": 12,
+   "once": true
+  },
+  {
+   "key": "s29_wait",
+   "who": "sota",
+   "to": "takuya",
+   "when": {
+    "state": "WAITING_RESCUE"
+   },
+   "lines": [
+    "いつ来るの？",
+    "おまわりさん、来る？"
+   ],
+   "replies": {
+    "who": "takuya",
+    "lines": [
+     "もうすぐだよ",
+     "来るよ。だから、ここで待とう"
+    ]
+   },
+   "tone": "whisper",
+   "priority": 10,
+   "cooldownMin": 40
+  }
+ ],
+ "endings": [
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "after": "D1 04:00"
+   },
+   "title": "夜が明けてから下山",
+   "text": "暗い山の中で動けなくなった二人は、明るくなるのを待って歩き出し、朝になってから麓に下りた。蒼太くんは父の上着にくるまって、ほとんど眠れなかった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "all": [
+     {
+      "beenAt": "TH_CABLE"
+     },
+     {
+      "after": "D0 17:15"
+     }
+    ]
+   },
+   "title": "最終のケーブルカーに駆け込んで",
+   "text": "二人が高尾山駅に着いたのは、最終のケーブルカーの少し前だった。蒼太くんは座席に座るなり眠ってしまった。拓也さんの足は、膝から下がふるえていた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "all": [
+     {
+      "beenAt": "TH_KIYOTAKI"
+     },
+     {
+      "after": "D0 18:45"
+     }
+    ]
+   },
+   "title": "暗い 1 号路を下って",
+   "text": "ケーブルカーの最終は出たあとだった。拓也さんはヘッドランプをつけ、蒼太くんの手を引いて、舗装された急な 1 号路を清滝まで歩いて下った。麓に着いたときには、あたりはすっかり暗くなっていた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "beenAt": "TH_KIYOTAKI"
+   },
+   "title": "ケーブルカーに乗り遅れて",
+   "text": "高尾山駅に着く前に、ケーブルカーの最終が出てしまった。二人は 1 号路を歩いて清滝へ下りた。蒼太くんは最後の坂で何度も座り込んだが、自分の足で麓まで下りた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "beenAt": "TH_CABLE"
+   },
+   "title": "高尾山からケーブルカーで",
+   "text": "二人は高尾山に着き、ケーブルカーで清滝へ下りた。蒼太くんはいちばん前の席で、窓の外の暗くなりかけた森を見ていた。陣馬山から高尾山まで、7 歳の足で歩き通した。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "all": [
+     {
+      "beenAt": "TH_KOBOTOKE"
+     },
+     {
+      "after": "D0 18:45"
+     }
+    ]
+   },
+   "title": "暗くなってから小仏へ",
+   "text": "景信山から小仏バス停へ下りる道の途中で日が暮れた。ヘッドランプ 1 つで足元を照らし、バス停に着いたのは暗くなってからだった。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "beenAt": "TH_KOBOTOKE"
+   },
+   "title": "景信山から小仏へ",
+   "text": "景信山で縦走を切り上げ、小仏バス停へ下りた。高尾山には届かなかったが、二人は明るいうちにバスに乗った。蒼太くんはバスの中ですぐに眠った。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "all": [
+     {
+      "beenAt": "TH_HIKAGE"
+     },
+     {
+      "after": "D0 18:45"
+     }
+    ]
+   },
+   "title": "暗い林道を日影へ",
+   "text": "小仏城山から日影沢林道を下った。谷の中は早く暗くなり、最後はヘッドランプの明かりで林道を歩いて、日影バス停に着いた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "beenAt": "TH_HIKAGE"
+   },
+   "title": "城山から日影へ",
+   "text": "小仏城山で高尾山をあきらめ、日影沢林道で日影バス停へ下りた。ゆるやかな林道を、蒼太くんは父と手をつないで歩き通した。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "beenAt": "TH_SAGAMIKO"
+   },
+   "title": "明王峠から相模湖へ",
+   "text": "明王峠から南の道を下り、相模湖駅に出た。縦走は半分で終わったが、二人は湖のほとりで遊覧船を眺めてから電車で帰った。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "when": {
+    "beenAt": "TH_JINBA"
+   },
+   "title": "来た道を戻って",
+   "text": "二人は来た道を戻り、陣馬高原下のバス停に下りた。"
+  },
+  {
+   "kind": "SAFE_RETURN",
+   "title": "親子で下山",
+   "text": "拓也さんと蒼太くんは、そろって麓に下りた。"
+  },
+  {
+   "kind": "SELF_RESCUE",
+   "title": "山の中で夜を明かして",
+   "text": "二人は山の中で夜を明かし、明るくなってから自分たちで歩いて下りた。蒼太くんは父の上着にくるまって、ほとんど眠れなかった。"
+  },
+  {
+   "kind": "RESCUED",
+   "when": {
+    "flag": "kidSprain"
+   },
+   "title": "救助隊に背負われて",
+   "text": "足をひねった蒼太くんは、救助隊員に背負われて下りた。拓也さんはそのあとを歩いた。蒼太くんのけがは捻挫だった。"
+  },
+  {
+   "kind": "RESCUED",
+   "when": {
+    "var": "rec.rescueCalledAt",
+    "op": ">",
+    "value": 0
+   },
+   "title": "救助隊と下山",
+   "text": "通報を受けた救助隊が二人のもとに着き、蒼太くんを背負って下った。拓也さんは何度も頭を下げた。蒼太くんにけがはなかった。"
+  },
+  {
+   "kind": "RESCUED",
+   "title": "捜索で見つかって",
+   "text": "帰らない二人を家族が届け出て、捜索が始まった。二人は救助隊に見つけられ、付き添われて下山した。"
+  },
+  {
+   "kind": "RESCUED_CRITICAL",
+   "title": "病院へ運ばれた",
+   "text": "救助隊に収容されたとき、蒼太くんは体が冷えきって、ほとんど話せなかった。病院で低体温症の手当てを受けた。"
+  },
+  {
+   "kind": "MISSING",
+   "title": "戻らない親子",
+   "text": "時間になっても、二人は見つかっていない。捜索は続いている。"
+  },
+  {
+   "kind": "FATAL",
+   "title": "帰らなかった",
+   "text": "この山行で、命を落とした人がいた。原因は振り返りに記す。"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "l_ct",
+   "title": "子ども連れはコースタイムの 1.5 倍で",
+   "text": "地図のコースタイムは大人の足の目安で、休憩は入っていない。小学校低学年の子どもとなら 1.5 倍、休憩を足すと 2 倍近くかかることもある。日没とケーブルカー・バスの最終から逆算して、どこまで歩くかを決めておく。"
+  },
+  {
+   "id": "l_fast",
+   "when": {
+    "flag": "fastStart"
+   },
+   "title": "子どもは最初に飛ばす",
+   "text": "子どもは元気なうちは走り、疲れを先に感じない。最初に飛ばした分は後半の遅れになって返ってくる。大人が後ろにつき、子どもを前にしてペースを抑える。"
+  },
+  {
+   "id": "l_food",
+   "when": {
+    "any": [
+     {
+      "flag": "skippedLunch"
+     },
+     {
+      "flag": "skippedRest"
+     }
+    ]
+   },
+   "title": "「おなかすいた」は早めに聞く",
+   "text": "子どもは体が小さく、ためておけるエネルギーが少ない。空腹は機嫌と足に一気に出る。お昼の場所にこだわらず、休むたびに少しずつ食べさせ、飲ませる。"
+  },
+  {
+   "id": "l_escape",
+   "when": {
+    "any": [
+     {
+      "flag": "escapeSagamiko"
+     },
+     {
+      "flag": "escapeKobotoke"
+     },
+     {
+      "flag": "escapeHikage"
+     }
+    ]
+   },
+   "title": "途中で下りる道を知っておく",
+   "text": "奥高尾の縦走路には、明王峠・景信山・小仏城山などから麓へ下りる道がある。どこで下りられるかを出発前に調べておけば、子どもがばてたときに「今日はここまで」と決めやすい。"
+  },
+  {
+   "id": "l_dark",
+   "when": {
+    "var": "rec.darkMinutesMoving",
+    "op": ">",
+    "value": 0
+   },
+   "title": "明かりは一人一つ",
+   "text": "暗くなってから {rec.darkMinutesMoving:0} 分歩いた。明かりが一つだと、子どもの足元までは照らせない。日帰りのハイキングでも、子どもの分も含めてヘッドランプを一人一つ、予備の電池と一緒に持つ。"
+  },
+  {
+   "id": "l_piggy",
+   "when": {
+    "flag": "piggy"
+   },
+   "title": "おんぶは長く続かない",
+   "text": "子どもを背負うと大人の負担は一気に増え、下りでは足元が見えにくくなる。背中で動かない子どもの体は冷えやすい。おんぶは短い区間に限り、下りる道と組み合わせて使う。"
+  },
+  {
+   "id": "l_cold",
+   "when": {
+    "flag": "kidCold"
+   },
+   "title": "子どもは早く冷える",
+   "text": "子どもは体の大きさのわりに体の表面が広く、大人より早く冷える。汗をかいたまま止まる・背負われる・夕方の風に当たると、なおさらだ。止まる前に上着を着せる。"
+  },
+  {
+   "id": "l_share",
+   "when": {
+    "not": {
+     "flag": "planShared"
+    }
+   },
+   "title": "行程は家族に送っておく",
+   "text": "「陣馬山から高尾山まで」だけでは、帰らないときにどこを捜せばよいか分からない。歩く道・下りられる道・連絡する時刻を家族に送っておけば、捜索はすぐにしぼれる。"
+  },
+  {
+   "id": "l_lost",
+   "when": {
+    "var": "rec.wasLost",
+    "op": "==",
+    "value": true
+   },
+   "title": "分かれ道では道標を見る",
+   "text": "人の多い縦走路でも、分かれ道はある。堂所山では北へ北高尾山稜が分かれていて、景信山へ向かうつもりで入り込む人がいる。疲れているときほど、分かれ道で立ち止まって道標を確かめる。"
+  }
+ ],
+ "balanceTargets": {
+  "recommended": {
+   "goodMin": 0.97,
+   "fatalMax": 0.01,
+   "rescuedMax": 0.03
+  },
+  "bias": {
+   "goodMin": 0.78,
+   "goodMax": 0.95,
+   "rescuedMin": 0.02,
+   "rescuedMax": 0.12,
+   "fatalMax": 0.01
+  },
+  "risky": {
+   "goodMin": 0.85,
+   "goodMax": 0.98,
+   "rescuedMin": 0.02,
+   "rescuedMax": 0.12,
+   "fatalMax": 0.02
+  }
+ },
+ "sources": [
+  "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号・建物・道路など）を加工",
+  "登山道・地点: © OpenStreetMap contributors。陣馬高原下バス停から新ハイキングコースの入口までの車道（OSM の取り込みに車道が入らないため）は、作者が標高から読んだ案下川沿いの筋",
+  "コースタイムの目安: 陣馬高原下バス停から新ハイキングコースの分岐まで約 1.3 km・20 分、陣馬高原下〜高尾山駅の標準タイム約 6 時間（登山記録サイトのモデルコースと山行記録）",
+  "作者の想定: 日付（2026 年 4 月 18 日・土曜）、天気（晴れ。気温は八王子の 4 月中旬の平年を目安に、尾根の上を低くした）、日の出・日の入り（東京の 4 月中旬の値）、月（新月のころ）",
+  "作者の想定: ケーブルカーの最終を 17:45 とした（季節・曜日で変わる。実際の時刻は高尾登山電鉄の案内で確かめること）。茶屋は陣馬山・景信山・小仏城山が営業、明王峠は休みとした",
+  "作者の想定: 電波は相模湖・高尾・恩方の麓の基地局から入り、尾根の上ではほぼ通じるとした。夜の救助隊は、このシミュレーションの仕組みでは夜明けを待って山に入る（実際には、人の多い低い山では夜でも入ることがある）",
+  "作者の想定: 堂所山で北高尾山稜へ入り込む道迷いは、分かれ道の紛らわしさとして置いた（北高尾山稜は実在の登山道だが、この地図では途中までしか描いていない）",
+  "人物・装備・経過は架空"
+ ]
+}

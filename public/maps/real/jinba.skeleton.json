@@ -1,0 +1,56 @@
+{
+  "id": "jinba",
+  "name": "奥高尾 陣馬山〜高尾山（陣馬高原下〜陣馬山〜明王峠〜堂所山〜景信山〜小仏峠〜小仏城山〜一丁平〜高尾山、相模湖・小仏・日影・清滝へ下る道）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "東京都八王子市と神奈川県相模原市の境の奥高尾の尾根。北の陣馬高原下バス停（案下川の谷）から新ハイキングコースで陣馬山（855 m）に上がり、尾根を東へ、明王峠・底沢峠・堂所山・景信山（727 m）・小仏峠・小仏城山（670 m）・一丁平を経て高尾山（599 m）へ。高尾山からは 1 号路をケーブルカーの高尾山駅（霞台）へ下り、清滝駅へ。途中で下りられる道は、明王峠から南の相模湖駅、景信山から東の小仏バス停、小仏城山から北東の日影沢林道で日影バス停。堂所山からは北へ北高尾山稜が分かれる（関場峠・八王子城跡へ続く長い尾根）。南西に相模湖。一辺 10 km 程度（513 頂点）。",
+    "sizeM": 10240
+  },
+  "size": 10240,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 2600, "forestLineNoise": 60, "broadleafLine": 1700, "krummholzBandM": 100 },
+  "nodes": [
+    { "id": "TH_JINBA", "name": "陣馬高原下バス停", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 330 },
+    { "id": "NH_ENT", "name": "新ハイキングコース入口", "type": "junction", "x": 0, "z": 0, "expectedElevM": 430 },
+    { "id": "JINBA", "name": "陣馬山", "type": "peak", "x": 0, "z": 0, "osmName": "陣馬山", "expectedElevM": 855 },
+    { "id": "MYOO", "name": "明王峠", "type": "junction", "x": 0, "z": 0, "expectedElevM": 738 },
+    { "id": "SOKOZAWA", "name": "底沢峠", "type": "junction", "x": 0, "z": 0, "expectedElevM": 720 },
+    { "id": "DODOKORO", "name": "堂所山", "type": "peak", "x": 0, "z": 0, "osmName": "堂所山", "expectedElevM": 731 },
+    { "id": "KAGENOBU", "name": "景信山", "type": "peak", "x": 0, "z": 0, "osmName": "景信山", "expectedElevM": 727 },
+    { "id": "KOBO_PASS", "name": "小仏峠", "type": "junction", "x": 0, "z": 0, "expectedElevM": 548 },
+    { "id": "SHIROYAMA", "name": "小仏城山", "type": "peak", "x": 0, "z": 0, "osmName": "小仏城山", "expectedElevM": 670 },
+    { "id": "ICHOUDAIRA", "name": "一丁平", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 530 },
+    { "id": "TAKAO", "name": "高尾山", "type": "peak", "x": 0, "z": 0, "osmName": "高尾山", "expectedElevM": 599 },
+    { "id": "TH_CABLE", "name": "ケーブルカー高尾山駅", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 472 },
+    { "id": "TH_KIYOTAKI", "name": "清滝駅（高尾山口）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 200 },
+    { "id": "TH_SAGAMIKO", "name": "相模湖駅", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 205 },
+    { "id": "TH_KOBOTOKE", "name": "小仏バス停", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 340 },
+    { "id": "TH_HIKAGE", "name": "日影バス停", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 270 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "陣馬高原下〜新ハイキングコース入口（車道）", "kind": "trail", "from": "TH_JINBA", "to": "NH_ENT", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "陣馬山新ハイキングコース", "kind": "trail", "from": "NH_ENT", "to": "JINBA", "class": "T1", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "陣馬山〜明王峠", "kind": "trail", "from": "JINBA", "to": "MYOO", "class": "T1", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "明王峠〜底沢峠", "kind": "trail", "from": "MYOO", "to": "SOKOZAWA", "class": "T1", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "底沢峠〜堂所山", "kind": "trail", "from": "SOKOZAWA", "to": "DODOKORO", "class": "T1", "markers": 0.8, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "堂所山〜景信山", "kind": "trail", "from": "DODOKORO", "to": "KAGENOBU", "class": "T1", "markers": 0.8, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "景信山〜小仏峠", "kind": "trail", "from": "KAGENOBU", "to": "KOBO_PASS", "class": "T2", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "小仏峠〜小仏城山", "kind": "trail", "from": "KOBO_PASS", "to": "SHIROYAMA", "class": "T1", "markers": 0.9, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E9", "name": "小仏城山〜一丁平", "kind": "trail", "from": "SHIROYAMA", "to": "ICHOUDAIRA", "class": "T1", "markers": 0.9, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E10", "name": "一丁平〜高尾山", "kind": "trail", "from": "ICHOUDAIRA", "to": "TAKAO", "class": "T1", "markers": 0.95, "drift": 0.002, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E11", "name": "1 号路（高尾山〜薬王院〜高尾山駅）", "kind": "trail", "from": "TAKAO", "to": "TH_CABLE", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E12", "name": "1 号路（高尾山駅〜清滝駅。舗装の急な坂）", "kind": "trail", "from": "TH_CABLE", "to": "TH_KIYOTAKI", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E13", "name": "明王峠〜相模湖駅（与瀬神社へ下る道）", "kind": "trail", "from": "MYOO", "to": "TH_SAGAMIKO", "class": "T1", "markers": 0.7, "drift": 0.006, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E14", "name": "景信山〜小仏バス停", "kind": "trail", "from": "KAGENOBU", "to": "TH_KOBOTOKE", "class": "T2", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E15", "name": "小仏城山〜日影バス停（日影沢林道）", "kind": "trail", "from": "SHIROYAMA", "to": "TH_HIKAGE", "class": "T1", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

@@ -1,0 +1,6471 @@
+{
+  "id": "s30_tateyama_avalanche",
+  "version": 1,
+  "title": "浄土山の斜面、雪崩の15分",
+  "subtitle": "3月・山岳会の4人・立山 室堂〜一ノ越（実在の地形）",
+  "theme": "avalanche",
+  "difficulty": 4,
+  "season": "spring",
+  "estMinutes": 25,
+  "mapId": "tateyama_jodo",
+  "seed": 3020,
+  "startDate": "2026-03-20",
+  "startAt": "D0 06:40",
+  "timeLimit": "D1 15:00",
+  "sun": {
+    "sunrise": "05:52",
+    "sunset": "18:02",
+    "maxElevDeg": 53
+  },
+  "moon": {
+    "illumination": 0.03
+  },
+  "region": {
+    "name": "北アルプス・立山 室堂（富山県）",
+    "real": true
+  },
+  "snowpack": {
+    "lineM": 1200,
+    "depthCm": 450,
+    "fullM": 2300,
+    "trailCm": 12
+  },
+  "nodeOverrides": {
+    "ICHINOKOSHI": {
+      "open": false
+    },
+    "KURA_HUT": {
+      "open": false
+    },
+    "GOZEN": {
+      "open": false
+    },
+    "RAICHO": {
+      "open": false
+    }
+  },
+  "briefing": {
+    "text": "2026 年 3 月 20 日（春分の日）。山岳会の 4 人は、立山黒部アルペンルートが開通する前の立山に入って 4 日目の朝を迎えた。\n立山駅から美女平・弥陀ヶ原をスキーと徒歩で上がり、おとといから室堂にテントを張っている。きのうは冬型の大雪でテントから出られず、室堂で新雪が 60 cm ほど積もった。今朝は風がやみ、雲ひとつない。\n今日はテントを置いたまま、室堂から一ノ越を経て雄山（3,003 m）を往復する。一ノ越までは夏道をたどる。夏道の後半は、浄土山の北東の斜面の下を横切る（トラバース）。\nリーダーの佐伯さん（47）は雪山 20 年。河野さん（41）と三浦さん（34）も雪山に慣れている。若林さん（27）は会に入って 1 年、雪の立山は初めてで、ビーコンは会の先輩から借りてきた。4 人とも、ビーコン（雪崩トランシーバー）・プローブ・スコップを持つ。\n富山県東部の山には、なだれ注意報が出ている。室堂の小屋はどこも営業していない。富山県警の山岳警備隊も、この時期の室堂には常駐していない。室堂には、ほかに山スキーの 3 人組がテントを張っている。",
+    "forecast": [
+      {
+        "label": "今日",
+        "text": "晴れ。日中は気温が上がる。なだれ注意報",
+        "icon": "sunny"
+      },
+      {
+        "label": "今夜",
+        "text": "くもり",
+        "icon": "cloudy"
+      },
+      {
+        "label": "明日",
+        "text": "雪。昼から風が強まる",
+        "icon": "snow"
+      },
+      {
+        "label": "日の出・日の入り",
+        "text": "05:52・18:02"
+      }
+    ]
+  },
+  "plan": {
+    "route": [
+      "MURODO",
+      "TRAVERSE",
+      "ICHINOKOSHI",
+      "OYAMA",
+      "ICHINOKOSHI",
+      "TRAVERSE",
+      "MURODO"
+    ],
+    "goalNodes": [
+      "MURODO"
+    ],
+    "plannedFinish": "D0 13:00",
+    "submittedPlan": true,
+    "reportIfNotBackBy": null,
+    "wakeAt": "05:00"
+  },
+  "groups": [
+    {
+      "id": "main",
+      "members": "all",
+      "leader": "saeki",
+      "cohesion": "tight"
+    }
+  ],
+  "party": [
+    {
+      "id": "saeki",
+      "name": "佐伯",
+      "role": "リーダー",
+      "age": 47,
+      "sex": "m",
+      "weightKg": 70,
+      "packKg": 8,
+      "experience": 0.85,
+      "fitness": 1.05,
+      "navSkill": 0.8,
+      "riskTolerance": 0.45,
+      "color": "#b03a2e",
+      "leader": true,
+      "temperament": "calm",
+      "habits": {
+        "eatEveryMin": 90,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0,
+        "gpsCheckEveryMin": 60
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 1.4,
+        "cloPack": 1.1,
+        "gloves": "waterproof",
+        "hat": true,
+        "bivy": "tarp",
+        "rescueSheet": true,
+        "headlamp": {
+          "has": true,
+          "batteryH": 12,
+          "inPack": true,
+          "spareBatteryH": 6
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false,
+          "strap": true
+        },
+        "powerBankMah": 10000,
+        "map": true,
+        "compass": true,
+        "foodKcal": 1600,
+        "waterL": 1.2,
+        "stove": true,
+        "crampons": true,
+        "helmet": true,
+        "trekkingPoles": true,
+        "whistle": true,
+        "footwear": "mountainBoots",
+        "tent": false,
+        "beacon": true,
+        "probe": true,
+        "shovel": true
+      },
+      "initial": {
+        "fatigue": 12,
+        "glycogenKcal": 1500,
+        "waterDeficitL": 0.3
+      },
+      "notes": "架空の人物。山岳会の山行リーダー。雪山 20 年、立山の春山は何度も来ている。雪崩の講習を受け、会でビーコン訓練の係をしている。コンロと温かい飲み物の入った保温ボトルを持つ。"
+    },
+    {
+      "id": "kono",
+      "name": "河野",
+      "age": 41,
+      "sex": "f",
+      "weightKg": 55,
+      "packKg": 7,
+      "experience": 0.7,
+      "fitness": 1,
+      "navSkill": 0.6,
+      "riskTolerance": 0.35,
+      "color": "#2e6da4",
+      "temperament": "calm",
+      "habits": {
+        "eatEveryMin": 90,
+        "drinkEveryMin": 60,
+        "delaysRainwear": 0,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 1.4,
+        "cloPack": 1.1,
+        "gloves": "waterproof",
+        "hat": true,
+        "bivy": "tarp",
+        "rescueSheet": true,
+        "headlamp": {
+          "has": true,
+          "batteryH": 12,
+          "inPack": true,
+          "spareBatteryH": 6
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false,
+          "strap": true
+        },
+        "powerBankMah": 10000,
+        "map": true,
+        "compass": true,
+        "foodKcal": 1600,
+        "waterL": 1,
+        "stove": false,
+        "crampons": true,
+        "helmet": true,
+        "trekkingPoles": true,
+        "whistle": true,
+        "footwear": "mountainBoots",
+        "tent": false,
+        "beacon": true,
+        "probe": true,
+        "shovel": true
+      },
+      "initial": {
+        "fatigue": 12,
+        "glycogenKcal": 1500,
+        "waterDeficitL": 0.3
+      },
+      "notes": "架空の人物。雪山 10 年。看護師で、会の救急法の係。慎重で、天気と雪の変化によく気がつく。"
+    },
+    {
+      "id": "miura",
+      "name": "三浦",
+      "age": 34,
+      "sex": "m",
+      "weightKg": 68,
+      "packKg": 9,
+      "experience": 0.5,
+      "fitness": 1.15,
+      "navSkill": 0.5,
+      "riskTolerance": 0.7,
+      "color": "#3d8b37",
+      "temperament": "normal",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 75,
+        "delaysRainwear": 0.2,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 1.4,
+        "cloPack": 1.1,
+        "gloves": "waterproof",
+        "hat": true,
+        "bivy": "tarp",
+        "rescueSheet": true,
+        "headlamp": {
+          "has": true,
+          "batteryH": 12,
+          "inPack": true,
+          "spareBatteryH": 6
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false,
+          "strap": true
+        },
+        "powerBankMah": 10000,
+        "map": true,
+        "compass": true,
+        "foodKcal": 1800,
+        "waterL": 1,
+        "stove": false,
+        "crampons": true,
+        "helmet": true,
+        "trekkingPoles": true,
+        "whistle": true,
+        "footwear": "mountainBoots",
+        "tent": false,
+        "beacon": true,
+        "probe": true,
+        "shovel": true
+      },
+      "initial": {
+        "fatigue": 12,
+        "glycogenKcal": 1500,
+        "waterDeficitL": 0.3
+      },
+      "notes": "架空の人物。雪山 3 年。体力があり、ラッセルを引き受ける。きのうの停滞で、今日こそ山頂に立ちたいと思っている。"
+    },
+    {
+      "id": "wakabayashi",
+      "name": "若林",
+      "age": 27,
+      "sex": "f",
+      "weightKg": 52,
+      "packKg": 7,
+      "experience": 0.3,
+      "fitness": 1,
+      "navSkill": 0.3,
+      "riskTolerance": 0.45,
+      "color": "#c27c0e",
+      "temperament": "emotional",
+      "habits": {
+        "eatEveryMin": 120,
+        "drinkEveryMin": 75,
+        "delaysRainwear": 0.3,
+        "gpsCheckEveryMin": null
+      },
+      "gear": {
+        "rainwear": "goretex",
+        "cloWorn": 1.4,
+        "cloPack": 1,
+        "gloves": "waterproof",
+        "hat": true,
+        "bivy": "tarp",
+        "rescueSheet": true,
+        "headlamp": {
+          "has": true,
+          "batteryH": 12,
+          "inPack": true,
+          "spareBatteryH": 6
+        },
+        "phone": {
+          "has": true,
+          "batteryPct": 80,
+          "gpsApp": true,
+          "trackRecording": false,
+          "satelliteSos": false,
+          "strap": true
+        },
+        "powerBankMah": 10000,
+        "map": true,
+        "compass": true,
+        "foodKcal": 1600,
+        "waterL": 1,
+        "stove": false,
+        "crampons": true,
+        "helmet": true,
+        "trekkingPoles": true,
+        "whistle": true,
+        "footwear": "mountainBoots",
+        "tent": false,
+        "beacon": false,
+        "probe": true,
+        "shovel": true
+      },
+      "initial": {
+        "fatigue": 12,
+        "glycogenKcal": 1500,
+        "waterDeficitL": 0.3
+      },
+      "notes": "架空の人物。会に入って 1 年、雪の立山は初めて。ビーコンは会の先輩から借りた古い機種で、本体が壊れて電源が入らない（電池を替えても点かない）。本人は家で一度電源を入れて確かめたつもりでいる。プローブとスコップは自分のものを持つ。"
+    }
+  ],
+  "weather": {
+    "refElevM": 2450,
+    "lapseRateCPer100m": 0.65,
+    "cloudThicknessM": 1500,
+    "keyframes": [
+      {
+        "at": "D0 04:00",
+        "tempC": -14,
+        "windMs": 2,
+        "windDirDeg": 300,
+        "precipMmH": 0,
+        "cloudCover": 0.05,
+        "cloudBaseM": 4500,
+        "visibilityM": 40000,
+        "pressureHpa": 1024,
+        "gustiness": 0.35
+      },
+      {
+        "at": "D0 07:00",
+        "tempC": -12,
+        "windMs": 2.5,
+        "windDirDeg": 290,
+        "precipMmH": 0,
+        "cloudCover": 0.05,
+        "cloudBaseM": 4500,
+        "visibilityM": 40000,
+        "pressureHpa": 1024,
+        "gustiness": 0.35
+      },
+      {
+        "at": "D0 09:00",
+        "tempC": -8,
+        "windMs": 3,
+        "windDirDeg": 270,
+        "precipMmH": 0,
+        "cloudCover": 0.05,
+        "cloudBaseM": 4500,
+        "visibilityM": 40000,
+        "pressureHpa": 1023,
+        "gustiness": 0.35
+      },
+      {
+        "at": "D0 11:00",
+        "tempC": -4.5,
+        "windMs": 3,
+        "windDirDeg": 250,
+        "precipMmH": 0,
+        "cloudCover": 0.1,
+        "cloudBaseM": 4500,
+        "visibilityM": 40000,
+        "pressureHpa": 1022,
+        "gustiness": 0.35
+      },
+      {
+        "at": "D0 13:00",
+        "tempC": -3,
+        "windMs": 3.5,
+        "windDirDeg": 240,
+        "precipMmH": 0,
+        "cloudCover": 0.2,
+        "cloudBaseM": 4300,
+        "visibilityM": 35000,
+        "pressureHpa": 1020,
+        "gustiness": 0.35
+      },
+      {
+        "at": "D0 15:00",
+        "tempC": -3.5,
+        "windMs": 4,
+        "windDirDeg": 230,
+        "precipMmH": 0,
+        "cloudCover": 0.45,
+        "cloudBaseM": 4000,
+        "visibilityM": 30000,
+        "pressureHpa": 1018,
+        "gustiness": 0.35
+      },
+      {
+        "at": "D0 18:00",
+        "tempC": -6,
+        "windMs": 5,
+        "windDirDeg": 220,
+        "precipMmH": 0,
+        "cloudCover": 0.75,
+        "cloudBaseM": 3400,
+        "visibilityM": 25000,
+        "pressureHpa": 1015,
+        "gustiness": 0.35
+      },
+      {
+        "at": "D0 22:00",
+        "tempC": -7,
+        "windMs": 5.5,
+        "windDirDeg": 210,
+        "precipMmH": 0,
+        "cloudCover": 0.95,
+        "cloudBaseM": 2900,
+        "visibilityM": 15000,
+        "pressureHpa": 1012,
+        "gustiness": 0.35
+      },
+      {
+        "at": "D1 02:00",
+        "tempC": -7,
+        "windMs": 6,
+        "windDirDeg": 210,
+        "precipMmH": 0.3,
+        "cloudCover": 1,
+        "cloudBaseM": 2600,
+        "visibilityM": 6000,
+        "pressureHpa": 1009,
+        "gustiness": 0.35,
+        "inCloudVisibilityM": 200
+      },
+      {
+        "at": "D1 06:00",
+        "tempC": -6,
+        "windMs": 7,
+        "windDirDeg": 220,
+        "precipMmH": 0.8,
+        "cloudCover": 1,
+        "cloudBaseM": 2400,
+        "visibilityM": 3000,
+        "pressureHpa": 1007,
+        "gustiness": 0.35,
+        "inCloudVisibilityM": 120
+      },
+      {
+        "at": "D1 10:00",
+        "tempC": -6,
+        "windMs": 8,
+        "windDirDeg": 240,
+        "precipMmH": 1.2,
+        "cloudCover": 1,
+        "cloudBaseM": 2300,
+        "visibilityM": 2000,
+        "pressureHpa": 1006,
+        "gustiness": 0.35,
+        "inCloudVisibilityM": 80
+      },
+      {
+        "at": "D1 15:00",
+        "tempC": -7,
+        "windMs": 9,
+        "windDirDeg": 260,
+        "precipMmH": 1.2,
+        "cloudCover": 1,
+        "cloudBaseM": 2300,
+        "visibilityM": 2000,
+        "pressureHpa": 1007,
+        "gustiness": 0.35,
+        "inCloudVisibilityM": 80
+      }
+    ]
+  },
+  "passersby": [
+    {
+      "edges": [
+        "E1",
+        "E15",
+        "E2"
+      ],
+      "perHour": 0.6,
+      "from": "07:00",
+      "to": "14:00",
+      "fromDay": 0,
+      "seeM": 150,
+      "voiceM": 250,
+      "whistleM": 400
+    },
+    {
+      "edges": [
+        "E16",
+        "E17",
+        "E18"
+      ],
+      "perHour": 0.2,
+      "from": "08:00",
+      "to": "14:00",
+      "fromDay": 0
+    }
+  ],
+  "events": [
+    {
+      "id": "ev_whumpf",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "onEdge": "E1"
+          },
+          {
+            "var": "leader.elevM",
+            "op": ">",
+            "value": 2470
+          },
+          {
+            "not": {
+              "beenAt": "ICHINOKOSHI"
+            }
+          },
+          {
+            "not": {
+              "flag": "ridge"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "トラバースの手前の緩い斜面で、足もとの雪が「ズン」と沈むような音を立てた。音は斜面の上の方へ伝わっていった",
+          "important": true
+        },
+        {
+          "type": "setFlag",
+          "flag": "whumpf"
+        }
+      ]
+    },
+    {
+      "id": "ev_check_found",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "beaconCheck"
+          },
+          {
+            "elapsedSince": {
+              "flag": "beaconCheck",
+              "min": 4
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "佐伯さんがビーコンを受信にして、一人ずつ前を歩かせる。河野さん・三浦さんの信号は入った。若林さんの番で、受信の画面が変わらない。若林さんのビーコンは、電源を入れても表示が点かない。電池を替えても同じだった",
+          "important": true
+        },
+        {
+          "type": "say",
+          "who": "wakabayashi",
+          "text": "えっ……家では点いたのに",
+          "tone": "whisper"
+        }
+      ]
+    },
+    {
+      "id": "ev_spaced_up_end",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "spacedUp"
+          },
+          {
+            "atNode": "ICHINOKOSHI"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_spaced_down_end",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "spacedDown"
+          },
+          {
+            "beenAt": "OYAMA"
+          },
+          {
+            "atNode": "TRAVERSE"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_ridge_later",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "ridgeLater"
+          },
+          {
+            "atNode": "MURODO"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "テントの横を通り過ぎ、室堂山へ向かう尾根の取り付きへ回った"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setRoute",
+              "route": [
+                "MURODO",
+                "J_MURODOYAMA",
+                "JODO",
+                "ICHINOKOSHI",
+                "OYAMA",
+                "ICHINOKOSHI",
+                "JODO",
+                "J_MURODOYAMA",
+                "MURODO"
+              ],
+              "goalNodes": [
+                "MURODO"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "ridge"
+        }
+      ]
+    },
+    {
+      "id": "ev_jodo",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "beenAt": "JODO"
+          },
+          {
+            "not": {
+              "beenAt": "OYAMA"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "浄土山の北峰に着いた。北の斜面を見下ろすと、夏道のトラバースのあたりの斜面に、ところどころ雪の割れ目が走っている"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_trig_t",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "onEdge": "E15"
+          },
+          {
+            "near": {
+              "x": -500,
+              "z": 1198,
+              "r": 30
+            }
+          },
+          {
+            "not": {
+              "beenAt": "ICHINOKOSHI"
+            }
+          },
+          {
+            "not": {
+              "flag": "anyBuried"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedUp"
+            }
+          },
+          {
+            "chance": 0.65
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "av_up"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avalanche"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avTogether"
+        },
+        {
+          "type": "log",
+          "text": "斜面のなかほどで、頭上から「ドン」と低い音がした。浄土山から張り出した斜面の上の方で、新雪が板のように割れて走り出した。雪煙を上げて、斜面ごと落ちてくる",
+          "important": true
+        },
+        {
+          "type": "pin",
+          "x": -494,
+          "z": 1218,
+          "label": "雪崩"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_trig_s",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "onEdge": "E15"
+          },
+          {
+            "near": {
+              "x": -500,
+              "z": 1198,
+              "r": 30
+            }
+          },
+          {
+            "not": {
+              "beenAt": "ICHINOKOSHI"
+            }
+          },
+          {
+            "not": {
+              "flag": "anyBuried"
+            }
+          },
+          {
+            "flag": "spacedUp"
+          },
+          {
+            "chance": 0.5
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "av_up"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avalanche"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avSpaced"
+        },
+        {
+          "type": "log",
+          "text": "斜面のなかほどで、頭上から「ドン」と低い音がした。浄土山から張り出した斜面の上の方で、新雪が板のように割れて走り出した。雪煙を上げて、斜面ごと落ちてくる",
+          "important": true
+        },
+        {
+          "type": "pin",
+          "x": -494,
+          "z": 1218,
+          "label": "雪崩"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_t0",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedUp"
+            }
+          },
+          {
+            "chance": 0.16666666666666666
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "saeki",
+            "kono"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_t1",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedUp"
+            }
+          },
+          {
+            "chance": 0.2
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "saeki",
+            "miura"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_t2",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedUp"
+            }
+          },
+          {
+            "chance": 0.25
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "saeki",
+            "wakabayashi"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_t3",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedUp"
+            }
+          },
+          {
+            "chance": 0.3333333333333333
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "kono",
+            "miura"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_t4",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedUp"
+            }
+          },
+          {
+            "chance": 0.5
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "kono",
+            "wakabayashi"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_t5",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedUp"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "miura",
+            "wakabayashi"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_s0",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "flag": "spacedUp"
+          },
+          {
+            "chance": 0.2
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 1,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "saeki"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_s1",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "flag": "spacedUp"
+          },
+          {
+            "chance": 0.25
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 1,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "kono"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_s2",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "flag": "spacedUp"
+          },
+          {
+            "chance": 0.3333333333333333
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 1,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "miura"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_s3",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "flag": "spacedUp"
+          },
+          {
+            "chance": 0.5
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 1,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "wakabayashi"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_up_s4",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_up"
+          },
+          {
+            "not": {
+              "flag": "av_up_done"
+            }
+          },
+          {
+            "flag": "spacedUp"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 0,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": []
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_up_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avMiss"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_trig_t",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "onEdge": "E15"
+          },
+          {
+            "near": {
+              "x": -500,
+              "z": 1198,
+              "r": 30
+            }
+          },
+          {
+            "beenAt": "OYAMA"
+          },
+          {
+            "not": {
+              "flag": "anyBuried"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedDown"
+            }
+          },
+          {
+            "chance": 0.5
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "av_down"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avalanche"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avTogether"
+        },
+        {
+          "type": "log",
+          "text": "下りのトラバースのなかほどで、頭上から「ドン」と低い音がした。日の当たった斜面の上の方で、新雪が板のように割れて走り出した。雪煙を上げて、斜面ごと落ちてくる",
+          "important": true
+        },
+        {
+          "type": "pin",
+          "x": -494,
+          "z": 1218,
+          "label": "雪崩"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_trig_s",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "onEdge": "E15"
+          },
+          {
+            "near": {
+              "x": -500,
+              "z": 1198,
+              "r": 30
+            }
+          },
+          {
+            "beenAt": "OYAMA"
+          },
+          {
+            "not": {
+              "flag": "anyBuried"
+            }
+          },
+          {
+            "flag": "spacedDown"
+          },
+          {
+            "chance": 0.4
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "av_down"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avalanche"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avSpaced"
+        },
+        {
+          "type": "log",
+          "text": "下りのトラバースのなかほどで、頭上から「ドン」と低い音がした。日の当たった斜面の上の方で、新雪が板のように割れて走り出した。雪煙を上げて、斜面ごと落ちてくる",
+          "important": true
+        },
+        {
+          "type": "pin",
+          "x": -494,
+          "z": 1218,
+          "label": "雪崩"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_t0",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedDown"
+            }
+          },
+          {
+            "chance": 0.16666666666666666
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "saeki",
+            "kono"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_t1",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedDown"
+            }
+          },
+          {
+            "chance": 0.2
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "saeki",
+            "miura"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_t2",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedDown"
+            }
+          },
+          {
+            "chance": 0.25
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "saeki",
+            "wakabayashi"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_t3",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedDown"
+            }
+          },
+          {
+            "chance": 0.3333333333333333
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "kono",
+            "miura"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_t4",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedDown"
+            }
+          },
+          {
+            "chance": 0.5
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "kono",
+            "wakabayashi"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_t5",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "not": {
+              "flag": "spacedDown"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 2,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "miura",
+            "wakabayashi"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_s0",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "flag": "spacedDown"
+          },
+          {
+            "chance": 0.2
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 1,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "saeki"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_s1",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "flag": "spacedDown"
+          },
+          {
+            "chance": 0.25
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 1,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "kono"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_s2",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "flag": "spacedDown"
+          },
+          {
+            "chance": 0.3333333333333333
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 1,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "miura"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_s3",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "flag": "spacedDown"
+          },
+          {
+            "chance": 0.5
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 1,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": [
+            "wakabayashi"
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "anyBuried"
+        }
+      ]
+    },
+    {
+      "id": "ev_down_s4",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "av_down"
+          },
+          {
+            "not": {
+              "flag": "av_down_done"
+            }
+          },
+          {
+            "flag": "spacedDown"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "avalanche",
+          "x": -494,
+          "z": 1218,
+          "radiusM": 80,
+          "maxBuried": 0,
+          "depthM": [
+            0.4,
+            1.2
+          ],
+          "who": []
+        },
+        {
+          "type": "setFlag",
+          "flag": "av_down_done"
+        },
+        {
+          "type": "setFlag",
+          "flag": "avMiss"
+        }
+      ]
+    },
+    {
+      "id": "ev_saeki_buried",
+      "once": true,
+      "trigger": {
+        "var": "c.saeki.buried",
+        "op": "==",
+        "value": true
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "saeki_buried"
+        }
+      ]
+    },
+    {
+      "id": "ev_saeki_out",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "saeki_buried"
+          },
+          {
+            "var": "c.saeki.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.saeki.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "saeki_out"
+        },
+        {
+          "type": "setFlag",
+          "flag": "someoneDug"
+        },
+        {
+          "type": "log",
+          "text": "佐伯さんの顔のまわりの雪をかき出し、口の中の雪を取った。佐伯さんは咳きこみ、浅く息をしている。服の中まで雪が入りこみ、体は冷えきっている",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_saeki_outdead",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "saeki_buried"
+          },
+          {
+            "var": "c.saeki.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.saeki.alive",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "saeki_out"
+        },
+        {
+          "type": "setFlag",
+          "flag": "someoneDied"
+        }
+      ]
+    },
+    {
+      "id": "ev_kono_buried",
+      "once": true,
+      "trigger": {
+        "var": "c.kono.buried",
+        "op": "==",
+        "value": true
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "kono_buried"
+        }
+      ]
+    },
+    {
+      "id": "ev_kono_out",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "kono_buried"
+          },
+          {
+            "var": "c.kono.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.kono.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "kono_out"
+        },
+        {
+          "type": "setFlag",
+          "flag": "someoneDug"
+        },
+        {
+          "type": "log",
+          "text": "河野さんの顔のまわりの雪をかき出し、口の中の雪を取った。河野さんは咳きこみ、浅く息をしている。服の中まで雪が入りこみ、体は冷えきっている",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_kono_outdead",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "kono_buried"
+          },
+          {
+            "var": "c.kono.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.kono.alive",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "kono_out"
+        },
+        {
+          "type": "setFlag",
+          "flag": "someoneDied"
+        }
+      ]
+    },
+    {
+      "id": "ev_miura_buried",
+      "once": true,
+      "trigger": {
+        "var": "c.miura.buried",
+        "op": "==",
+        "value": true
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "miura_buried"
+        }
+      ]
+    },
+    {
+      "id": "ev_miura_out",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "miura_buried"
+          },
+          {
+            "var": "c.miura.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.miura.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "miura_out"
+        },
+        {
+          "type": "setFlag",
+          "flag": "someoneDug"
+        },
+        {
+          "type": "log",
+          "text": "三浦さんの顔のまわりの雪をかき出し、口の中の雪を取った。三浦さんは咳きこみ、浅く息をしている。服の中まで雪が入りこみ、体は冷えきっている",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_miura_outdead",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "miura_buried"
+          },
+          {
+            "var": "c.miura.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.miura.alive",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "miura_out"
+        },
+        {
+          "type": "setFlag",
+          "flag": "someoneDied"
+        }
+      ]
+    },
+    {
+      "id": "ev_wakabayashi_buried",
+      "once": true,
+      "trigger": {
+        "var": "c.wakabayashi.buried",
+        "op": "==",
+        "value": true
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "wakabayashi_buried"
+        }
+      ]
+    },
+    {
+      "id": "ev_wakabayashi_out",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "wakabayashi_buried"
+          },
+          {
+            "var": "c.wakabayashi.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.wakabayashi.alive",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "wakabayashi_out"
+        },
+        {
+          "type": "setFlag",
+          "flag": "someoneDug"
+        },
+        {
+          "type": "log",
+          "text": "若林さんの顔のまわりの雪をかき出し、口の中の雪を取った。若林さんは咳きこみ、浅く息をしている。服の中まで雪が入りこみ、体は冷えきっている",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_wakabayashi_outdead",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "wakabayashi_buried"
+          },
+          {
+            "var": "c.wakabayashi.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "c.wakabayashi.alive",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "wakabayashi_out"
+        },
+        {
+          "type": "setFlag",
+          "flag": "someoneDied"
+        }
+      ]
+    },
+    {
+      "id": "ev_waka_nosignal",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "wakabayashi_buried"
+          },
+          {
+            "flag": "searchStarted"
+          },
+          {
+            "elapsedSince": {
+              "flag": "searchStarted",
+              "min": 5
+            }
+          },
+          {
+            "var": "c.wakabayashi.buried",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "若林さんの信号だけが、どこにも入らない。ビーコンが送信していない。デブリ（雪崩の堆積）の上で、流れの向きと最後に見えた所から見当をつけ、プローブを刺していく",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_helpers_seen",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "searchStarted"
+          },
+          {
+            "elapsedSince": {
+              "flag": "searchStarted",
+              "min": 6
+            }
+          },
+          {
+            "not": {
+              "flag": "fetchHelp"
+            }
+          },
+          {
+            "not": {
+              "flag": "helpersHere"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "helpersHere"
+        },
+        {
+          "type": "log",
+          "text": "下の斜面にいた山スキーの 3 人組が、スキーを外して駆け上がってきた。「手伝います！ ビーコンとプローブ、あります」。3 人はすぐにスコップを組み立て、プローブが当たった所を掘りはじめた",
+          "important": true
+        }
+      ]
+    },
+    {
+      "id": "ev_helpers_fetch",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "fetchHelp"
+          },
+          {
+            "elapsedSince": {
+              "flag": "fetchHelp",
+              "min": 10
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "helpersHere"
+        },
+        {
+          "type": "setFlag",
+          "flag": "searchStarted"
+        },
+        {
+          "type": "log",
+          "text": "下の斜面まで呼びに行った山スキーの 3 人組と一緒に、デブリの上に戻ってきた。雪崩から 10 分が過ぎている。7 人で捜索を始める",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "avalancheRescue",
+              "helpers": 3,
+              "helpersAfterMin": 0
+            }
+          ]
+        },
+        {
+          "type": "setFlag",
+          "flag": "wantCall"
+        }
+      ]
+    },
+    {
+      "id": "ev_callfirst_done",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "callFirst"
+          },
+          {
+            "elapsedSince": {
+              "flag": "callFirst",
+              "min": 6
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "searchStarted"
+        },
+        {
+          "type": "log",
+          "text": "電話で場所と人数を伝え終えた。雪崩から 6 分。ビーコンを受信に切り替えて、デブリの上へ走る",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "avalancheRescue",
+              "helpers": 3,
+              "helpersAfterMin": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_call_after",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "searchStarted"
+          },
+          {
+            "not": {
+              "flag": "callFirst"
+            }
+          },
+          {
+            "elapsedSince": {
+              "flag": "searchStarted",
+              "min": 8
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "wantCall"
+        }
+      ]
+    },
+    {
+      "id": "ev_call_kono",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "wantCall"
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "all": [
+              {
+                "var": "c.kono.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.kono.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kono.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "kono_buried"
+            }
+          },
+          {
+            "var": "c.kono.phone.has",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "called"
+        },
+        {
+          "type": "say",
+          "who": "kono",
+          "text": "立山の室堂から一ノ越へ向かう夏道で雪崩です。仲間が雪に埋まりました。場所は浄土山の北の斜面の下です",
+          "tone": "normal"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto",
+              "who": "kono"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_call_miura",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "wantCall"
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "all": [
+              {
+                "var": "c.miura.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.miura.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.miura.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "miura_buried"
+            }
+          },
+          {
+            "var": "c.miura.phone.has",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "called"
+        },
+        {
+          "type": "say",
+          "who": "miura",
+          "text": "立山の室堂から一ノ越へ向かう夏道で雪崩です。仲間が雪に埋まりました。場所は浄土山の北の斜面の下です",
+          "tone": "normal"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto",
+              "who": "miura"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_call_saeki",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "wantCall"
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "all": [
+              {
+                "var": "c.saeki.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.saeki.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "saeki_buried"
+            }
+          },
+          {
+            "var": "c.saeki.phone.has",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "called"
+        },
+        {
+          "type": "say",
+          "who": "saeki",
+          "text": "立山の室堂から一ノ越へ向かう夏道で雪崩です。仲間が雪に埋まりました。場所は浄土山の北の斜面の下です",
+          "tone": "normal"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto",
+              "who": "saeki"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_call_wakabayashi",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "wantCall"
+          },
+          {
+            "not": {
+              "flag": "called"
+            }
+          },
+          {
+            "all": [
+              {
+                "var": "c.wakabayashi.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.wakabayashi.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.wakabayashi.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "wakabayashi_buried"
+            }
+          },
+          {
+            "var": "c.wakabayashi.phone.has",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "called"
+        },
+        {
+          "type": "say",
+          "who": "wakabayashi",
+          "text": "立山の室堂から一ノ越へ向かう夏道で雪崩です。仲間が雪に埋まりました。場所は浄土山の北の斜面の下です",
+          "tone": "normal"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "callRescue",
+              "via": "auto",
+              "who": "wakabayashi"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ev_second_slope",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "flag": "helpersHere"
+          },
+          {
+            "elapsedSince": {
+              "flag": "helpersHere",
+              "min": 3
+            }
+          },
+          {
+            "flag": "anyBuried"
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "山スキーの 1 人が、デブリの端に立って斜面の上を見張る。割れ残った雪の板が、まだ斜面の上の方にかかっている。「上で何か動いたら、すぐ声をかけます」"
+        }
+      ]
+    },
+    {
+      "id": "ev_heli_sound",
+      "once": true,
+      "trigger": {
+        "all": [
+          {
+            "var": "leader.rescueCalled",
+            "op": "==",
+            "value": true
+          },
+          {
+            "elapsedSince": {
+              "flag": "called",
+              "min": 12
+            }
+          },
+          {
+            "not": {
+              "var": "sun.isDark",
+              "op": "==",
+              "value": true
+            }
+          },
+          {
+            "not": {
+              "beenAt": "MURODO"
+            }
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "log",
+          "text": "電話の向こうの警察から、県警のヘリが出動の準備に入ったと知らせがあった。山スキーの人たちが、赤いザックカバーを振って合図できるように支度をしている"
+        }
+      ]
+    }
+  ],
+  "choices": [
+    {
+      "id": "cp_depart",
+      "title": "室堂のテント",
+      "priority": 20,
+      "trigger": {
+        "after": "D0 06:40"
+      },
+      "situation": "テントをたたまずに、アイゼンを着けた。空は青く、風もない。新雪が朝日に光っている。三浦さんは「やっと晴れた」と、もう歩き出したそうにしている。出発の前に、どうする？",
+      "knowledge": [
+        "予定: 室堂 → 夏道 → 一ノ越 → 雄山。同じ道を戻る。テントに 13 時ごろ戻る",
+        "きのうの大雪で新雪が 60 cm。北西の風で、浄土山の北東の斜面には雪がたまっている。なだれ注意報が出ている",
+        "今日は晴れて、昼前から気温が上がる。日が当たると斜面の雪はゆるむ",
+        "会の決まりでは、雪の山では毎朝ビーコンチェック（全員の送信と受信を確かめる）をする。10 分ほどかかる",
+        "気温 {leader.local.tempC:0}℃。明日は雪の予報"
+      ],
+      "options": [
+        {
+          "id": "check",
+          "label": "ビーコンチェックをしてから出る",
+          "detail": "佐伯さんが受信にして、一人ずつ前を通ってもらう。",
+          "explain": "全員のビーコンが送信になっているかを、出発の前に確かめる判断です。壊れや電池切れは、埋まってからでは分かりません。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "ビーコンチェックするよ。全員、送信にして一人ずつ前を通って",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "rest",
+              "minutes": 10
+            }
+          ],
+          "flags": [
+            "beaconCheck"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.experience",
+                  "op": ">",
+                  "value": 0.7
+                },
+                "add": 0.2
+              }
+            ]
+          }
+        },
+        {
+          "id": "skip",
+          "label": "チェックは省いて、すぐに出る",
+          "detail": "きのう一日テントにいた。全員、ゆうべ電源を入れたと言っている。",
+          "explain": "出発を急ぐために、ビーコンの確かめを省く判断です。送信していない人がいても、だれも気づかないまま斜面に入ることになります。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "電源は入れたよね。じゃあ行こう",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "noCheck"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.8,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "wait",
+          "label": "今日は登らない。雪が落ち着くのを待つ",
+          "detail": "大雪のすぐ後の晴れの日は、雪崩がいちばん起きやすい。山頂はまた今度。",
+          "explain": "大雪の直後で新雪が落ち着いていない日に、斜面へ入ること自体をやめる判断です。雪崩の危険をまるごと避けられます。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "今日はやめておこう。新雪が締まるのを待つ",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "abortTrip"
+            }
+          ],
+          "flags": [
+            "waitDay"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.15
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_beacon",
+      "title": "動かないビーコン",
+      "priority": 22,
+      "trigger": {
+        "all": [
+          {
+            "flag": "beaconCheck"
+          },
+          {
+            "elapsedSince": {
+              "flag": "beaconCheck",
+              "min": 5
+            }
+          }
+        ]
+      },
+      "situation": "若林さんのビーコンは壊れていて、送信しない。予備のビーコンはない。若林さんが雪崩に埋まれば、ビーコンで見つけることはできない。どうする？",
+      "knowledge": [
+        "一ノ越までの夏道は、後半で浄土山の北東の斜面の下を横切る。斜面は 30 度前後で、上に吹きだまりがある",
+        "室堂山の分岐から浄土山の尾根を登れば、斜面の下を通らずに一ノ越へ行ける。夏道より 1 時間ほど長く、浄土山の登りは急",
+        "きのうの大雪で新雪が 60 cm。北西の風で、浄土山の北東の斜面には雪がたまっている。なだれ注意報が出ている",
+        "ビーコンなしで埋まった人は、プローブで少しずつ刺して捜すしかない。何十分もかかる"
+      ],
+      "options": [
+        {
+          "id": "ridge",
+          "label": "浄土山の尾根の道に変える",
+          "detail": "室堂山の分岐から浄土山へ登り、尾根の上を一ノ越へ。斜面の下は通らない。",
+          "explain": "雪がたまった斜面の下を通らない道に変える判断です。時間は長くなりますが、上から雪崩が落ちてくる所に入りません。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "夏道はやめよう。浄土山の尾根を通る。斜面の下には入らない",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "MURODO",
+                "J_MURODOYAMA",
+                "JODO",
+                "ICHINOKOSHI",
+                "OYAMA",
+                "ICHINOKOSHI",
+                "JODO",
+                "J_MURODOYAMA",
+                "MURODO"
+              ],
+              "goalNodes": [
+                "MURODO"
+              ]
+            }
+          ],
+          "flags": [
+            "ridge"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.experience",
+                  "op": ">",
+                  "value": 0.7
+                },
+                "add": 0.2
+              }
+            ]
+          }
+        },
+        {
+          "id": "wait",
+          "label": "今日は登らない。テントで待つ",
+          "detail": "ビーコンのない人を連れて、なだれ注意報の日に斜面には入れない。",
+          "explain": "装備がそろわず雪も落ち着いていない日に、山頂をあきらめる判断です。危険な斜面に近づかずに済みます。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "今日はやめよう。若林さん、気にしなくていい",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "abortTrip"
+            }
+          ],
+          "flags": [
+            "waitDay"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.35
+          }
+        },
+        {
+          "id": "go",
+          "label": "予定どおり夏道で。若林さんを列の真ん中に",
+          "detail": "前後を挟めば、もしもの時も目が届く。トラバースは短い。",
+          "explain": "ビーコンのない人を連れて、雪崩の危険がある斜面の下を予定どおり通る判断です。埋まれば見つけるまでに長くかかります。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "若林さんは真ん中。離れないように",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "knownBroken"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.55,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_traverse",
+      "title": "トラバースの入口",
+      "priority": 18,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "TRAVERSE"
+          },
+          {
+            "not": {
+              "beenAt": "ICHINOKOSHI"
+            }
+          },
+          {
+            "not": {
+              "flag": "ridge"
+            }
+          }
+        ]
+      },
+      "situation": "夏道はここから、浄土山の北東の斜面の下を横切っていく。斜面の上には、きのうの雪が厚く吹きだまっている。脇の小さな沢筋には、ゆうべ落ちたらしい雪崩の跡がある。日が斜面の上の方に当たりはじめた。どう渡る？",
+      "knowledge": [
+        "一ノ越までの夏道は、後半で浄土山の北東の斜面の下を横切る。斜面は 30 度前後で、上に吹きだまりがある",
+        "トラバースは一ノ越まで約 900 m。4 人で続けて歩けば 30 分ほど",
+        "室堂山の分岐から浄土山の尾根を登れば、斜面の下を通らずに一ノ越へ行ける。夏道より 1 時間ほど長く、浄土山の登りは急（室堂まで戻って回る）",
+        "気温 {leader.local.tempC:0}℃。日が高くなるほど雪はゆるむ"
+      ],
+      "options": [
+        {
+          "id": "together",
+          "label": "4 人で続けて渡る",
+          "detail": "予定どおり。早く渡ってしまえば、斜面の下にいる時間は短い。",
+          "explain": "危険のある斜面の下に、4 人が同時に入る判断です。雪崩が起きれば何人もが一度に巻き込まれ、捜す人が少なくなります。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "早めに抜けよう。続いて",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "together"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 1,
+            "mods": [
+              {
+                "when": {
+                  "var": "c.miura.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.6
+                },
+                "add": 0.2
+              }
+            ]
+          }
+        },
+        {
+          "id": "spaced",
+          "label": "1 人ずつ、間隔をあけて渡る",
+          "detail": "1 人が斜面の向こうの安全な所に着いてから、次の人が出る。ほかの人は見張る。",
+          "explain": "避けられない斜面を渡るときの基本で、斜面にいるのを 1 人だけにする判断です。巻き込まれても、残りの全員がすぐ捜索に回れます。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "1 人ずつ行く。渡った人は向こうの岩の陰で待って、次を見ていて",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "spacedUp"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "flag": "whumpf"
+                },
+                "add": 0.2
+              },
+              {
+                "when": {
+                  "flag": "knownBroken"
+                },
+                "add": 0.2
+              }
+            ]
+          }
+        },
+        {
+          "id": "ridge",
+          "label": "室堂へ戻り、浄土山の尾根を回る",
+          "detail": "室堂山の分岐から浄土山へ。1 時間以上よけいにかかる。",
+          "explain": "雪のたまった斜面の下を避け、尾根の上を通る道に変える判断です。時間はかかりますが、上から落ちてくる雪崩に入りません。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "この斜面はやめよう。尾根から回る",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "TRAVERSE",
+                "MURODO"
+              ],
+              "goalNodes": []
+            }
+          ],
+          "flags": [
+            "ridgeLater"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.25,
+            "mods": [
+              {
+                "when": {
+                  "flag": "whumpf"
+                },
+                "add": 0.15
+              }
+            ]
+          }
+        },
+        {
+          "id": "back",
+          "label": "今日はここで引き返す",
+          "detail": "音がした。斜面の雪は落ち着いていない。テントへ戻る。",
+          "explain": "雪が不安定な兆し（沈む音・新しい雪崩の跡）を見て、斜面に入る前に引き返す判断です。危険に近づかずに済みます。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "今日は戻ろう。この雪はよくない",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "TRAVERSE",
+                "MURODO"
+              ],
+              "goalNodes": [
+                "MURODO"
+              ]
+            }
+          ],
+          "flags": [
+            "turnedBack"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.2,
+            "mods": [
+              {
+                "when": {
+                  "flag": "whumpf"
+                },
+                "add": 0.15
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_descent",
+      "title": "一ノ越（帰り）",
+      "priority": 16,
+      "trigger": {
+        "all": [
+          {
+            "atNode": "ICHINOKOSHI"
+          },
+          {
+            "beenAt": "OYAMA"
+          },
+          {
+            "not": {
+              "flag": "ridge"
+            }
+          },
+          {
+            "not": {
+              "flag": "anyBuried"
+            }
+          }
+        ]
+      },
+      "situation": "雄山から一ノ越まで下りてきた。日は高く、気温が上がっている。朝通ったトラバースの斜面には、真上から日が当たっている。帰りはどこを通る？",
+      "knowledge": [
+        "一ノ越までの夏道は、後半で浄土山の北東の斜面の下を横切る。斜面は 30 度前後で、上に吹きだまりがある",
+        "帰りのトラバースは下り。続けて歩けば 25 分ほど",
+        "一ノ越から浄土山へ登り返して尾根を下れば、斜面の下は通らない。1 時間ほど長い",
+        "気温 {leader.local.tempC:0}℃"
+      ],
+      "options": [
+        {
+          "id": "same",
+          "label": "朝と同じく、4 人で続けて夏道を下る",
+          "detail": "朝は何もなかった。下りなら早い。",
+          "explain": "日射で雪がゆるんだ斜面の下に、4 人そろって入る判断です。朝に何もなかったことは、昼の安全を意味しません。",
+          "actions": [
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.8,
+            "mods": [
+              {
+                "when": {
+                  "flag": "spacedUp"
+                },
+                "add": -0.4
+              },
+              {
+                "when": {
+                  "flag": "avMiss"
+                },
+                "add": -0.5
+              }
+            ]
+          }
+        },
+        {
+          "id": "spaced",
+          "label": "1 人ずつ、間隔をあけて夏道を下る",
+          "detail": "朝と同じ道だが、斜面にいるのは 1 人ずつにする。",
+          "explain": "斜面を渡るときに、雪崩に巻き込まれうる人を 1 人にしぼる判断です。万一のとき、残りの全員で捜せます。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "帰りも 1 人ずつ。日が当たって雪がゆるんでる",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "spacedDown"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.5,
+            "mods": [
+              {
+                "when": {
+                  "flag": "spacedUp"
+                },
+                "add": 0.4
+              }
+            ]
+          }
+        },
+        {
+          "id": "ridge",
+          "label": "浄土山へ登り返し、尾根を下る",
+          "detail": "登り返しはつらいが、昼の斜面の下は通らない。",
+          "explain": "日射で不安定になった斜面を避け、尾根の上を通って帰る判断です。時間と体力はかかりますが、雪崩の通り道に入りません。",
+          "actions": [
+            {
+              "type": "say",
+              "text": "浄土山を回って帰ろう。昼の斜面は通らない",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "ICHINOKOSHI",
+                "JODO",
+                "J_MURODOYAMA",
+                "MURODO"
+              ],
+              "goalNodes": [
+                "MURODO"
+              ]
+            }
+          ],
+          "flags": [
+            "ridgeDown"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "flag": "avMiss"
+                },
+                "add": 0.6
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_miss",
+      "title": "すぐ脇を流れた雪崩",
+      "priority": 26,
+      "trigger": {
+        "all": [
+          {
+            "flag": "avMiss"
+          },
+          {
+            "not": {
+              "flag": "anyBuried"
+            }
+          }
+        ]
+      },
+      "situation": "雪崩は、斜面を渡っていた人のすぐ脇を流れていった。4 人とも無事だ。斜面の上には、割れ残った雪の板がまだかかっている。どうする？",
+      "knowledge": [
+        "割れ残った雪が、続けて落ちることがある",
+        "電話の電波: {leader.radio:1}（室堂のまわりは入る）"
+      ],
+      "options": [
+        {
+          "id": "back",
+          "label": "引き返してテントへ戻る",
+          "detail": "もう十分だ。斜面からすぐ離れる。",
+          "explain": "雪崩が実際に起きた斜面から離れ、その日の行動を終える判断です。割れ残った雪が続けて落ちる危険を避けられます。",
+          "available": {
+            "not": {
+              "beenAt": "ICHINOKOSHI"
+            }
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "戻ろう。今日はもう終わり",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "TRAVERSE",
+                "MURODO"
+              ],
+              "goalNodes": [
+                "MURODO"
+              ]
+            }
+          ],
+          "flags": [
+            "turnedBack"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "out",
+          "label": "急いで斜面を抜け、テントへ下りる",
+          "detail": "帰り道の途中。止まらずに斜面の外へ。",
+          "explain": "すでに帰り道にいるので、立ち止まらずに斜面の外へ出る判断です。斜面の下にいる時間を短くできます。",
+          "available": {
+            "beenAt": "ICHINOKOSHI"
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "止まらないで。斜面の外まで行こう",
+              "tone": "normal",
+              "who": "saeki"
+            },
+            {
+              "type": "setPace",
+              "factor": 1
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "go",
+          "label": "デブリを越えて、一ノ越へ進む",
+          "detail": "落ちた所はもう落ちない。山頂はすぐそこだ。",
+          "explain": "雪崩が起きた直後の斜面を、さらに進む判断です。割れ残った雪や隣の斜面が続けて落ちることがあり、危険が残ります。",
+          "available": {
+            "not": {
+              "beenAt": "ICHINOKOSHI"
+            }
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "say",
+              "text": "落ちた所はもう大丈夫だろう。行こう",
+              "tone": "normal",
+              "who": "miura"
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "flags": [
+            "pushedOn"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.3,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_search",
+      "title": "雪崩",
+      "priority": 30,
+      "trigger": {
+        "var": "party.buriedCount",
+        "op": ">",
+        "value": 0
+      },
+      "situation": "雪煙が晴れると、斜面の下に固まったデブリ（雪崩の堆積）が広がっていた。仲間の姿がない。雪に埋まったのは {party.buriedCount:0} 人。最初の 15 分が生死を分ける。どうする？",
+      "knowledge": [
+        "雪に埋まった人が生きていられるのは、多くが 15 分ほどまで。35 分を過ぎると、助かる人は 3 人に 1 人ほどになる",
+        "埋まっていない人は全員ビーコンを持っている。受信に切り替えれば、送信している人は数分で場所が分かる",
+        "下の斜面に、山スキーの 3 人組が見えた。大声と笛なら届く",
+        "電話の電波: {leader.radio:1}（室堂のまわりは入る）"
+      ],
+      "options": [
+        {
+          "id": "search",
+          "label": "すぐにビーコンで捜す。声と笛で周りに知らせる",
+          "detail": "全員で受信に切り替え、デブリの上へ。通報は人手がそろってから。",
+          "explain": "生きていられる時間が短いので、まずその場の全員で捜す判断です。声と笛で近くの人を呼び、手が増えたところで通報します。",
+          "actions": [
+            {
+              "type": "avalancheRescue",
+              "helpers": 3,
+              "helpersAfterMin": 7
+            }
+          ],
+          "flags": [
+            "searchStarted",
+            "shouted"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.experience",
+                  "op": ">",
+                  "value": 0.7
+                },
+                "add": 0.2
+              }
+            ]
+          }
+        },
+        {
+          "id": "call",
+          "label": "先に 110 番に通報してから捜す",
+          "detail": "場所と人数を伝えて、救助を呼ぶのが先だ。",
+          "explain": "捜す前に通報する判断です。救助を早く呼べますが、電話の数分のあいだ捜索が止まり、埋まった人の生きていられる時間が減ります。",
+          "actions": [],
+          "flags": [
+            "callFirst",
+            "wantCall"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.6,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.experience",
+                  "op": "<",
+                  "value": 0.6
+                },
+                "add": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "fetch",
+          "label": "下のパーティーを呼んで、人がそろってから捜す",
+          "detail": "2 人では掘りきれない。人手を集めてから一気に。",
+          "explain": "人手を集めることを先にする判断です。掘る人は増えますが、呼びに行って戻るまでの 10 分ほど、だれも捜していない時間ができます。",
+          "actions": [],
+          "flags": [
+            "fetchHelp"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.35
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_aid",
+      "title": "掘り出したあと",
+      "priority": 28,
+      "trigger": {
+        "all": [
+          {
+            "flag": "anyBuried"
+          },
+          {
+            "all": [
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "saeki_buried"
+                    }
+                  },
+                  {
+                    "flag": "saeki_out"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "kono_buried"
+                    }
+                  },
+                  {
+                    "flag": "kono_out"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "miura_buried"
+                    }
+                  },
+                  {
+                    "flag": "miura_out"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "wakabayashi_buried"
+                    }
+                  },
+                  {
+                    "flag": "wakabayashi_out"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "flag": "someoneDug"
+          },
+          {
+            "not": {
+              "flag": "aidChosen"
+            }
+          }
+        ]
+      },
+      "situation": "埋まった仲間を雪から出した。息のある人は、体が冷えきり、服の中まで雪が入っている。斜面の上には、まだ割れ残った雪がかかっている。気温 {leader.local.tempC:0}℃。どうする？",
+      "knowledge": [
+        "雪から出たあとも体温は下がり続けることがある。濡れた服を替え、断熱して風を防ぎ、温かいものを飲ませる",
+        "埋まった人は、見た目が元気でも肺や内臓を傷めていることがある。病院で診てもらうのが原則",
+        "佐伯さんのザックに保温ボトルとコンロ、全員にツェルトとエマージェンシーシートがある",
+        "電話の電波: {leader.radio:1}（室堂のまわりは入る）"
+      ],
+      "options": [
+        {
+          "id": "warm",
+          "label": "保温して、救助を待つ",
+          "detail": "乾いた服に替え、ダウンを着せ、ツェルトで包んで温かい飲み物を。斜面の端へ移る。",
+          "explain": "掘り出した人の体温がこれ以上下がらないように手当てをし、ヘリを待つ判断です。埋まった人は病院で診てもらうのが原則です。",
+          "actions": [
+            {
+              "type": "changeDry"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "drink",
+              "liters": 0.2
+            },
+            {
+              "type": "eat",
+              "kcal": 150
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "aidChosen",
+            "firstAid",
+            "wantCall"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8,
+            "mods": [
+              {
+                "when": {
+                  "var": "c.kono.alive",
+                  "op": "==",
+                  "value": true
+                },
+                "add": 0.2
+              }
+            ]
+          }
+        },
+        {
+          "id": "walk",
+          "label": "少し温めてから、歩いてテントへ戻る",
+          "detail": "歩けそうだ。ヘリは呼ばずに（呼んであれば断って）、テントで温まろう。",
+          "explain": "救助を呼ばずに、掘り出した人を歩かせて戻る判断です。冷えた体で歩くと体温がさらに下がり、隠れたけがに気づけないおそれがあります。",
+          "available": {
+            "all": [
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "saeki_buried"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "c.saeki.alive",
+                        "op": "==",
+                        "value": true
+                      },
+                      {
+                        "var": "c.saeki.injury",
+                        "op": "!=",
+                        "value": "legFracture"
+                      },
+                      {
+                        "var": "c.saeki.injury",
+                        "op": "!=",
+                        "value": "severeTrauma"
+                      },
+                      {
+                        "var": "c.saeki.injury",
+                        "op": "!=",
+                        "value": "headInjury"
+                      },
+                      {
+                        "var": "c.saeki.coreC",
+                        "op": ">=",
+                        "value": 35
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "kono_buried"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "c.kono.alive",
+                        "op": "==",
+                        "value": true
+                      },
+                      {
+                        "var": "c.kono.injury",
+                        "op": "!=",
+                        "value": "legFracture"
+                      },
+                      {
+                        "var": "c.kono.injury",
+                        "op": "!=",
+                        "value": "severeTrauma"
+                      },
+                      {
+                        "var": "c.kono.injury",
+                        "op": "!=",
+                        "value": "headInjury"
+                      },
+                      {
+                        "var": "c.kono.coreC",
+                        "op": ">=",
+                        "value": 35
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "miura_buried"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "c.miura.alive",
+                        "op": "==",
+                        "value": true
+                      },
+                      {
+                        "var": "c.miura.injury",
+                        "op": "!=",
+                        "value": "legFracture"
+                      },
+                      {
+                        "var": "c.miura.injury",
+                        "op": "!=",
+                        "value": "severeTrauma"
+                      },
+                      {
+                        "var": "c.miura.injury",
+                        "op": "!=",
+                        "value": "headInjury"
+                      },
+                      {
+                        "var": "c.miura.coreC",
+                        "op": ">=",
+                        "value": 35
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "wakabayashi_buried"
+                    }
+                  },
+                  {
+                    "all": [
+                      {
+                        "var": "c.wakabayashi.alive",
+                        "op": "==",
+                        "value": true
+                      },
+                      {
+                        "var": "c.wakabayashi.injury",
+                        "op": "!=",
+                        "value": "legFracture"
+                      },
+                      {
+                        "var": "c.wakabayashi.injury",
+                        "op": "!=",
+                        "value": "severeTrauma"
+                      },
+                      {
+                        "var": "c.wakabayashi.injury",
+                        "op": "!=",
+                        "value": "headInjury"
+                      },
+                      {
+                        "var": "c.wakabayashi.coreC",
+                        "op": ">=",
+                        "value": 35
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "unavailableText": "歩けない人がいる",
+          "actions": [
+            {
+              "type": "changeDry"
+            },
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "stayPut"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "TRAVERSE",
+                "MURODO"
+              ],
+              "goalNodes": [
+                "MURODO"
+              ]
+            }
+          ],
+          "flags": [
+            "aidChosen",
+            "walkedOut"
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.4,
+            "mods": [
+              {
+                "when": {
+                  "var": "leader.def.riskTolerance",
+                  "op": ">",
+                  "value": 0.5
+                },
+                "add": 0.2
+              }
+            ]
+          }
+        },
+        {
+          "id": "wait",
+          "label": "通報して、その場で待つ",
+          "detail": "ヘリが来るまで動かさない。",
+          "explain": "通報して救助を待つ判断です。ただ待つだけで、着替えや断熱をしなければ、濡れて冷えた体はその間にも冷え続けます。",
+          "actions": [
+            {
+              "type": "stayPut"
+            }
+          ],
+          "flags": [
+            "aidChosen",
+            "wantCall"
+          ],
+          "bias": {
+            "base": 0.35
+          }
+        }
+      ]
+    },
+    {
+      "id": "cp_loss",
+      "title": "息をしていない",
+      "priority": 28,
+      "trigger": {
+        "all": [
+          {
+            "flag": "anyBuried"
+          },
+          {
+            "all": [
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "saeki_buried"
+                    }
+                  },
+                  {
+                    "flag": "saeki_out"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "kono_buried"
+                    }
+                  },
+                  {
+                    "flag": "kono_out"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "miura_buried"
+                    }
+                  },
+                  {
+                    "flag": "miura_out"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "wakabayashi_buried"
+                    }
+                  },
+                  {
+                    "flag": "wakabayashi_out"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "someoneDug"
+            }
+          },
+          {
+            "not": {
+              "flag": "aidChosen"
+            }
+          }
+        ]
+      },
+      "situation": "掘り出した仲間は、息をしていなかった。河野さんたちが胸骨圧迫を続けている。斜面の上には、まだ割れ残った雪がかかっている。どうする？",
+      "knowledge": [
+        "長く埋まって息のない人は、病院まで運ばなければ助かるかどうか分からない。救助を呼び、交代で心肺蘇生を続ける",
+        "残った人も冷えている。斜面の真下にとどまれば、続けて落ちる雪の危険がある",
+        "電話の電波: {leader.radio:1}（室堂のまわりは入る）"
+      ],
+      "options": [
+        {
+          "id": "cpr",
+          "label": "心肺蘇生を続けながら、ヘリを待つ",
+          "detail": "交代で胸を押し続ける。斜面の端へ移り、ツェルトで風を防ぐ。",
+          "explain": "息のない仲間に心肺蘇生を続け、救助を待つ判断です。自分たちも冷えないように、着込んで風を防ぎながら待ちます。",
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "drink",
+              "liters": 0.15
+            },
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "aidChosen",
+            "cpr",
+            "wantCall"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "walk",
+          "label": "残った人でテントへ戻る",
+          "detail": "仲間を斜面に残して、通報したうえで下りる。",
+          "explain": "亡くなったと判断した仲間を残し、生きている人の安全を先にして戻る判断です。続けて雪崩が起きうる斜面から離れられます。",
+          "actions": [
+            {
+              "type": "addLayer"
+            },
+            {
+              "type": "setRoute",
+              "route": [
+                "TRAVERSE",
+                "MURODO"
+              ],
+              "goalNodes": [
+                "MURODO"
+              ]
+            }
+          ],
+          "flags": [
+            "aidChosen",
+            "leftBody",
+            "wantCall"
+          ],
+          "bias": {
+            "base": 0.3
+          }
+        }
+      ]
+    }
+  ],
+  "genericOverrides": {
+    "injured": {
+      "situation": "{leader.name}さんがけがをした（{leader.injury}）。思うように動けない。どうする？",
+      "knowledge": [
+        "電話の電波: {leader.radio:1}（室堂のまわりは入る）",
+        "ツェルト・ダウン・エマージェンシーシートは全員が持っている",
+        "室堂の小屋はどこも営業していない"
+      ],
+      "options": [
+        {
+          "id": "call",
+          "label": "110 番して、救助を待つ",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">=",
+                "value": 0.3
+              },
+              {
+                "var": "leader.phone.has",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "leader.phone.batteryPct",
+                "op": ">",
+                "value": 0
+              }
+            ]
+          },
+          "unavailableText": "電波がない",
+          "explain": "動けないけが人がいるので、救助を呼んでその場で待つ判断です。晴れている今なら、ヘリが飛べる見込みがあります。",
+          "actions": [
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "flags": [
+            "wantCall"
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        },
+        {
+          "id": "slow",
+          "label": "ゆっくり歩いて進む",
+          "available": {
+            "all": [
+              {
+                "not": {
+                  "flag": "anyBuried"
+                }
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "legFracture"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "headInjury"
+              },
+              {
+                "var": "leader.injury",
+                "op": "!=",
+                "value": "severeTrauma"
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "explain": "けがをしたまま、予定の道を自分たちで歩き続ける判断です。雪の斜面では、痛む足でもう一度転ぶおそれがあります。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.6
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "bivouac",
+          "label": "ツェルトをかぶって様子を見る",
+          "explain": "通報せずに、その場で体を守って待つ判断です。だれにも知らせていないので、助けが来るのは遅くなります。",
+          "actions": [
+            {
+              "type": "bivouac",
+              "until": "rescue",
+              "findLee": true
+            }
+          ],
+          "bias": {
+            "base": 0.2
+          }
+        }
+      ]
+    },
+    "bruised": {
+      "situation": "{leader.name}さんは雪の上で転び、打ち身を負った。歩けそうだ。どうする？",
+      "options": [
+        {
+          "id": "rest",
+          "label": "休んでけがを確かめる",
+          "available": {
+            "all": [
+              {
+                "state": "WALKING"
+              },
+              {
+                "not": {
+                  "flag": "anyBuried"
+                }
+              }
+            ]
+          },
+          "hideIfUnavailable": true,
+          "explain": "転んだ直後に一度止まって、けがの程度を確かめる判断です。痛みの軽いうちに、歩けるかどうかを見きわめられます。",
+          "actions": [
+            {
+              "type": "rest",
+              "minutes": 15
+            },
+            {
+              "type": "continueRoute"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.6
+          }
+        },
+        {
+          "id": "careful",
+          "label": "足もとに気をつけて、ゆっくり進む",
+          "available": {
+            "not": {
+              "flag": "anyBuried"
+            }
+          },
+          "hideIfUnavailable": true,
+          "explain": "速さを落として、もう一度転ばないようにする判断です。アイゼンの雪道では、急ぐほど転びやすくなります。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.85
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.7
+          }
+        },
+        {
+          "id": "push",
+          "label": "そのまま進む",
+          "available": {
+            "not": {
+              "flag": "anyBuried"
+            }
+          },
+          "hideIfUnavailable": true,
+          "explain": "痛みをがまんして、ペースを変えずに進む判断です。けがの程度を確かめないまま、急な雪の斜面を歩くことになります。",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 1
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.5
+          }
+        },
+        {
+          "id": "keep",
+          "label": "痛むが、捜索と手当てを続ける",
+          "available": {
+            "flag": "anyBuried"
+          },
+          "hideIfUnavailable": true,
+          "explain": "自分の打ち身より、埋まった仲間の捜索と手当てを先にする判断です。打ち身なら、手を止めずに動けます。",
+          "actions": [
+            {
+              "type": "narrate",
+              "text": "{leader.name}さんは打ち身の痛みをこらえて、手を止めなかった"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 1
+          }
+        }
+      ]
+    },
+    "lostAware": {
+      "situation": "雪の上の踏み跡が途切れ、道から外れていることに気づいた。高さは {leader.elevM:0} m くらい。どうする？",
+      "knowledge": [
+        "晴れていて、浄土山・雄山・室堂の建物が見える",
+        "全員がスマートフォンの地図アプリを持っている",
+        "電話の電波: {leader.radio:1}（室堂のまわりは入る）"
+      ],
+      "options": [
+        {
+          "id": "backtrack",
+          "label": "自分たちの足跡をたどって戻る",
+          "explain": "雪の上に残った自分たちの足跡を戻り、確かな所まで引き返す判断です。迷ったときの基本で、晴れていれば確実です。",
+          "actions": [
+            {
+              "type": "backtrack"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "gps",
+          "label": "地図アプリで現在地を確かめ、道へ戻る",
+          "explain": "地図アプリと見える山の形で現在地を確かめ、近い道へ戻る判断です。晴れて見通しがよければ、短い時間で戻れます。",
+          "available": {
+            "var": "leader.phone.has",
+            "op": "==",
+            "value": true
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "stayPut"
+            },
+            {
+              "type": "checkPosition"
+            },
+            {
+              "type": "navigateToTrail"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "descend",
+          "label": "このまま下って室堂を目指す",
+          "explain": "道を探さずに斜面を下る判断です。雪の斜面は下るほど急になり、雪崩の通り道や崖に入りこむおそれがあります。",
+          "actions": [
+            {
+              "type": "descendDrainage"
+            }
+          ],
+          "tags": [
+            "risky"
+          ],
+          "bias": {
+            "base": 0.1
+          }
+        }
+      ]
+    },
+    "rescueFailed": {
+      "situation": "電話がつながらない。電波が弱い。どうする？",
+      "knowledge": [
+        "室堂のまわりは電波が入る。尾根の上や開けた所に出れば入りやすい",
+        "電話の電波: {leader.radio:1}（室堂のまわりは入る）"
+      ],
+      "options": [
+        {
+          "id": "seek_signal",
+          "label": "開けた所へ移って、かけ直す",
+          "explain": "電波の入る所まで動いて、もう一度通報する判断です。少し動くだけで、つながることがあります。",
+          "available": {
+            "not": {
+              "flag": "anyBuried"
+            }
+          },
+          "hideIfUnavailable": true,
+          "actions": [
+            {
+              "type": "seekSignal",
+              "returnAfter": true
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.8
+          }
+        },
+        {
+          "id": "wait",
+          "label": "ここで待つ。周りの人にも頼む",
+          "explain": "その場にとどまって、通りかかる人や周りの登山者に知らせを頼む判断です。通報が遅れれば、救助も遅れます。",
+          "actions": [
+            {
+              "type": "waitRescue"
+            }
+          ],
+          "tags": [
+            "recommended"
+          ],
+          "bias": {
+            "base": 0.4
+          }
+        }
+      ]
+    },
+    "hypothermia": {
+      "situation": "{leader.name}さんは震えが止まらない。指先が動かず、考えがまとまらない（体温 {leader.coreC:1}℃、推定）。どうする？"
+    }
+  },
+  "thoughts": [
+    {
+      "key": "s30_saeki_start",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E1"
+          },
+          {
+            "not": {
+              "beenAt": "ICHINOKOSHI"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "新雪が 60 cm。浄土山の北東の斜面は、吹きだまっているはずだ",
+        "大雪のあとの晴れの日。いちばん気をつける日だ"
+      ],
+      "priority": 6
+    },
+    {
+      "key": "s30_miura_start",
+      "who": "miura",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E1"
+          },
+          {
+            "not": {
+              "beenAt": "ICHINOKOSHI"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "やっと晴れた。きのう一日、テントで寝てただけだ",
+        "今日なら雄山まで楽に行ける"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s30_waka_start",
+      "who": "wakabayashi",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E1"
+          },
+          {
+            "not": {
+              "beenAt": "ICHINOKOSHI"
+            }
+          },
+          {
+            "not": {
+              "flag": "knownBroken"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "雪の立山。まぶしい",
+        "ビーコンの使い方、講習でやったきりだ"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s30_waka_broken",
+      "who": "wakabayashi",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "flag": "knownBroken"
+          },
+          {
+            "not": {
+              "flag": "anyBuried"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "私のビーコンだけ、動いていない",
+        "真ん中を離れないようにしよう"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s30_kono_trav",
+      "who": "kono",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E15"
+          },
+          {
+            "not": {
+              "flag": "avalanche"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "上の斜面、雪が厚い",
+        "日が当たりはじめた。早く抜けたい"
+      ],
+      "priority": 6
+    },
+    {
+      "key": "s30_saeki_trav",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E15"
+          },
+          {
+            "not": {
+              "flag": "avalanche"
+            }
+          },
+          {
+            "flag": "together"
+          }
+        ]
+      },
+      "lines": [
+        "斜面の上を見ながら歩く。逃げる方向は右下",
+        "4 人とも斜面の下にいる。これでよかったか"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s30_spaced",
+      "who": "kono",
+      "when": {
+        "all": [
+          {
+            "any": [
+              {
+                "flag": "spacedUp"
+              },
+              {
+                "flag": "spacedDown"
+              }
+            ]
+          },
+          {
+            "onEdge": "E15"
+          },
+          {
+            "not": {
+              "flag": "avalanche"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "渡っている人から目を離さない",
+        "落ちてきたら、どこで見えなくなったかを覚える"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s30_ridge",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E17"
+          },
+          {
+            "flag": "ridge"
+          },
+          {
+            "not": {
+              "beenAt": "OYAMA"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "遠回りだが、尾根の上なら上から落ちてくるものはない",
+        "浄土山の登りは急だ。アイゼンを確実に"
+      ],
+      "priority": 6
+    },
+    {
+      "key": "s30_ridge_miura",
+      "who": "miura",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E17"
+          },
+          {
+            "flag": "ridge"
+          },
+          {
+            "not": {
+              "beenAt": "OYAMA"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "夏道なら、もう一ノ越に着いていた",
+        "急だ。足もとだけ見て登る"
+      ],
+      "priority": 5
+    },
+    {
+      "key": "s30_summit",
+      "who": "any",
+      "when": {
+        "all": [
+          {
+            "beenAt": "OYAMA"
+          },
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E2"
+          }
+        ]
+      },
+      "lines": [
+        "雄山の上は風が冷たい。剱岳が近い",
+        "後立山の山並みが真っ白だ"
+      ],
+      "priority": 4
+    },
+    {
+      "key": "s30_search_saeki",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "flag": "anyBuried"
+          },
+          {
+            "var": "c.saeki.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          }
+        ]
+      },
+      "lines": [
+        "15 分。15 分のうちに",
+        "信号の矢印の向きへ。距離の数字が小さくなる",
+        "落ち着け。手順どおりに"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s30_search_kono",
+      "who": "kono",
+      "when": {
+        "all": [
+          {
+            "flag": "anyBuried"
+          },
+          {
+            "var": "c.kono.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          }
+        ]
+      },
+      "lines": [
+        "15 分。15 分のうちに",
+        "信号の矢印の向きへ。距離の数字が小さくなる",
+        "落ち着け。手順どおりに"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s30_search_miura",
+      "who": "miura",
+      "when": {
+        "all": [
+          {
+            "flag": "anyBuried"
+          },
+          {
+            "var": "c.miura.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          }
+        ]
+      },
+      "lines": [
+        "15 分。15 分のうちに",
+        "信号の矢印の向きへ。距離の数字が小さくなる",
+        "落ち着け。手順どおりに"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s30_search_wakabayashi",
+      "who": "wakabayashi",
+      "when": {
+        "all": [
+          {
+            "flag": "anyBuried"
+          },
+          {
+            "var": "c.wakabayashi.buried",
+            "op": "==",
+            "value": false
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          }
+        ]
+      },
+      "lines": [
+        "15 分。15 分のうちに",
+        "信号の矢印の向きへ。距離の数字が小さくなる",
+        "落ち着け。手順どおりに"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s30_buried_saeki",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "var": "c.saeki.buried",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.saeki.conscious",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "体が動かない。息が……",
+        "顔の前に、少しだけすき間がある"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s30_buried_kono",
+      "who": "kono",
+      "when": {
+        "all": [
+          {
+            "var": "c.kono.buried",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.kono.conscious",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "体が動かない。息が……",
+        "顔の前に、少しだけすき間がある"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s30_buried_miura",
+      "who": "miura",
+      "when": {
+        "all": [
+          {
+            "var": "c.miura.buried",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.miura.conscious",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "体が動かない。息が……",
+        "顔の前に、少しだけすき間がある"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s30_buried_wakabayashi",
+      "who": "wakabayashi",
+      "when": {
+        "all": [
+          {
+            "var": "c.wakabayashi.buried",
+            "op": "==",
+            "value": true
+          },
+          {
+            "var": "c.wakabayashi.conscious",
+            "op": "==",
+            "value": true
+          }
+        ]
+      },
+      "lines": [
+        "体が動かない。息が……",
+        "顔の前に、少しだけすき間がある"
+      ],
+      "priority": 9
+    },
+    {
+      "key": "s30_wait_kono",
+      "who": "kono",
+      "when": {
+        "all": [
+          {
+            "flag": "firstAid"
+          },
+          {
+            "any": [
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "BIVOUAC"
+              }
+            ]
+          },
+          {
+            "not": {
+              "var": "sun.isDark",
+              "op": "==",
+              "value": true
+            }
+          },
+          {
+            "not": {
+              "flag": "kono_buried"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "脈は速いが、しっかりしている",
+        "話しかけ続けよう。眠らせないように"
+      ],
+      "priority": 8
+    },
+    {
+      "key": "s30_wait_any",
+      "who": "any",
+      "when": {
+        "all": [
+          {
+            "flag": "called"
+          },
+          {
+            "any": [
+              {
+                "state": "WAITING_RESCUE"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "BIVOUAC"
+              }
+            ]
+          },
+          {
+            "not": {
+              "var": "sun.isDark",
+              "op": "==",
+              "value": true
+            }
+          },
+          {
+            "not": {
+              "any": [
+                {
+                  "var": "c.saeki.buried",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.kono.buried",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.miura.buried",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.wakabayashi.buried",
+                  "op": "==",
+                  "value": true
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "lines": [
+        "ヘリは来られるだろうか。晴れているうちに",
+        "明日は雪だ。今日のうちに下ろしてほしい"
+      ],
+      "priority": 7
+    },
+    {
+      "key": "s30_walkout",
+      "who": "any",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "flag": "walkedOut"
+          }
+        ]
+      },
+      "lines": [
+        "ゆっくり。何度も振り返る",
+        "テントに着いたら、すぐお湯を沸かそう"
+      ],
+      "priority": 7
+    }
+  ],
+  "speech": [
+    {
+      "key": "s30_whumpf",
+      "who": "miura",
+      "to": "saeki",
+      "when": {
+        "flag": "whumpf"
+      },
+      "lines": [
+        "今の音、何ですか？"
+      ],
+      "replies": {
+        "who": "saeki",
+        "lines": [
+          "雪の中の弱い層が沈んだ音だ。……よくない"
+        ]
+      },
+      "tone": "normal",
+      "priority": 25,
+      "once": true
+    },
+    {
+      "key": "s30_trav_kono",
+      "who": "kono",
+      "to": "saeki",
+      "when": {
+        "all": [
+          {
+            "state": "WALKING"
+          },
+          {
+            "onEdge": "E15"
+          },
+          {
+            "flag": "together"
+          },
+          {
+            "not": {
+              "flag": "avalanche"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "間隔、あけなくていい？",
+        "上、見ていてね"
+      ],
+      "replies": {
+        "who": "saeki",
+        "lines": [
+          "早く抜けよう。止まらないで"
+        ]
+      },
+      "tone": "whisper",
+      "priority": 12,
+      "once": true
+    },
+    {
+      "key": "s30_shout_saeki",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "flag": "shouted"
+          },
+          {
+            "all": [
+              {
+                "var": "c.saeki.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.saeki.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "saeki_buried"
+            }
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          }
+        ]
+      },
+      "lines": [
+        "雪崩です！ 人が埋まってます！ 手を貸してください！",
+        "（笛）ピーッ、ピーッ、ピーッ"
+      ],
+      "tone": "shout",
+      "priority": 40,
+      "once": true
+    },
+    {
+      "key": "s30_shout_kono",
+      "who": "kono",
+      "when": {
+        "all": [
+          {
+            "flag": "shouted"
+          },
+          {
+            "all": [
+              {
+                "var": "c.kono.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.kono.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kono.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "kono_buried"
+            }
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          }
+        ]
+      },
+      "lines": [
+        "雪崩です！ 人が埋まってます！ 手を貸してください！",
+        "（笛）ピーッ、ピーッ、ピーッ"
+      ],
+      "tone": "shout",
+      "priority": 40,
+      "once": true
+    },
+    {
+      "key": "s30_shout_miura",
+      "who": "miura",
+      "when": {
+        "all": [
+          {
+            "flag": "shouted"
+          },
+          {
+            "all": [
+              {
+                "var": "c.miura.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.miura.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.miura.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "miura_buried"
+            }
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          }
+        ]
+      },
+      "lines": [
+        "雪崩です！ 人が埋まってます！ 手を貸してください！",
+        "（笛）ピーッ、ピーッ、ピーッ"
+      ],
+      "tone": "shout",
+      "priority": 40,
+      "once": true
+    },
+    {
+      "key": "s30_shout_wakabayashi",
+      "who": "wakabayashi",
+      "when": {
+        "all": [
+          {
+            "flag": "shouted"
+          },
+          {
+            "all": [
+              {
+                "var": "c.wakabayashi.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.wakabayashi.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.wakabayashi.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "wakabayashi_buried"
+            }
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          }
+        ]
+      },
+      "lines": [
+        "雪崩です！ 人が埋まってます！ 手を貸してください！",
+        "（笛）ピーッ、ピーッ、ピーッ"
+      ],
+      "tone": "shout",
+      "priority": 40,
+      "once": true
+    },
+    {
+      "key": "s30_found_kono",
+      "who": "kono",
+      "when": {
+        "all": [
+          {
+            "flag": "searchStarted"
+          },
+          {
+            "all": [
+              {
+                "var": "c.kono.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.kono.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kono.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "kono_buried"
+            }
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          },
+          {
+            "any": [
+              {
+                "flag": "saeki_buried"
+              },
+              {
+                "flag": "miura_buried"
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "信号、入った！ 距離 15、矢印はこっち！"
+      ],
+      "tone": "shout",
+      "priority": 30,
+      "once": true
+    },
+    {
+      "key": "s30_found_miura",
+      "who": "miura",
+      "when": {
+        "all": [
+          {
+            "flag": "searchStarted"
+          },
+          {
+            "all": [
+              {
+                "var": "c.miura.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.miura.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.miura.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "miura_buried"
+            }
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          },
+          {
+            "any": [
+              {
+                "flag": "saeki_buried"
+              },
+              {
+                "flag": "kono_buried"
+              },
+              {
+                "elapsedSince": {
+                  "flag": "searchStarted",
+                  "min": 12
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "プローブ当たった！ 深さ 1 m くらい！"
+      ],
+      "tone": "shout",
+      "priority": 30,
+      "once": true
+    },
+    {
+      "key": "s30_found_saeki",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "flag": "searchStarted"
+          },
+          {
+            "all": [
+              {
+                "var": "c.saeki.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.saeki.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "saeki_buried"
+            }
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          },
+          {
+            "elapsedSince": {
+              "flag": "searchStarted",
+              "min": 3
+            }
+          }
+        ]
+      },
+      "lines": [
+        "斜面の下側から掘れ！ 交代しながら、雪を後ろへ送れ！"
+      ],
+      "tone": "shout",
+      "priority": 30,
+      "once": true
+    },
+    {
+      "key": "s30_found_wakabayashi",
+      "who": "wakabayashi",
+      "when": {
+        "all": [
+          {
+            "flag": "searchStarted"
+          },
+          {
+            "all": [
+              {
+                "var": "c.wakabayashi.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.wakabayashi.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.wakabayashi.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "wakabayashi_buried"
+            }
+          },
+          {
+            "var": "party.buriedCount",
+            "op": ">",
+            "value": 0
+          },
+          {
+            "flag": "searchStarted"
+          }
+        ]
+      },
+      "lines": [
+        "スコップ、組み立てました！ どこを掘ればいいですか！"
+      ],
+      "tone": "shout",
+      "priority": 30,
+      "once": true
+    },
+    {
+      "key": "s30_dug_saeki",
+      "who": "kono",
+      "to": "saeki",
+      "when": {
+        "all": [
+          {
+            "flag": "saeki_out"
+          },
+          {
+            "var": "c.saeki.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "all": [
+              {
+                "var": "c.kono.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.kono.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kono.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "佐伯さん、分かる？ 聞こえたら手を握って"
+      ],
+      "tone": "normal",
+      "priority": 35,
+      "once": true
+    },
+    {
+      "key": "s30_dug_kono",
+      "who": "kono",
+      "to": "kono",
+      "when": {
+        "all": [
+          {
+            "flag": "kono_out"
+          },
+          {
+            "var": "c.kono.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "all": [
+              {
+                "var": "c.kono.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.kono.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kono.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "河野さん、分かる？ 聞こえたら手を握って"
+      ],
+      "tone": "normal",
+      "priority": 35,
+      "once": true
+    },
+    {
+      "key": "s30_dug_miura",
+      "who": "kono",
+      "to": "miura",
+      "when": {
+        "all": [
+          {
+            "flag": "miura_out"
+          },
+          {
+            "var": "c.miura.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "all": [
+              {
+                "var": "c.kono.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.kono.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kono.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "三浦さん、分かる？ 聞こえたら手を握って"
+      ],
+      "tone": "normal",
+      "priority": 35,
+      "once": true
+    },
+    {
+      "key": "s30_dug_wakabayashi",
+      "who": "kono",
+      "to": "wakabayashi",
+      "when": {
+        "all": [
+          {
+            "flag": "wakabayashi_out"
+          },
+          {
+            "var": "c.wakabayashi.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "all": [
+              {
+                "var": "c.kono.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.kono.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kono.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "若林さん、分かる？ 聞こえたら手を握って"
+      ],
+      "tone": "normal",
+      "priority": 35,
+      "once": true
+    },
+    {
+      "key": "s30_dug2_saeki",
+      "who": "saeki",
+      "to": "saeki",
+      "when": {
+        "all": [
+          {
+            "flag": "saeki_out"
+          },
+          {
+            "var": "c.saeki.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "all": [
+              {
+                "var": "c.saeki.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.saeki.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "saeki_buried"
+            }
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "var": "c.kono.buried",
+                  "op": "==",
+                  "value": false
+                },
+                {
+                  "var": "c.kono.alive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.kono.conscious",
+                  "op": "==",
+                  "value": true
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "lines": [
+        "佐伯、しっかりしろ。もう大丈夫だ"
+      ],
+      "tone": "normal",
+      "priority": 34,
+      "once": true
+    },
+    {
+      "key": "s30_dug2_kono",
+      "who": "saeki",
+      "to": "kono",
+      "when": {
+        "all": [
+          {
+            "flag": "kono_out"
+          },
+          {
+            "var": "c.kono.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "all": [
+              {
+                "var": "c.saeki.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.saeki.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "saeki_buried"
+            }
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "var": "c.kono.buried",
+                  "op": "==",
+                  "value": false
+                },
+                {
+                  "var": "c.kono.alive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.kono.conscious",
+                  "op": "==",
+                  "value": true
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "lines": [
+        "河野、しっかりしろ。もう大丈夫だ"
+      ],
+      "tone": "normal",
+      "priority": 34,
+      "once": true
+    },
+    {
+      "key": "s30_dug2_miura",
+      "who": "saeki",
+      "to": "miura",
+      "when": {
+        "all": [
+          {
+            "flag": "miura_out"
+          },
+          {
+            "var": "c.miura.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "all": [
+              {
+                "var": "c.saeki.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.saeki.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "saeki_buried"
+            }
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "var": "c.kono.buried",
+                  "op": "==",
+                  "value": false
+                },
+                {
+                  "var": "c.kono.alive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.kono.conscious",
+                  "op": "==",
+                  "value": true
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "lines": [
+        "三浦、しっかりしろ。もう大丈夫だ"
+      ],
+      "tone": "normal",
+      "priority": 34,
+      "once": true
+    },
+    {
+      "key": "s30_dug2_wakabayashi",
+      "who": "saeki",
+      "to": "wakabayashi",
+      "when": {
+        "all": [
+          {
+            "flag": "wakabayashi_out"
+          },
+          {
+            "var": "c.wakabayashi.alive",
+            "op": "==",
+            "value": true
+          },
+          {
+            "all": [
+              {
+                "var": "c.saeki.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.saeki.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "saeki_buried"
+            }
+          },
+          {
+            "not": {
+              "all": [
+                {
+                  "var": "c.kono.buried",
+                  "op": "==",
+                  "value": false
+                },
+                {
+                  "var": "c.kono.alive",
+                  "op": "==",
+                  "value": true
+                },
+                {
+                  "var": "c.kono.conscious",
+                  "op": "==",
+                  "value": true
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "lines": [
+        "若林、しっかりしろ。もう大丈夫だ"
+      ],
+      "tone": "normal",
+      "priority": 34,
+      "once": true
+    },
+    {
+      "key": "s30_aid",
+      "who": "kono",
+      "when": {
+        "all": [
+          {
+            "flag": "firstAid"
+          },
+          {
+            "all": [
+              {
+                "var": "c.kono.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.kono.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.kono.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "kono_buried"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "濡れた手袋と帽子を替えて。ツェルトをかぶせて、下にマットを",
+        "温かいのを少しずつ。むせないように"
+      ],
+      "tone": "normal",
+      "priority": 20,
+      "once": true
+    },
+    {
+      "key": "s30_called",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "var": "leader.rescueCalled",
+            "op": "==",
+            "value": true
+          },
+          {
+            "all": [
+              {
+                "var": "c.saeki.buried",
+                "op": "==",
+                "value": false
+              },
+              {
+                "var": "c.saeki.alive",
+                "op": "==",
+                "value": true
+              },
+              {
+                "var": "c.saeki.conscious",
+                "op": "==",
+                "value": true
+              }
+            ]
+          },
+          {
+            "not": {
+              "flag": "saeki_buried"
+            }
+          },
+          {
+            "flag": "anyBuried"
+          },
+          {
+            "all": [
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "saeki_buried"
+                    }
+                  },
+                  {
+                    "flag": "saeki_out"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "kono_buried"
+                    }
+                  },
+                  {
+                    "flag": "kono_out"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "miura_buried"
+                    }
+                  },
+                  {
+                    "flag": "miura_out"
+                  }
+                ]
+              },
+              {
+                "any": [
+                  {
+                    "not": {
+                      "flag": "wakabayashi_buried"
+                    }
+                  },
+                  {
+                    "flag": "wakabayashi_out"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "ヘリが来る。それまで体を冷やさないように"
+      ],
+      "tone": "normal",
+      "priority": 15,
+      "once": true
+    },
+    {
+      "key": "s30_ridge_view",
+      "who": "kono",
+      "when": {
+        "all": [
+          {
+            "beenAt": "JODO"
+          },
+          {
+            "flag": "ridge"
+          },
+          {
+            "not": {
+              "beenAt": "OYAMA"
+            }
+          }
+        ]
+      },
+      "lines": [
+        "見て、夏道の上の斜面。割れ目が入ってる"
+      ],
+      "replies": {
+        "who": "saeki",
+        "lines": [
+          "あそこを通らなくてよかった"
+        ]
+      },
+      "tone": "normal",
+      "priority": 15,
+      "once": true
+    },
+    {
+      "key": "s30_back_tent",
+      "who": "saeki",
+      "when": {
+        "all": [
+          {
+            "flag": "turnedBack"
+          },
+          {
+            "beenAt": "MURODO"
+          }
+        ]
+      },
+      "lines": [
+        "お湯を沸かそう。明日、雪の具合を見て下りる"
+      ],
+      "tone": "normal",
+      "priority": 10,
+      "once": true
+    }
+  ],
+  "endings": [
+    {
+      "kind": "ABORTED",
+      "when": {
+        "flag": "knownBroken"
+      },
+      "title": "テントで待つ",
+      "text": "若林さんのビーコンが動かないことが分かり、4 人はその日の山頂をあきらめた。昼すぎ、夏道のトラバースの上の斜面で、自然に雪崩が落ちるのが見えた。"
+    },
+    {
+      "kind": "ABORTED",
+      "when": {
+        "flag": "beaconCheck"
+      },
+      "title": "テントで待つ",
+      "text": "出発前のビーコンチェックで、若林さんのビーコンが壊れていると分かった。4 人はその日の山頂をあきらめ、テントで雪が締まるのを待った。昼すぎ、浄土山の北東の斜面で雪崩が落ちるのが見えた。"
+    },
+    {
+      "kind": "ABORTED",
+      "title": "新雪が落ち着くまで",
+      "text": "大雪の翌日の晴れの日。4 人はテントにとどまり、雪が締まるのを待った。昼すぎ、浄土山の北東の斜面で雪崩が落ちるのが見えた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "walkedOut"
+      },
+      "title": "掘り出して、自分たちで戻った",
+      "text": "雪に埋まった仲間を掘り出し、少し温めてから、4 人で歩いてテントへ戻った。大事には至らなかったが、埋まった人は冷えきっていた。埋まった人は、見た目が元気でも病院で診てもらうのが原則とされている。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "avMiss"
+      },
+      "title": "すぐ脇を流れた雪崩",
+      "text": "1 人ずつ間隔をあけて渡っていたので、雪崩の通り道にいたのは 1 人だけで、その人もすぐ脇をかすめただけで済んだ。4 人はテントに戻った。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "any": [
+          {
+            "flag": "ridge"
+          },
+          {
+            "flag": "ridgeLater"
+          }
+        ]
+      },
+      "title": "尾根の道で",
+      "text": "4 人は浄土山の尾根を通って一ノ越へ行き、斜面の下を通らずにテントへ戻った。浄土山から見下ろした夏道の上の斜面には、割れ目が走っていた。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "ridgeDown"
+      },
+      "title": "帰りは尾根を回って",
+      "text": "帰りは浄土山へ登り返し、昼の日が当たった斜面の下を通らずにテントへ戻った。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "when": {
+        "flag": "turnedBack"
+      },
+      "title": "斜面の手前で引き返した",
+      "text": "4 人はトラバースの手前で引き返し、テントへ戻った。雪の沈む音と新しい雪崩の跡は、斜面が落ちる準備ができているしるしだった。"
+    },
+    {
+      "kind": "SAFE_RETURN",
+      "title": "テントに戻った",
+      "text": "4 人は雄山を往復し、テントに戻った。何も起きなかったのは、雪の状態がよかったからとは限らない。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "flag": "anyBuried"
+          },
+          {
+            "not": {
+              "flag": "someoneDied"
+            }
+          },
+          {
+            "flag": "avTogether"
+          }
+        ]
+      },
+      "title": "全員が生きて救助された",
+      "text": "4 人で続けて渡っていたトラバースで雪崩が起き、2 人が埋まった。残った仲間はビーコンで場所を探りあて、駆けつけた山スキーの 3 人と掘り出した。県警のヘリが、4 人を富山の病院へ運んだ。"
+    },
+    {
+      "kind": "RESCUED",
+      "when": {
+        "all": [
+          {
+            "flag": "anyBuried"
+          },
+          {
+            "not": {
+              "flag": "someoneDied"
+            }
+          }
+        ]
+      },
+      "title": "掘り出して、ヘリで運ばれた",
+      "text": "雪崩に埋まった仲間を、残った 3 人がビーコンとプローブで探しあて、駆けつけた山スキーの 3 人と掘り出した。県警のヘリが、4 人を富山の病院へ運んだ。"
+    },
+    {
+      "kind": "RESCUED",
+      "title": "救助された",
+      "text": "県警のヘリが 4 人を富山へ運んだ。"
+    },
+    {
+      "kind": "RESCUED_CRITICAL",
+      "title": "重い状態で運ばれた",
+      "text": "掘り出された仲間は体が冷えきり、重い状態でヘリに収容されて病院へ運ばれた。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "all": [
+          {
+            "flag": "wakabayashi_buried"
+          },
+          {
+            "var": "c.wakabayashi.alive",
+            "op": "==",
+            "value": false
+          },
+          {
+            "flag": "noCheck"
+          }
+        ]
+      },
+      "title": "送信していなかったビーコン",
+      "text": "雪崩に埋まった若林さんのビーコンは、壊れていて送信していなかった。仲間はプローブで刺して捜したが、見つけたときには息がなかった。出発前のビーコンチェックをしていれば、朝のうちに分かったことだった。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "all": [
+          {
+            "flag": "wakabayashi_buried"
+          },
+          {
+            "var": "c.wakabayashi.alive",
+            "op": "==",
+            "value": false
+          }
+        ]
+      },
+      "title": "ビーコンのない仲間",
+      "text": "雪崩に埋まった若林さんは、ビーコンが動いていなかった。仲間はプローブで刺して捜したが、見つけたときには息がなかった。"
+    },
+    {
+      "kind": "FATAL",
+      "when": {
+        "flag": "anyBuried"
+      },
+      "title": "間に合わなかった",
+      "text": "雪崩に埋まった仲間を、残った人と駆けつけた登山者で掘り出したが、全員は助からなかった。"
+    },
+    {
+      "kind": "FATAL",
+      "title": "帰らぬ人",
+      "text": "仲間の一人が、山から戻らなかった。"
+    },
+    {
+      "kind": "MISSING",
+      "title": "山の中で",
+      "text": "制限時刻になっても、まだ山の中にいる人がいる。"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_check",
+      "when": {
+        "flag": "noCheck"
+      },
+      "title": "毎朝、全員のビーコンを確かめる",
+      "text": "出発の前に、全員のビーコンが送信していることを確かめる（グループチェック）。壊れ・電池切れ・送信の入れ忘れは、埋まってからでは分からない。この話では、若林さんのビーコンは借りたときから壊れていた。"
+    },
+    {
+      "id": "l_gear",
+      "when": {
+        "any": [
+          {
+            "flag": "beaconCheck"
+          },
+          {
+            "flag": "wakabayashi_buried"
+          }
+        ]
+      },
+      "title": "ビーコン・プローブ・スコップは全員が",
+      "text": "ビーコン・プローブ・スコップは 3 つそろって、はじめて役に立つ。1 人でも欠けていれば、その人が埋まったときに見つけられない。そろわない日は、雪崩の起きうる斜面に入らない。"
+    },
+    {
+      "id": "l_newsnow",
+      "when": {
+        "any": [
+          {
+            "flag": "avalanche"
+          },
+          {
+            "flag": "whumpf"
+          }
+        ]
+      },
+      "title": "大雪の翌日の晴れの日は、最も危ない",
+      "text": "まとまった新雪のあとの晴れて風のない日は、雪崩が起きやすい。「ズン」と雪が沈む音、新しい雪崩の跡、斜面のひび割れは、斜面が落ちる準備ができているしるし。見たら、その斜面とその下に入らない。"
+    },
+    {
+      "id": "l_spacing",
+      "when": {
+        "flag": "avTogether"
+      },
+      "title": "危ない斜面は 1 人ずつ渡る",
+      "text": "避けられない斜面を渡るときは、1 人ずつ、安全な所から安全な所へ渡る。4 人が同時に斜面にいると、一度に何人も埋まり、捜す人が足りなくなる。"
+    },
+    {
+      "id": "l_search",
+      "when": {
+        "any": [
+          {
+            "flag": "callFirst"
+          },
+          {
+            "flag": "fetchHelp"
+          }
+        ]
+      },
+      "title": "まず、その場の全員で捜す",
+      "text": "埋まった人が生きていられる時間は短い。人数の少ないパーティーでは、通報や人集めより先に、その場の全員でビーコン捜索を始める。声と笛で周りに知らせ、人が増えたら 1 人が通報する。"
+    },
+    {
+      "id": "l_15",
+      "when": {
+        "flag": "anyBuried"
+      },
+      "title": "15 分の壁",
+      "text": "雪崩に埋まった人の多くは、15 分ほどまでに掘り出されれば助かるが、35 分を過ぎると助かる人は大きく減る。救助隊が来るのを待つ時間はない。助けられるのは、その場にいる仲間と周りの登山者だけ。"
+    },
+    {
+      "id": "l_aid",
+      "when": {
+        "flag": "someoneDug"
+      },
+      "title": "掘り出したあとも冷えは続く",
+      "text": "雪から出た人は、濡れた服と冷えた体のままでは体温が下がり続ける。乾いた服に替え、断熱して風を防ぎ、意識があれば温かい飲み物を少しずつ。埋まった人は、元気に見えても病院で診てもらう。"
+    },
+    {
+      "id": "l_ridge",
+      "when": {
+        "any": [
+          {
+            "flag": "ridge"
+          },
+          {
+            "flag": "ridgeLater"
+          },
+          {
+            "flag": "ridgeDown"
+          }
+        ]
+      },
+      "title": "斜面の下を通らない道を選ぶ",
+      "text": "雪崩は斜面の上から落ちてきて、下を通る人を巻き込む。遠回りでも、尾根の上を通る道があれば、それを選ぶ。夏道は雪の季節の安全な道とは限らない。"
+    },
+    {
+      "id": "l_info",
+      "title": "雪崩の情報と講習",
+      "text": "なだれ注意報や、山域ごとの雪崩の情報を確かめてから入山する。ビーコン・プローブ・スコップは、持っているだけでは使えない。雪崩の講習で、捜索と掘り出しを繰り返し練習しておく。"
+    }
+  ],
+  "balanceTargets": {
+    "recommended": {
+      "goodMin": 0.9,
+      "fatalMax": 0.03
+    },
+    "bias": {
+      "fatalMin": 0.05,
+      "fatalMax": 0.35,
+      "rescuedMin": 0.1
+    },
+    "risky": {
+      "fatalMin": 0.3,
+      "goodMax": 0.5
+    }
+  },
+  "sources": [
+    "架空の人物・架空の経過（ユーザーの指定: 3 月の立山、4 人パーティー、夏道のトラバースで上部から雪崩が起き 2 人が埋まる。ビーコンによる捜索・掘り出し・ファーストエイド・通報。周りの登山者も協力する）。実際に起きた遭難を再現したものではない",
+    "作者の想定: 3 月は立山黒部アルペンルートが開通する前（例年 4 月中旬に全線開通）で、室堂までバスでは来られない。4 人は立山駅から美女平・弥陀ヶ原をスキーと徒歩で 2 日かけて上がり、室堂にテントを張っているとした（開通前の除雪作業中の道路の扱い・入山の手続きは調べきれていない）",
+    "作者の想定: 3 月の室堂の山小屋（一ノ越山荘・雷鳥平の小屋など）は営業していない。富山県警山岳警備隊は、この時期の室堂には常駐していないとした。救助は富山の県警ヘリが来るとし、ヘリの準備・飛べる条件はシミュレーションの既定のまま",
+    "作者の想定: 室堂のまわりは携帯電話の電波が入る（室堂の基地局が冬も動いているとした）",
+    "作者の想定: 天気（前日の冬型の大雪で新雪 60 cm、当日は移動性高気圧で快晴・昼前から気温が上がる、翌日は低気圧で雪）は架空。日の出・日の入りは 3 月 20 日の富山県のおおよその時刻",
+    "作者の想定: 夏道の後半（トラバースの入口〜一ノ越）が浄土山の北東の斜面の下を横切り、斜面の上に吹きだまりがあるとした（地形は国土地理院の標高から読んだ斜度 30 度前後）。トラバースの入口の位置は作者の概略。雪崩の起きる確率（4 人で続けて渡ると行き 65%・帰り 50%、1 人ずつなら 50%・40%）と、埋まる人（4 人で続けてなら 2 人、1 人ずつなら 1 人か、すぐ脇を流れる）はシナリオの設定",
+    "雪崩に埋まった人の生存率の曲線（15 分で 9 割強、35 分で 3 割ほど）と、ビーコン・プローブ・スコップによる捜索と掘り出しの手順: 一般に知られた雪崩の統計と、雪崩講習で教えられる手順をもとにしたゲームモデル（src/sim/hazards/avalanche.ts）",
+    "地形: 国土地理院 標高タイル（DEM10B）・ベクトルタイル（植生記号）を加工",
+    "登山道・地点: © OpenStreetMap contributors"
+  ]
+}

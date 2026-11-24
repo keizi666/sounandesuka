@@ -61,7 +61,8 @@ const BUILTIN: Builtin[] = [
   { key: 'hungry_no_food', priority: 5, when: (_w, ctx, c) => hungerOf(c, ctx.tuning) !== 'none' && c.inv.foodKcal <= 0 },
   { key: 'bonk', priority: 6, when: (_w, ctx, c) => hungerOf(c, ctx.tuning) === 'bonk' && c.inv.foodKcal > 0 && MOVING.has(c.state) },
   // 「今夜はここで」は夕方から（昼の雨宿り・休憩では出さない）
-  { key: 'sheltered', priority: 5, when: (w, _c, c) => c.state === 'SHELTERED' && (w.sun.isDark || clockOf(w) >= 15 * 60) },
+  // 予定の小屋泊まりでは出さない（遭難のあと、逃げ込んだときだけ。s26 の指摘）
+  { key: 'sheltered', priority: 5, when: (w, _c, c) => c.state === 'SHELTERED' && (w.sun.isDark || clockOf(w) >= 15 * 60) && (w.latches['incident'] === true || w.rescue.calledAtMin !== null || c.memo.bivouacked) },
   { key: 'unaware_offroute', priority: 6, when: (_w, _c, c) => c.state === 'OFFROUTE_UNAWARE' },
   // 暗いのに明かりがない: 持っていない人と、持っているのに点けていない人で考えが違う
   // 足元の暗さを気にするのは、歩いているときだけ（休む・待つ・小屋の中では出さない）

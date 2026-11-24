@@ -1,0 +1,54 @@
+{
+  "id": "yakushima",
+  "name": "屋久島 白谷雲水峡〜辻峠〜楠川分れ〜縄文杉（トロッコ道・荒川登山口）",
+  "skeleton": true,
+  "areaHint": {
+    "text": "屋久島の北東部。白谷雲水峡の入口（白谷広場、標高 620 m 前後）から白谷川沿いの楠川歩道を白谷山荘（白谷小屋、無人の避難小屋）へ上がり、苔むす森を抜けて辻峠（979 m）へ。南へ下ると安房川沿いのトロッコ道（森林軌道）の楠川分れに出る。トロッコ道を西へたどると大株歩道入口、そこから大株歩道を登ってウィルソン株・大王杉・夫婦杉を経て縄文杉（1,300 m 前後）。縄文杉の先に高塚小屋（無人の避難小屋）。トロッコ道を東へ下ると小杉谷（集落の跡）を経て荒川登山口。白谷川の楠川歩道には橋のない渡渉点がいくつもあり、上流で強い雨が降ると短い時間で水が増える（作者の想定で 2 か所を渡渉点として扱う）。トロッコ道は安房川と支流を橋で渡る。一辺 8 km 程度（513 頂点）。",
+    "sizeM": 8192
+  },
+  "size": 8192,
+  "resolution": 513,
+  "terrain": {
+    "type": "heightmap", "encoding": "u16-base64",
+    "minElevM": 0, "maxElevM": 0, "baseElevation": 0,
+    "source": { "dem": "DEM10B", "zoom": 14, "fetchedAt": "" },
+    "data": ""
+  },
+  "vegetation": { "forestLine": 1750, "forestLineNoise": 60, "broadleafLine": 950, "krummholzBandM": 100 },
+  "nodes": [
+    { "id": "TH_SHIRATANI", "name": "白谷雲水峡の入口（白谷広場）", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 620 },
+    { "id": "FORD_B", "name": "白谷川の渡渉点（楠川歩道の下）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 760 },
+    { "id": "HUT_SHIRATANI", "name": "白谷山荘（白谷小屋）", "type": "shelter", "x": 0, "z": 0, "expectedElevM": 830,
+      "shelter": { "kind": "emergency", "open": true } },
+    { "id": "FORD_A", "name": "白谷川の渡渉点（白谷小屋の上）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 840 },
+    { "id": "KOKE", "name": "苔むす森", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 900 },
+    { "id": "TSUJI", "name": "辻峠", "type": "saddle", "x": 0, "z": 0, "expectedElevM": 979 },
+    { "id": "TAIKO", "name": "太鼓岩", "type": "peak", "x": 0, "z": 0, "expectedElevM": 1050 },
+    { "id": "KUSU_WAKARE", "name": "楠川分れ", "type": "junction", "x": 0, "z": 0, "expectedElevM": 720 },
+    { "id": "OKABU", "name": "大株歩道入口", "type": "junction", "x": 0, "z": 0, "expectedElevM": 920 },
+    { "id": "WILSON", "name": "ウィルソン株", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 1030 },
+    { "id": "JOMON", "name": "縄文杉", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 1300 },
+    { "id": "HUT_TAKATSUKA", "name": "高塚小屋", "type": "shelter", "x": 0, "z": 0, "expectedElevM": 1340,
+      "shelter": { "kind": "emergency", "open": true } },
+    { "id": "KOSUGI", "name": "小杉谷（集落の跡）", "type": "landmark", "x": 0, "z": 0, "expectedElevM": 660 },
+    { "id": "TH_ARAKAWA", "name": "荒川登山口", "type": "trailhead", "x": 0, "z": 0, "expectedElevM": 600 }
+  ],
+  "edges": [
+    { "id": "E1", "name": "楠川歩道（白谷広場〜渡渉点）", "kind": "trail", "from": "TH_SHIRATANI", "to": "FORD_B", "class": "T2", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E2", "name": "楠川歩道（渡渉点〜白谷小屋）", "kind": "trail", "from": "FORD_B", "to": "HUT_SHIRATANI", "class": "T2", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E3", "name": "白谷小屋〜渡渉点", "kind": "trail", "from": "HUT_SHIRATANI", "to": "FORD_A", "class": "T2", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E4", "name": "渡渉点〜苔むす森", "kind": "trail", "from": "FORD_A", "to": "KOKE", "class": "T2", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E5", "name": "苔むす森〜辻峠", "kind": "trail", "from": "KOKE", "to": "TSUJI", "class": "T2", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E6", "name": "辻峠〜太鼓岩", "kind": "trail", "from": "TSUJI", "to": "TAIKO", "class": "T2", "markers": 0.8, "drift": 0.005, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E7", "name": "楠川歩道（辻峠〜楠川分れ）", "kind": "trail", "from": "TSUJI", "to": "KUSU_WAKARE", "class": "T2", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E8", "name": "トロッコ道（楠川分れ〜大株歩道入口）", "kind": "trail", "from": "KUSU_WAKARE", "to": "OKABU", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E9", "name": "大株歩道（大株歩道入口〜ウィルソン株）", "kind": "trail", "from": "OKABU", "to": "WILSON", "class": "T2", "markers": 0.9, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E10", "name": "大株歩道（ウィルソン株〜縄文杉）", "kind": "trail", "from": "WILSON", "to": "JOMON", "class": "T2", "markers": 0.9, "drift": 0.003, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E11", "name": "縄文杉〜高塚小屋", "kind": "trail", "from": "JOMON", "to": "HUT_TAKATSUKA", "class": "T2", "markers": 0.85, "drift": 0.004, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E12", "name": "トロッコ道（楠川分れ〜小杉谷）", "kind": "trail", "from": "KUSU_WAKARE", "to": "KOSUGI", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] },
+    { "id": "E13", "name": "トロッコ道（小杉谷〜荒川登山口）", "kind": "trail", "from": "KOSUGI", "to": "TH_ARAKAWA", "class": "T1", "markers": 1.0, "drift": 0.0, "sinuosity": 1.0, "smooth": false, "waypoints": [] }
+  ],
+  "hazards": [],
+  "radio": { "stations": [] },
+  "attribution": []
+}

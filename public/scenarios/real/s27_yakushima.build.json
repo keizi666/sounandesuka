@@ -1,0 +1,99 @@
+{
+  "skeleton": "public/maps/real/yakushima.skeleton.json",
+  "mapId": "yakushima",
+  "center": [
+    30.36,
+    130.563
+  ],
+  "size": 8192,
+  "resolution": 513,
+  "at": {
+    "TH_SHIRATANI": [
+      30.37999,
+      130.5742
+    ],
+    "FORD_B": [
+      30.3731,
+      130.57029
+    ],
+    "HUT_SHIRATANI": [
+      30.36942,
+      130.57037
+    ],
+    "FORD_A": [
+      30.36858,
+      130.57011
+    ],
+    "KOKE": [
+      30.3664,
+      130.5688
+    ],
+    "TSUJI": [
+      30.36399,
+      130.56743
+    ],
+    "TAIKO": [
+      30.3624,
+      130.5683
+    ],
+    "KUSU_WAKARE": [
+      30.35416,
+      130.56265
+    ],
+    "OKABU": [
+      30.35245,
+      130.53928
+    ],
+    "WILSON": [
+      30.35664,
+      130.54168
+    ],
+    "JOMON": [
+      30.36097,
+      130.5319
+    ],
+    "HUT_TAKATSUKA": [
+      30.36057,
+      130.53038
+    ],
+    "KOSUGI": [
+      30.35218,
+      130.57817
+    ],
+    "TH_ARAKAWA": [
+      30.33986,
+      130.59521
+    ]
+  },
+  "snapM": 120,
+  "radio": [
+    {
+      "id": "st_shiratani",
+      "x": 1250,
+      "z": -2700,
+      "elevM": 592,
+      "antennaM": 40,
+      "rangeM": 4000
+    },
+    {
+      "id": "st_arakawa",
+      "x": 3250,
+      "z": 2350,
+      "elevM": 621,
+      "antennaM": 40,
+      "rangeM": 3000
+    },
+    {
+      "id": "st_jomon",
+      "x": -2700,
+      "z": -300,
+      "elevM": 1323,
+      "antennaM": 20,
+      "rangeM": 900
+    }
+  ],
+  "paceAdj": {
+    "E9": 0.6,
+    "E7": 1.2
+  }
+}
