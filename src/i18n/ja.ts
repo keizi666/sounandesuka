@@ -848,6 +848,25 @@ export const JA = {
     },
   } as Record<string, { title: string; situation: string; options: Record<string, string>; explain?: Record<string, string> }>,
 
+  /** 重要な出来事を画面の中央に大きく出す見出し（ユーザーの指定: 効果音つきで、そのあとに選択肢） */
+  alert: {
+    avalanche: '雪崩が発生した！',
+    avalancheSub: '{names}が雪に埋まった',
+    swept: '{who}が流された！',
+    bear: '{who}が熊に襲われた！',
+    illness: '{who}が倒れた！',
+    hace: '{who}の様子がおかしい',
+    haceSub: 'まっすぐ歩けず、反応が鈍い（高地脳浮腫のおそれ）',
+    fall: '{who}が滑落した！',
+    fallLight: '{who}が転んでけがをした',
+    trip: '{who}が転倒して大けがをした！',
+    rockfall: '{who}に落石が当たった！',
+    slipped: '{who}が流れに足を取られて転んだ',
+    lightning: '{who}に雷が落ちた！',
+    lost: '道に迷った',
+    lostSub: 'ここがどこなのか、はっきりしない',
+  },
+
   /** プレイ中の「共有」のパネル（ユーザーの指定: その場にいる人が同じ場面からすぐに始められる） */
   sharePanel: {
     title: 'この場面を共有',

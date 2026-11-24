@@ -3,6 +3,7 @@
  * モード: 通常（分岐点で止まる）、判断時間制限（登山者は立ち止まって待ち、時間切れで傾向どおり）、観察のみ（傾向どおり自動）。
  */
 import { createAmbientSound, thunderDelaySec } from '../view/ambientSound';
+import { createEventAlerts } from './eventAlert';
 import { createFigureIcons, ICON_LIFT_PX } from './figureIcons';
 import { closeLogDetail, snapOf } from './logDetail';
 import { Timeline } from '../app/timeline';
@@ -355,6 +356,8 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       setTimeout(() => n.remove(), 8000);
     }, delaySec * 1000);
   }
+  // 重要な出来事を画面の中央に大きく出す（ユーザーの指定。eventAlert.ts）
+  const alerts = createEventAlerts(simMain);
   function handleEvents(evs: readonly SimEvent[]): void {
     const fast = loop?.speed >= 15;
     for (const e of evs) {
@@ -363,6 +366,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       const se = replaying ? null : eventSound(e);
       if (se) audio().play(se.id, se.volume);
       // 落雷: 打たれた場所に稲妻、画面を白く光らせ、近くに落ちた雷の音（ユーザーの指定。見直しの再生中は出さない）
+      if (!replaying) alerts.push(e, world);
       if (e.type === 'LIGHTNING_STRIKE' && !replaying) {
         const c = world.climbers.find((x) => x.id === e.climberId);
         const x = typeof e.data?.['x'] === 'number' ? e.data['x'] : c?.x;
@@ -450,6 +454,11 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       return;
     }
     if (!findChoicePoint(ctx, p.cpId)) return;
+    // 中央に出来事を出している間は、出し終えてから選択肢を開く（ユーザーの指定: 何が起きたかを見せてから選ばせる）
+    if (alerts.busy()) {
+      alerts.whenIdle(() => onChoice());
+      return;
+    }
     shownCp = p.cpId;
     void save();
     choiceUi = showChoice(modalHost, world, ctx, {
@@ -833,6 +842,7 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
     void save();
     closeTitle?.();
     loop.dispose();
+    alerts.dispose();
     choiceUi?.close();
     ro.disconnect();
     document.removeEventListener('keydown', onKey);

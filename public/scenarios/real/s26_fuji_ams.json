@@ -3156,6 +3156,367 @@
  ],
  "speech": [
   {
+   "key": "s26_d1_start",
+   "who": "yuto",
+   "to": "ayaka",
+   "when": {
+    "all": [
+     {
+      "after": "D0 10:30"
+     },
+     {
+      "before": "D0 12:45"
+     },
+     {
+      "var": "c.ayaka.moving",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "いよいよ富士山だね。雲ひとつない",
+    "ここでもう 2,400 m。下界があんなに遠い"
+   ],
+   "replies": {
+    "who": "ayaka",
+    "lines": [
+     "うん。ゆうべあんまり眠れなかったけど、楽しみ",
+     "空気がひんやりしてる。思ったより寒いね"
+    ]
+   },
+   "once": true,
+   "priority": 12
+  },
+  {
+   "key": "s26_d1_roku",
+   "who": "ayaka",
+   "to": "yuto",
+   "when": {
+    "all": [
+     {
+      "beenAt": "ROKU"
+     },
+     {
+      "before": "D0 15:00"
+     },
+     {
+      "var": "c.ayaka.moving",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "ここが六合目？ 山小屋がちゃんとあるんだね",
+    "宝永山の火口があんなに近い"
+   ],
+   "replies": {
+    "who": "yuto",
+    "lines": [
+     "ここから先はずっと岩の道。ゆっくり行こう",
+     "時間はたっぷりある。小屋には夕方までに着けばいい"
+    ]
+   },
+   "once": true,
+   "priority": 12
+  },
+  {
+   "key": "s26_d1_breath",
+   "who": "ayaka",
+   "to": "yuto",
+   "when": {
+    "all": [
+     {
+      "beenAt": "SHIN7"
+     },
+     {
+      "before": "D0 16:00"
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": "<",
+      "value": 30
+     },
+     {
+      "var": "c.ayaka.moving",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "ちょっと息が上がる。空気、薄いのかな",
+    "歩いてるだけなのに、心臓がどきどきする"
+   ],
+   "replies": {
+    "who": "yuto",
+    "lines": [
+     "深呼吸しながら行こう。吐くのを長めにするといいらしい",
+     "水、こまめに飲んで。高山病の予防になるって"
+    ]
+   },
+   "once": true,
+   "priority": 12
+  },
+  {
+   "key": "s26_d1_gen7",
+   "who": "yuto",
+   "to": "ayaka",
+   "when": {
+    "all": [
+     {
+      "beenAt": "GEN7"
+     },
+     {
+      "before": "D0 17:00"
+     },
+     {
+      "var": "c.ayaka.moving",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "元祖七合目。今日の小屋まで、あと少し",
+    "下を見て。雲の海の上を歩いてるみたいだ"
+   ],
+   "replies": {
+    "who": "ayaka",
+    "lines": [
+     "すごい……写真撮っていい？",
+     "下界がぜんぜん見えない。不思議な感じ"
+    ]
+   },
+   "once": true,
+   "priority": 12
+  },
+  {
+   "key": "s26_d1_tired",
+   "who": "yuto",
+   "to": "ayaka",
+   "when": {
+    "all": [
+     {
+      "before": "D0 17:30"
+     },
+     {
+      "var": "c.ayaka.fatigue",
+      "op": ">",
+      "value": 45
+     },
+     {
+      "var": "c.ayaka.moving",
+      "op": "==",
+      "value": true
+     },
+     {
+      "not": {
+       "beenAt": "HACHI"
+      }
+     }
+    ]
+   },
+   "lines": [
+    "少し止まろう。座らなくていいから、息を整えて",
+    "急がなくていいよ。小屋は逃げないから"
+   ],
+   "replies": {
+    "who": "ayaka",
+    "lines": [
+     "ごめんね、遅くて",
+     "ありがとう。……よし、行ける"
+    ]
+   },
+   "once": true,
+   "priority": 12
+  },
+  {
+   "key": "s26_d1_hut",
+   "who": "yuto",
+   "to": "ayaka",
+   "when": {
+    "all": [
+     {
+      "beenAt": "HACHI"
+     },
+     {
+      "before": "D0 19:00"
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "着いた。今日はここまで。おつかれさま",
+    "八合目の池田館。明日の朝は早いぞ"
+   ],
+   "replies": {
+    "who": "ayaka",
+    "lines": [
+     "やっと座れる……足がぱんぱん",
+     "隣に救護所もあるんだね。ちょっと安心"
+    ]
+   },
+   "once": true,
+   "priority": 13
+  },
+  {
+   "key": "s26_d1_dinner",
+   "who": "ayaka",
+   "to": "yuto",
+   "when": {
+    "all": [
+     {
+      "beenAt": "HACHI"
+     },
+     {
+      "after": "D0 17:25"
+     },
+     {
+      "before": "D0 19:00"
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "カレー、半分しか食べられなかった",
+    "なんだか、あんまりお腹が空かない"
+   ],
+   "replies": {
+    "who": "yuto",
+    "lines": [
+     "高い所だと食欲が落ちるらしい。無理しないで",
+     "残り、もらっていい？ 明日のために食べとく"
+    ]
+   },
+   "once": true,
+   "priority": 12
+  },
+  {
+   "key": "s26_d1_sunset",
+   "who": "yuto",
+   "to": "ayaka",
+   "when": {
+    "all": [
+     {
+      "beenAt": "HACHI"
+     },
+     {
+      "after": "D0 18:10"
+     },
+     {
+      "before": "D0 19:15"
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "見て、影富士だ。山の影が雲に映ってる",
+    "夕日が雲の海に沈んでいく"
+   ],
+   "replies": {
+    "who": "ayaka",
+    "lines": [
+     "きれい……来てよかった",
+     "寒っ。上着、もう一枚着てくる"
+    ]
+   },
+   "once": true,
+   "priority": 12
+  },
+  {
+   "key": "s26_d1_bed",
+   "who": "ayaka",
+   "to": "yuto",
+   "when": {
+    "all": [
+     {
+      "beenAt": "HACHI"
+     },
+     {
+      "after": "D0 19:00"
+     },
+     {
+      "before": "D0 19:40"
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "明日、何時に起きるの？",
+    "隣の人のいびき、眠れるかな"
+   ],
+   "replies": {
+    "who": "yuto",
+    "lines": [
+     "1 時半。2 時に出れば、ご来光に間に合う",
+     "耳栓あるよ。目をつぶるだけでも休まるって"
+    ]
+   },
+   "once": true,
+   "priority": 12
+  },
+  {
+   "key": "s26_d1_head",
+   "who": "ayaka",
+   "to": "yuto",
+   "when": {
+    "all": [
+     {
+      "beenAt": "HACHI"
+     },
+     {
+      "before": "D0 21:00"
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": ">=",
+      "value": 30
+     },
+     {
+      "var": "c.ayaka.ams",
+      "op": "<",
+      "value": 60
+     },
+     {
+      "var": "c.ayaka.indoors",
+      "op": "==",
+      "value": true
+     }
+    ]
+   },
+   "lines": [
+    "なんだか頭が重い。寝不足のせいかな",
+    "こめかみがずきずきする"
+   ],
+   "replies": {
+    "who": "yuto",
+    "lines": [
+     "高山病かもしれない。水を飲んで、早めに横になろう",
+     "ひどくなったら起こして。すぐ言ってね"
+    ]
+   },
+   "once": true,
+   "priority": 14
+  },
+  {
    "key": "s26_ok",
    "who": "yuto",
    "to": "ayaka",

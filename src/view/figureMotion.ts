@@ -54,6 +54,8 @@ const POSES = {
 } satisfies Record<string, Pose>;
 
 const WALKING_STATES = new Set(['WALKING', 'OFFROUTE_UNAWARE', 'BACKTRACKING', 'NAVIGATING_TO_TRAIL', 'DESCENDING_DRAINAGE', 'SEEKING_SIGNAL']);
+/** これより速く動いていれば「動いている」（這う速さは 0.07 km/h ＝ 0.019 m/s ほどなので、歩く判定の 0.02 m/s より小さくする） */
+const CRAWL_MIN_MS = 0.002;
 
 function clamp(v: number, a: number, b: number): number {
   return v < a ? a : v > b ? b : v;
@@ -88,6 +90,10 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
     if (!b.alive || c.state === 'DEAD' || c.state === 'UNCONSCIOUS' || !b.conscious) return POSES.lie;
     if (c.state === 'INCAPACITATED') return POSES.slump;
     if (c.plan.postureUntilMin !== null && tMinNow < c.plan.postureUntilMin) return POSES.crouch;
+    // 発作中・足の骨折・力が尽きかけているのに動くときは這う（這う速さは 0.02 m/s より遅いので、少しでも動いていれば。ユーザーの指摘:
+    // 「這う」を選ぶと、足を動かさずに立ったまま滑っていた）
+    const crawler = b.illness?.active === true || b.injury === 'legFracture' || c.M < 0.25;
+    if (crawler && c.speedMs > CRAWL_MIN_MS && (WALKING_STATES.has(c.state) || c.pos.mode === 'free')) return POSES.crawl;
     // 歩いて動いているときは、状態（救助待ち・その場で待つ など）によらず歩く姿勢（座ったまま滑らない）
     const walkingNow = c.speedMs > 0.05 && c.pos.mode === 'free';
     if (walkingNow) return b.illness?.active === true || b.injury === 'legFracture' || c.M < 0.25 ? POSES.crawl : hasPoles ? POSES.standPoles : POSES.stand;
@@ -96,8 +102,6 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
     if (c.state === 'RESTING' || c.state === 'SHELTERED' || c.state === 'RESCUED') return POSES.sit;
     if (c.plan.busyWith !== null) return POSES.busy;
     if (c.state === 'SEEKING_SIGNAL' && c.speedMs < 0.02) return POSES.phone;
-    // 発作中・足の骨折・力が尽きかけているのに動くときは這う
-    if (WALKING_STATES.has(c.state) && c.speedMs > 0.02 && (b.illness?.active === true || b.injury === 'legFracture' || c.M < 0.25)) return POSES.crawl;
     return hasPoles ? POSES.standPoles : POSES.stand;
   }
 
@@ -221,7 +225,7 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
       }
 
       // 這う動き: 手と反対の膝を交互に前へ
-      if (target === POSES.crawl && c.speedMs > 0.02) {
+      if (target === POSES.crawl && c.speedMs > CRAWL_MIN_MS) {
         crawlPhase += dt * 2.2;
         const cs = Math.sin(crawlPhase);
         p.shL += cs * 0.28;

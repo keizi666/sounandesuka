@@ -1355,3 +1355,23 @@ details[data-g]:not([open]) > summary .grp-mini:hover { border-color: var(--acce
 .sf-sec li span { color: #c9cfd7; font-size: 0.95em; }
 @media (prefers-reduced-motion: reduce) { .sf-topic > summary::before { transition: none; } }
 @media print { .sf-topic > :not(summary) { display: block !important; } }
+
+/* 重要な出来事を画面の中央に大きく出す（ユーザーの指定: 効果音つきで、そのあとに選択肢） */
+.ev-alert { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 45; pointer-events: none; display: flex; flex-direction: column; align-items: center; gap: 6px; max-width: min(92vw, 760px); padding: 18px 34px; border-radius: 16px; background: rgba(12, 14, 20, 0.82); border: 2px solid var(--tone); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 6px color-mix(in srgb, var(--tone) 25%, transparent); text-align: center; animation: ev-alert 2.4s ease forwards; }
+.ev-alert.tone-danger { --tone: #ef4444; }
+.ev-alert.tone-warn { --tone: #f59e0b; }
+.ev-alert strong { font-size: clamp(1.6rem, 4.6vw, 2.8rem); font-weight: 800; letter-spacing: 0.04em; color: #fff; line-height: 1.25; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6); }
+.ev-alert small { font-size: clamp(0.95rem, 2.2vw, 1.15rem); color: #e5e7eb; }
+@keyframes ev-alert {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(1.25); }
+  10% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  14% { transform: translate(-50%, -50%) translateX(-6px); }
+  18% { transform: translate(-50%, -50%) translateX(6px); }
+  22% { transform: translate(-50%, -50%) translateX(0); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.98); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ev-alert { animation-name: ev-alert-soft; }
+  @keyframes ev-alert-soft { 0% { opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
+}
