@@ -528,7 +528,7 @@
           "label": "地形図で北稜の尾根を探す",
           "explain": "立ち止まり、高度計と地形図で尾根の形と高さを読んで、道のある北稜の尾根を探します。1002 m の近くまで来ているなら、尾根を特定しやすい場面です。",
           "detail": "尾根の形と高さが分かれば、道のある尾根に出られる。",
-          "actions": [{ "type": "say", "text": "落ち着け。高さは 1000 m 近い。尾根を読もう", "tone": "whisper" }, { "type": "stayPut" }, { "type": "checkPosition" }, { "type": "navigateToTrail" }],
+          "actions": [{ "type": "say", "text": "落ち着け。標高 1000 m 近い。尾根を読もう", "tone": "whisper" }, { "type": "stayPut" }, { "type": "checkPosition" }, { "type": "navigateToTrail" }],
           "flags": ["triedMap"],
           "tags": ["recommended"],
           "bias": { "base": 0.8, "mods": [{ "when": { "near": { "x": -200, "z": -1590, "r": 200 } }, "add": 0.6 }] }

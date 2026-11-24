@@ -435,6 +435,16 @@ export class SceneView {
     m.color.setHex(alive ? 0xff2a1f : 0x9a9a9a);
   }
 
+  /** 人形の足もとの地面の傾き（人形の向き ry で見た前〔+z〕・右〔+x〕への上り勾配）。人形の体の長さほどの幅で測る */
+  private groundSlope(x: number, z: number, ry: number): { fwd: number; side: number } {
+    const s = this.figureHeight() * 0.4;
+    const fx = Math.sin(ry) * s;
+    const fz = Math.cos(ry) * s;
+    const fwd = (this.heightAt(x + fx, z + fz) - this.heightAt(x - fx, z - fz)) / (2 * s);
+    const side = (this.heightAt(x + fz, z - fx) - this.heightAt(x - fz, z + fx)) / (2 * s);
+    return { fwd, side };
+  }
+
   /** 人形の高さ（シーン単位） */
   private figureHeight(): number {
     return (this.mode === 'eye' ? 1.7 : 1.7 * this.opts.figureScale) * UNIT * this.s.vExag;
@@ -563,7 +573,7 @@ export class SceneView {
       const inside = c.body.alive && ((c.state === 'SHELTERED' && c.body.shelterNodeId !== null) || (c.state === 'RESTING' && hutHere(this.map, c)));
       // 雪崩に埋まっている人も描かない（雪の下。場所の印だけ出る）
       fig.root.visible = !c.offMap && !inside && !c.body.buried;
-      fig.update(c, timeSec, this.selected === c.id);
+      fig.update(c, timeSec, this.selected === c.id, this.groundSlope(sx, sz, fig.root.rotation.y));
       this.updateLocator(c.id, fig, timeSec, c.body.alive, k === 0);
       // 亡くなった瞬間（前のフレームでは生きていた）に、半透明の姿が昇っていく。読み込み・巻き戻しで最初から亡くなっていれば出さない
       if (this.wasAlive.get(c.id) === true && !c.body.alive && fig.root.visible) this.ghosts.spawn(c.def, fig.root.position, c.headingRad, this.figureHeight(), timeSec);

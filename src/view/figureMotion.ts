@@ -3,6 +3,7 @@
  * 状態から「基本の姿勢」（関節角の組）を決めて滑らかに近づけ、その上に歩行の周期・呼吸・震え・ふらつきを重ねる。
  * 角度の向き: x 回転の正は「下へ伸びる部位を後ろへ」「胴を前へ」。+x 側の腕は z 回転の正で外へ開く。
  */
+import * as THREE from 'three';
 import type { ClimberState } from '../sim/types';
 import type { FigureRig, Limb } from './figureModel';
 
@@ -66,9 +67,31 @@ function wobble(t: number, seed: number): number {
   return (Math.sin(t * 1.0 + seed) + Math.sin(t * 2.3 + seed * 1.7) * 0.6 + Math.sin(t * 4.1 + seed * 2.9) * 0.3) / 1.9;
 }
 
-export interface Motion {
-  update(c: ClimberState, timeSec: number): void;
+/** 人形の足もとの地面の傾き（人形の向きで見た、前へ・右〔+x〕への上り勾配。上り正） */
+export interface GroundSlope {
+  fwd: number;
+  side: number;
 }
+
+export interface Motion {
+  update(c: ClimberState, timeSec: number, ground?: GroundSlope): void;
+}
+
+/**
+ * 低い姿勢を地面の傾きに沿わせる割合（ユーザーの指摘: 這うと斜面に埋まる）。立つ・歩く人は鉛直のまま。
+ * 這う・倒れているは斜面に沿わせ、座る・うずくまるは半分ほど
+ */
+function groundFollow(target: Pose): number {
+  if (target === POSES.crawl || target === POSES.lie) return 1;
+  if (target === POSES.sit || target === POSES.huddle || target === POSES.slump) return 0.6;
+  return 0;
+}
+const UP = new THREE.Vector3(0, 1, 0);
+const _n = new THREE.Vector3();
+const _q = new THREE.Quaternion();
+const _p = new THREE.Vector3();
+/** 這うとき、手・膝・つま先を地面から浮かせる量（人形の単位。手足の太さほど） */
+const CRAWL_PAD = 0.04;
 
 export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
   const cur: Pose = { ...ZERO };
@@ -82,6 +105,8 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
   let lastZ = c0.z;
   let lastElev = c0.elevM;
   let crawlPhase = 0;
+  let tiltW = 0; // 地面に沿わせる割合（滑らかに変える）
+  let lift = 0; // 這うときに体を持ち上げる量（人形の単位）
   let yaw = Number.NaN;
   let first = true;
 
@@ -106,7 +131,7 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
   }
 
   return {
-    update(c, t) {
+    update(c, t, ground) {
       const dt = Number.isNaN(lastT) ? 0 : clamp(t - lastT, 0, 0.1);
       lastT = t;
       const b = c.body;
@@ -273,6 +298,28 @@ export function createMotion(rig: FigureRig, c0: ClimberState): Motion {
         plant('hipR', 'knR', 'anR');
       }
       apply(rig, p, twist);
+      // 低い姿勢は、体ごと地面の傾きに沿わせる（体の付け根〔足もとの地面の高さ〕を中心に回す）
+      tiltW += (groundFollow(target) - tiltW) * (dt > 0 ? 1 - Math.exp(-dt * 4) : 1);
+      _n.copy(UP);
+      if (ground && tiltW > 0.01) {
+        const f = clamp(ground.fwd, -1.5, 1.5) * tiltW;
+        const s = clamp(ground.side, -1.5, 1.5) * tiltW;
+        _n.set(-s, 1, -f).normalize();
+        rig.body.quaternion.premultiply(_q.setFromUnitVectors(UP, _n));
+      }
+      // 這うときは、手・膝・つま先がちょうど地面（傾けた面）に着く高さへ体を上げ下げする（ユーザーの指摘: 這うと地面に埋まる）
+      let liftWant = 0;
+      if (target === POSES.crawl) {
+        rig.root.updateMatrixWorld(true);
+        let minD = Infinity;
+        for (const bn of [rig.armL.end, rig.armR.end, rig.legL.lower, rig.legR.lower, rig.legL.end, rig.legR.end]) {
+          rig.root.worldToLocal(bn.getWorldPosition(_p));
+          minD = Math.min(minD, _p.dot(_n));
+        }
+        liftWant = (CRAWL_PAD - minD) / _n.y;
+      }
+      lift += (liftWant - lift) * (dt > 0 ? 1 - Math.exp(-dt * 6) : 1);
+      rig.body.position.y += lift;
 
       // ストックを地面へ向ける（腕の角度を打ち消す）
       const poleAim = (limb: Limb, sh: number, el: number, sn: number, pole: FigureRig['poleL']): void => {

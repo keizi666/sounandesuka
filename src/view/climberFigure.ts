@@ -7,14 +7,15 @@ import { attachPortraitFace } from './faceDecal';
 import * as THREE from 'three';
 import type { ClimberState } from '../sim/types';
 import { buildFigure } from './figureModel';
-import { createMotion } from './figureMotion';
+import { createMotion, type GroundSlope } from './figureMotion';
 import { injectEnv, type EnvUniforms } from './terrainMaterial';
 
 export interface Figure {
   root: THREE.Group;
   /** 頭のてっぺん（ワールド座標）。顔アイコンを頭のすぐ上に出すのに使う（座る・かがむ・斜面でも頭について行く） */
   headTop(out: THREE.Vector3): THREE.Vector3;
-  update(c: ClimberState, timeSec: number, selected: boolean): void;
+  /** ground: 足もとの地面の傾き（低い姿勢を斜面に沿わせる） */
+  update(c: ClimberState, timeSec: number, selected: boolean, ground?: GroundSlope): void;
   dispose(): void;
 }
 
@@ -58,11 +59,11 @@ export function createFigure(c: ClimberState, heightScene: number, env?: EnvUnif
       // 首の骨から頭（帽子）のてっぺんまで
       return rig.neck.localToWorld(out.set(0, HEAD_TOP_LOCAL, 0));
     },
-    update(cs, t, selected) {
+    update(cs, t, selected, ground) {
       const dt = Number.isNaN(lastT) ? 0 : Math.min(0.1, Math.max(0, t - lastT));
       lastT = t;
       const b = cs.body;
-      motion.update(cs, t);
+      motion.update(cs, t, ground);
 
       // 雨具: ジャケットを雨具の色とつやに、フードとザックカバーを付ける
       rain += ((b.rainwearOn ? 1 : 0) - rain) * (1 - Math.exp(-dt * 3));

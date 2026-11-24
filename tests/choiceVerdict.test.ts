@@ -45,3 +45,18 @@ describe('手遅れ', () => {
     expect(judgeChoice([a, b], 'a', TUNING)?.verdict).toBe('same');
   });
 });
+
+describe('行方不明・死亡がはっきり多い選択（ユーザーの指摘: 滝の横の斜面を巻く）', () => {
+  it('無事 0% どうしでも、死亡が 2 割増えるなら「悪い判断」で、死亡の少ない選択肢を示す', () => {
+    const wait = r('wait', { RESCUED_CRITICAL: 20 });
+    const high = r('high', { RESCUED_CRITICAL: 16, FATAL: 4 });
+    const j = judgeChoice([wait, high], 'high', TUNING)!;
+    expect(j.verdict).toBe('bad');
+    expect(j.best.optionId).toBe('wait');
+  });
+  it('死亡の差が揺れの幅に収まるなら、悪い判断にしない', () => {
+    const wait = r('wait', { RESCUED: 20 });
+    const high = r('high', { RESCUED: 19, FATAL: 1 });
+    expect(judgeChoice([wait, high], 'high', TUNING)?.verdict).not.toBe('bad');
+  });
+});

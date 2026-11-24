@@ -78,8 +78,13 @@ function verdictText(loaded: LoadedScenario, cpId: string, j: ChoiceJudgement): 
   const R = JA.choiceReview;
   const best = optionLabel(loaded, cpId, j.best.optionId);
   if (j.verdict === 'good') return R.good;
-  if (j.verdict === 'fair') return fill(R.fair, { best, a: pct(j.chosen.safe), b: pct(j.best.safe) });
-  if (j.verdict === 'bad') return fill(R.bad, { best, a: pct(j.chosen.safe), b: pct(j.best.safe), c: pct(j.chosen.lost), d: pct(j.best.lost) });
+  // 数字は違いのあるものだけ出す（「無事 0% → 0%」のような変わらない数字を出さない。ユーザーの指摘）
+  const a = pct(j.chosen.safe);
+  const b = pct(j.best.safe);
+  const c = pct(j.chosen.lost);
+  const d = pct(j.best.lost);
+  if (j.verdict === 'fair') return fill(a !== b ? R.fair : c !== d ? R.fairLost : R.fairOther, { best, a, b, c, d });
+  if (j.verdict === 'bad') return fill(a === b ? R.badLost : c === d ? R.badSafe : R.bad, { best, a, b, c, d });
   const safes = j.scores.map((s) => pct(s.safe));
   const lo = Math.min(...safes);
   const hi = Math.max(...safes);

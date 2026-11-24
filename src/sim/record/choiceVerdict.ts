@@ -74,5 +74,18 @@ export function judgeChoice(results: readonly WhatIfResult[], chosenId: string, 
   else if (chosen.mean - best.mean < t.verdictGoodMargin || !clearly(chosen, best, t.verdictGoodMargin)) verdict = 'good';
   else if (clearly(chosen, best, t.verdictBadMargin)) verdict = 'bad';
   else verdict = 'fair';
-  return { verdict, chosen, best, worst, scores };
+  // 行方不明・死亡がはっきり多いなら、悪さの平均の差が小さくても「悪い判断」。比べる相手は、全体でも悪くない（平均が選んだもの以下の）選択肢
+  let bestOut = best;
+  if (verdict !== 'good' && verdict !== 'bad') {
+    const safer = scores.filter((s) => s.mean <= chosen.mean && s !== chosen).reduce<OptionScore | null>((a, b) => (a === null || b.lost < a.lost ? b : a), null);
+    if (safer) {
+      const d = chosen.lost - safer.lost;
+      const se = Math.sqrt((chosen.lost * (1 - chosen.lost)) / Math.max(1, chosen.n) + (safer.lost * (1 - safer.lost)) / Math.max(1, safer.n));
+      if (d >= t.verdictBadLost && d > t.verdictZ * se) {
+        verdict = 'bad';
+        bestOut = safer;
+      }
+    }
+  }
+  return { verdict, chosen, best: bestOut, worst, scores };
 }
