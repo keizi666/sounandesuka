@@ -97,7 +97,7 @@ export const JA = {
       heatStroke: '熱中症',
     } as Record<string, string>,
     deathCause: { hypothermia: '低体温症', fall: '滑落', lightning: '落雷', trauma: '外傷', heat: '熱中症', illness: '急病', anaphylaxis: 'アナフィラキシー', drowning: '溺水', asphyxia: '雪崩による窒息', hace: '高地脳浮腫' } as Record<string, string>,
-    theme: { hypothermia: '低体温症', lost: '道迷い', lightning: '落雷', fall: '滑落', heat: '熱中症', mixed: '複合' } as Record<string, string>,
+    theme: { hypothermia: '低体温症', lost: '道迷い', lightning: '落雷', fall: '滑落', heat: '熱中症', mixed: '複合', flood: '増水', avalanche: '雪崩', altitude: '高山病', family: '子ども連れ' } as Record<string, string>,
     season: { spring: '春', summer: '夏', autumn: '秋', winter: '冬' } as Record<string, string>,
     bool: { true: 'はい', false: 'いいえ' },
     by: { user: 'あなたの選択', bias: 'その人らしい選択', policy: '自動' } as Record<string, string>,

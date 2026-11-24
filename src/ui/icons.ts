@@ -99,6 +99,9 @@ import photoCamera from '@material-symbols/svg-400/rounded/photo_camera.svg?raw'
 import videocam from '@material-symbols/svg-400/rounded/videocam.svg?raw';
 import stopCircle from '@material-symbols/svg-400/rounded/stop_circle.svg?raw';
 import landslide from '@material-symbols/svg-400/rounded/landslide.svg?raw';
+import flood from '@material-symbols/svg-400/rounded/flood.svg?raw';
+import altitude from '@material-symbols/svg-400/rounded/altitude.svg?raw';
+import familyRestroom from '@material-symbols/svg-400/rounded/family_restroom.svg?raw';
 import forest from '@material-symbols/svg-400/rounded/forest.svg?raw';
 import cellTower from '@material-symbols/svg-400/rounded/cell_tower.svg?raw';
 import settingsInputAntenna from '@material-symbols/svg-400/rounded/settings_input_antenna.svg?raw';
@@ -107,7 +110,7 @@ import templeBuddhist from '@material-symbols/svg-400/rounded/temple_buddhist.sv
 const ICONS = {
   star, starFill, explore, cardiology, emergencyHeat, pestControl, smartToy, contentCopy, download, folderOpen, person,
   volumeOff, volumeUp, edit, replay, add, remove, fitScreen,
-  arrowSelectorTool, panTool, selectBox, draw, callSplit, addLocationAlt, openWith, waves, shield, link, share, favoriteFill, checkCircle, sort: sortIc, filterList, skipNext, photoCamera, videocam, stopCircle, landslide, forest, cellTower, settingsInputAntenna, templeBuddhist,
+  arrowSelectorTool, panTool, selectBox, draw, callSplit, addLocationAlt, openWith, waves, shield, link, share, favoriteFill, checkCircle, sort: sortIc, filterList, skipNext, photoCamera, videocam, stopCircle, landslide, flood, altitude, familyRestroom, forest, cellTower, settingsInputAntenna, templeBuddhist,
   chevronRight, close,
   arrowBack, calendarToday, camping, flag, restaurant, route, timer, trendingUp, trendingDown, waterBottle, warning, wbSunny,
   acUnit, air, batteryAlert, bolt, checkroom, cloud, deviceThermostat, directionsWalk, fastForward, favorite, flashlightOn, keyboardArrowDown, keyboardArrowUp, foggy, groups, healing, hiking, history, home,

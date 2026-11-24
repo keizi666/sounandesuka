@@ -9,7 +9,7 @@ import type { RunRecord, Theme, World } from '../sim/types';
 import { el } from './dom';
 import { icon } from './icons';
 
-const THEME_TOPIC: Partial<Record<Theme, SafetyTopicId>> = { lightning: 'lightning', hypothermia: 'hypothermia', lost: 'lost', fall: 'fall', heat: 'heat' };
+const THEME_TOPIC: Partial<Record<Theme, SafetyTopicId>> = { lightning: 'lightning', hypothermia: 'hypothermia', lost: 'lost', fall: 'fall', heat: 'heat', flood: 'flood', avalanche: 'avalanche', altitude: 'altitude', family: 'children' };
 
 /** この回に合う話題（テーマ → 起きたこと の順。重なりは除く。最後は必ず「計画と連絡」） */
 export function safetyTopics(loaded: LoadedScenario, world: World, rec: RunRecord): SafetyTopicId[] {

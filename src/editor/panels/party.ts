@@ -183,7 +183,7 @@ export const partyPanel: Panel = {
         text('題名', s.title, (v) => set('題名', () => (s.title = v))),
         text('副題', s.subtitle ?? '', (v) => set('副題', () => (s.subtitle = v))),
         text('ID', s.id, (v) => /^[A-Za-z0-9_]+$/.test(v) && set('ID', () => (s.id = v))),
-        select<Theme>('テーマ', s.theme, [['hypothermia', '低体温症'], ['lost', '道迷い'], ['lightning', '落雷'], ['fall', '転倒・滑落'], ['heat', '熱中症'], ['mixed', '複合']], (v) => set('テーマ', () => (s.theme = v))),
+        select<Theme>('テーマ', s.theme, [['hypothermia', '低体温症'], ['lost', '道迷い'], ['lightning', '落雷'], ['fall', '転倒・滑落'], ['heat', '熱中症'], ['flood', '増水'], ['avalanche', '雪崩'], ['altitude', '高山病'], ['family', '子ども連れ'], ['mixed', '複合']], (v) => set('テーマ', () => (s.theme = v))),
         num('難易度', s.difficulty, (v) => set('難易度', () => (s.difficulty = v as typeof s.difficulty)), { min: 1, max: 5 }),
         select<Season>('季節', s.season, [['spring', '春'], ['summer', '夏'], ['autumn', '秋'], ['winter', '冬']], (v) => set('季節', () => (s.season = v))),
         seasonButton(ed, s.season),

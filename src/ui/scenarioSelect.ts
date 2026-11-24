@@ -59,8 +59,8 @@ async function openBundle(app: AppContext, file: File): Promise<void> {
   }
 }
 
-const THEME_ICON: Record<string, IconName> = { hypothermia: 'acUnit', lost: 'explore', lightning: 'thunderstorm', fall: 'trendingUp', heat: 'emergencyHeat', mixed: 'warning' };
-const THEME_HUE: Record<string, number> = { hypothermia: 205, lost: 140, lightning: 265, fall: 25, heat: 10, mixed: 45 };
+const THEME_ICON: Record<string, IconName> = { hypothermia: 'acUnit', lost: 'explore', lightning: 'thunderstorm', fall: 'trendingUp', heat: 'emergencyHeat', mixed: 'warning', flood: 'flood', avalanche: 'landslide', altitude: 'altitude', family: 'familyRestroom' };
+const THEME_HUE: Record<string, number> = { hypothermia: 205, lost: 140, lightning: 265, fall: 25, heat: 10, mixed: 45, flood: 190, avalanche: 220, altitude: 290, family: 95 };
 
 const FAV_ONLY_KEY = 'hks.v1.favOnly';
 

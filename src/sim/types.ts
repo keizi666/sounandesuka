@@ -190,7 +190,7 @@ export const VegClass = { BROADLEAF: 0, CONIFER: 1, KRUMMHOLZ: 2, ALPINE: 3, ROC
 export type VegClass = (typeof VegClass)[keyof typeof VegClass];
 
 // ---------- シナリオ定義（JSON） ----------
-export type Theme = 'hypothermia' | 'lost' | 'lightning' | 'fall' | 'heat' | 'mixed';
+export type Theme = 'hypothermia' | 'lost' | 'lightning' | 'fall' | 'heat' | 'mixed' | 'flood' | 'avalanche' | 'altitude' | 'family';
 
 export interface ScenarioDef {
   id: string;
