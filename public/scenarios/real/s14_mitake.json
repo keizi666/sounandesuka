@@ -2177,7 +2177,7 @@
           "label": "そのまま駅へ向かう",
           "explain": "宿坊街の明かりが近いなら、暗くても人のいる所へそのまま向かうことです。距離が短く道もはっきりしているので、止まるより早く安全な所に着けます。",
           "detail": "宿坊街はすぐそこ。宿坊や店の明かりがある。",
-          "available": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] },
+          "available": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": -394, "z": 565, "r": 450 } }, { "near": { "x": -169, "z": 563, "r": 300 } }] },
           "hideIfUnavailable": true,
           "actions": [{ "type": "setPace", "factor": 1.2 }, { "type": "continueRoute" }],
           "tags": ["recommended"],
@@ -2190,7 +2190,7 @@
           "available": {
             "all": [
               { "all": [{ "var": "leader.radio", "op": ">=", "value": 0.3 }, { "all": [{ "var": "leader.phone.has", "op": "==", "value": true }, { "var": "leader.phone.batteryPct", "op": ">", "value": 0 }] }] },
-              { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } }
+              { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": -394, "z": 565, "r": 450 } }, { "near": { "x": -169, "z": 563, "r": 300 } }] } }
             ]
           },
           "hideIfUnavailable": true,
@@ -2210,7 +2210,7 @@
           "label": "動かずに寄り添って朝を待つ",
           "explain": "暗い中を動かず、4人で寄り添って夜明けを待ち、明るくなってから駅へ下ることです。寒さに耐える夜になりますが、暗闇での転倒や道迷いを避けられます。",
           "detail": "4 人で寄り添い、明るくなったら駅へ下りる。",
-          "available": { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } },
+          "available": { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": -394, "z": 565, "r": 450 } }, { "near": { "x": -169, "z": 563, "r": 300 } }] } },
           "hideIfUnavailable": true,
           "actions": [
             { "type": "say", "text": "動くのはやめよう。朝まで、ここでくっついて待とう", "tone": "normal" },
@@ -2236,7 +2236,7 @@
                   { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
                 ]
               },
-              { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } },
+              { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": -394, "z": 565, "r": 450 } }, { "near": { "x": -169, "z": 563, "r": 300 } }] } },
               { "not": { "flag": "headedDown" } },
               { "flag": "goOtake" },
               { "not": { "beenAt": "OTAKE" } }
@@ -2293,7 +2293,7 @@
                   { "all": [{ "var": "c.misaki.phone.has", "op": "==", "value": true }, { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 }] }
                 ]
               },
-              { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } },
+              { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": -394, "z": 565, "r": 450 } }, { "near": { "x": -169, "z": 563, "r": 300 } }] } },
               { "any": [{ "flag": "headedDown" }, { "not": { "flag": "goOtake" } }] }
             ]
           },
@@ -2520,7 +2520,7 @@
       "key": "s14_summit_dark",
       "who": "misaki",
       "to": "shota",
-      "when": { "all": [{ "beenAt": "OTAKE" }, { "near": { "x": -238, "z": 1425, "r": 60 } }, { "var": "sun.isDark", "op": "==", "value": true }, { "before": "D0 19:00" }] },
+      "when": { "all": [{ "beenAt": "OTAKE" }, { "near": { "x": -1954, "z": 2427, "r": 60 } }, { "var": "sun.isDark", "op": "==", "value": true }, { "before": "D0 19:00" }] },
       "lines": ["富士山、影しか見えない……。もう真っ暗だね"],
       "replies": { "who": "shota", "lines": ["……思ったより暗いな"] },
       "priority": 13,
@@ -2537,7 +2537,7 @@
           { "var": "leader.state", "op": "==", "value": "WALKING" },
           { "var": "c.misaki.phone.batteryPct", "op": ">", "value": 0 },
           { "var": "c.misaki.phone.has", "op": "==", "value": true },
-          { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": 1322, "z": -437, "r": 450 } }, { "near": { "x": 1547, "z": -439, "r": 300 } }] } }
+          { "not": { "any": [{ "onEdge": "E1" }, { "onEdge": "E2" }, { "onEdge": "E7" }, { "near": { "x": -394, "z": 565, "r": 450 } }, { "near": { "x": -169, "z": 563, "r": 300 } }] } }
         ]
       },
       "lines": ["待って、足元見えない。ライト、こっちも照らして", "私のスマホ、ライト代わろうか？"],
