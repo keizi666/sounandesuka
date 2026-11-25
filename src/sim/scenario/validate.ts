@@ -357,7 +357,9 @@ export function validateScenario(s: ScenarioDef, map: MapDef | null): Issue[] {
     checkCondition(v, `${p}.trigger`, cp.trigger, r);
     checkTexts(v, `${p}.situation`, cp.situation, r);
     (cp.knowledge ?? []).forEach((t, j) => checkTexts(v, `${p}.knowledge[${j}]`, t, r));
-    if (cp.options.length < 2 || cp.options.length > 4) v.err(`${p}.options`, 'optionCount', `選択肢は 2〜4 個（${cp.options.length} 個）`);
+    // 一度に出るのは 4 つまで。条件に合うときだけ出る選択肢（hideIfUnavailable）は数えない（ふだん出る選択肢が 4 つまでなら、合わせて 6 つまで）
+    const shownAlways = cp.options.filter((o) => !o.hideIfUnavailable).length;
+    if (cp.options.length < 2 || shownAlways > 4 || cp.options.length > 6) v.err(`${p}.options`, 'optionCount', `選択肢は 2〜4 個（条件つきの選択肢を合わせて 6 個まで。${cp.options.length} 個）`);
     if (!cp.options.some((o) => o.tags?.includes('recommended'))) v.err(`${p}.options`, 'noRecommended', 'recommended の選択肢が 1 つ以上必要です');
     const optIds = new Set<string>();
     cp.options.forEach((o, j) => {
