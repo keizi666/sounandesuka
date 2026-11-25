@@ -29,6 +29,7 @@ import { integrateBody, thermalEnvFor, updateAnxiety } from '../climber/physiolo
 import { stepIllness } from '../climber/illness';
 import { stepAltitude } from '../climber/altitude';
 import { stepHallucination } from '../climber/hallucination';
+import { stepHutShop } from '../climber/hutShop';
 import { autoResolve, checkChoices } from '../scenario/choices';
 import { checkEnding } from '../scenario/endings';
 import { runEvents, weatherEvents } from '../scenario/events';
@@ -187,6 +188,8 @@ function stepBody(world: World, ctx: StaticContext, c: ClimberState, move: MoveO
   stepAltitude(world, ctx, c, dtMin);
   // 幻覚・幻聴（低体温・眠れない・脱水・低血糖・疲れ・高地脳浮腫から。ユーザーの指定）
   stepHallucination(world, ctx, c, dtMin);
+  // 営業小屋の前を通るときに水を買う（ユーザーの指摘）
+  stepHutShop(world, ctx, c);
   // 初めて沢の水を飲んだ（のどが渇いていて、沢に手が届く）ときに、ログに 1 行
   if (env.streamWater && c.body.conscious && c.body.waterDeficitL > t.physiology.streamDrinkFromL && world.latches[`streamDrink:${c.id}`] !== true) {
     world.latches[`streamDrink:${c.id}`] = true;

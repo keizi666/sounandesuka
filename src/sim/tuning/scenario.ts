@@ -67,6 +67,16 @@ export const behavior = {
    */
   eatFullKcal: 1600,
   eatMaxKcal: 200,
+  /**
+   * 営業小屋の前を通るときに水を買う（climber/hutShop.ts。ユーザーの指摘: 小屋で水が買えるのに水筒が増えない）。
+   * 小屋からこの距離（m）以内を、この時刻（その日の 0 時からの分）のあいだに通ると、水筒を満たし、その場でこの量（L）まで飲む。
+   * 足りない量がこれ（L）より少なければ買わない
+   */
+  hutShopRadiusM: 30,
+  hutShopFromClockMin: 5 * 60,
+  hutShopToClockMin: 19 * 60,
+  hutShopDrinkL: 0.5,
+  hutShopMinNeedL: 0.1,
   /** ユーザーの指定: 行動食の残りが持ってきた量のこの割合を切ったら節約し、空腹は我慢する（エネルギーが尽きかける eatLowGlycogenKcal まで食べない） */
   eatEndureBelowF: 0.5,
   /** 続けて食べるときの間隔（分。空腹でも、エネルギーが尽きかけていても）。200 kcal を食べてすぐまた食べると、一度に食べすぎるのと同じになる */

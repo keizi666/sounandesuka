@@ -215,6 +215,8 @@ export const JA = {
     phoneDead: '{who}のスマートフォンの電池が切れた',
     phoneLost: '{who}は転んだ拍子にスマートフォンをなくした。あたりを探したが見つからない',
     hutFound: '{who}たちの前に、{node}の建物が見えた',
+    /** 営業小屋の前で水を買った（climber/hutShop.ts） */
+    hutShop: '{who}は{node}で水を買い、水筒を満たした',
     hutFoundSolo: '{who}の前に、{node}の建物が見えた',
     illnessOnset: '{who}は胸が締めつけられるように痛み、動悸がする。息が苦しい',
     illnessEased: '{who}の胸の痛みが、少し治まってきた',

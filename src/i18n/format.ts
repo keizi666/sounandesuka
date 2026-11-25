@@ -249,6 +249,7 @@ function formatEventRaw(e: SimEvent, f: FormatCtx): string | null {
       if (e.text) return e.text;
       if (d['phoneLost']) return phoneEra(f, fill(L.phoneLost, { who }));
       if (d['rainAgain'] !== undefined) return fill(L.rainAgain, { what: L.precipName[String(d['rainAgain'])] ?? '雨' });
+      if (typeof d['hutShop'] === 'string') return fill(L.hutShop, { who: s('names') || who, node: f.nodeName(String(d['hutShop'])) });
       if (d['hutFound']) return fill(d['solo'] ? L.hutFoundSolo : L.hutFound, { who, node: f.nodeName(String(d['hutFound'])) });
       if (d['noLead']) return L.noLead;
       if (d['illnessOnset']) return fill(L.illnessOnset, { who });
