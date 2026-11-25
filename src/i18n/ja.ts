@@ -972,6 +972,21 @@ export const JA = {
   } as Record<string, string[]>,
 
   /** みんなの遭難記録（docs/20_community.md） */
+  /** トップの「シナリオを選ぶ」の絞り込み（ユーザーの指定。src/ui/scenarioFilter.ts） */
+  filter: {
+    title: '絞り込み',
+    region: '地域',
+    season: '季節',
+    all: 'すべて',
+    now: '（いま）',
+    unplayed: '未プレイ',
+    solo: '単独',
+    fav: 'お気に入り',
+    clear: '絞り込みを外す',
+    none: '条件に合うシナリオはありません。',
+    hakoniwa: '箱庭岳',
+  },
+
   /** ユーザーどうしのやり取り（ユーザーの指定: リピーターを増やす）。週替わりのお題・みんなの選択・参考になった・お知らせ・挑戦状・一覧の札 */
   social: {
     weeklyTitle: '今週のお題',

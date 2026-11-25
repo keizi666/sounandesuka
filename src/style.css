@@ -1396,3 +1396,20 @@ ol.log li.sys .pill-more:hover { background: rgba(255, 225, 166, 0.32); }
 .ip-chip.on { background: var(--accent); border-color: var(--accent); color: #1a1408; font-weight: 700; }
 .ip-text { display: block; width: calc(100% - 28px); margin: 0 14px; padding: 10px 12px; border-radius: 10px; background: #12151a; border: 1px solid rgba(255, 255, 255, 0.14); color: #e9ecf1; font-family: inherit; font-size: 0.88rem; line-height: 1.6; resize: vertical; }
 .ip-neg { color: #c9a0a0; }
+
+/* ---- 「シナリオを選ぶ」の絞り込み（ユーザーの指定。src/ui/scenarioFilter.ts） ---- */
+.sf-host { flex: 1 1 auto; display: flex; justify-content: flex-end; min-width: 0; }
+.sf-bar { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 6px; }
+.sf-select { min-height: 32px; padding: 3px 28px 3px 12px; border-radius: 999px; font: inherit; font-size: 0.85rem; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.16); color: #e9ecf1; cursor: pointer; }
+.sf-select option { background: #1b1e24; color: #e9ecf1; }
+.sf-toggle, .sf-clear { display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 3px 12px; border-radius: 999px; font-size: 0.85rem; }
+.sf-toggle svg, .sf-clear svg { width: 17px; height: 17px; fill: currentColor; }
+.sf-toggle.on { color: var(--accent); border-color: var(--accent); background: rgba(212, 166, 74, 0.14); }
+.sf-fav.on { color: #fb7185; border-color: rgba(251, 113, 133, 0.7); background: rgba(251, 113, 133, 0.12); }
+.sf-clear { background: none; border-color: transparent; color: #a9b0bb; }
+@media (max-width: 640px) {
+  .sf-host { flex-basis: 100%; justify-content: flex-start; }
+  .sf-bar { justify-content: flex-start; }
+}
+/* 絞り込みで隠したカード（.sel-card の display: flex が hidden に勝っていた） */
+.sel-card[hidden] { display: none !important; }

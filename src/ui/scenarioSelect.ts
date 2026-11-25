@@ -29,6 +29,7 @@ import { noticesStrip } from './community/notices';
 import { weeklyBanner } from './community/weeklyBanner';
 import { currentSeason } from '../app/season';
 import { weekOf, weeklyPick } from '../app/weekly';
+import { createFilterBar } from './scenarioFilter';
 import { cIcon, userAvatar } from './community/common';
 import { openProfileDialog } from './community/profileDialog';
 import { loadProfile } from '../net/profile';
@@ -65,8 +66,6 @@ async function openBundle(app: AppContext, file: File): Promise<void> {
 
 const THEME_ICON: Record<string, IconName> = { hypothermia: 'acUnit', lost: 'explore', lightning: 'thunderstorm', fall: 'trendingUp', heat: 'emergencyHeat', mixed: 'warning', flood: 'flood', avalanche: 'landslide', altitude: 'altitude', family: 'familyRestroom' };
 const THEME_HUE: Record<string, number> = { hypothermia: 205, lost: 140, lightning: 265, fall: 25, heat: 10, mixed: 45, flood: 190, avalanche: 220, altitude: 290, family: 95 };
-
-const FAV_ONLY_KEY = 'hks.v1.favOnly';
 
 const thumbBase = (e: ScenarioIndexEntry): string => assetUrl(`scenarios/${e.region?.real ? 'real/thumbs' : 'thumbs'}/${e.id}`);
 
@@ -112,6 +111,7 @@ function isNew(e: ScenarioIndexEntry): boolean {
   return Number.isFinite(t) && Date.now() - t < NEW_DAYS * 86400000;
 }
 
+/** onFav: お気に入り・人数が変わったら、絞り込みをやり直す */
 function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumable: boolean, plays: number, onFav: () => void, marks: CardMarks = { weekly: false, inSeason: false }): HTMLElement {
   // 1 回も遊んでいないシナリオは、テーマと題名をぼかす（ユーザーの指定）。カードの色もテーマで決まるので、同じ色にする
   const hidden = plays === 0;
@@ -207,6 +207,9 @@ function card(app: AppContext, e: ScenarioIndexEntry, list: HTMLElement, resumab
   // 登場人物・季節・人数（シナリオ本体を読んでから）
   void scenarioOf(e).then((s) => {
     if (!s) return;
+    // 人数（「単独」の絞り込みに使う）
+    btn.dataset['party'] = String(s.party.length);
+    onFav();
     const month = Number(s.startDate.slice(5, 7));
     facts.prepend(chip('calendarToday', `${month}月・${JA.labels.season[s.season] ?? s.season}`), chip('groups', `${s.party.length}人`));
     const shown = s.party.slice(0, 6);
@@ -243,15 +246,9 @@ export function showScenarioSelect(app: AppContext): () => void {
   const mine = el('section', { class: 'sel-section', hidden: true });
   const drop = el('label', { class: 'sel-drop' }, [icon('folderOpen'), el('span', {}, [el('strong', {}, JA.ui.loadFile), el('small', {}, JA.ui.dropHint)]), input]);
   const count = el('span', { class: 'sel-count' });
-  // お気に入りだけに絞る（ユーザーの指定。端末に覚える）
-  let favOnly = false;
-  try {
-    favOnly = localStorage.getItem(FAV_ONLY_KEY) === '1';
-  } catch {
-    // 読めなければすべて
-  }
-  const favBtn = el('button', { class: 'sel-favonly', type: 'button', 'aria-pressed': 'false' }, [icon('favorite'), JA.myPlays.favOnly]);
-  const noFav = el('p', { class: 'note', hidden: true }, JA.myPlays.noFav);
+  // 絞り込み（地域・季節・未プレイ・単独・お気に入り。ユーザーの指定。一覧を読んだら作る）
+  const filterHost = el('div', { class: 'sf-host' });
+  const noMatch = el('p', { class: 'note', hidden: true }, JA.filter.none);
   // 画面のどこに落としても読み込む
   const onOver = (e: DragEvent): void => {
     e.preventDefault();
@@ -311,7 +308,7 @@ export function showScenarioSelect(app: AppContext): () => void {
         noticesStrip(app),
         communityBanner(app),
         weeklyHost,
-        el('section', { class: 'sel-section' }, [el('div', { class: 'sel-h-row' }, [el('h2', { class: 'sel-h' }, [icon('landscape'), JA.ui.selectTitle]), favBtn]), noFav, list]),
+        el('section', { class: 'sel-section' }, [el('div', { class: 'sel-h-row' }, [el('h2', { class: 'sel-h' }, [icon('landscape'), JA.ui.selectTitle]), filterHost]), noMatch, list]),
         mine,
         drop,
         el('section', { class: 'sel-section sel-share' }, [el('h2', { class: 'sel-h' }, [icon('share'), JA.share.siteTitle]), shareButtons({ text: JA.share.siteText, url: siteUrl() })]),
@@ -353,30 +350,23 @@ export function showScenarioSelect(app: AppContext): () => void {
     const wb = weeklyBanner(app, idx);
     if (wb) weeklyHost.replaceChildren(wb);
     const counts = playCounts();
+    const byId = new Map(idx.map((x) => [x.id, x]));
     const applyFilter = (): void => {
       const favs = favorites();
       let shown = 0;
       for (const c of Array.from(list.children) as HTMLElement[]) {
-        const hide = favOnly && !favs.has(c.dataset['id'] ?? '');
+        const e = byId.get(c.dataset['id'] ?? '');
+        if (!e) continue;
+        const party = c.dataset['party'] ? Number(c.dataset['party']) : undefined;
+        const hide = !filter.matches(e, { plays: counts[e.id] ?? 0, fav: favs.has(e.id), party });
         c.hidden = hide;
         if (!hide) shown += 1;
       }
-      noFav.hidden = !(favOnly && shown === 0);
+      noMatch.hidden = shown > 0;
     };
+    const filter = createFilterBar(idx, () => applyFilter());
+    filterHost.replaceChildren(filter.el);
     list.replaceChildren(...sorted.map((e) => card(app, e, list, saved.has(e.id), counts[e.id] ?? 0, applyFilter, { weekly: e.id === weekly?.id, inSeason: e.season === season })));
-    favBtn.onclick = () => {
-      favOnly = !favOnly;
-      favBtn.classList.toggle('on', favOnly);
-      favBtn.setAttribute('aria-pressed', String(favOnly));
-      try {
-        localStorage.setItem(FAV_ONLY_KEY, favOnly ? '1' : '0');
-      } catch {
-        // 覚えられなくても絞り込める
-      }
-      applyFilter();
-    };
-    favBtn.classList.toggle('on', favOnly);
-    favBtn.setAttribute('aria-pressed', String(favOnly));
     applyFilter();
     // 詳細から戻ったら、離れたときの位置へ
     if (scrollMemory.listY > 0) window.scrollTo(0, scrollMemory.listY);
