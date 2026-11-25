@@ -33,8 +33,25 @@ export function seriouslyIll(c: ClimberState, t: Tuning): boolean {
   return b.alive && ((b.ams ?? 0) >= t.altitude.amsModerate || b.illness?.active === true || !b.conscious);
 }
 
-/** 一人ひとりの結末 */
-export function climberOutcome(c: ClimberState, ctx: StaticContext): EndingKind {
+/**
+ * 救助を頼んだか（結末を「無事」にしないかの判断）。家族の未帰還の届け出（via overdue）だけで、本人たちが救助を頼まずに自分で下りてきたときは数えない
+ * （ユーザーの指摘は「救助要請をした場合」。遅れても自分で帰った人は、これまでどおり無事）。届け出のあとに本人が電話で頼めば via が変わり、数える。
+ * 仲間（登山者のだれか）が届け出たとき（はぐれた人を置いて下りた、など）は、一行が頼んだのと同じに数える
+ */
+export function rescueRequested(world: World): boolean {
+  const r = world.rescue;
+  if (r.calledAtMin === null) return false;
+  if (r.via !== 'overdue') return true;
+  return r.reportedBy !== undefined && world.climbers.some((c) => c.def.name === r.reportedBy);
+}
+
+/**
+ * 一人ひとりの結末。called は救助を頼んだ（電話・衛星・仲間が呼びに行った・通りかかった人の通報など。rescueRequested）か。
+ * 救助を頼んだあとは「無事」にしない（ユーザーの指摘: 救助を要請したのに「無事に終わる」になっていた）:
+ * 小屋に入って救助を待った・小屋で過ごした人は救助（RESCUED）、自分で歩いて下りた人は自力で脱出（SELF_RESCUE。救助より良い）。
+ * 救助を頼まずに、予定と違う所へでも自分で下りた人は、これまでどおり無事（ユーザーの指定: 自力で下りたことを高く評価する）
+ */
+export function climberOutcome(c: ClimberState, ctx: StaticContext, called = false): EndingKind {
   const b = c.body;
   if (!b.alive || c.state === 'DEAD') return 'FATAL';
   if (c.state === 'RESCUED') {
@@ -43,26 +60,26 @@ export function climberOutcome(c: ClimberState, ctx: StaticContext): EndingKind 
     return critical ? 'RESCUED_CRITICAL' : 'RESCUED';
   }
   if (c.state === 'FINISHED') {
-    if (c.memo.bivouacked) return 'SELF_RESCUE';
+    if (called || c.memo.bivouacked) return 'SELF_RESCUE';
     if (c.memo.sheltered) return 'SAFE_SHELTER';
     return 'SAFE_RETURN';
   }
   // 制限時刻に山中にいる
-  if (c.state === 'SHELTERED' && b.shelterNodeId && !seriouslyIll(c, ctx.tuning)) return 'SAFE_SHELTER';
+  if (c.state === 'SHELTERED' && b.shelterNodeId && !seriouslyIll(c, ctx.tuning)) return called ? 'RESCUED' : 'SAFE_SHELTER';
   // 小屋泊・ビバークの後、元気に下山している途中なら「翌朝以降に安全に下山」と同じ扱い
   // 打撲は元気なうちに数える
   const healthy = b.coreC >= 35 && (b.injury === 'none' || b.injury === 'bruise') && !c.perception.awareLost && c.pos.mode !== 'free';
   if (healthy && (c.state === 'WALKING' || c.state === 'RESTING')) {
-    if (c.memo.bivouacked) return 'SELF_RESCUE';
+    if (c.memo.bivouacked || (called && c.memo.sheltered)) return 'SELF_RESCUE';
     if (c.memo.sheltered) return 'SAFE_SHELTER';
   }
   return 'MISSING';
 }
 
-export function worstOutcome(climbers: readonly ClimberState[], ctx: StaticContext): EndingKind {
+export function worstOutcome(climbers: readonly ClimberState[], ctx: StaticContext, called = false): EndingKind {
   let worst: EndingKind = 'SAFE_RETURN';
   for (const c of climbers) {
-    const k = climberOutcome(c, ctx);
+    const k = climberOutcome(c, ctx, called);
     if (ENDING_SEVERITY[k] > ENDING_SEVERITY[worst]) worst = k;
   }
   return worst;
@@ -98,7 +115,7 @@ export function checkEnding(world: World, ctx: StaticContext): boolean {
   if (!allTerminal && !timeUp && !allSafe) return false;
   // 遺体の収容までシミュレートするシナリオ（plan.recoverDead）: 救助隊が来る見込みがあれば、収容されるまで続ける（制限時刻で打ち切る）
   if (!timeUp && bodiesAwaitRecovery(world, ctx)) return false;
-  const kind = worstOutcome(world.climbers, ctx);
+  const kind = worstOutcome(world.climbers, ctx, rescueRequested(world));
   world.ended = { kind, atMin: world.tMin };
   ctx.events.push({ tMin: world.tMin, type: 'ENDED', important: true, data: { kind, timeUp } });
   return true;
@@ -133,6 +150,6 @@ export function resolveEnding(world: World, ctx: StaticContext, rec?: Record<str
     kind,
     title,
     text,
-    perClimber: world.climbers.map((c) => ({ id: c.id, state: c.state, cause: c.body.deathCause, outcome: kind === 'ABORTED' ? 'ABORTED' : climberOutcome(c, ctx) })),
+    perClimber: world.climbers.map((c) => ({ id: c.id, state: c.state, cause: c.body.deathCause, outcome: kind === 'ABORTED' ? 'ABORTED' : climberOutcome(c, ctx, rescueRequested(world)) })),
   };
 }
