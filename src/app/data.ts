@@ -12,8 +12,14 @@ export function assetUrl(path: string): string {
   return `${import.meta.env.BASE_URL}${path}`;
 }
 
+/**
+ * シナリオ・地図・一覧は、毎回サーバーに新しいか確かめてから使う（cache: 'no-cache'。変わっていなければ 304 で軽い）。
+ * サーバーが Cache-Control を返さないと、ブラウザが古い JSON を何日も使い続け、デプロイした直しが届かなかった（ユーザーの指摘: s22 のトラバース）
+ */
+const FRESH: RequestInit = { cache: 'no-cache' };
+
 async function getJson<T>(path: string): Promise<T> {
-  const r = await fetch(assetUrl(path));
+  const r = await fetch(assetUrl(path), FRESH);
   if (!r.ok) throw new Error(`${path} を読み込めませんでした（${r.status}）`);
   return (await r.json()) as T;
 }
@@ -37,7 +43,7 @@ export function loadBundleFile(file: string): Promise<SounanBundle> {
 
 /** 進み具合を知らせながら JSON を取る（大きなバンドル用。サイズが分からなければ frac は null） */
 async function getJsonWithProgress<T>(path: string, onProgress?: (frac: number | null) => void): Promise<T> {
-  const r = await fetch(assetUrl(path));
+  const r = await fetch(assetUrl(path), FRESH);
   if (!r.ok) throw new Error(`${path} を読み込めませんでした（${r.status}）`);
   const total = Number(r.headers.get('content-length') ?? 0);
   if (!r.body || !onProgress) return (await r.json()) as T;

@@ -1,0 +1,8 @@
+# HTML と JSON（シナリオ・地図・一覧）は、毎回サーバーに新しいか確かめさせる（変わっていなければ 304 で軽い）。
+# Cache-Control がないと、ブラウザが古いシナリオを何日も使い続け、デプロイした直しが届かなかった。
+# 名前に版の入る JS・CSS（assets/）や画像は、これまでどおりブラウザに任せる。
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|json)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

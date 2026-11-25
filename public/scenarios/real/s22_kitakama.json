@@ -92,8 +92,7 @@
       "habits": {
         "eatEveryMin": 120,
         "drinkEveryMin": 90,
-        "delaysRainwear": 0.2,
-        "gpsCheckEveryMin": null
+        "delaysRainwear": 0.2
       },
       "gear": {
         "rainwear": "goretex",
@@ -118,7 +117,7 @@
         "map": true,
         "compass": true,
         "foodKcal": 2000,
-        "waterL": 2.0,
+        "waterL": 2,
         "stove": true,
         "crampons": false,
         "helmet": true,
@@ -132,7 +131,7 @@
       "initial": {
         "fatigue": 2.5,
         "waterDeficitL": 0.4,
-        "waterL": 1.0
+        "waterL": 1
       },
       "health": "sleepy",
       "notes": "クライミング歴40年。北鎌尾根は3回目。ロープ・テント・コンロを持つので荷が重い。喉が渇いてから飲む癖がある。"
@@ -178,7 +177,7 @@
         "map": true,
         "compass": false,
         "foodKcal": 1800,
-        "waterL": 2.0,
+        "waterL": 2,
         "stove": false,
         "crampons": false,
         "helmet": true,
@@ -189,9 +188,9 @@
       },
       "role": "メンバー",
       "initial": {
-        "fatigue": 3.0,
+        "fatigue": 3,
         "waterDeficitL": 0.3,
-        "waterL": 1.0
+        "waterL": 1
       },
       "notes": "ジムで1年ほどボルダリング。外岩とアルパインは数回。地図は読めるが、北鎌尾根は初めて。"
     },
@@ -210,8 +209,7 @@
       "habits": {
         "eatEveryMin": 90,
         "drinkEveryMin": 45,
-        "delaysRainwear": 0.5,
-        "gpsCheckEveryMin": null
+        "delaysRainwear": 0.5
       },
       "gear": {
         "rainwear": "goretex",
@@ -236,7 +234,7 @@
         "map": false,
         "compass": false,
         "foodKcal": 1500,
-        "waterL": 2.0,
+        "waterL": 2,
         "stove": false,
         "crampons": false,
         "helmet": true,
@@ -247,9 +245,9 @@
       },
       "role": "メンバー",
       "initial": {
-        "fatigue": 3.0,
+        "fatigue": 3,
         "waterDeficitL": 0.3,
-        "waterL": 1.0
+        "waterL": 1
       },
       "notes": "登山を始めて2年。テント泊は2回目。岩場はほとんど経験がない。ヘルメットは借り物。"
     }
@@ -771,14 +769,6 @@
             "not": {
               "flag": "early_call"
             }
-          },
-          {
-            "not": {
-              "chose": {
-                "cp": "cp_doku",
-                "option": "back"
-              }
-            }
           }
         ]
       },
@@ -821,7 +811,7 @@
             "atNode": "KK_DAIRA"
           },
           {
-            "before": "D1 00:00"
+            "before": "D1 05:00"
           }
         ]
       },
@@ -934,61 +924,152 @@
       "id": "ev_kk_down",
       "trigger": {
         "all": [
-          { "flag": "kk_retreat" },
-          { "onEdge": "E020" }
+          {
+            "flag": "kk_retreat"
+          },
+          {
+            "onEdge": "E020"
+          }
         ]
       },
       "once": true,
       "effects": [
-        { "type": "log", "text": "北鎌沢の下り。登りでは気にならなかった浮石とザレが、下りでは足もとから崩れる。岩に向き直り、一歩ずつ確かめながら下るしかない。", "important": true },
-        { "type": "say", "who": "suzuki", "text": "落石に気をつけて。間をあけて、1人ずつ下りよう。" },
-        { "type": "actions", "actions": [{ "type": "setPace", "factor": 0.5 }, { "type": "continueRoute" }] }
+        {
+          "type": "log",
+          "text": "北鎌沢の下り。登りでは気にならなかった浮石とザレが、下りでは足もとから崩れる。岩に向き直り、一歩ずつ確かめながら下るしかない。",
+          "important": true
+        },
+        {
+          "type": "say",
+          "who": "suzuki",
+          "text": "落石に気をつけて。間をあけて、1人ずつ下りよう。"
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.5
+            },
+            {
+              "type": "continueRoute"
+            }
+          ]
+        }
       ]
     },
     {
       "id": "ev_kk_down_slip",
       "trigger": {
         "all": [
-          { "flag": "kk_retreat" },
-          { "onEdge": "E020" },
-          { "var": "leader.elevM", "op": "<", "value": 2350 },
-          { "chance": 0.35 }
+          {
+            "flag": "kk_retreat"
+          },
+          {
+            "onEdge": "E020"
+          },
+          {
+            "var": "leader.elevM",
+            "op": "<",
+            "value": 2350
+          },
+          {
+            "chance": 0.35
+          }
         ]
       },
       "once": true,
       "effects": [
-        { "type": "log", "text": "ザレの急斜面で足もとが崩れ、数 m 滑り落ちた。", "important": true },
-        { "type": "fall", "who": "any", "outcomes": { "none": 0.35, "bruise": 0.3, "sprain": 0.2, "legFracture": 0.1, "headInjury": 0.05 } }
+        {
+          "type": "log",
+          "text": "ザレの急斜面で足もとが崩れ、数 m 滑り落ちた。",
+          "important": true
+        },
+        {
+          "type": "fall",
+          "who": "any",
+          "outcomes": {
+            "none": 0.35,
+            "bruise": 0.3,
+            "sprain": 0.2,
+            "legFracture": 0.1,
+            "headInjury": 0.05
+          }
+        }
       ]
     },
     {
       "id": "ev_kk_down_rock",
       "trigger": {
         "all": [
-          { "flag": "kk_retreat" },
-          { "onEdge": "E020" },
-          { "var": "leader.elevM", "op": "<", "value": 2200 },
-          { "chance": 0.3 }
+          {
+            "flag": "kk_retreat"
+          },
+          {
+            "onEdge": "E020"
+          },
+          {
+            "var": "leader.elevM",
+            "op": "<",
+            "value": 2200
+          },
+          {
+            "chance": 0.3
+          }
         ]
       },
       "once": true,
       "effects": [
-        { "type": "log", "text": "上の人の足もとから崩れた石が、音を立てて沢を落ちていった。" },
-        { "type": "rockfall", "who": "all", "p": 0.08, "injuryTable": "EXPOSED" }
+        {
+          "type": "log",
+          "text": "上の人の足もとから崩れた石が、音を立てて沢を落ちていった。"
+        },
+        {
+          "type": "rockfall",
+          "who": "all",
+          "p": 0.08,
+          "injuryTable": "EXPOSED"
+        }
       ]
     },
     {
       "id": "ev_reclimb",
       "trigger": {
         "all": [
-          { "any": [{ "flag": "kk_retreat" }, { "flag": "tenjo_retreat" }] },
-          { "onEdge": "E014" }
+          {
+            "any": [
+              {
+                "flag": "kk_retreat"
+              },
+              {
+                "flag": "tenjo_retreat"
+              }
+            ]
+          },
+          {
+            "onEdge": "E014"
+          }
         ]
       },
       "once": true,
       "effects": [
-        { "type": "log", "text": "天上沢から水俣乗越への登り返し。標高差約500 mの砂礫の登りが、照り返しの中で続く。来た道を戻るのも、疲れた足には楽ではない。", "important": true },
-        { "type": "actions", "actions": [{ "type": "setPace", "factor": 0.8 }, { "type": "continueRoute" }] }
+        {
+          "type": "log",
+          "text": "天上沢から水俣乗越への登り返し。標高差約500 mの砂礫の登りが、照り返しの中で続く。来た道を戻るのも、疲れた足には楽ではない。",
+          "important": true
+        },
+        {
+          "type": "actions",
+          "actions": [
+            {
+              "type": "setPace",
+              "factor": 0.8
+            },
+            {
+              "type": "continueRoute"
+            }
+          ]
+        }
       ]
     },
     {
@@ -1485,6 +1566,19 @@
             "not": {
               "flag": "early_call"
             }
+          },
+          {
+            "any": [
+              {
+                "state": "BIVOUAC"
+              },
+              {
+                "state": "STAYING"
+              },
+              {
+                "state": "WAITING_RESCUE"
+              }
+            ]
           }
         ]
       },
@@ -1627,49 +1721,6 @@
           "bias": {
             "base": 1
           }
-        },
-        {
-          "id": "back",
-          "label": "ここで引き返し、コルから北鎌沢を下る",
-          "explain": "独標を越える前に、尾根をコルまで戻り、北鎌沢を下って引き返すことです。尾根の奥で行き詰まるのは避けられますが、北鎌沢を上部から下るのは非常に難しく、浮石の急なガレでの滑落や落石の危険が大きくなります。出合からは水俣乗越への登り返しも待っています。",
-          "detail": "コルまで戻り、北鎌沢の難しい下りへ。",
-          "flags": [
-            "kk_retreat"
-          ],
-          "actions": [
-            {
-              "type": "setRoute",
-              "route": [
-                "DOKU_BASE",
-                "TENGU_KOSHI",
-                "KK_COL",
-                "KK_DEAI",
-                "MIZUMATA",
-                "OMAGARI",
-                "J003",
-                "J005",
-                "J002",
-                "BABADAIRA",
-                "YARISAWA_LODGE"
-              ],
-              "goalNodes": [
-                "YARISAWA_LODGE"
-              ]
-            }
-          ],
-          "bias": {
-            "base": 0.3,
-            "mods": [
-              {
-                "when": {
-                  "var": "c.suzuki.waterL",
-                  "op": "<",
-                  "value": 1
-                },
-                "add": 0.3
-              }
-            ]
-          }
         }
       ]
     },
@@ -1720,6 +1771,14 @@
                 }
               }
             ]
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
+          },
+          {
+            "state": "WALKING"
           }
         ]
       },
@@ -1873,7 +1932,11 @@
           "label": "救助を要請し、3人そろってヘリを待つ",
           "explain": "救助を要請し、3人そろってヘリを待つことです。ルートを知る鈴木さんが動けない以上、経験の浅い2人だけで先へ進まずに済みます。",
           "detail": "南田さんと楠木さんも、ヘリでの収容を頼む。",
-          "available": { "var": "leader.radio", "op": ">", "value": 0 },
+          "available": {
+            "var": "leader.radio",
+            "op": ">",
+            "value": 0
+          },
           "unavailableText": "ここは電波が入らない",
           "actions": [
             {
@@ -1905,8 +1968,21 @@
           "label": "鈴木さんの救助を頼み、南田と楠木はゴールを目指す",
           "explain": "鈴木さんの収容を見届けてから、2人で予定の道をゴールまで進むことです。ルートを知る人がいないまま、残りの道のりを経験の浅い2人で歩くことになります。北鎌尾根の上なら、確保のないまま岩場を越えることになります。",
           "detail": "ヘリが鈴木さんを収容するのを見届けてから、2人で予定の道を先へ進む。",
-          "available": { "var": "leader.radio", "op": ">", "value": 0 },
-          "unavailableText": "ここは電波が入らない",
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "var": "sun.isDark",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
+          "unavailableText": "電波が入らないか、夜でヘリが来られない",
           "actions": [
             {
               "type": "say",
@@ -1973,7 +2049,25 @@
           "label": "鈴木さんの救助を頼み、2人は来た道を引き返す",
           "explain": "鈴木さんの収容を見届けてから、2人で来た道を引き返すことです。通ってきた道でも、北鎌尾根を下って戻るのは登るより難しく、確保のない2人で岩場を下ることになります（槍ヶ岳を越えたあとは出ません）。",
           "detail": "知っている道を戻る。",
-          "available": { "all": [{ "var": "leader.radio", "op": ">", "value": 0 }, { "not": { "beenAt": "YARI" } }] },
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": ">",
+                "value": 0
+              },
+              {
+                "not": {
+                  "beenAt": "YARI"
+                }
+              },
+              {
+                "var": "sun.isDark",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
           "hideIfUnavailable": true,
           "actions": [
             {
@@ -2042,7 +2136,11 @@
           "label": "救助はもう頼んである。3人そろって救助を待つ",
           "explain": "すでに救助を頼んであるので、これ以上動かずに3人で待つことです。風と日差しを避け、鈴木さんのそばを離れずに様子を見守ります。",
           "detail": "南田さんがもう一度、鈴木さんの様子を伝える。",
-          "available": { "var": "leader.rescueCalled", "op": "==", "value": true },
+          "available": {
+            "var": "leader.rescueCalled",
+            "op": "==",
+            "value": true
+          },
           "hideIfUnavailable": true,
           "actions": [
             {
@@ -2066,7 +2164,20 @@
           "label": "楠木さんが付き添い、南田さんが電波の入る所まで救助を呼びに行く",
           "explain": "ここは電波が入らないので、楠木さんを鈴木さんに付き添わせ、南田さんが電波の入る所まで1人で呼びに行くことです。知らせる手立てはこれだけですが、パーティーが分かれ、経験の浅い南田さんが1人で山道を歩きます。",
           "detail": "ここは電波が入らない。電波が入る所まで行けば知らせられる。",
-          "available": { "all": [{ "var": "leader.radio", "op": "<=", "value": 0 }, { "var": "leader.rescueCalled", "op": "==", "value": false }] },
+          "available": {
+            "all": [
+              {
+                "var": "leader.radio",
+                "op": "<=",
+                "value": 0
+              },
+              {
+                "var": "leader.rescueCalled",
+                "op": "==",
+                "value": false
+              }
+            ]
+          },
           "hideIfUnavailable": true,
           "actions": [
             {
@@ -2093,6 +2204,11 @@
           },
           {
             "atNode": "KK_DAIRA"
+          },
+          {
+            "var": "sun.isDark",
+            "op": "==",
+            "value": false
           }
         ]
       },
@@ -2585,12 +2701,6 @@
           {
             "chose": {
               "cp": "cp_col",
-              "option": "back"
-            }
-          },
-          {
-            "chose": {
-              "cp": "cp_doku",
               "option": "back"
             }
           }
