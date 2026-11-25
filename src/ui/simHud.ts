@@ -13,6 +13,8 @@ import type { CameraMode } from '../view/sceneView';
 import type { OverlayKind } from '../view/overlay';
 import type { Speed } from '../app/loop';
 import { el } from './dom';
+import { PROMPT_UI } from '../i18n/imagePrompt';
+import type { SceneSnap } from './imagePrompt/scene';
 import { climberCard, forecastPanel, weatherPanel } from './panels';
 import type { Difficulty } from '../app/settings';
 
@@ -36,6 +38,10 @@ export interface HudHandlers {
   quit(): void;
   /** 分岐点の場面へ戻る（ログの「この場面へ」） */
   jumpToChoice?(tMin: number): void;
+  /** 黄色い行（大事な全体の出来事）を作ったときに、その場面を写す（画像生成のプロンプト用。ユーザーの指定） */
+  captureScene?(line: LogLine): SceneSnap | null;
+  /** 写した場面から、画像生成のプロンプトの窓を開く */
+  openScene?(scene: SceneSnap): void;
 }
 
 /**
@@ -104,6 +110,8 @@ export interface LogLine {
   /** 飲食の行（3 人以上続いたら 1 行にまとめる。ユーザーの指定）と、その量の文 */
   group?: 'drink' | 'eat';
   amount?: string;
+  /** その場面の写し（黄色い行。画像生成のプロンプトを作る「＞」に使う） */
+  scene?: SceneSnap;
 }
 
 /** まとめる飲食の行が続いているとみなす時間（分） */
@@ -503,7 +511,16 @@ export class Hud {
             this.h.jumpToChoice?.(line.jumpTo!);
           } }, [icon('replay'), JA.ui.jumpToChoice])
         : null;
-      li = el('li', { class: `sys${line.important ? ' imp' : ''}`, 'data-t': line.tMin }, [el('span', { class: 'pill' }, [el('time', {}, time), line.text]), jump]);
+      // 黄色い行: 吹き出しの中に「＞」（その場面の画像生成のプロンプトを作る。ユーザーの指定）
+      if (line.important && !line.scene && this.h.captureScene) line.scene = this.h.captureScene(line) ?? undefined;
+      const scene = line.scene;
+      const prompt = scene && this.h.openScene
+        ? el('button', { class: 'pill-more', type: 'button', title: PROMPT_UI.open, 'aria-label': PROMPT_UI.open, onclick: (e: Event) => {
+            e.stopPropagation();
+            this.h.openScene?.(scene);
+          } }, icon('chevronRight'))
+        : null;
+      li = el('li', { class: `sys${line.important ? ' imp' : ''}`, 'data-t': line.tMin }, [el('span', { class: 'pill' }, [el('time', {}, time), line.text, prompt]), jump]);
     } else {
       const cont = this.lastSpeaker === who.id;
       this.lastSpeaker = who.id;

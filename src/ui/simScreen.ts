@@ -5,6 +5,8 @@
 import { createAmbientSound, thunderDelaySec } from '../view/ambientSound';
 import { createEventAlerts } from './eventAlert';
 import { announceChallenge } from './community/challenge';
+import { captureScene } from './imagePrompt/scene';
+import { openImagePrompt } from './imagePrompt/dialog';
 import { createFigureIcons, ICON_LIFT_PX } from './figureIcons';
 import { closeLogDetail, snapOf } from './logDetail';
 import { Timeline } from '../app/timeline';
@@ -209,6 +211,12 @@ export function showSimScreen(app: AppContext, loaded: LoadedScenario, resume?: 
       setLayer: (n, on) => view.setLayer(n, on),
       setOverlay: (k) => view.overlay.set(k),
       jumpToChoice: (t) => tt.jumpToChoice(t),
+      // 画像生成のプロンプト（ログの黄色い行の「＞」）。行を作った瞬間の場面を写し、開いている間は止める
+      captureScene: (line) => captureScene(world, ctx, line.text, line.climberId ?? watched(world).id),
+      openScene: (scene) => {
+        const was = loop.paused;
+        openImagePrompt(scene, scenario, { onOpen: () => (loop.paused = true), onClose: () => (loop.paused = was) });
+      },
       select: (id) => {
         view.selected = id;
         view.lookAt(id);
