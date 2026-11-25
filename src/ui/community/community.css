@@ -270,6 +270,9 @@ dialog.cm-dialog.busy { pointer-events: none; opacity: 0.75; }
 .wk-lead, .wk-stats, .wk-last { margin: 2px 0 0; font-size: 0.86em; color: #efe3c4; }
 .wk-stats { font-weight: 700; color: #fff; }
 .wk-last { color: #cdbd93; }
+.wk-banner { cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease; }
+.wk-banner:hover { transform: translateY(-2px); border-color: rgba(240, 196, 92, 0.8); box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35); }
+.wk-banner:focus-visible { outline: 3px solid #f6cf6b; outline-offset: 3px; }
 .wk-go { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 9px 20px 9px 14px; border-radius: 999px; }
 @media (max-width: 640px) {
   .wk-banner { flex-wrap: wrap; padding: 14px; }

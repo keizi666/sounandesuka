@@ -34,8 +34,9 @@ export function weeklyBanner(app: AppContext, index: readonly ScenarioIndexEntry
   const stats = el('p', { class: 'wk-stats' }, '');
   const lastLine = last ? el('p', { class: 'wk-last' }, fill(S.weeklyLastNone, { title: nameOf(last) })) : null;
   let busy = false;
-  const go = el('button', { class: 'primary wk-go', type: 'button' }, [icon('playArrow'), S.weeklyGo]);
-  go.addEventListener('click', async () => {
+  const go = el('button', { class: 'primary wk-go', type: 'button', tabindex: -1 }, [icon('playArrow'), S.weeklyGo]);
+  /** 挑戦する（カード全体を押しても開く。ユーザーの指定） */
+  const start = async (): Promise<void> => {
     if (busy) return;
     busy = true;
     const ld = showLoading(JA.ui.loadingTitle);
@@ -48,7 +49,7 @@ export function weeklyBanner(app: AppContext, index: readonly ScenarioIndexEntry
       busy = false;
       toast(String(err), 6000);
     }
-  });
+  };
   // 参加人数と無事に終えた割合（読めなければ出さない）
   void communityApi
     .stats(e.id, week)
@@ -65,7 +66,19 @@ export function weeklyBanner(app: AppContext, index: readonly ScenarioIndexEntry
         if (st && st.n > 0) lastLine.textContent = fill(S.weeklyLast, { title: nameOf(last), players: st.players, safe: endingShares(st).safe });
       })
       .catch(() => undefined);
-  return el('section', { class: 'wk-banner', 'aria-label': S.weeklyTitle }, [
+  return el('section', {
+    class: 'wk-banner',
+    role: 'button',
+    tabindex: 0,
+    'aria-label': `${S.weeklyTitle}: ${nameOf(e)}（${S.weeklyGo}）`,
+    onclick: () => void start(),
+    onkeydown: (ev: Event) => {
+      const k = (ev as KeyboardEvent).key;
+      if (k !== 'Enter' && k !== ' ') return;
+      ev.preventDefault();
+      void start();
+    },
+  }, [
     el('div', { class: 'wk-icon' }, icon('campaign')),
     el('div', { class: 'wk-main' }, [
       el('p', { class: 'wk-kicker' }, [S.weeklyTitle, el('span', {}, fill(S.weeklyRange, range))]),
