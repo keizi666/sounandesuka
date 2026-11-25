@@ -30,7 +30,7 @@ export const PROMPT_STYLES: PromptStyle[] = [
 export const PROMPT_UI = {
   open: '画像生成のプロンプトを作る',
   title: '画像生成 AI 用のプロンプト',
-  lead: 'この場面のようすを、画像生成 AI に渡す説明文にしました。画風を選んでコピーし、お使いの画像生成 AI に貼り付けてください（このアプリは外部に送りません）。',
+  lead: 'この場面のようすを、画像生成 AI に渡す説明文にしました。画風を選び、コピーしてお使いの画像生成 AI に貼り付けるか、「コピーして Meta AI で作る」でご自身の Meta AI を開いてください。',
   style: '画風',
   lang: '言葉',
   langJa: '日本語',
@@ -43,6 +43,16 @@ export const PROMPT_UI = {
   negative: '入れないもの（ネガティブプロンプト）',
   copy: 'コピー',
   copied: 'コピーしました',
+  /** 使う人の Meta AI（Muse）で作る（ユーザーの指定: サーバーの API は使わない） */
+  muse: 'コピーして Meta AI で作る',
+  museOpened: 'プロンプトをコピーし、Meta AI を開きました。入力欄に入っていなければ貼り付けて送ってください。',
+  museNote: '「Meta AI で作る」は、ご自身の Meta AI（画像生成の Muse）のページをプロンプト入りで開きます。画像を作るのはご自身のアカウントで、このアプリのサーバーは使いません。',
+  share: '共有…',
+  /** Meta AI などのチャットに送るときの頭の一文と、入れないものの見出し */
+  askJa: '次の説明の画像を 1 枚作ってください。',
+  askEn: 'Please create one image from the following description.',
+  avoidJa: '入れないもの',
+  avoidEn: 'Avoid',
   note: '場面のデータ（時刻・天気・地形・人物）から作った説明です。生成される画像は、実際の状況や判断の正しさを表すものではありません。',
 };
 

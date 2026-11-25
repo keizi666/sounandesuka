@@ -13,6 +13,8 @@ import { buildPrompt, type Aspect } from './prompt';
 import type { SceneSnap } from './scene';
 
 const PREF_KEY = 'hks.v1.imagePrompt';
+/** 使う人の Meta AI（画像生成の Muse）のページ。?q= にチャットへ送る文を入れて開く */
+const MUSE_URL = 'https://www.meta.ai/';
 
 interface Pref {
   style: string;
@@ -78,6 +80,25 @@ export function openImagePrompt(scene: SceneSnap, scenario: ScenarioDef, hooks: 
   };
   const copy = el('button', { class: 'primary', type: 'button', onclick: () => void copyText(prompt.value, prompt) }, [icon('contentCopy'), U.copy]);
   const copyNeg = el('button', { type: 'button', class: 'small', onclick: () => void copyText(negative.value, negative) }, [icon('contentCopy'), U.copy]);
+  // 使う人の Meta AI（Muse）で作る: チャットに送る文（頼む一文・プロンプト・入れないもの）をコピーし、?q= に入れて開く。
+  // ページを開くのは押したときの同じ処理の中で（ポップアップとして止められないように）。サーバーは使わない
+  const chatText = (): string => {
+    const ja = pref.lang === 'ja';
+    return `${ja ? U.askJa : U.askEn}
+${prompt.value}
+${ja ? U.avoidJa : U.avoidEn}: ${negative.value}`;
+  };
+  const muse = el('button', { class: 'primary', type: 'button', onclick: () => {
+    const text = chatText();
+    // コピーを先に始める（ページを開くと、押した操作の扱いが使い切られ、コピーできないブラウザがある）
+    void navigator.clipboard?.writeText(text).catch(() => undefined);
+    window.open(`${MUSE_URL}?q=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    toast(U.museOpened, 6000);
+  } }, [icon('photoCamera'), U.muse]);
+  // スマホなど、共有のしくみがある端末では、共有の一覧から Meta AI のアプリなどに送れる
+  const share = typeof navigator.share === 'function'
+    ? el('button', { type: 'button', onclick: () => void navigator.share({ text: chatText() }).catch(() => undefined) }, [icon('share'), U.share])
+    : null;
   const time = formatDateTime(scenario, scene.tMin);
   const dlg = el('dialog', { class: 'cap-dlg ip-dlg', 'aria-label': U.title }, [
     el('header', { class: 'cap-head' }, [
@@ -95,10 +116,11 @@ export function openImagePrompt(scene: SceneSnap, scenario: ScenarioDef, hooks: 
     ]),
     el('h3', { class: 'cap-sub' }, U.prompt),
     prompt,
-    el('div', { class: 'cap-actions' }, [copy]),
+    el('div', { class: 'cap-actions' }, [copy, muse, share]),
     el('h3', { class: 'cap-sub' }, U.negative),
     negative,
     el('div', { class: 'cap-actions' }, [copyNeg]),
+    el('p', { class: 'ip-note' }, U.museNote),
     el('p', { class: 'ip-note' }, U.note),
   ]);
   render();
